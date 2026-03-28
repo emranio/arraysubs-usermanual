@@ -4,7 +4,7 @@
 -   Availability: Shared
 -   Last updated: 16 March 2026
 
-![Image](photo ai (1).png)  
+![Image](photo.png)  
 
 # User Guide
 

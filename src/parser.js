@@ -137,6 +137,86 @@ function choosePageTitle(context) {
   );
 }
 
+function preprocessImagePaths(markdown) {
+  const output = [];
+  let i = 0;
+  const len = markdown.length;
+
+  while (i < len) {
+    if (markdown[i] === "!" && i + 1 < len && markdown[i + 1] === "[") {
+      const start = i;
+      i += 2;
+
+      let bracketDepth = 1;
+
+      while (i < len && bracketDepth > 0) {
+        if (markdown[i] === "\\") {
+          i += 2;
+          continue;
+        }
+
+        if (markdown[i] === "[") {
+          bracketDepth += 1;
+        }
+
+        if (markdown[i] === "]") {
+          bracketDepth -= 1;
+        }
+
+        i += 1;
+      }
+
+      if (i < len && markdown[i] === "(") {
+        i += 1;
+        const destStart = i;
+        let parenDepth = 1;
+
+        while (i < len && parenDepth > 0) {
+          if (markdown[i] === "\\") {
+            i += 2;
+            continue;
+          }
+
+          if (markdown[i] === "(") {
+            parenDepth += 1;
+          }
+
+          if (markdown[i] === ")") {
+            parenDepth -= 1;
+          }
+
+          i += 1;
+        }
+
+        const inner = markdown.slice(destStart, i - 1);
+        const titleMatch = inner.match(/^([\s\S]+?)\s+"([^"]*)"\s*$/);
+        const destination = titleMatch ? titleMatch[1].trim() : inner.trim();
+
+        if (destination.includes(" ") && !destination.startsWith("<")) {
+          output.push(markdown.slice(start, destStart));
+
+          if (titleMatch) {
+            output.push(`<${destination}> "${titleMatch[2]}"`);
+          } else {
+            output.push(`<${destination}>`);
+          }
+
+          output.push(")");
+        } else {
+          output.push(markdown.slice(start, i));
+        }
+      } else {
+        output.push(markdown.slice(start, i));
+      }
+    } else {
+      output.push(markdown[i]);
+      i += 1;
+    }
+  }
+
+  return output.join("");
+}
+
 function createMarkdownParser(toc) {
   const md = new MarkdownIt({
     html: true,
@@ -256,7 +336,7 @@ async function parseMarkdownFile(filePath, options) {
   });
   const toc = [];
   const md = createMarkdownParser(toc);
-  const html = md.render(contentMarkdown || "");
+  const html = md.render(preprocessImagePaths(contentMarkdown || ""));
 
   const outputRelativePath = isIndexPage
     ? directoryRelativePath
