@@ -108,12 +108,15 @@
     border-radius: 6px;
 
     &:hover {
-      background: rgba(15, 23, 42, 0.04);
+      background: var(--docs-hover);
       text-decoration: none;
     }
 
     &[aria-expanded="true"] .docs-nav__toggle-icon {
-      transform: rotate(135deg);
+      transform: rotate(90deg);
+      border-bottom: 0;
+      width: 4px;
+      height: 11px;
     }
   }
 
@@ -131,13 +134,13 @@
     min-width: 0;
 
     &:hover {
-      background: rgba(15, 23, 42, 0.04);
+      background: var(--docs-hover);
       text-decoration: none;
     }
 
     &.is-current {
       background: var(--docs-primary-soft);
-      color: #9a3412;
+      color: var(--docs-nav-current-text);
       font-weight: 700;
     }
   }

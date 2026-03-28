@@ -17,9 +17,40 @@
   --docs-radius: 18px;
   --docs-radius-sm: 12px;
   --docs-font:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --docs-heading-font: "Young Serif", Georgia, serif;
   --docs-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --docs-link: #0f5ad9;
+  --docs-code-bg: #eef2ff;
+  --docs-code-text: #312e81;
+  --docs-hover: rgba(15, 23, 42, 0.04);
+  --docs-blockquote-text: #7c2d12;
+  --docs-nav-current-text: #9a3412;
+  --docs-header-bg: rgba(248, 250, 252, 0.88);
+  --docs-header-border: rgba(219, 227, 239, 0.9);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --docs-bg: #0b0e14;
+  --docs-surface: #13171f;
+  --docs-surface-muted: #1a1f2b;
+  --docs-border: #252d3b;
+  --docs-border-strong: #354054;
+  --docs-text: #e2e8f0;
+  --docs-text-soft: #a4b0c2;
+  --docs-text-muted: #6b7a8f;
+  --docs-primary: #f97316;
+  --docs-primary-soft: rgba(249, 115, 22, 0.1);
+  --docs-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  --docs-link: #fb923c;
+  --docs-code-bg: rgba(249, 115, 22, 0.08);
+  --docs-code-text: #fdba74;
+  --docs-hover: rgba(255, 255, 255, 0.04);
+  --docs-blockquote-text: #fdba74;
+  --docs-nav-current-text: #fb923c;
+  --docs-header-bg: rgba(11, 14, 20, 0.88);
+  --docs-header-border: rgba(37, 45, 59, 0.9);
 }
 
 // ------------------------------------
@@ -42,10 +73,21 @@ body {
   margin: 0;
   font-family: var(--docs-font);
   color: var(--docs-text);
+  background: var(--docs-bg);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.docs-header__title {
+  font-family: var(--docs-heading-font);
 }
 
 a {
-  color: #0f5ad9;
+  color: var(--docs-link);
   text-decoration: none;
 
   &:hover {
@@ -55,7 +97,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid rgba(15, 90, 217, 0.28);
+  outline: 3px solid rgba(249, 115, 22, 0.35);
   outline-offset: 2px;
 }
 
@@ -72,6 +114,11 @@ pre {
 // ------------------------------------
 // Utility
 // ------------------------------------
+.container {
+  max-width: 1400px;
+  margin: auto;
+}
+
 .screen-reader-text {
   position: absolute;
   width: 1px;
@@ -99,4 +146,8 @@ pre {
     background: #111827;
     color: #fff;
   }
+}
+
+[data-theme="dark"] .docs-badge--pro {
+  background: var(--docs-primary);
 }

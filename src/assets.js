@@ -23,11 +23,7 @@ async function copyStaticAssets(paths) {
   await ensureDir(assetOutputDir);
 
   // Compile SCSS → CSS
-  const scssEntry = path.join(
-    paths.templatesDir,
-    "scss",
-    "style.scss",
-  );
+  const scssEntry = path.join(paths.templatesDir, "scss", "style.scss");
   const compiled = sass.compile(scssEntry, { style: "compressed" });
   await fs.writeFile(
     path.join(assetOutputDir, "style.css"),

@@ -6,7 +6,7 @@
     <title>{{documentTitle}}</title>
     <meta name="description" content="{{description}}" />
     <meta name="generator" content="ArraySubs Docs Generator" />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#f8fafc" />
     <meta property="og:title" content="{{documentTitle}}" />
     <meta property="og:description" content="{{description}}" />
     <meta property="og:type" content="{{ogType}}" />
@@ -18,11 +18,18 @@
     <meta name="twitter:image" content="{{ogImageUrl}}" />
     <link rel="canonical" href="{{canonicalUrl}}" />
     <link rel="icon" href="{{faviconHref}}" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap"
+    />
     <link rel="stylesheet" href="{{styleHref}}" />
+    <script>(function(){var t=localStorage.getItem('docs-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark');var m=document.querySelector('meta[name="theme-color"]');if(m)m.content='#0b0e14'}})()</script>
   </head>
   <body class="{{bodyClass}}">
     {{header}}
-    <div class="docs-shell">
+    <div class="docs-shell container">
       <aside class="docs-shell__sidebar docs-sidebar" aria-label="Sidebar">
         {{sidebar}}
       </aside>

@@ -139,7 +139,7 @@
     padding: 18px 20px;
     border-left: 4px solid var(--docs-primary);
     background: var(--docs-primary-soft);
-    color: #7c2d12;
+    color: var(--docs-blockquote-text);
     border-radius: 14px;
   }
 
@@ -157,8 +157,8 @@
   :not(pre) > code {
     padding: 0.2em 0.48em;
     border-radius: 8px;
-    background: #eef2ff;
-    color: #312e81;
+    background: var(--docs-code-bg);
+    color: var(--docs-code-text);
     font-size: 0.92em;
   }
 
@@ -237,7 +237,7 @@
     border: 1px solid var(--docs-border);
     border-radius: 16px;
     box-shadow: var(--docs-shadow);
-    background: #fff;
+    background: var(--docs-surface);
   }
 
   figcaption {

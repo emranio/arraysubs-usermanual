@@ -109,6 +109,44 @@
   }
 }
 
+// ------------------------------------
+// Dark mode overrides
+// ------------------------------------
+[data-theme="dark"] .docs-home {
+  &__hero {
+    background:
+      radial-gradient(
+        circle at top right,
+        rgba(249, 115, 22, 0.12),
+        transparent 28%
+      ),
+      linear-gradient(135deg, var(--docs-surface) 0%, #1a1510 100%);
+    border-color: rgba(249, 115, 22, 0.15);
+  }
+
+  &__eyebrow {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  &__actions a {
+    background: var(--docs-surface);
+    border-color: var(--docs-border);
+    color: var(--docs-link);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    &:first-child {
+      background: var(--docs-primary);
+      border-color: var(--docs-primary);
+      color: #fff;
+    }
+  }
+
+  &__card {
+    background: linear-gradient(180deg, var(--docs-surface) 0%, #0f1219 100%);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  }
+}
+
 // Responsive
 @media (max-width: 767px) {
   .docs-home {
