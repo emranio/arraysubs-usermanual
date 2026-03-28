@@ -1,8 +1,21 @@
 // ------------------------------------
-// TOC panel (right sidebar)
+// TOC panel (right sidebar) — Notion-like
 // ------------------------------------
 .docs-toc-panel {
   padding: 18px;
+  max-height: calc(100vh - 104px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--docs-border) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--docs-border);
+    border-radius: 4px;
+  }
 
   &__title {
     font-size: 0.8rem;
@@ -10,11 +23,64 @@
     text-transform: uppercase;
     color: var(--docs-text-muted);
     font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  // When mini bars are present, hide title+body by default
+  &.has-mini-toc &__title,
+  &.has-mini-toc &__body {
+    display: none;
+  }
+
+  // On hover: show full TOC, hide mini bars
+  &.has-mini-toc:hover &__title,
+  &.has-mini-toc:hover &__body {
+    display: block;
+  }
+
+  &.has-mini-toc:hover .docs-toc-mini {
+    display: none;
   }
 }
 
 // ------------------------------------
-// TOC list
+// Mini TOC bars (Notion-like compact indicator)
+// ------------------------------------
+.docs-toc-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+
+  &__item {
+    height: 3px;
+    border-radius: 1.5px;
+    background: var(--docs-border);
+    transition: background-color 0.2s ease;
+
+    // Width decreases with heading depth to mimic text indentation
+    &--level-2 {
+      width: 24px;
+    }
+
+    &--level-3 {
+      width: 16px;
+      margin-left: 8px;
+    }
+
+    &--level-4 {
+      width: 12px;
+      margin-left: 12px;
+    }
+
+    &.is-active {
+      background: var(--docs-primary);
+    }
+  }
+}
+
+// ------------------------------------
+// TOC list (expanded view)
 // ------------------------------------
 .docs-toc {
   &__list {
@@ -25,7 +91,7 @@
 
   &__item {
     & + & {
-      margin-top: 8px;
+      margin-top: 4px;
     }
 
     &--level-3 {
@@ -35,15 +101,41 @@
 
   &__empty {
     color: var(--docs-text-muted);
-    font-size: 0.95rem;
+    font-size: 0.875rem;
   }
 
   a {
     color: var(--docs-text-soft);
+    font-size: 0.875rem;
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 2px 0;
+
+    &:hover {
+      text-decoration: none;
+      color: var(--docs-text);
+    }
 
     &.is-active {
-      color: #9a3412;
-      font-weight: 700;
+      color: var(--docs-primary);
+      font-weight: 600;
+    }
+  }
+}
+
+// On mobile, always show full TOC (no mini bars)
+@media (max-width: 767px) {
+  .docs-toc-panel.has-mini-toc {
+    .docs-toc-mini {
+      display: none;
+    }
+
+    .docs-toc-panel__title,
+    .docs-toc-panel__body {
+      display: block;
     }
   }
 }

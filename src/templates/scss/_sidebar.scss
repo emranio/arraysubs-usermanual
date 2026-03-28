@@ -6,7 +6,7 @@
   top: 95px;
 
   &__head {
-    padding: 18px;
+    padding: 4px 18px 4px 0;
   }
 
   &__title {
@@ -25,8 +25,7 @@
   }
 
   &__body {
-    border-top: 1px solid var(--docs-border);
-    padding: 10px 14px 18px;
+    padding: 10px 14px 18px 0;
     max-height: calc(100vh - 150px);
     overflow: auto;
     font-size: 0.85rem;

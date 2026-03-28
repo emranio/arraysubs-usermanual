@@ -167,9 +167,6 @@ function renderSidebar(navigation, currentPage) {
     const isCurrent =
       navigation.root.indexPage.outputRelativePath ===
       currentPage.outputRelativePath;
-    rootItems.push(
-      `<li class="docs-nav__item docs-nav__item--home"><a class="docs-nav__link${isCurrent ? " is-current" : ""}" href="${href}"${isCurrent ? ' aria-current="page"' : ""}><span>Back to Home</span></a></li>`,
-    );
   }
 
   for (const childNode of navigation.root.children) {

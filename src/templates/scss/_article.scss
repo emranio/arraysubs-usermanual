@@ -31,10 +31,7 @@
 // Article shell
 // ------------------------------------
 .docs-article {
-  min-width: 0;
-  padding: 28px clamp(18px, 4vw, 40px);
-  border: 0;
-  box-shadow: none;
+  padding: 28px 0;
 }
 
 .docs-page-header {
