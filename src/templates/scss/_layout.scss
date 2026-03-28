@@ -1,0 +1,148 @@
+// ------------------------------------
+// Shell (3-col grid layout)
+// ------------------------------------
+.docs-shell {
+  width: min(1400px, calc(100% - 32px));
+  margin: 26px auto 40px;
+  display: grid;
+  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(
+      220px,
+      260px
+    );
+  gap: 24px;
+  align-items: start;
+  position: relative;
+
+  &__overlay {
+    display: none;
+  }
+
+  &__sidebar,
+  &__toc {
+    min-width: 0;
+  }
+}
+
+// Shared width container for header / footer
+.docs-header__inner,
+.docs-footer__inner {
+  width: min(1400px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+// Shared panel surface
+.docs-sidebar,
+.docs-toc-panel,
+.docs-article {
+  background: var(--docs-surface);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius);
+  box-shadow: var(--docs-shadow);
+}
+
+.docs-sidebar,
+.docs-toc-panel {
+  position: sticky;
+  top: 88px;
+}
+
+// ------------------------------------
+// Body state: sidebar open
+// ------------------------------------
+.docs-sidebar-open {
+  overflow: hidden;
+}
+
+// ------------------------------------
+// Responsive
+// ------------------------------------
+@media (max-width: 1023px) {
+  .docs-shell {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
+
+    &__sidebar {
+      position: fixed;
+      top: 72px;
+      left: 16px;
+      bottom: 16px;
+      width: min(360px, calc(100vw - 32px));
+      z-index: 40;
+      transform: translateX(-120%);
+      transition: transform 0.2s ease;
+    }
+
+    &__overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 35;
+      display: block;
+      border: 0;
+      background: rgba(15, 23, 42, 0.36);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+  }
+
+  .docs-sidebar-open {
+    .docs-shell__sidebar {
+      transform: translateX(0);
+    }
+
+    .docs-shell__overlay {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .docs-header__menu-button {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 767px) {
+  .docs-shell {
+    grid-template-columns: minmax(0, 1fr);
+
+    &__toc {
+      position: static;
+    }
+  }
+
+  .docs-toc-panel {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .docs-header,
+  .docs-shell__sidebar,
+  .docs-shell__toc,
+  .docs-footer,
+  .docs-copy-button {
+    display: none !important;
+  }
+
+  .docs-shell {
+    width: 100%;
+    margin: 0;
+    display: block;
+  }
+
+  .docs-article {
+    box-shadow: none;
+    border: 0;
+    padding: 0;
+  }
+}

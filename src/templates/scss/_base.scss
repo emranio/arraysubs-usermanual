@@ -1,0 +1,102 @@
+// ------------------------------------
+// Design tokens
+// ------------------------------------
+:root {
+  color-scheme: light;
+  --docs-bg: #f8fafc;
+  --docs-surface: #ffffff;
+  --docs-surface-muted: #f1f5f9;
+  --docs-border: #dbe3ef;
+  --docs-border-strong: #c5d0df;
+  --docs-text: #0f172a;
+  --docs-text-soft: #475569;
+  --docs-text-muted: #64748b;
+  --docs-primary: #f97316;
+  --docs-primary-soft: #fff1e8;
+  --docs-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --docs-radius: 18px;
+  --docs-radius-sm: 12px;
+  --docs-font:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --docs-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+// ------------------------------------
+// Base / Reset
+// ------------------------------------
+::selection {
+  background: rgba(249, 115, 22, 0.18);
+  color: var(--docs-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--docs-font);
+  color: var(--docs-text);
+}
+
+a {
+  color: #0f5ad9;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgba(15, 90, 217, 0.28);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+code,
+pre {
+  font-family: var(--docs-code);
+}
+
+// ------------------------------------
+// Utility
+// ------------------------------------
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+// ------------------------------------
+// Badge
+// ------------------------------------
+.docs-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  &--pro {
+    background: #111827;
+    color: #fff;
+  }
+}

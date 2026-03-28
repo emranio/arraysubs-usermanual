@@ -1,0 +1,28 @@
+<header class="docs-header" role="banner">
+  <div class="docs-header__inner">
+    <div class="docs-header__brand">
+      <button
+        class="docs-header__menu-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="docs-sidebar"
+        data-sidebar-toggle
+      >
+        <span class="docs-header__menu-icon" aria-hidden="true"></span>
+        <span class="screen-reader-text">Toggle navigation</span>
+      </button>
+      <a
+        class="docs-header__home"
+        href="{{homeHref}}"
+        aria-label="Go to documentation home"
+      >
+        {{logoMarkup}}
+      </a>
+      <div class="docs-header__titles">
+        <div class="docs-header__title">{{siteTitle}}</div>
+        <p class="docs-header__tagline">{{siteTagline}}</p>
+      </div>
+    </div>
+    <a class="docs-header__skip-link" href="#main-content">Skip to content</a>
+  </div>
+</header>

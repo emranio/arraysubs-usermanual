@@ -1,0 +1,49 @@
+// ------------------------------------
+// TOC panel (right sidebar)
+// ------------------------------------
+.docs-toc-panel {
+  padding: 18px;
+
+  &__title {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--docs-text-muted);
+    font-weight: 700;
+  }
+}
+
+// ------------------------------------
+// TOC list
+// ------------------------------------
+.docs-toc {
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    & + & {
+      margin-top: 8px;
+    }
+
+    &--level-3 {
+      padding-left: 14px;
+    }
+  }
+
+  &__empty {
+    color: var(--docs-text-muted);
+    font-size: 0.95rem;
+  }
+
+  a {
+    color: var(--docs-text-soft);
+
+    &.is-active {
+      color: #9a3412;
+      font-weight: 700;
+    }
+  }
+}

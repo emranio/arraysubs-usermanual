@@ -1,0 +1,12 @@
+// ------------------------------------
+// Footer
+// ------------------------------------
+.docs-footer {
+  padding: 20px 0 36px;
+
+  &__inner {
+    padding: 0 0 8px;
+    color: var(--docs-text-muted);
+    text-align: center;
+  }
+}

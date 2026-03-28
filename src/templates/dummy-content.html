@@ -1,0 +1,71 @@
+<h2 id="layout-overview">Layout overview</h2>
+<p>
+  This preview shows the documentation chrome with realistic content blocks,
+  badges, tables, lists, code samples, and figures so the design can be tuned
+  without rebuilding the whole site every single time. Tiny joys matter.
+</p>
+<h3 id="feature-highlights">Feature highlights</h3>
+<ul>
+  <li>Responsive three-column documentation layout</li>
+  <li>Auto-generated navigation and breadcrumbs</li>
+  <li>Pro badge support across pages and navigation</li>
+  <li>Syntax highlighting, figures, and sticky table of contents</li>
+</ul>
+<h2 id="sample-table">Sample table</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Concern</th>
+      <th>Implementation</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Markdown parsing</td>
+      <td><code>markdown-it</code> with anchors and task lists</td>
+      <td>Ready</td>
+    </tr>
+    <tr>
+      <td>Live preview</td>
+      <td>Small Node server with browser reload</td>
+      <td>Ready</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="sample-code">Sample code block</h2>
+<pre><code class="hljs language-javascript">async function buildDocs() {
+  console.log('Building docs...');
+  return true;
+}</code></pre>
+<h3 id="task-lists">Task lists</h3>
+<ul class="contains-task-list">
+  <li class="task-list-item">
+    <input type="checkbox" checked disabled /> Parse metadata
+  </li>
+  <li class="task-list-item">
+    <input type="checkbox" checked disabled /> Render layout
+  </li>
+  <li class="task-list-item">
+    <input type="checkbox" disabled /> Perfect every pixel forever
+  </li>
+</ul>
+<h2 id="sample-figure">Sample figure</h2>
+<figure class="docs-figure">
+  <img src="assets/logo.svg" alt="ArraySubs Docs logo preview" loading="lazy" />
+  <figcaption>
+    Figure rendering uses the same styles as markdown images.
+  </figcaption>
+</figure>
+<h2 id="mermaid-preview">Mermaid preview</h2>
+<pre><code class="hljs language-mermaid">graph TD
+  A[Markdown] --> B[Parser]
+  B --> C[Renderer]
+  C --> D[Static HTML]</code></pre>
+<h2 id="blockquote-preview">Blockquotes and calls</h2>
+<blockquote>
+  <p>
+    Use this mode to tune layout, spacing, typography, and panel behavior with
+    quick visual feedback.
+  </p>
+</blockquote>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{documentTitle}}</title>
+    <meta name="description" content="{{description}}" />
+    <meta name="generator" content="ArraySubs Docs Generator" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta property="og:title" content="{{documentTitle}}" />
+    <meta property="og:description" content="{{description}}" />
+    <meta property="og:type" content="{{ogType}}" />
+    <meta property="og:url" content="{{pageUrl}}" />
+    <meta property="og:image" content="{{ogImageUrl}}" />
+    <meta name="twitter:card" content="{{twitterCard}}" />
+    <meta name="twitter:title" content="{{documentTitle}}" />
+    <meta name="twitter:description" content="{{description}}" />
+    <meta name="twitter:image" content="{{ogImageUrl}}" />
+    <link rel="canonical" href="{{canonicalUrl}}" />
+    <link rel="icon" href="{{faviconHref}}" type="image/svg+xml" />
+    <link rel="stylesheet" href="{{styleHref}}" />
+  </head>
+  <body class="{{bodyClass}}">
+    {{header}}
+    <div class="docs-shell">
+      <aside class="docs-shell__sidebar docs-sidebar" aria-label="Sidebar">
+        {{sidebar}}
+      </aside>
+      <button
+        class="docs-shell__overlay"
+        type="button"
+        hidden
+        aria-label="Close navigation"
+        data-sidebar-overlay
+      ></button>
+      <main class="docs-shell__main" id="main-content">
+        {{breadcrumb}}
+        <article class="docs-article" aria-labelledby="page-title">
+          <header class="docs-page-header">
+            <div class="docs-page-header__eyebrow">ArraySubs Documentation</div>
+            <div class="docs-page-header__title-row">
+              <h1 class="docs-page-header__title" id="page-title">
+                {{pageTitle}}
+              </h1>
+              {{pageBadge}}
+            </div>
+          </header>
+          <div class="docs-content">{{contentHtml}}</div>
+        </article>
+      </main>
+      <aside class="docs-shell__toc" aria-label="On this page">{{toc}}</aside>
+    
+    {{footer}}
+    <script src="{{scriptHref}}" defer></script>
+  </body>
+</html>

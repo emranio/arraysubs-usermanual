@@ -1,0 +1,291 @@
+const fs = require("fs/promises");
+const path = require("path");
+const MarkdownIt = require("markdown-it");
+const markdownItAnchor = require("markdown-it-anchor");
+const markdownItTaskLists = require("markdown-it-task-lists");
+const hljs = require("highlight.js");
+const { rewriteMarkdownLink } = require("./links");
+const {
+  encodeUrlPath,
+  excerptFromMarkdown,
+  slugify,
+  titleCaseFromSlug,
+  toPosix,
+} = require("./utils");
+
+const GENERIC_PAGE_TITLES = new Set([
+  "General Settings",
+  "Member Access",
+  "Toolkit",
+  "Feature Manager",
+  "Automatic Payment Gateways",
+]);
+
+function extractInfoBlock(rawContent) {
+  const lines = String(rawContent || "").split(/\r?\n/);
+
+  if (!/^#\s+info\s*$/i.test(lines[0] || "")) {
+    return {
+      metadata: {},
+      body: String(rawContent || ""),
+      rawBodyWithoutInfo: String(rawContent || "").trim(),
+    };
+  }
+
+  const metadata = {};
+  let index = 1;
+
+  while (index < lines.length) {
+    const currentLine = lines[index];
+
+    if (!currentLine.trim()) {
+      index += 1;
+      continue;
+    }
+
+    const bulletMatch = currentLine.match(/^[-*]\s+([^:]+):\s*(.+)$/);
+
+    if (!bulletMatch) {
+      break;
+    }
+
+    metadata[bulletMatch[1].trim().toLowerCase()] = bulletMatch[2].trim();
+    index += 1;
+  }
+
+  while (index < lines.length && !lines[index].trim()) {
+    index += 1;
+  }
+
+  const body = lines.slice(index).join("\n").trimStart();
+
+  return {
+    metadata,
+    body,
+    rawBodyWithoutInfo: body.trim(),
+  };
+}
+
+function extractPrimaryHeading(markdown, fallbackTitle) {
+  const lines = String(markdown || "").split(/\r?\n/);
+  const headingIndex = lines.findIndex((line) => /^#\s+/.test(line));
+
+  if (headingIndex === -1) {
+    return {
+      title: fallbackTitle,
+      body: markdown.trim(),
+      rawHeading: "",
+    };
+  }
+
+  const rawHeading = lines[headingIndex].replace(/^#\s+/, "").trim();
+  const cleanedBody = [
+    ...lines.slice(0, headingIndex),
+    ...lines.slice(headingIndex + 1),
+  ]
+    .join("\n")
+    .trimStart();
+
+  const title =
+    rawHeading.toLowerCase() === "user guide" ? fallbackTitle : rawHeading;
+
+  return {
+    title,
+    body: cleanedBody,
+    rawHeading,
+  };
+}
+
+function choosePageTitle(context) {
+  const moduleTitle = String(context.metadata.module || "").trim();
+  const headingTitle = String(context.headingTitle || "").trim();
+  const filenameTitle = String(context.filenameFallback || "").trim();
+  const parentTitle = String(context.parentDirectoryTitle || "").trim();
+  const isIndexPage = context.isIndexPage === true;
+
+  if (!headingTitle) {
+    if (isIndexPage) {
+      return (
+        moduleTitle || parentTitle || context.defaultIndexTitle || filenameTitle
+      );
+    }
+
+    return moduleTitle || filenameTitle || parentTitle;
+  }
+
+  if (headingTitle.toLowerCase() !== "user guide") {
+    return headingTitle;
+  }
+
+  if (isIndexPage) {
+    return (
+      moduleTitle || parentTitle || context.defaultIndexTitle || filenameTitle
+    );
+  }
+
+  const moduleIsGeneric =
+    moduleTitle &&
+    (GENERIC_PAGE_TITLES.has(moduleTitle) ||
+      (parentTitle && moduleTitle === parentTitle));
+
+  if (moduleIsGeneric && filenameTitle) {
+    return filenameTitle;
+  }
+
+  return (
+    moduleTitle || filenameTitle || parentTitle || context.defaultIndexTitle
+  );
+}
+
+function createMarkdownParser(toc) {
+  const md = new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: false,
+    highlight(code, language) {
+      const normalizedLanguage =
+        language && hljs.getLanguage(language) ? language : null;
+
+      const highlighted = normalizedLanguage
+        ? hljs.highlight(code, { language: normalizedLanguage }).value
+        : hljs.highlightAuto(code).value;
+
+      return `<pre><code class="hljs language-${normalizedLanguage || "plain"}">${highlighted}</code></pre>`;
+    },
+  });
+
+  md.use(markdownItTaskLists, { enabled: true, label: true, labelAfter: true });
+  md.use(markdownItAnchor, {
+    permalink: false,
+    slugify,
+    callback(token, info) {
+      const level = Number(String(token.tag || "").replace("h", ""));
+
+      if (level === 2 || level === 3) {
+        toc.push({
+          level,
+          slug: info.slug,
+          title: info.title,
+        });
+      }
+    },
+  });
+
+  const defaultLinkOpen =
+    md.renderer.rules.link_open ||
+    ((tokens, index, options, env, self) =>
+      self.renderToken(tokens, index, options));
+  const defaultImage =
+    md.renderer.rules.image ||
+    ((tokens, index, options, env, self) =>
+      self.renderToken(tokens, index, options));
+
+  md.renderer.rules.link_open = (tokens, index, options, env, self) => {
+    const token = tokens[index];
+    const href = token.attrGet("href");
+
+    if (href) {
+      token.attrSet("href", rewriteMarkdownLink(href));
+    }
+
+    return defaultLinkOpen(tokens, index, options, env, self);
+  };
+
+  md.renderer.rules.image = (tokens, index, options, env, self) => {
+    const token = tokens[index];
+    const src = token.attrGet("src") || "";
+    const alt = token.content || "";
+    const title = token.attrGet("title");
+    const encodedSrc = encodeUrlPath(src);
+
+    token.attrSet("src", encodedSrc);
+    token.attrSet("loading", "lazy");
+
+    const renderedImage = defaultImage(tokens, index, options, env, self);
+
+    if (!alt.trim()) {
+      return renderedImage;
+    }
+
+    const caption = title || alt;
+    return `<figure class="docs-figure">${renderedImage}<figcaption>${md.utils.escapeHtml(caption)}</figcaption></figure>`;
+  };
+
+  return md;
+}
+
+function isProPage(metadata) {
+  const availability = String(metadata.availability || metadata.plugin || "")
+    .trim()
+    .toLowerCase();
+  return availability === "pro";
+}
+
+async function parseMarkdownFile(filePath, options) {
+  const rawContent = await fs.readFile(filePath, "utf8");
+  const sourceRelativePath = toPosix(
+    path.relative(options.markdownsDir, filePath),
+  );
+  const filenameFallback = titleCaseFromSlug(
+    path.basename(sourceRelativePath, ".md"),
+  );
+  const isIndexPage =
+    path.basename(sourceRelativePath).toLowerCase() === "readme.md";
+  const directoryRelativePath = isIndexPage
+    ? toPosix(path.dirname(sourceRelativePath)).replace(/^\.$/, "")
+    : toPosix(path.dirname(sourceRelativePath)).replace(/^\.$/, "");
+  const parentDirectoryTitle = directoryRelativePath
+    ? titleCaseFromSlug(path.basename(directoryRelativePath))
+    : "Home";
+  const { metadata, body, rawBodyWithoutInfo } = extractInfoBlock(rawContent);
+  const {
+    title: extractedHeadingTitle,
+    body: contentMarkdown,
+    rawHeading,
+  } = extractPrimaryHeading(
+    body,
+    metadata.module || filenameFallback || parentDirectoryTitle,
+  );
+  const title = choosePageTitle({
+    defaultIndexTitle: "Home",
+    filenameFallback,
+    headingTitle: rawHeading || extractedHeadingTitle,
+    isIndexPage,
+    metadata,
+    parentDirectoryTitle,
+  });
+  const toc = [];
+  const md = createMarkdownParser(toc);
+  const html = md.render(contentMarkdown || "");
+
+  const outputRelativePath = isIndexPage
+    ? directoryRelativePath
+      ? `${directoryRelativePath}/index.html`
+      : "index.html"
+    : sourceRelativePath.replace(/\.md$/i, ".html");
+
+  const urlPath = isIndexPage
+    ? `/${directoryRelativePath ? `${directoryRelativePath}/` : ""}`
+    : `/${sourceRelativePath.replace(/\.md$/i, ".html")}`;
+
+  return {
+    contentHtml: html,
+    contentMarkdown,
+    description: excerptFromMarkdown(contentMarkdown),
+    directoryRelativePath,
+    filePath,
+    isIndexPage,
+    isPro: isProPage(metadata),
+    metadata,
+    outputRelativePath,
+    rawBodyForLlms: rawBodyWithoutInfo,
+    sourceRelativePath,
+    title,
+    toc,
+    urlPath,
+  };
+}
+
+module.exports = {
+  parseMarkdownFile,
+};
