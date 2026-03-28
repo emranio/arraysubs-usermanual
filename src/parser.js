@@ -223,6 +223,10 @@ function createMarkdownParser(toc) {
     linkify: true,
     typographer: false,
     highlight(code, language) {
+      if (language === "mermaid") {
+        return `<pre class="mermaid">${md.utils.escapeHtml(code)}</pre>`;
+      }
+
       const normalizedLanguage =
         language && hljs.getLanguage(language) ? language : null;
 

@@ -57,5 +57,21 @@
       </main>
       <aside class="docs-shell__toc docs-toc-panel" aria-label="On this page">{{toc}}</aside>
     <script src="{{scriptHref}}" defer></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default' });
+      document.addEventListener('docs-theme-changed', function (e) {
+        mermaid.initialize({ startOnLoad: false, theme: e.detail === 'dark' ? 'dark' : 'default' });
+        document.querySelectorAll('pre.mermaid').forEach(function (el) {
+          var raw = el.getAttribute('data-mermaid-src');
+          if (raw) { el.removeAttribute('data-processed'); el.innerHTML = raw; }
+        });
+        mermaid.run();
+      });
+      document.querySelectorAll('pre.mermaid').forEach(function (el) {
+        el.setAttribute('data-mermaid-src', el.textContent);
+      });
+    </script>
   </body>
 </html>

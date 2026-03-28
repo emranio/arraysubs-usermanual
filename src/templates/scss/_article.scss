@@ -226,6 +226,24 @@
 }
 
 // ------------------------------------
+// Mermaid diagrams
+// ------------------------------------
+pre.mermaid {
+  background: var(--docs-surface);
+  color: var(--docs-text);
+  border: 1px solid var(--docs-border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  overflow-x: auto;
+
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+// ------------------------------------
 // Figure
 // ------------------------------------
 .docs-figure {

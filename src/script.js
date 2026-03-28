@@ -48,7 +48,7 @@
 
   function initCopyButtons() {
     document.querySelectorAll(".docs-content pre").forEach(function (pre) {
-      if (pre.querySelector(".docs-copy-button")) {
+      if (pre.querySelector(".docs-copy-button") || pre.classList.contains("mermaid")) {
         return;
       }
 
@@ -194,6 +194,10 @@
       if (meta) {
         meta.content = theme === "dark" ? "#0b0e14" : "#f8fafc";
       }
+
+      document.dispatchEvent(
+        new CustomEvent("docs-theme-changed", { detail: theme }),
+      );
     }
 
     button.addEventListener("click", function () {
