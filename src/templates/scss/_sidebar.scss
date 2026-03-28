@@ -27,9 +27,9 @@
   &__body {
     border-top: 1px solid var(--docs-border);
     padding: 10px 14px 18px;
-    max-height: calc(100vh - 180px);
+    max-height: calc(100vh - 150px);
     overflow: auto;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
   }
 }
 
@@ -73,8 +73,13 @@
     }
 
     .docs-badge {
-      flex: 0 0 auto;
-      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1px 10px;
+      border-radius: 999px;
+      font-size: 0.6rem;
+      height: 1rem;
     }
   }
 

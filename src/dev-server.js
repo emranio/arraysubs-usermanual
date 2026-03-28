@@ -168,12 +168,20 @@ async function startDevServer(rootDir) {
   });
 
   const close = async () => {
+    // Destroy all SSE connections so server.close() can finish.
+    for (const client of clients) {
+      client.end();
+    }
+    clients.clear();
+
     await watcher.close();
-    server.close();
+    server.close(() => {
+      process.exit(0);
+    });
   };
 
-  process.on("SIGINT", close);
-  process.on("SIGTERM", close);
+  process.once("SIGINT", close);
+  process.once("SIGTERM", close);
 }
 
 module.exports = {
