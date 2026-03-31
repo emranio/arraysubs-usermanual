@@ -295,6 +295,26 @@ function createMarkdownParser(toc) {
     return `<figure class="docs-figure">${renderedImage}<figcaption>${md.utils.escapeHtml(caption)}</figcaption></figure>`;
   };
 
+  const defaultFence =
+    md.renderer.rules.fence ||
+    ((tokens, idx, opts, env, self) => self.renderToken(tokens, idx, opts));
+
+  md.renderer.rules.fence = (tokens, idx, opts, env, self) => {
+    const token = tokens[idx];
+    const info = token.info ? token.info.trim() : "";
+
+    if (info.startsWith("box")) {
+      const classMatch = info.match(/class="([^"]+)"/);
+      const boxClass = classMatch ? classMatch[1] : "info-box";
+      const allowed = ["info-box", "warning-box", "success-box"];
+      const safeClass = allowed.includes(boxClass) ? boxClass : "info-box";
+      const innerHtml = md.render(token.content);
+      return `<div class="docs-box ${md.utils.escapeHtml(safeClass)}">${innerHtml}</div>\n`;
+    }
+
+    return defaultFence(tokens, idx, opts, env, self);
+  };
+
   return md;
 }
 

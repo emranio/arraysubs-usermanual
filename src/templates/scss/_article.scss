@@ -69,8 +69,14 @@
 
   hr {
     border: 0;
-    border-top: 1px solid var(--docs-border);
-    margin: 2rem 0;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--docs-border-strong),
+      transparent
+    );
+    margin: 2.5rem 0;
   }
 
   > *:first-child {
@@ -88,8 +94,14 @@
     margin-bottom: 0.75em;
   }
 
+  h1 {
+    font-size: 2rem;
+    padding-bottom: 0.4em;
+  }
+
   h2 {
     font-size: 1.75rem;
+    padding-bottom: 0.3em;
   }
 
   h3 {
@@ -156,10 +168,13 @@
 
   :not(pre) > code {
     padding: 0.2em 0.48em;
-    border-radius: 8px;
+    border-radius: 6px;
     background: var(--docs-code-bg);
     color: var(--docs-code-text);
-    font-size: 0.92em;
+    font-size: 0.88em;
+    font-weight: 500;
+    border: 1px solid var(--docs-border);
+    white-space: nowrap;
   }
 
   pre {
@@ -195,6 +210,49 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.18);
+  }
+}
+
+// ------------------------------------
+// Content boxes
+// ------------------------------------
+.docs-box {
+  padding: 20px 24px;
+  border-radius: var(--docs-radius-sm);
+  border-left: 4px solid;
+  margin: 1.5em 0;
+
+  > *:first-child {
+    margin-top: 0;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  h2,
+  h3 {
+    margin-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  &.info-box {
+    background: var(--docs-box-info-bg);
+    border-left-color: var(--docs-box-info-border);
+    color: var(--docs-box-info-text);
+  }
+
+  &.warning-box {
+    background: var(--docs-box-warning-bg);
+    border-left-color: var(--docs-box-warning-border);
+    color: var(--docs-box-warning-text);
+  }
+
+  &.success-box {
+    background: var(--docs-box-success-bg);
+    border-left-color: var(--docs-box-success-border);
+    color: var(--docs-box-success-text);
   }
 }
 
