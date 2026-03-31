@@ -1,132 +1,196 @@
-# Info
-- Module: ArraySubs Documentation Home
-- Availability: Shared
-- Last updated: 28 March 2026
+# user manual hub index plan
 
-# User Guide
-<section class="docs-home">
-	<div class="docs-home__hero">
-		<div class="docs-home__eyebrow">Unified manual</div>
-		<h2>Everything your team needs to use ArraySubs with confidence</h2>
-		<p>
-			This documentation site brings together the full ArraySubs experience in one place — core features,
-			premium add-ons, merchant setup flows, customer portal behavior, and everyday admin operations.
-			Premium-only features are clearly marked with a <strong>Pro</strong> badge so your docs stay unified without becoming confusing.
-		</p>
-		<div class="docs-home__actions">
-			<a href="./getting-started/README.md">Start with setup</a>
-			<a href="./customer-portal/README.md">Explore the customer portal</a>
-			<a href="./manage-subscription-admin/README.md">See admin management</a>
-		</div>
-	</div>
+> Based on a codebase review of both `arraysubs` and `arraysubspro`.
+>
+> Rule applied to this hub plan: only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Every other settings screen is documented inside its owning module topic.
 
-	<div class="docs-home__grid">
-		<article class="docs-home__card">
-			<h3>New to ArraySubs?</h3>
-			<p>Learn the product model, create subscription products, and understand renewals before you launch.</p>
-			<ul>
-				<li><a href="./getting-started/README.md">Getting Started</a></li>
-				<li><a href="./getting-started/overview.md">Overview</a></li>
-				<li><a href="./getting-started/subscriptions/how-renewals-work.md">How renewals work</a></li>
-			</ul>
-		</article>
+## proposed hub structure
 
-		<article class="docs-home__card">
-			<h3>Daily merchant workflows</h3>
-			<p>Handle subscription changes, refunds, lifecycle actions, and admin-side customer support tasks.</p>
-			<ul>
-				<li><a href="./manage-subscription-admin/README.md">Manage Subscription Admin</a></li>
-				<li><a href="./manage-subscription-admin/subscription-list-and-filters.md">Subscription list and filters</a></li>
-				<li><a href="./manage-subscription-admin/orders-refunds-and-cancellation.md">Orders, refunds, and cancellation</a></li>
-			</ul>
-		</article>
+- Get Started
+	- Before You Launch
+		- Requirements, installation, activation order, and WooCommerce prerequisites
+		- Core concepts: subscription products, billing cycles, trials, signup fees, statuses, and customer portal pages
+		- Free vs Pro feature map
+	- First-Time Setup
+		- Initial store setup checklist
+		- Create your first subscription product
+		- Place a test order and review the customer portal
+	- Essential Daily Workflows
+		- How the subscription lifecycle works from checkout to renewal
+		- Where merchants manage products, subscriptions, members, and analytics
+		- What to verify before going live
 
-		<article class="docs-home__card">
-			<h3>Customer-facing experiences</h3>
-			<p>Understand what subscribers see in the portal, how self-service actions work, and where Pro expands the experience.</p>
-			<ul>
-				<li><a href="./customer-portal/README.md">Customer Portal</a></li>
-				<li><a href="./customer-portal/subscription-details-screen.md">Subscription details screen</a></li>
-				<li><a href="./customer-portal/payment-methods-pro.md">Payment methods <strong>Pro</strong></a></li>
-			</ul>
-		</article>
+- Settings
+	- General Settings
+		- Multiple subscriptions and mixed cart behavior
+		- Checkout, trial options, and storefront button text
+		- Renewal sync, grace period, and email reminder schedule
+		- Customer portal menu, customer action toggles, and automatic-payment customer controls
+	- Toolkit Settings
+		- Admin bar visibility and `wp-admin` access control
+		- WordPress login page behavior
+		- Login as User
+		- Multi-Login Prevention *(Pro)*
 
-		<article class="docs-home__card">
-			<h3>Membership and growth tools</h3>
-			<p>Go deeper with access control, plan switching, retention offers, store credit, and toolkit utilities.</p>
-			<ul>
-				<li><a href="./member-access/README.md">Member Access</a></li>
-				<li><a href="./plan-switching/README.md">Plan Switching</a></li>
-				<li><a href="./cancellation-and-retention-offers/README.md">Cancellation and retention offers</a></li>
-			</ul>
-		</article>
-	</div>
-</section>
+- Manage Subscription Products
+	- Create and Configure Subscription Products
+		- Simple subscription products
+		- Variable subscription products
+		- Billing period, billing interval, subscription length, trials, signup fees, and renewal-price rules
+	- Product Relationships and Plan Logic
+		- Upgrade, downgrade, and crossgrade paths
+		- Auto-downgrade targets
+		- Fixed Period Membership *(Pro)*
+	- Product Experience and Entitlements
+		- Frontend pricing and billing display
+		- Feature Manager / product entitlements *(Pro)*
+		- Subscription shipping setup *(Pro)*
 
-## How this manual is organized
+- Manage Subscriptions
+	- Subscription Operations
+		- All Subscriptions list
+		- Create, edit, and update subscriptions
+		- Subscription detail screen
+	- Admin Tools and Records
+		- Subscription notes
+		- Feature log / entitlement review
+		- Related orders, invoices, and refund history
+	- Lifecycle Management
+		- Activation, renewal, on-hold, cancellation, expiration, and reactivation
+		- Manual status changes and admin-triggered actions
+		- Subscription emails and reminders
 
-The manual follows the real merchant and subscriber journey instead of splitting free and premium docs into separate silos.
+- Customer Portal
+	- Customer Portal Pages
+		- My Subscriptions page
+		- View Subscription page
+		- My Features page *(Pro)*
+	- Subscription Self-Service Actions
+		- Change plan
+		- Cancel subscription
+		- Retention offers
+		- Skip next renewal
+		- Pause subscription
+		- Resume subscription
+		- Reactivate subscription
+	- Payment and Shipping Actions
+		- Manage payment methods
+		- Update payment method *(Pro)*
+		- Auto-renew toggle *(Pro)*
+		- Update shipping address *(Pro)*
 
-- **Getting Started** covers setup, product creation, billing behavior, and first-launch understanding.
-- **General Settings** explains store-wide configuration that affects checkout, portal actions, reminders, and renewal behavior.
-- **Customer Portal** shows the subscriber-facing experience, including where **Pro** enhancements appear.
-- **Manage Subscription Admin** focuses on day-to-day support and operational tasks in wp-admin.
-- **Member Access**, **Plan Switching**, **Store Credit**, and other sections cover more advanced workflows.
+- Manage Members *(Pro)*
+	- Member Lookup and Profiles
+		- Search members
+		- Member profile, roles, addresses, and quick links
+		- Login as customer
+	- Member Commerce Overview
+		- Subscription history
+		- Order history and purchased products
+		- Store credit balance and adjustments *(Pro)*
+	- Member Operations
+		- Open subscription detail from member view
+		- Manage store credit and credit history *(Pro)*
+		- Member Insight metrics *(Pro)*
 
-## What the Pro badge means
+- Member Access and Restriction Rules
+	- Access Rules
+		- Role Mapping
+		- URL Rules
+		- Post Type Rules
+	- Commerce and Benefit Rules
+		- Discount Rules
+		- Ecommerce Rules
+		- Download Rules
+	- Session and Frontend Controls
+		- Login Limit rules *(Pro)*
+		- Restriction shortcodes
+		- Access behavior during pause states
 
-Whenever a page describes a premium-only workflow or screen, you will see a visible **Pro** badge:
+- Checkout and Payments
+	- Subscription Checkout
+		- Subscription checkout flow
+		- One-click checkout and cart behavior
+		- Trials and account-creation behavior
+	- Automatic Payments *(Pro)*
+		- Gateway-based recurring billing
+		- Payment method lifecycle and customer updates
+		- Auto-renew controls and manual fallback flow
+	- Checkout Builder *(Pro)*
+		- Builder overview and checkout structure
+		- Fields, sections, and layouts
+		- Checkout Builder settings and frontend behavior
 
-- next to the page title
-- in the sidebar navigation
+- Billing and Renewals
+	- Renewal Operations
+		- Automatic renewals
+		- Renewal synchronization
+		- Renewal invoices and due dates
+	- Recovery and Grace Flows
+		- Grace period timeline
+		- On-hold handling and overdue renewals
+		- Skip and pause behavior in the billing timeline
+	- Renewal Communication
+		- Upcoming renewal reminders
+		- Trial-ending reminders
+		- Expiring-soon reminders
 
-That keeps the manual unified while still making feature availability obvious.
+- Retention, Cancellation, and Refunds
+	- Cancellation Setup
+		- Immediate vs end-of-term cancellation
+		- Cancellation reasons
+		- Retention Flow page
+	- Retention Offers
+		- Discount offer
+		- Pause offer
+		- Downgrade offer
+		- Contact Support offer
+	- Refund Management
+		- Refund settings
+		- Customer-visible refund history
+		- Store credit outcomes *(Pro)*
 
-## Recommended reading paths
+- Advanced Analytics
+	- Subscription Performance *(Pro)*
+		- Overview dashboard and leaderboards
+		- Revenue analytics
+		- Orders analytics
+	- Customer and Product Insights *(Pro)*
+		- Customer analytics
+		- Product and variation analytics
+		- Member Insight
+	- Retention and Operational Insights
+		- Retention analytics
+		- Cancellation reasons and offer performance
+		- Scheduled-job and audit visibility
 
-### For store owners launching for the first time
+- Profile Builder and My Account Customization
+	- Profile Builder
+		- Profile Form
+		- Custom profile fields
+		- Customer account data collection
+	- My Account Customization
+		- My Account editor
+		- Menu order, labels, and custom pages
+		- Feature page placement and portal navigation strategy
+	- Shortcodes and Frontend Display
+		- Account and member shortcodes
+		- Restriction and visibility use cases
 
-1. [Getting Started](./getting-started/README.md)
-2. [General Settings](./general-settings/README.md)
-3. [Customer Portal](./customer-portal/README.md)
-4. [Manage Subscription Admin](./manage-subscription-admin/README.md)
+- Audits, Logs, and Troubleshooting
+	- Audit and Log Screens
+		- Activity Audits *(Pro)*
+		- Scheduled-Job Logs *(Pro)*
+		- Gateway Logs *(Pro)*
+	- Troubleshooting Guides
+		- Renewal failures and billing issues
+		- Portal action failures
+		- Access-rule conflicts
+		- Payment method and shipping update issues
 
-### For support and operations teams
+## notes for content production
 
-1. [Manage Subscription Admin](./manage-subscription-admin/README.md)
-2. [Customer Portal](./customer-portal/README.md)
-3. [Cancellation and Retention Offers](./cancellation-and-retention-offers/README.md)
-
-### For membership and entitlement projects
-
-1. [Member Access](./member-access/README.md)
-2. [Plan Switching](./plan-switching/README.md)
-3. [Store Credit](./store-credit/README.md)
-
-## Quick links
-
-- [Getting Started](./getting-started/README.md)
-- [General Settings](./general-settings/README.md)
-- [Customer Portal](./customer-portal/README.md)
-- [Manage Subscription Admin](./manage-subscription-admin/README.md)
-- [Member Access](./member-access/README.md)
-- [Plan Switching](./plan-switching/README.md)
-- [Cancellation and Retention Offers](./cancellation-and-retention-offers/README.md)
-- [Store Credit](./store-credit/README.md)
-- [Toolkit](./toolkit/README.md)
-
-# Use Case
-A merchant rolling out ArraySubs wants one practical handbook for onboarding staff, configuring products, supporting customers, and understanding where premium features extend the core platform. This home page gives the team a clear map into the right section quickly.
-
-# FAQ
-### Is this a separate manual for free and Pro?
-No. This is one unified ArraySubs manual. Premium-only features are labeled with a visible **Pro** badge.
-
-### Where should I start if I am configuring products for the first time?
-Start with [Getting Started](./getting-started/README.md), then move into [General Settings](./general-settings/README.md).
-
-### Where do I find what customers see in My Account?
-Go to [Customer Portal](./customer-portal/README.md).
-
-### Where do I look for staff workflows in wp-admin?
-Go to [Manage Subscription Admin](./manage-subscription-admin/README.md).
+- Keep the hub at a **maximum 3-level hierarchy** when creating real pages.
+- Keep **Manage Subscription Products**, **Advanced Analytics**, **Manage Members**, and **Customer Portal** as dedicated top-level topics.
+- Treat **Retention Flow**, **Plan Switching**, **Skip & Pause**, **Refunds**, **Checkout Builder**, **Feature Manager**, **Store Credit**, and **Automatic Payments** as module-owned documentation areas, not shared settings chapters.
+- Use *(Pro)* badges anywhere the topic depends on `arraysubspro`.
