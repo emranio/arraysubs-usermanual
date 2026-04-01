@@ -135,5 +135,6 @@ It does not try to become:
 ## Related pages
 
 - [Member Detail Screen](./member-detail-screen.md)
+- [Store Credit *(Pro)*](../store-credit/README.md)
 - [Manage Subscriptions](../manage-subscriptions/subscription-detail-screen.md)
 - [Customer Portal](../customer-portal/README.md)

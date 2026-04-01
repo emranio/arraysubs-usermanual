@@ -140,7 +140,7 @@
 	- Quick links to related workflows: WooCommerce order search for the customer, Store Credit management, and Feature entitlement review
 	- Clarify that full order history and store credit transaction history are reached through linked screens rather than rendered inline inside Manage Members
 
-### Store Credit *(Pro)* (plan)
+### Store Credit *(Pro)* (done)
 - Store Credit Overview and Ownership
 	- Pro-only wallet/credit system with a cross-plugin admin surface: core admin SPA routes and menus, Pro backend services, REST endpoints, emails, and customer portal behavior
 	- Core concepts: customer-level credit, subscription-level credit, transaction ledger, source labels, running balance, and where credits appear across admin and My Account

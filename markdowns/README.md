@@ -17,6 +17,7 @@ This documentation is written for merchants, support teams, QA reviewers, and co
 - [Manage Subscriptions](./manage-subscriptions/README.md) — subscription list operations, manual creation, admin editing, detail-screen review, lifecycle actions, and subscription email ownership.
 - [Customer Portal](./customer-portal/README.md) — My Account subscription pages, customer self-service actions, renewal recovery, and selected Pro portal extensions.
 - [Manage Members *(Pro)*](./manage-members/README.md) — member search, profile review, subscription summaries, and cross-screen support shortcuts.
+- [Store Credit *(Pro)*](./store-credit/README.md) — credit balances, top-up sales, refund-as-credit workflows, renewal application, and the customer-facing Store Credit page.
 
 ## How this manual is organized
 
@@ -34,10 +35,11 @@ The manual follows product ownership:
 4. Review [Manage Subscriptions](./manage-subscriptions/README.md) before training support or operations staff.
 5. Review [Customer Portal](./customer-portal/README.md) before launch so customer-facing actions and renewal recovery behave as expected.
 6. Review [Manage Members *(Pro)*](./manage-members/README.md) if your support or success team works customer-by-customer from the admin side.
-7. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
+7. Review [Store Credit *(Pro)*](./store-credit/README.md) if your store uses wallet balances, refund-as-credit, or credit top-ups.
+8. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
 
 ## Scope note
 
 This hub is designed to help you move from setup to confident day-to-day operations.
 
-Advanced topics such as refunds, Member Access, Automatic Payments *(Pro)*, Checkout Builder *(Pro)*, and Store Credit admin workflows *(Pro)* should be documented in their own dedicated sections as the manual expands.
+Advanced topics such as refunds, Member Access, Automatic Payments *(Pro)*, and Checkout Builder *(Pro)* should continue expanding in their own dedicated sections as the manual grows.

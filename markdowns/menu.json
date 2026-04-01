@@ -40,5 +40,14 @@
         "manage-members/member-detail-screen.md",
         "manage-members/commerce-overview-and-connected-workflows.md"
     ],
+    [
+        "store-credit/README.md",
+        "store-credit/overview-and-ownership.md",
+        "store-credit/settings-and-automation.md",
+        "store-credit/selling-store-credit.md",
+        "store-credit/admin-management-and-history.md",
+        "store-credit/credits-in-renewals-checkout-and-refunds.md",
+        "store-credit/customer-portal-and-emails.md"
+    ],
     "README.md"
 ]
