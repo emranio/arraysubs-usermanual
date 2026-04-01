@@ -5,5 +5,12 @@
         "get-started/before-you-launch.md",
         "get-started/first-time-setup.md",
         "get-started/essential-daily-workflows.md"
+    ],
+    [
+        "manage-subscription-products/README.md",
+        "manage-subscription-products/subscription-product-setup.md",
+        "manage-subscription-products/plan-relationships-and-fallback-logic.md",
+        "manage-subscription-products/subscription-product-page-experience.md",
+        "manage-subscription-products/coupons-for-subscription-products.md"
     ]
 ]

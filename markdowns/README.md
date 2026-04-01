@@ -16,6 +16,12 @@ Start here if you are setting up ArraySubs for the first time:
 	- [First-Time Setup](./get-started/first-time-setup.md)
 	- [Essential Daily Workflows](./get-started/essential-daily-workflows.md)
 
+- [Manage Subscription Products](./manage-subscription-products/README.md)
+	- [Subscription Product Setup](./manage-subscription-products/subscription-product-setup.md)
+	- [Plan Relationships and Fallback Logic](./manage-subscription-products/plan-relationships-and-fallback-logic.md)
+	- [Subscription Product Page Experience](./manage-subscription-products/subscription-product-page-experience.md)
+	- [Coupons for Subscription Products](./manage-subscription-products/coupons-for-subscription-products.md)
+
 More topic-based guides can be added to this hub over time.
 
 ---
