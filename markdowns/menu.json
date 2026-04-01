@@ -46,5 +46,15 @@
         "store-credit/purchase-product.md",
         "store-credit/emails.md",
         "store-credit/refund-to-credit.md"
+    ],
+    [
+        "audits-and-logs/README.md",
+        "audits-and-logs/activity-audits.md",
+        "audits-and-logs/scheduled-job-logs.md",
+        "audits-and-logs/gateway-health-dashboard.md",
+        "audits-and-logs/renewal-failures.md",
+        "audits-and-logs/portal-action-failures.md",
+        "audits-and-logs/access-rule-conflicts.md",
+        "audits-and-logs/payment-and-shipping-issues.md"
     ]
 ]
