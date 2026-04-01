@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 const { titleCaseFromSlug, toPosix } = require("./utils");
 
@@ -17,7 +18,7 @@ function createDirectoryNode(relativeDir) {
   };
 }
 
-function buildNavigationTree(pages) {
+function buildNavigationTree(pages, menuOrder) {
   const root = createDirectoryNode("");
   const directoryMap = new Map([["", root]]);
 
@@ -48,7 +49,8 @@ function buildNavigationTree(pages) {
     }
   }
 
-  sortNode(root);
+  const orderMap = menuOrder ? buildOrderMap(menuOrder) : null;
+  sortNode(root, orderMap);
 
   return {
     directoryMap,
@@ -56,10 +58,103 @@ function buildNavigationTree(pages) {
   };
 }
 
-function sortNode(node) {
-  node.pages.sort((left, right) => left.title.localeCompare(right.title));
-  node.children.sort((left, right) => left.label.localeCompare(right.label));
-  node.children.forEach(sortNode);
+function flattenMenuOrder(entries) {
+  const result = [];
+
+  for (const entry of entries) {
+    if (typeof entry === "string") {
+      result.push(entry);
+    } else if (Array.isArray(entry)) {
+      result.push(...flattenMenuOrder(entry));
+    }
+  }
+
+  return result;
+}
+
+function buildOrderMap(menuOrder) {
+  const flat = flattenMenuOrder(menuOrder);
+  const map = new Map();
+
+  for (let i = 0; i < flat.length; i++) {
+    map.set(flat[i], i);
+  }
+
+  return map;
+}
+
+function getOrderPosition(orderMap, relativePath) {
+  if (!orderMap) {
+    return Infinity;
+  }
+
+  return orderMap.has(relativePath) ? orderMap.get(relativePath) : Infinity;
+}
+
+function getDirectoryOrder(orderMap, node) {
+  if (!orderMap) {
+    return Infinity;
+  }
+
+  if (node.indexPage) {
+    const pos = getOrderPosition(orderMap, node.indexPage.sourceRelativePath);
+
+    if (pos !== Infinity) {
+      return pos;
+    }
+  }
+
+  let earliest = Infinity;
+
+  for (const page of node.pages) {
+    const pos = getOrderPosition(orderMap, page.sourceRelativePath);
+
+    if (pos < earliest) {
+      earliest = pos;
+    }
+  }
+
+  return earliest;
+}
+
+function sortNode(node, orderMap) {
+  if (orderMap) {
+    node.pages.sort(
+      (left, right) =>
+        getOrderPosition(orderMap, left.sourceRelativePath) -
+        getOrderPosition(orderMap, right.sourceRelativePath),
+    );
+    node.children.sort(
+      (left, right) =>
+        getDirectoryOrder(orderMap, left) - getDirectoryOrder(orderMap, right),
+    );
+  } else {
+    node.pages.sort((left, right) => left.title.localeCompare(right.title));
+    node.children.sort((left, right) => left.label.localeCompare(right.label));
+  }
+
+  node.children.forEach((child) => sortNode(child, orderMap));
+}
+
+function loadMenuOrder(markdownsDir) {
+  const menuPath = path.join(markdownsDir, "menu.json");
+
+  try {
+    if (!fs.existsSync(menuPath)) {
+      return null;
+    }
+
+    const raw = fs.readFileSync(menuPath, "utf8");
+    const parsed = JSON.parse(raw);
+
+    if (!Array.isArray(parsed)) {
+      return null;
+    }
+
+    return parsed;
+  } catch {
+    return null;
+  }
 }
 
 function isSectionOpen(node, currentPage) {
@@ -273,6 +368,7 @@ function renderToc(toc) {
 module.exports = {
   buildBreadcrumbs,
   buildNavigationTree,
+  loadMenuOrder,
   renderBreadcrumbs,
   renderSidebar,
   renderToc,

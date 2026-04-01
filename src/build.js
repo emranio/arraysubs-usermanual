@@ -1,3 +1,4 @@
+const fsSync = require("fs");
 const fs = require("fs/promises");
 const path = require("path");
 const dotenv = require("dotenv");
@@ -6,6 +7,7 @@ const { generateLlmsTxt } = require("./llms");
 const {
   buildBreadcrumbs,
   buildNavigationTree,
+  loadMenuOrder,
   renderBreadcrumbs,
   renderSidebar,
   renderToc,
@@ -50,11 +52,45 @@ async function cleanDist(paths) {
   await ensureDir(paths.distDir);
 }
 
+function loadBuildIgnore(markdownsDir) {
+  const ignorePath = path.join(markdownsDir, ".buildignore");
+
+  try {
+    if (!fsSync.existsSync(ignorePath)) {
+      return new Set();
+    }
+
+    const raw = fsSync.readFileSync(ignorePath, "utf8");
+    const names = raw
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith("#"));
+
+    return new Set(names);
+  } catch {
+    return new Set();
+  }
+}
+
+function isIgnoredPath(filePath, markdownsDir, ignoreSet) {
+  if (ignoreSet.size === 0) {
+    return false;
+  }
+
+  const relative = path.relative(markdownsDir, filePath);
+  const segments = relative.split(path.sep);
+
+  return segments.some((segment) => ignoreSet.has(segment));
+}
+
 async function collectSiteData(rootDir) {
   const paths = getProjectPaths(rootDir);
   const config = loadProjectConfig(rootDir);
   const buildDate = new Date().toISOString().slice(0, 10);
-  const allFiles = await walkDir(paths.markdownsDir);
+  const ignoreSet = loadBuildIgnore(paths.markdownsDir);
+  const allFiles = (await walkDir(paths.markdownsDir)).filter(
+    (filePath) => !isIgnoredPath(filePath, paths.markdownsDir, ignoreSet),
+  );
   const markdownFiles = allFiles.filter((filePath) =>
     filePath.toLowerCase().endsWith(".md"),
   );
@@ -74,7 +110,8 @@ async function collectSiteData(rootDir) {
     }
   }
 
-  const navigation = buildNavigationTree(pages);
+  const menuOrder = loadMenuOrder(paths.markdownsDir);
+  const navigation = buildNavigationTree(pages, menuOrder);
   return {
     assetFiles,
     buildDate,
