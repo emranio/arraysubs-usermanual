@@ -236,7 +236,7 @@
 		- Customer-visible refund history in related orders
 		- Store credit outcomes (refund-to-credit integration) *(Pro)*
 
-- Advanced Analytics *(Pro)*
+- Advanced Analytics *(Pro)* - done
 	- Subscription Performance
 		- Overview dashboard (performance cards: active subscriptions, MRR, new subscriptions, churned, churn rate, trial conversion rate, renewal revenue, revenue at risk, ARPU, retention saves)
 		- Performance charts (MRR trend, net growth, churn rate, trial conversions, active count, renewal revenue — with interval granularity: day/week/month/quarter/year)

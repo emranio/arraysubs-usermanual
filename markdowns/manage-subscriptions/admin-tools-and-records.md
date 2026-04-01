@@ -244,6 +244,7 @@ Before making a manual change to a subscription (like extending the next payment
 - [Subscription Operations](subscription-operations.md) — the full subscription list, create, edit, and detail screens
 - [Subscription Detail Cards](subscription-detail-cards.md) — the conditional cards for cancellation, sync, coupon, and more
 - [Lifecycle Management](lifecycle-management.md) — understanding the events that create system notes
+- [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) *(Pro)* — order type columns, filters, and the embedded report panel on the WooCommerce Orders page
 
 ---
 

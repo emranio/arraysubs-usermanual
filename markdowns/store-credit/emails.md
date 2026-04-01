@@ -224,6 +224,7 @@ A customer downgrades from a $99/month plan to a $49/month plan. The $50 differe
 
 ## Related Guides
 
+- [Email Overview](../emails/README.md) — How ArraySubs emails work, placeholder reference, and template overrides.
 - [Store Credit Settings](store-credit-settings.md) — Configure the expiration period that triggers Expiring and Expired emails.
 - [Store Credit Management](store-credit-management.md) — Admin adjustments trigger the Credit Added email.
 - [Refund to Credit](refund-to-credit.md) — Refund conversions trigger the Credit Added email.

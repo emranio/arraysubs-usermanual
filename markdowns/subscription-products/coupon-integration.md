@@ -259,6 +259,7 @@ These fields appear on the WooCommerce coupon edit page under the **ArraySubs Su
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up the products that coupons will apply to.
 - [Product Experience and Display](product-experience.md) — How coupon discounts appear in the subscription detail.
 - [General Settings](../settings/general-settings.md) — Store-wide subscription settings.
+- [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) *(Pro)* — Filter orders by coupon code and view coupon usage alongside order types.
 
 ---
 

@@ -427,6 +427,8 @@ A customer signs up for a 14-day trial. During the trial, they have full access.
 - [Customer Portal — Self-Service Actions](../customer-portal/self-service-actions.md) — what customers can do from their account: cancel, skip, pause, switch plans
 - [Settings — General Settings](../settings/general-settings.md) — grace period, email timing, and customer action configuration
 - [Subscription Products — Plan Switching](../subscription-products/plan-switching-and-relationships.md) — auto-downgrade targets
+- [Emails and Notifications](../emails/README.md) — which emails are triggered at each lifecycle stage
+- [Advanced Analytics](../analytics/README.md) *(Pro)* — subscription performance metrics, churn rate, and renewal revenue driven by lifecycle events
 
 ---
 

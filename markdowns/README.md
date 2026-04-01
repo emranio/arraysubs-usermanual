@@ -1,7 +1,7 @@
 # Info
 - Module: User Manual Hub
 - Availability: Shared
-- Last updated: 2026-04-01
+- Last updated: 2026-04-02
 
 # ArraySubs User Manual
 
@@ -72,6 +72,24 @@ A complete virtual-wallet system — customers earn credit from refunds, downgra
 - [Purchase Product](store-credit/purchase-product.md) — Create a WooCommerce product for selling credit with fixed or custom amounts and bonus incentives.
 - [Emails](store-credit/emails.md) — Credit Added, Credit Used, Credit Expiring, and Credit Expired notifications.
 - [Refund to Credit](store-credit/refund-to-credit.md) — Process refunds as store credit from the WooCommerce order screen.
+
+## Advanced Analytics *(Pro)*
+
+Track subscription revenue, growth, churn, and customer behavior — from a dedicated performance dashboard to subscription-aware WooCommerce reports.
+
+- [Overview](analytics/README.md) — Order type classification, section map, and prerequisites.
+- [Subscription Performance Dashboard](analytics/subscription-performance.md) — 10 KPI cards, 6 time-series charts, and 5 leaderboards on the WooCommerce Analytics Overview page.
+- [WooCommerce Analytics Extension](analytics/woocommerce-analytics-extension.md) — Type column, type filters, subscription revenue cards, subscription-only filters, and member links across 5 WC Analytics reports.
+- [Order List Enhancements](analytics/order-list-enhancements.md) — Type and coupon columns, filter dropdowns, embedded report panel, and order type backfill on the WooCommerce Orders page.
+
+## Emails and Notifications
+
+Automated emails for every subscription lifecycle event — configure, customize, and troubleshoot the full notification system.
+
+- [Email Overview](emails/README.md) — How ArraySubs emails work, WooCommerce integration, placeholder reference, template overrides, and reminder scheduling.
+- [Customer Emails](emails/customer-emails.md) — 13 customer-facing emails: new subscription, trials, renewals, payments, status changes, auto-downgrade, and retention.
+- [Admin Emails](emails/admin-emails.md) — 3 admin notifications: new subscription, payment failed, and subscription cancelled.
+- [Store Credit Emails](emails/store-credit-emails.md) *(Pro)* — 4 credit balance emails: added, used, expiring, and expired.
 
 ## Audits, Logs, and Troubleshooting
 

@@ -48,6 +48,18 @@
         "store-credit/refund-to-credit.md"
     ],
     [
+        "analytics/README.md",
+        "analytics/subscription-performance.md",
+        "analytics/woocommerce-analytics-extension.md",
+        "analytics/order-list-enhancements.md"
+    ],
+    [
+        "emails/README.md",
+        "emails/customer-emails.md",
+        "emails/admin-emails.md",
+        "emails/store-credit-emails.md"
+    ],
+    [
         "audits-and-logs/README.md",
         "audits-and-logs/activity-audits.md",
         "audits-and-logs/scheduled-job-logs.md",
