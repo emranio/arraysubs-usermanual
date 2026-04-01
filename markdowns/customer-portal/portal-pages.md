@@ -305,6 +305,8 @@ A paginated table of all credit transactions is displayed, with 10 transactions 
 
 If the customer has no transactions yet, the page shows: **"No credit transactions yet."** with a note that store credit can be earned through refunds, subscription rewards, or promotional offers.
 
+For the full admin-side documentation — including settings, management, purchase products, emails, and refund integration — see [Store Credit](../store-credit/README.md).
+
 ---
 
 ## FAQ

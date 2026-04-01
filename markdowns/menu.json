@@ -37,5 +37,14 @@
         "manage-members/member-lookup-and-profiles.md",
         "manage-members/member-commerce-overview.md",
         "manage-members/member-operations.md"
+    ],
+    [
+        "store-credit/README.md",
+        "store-credit/store-credit-management.md",
+        "store-credit/credit-history.md",
+        "store-credit/store-credit-settings.md",
+        "store-credit/purchase-product.md",
+        "store-credit/emails.md",
+        "store-credit/refund-to-credit.md"
     ]
 ]
