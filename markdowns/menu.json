@@ -20,6 +20,13 @@
         "manage-subscription-products/coupons-for-subscription-products.md"
     ],
     [
+        "checkout-and-payments/README.md",
+        "checkout-and-payments/subscription-checkout.md",
+        "checkout-and-payments/automatic-payments-gateway-health.md",
+        "checkout-and-payments/gateway-capabilities-payment-methods-and-webhooks.md",
+        "checkout-and-payments/checkout-builder-pro.md"
+    ],
+    [
         "manage-subscriptions/README.md",
         "manage-subscriptions/subscription-list-search-and-export.md",
         "manage-subscriptions/create-and-edit-subscriptions.md",

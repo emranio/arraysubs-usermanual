@@ -171,7 +171,7 @@
 	- WooCommerce email coverage: credit added, credit used, credit expiring soon, and credit expired
 	- Cross-links to existing **Customer Portal**, **Manage Members**, and **Refund Management** docs so Store Credit owns the deep detail without duplicating shared flows
 
-### Member Access and Restriction Rules
+### Member Access and Restriction Rules (plan)
 - Access Rules
 	- Role Mapping: assign WordPress roles based on subscription status and product; first-match evaluation order
 	- URL Rules: pattern-based URL access control with redirect or custom message
@@ -188,9 +188,9 @@
 	- Login Limit: concurrent session limits with role-based configuration *(Pro)*
 	- Restriction shortcodes: `[arraysubs_visibility]` for conditional content display
 	- Access behavior during pause and on-hold states
-	- Cache compatibility mode
+	- Cache compatibility mode 
 
-### Checkout and Payments - (writing)
+### Checkout and Payments - (done)
 - Subscription Checkout
 	- Checkout presentation and first-charge math: billing schedule strings, recurring vs due-today summary, signup fee as cart fee, trial messaging, next-charge preview, and checkout summary rows/block
 	- Cart composition and customer eligibility rules: mixed carts, one subscription per checkout/product/customer, different-billing-cycle rules, guest vs logged-in identity matching, and one-trial-per-customer enforcement

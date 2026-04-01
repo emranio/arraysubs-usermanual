@@ -142,11 +142,14 @@ Use it to replace the standard purchase label for non-subscription products that
 
 ### Require Payment Method for Trials
 
-When enabled, customers must add payment details even if the product starts with a free trial.
+This setting expresses the intended store policy for trial checkout.
 
-Use this when you want billing details on file before the trial converts to paid renewal.
+Important current-state note:
 
-When disabled, customers can start trials without payment details, so you must rely on a later payment update before the first paid renewal succeeds.
+- the setting exists in General Settings
+- but the current checkout module does not run a separate dedicated validator from `arraysubs_trial_requires_payment_method()` during cart validation
+
+So if your business model depends on collecting billing authorization before a free trial starts, test the active gateway flow carefully instead of relying on the setting by itself.
 
 ### One Trial Per Customer
 
