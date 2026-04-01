@@ -6,7 +6,7 @@
 
 ## proposed hub structure
 
-- Get Started
+- Get Started - done
 	- Before You Launch
 		- Requirements, installation, activation order, and WooCommerce prerequisites
 		- Core concepts: subscription products, billing cycles, trials, signup fees, statuses, and customer portal pages
@@ -21,7 +21,7 @@
 		- Where merchants manage products, subscriptions, members, and analytics
 		- What to verify before going live
 
-- Settings
+- Settings - done
 	- General Settings
 		- Multiple subscriptions and mixed cart behavior (allow multiple in cart, one per customer, one per product, auto-migrate on checkout, mixed checkout, different billing cycles)
 		- Checkout options (auto-create account, one-click checkout modes) and trial settings (require payment method, one trial per customer)
@@ -39,7 +39,7 @@
 		- Login as User (admin impersonation)
 		- Multi-Login Prevention (session limits, cooldown period, admin inclusion) *(Pro)*
 
-- Manage Subscription Products
+- Manage Subscription Products - done
 	- Create and Configure Subscription Products
 		- Simple subscription products
 		- Variable subscription products (per-variation subscription fields)
@@ -61,7 +61,7 @@
 		- What happens when a product is deleted or trashed (cached product data, admin warnings)
 		- Product test links (direct add-to-cart and one-click checkout helper links)
 
-- Manage Subscriptions
+- Manage Subscriptions - done
 	- Subscription Operations
 		- All Subscriptions list (status filters, customer/product search, status-colored badges)
 		- Create subscription (full form: customer, product, variation, billing schedule, trial, signup fee, different renewal price, addresses)
@@ -86,7 +86,7 @@
 		- Manual status changes and admin-triggered actions
 		- Subscription emails and reminders (linked to Email Reference)
 
-- Customer Portal
+- Customer Portal - done
 	- Customer Portal Pages
 		- My Subscriptions page (table: product, status badge, next payment, total with billing schedule, pagination)
 		- View Subscription page (overview table, retention discount display, coupon discount display, sync info, action buttons)
@@ -107,7 +107,7 @@
 		- Auto-renew toggle (on/off for automatic billing) *(Pro)*
 		- Update shipping address (with cutoff period enforcement) *(Pro)*
 
-- Manage Members *(Pro)*
+- Manage Members *(Pro)* - done
 	- Member Lookup and Profiles
 		- Search members (by username, email)
 		- Member profile (stats, roles, addresses, quick links to related screens)
@@ -121,7 +121,7 @@
 		- Manage store credit and credit history *(Pro)*
 		- Member Insight metrics (subscriber insights, operational data) *(Pro)*
 
-- Store Credit *(Pro)*
+- Store Credit *(Pro)* - done
 	- Store Credit Management
 		- Customer search (by username/email)
 		- Balance display and manual adjustments (add/deduct with notes)
@@ -250,7 +250,7 @@
 		- Retention analytics (linked to Retention Analytics under Retention topic)
 		- Member Insight (linked to Manage Members topic)
 
-- Emails and Notifications
+- Emails and Notifications - done
 	- Email Overview
 		- How ArraySubs emails work (WooCommerce email system integration)
 		- Email enable/disable settings (per-email toggles in General Settings)
@@ -286,7 +286,7 @@
 		- Restriction shortcode (`[arraysubs_restrict]` for subscription-based content gating)
 		- Shortcodes reference page in admin (catalog of all available shortcodes with examples and attributes)
 
-- Audits, Logs, and Troubleshooting
+- Audits, Logs, and Troubleshooting - done
 	- Audit and Log Screens
 		- Activity Audits (filterable by author role, entity type, date range, search; entity types: subscription, member, product, order, coupon, email, settings) *(Pro)*
 		- Audit logging settings (per-entity toggles: product, coupon, email, settings changes) *(Pro)*
