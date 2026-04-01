@@ -152,7 +152,8 @@
     border-left: 4px solid var(--docs-primary);
     background: var(--docs-primary-soft);
     color: var(--docs-blockquote-text);
-    border-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
   }
 
   .contains-task-list {
@@ -217,18 +218,9 @@
 // Content boxes
 // ------------------------------------
 .docs-box {
-  padding: 20px 24px;
+  padding: 4px 8px;
   border-radius: var(--docs-radius-sm);
-  border-left: 4px solid;
-  margin: 1.5em 0;
-
-  > *:first-child {
-    margin-top: 0;
-  }
-
-  > *:last-child {
-    margin-bottom: 0;
-  }
+  border: 4px solid;
 
   h2,
   h3 {
@@ -239,19 +231,19 @@
 
   &.info-box {
     background: var(--docs-box-info-bg);
-    border-left-color: var(--docs-box-info-border);
+    border-color: var(--docs-box-info-border);
     color: var(--docs-box-info-text);
   }
 
   &.warning-box {
     background: var(--docs-box-warning-bg);
-    border-left-color: var(--docs-box-warning-border);
+    border-color: var(--docs-box-warning-border);
     color: var(--docs-box-warning-text);
   }
 
   &.success-box {
     background: var(--docs-box-success-bg);
-    border-left-color: var(--docs-box-success-border);
+    border-color: var(--docs-box-success-border);
     color: var(--docs-box-success-text);
   }
 }

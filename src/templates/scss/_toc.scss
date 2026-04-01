@@ -91,11 +91,13 @@
   }
 
   &__item {
+    font-weight: bold;
     & + & {
       margin-top: 4px;
     }
 
     &--level-3 {
+      font-weight: normal;
       padding-left: 14px;
     }
   }
@@ -128,15 +130,10 @@
 }
 
 // On mobile, always show full TOC (no mini bars)
-@media (max-width: 767px) {
-  .docs-toc-panel.has-mini-toc {
+@media (max-width: 1100px) {
+  .docs-toc-panel {
     .docs-toc-mini {
-      display: none;
-    }
-
-    .docs-toc-panel__title,
-    .docs-toc-panel__body {
-      display: block;
+      display: none !important;
     }
   }
 }

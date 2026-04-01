@@ -54,7 +54,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
 
     &__sidebar {
-      position: fixed;
+      position: fixed !important;
       top: 72px;
       left: 16px;
       bottom: 16px;
@@ -69,7 +69,7 @@
     }
 
     &__overlay {
-      position: fixed;
+      position: fixed !important;
       inset: 0;
       z-index: 35;
       display: block;
