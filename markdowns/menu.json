@@ -12,5 +12,12 @@
         "settings/general-settings.md",
         "settings/toolkit-settings.md"
     ],
+    [
+        "manage-subscription-products/README.md",
+        "manage-subscription-products/subscription-product-setup.md",
+        "manage-subscription-products/plan-relationships-and-fallback-logic.md",
+        "manage-subscription-products/subscription-product-page-experience.md",
+        "manage-subscription-products/coupons-for-subscription-products.md"
+    ],
     "README.md"
 ]

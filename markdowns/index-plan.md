@@ -68,58 +68,63 @@
 	- Subscription coupon settings: apply to subscriptions, one-time vs recurring duration, renewal cycle limits, and count-initial-checkout toggle
 	- Renewal coupon tracking: capture coupon behavior at checkout, reapply eligible discounts to renewal invoices, and track remaining discount cycles on the subscription
 
-### Manage Subscriptions (done)
-- Subscription List and Export
-	- All Subscriptions list with status filters and search
-	- Export subscriptions: CSV and JSON formats with status filtering
+### Manage Subscriptions (writing)
+- Subscription List, Search, and Export
+	- All Subscriptions list with status filters for Pending, Active, Trial, On-Hold, Cancelled, and Expired
+	- Search subscriptions by customer name, email, or username
+	- Export subscriptions to CSV from the admin list with status filtering
+	- JSON export available through the subscription export REST endpoint for integrations and QA reference
 - Create and Edit Subscriptions
-	- Create subscription from admin: customer selector, product picker with variation support, quantity, and billing override
-	- Edit subscription: status, billing schedule, amounts, trial settings, different renewal price, and invoice email (separate from customer email)
-	- Full billing and shipping address management on admin subscription form
+	- Create subscription from admin: customer selector, subscription-product picker, variation support, quantity, and recurring amount override
+	- Configure billing schedule: billing interval, billing period, subscription length, signup fee, trial settings, and different renewal price rules
+	- Edit subscription details: status, amounts, next-payment date, invoice email, and billing/shipping addresses
+	- Manual shipping updates for shippable subscriptions: shipping address, shipping type, and renewal shipping total
 - Subscription Detail Screen
-	- Overview cards: subscription info, customer info, product info, billing info, cancellation details, sync details, and skip/pause status
-	- Payment timeline: historical payments, invoices, and renewal attempts
-	- Subscription notes panel
-	- Feature log and entitlement review *(Pro)*
-	- Related orders, renewal invoices, and refund history
-	- Coupon tracking details: applied coupons and remaining renewal cycles
-	- Admin actions: cancel, undo scheduled cancellation, edit, login as customer
-- Lifecycle Management
-	- Status transitions: activation, renewal, on-hold, cancellation, expiration, and reactivation
-	- Reactivation: from on-hold (automatic on payment), from cancelled (admin action), next-payment-date recalculation
-	- Manual status changes and admin-triggered actions
-	- Product deletion handling: cached product data, admin warnings, and `_product_deleted` flag
+	- Header status badges and quick actions: cancel, undo scheduled cancellation, edit, login as customer, and gateway detach when available
+	- Overview cards: subscription info, customer info, product info, billing info, cancellation details, sync details, skip/pause status, payment gateway, coupon discount, and subscription shipping when applicable
+	- Checkout Builder custom-field values shown on the detail screen when checkout fields were collected *(Pro)*
+	- Payment timeline for invoices, renewal payments, failures, refunds, and billing history
+	- Order history table with initial orders, renewal orders, and refund breakdown
+	- Subscription notes panel with internal notes and audit-style admin change logging
+	- Feature entitlement and usage review when Feature Manager is enabled
+- Lifecycle Management and Manual Actions
+	- Status flow coverage for Pending, Active, Trial, On-Hold, Cancelled, and Expired subscriptions
+	- Immediate cancellation vs end-of-term cancellation, with undo support for scheduled cancellations
+	- Reactivation paths: automatic on payment from On-Hold and manual admin status change from Cancelled or On-Hold
+	- Manual status changes and other admin-triggered updates recorded in subscription notes
+	- Product deletion handling: cached product data continuity, admin warnings, and `_product_deleted` tracking
 - Subscription Emails and Notifications
-	- Customer emails: new subscription, renewal reminder, renewal invoice, payment successful, payment failed, on-hold, cancelled, expired, reactivated, trial started, trial ending, trial converted, auto-downgrade, retention discount accepted
-	- Admin emails: new subscription, payment failed, subscription cancelled
-	- Card expiring notification *(Pro)*
-	- SCA/3D Secure authentication required notification *(Pro)*
+	- Customer emails: new subscription, renewal reminder, renewal invoice, payment successful, payment failed, on-hold, cancelled, expired, reactivated, trial started, trial converted, auto-downgrade, and retention discount accepted
+	- Admin emails: new subscription, payment failed, and subscription cancelled
 	- WooCommerce email settings integration: template customization, subject/body editing, placeholder system, and preview
-	- Theme template overrides for email HTML
+	- Theme template overrides for subscription email HTML and plain-text templates
+	- Automatic-payment lifecycle notifications such as card-expiring and SCA/3D Secure authentication should be documented under Automatic Payments *(Pro)*
 
-### Customer Portal
-- Customer Portal Pages
-	- My Subscriptions page: subscription list with status badges and pagination
-	- View Subscription page: overview, billing schedule, product, status actions, and related orders
-	- Pay Renewal: manual renewal payment page
-	- My Features page: feature entitlements and usage tracking *(Pro)*
-	- Store Credit page: balance, transaction history, expiring credit countdown, and credit purchase *(Pro)*
-- Subscription Self-Service Actions
-	- Change plan: upgrade, downgrade, or crossgrade to a different subscription product
-	- Cancel subscription: reason collection, retention offer flow, immediate or end-of-term
-	- Undo scheduled cancellation: reverse a pending end-of-term cancellation
-	- Skip next renewal: skip one or more upcoming renewal cycles
-	- Pause subscription: vacation mode with auto-resume date
+### Customer Portal (writing)
+- Portal Entry and Core Pages
+	- My Account navigation: subscriptions endpoint, menu placement, and subscription-count badge
+	- My Subscriptions page: product name, status badge, next payment date, recurring total, and pagination
+	- View Subscription page: overview, billing schedule, discounts, payment method, renewal schedule, related orders, refund history, and customer-visible notes
+	- Renewal invoice payment flow: pay pending renewal orders from the Related Orders table through WooCommerce's order-payment screen
+- Self-Service Actions in the Portal
+	- Change plan: upgrade, downgrade, or crossgrade with available switch options and proration preview
+	- Cancel subscription: cancellation reasons, immediate vs end-of-period behavior, and retention-offer handoff when enabled
+	- Skip next renewal: skip one or more eligible billing cycles and undo the skip
+	- Pause subscription: vacation mode with duration limits, optional pause reason, and scheduled resume date
 	- Resume subscription: end pause early and return to active billing
-	- Reactivate subscription: re-enable an expired or cancelled subscription
-	- Retention offers presented during cancellation: discount, pause, downgrade, skip, and contact support
-- Payment and Shipping Actions
+- Payment, Shipping, and Pro Portal Extensions
 	- Manage payment methods via WooCommerce account page
-	- Update subscription payment method with gateway-specific flow *(Pro)*
-	- Auto-renew toggle: customer control over automatic vs manual renewal *(Pro)*
-	- Update shipping address for future renewals *(Pro)*
+	- Update subscription payment method with gateway-specific redirect/setup flow from the subscription page *(Pro)*
+	- Auto-renew toggle for eligible automatic-payment subscriptions, including manual-invoice fallback messaging when disabled *(Pro)*
+	- Shipping address display and cutoff-based updates for future renewal orders on shippable subscriptions *(Pro)*
+	- My Features page: entitlement tables, combined or per-subscription views, and optional usage tracking *(Pro)*
+	- Store Credit page: balance, expiring-credit alerts, transaction history, and buy-credit section when purchase is enabled *(Pro)*
+- Lifecycle States to Explain Clearly
+	- Scheduled cancellation state and undo flow: what customers see after choosing end-of-period cancellation and how renewal timing behaves
+	- On-hold and renewal recovery: pending renewal invoices, pay links, and reactivation after successful payment
+	- Customer-visible history: related orders, refund history, and subscription notes
 
-### Manage Members *(Pro)*
+### Manage Members *(Pro)* (plan)
 - Member Lookup and Profiles
 	- Search members by name or email
 	- Member profile: user details, roles, billing and shipping addresses, and quick-action links

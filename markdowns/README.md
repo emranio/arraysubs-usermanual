@@ -13,6 +13,7 @@ This documentation is written for merchants, support teams, QA reviewers, and co
 
 - [Get Started](./getting-started/README.md) — requirements, first setup, test order review, daily workflows, and phased Pro rollout guidance.
 - [Settings](./settings/README.md) — the shared General and Toolkit settings that shape checkout, renewals, portal controls, and login/admin access behavior.
+- [Manage Subscription Products](./manage-subscription-products/README.md) — product setup, plan relationships, storefront product-page behavior, and subscription-aware coupon rules.
 
 ## How this manual is organized
 
@@ -26,7 +27,8 @@ The manual follows product ownership:
 
 1. Open [Get Started](./getting-started/README.md).
 2. Review [General Settings](./settings/general-settings.md).
-3. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
+3. Review [Manage Subscription Products](./manage-subscription-products/README.md) before publishing live plans.
+4. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
 
 ## Scope note
 
