@@ -68,12 +68,12 @@
 	- Subscription coupon settings: apply to subscriptions, one-time vs recurring duration, renewal cycle limits, and count-initial-checkout toggle
 	- Renewal coupon tracking: capture coupon behavior at checkout, reapply eligible discounts to renewal invoices, and track remaining discount cycles on the subscription
 
-### Manage Subscriptions (writing)
+### Manage Subscriptions (done)
 - Subscription List, Search, and Export
 	- All Subscriptions list with status filters for Pending, Active, Trial, On-Hold, Cancelled, and Expired
 	- Search subscriptions by customer name, email, or username
-	- Export subscriptions to CSV from the admin list with status filtering
-	- JSON export available through the subscription export REST endpoint for integrations and QA reference
+	- Export subscriptions to CSV from the admin list for merchant/admin review
+	- JSON export and explicit status-filtered export available through the subscription export REST endpoint for integrations and QA reference
 - Create and Edit Subscriptions
 	- Create subscription from admin: customer selector, subscription-product picker, variation support, quantity, and recurring amount override
 	- Configure billing schedule: billing interval, billing period, subscription length, signup fee, trial settings, and different renewal price rules
@@ -86,7 +86,7 @@
 	- Payment timeline for invoices, renewal payments, failures, refunds, and billing history
 	- Order history table with initial orders, renewal orders, and refund breakdown
 	- Subscription notes panel with internal notes and audit-style admin change logging
-	- Feature entitlement and usage review when Feature Manager is enabled
+	- Related feature entitlement and usage review documented separately when Feature Manager is enabled
 - Lifecycle Management and Manual Actions
 	- Status flow coverage for Pending, Active, Trial, On-Hold, Cancelled, and Expired subscriptions
 	- Immediate cancellation vs end-of-term cancellation, with undo support for scheduled cancellations
@@ -100,7 +100,7 @@
 	- Theme template overrides for subscription email HTML and plain-text templates
 	- Automatic-payment lifecycle notifications such as card-expiring and SCA/3D Secure authentication should be documented under Automatic Payments *(Pro)*
 
-### Customer Portal (writing)
+### Customer Portal (done)
 - Portal Entry and Core Pages
 	- My Account navigation: subscriptions endpoint, menu placement, and subscription-count badge
 	- My Subscriptions page: product name, status badge, next payment date, recurring total, and pagination
@@ -124,56 +124,52 @@
 	- On-hold and renewal recovery: pending renewal invoices, pay links, and reactivation after successful payment
 	- Customer-visible history: related orders, refund history, and subscription notes
 
-### Manage Members *(Pro)* (plan)
-- Member Lookup and Profiles
-	- Search members by name or email
-	- Member profile: user details, roles, billing and shipping addresses, and quick-action links
+### Manage Members *(Pro)* (done)
+- Access, Search, and Entry Points
+	- Top-level **Manage Members** admin page, available when the Pro Member Insight module is active
+	- Search members by display name, username, or email, with direct member-detail URLs for support workflows
+	- Member Insight shortcuts from the subscription list customer link, WooCommerce order edit screen, WooCommerce order preview modal, WordPress user profile page, WooCommerce Analytics > Customers, Store Credit management, and Feature Manager review screens
+- Member Detail Screen
+	- Profile header: avatar, username, email, billing phone, joined date, WordPress roles, and quick actions
+	- Quick actions: Login as Customer, Edit User, and clear/reset the current member view
+	- Address coverage: billing and shipping addresses with contact details when available
 	- Key statistics: lifetime spent, total orders, active subscriptions, total subscriptions, store credit balance, and total refunds
-	- Login as customer from member profile
-- Member Commerce Overview
-	- Subscription history with status and quick-open links
-	- Order history and purchased products
-	- Store credit balance and recent adjustments
-- Member Operations
-	- Open subscription detail directly from member view
-	- Manage store credit and view credit transaction history
-	- WooCommerce Admin Customers analytics shortcut
-	- Member Insight shortcuts from order detail, subscription list, and user profile pages
+- Commerce Overview and Connected Workflows
+	- Subscription table with product, status, recurring total, billing cadence, next payment date, created date, and quick-open links to subscription detail
+	- Purchased non-subscription products summary with product type, total quantity purchased, and total spend
+	- Quick links to related workflows: WooCommerce order search for the customer, Store Credit management, and Feature entitlement review
+	- Clarify that full order history and store credit transaction history are reached through linked screens rather than rendered inline inside Manage Members
 
-### Store Credit *(Pro)*
-- Store Credit Basics
-	- Enable and configure the store credit system
-	- Credit balance management: admin add, deduct, and adjust with notes
-	- Transaction types: refund, admin adjustment, subscription, order payment, and purchase
-	- Credit expiration: configurable expiration period, automated expiration processing
-- Credit Purchase
-	- Store Credit product type: virtual product for selling credits to customers
-	- Configurable min/max purchase amounts and default amount
-	- Bonus percentage: reward extra credit on purchases (e.g., buy $50 get $55)
-	- `[arraysubs_buy_credits]` shortcode for embedding purchase form on any page
-	- Order processing: credits added on order completion
-- Renewal and Checkout Integration
-	- Auto-apply credits to renewal invoices (configurable)
-	- Customer checkout selection: apply credits at checkout (optional)
-	- Minimum order amount threshold for auto-apply
-	- Cap at order total to prevent over-crediting
-- Refund Integration
-	- Auto-issue store credits on subscription refund
-	- Refund credit tracking in transaction history
-- Store Credit Emails
-	- Credit added notification
-	- Credit used notification
-	- Credit expiring soon reminder (configurable days before)
-	- Credit expired notification
-- Store Credit Admin Pages
-	- Manage Credits: customer search, balance view, and adjustment
-	- Credit History: full transaction log with filtering
-	- Settings: enable/disable, expiration, purchase amounts, and checkout behavior
-- Store Credit Customer Portal
-	- My Account > Store Credit page
-	- Balance display, expiring credits countdown
-	- Transaction history with pagination
-	- Credit purchase form (if enabled)
+### Store Credit *(Pro)* (plan)
+- Store Credit Overview and Ownership
+	- Pro-only wallet/credit system with a cross-plugin admin surface: core admin SPA routes and menus, Pro backend services, REST endpoints, emails, and customer portal behavior
+	- Core concepts: customer-level credit, subscription-level credit, transaction ledger, source labels, running balance, and where credits appear across admin and My Account
+	- Credit sources to explain clearly: plan downgrade, refund-as-credit, admin adjustment, promotional credit, credit purchase, renewal application, order application, and expiration
+- Admin Management Workflows
+	- Core admin **Store Credit** menu with **Manage Credits**, **Credit History**, and **Settings** screens
+	- Manage Credits page: customer search by name/username/email, balance review, manual add/deduct adjustments with notes, and direct links from **Manage Members**
+	- Credit History page: global transaction log, source/type filters, pagination, subscription references, and the caveat that deleting a log entry removes history only, not the actual balance
+	- WooCommerce order-edit refund workflow: **Refund as Store Credit** option, guest-order limitation, and visible refund tracking on the order screen
+- Store Credit Settings and Automation
+	- Enable/disable the store credit system and purchase flow
+	- Renewal auto-apply and checkout application settings, including the current store-wide behavior rather than a per-order customer opt-in control
+	- Credit expiration period, expiring-soon warnings, daily scheduler processing, and how expired credits are logged and deducted
+	- Purchase limits and defaults: min, max, and default custom-purchase amounts
+- Selling Store Credit
+	- **Store Credit** product type for WooCommerce with fixed-amount or customer-entered credit purchases
+	- Bonus percentage promotions and storefront/product-page messaging
+	- `[arraysubs_buy_credits]` shortcode for landing pages, My Account placement, or dedicated top-up pages
+	- Order processing rules: when purchased credits are added, duplicate-processing protection, and supported payment-complete/order-status hooks
+- Credits in Renewals, Checkout, and Subscription Flows
+	- Renewal application order: subscription-level credit first, then customer balance
+	- Credit application mechanics: negative fee line item, balance deduction, order notes, and cap at order total
+	- Subscription checkout coverage for eligible orders when checkout application is enabled
+	- Downgrade-generated subscription credits and where they are surfaced in subscription-related workflows
+- Customer Portal and Notifications
+	- **My Account > Store Credit** page: balance card, buy-more-credit entry point, expiring-credit alert, paginated history, and related order links when available
+	- Template override path and what merchants can customize in the customer-facing page
+	- WooCommerce email coverage: credit added, credit used, credit expiring soon, and credit expired
+	- Cross-links to existing **Customer Portal**, **Manage Members**, and **Refund Management** docs so Store Credit owns the deep detail without duplicating shared flows
 
 ### Member Access and Restriction Rules
 - Access Rules
@@ -194,32 +190,32 @@
 	- Access behavior during pause and on-hold states
 	- Cache compatibility mode
 
-### Checkout and Payments
+### Checkout and Payments - (writing)
 - Subscription Checkout
-	- Subscription checkout flow: billing schedule display, signup fee as cart fee, and checkout summary block
-	- Mixed cart restrictions and multiple-subscription cart rules
-	- One trial per customer enforcement
-	- Account creation: mandatory for subscription orders (no guest checkout)
-	- One-click checkout behavior and disable-cart-page option
+	- Checkout presentation and first-charge math: billing schedule strings, recurring vs due-today summary, signup fee as cart fee, trial messaging, next-charge preview, and checkout summary rows/block
+	- Cart composition and customer eligibility rules: mixed carts, one subscription per checkout/product/customer, different-billing-cycle rules, guest vs logged-in identity matching, and one-trial-per-customer enforcement
+	- Checkout migration for one-subscription-per-customer stores: upgrade/downgrade/crossgrade replacement at checkout with proration messaging when plan switching is enabled
+	- Account and payment requirements: auto account creation for subscription orders, trial payment-method requirement, and subscription creation coverage for both classic and Store API checkout flows
+	- One-click checkout modes: subscription-only or all-items mode, replace-cart behavior, checkout redirect, cart-page bypass option, and non-AJAX add-to-cart handling for redirect reliability
 - Automatic Payments *(Pro)*
-	- Gateway registration system and gateway health dashboard
-	- Stripe gateway: automatic off-session payments, trials via setup mode, SCA/3D Secure, card expiry detection, refunds, disputes, webhooks
-	- Paddle gateway: capabilities and webhook integration
-	- PayPal gateway: capabilities and webhook integration
-	- Payment method lifecycle: card expiring alerts, payment method update flow, SCA authentication flow
-	- Auto-renew toggle: customer control and admin override
-	- Detached subscription fallback: manual renewal when gateway is disconnected
-	- Webhook processing and idempotency
-	- Gateway reconciliation scheduled job
+	- Gateway architecture and merchant screens: WooCommerce gateway registration, per-gateway settings, Settings > Payment Gateways dashboard, webhook log, capability badges, and admin detach-to-manual action on subscription detail
+	- Gateway capability matrix and checkout limits: Stripe supports mixed carts/multiple subscriptions/different cycles; Paddle supports mixed carts and multiple subscriptions only when billing cycles match; PayPal is single-subscription checkout with no mixed items or different cycles
+	- Stripe gateway: hosted checkout for initial payment, setup-mode collection for trials, off-session renewal charges, SCA/3D Secure handling, payment-method updates via Stripe portal, automatic card updates, card-expiry notices, refunds, disputes, and webhook-driven lifecycle sync
+	- Paddle gateway: product/price sync before checkout, Paddle.js overlay checkout, Merchant-of-Record billing/tax handling, native trials, pause/resume support, customer-portal payment-method updates, refund adjustments, retroactive renewal-order handling, and webhook-driven subscription state sync
+	- PayPal gateway: plan/subscription creation, approval flow, PayPal-managed renewals via webhooks, refund/dispute logging, reauthorization-style payment-method updates, and the current limits around trials, pause/resume, mixed carts, and multi-plan checkout
+	- Payment method lifecycle and customer controls: stored payment-method display, expired-card/reauthorization messaging, per-gateway update flows, customer auto-renew toggle, admin override/detach fallback, and manual invoice behavior when automatic billing is unavailable
+	- Webhook processing and operational safety: public webhook endpoints with gateway-specific signature verification, payload parsing, entity resolution, idempotency table, duplicate-event protection, two-way sync guard, and Gateway Health event log
+	- Scheduled maintenance and ops hooks: daily webhook-event cleanup is active; the gateway-reconcile hook exists in the scheduler/audit surface, but current reconciliation logic is still placeholder and should not be documented as a mature merchant workflow
 - Checkout Builder *(Pro)*
-	- Builder overview: visual drag-and-drop checkout editor
-	- Step-based layout: single-page or multi-step checkout with progress indicator
-	- Standard WooCommerce fields: billing, shipping, account, and order sections
-	- Custom fields: text, email, number, textarea, select, checkbox, date, and file upload
-	- Order review and payment placement via reserved `order_info_payment` element
-	- Design tokens: colors, spacing, and typography customization
-	- Checkout Builder settings: copy custom fields to subscription, renewal orders, admin/customer order views, and subscription detail
-	- File upload settings: enable/disable, max size, and allowed types
+	- Builder access and activation: fullscreen visual editor in the main admin app, separate Checkout Builder Settings page, and feature enable/disable behavior
+	- Frontend compatibility and flow modes: intended for classic WooCommerce checkout / `[woocommerce_checkout]` shortcode, single-page behavior with one step, multi-step behavior with two or more steps, and progress/navigation placement options
+	- Built-in checkout structure blocks: billing address, shipping address, account/order notes, coupon-and-notices block, and reserved `order_info_payment` element that controls where order review, payment methods, and place-order UI render
+	- Custom input fields: text, number, email, phone, textarea, select, multi-select, checkbox, toggle, date/time variants, image/grid select, color picker, and file upload fields
+	- Layout and merchandising blocks: headings, paragraphs, alerts, multi-column sections, and product-table block for curated checkout upsells/selection flows
+	- Conditional logic and step orchestration: per-field visibility rules, step-by-step validation, wrapper visibility, and frontend re-initialization during WooCommerce checkout AJAX refreshes
+	- Design tokens and appearance controls: color scheme, primary/secondary/accent/error/background/text colors, container width/max width, border radius, step indicator style, step position, and spacing presets
+	- Data persistence and display settings: copy custom checkout fields to subscriptions and renewal orders, show saved values in admin order view, customer order view, and subscription detail
+	- File upload rules: global enable switch, default max size, per-field max size/count, allowed type groups (image/PDF/doc), and upload-field display across order/subscription screens
 
 ### Billing and Renewals
 - Renewal Operations

@@ -19,5 +19,26 @@
         "manage-subscription-products/subscription-product-page-experience.md",
         "manage-subscription-products/coupons-for-subscription-products.md"
     ],
+    [
+        "manage-subscriptions/README.md",
+        "manage-subscriptions/subscription-list-search-and-export.md",
+        "manage-subscriptions/create-and-edit-subscriptions.md",
+        "manage-subscriptions/subscription-detail-screen.md",
+        "manage-subscriptions/lifecycle-management-and-manual-actions.md",
+        "manage-subscriptions/subscription-emails-and-notifications.md"
+    ],
+    [
+        "customer-portal/README.md",
+        "customer-portal/my-subscriptions-and-view-subscription.md",
+        "customer-portal/customer-self-service-actions.md",
+        "customer-portal/payment-shipping-and-pro-portal-pages.md",
+        "customer-portal/lifecycle-states-and-renewal-recovery.md"
+    ],
+    [
+        "manage-members/README.md",
+        "manage-members/access-search-and-entry-points.md",
+        "manage-members/member-detail-screen.md",
+        "manage-members/commerce-overview-and-connected-workflows.md"
+    ],
     "README.md"
 ]

@@ -14,6 +14,9 @@ This documentation is written for merchants, support teams, QA reviewers, and co
 - [Get Started](./getting-started/README.md) — requirements, first setup, test order review, daily workflows, and phased Pro rollout guidance.
 - [Settings](./settings/README.md) — the shared General and Toolkit settings that shape checkout, renewals, portal controls, and login/admin access behavior.
 - [Manage Subscription Products](./manage-subscription-products/README.md) — product setup, plan relationships, storefront product-page behavior, and subscription-aware coupon rules.
+- [Manage Subscriptions](./manage-subscriptions/README.md) — subscription list operations, manual creation, admin editing, detail-screen review, lifecycle actions, and subscription email ownership.
+- [Customer Portal](./customer-portal/README.md) — My Account subscription pages, customer self-service actions, renewal recovery, and selected Pro portal extensions.
+- [Manage Members *(Pro)*](./manage-members/README.md) — member search, profile review, subscription summaries, and cross-screen support shortcuts.
 
 ## How this manual is organized
 
@@ -28,10 +31,13 @@ The manual follows product ownership:
 1. Open [Get Started](./getting-started/README.md).
 2. Review [General Settings](./settings/general-settings.md).
 3. Review [Manage Subscription Products](./manage-subscription-products/README.md) before publishing live plans.
-4. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
+4. Review [Manage Subscriptions](./manage-subscriptions/README.md) before training support or operations staff.
+5. Review [Customer Portal](./customer-portal/README.md) before launch so customer-facing actions and renewal recovery behave as expected.
+6. Review [Manage Members *(Pro)*](./manage-members/README.md) if your support or success team works customer-by-customer from the admin side.
+7. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
 
 ## Scope note
 
 This hub is designed to help you move from setup to confident day-to-day operations.
 
-Advanced topics such as plan switching, refunds, retention flow, Member Access, Automatic Payments *(Pro)*, Checkout Builder *(Pro)*, and Store Credit *(Pro)* should be documented in their own dedicated sections as the manual expands.
+Advanced topics such as refunds, Member Access, Automatic Payments *(Pro)*, Checkout Builder *(Pro)*, and Store Credit admin workflows *(Pro)* should be documented in their own dedicated sections as the manual expands.
