@@ -344,24 +344,29 @@
 
 ### Profile Builder and My Account Customization
 - Profile Builder
-	- Profile Form: custom profile field builder
-	- Field types: text, email, textarea, select, radio, and checkbox
-	- Validation rules, required/optional, help text, and placeholder options
-	- Avatar upload support
-	- Customer account data collection in My Account
+	- Profile Fields screen: enable/disable custom profile fields and avatar uploads
+	- Supported field types: text, textarea, select, date, checkbox, and file upload
+	- Field settings: label, meta key, required toggle, placeholder, help text, enabled state, and ordering
+	- Select options and upload settings: option lists, allowed file types, and max file size
+	- Avatar upload: enable toggle, allowed image types, max size, Gravatar fallback, and custom avatar behavior
+	- Where customer data appears: WooCommerce My Account > Account Details and WordPress admin user profile screens
+	- Documentation caution: keep validation claims limited to current behavior (required fields, select/date constraints, and upload restrictions)
 - My Account Customization
-	- My Account editor: drag-and-drop layout builder for WooCommerce My Account page
-	- Menu ordering, label editing, and visibility toggles
-	- Add custom pages and CPTs as My Account tabs
-	- Endpoint generation from section labels
-	- Feature page, store credit page, and portal navigation strategy
+	- My Account Editor: drag-and-drop menu builder for WooCommerce My Account navigation
+	- Feature toggle, saved-layout behavior, and default WooCommerce/account endpoint coverage
+	- Menu ordering, custom labels, and visibility toggles for default items
+	- Add custom linked tabs from published pages, posts, and public CPT entries
+	- Endpoint generation from menu labels, manual slug editing, duplicate/reserved endpoint protection, and permalink flush notes
+	- Prevent direct access option: redirect visitors from the original content URL to the My Account tab version
+	- Navigation strategy across modules: core Subscriptions tab, Pro My Features tab, Pro Store Credit tab, and how the editor manages them together
 - Shortcodes Reference
+	- Admin Shortcodes page: grouped shortcode catalog with Free/Pro badges
 	- `[arraysubs_login]`: login link for logged-out users (text, URL, redirect, CSS class)
 	- `[arraysubs_logout]`: logout link for logged-in users (text, redirect, CSS class)
-	- `[arraysubs_user]`: display current user field (display_name, username, first_name, last_name, full_name)
+	- `[arraysubs_user]`: current-user name fields only (display_name, username, first_name, last_name, full_name)
 	- `[arraysubs_visibility]`: conditional content wrapper (show for logged_in or logged_out, fallback)
-	- `[arraysubs_buy_credits]`: store credit purchase form *(Pro)*
-	- Admin Shortcodes reference page with availability badges (Free/Pro)
+	- `[arraysubs_buy_credits]`: store credit purchase form and product shortcut *(Pro; available when store-credit purchasing is enabled)*
+	- Cross-links to Customer Portal and Store Credit docs so shortcode examples stay focused and non-duplicative
 
 
 ### Advanced Analytics *(Pro)*
