@@ -1,5 +1,13 @@
 [
     [
+        "getting-started/README.md",
+        "getting-started/before-you-launch.md",
+        "getting-started/setting-up-your-first-subscription.md",
+        "getting-started/test-order-and-portal-review.md",
+        "getting-started/essential-daily-workflows.md",
+        "getting-started/optional-pro-quick-start.md"
+    ],
+    [
         "settings/README.md",
         "settings/general-settings.md",
         "settings/toolkit-settings.md"

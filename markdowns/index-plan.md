@@ -10,7 +10,7 @@
 
 ## Proposed Hub Structure
 
-### Get Started
+### Get Started (done)
 - Before You Launch
 	- Requirements, installation, activation order, and WooCommerce prerequisites
 	- Core concepts: subscription products, billing cycles, trials, signup fees, subscription statuses, and customer portal pages
@@ -25,7 +25,7 @@
 	- Where merchants manage products, subscriptions, members, and analytics
 	- Go-live checklist: what to verify before accepting real orders
 
-### Settings
+### Settings (done)
 - General Settings
 	- Multiple subscriptions: allow in cart, one per customer, auto-migration on checkout, one per product, mixed checkout, and different billing-cycle rules
 	- Button text: custom subscription "Add to Cart" label, plus optional non-subscription one-click label when one-click checkout is enabled for all items
@@ -44,29 +44,31 @@
 	- Login as User: admin impersonation for customer experience review
 	- Multi-Login Prevention: concurrent session limits, admin exemption, forced logout via heartbeat *(Pro)*
 
-### Manage Subscription Products
-- Create and Configure Subscription Products
-	- Simple subscription products: enabling the subscription checkbox, setting billing period and interval
-	- Variable subscription products: variation-specific billing, trial, and pricing overrides
-	- Billing period (day, week, month, year), billing interval, and subscription length (finite or indefinite)
-	- Trials: trial period, trial length, account creation requirement, and one-trial-per-customer rule
-	- Signup fees: one-time fee charged at initial checkout
-	- Renewal-price rules: different renewal price after N cycles
-- Product Relationships and Plan Logic
-	- Upgrade, downgrade, and crossgrade product paths
-	- Auto-downgrade targets: triggered on trial expiry, cancellation, or subscription expiry
-	- Fixed Period Membership: fixed end dates, enrollment windows, purchasability enforcement, and lifecycle guards *(Pro)*
-- Product Page Experience
-	- Frontend pricing display: recurring price with billing schedule, sale price, signup fee line, trial badge, and finite-length indicator
-	- Variable product dynamic price updates on variation selection
-	- Feature list display on product page *(Pro)*
-	- Shipping type badge: one-time vs recurring shipping indicator *(Pro)*
-	- Product page redirect or 404: hide products from public browsing and redirect to custom URLs *(Pro)*
-- Coupon Support
-	- WooCommerce coupon integration for subscription products
-	- Coupon tracking: automatic reapplication on renewals, discount duration (one-time or recurring), discount cycles, and count-initial-checkout toggle
+### Manage Subscription Products (done)
+- Subscription Product Setup
+	- Simple subscription products: enable the subscription checkbox and configure billing schedule fields in the product editor
+	- Variable subscription products: variation-specific subscription settings, including billing, trial, signup fee, and pricing overrides
+	- Billing schedule: period (day, week, month, year), interval, and ongoing vs fixed-length subscriptions
+	- Trials: free-trial length and period, required account/customer context, payment-method requirement setting, and one-trial-per-customer enforcement
+	- Signup fees: one-time fee charged at initial checkout and shown separately from recurring price
+	- Different renewal price: change the renewal amount after a defined number of billing cycles
+- Plan Relationships and Fallback Logic
+	- Upgrade, downgrade, and crossgrade targets configured on subscription products and variations
+	- Checkout migration compatibility: how product relationships control allowed replacement paths when a customer changes plans
+	- Auto-downgrade target product: fallback plan assignment on the product, with trigger timing controlled by Plan Switching settings
+	- Fixed Period Membership: fixed end dates, annual recurring fixed periods, enrollment windows, purchasability enforcement, and expiration guardrails *(Pro)*
+- Subscription Product Page Experience
+	- Frontend pricing display: recurring price with billing schedule, sale-price messaging, signup fee line, trial message, finite-length summary, and different-renewal-price messaging
+	- Variable product live updates: dynamic subscription pricing/details when a shopper selects a variation
+	- Feature list display on product pages via Feature Manager *(Pro)*
+	- Shipping behavior messaging: recurring vs one-time shipping handling for subscription products *(Pro)*
+	- Product visibility control: redirect hidden subscription products to a custom URL or return a 404 *(Pro)*
+- Coupons for Subscription Products
+	- WooCommerce coupon compatibility for subscription products
+	- Subscription coupon settings: apply to subscriptions, one-time vs recurring duration, renewal cycle limits, and count-initial-checkout toggle
+	- Renewal coupon tracking: capture coupon behavior at checkout, reapply eligible discounts to renewal invoices, and track remaining discount cycles on the subscription
 
-### Manage Subscriptions
+### Manage Subscriptions (done)
 - Subscription List and Export
 	- All Subscriptions list with status filters and search
 	- Export subscriptions: CSV and JSON formats with status filtering
