@@ -6,13 +6,14 @@
   --docs-bg: #f8fafc;
   --docs-surface: #ffffff;
   --docs-surface-muted: #f1f5f9;
-  --docs-border: #dbe3ef;
-  --docs-border-strong: #c5d0df;
+  --docs-border: #cbd7e5;
+  --docs-border-strong: #aebfd1;
   --docs-text: #0f172a;
   --docs-text-soft: #475569;
   --docs-text-muted: #64748b;
   --docs-primary: #13a4b3;
   --docs-primary-soft: #e6f7f9;
+  --docs-rule: rgba(15, 23, 42, 0.14);
   --docs-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
   --docs-radius: 18px;
   --docs-radius-sm: 12px;
@@ -27,7 +28,12 @@
   --docs-blockquote-text: #0c6b75;
   --docs-nav-current-text: #0e7a85;
   --docs-header-bg: rgba(248, 250, 252, 0.88);
-  --docs-header-border: rgba(219, 227, 239, 0.9);
+  --docs-header-border: rgba(174, 191, 209, 0.92);
+  --docs-table-head-bg: linear-gradient(180deg, #f4fbfc 0%, #e8f6f8 100%);
+  --docs-table-row-alt: #f8fbfd;
+  --docs-table-row-hover: #edf8fa;
+  --docs-table-head-text: #0f172a;
+  --docs-table-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
 
   // Box tokens
   --docs-box-info-bg: #eff6ff;
@@ -46,13 +52,14 @@
   --docs-bg: #0b0e14;
   --docs-surface: #13171f;
   --docs-surface-muted: #1a1f2b;
-  --docs-border: #252d3b;
-  --docs-border-strong: #354054;
+  --docs-border: #38465a;
+  --docs-border-strong: #52627b;
   --docs-text: #e2e8f0;
   --docs-text-soft: #a4b0c2;
   --docs-text-muted: #6b7a8f;
   --docs-primary: #13a4b3;
   --docs-primary-soft: rgba(19, 164, 179, 0.1);
+  --docs-rule: rgba(148, 163, 184, 0.36);
   --docs-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
   --docs-link: #3fc5d3;
   --docs-code-bg: rgba(19, 164, 179, 0.08);
@@ -61,7 +68,12 @@
   --docs-blockquote-text: #5dd8e4;
   --docs-nav-current-text: #3fc5d3;
   --docs-header-bg: rgba(11, 14, 20, 0.88);
-  --docs-header-border: rgba(37, 45, 59, 0.9);
+  --docs-header-border: rgba(82, 98, 123, 0.78);
+  --docs-table-head-bg: linear-gradient(180deg, #1f2d3a 0%, #1a2530 100%);
+  --docs-table-row-alt: rgba(148, 163, 184, 0.05);
+  --docs-table-row-hover: rgba(19, 164, 179, 0.12);
+  --docs-table-head-text: #f8fafc;
+  --docs-table-shadow: 0 20px 40px rgba(0, 0, 0, 0.32);
 
   // Box tokens
   --docs-box-info-bg: rgba(59, 130, 246, 0.08);

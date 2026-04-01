@@ -217,7 +217,30 @@ function preprocessImagePaths(markdown) {
   return output.join("");
 }
 
+function markHeadingsWithinBlockquotesAsIgnored(state) {
+  let currentBlockquoteDepth = 0;
+
+  for (const token of state.tokens) {
+    if (token.type === "blockquote_open") {
+      currentBlockquoteDepth += 1;
+      continue;
+    }
+
+    if (token.type === "blockquote_close") {
+      currentBlockquoteDepth = Math.max(0, currentBlockquoteDepth - 1);
+      continue;
+    }
+
+    if (currentBlockquoteDepth > 0 && token.type === "heading_open") {
+      token.meta = token.meta || {};
+      token.meta.ignoreToc = true;
+    }
+  }
+}
+
 function createMarkdownParser(toc) {
+  let suppressedTocDepth = 0;
+
   const md = new MarkdownIt({
     html: true,
     linkify: true,
@@ -238,6 +261,20 @@ function createMarkdownParser(toc) {
     },
   });
 
+  const renderWithSuppressedToc = (content) => {
+    suppressedTocDepth += 1;
+
+    try {
+      return md.render(content);
+    } finally {
+      suppressedTocDepth = Math.max(0, suppressedTocDepth - 1);
+    }
+  };
+
+  md.core.ruler.push("mark_blockquote_toc_exclusions", (state) => {
+    markHeadingsWithinBlockquotesAsIgnored(state);
+  });
+
   md.use(markdownItTaskLists, { enabled: true, label: true, labelAfter: true });
   md.use(markdownItAnchor, {
     permalink: false,
@@ -245,7 +282,11 @@ function createMarkdownParser(toc) {
     callback(token, info) {
       const level = Number(String(token.tag || "").replace("h", ""));
 
-      if (level === 2 || level === 3) {
+      if (
+        (level === 2 || level === 3) &&
+        token.meta?.ignoreToc !== true &&
+        suppressedTocDepth === 0
+      ) {
         toc.push({
           level,
           slug: info.slug,
@@ -308,7 +349,8 @@ function createMarkdownParser(toc) {
       const boxClass = classMatch ? classMatch[1] : "info-box";
       const allowed = ["info-box", "warning-box", "success-box"];
       const safeClass = allowed.includes(boxClass) ? boxClass : "info-box";
-      const innerHtml = md.render(token.content);
+      const innerHtml = renderWithSuppressedToc(token.content);
+
       return `<div class="docs-box ${md.utils.escapeHtml(safeClass)}">${innerHtml}</div>\n`;
     }
 

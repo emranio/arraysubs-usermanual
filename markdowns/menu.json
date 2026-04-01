@@ -18,5 +18,12 @@
         "subscription-products/product-experience.md",
         "subscription-products/coupon-integration.md",
         "subscription-products/product-lifecycle.md"
+    ],
+    [
+        "manage-subscriptions/README.md",
+        "manage-subscriptions/subscription-operations.md",
+        "manage-subscriptions/admin-tools-and-records.md",
+        "manage-subscriptions/subscription-detail-cards.md",
+        "manage-subscriptions/lifecycle-management.md"
     ]
 ]
