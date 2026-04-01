@@ -10,7 +10,7 @@
 
 ## Proposed Hub Structure
 
-### Get Started (done)
+### Get Started 
 - Before You Launch
 	- Requirements, installation, activation order, and WooCommerce prerequisites
 	- Core concepts: subscription products, billing cycles, trials, signup fees, subscription statuses, and customer portal pages
@@ -25,7 +25,7 @@
 	- Where merchants manage products, subscriptions, members, and analytics
 	- Go-live checklist: what to verify before accepting real orders
 
-### Settings (done)
+### Settings 
 - General Settings
 	- Multiple subscriptions: allow in cart, one per customer, auto-migration on checkout, one per product, mixed checkout, and different billing-cycle rules
 	- Button text: custom subscription "Add to Cart" label, plus optional non-subscription one-click label when one-click checkout is enabled for all items
@@ -44,7 +44,7 @@
 	- Login as User: admin impersonation for customer experience review
 	- Multi-Login Prevention: concurrent session limits, admin exemption, forced logout via heartbeat *(Pro)*
 
-### Manage Subscription Products (done)
+### Manage Subscription Products 
 - Subscription Product Setup
 	- Simple subscription products: enable the subscription checkbox and configure billing schedule fields in the product editor
 	- Variable subscription products: variation-specific subscription settings, including billing, trial, signup fee, and pricing overrides
@@ -68,7 +68,7 @@
 	- Subscription coupon settings: apply to subscriptions, one-time vs recurring duration, renewal cycle limits, and count-initial-checkout toggle
 	- Renewal coupon tracking: capture coupon behavior at checkout, reapply eligible discounts to renewal invoices, and track remaining discount cycles on the subscription
 
-### Manage Subscriptions (done)
+### Manage Subscriptions 
 - Subscription List, Search, and Export
 	- All Subscriptions list with status filters for Pending, Active, Trial, On-Hold, Cancelled, and Expired
 	- Search subscriptions by customer name, email, or username
@@ -100,7 +100,7 @@
 	- Theme template overrides for subscription email HTML and plain-text templates
 	- Automatic-payment lifecycle notifications such as card-expiring and SCA/3D Secure authentication should be documented under Automatic Payments *(Pro)*
 
-### Customer Portal (done)
+### Customer Portal 
 - Portal Entry and Core Pages
 	- My Account navigation: subscriptions endpoint, menu placement, and subscription-count badge
 	- My Subscriptions page: product name, status badge, next payment date, recurring total, and pagination
@@ -124,7 +124,7 @@
 	- On-hold and renewal recovery: pending renewal invoices, pay links, and reactivation after successful payment
 	- Customer-visible history: related orders, refund history, and subscription notes
 
-### Manage Members *(Pro)* (done)
+### Manage Members *(Pro)* 
 - Access, Search, and Entry Points
 	- Top-level **Manage Members** admin page, available when the Pro Member Insight module is active
 	- Search members by display name, username, or email, with direct member-detail URLs for support workflows
@@ -140,7 +140,7 @@
 	- Quick links to related workflows: WooCommerce order search for the customer, Store Credit management, and Feature entitlement review
 	- Clarify that full order history and store credit transaction history are reached through linked screens rather than rendered inline inside Manage Members
 
-### Store Credit *(Pro)* (done)
+### Store Credit *(Pro)* 
 - Store Credit Overview and Ownership
 	- Pro-only wallet/credit system with a cross-plugin admin surface: core admin SPA routes and menus, Pro backend services, REST endpoints, emails, and customer portal behavior
 	- Core concepts: customer-level credit, subscription-level credit, transaction ledger, source labels, running balance, and where credits appear across admin and My Account
@@ -171,7 +171,7 @@
 	- WooCommerce email coverage: credit added, credit used, credit expiring soon, and credit expired
 	- Cross-links to existing **Customer Portal**, **Manage Members**, and **Refund Management** docs so Store Credit owns the deep detail without duplicating shared flows
 
-### Member Access and Restriction Rules (done)
+### Member Access and Restriction Rules 
 - Ownership, Scope, and Cross-Plugin Boundaries
 	- Core **Members Access** module owns role mapping, URL restrictions, post/content restriction, discount rules, ecommerce restriction rules, download rules, and the `[arraysubs_restrict]` shortcode
 	- Core **Member Shortcodes** owns `[arraysubs_visibility]`, `[arraysubs_login]`, `[arraysubs_logout]`, and `[arraysubs_user]`; this topic should clearly distinguish simple login-state visibility from full membership gating
@@ -251,7 +251,7 @@
 		- B2B partner portal with reseller pricing and hidden categories
 		- Software maintenance club with gated downloads, patch notes, and upgrade discounts
 
-### Checkout and Payments - (done)
+### Checkout and Payments - 
 - Subscription Checkout
 	- Checkout presentation and first-charge math: billing schedule strings, recurring vs due-today summary, signup fee as cart fee, trial messaging, next-charge preview, and checkout summary rows/block
 	- Cart composition and customer eligibility rules: mixed carts, one subscription per checkout/product/customer, different-billing-cycle rules, guest vs logged-in identity matching, and one-trial-per-customer enforcement
@@ -278,7 +278,7 @@
 	- Data persistence and display settings: copy custom checkout fields to subscriptions and renewal orders, show saved values in admin order view, customer order view, and subscription detail
 	- File upload rules: global enable switch, default max size, per-field max size/count, allowed type groups (image/PDF/doc), and upload-field display across order/subscription screens
 
-### Billing and Renewals (plan)
+### Billing and Renewals 
 - Renewal Operations and Schedule Logic
 	- Renewal order generation cadence: hourly batch checks, configurable invoice lead time (hours or days), and the 6-hour safeguard when lead time is longer than the billing cycle
 	- Renewal collection paths: core renewal invoice creation for every renewal, manual payment fallback in core, and automatic gateway collection handoff *(Pro)* when automatic payments are active
@@ -308,7 +308,7 @@
 	- Current reminder gaps to document honestly: renewal reminder is scheduled, expiring-soon sender is stubbed, trial-ending reminder is not wired, and payment-failed follow-up is event-based rather than a separate scheduled sequence
 	- Operations and audit visibility *(Pro where relevant)*: gateway health, webhook logs, scheduled job labels, and what support teams should check during failed-renewal investigations
 
-### Retention, Cancellation, and Refunds (plan)
+### Retention, Cancellation, and Refunds 
 - Cancellation Workflows
 	- Customer and admin cancellation entry points: My Account cancel flow, subscription-detail quick actions, and cancellable-status rules
 	- Immediate cancellation vs scheduled end-of-period cancellation using the waiting-cancellation state and scheduled cancel date
