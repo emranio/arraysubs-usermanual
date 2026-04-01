@@ -6,11 +6,12 @@
 >
 > **Rule**: Only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Every other settings screen is documented inside its owning module topic.
 
+Status: writing | done
 ---
 
 ## Proposed Hub Structure
 
-### Get Started 
+### Get Started - done
 - Before You Launch
 	- Requirements, installation, activation order, and WooCommerce prerequisites
 	- Core concepts: subscription products, billing cycles, trials, signup fees, subscription statuses, and customer portal pages
