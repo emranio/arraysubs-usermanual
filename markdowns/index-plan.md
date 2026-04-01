@@ -1,6 +1,6 @@
 # user manual hub index plan
 
-> Based on a codebase review of both `arraysubs` and `arraysubspro`.
+> Based on a thorough codebase review of both `arraysubs` (23 feature modules) and `arraysubspro` (12 feature modules).
 >
 > Rule applied to this hub plan: only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Every other settings screen is documented inside its owning module topic.
 
@@ -10,6 +10,7 @@
 	- Before You Launch
 		- Requirements, installation, activation order, and WooCommerce prerequisites
 		- Core concepts: subscription products, billing cycles, trials, signup fees, statuses, and customer portal pages
+		- Subscription statuses reference (pending, active, on-hold, cancelled, expired, trial)
 		- Free vs Pro feature map
 	- First-Time Setup
 		- Initial store setup checklist
@@ -22,175 +23,294 @@
 
 - Settings
 	- General Settings
-		- Multiple subscriptions and mixed cart behavior
-		- Checkout, trial options, and storefront button text
-		- Renewal sync, grace period, and email reminder schedule
-		- Customer portal menu, customer action toggles, and automatic-payment customer controls
+		- Multiple subscriptions and mixed cart behavior (allow multiple in cart, one per customer, one per product, auto-migrate on checkout, mixed checkout, different billing cycles)
+		- Checkout options (auto-create account, one-click checkout modes) and trial settings (require payment method, one trial per customer)
+		- Storefront button text customization (add-to-cart text, non-subscription button text)
+		- Renewal sync settings (enable, sync type, day mapping, proration method)
+		- Grace period configuration (active grace days, on-hold grace days)
+		- Email reminder schedule (renewal reminder days-before, invoice timing value and unit)
+		- Customer portal menu (menu title, menu position)
+		- Customer action toggles (cancellation, suspension, reactivation, payment method change)
+		- Automatic-payment customer controls (auto-renew toggle) *(Pro)*
 	- Toolkit Settings
-		- Admin bar visibility and `wp-admin` access control
-		- WordPress login page behavior
-		- Login as User
-		- Multi-Login Prevention *(Pro)*
+		- Admin bar visibility for non-admin users
+		- `wp-admin` access restriction (redirect options, allowed roles)
+		- WordPress login page hiding (redirect to My Account)
+		- Login as User (admin impersonation)
+		- Multi-Login Prevention (session limits, cooldown period, admin inclusion) *(Pro)*
 
 - Manage Subscription Products
 	- Create and Configure Subscription Products
 		- Simple subscription products
-		- Variable subscription products
-		- Billing period, billing interval, subscription length, trials, signup fees, and renewal-price rules
+		- Variable subscription products (per-variation subscription fields)
+		- Billing period, billing interval, subscription length, trials, signup fees, and different renewal-price rules (amount and after-how-many-payments threshold)
 	- Product Relationships and Plan Logic
-		- Upgrade, downgrade, and crossgrade paths
-		- Auto-downgrade targets
-		- Fixed Period Membership *(Pro)*
+		- Upgrade, downgrade, and crossgrade paths (Linked Products tab configuration)
+		- Auto-downgrade targets and timing (on expire, on cancel, on trial expire)
+		- Fixed Period Membership (absolute end date, duration-based, enrollment windows) *(Pro)*
 	- Product Experience and Entitlements
-		- Frontend pricing and billing display
-		- Feature Manager / product entitlements *(Pro)*
-		- Subscription shipping setup *(Pro)*
+		- Frontend pricing and billing display (product page, cart, checkout, mini-cart, order page)
+		- Redirect Product Page (301 redirect or 404 for direct product page visits) *(Pro)*
+		- Feature Manager / product entitlements (feature definition, entitlement values, usage tracking) *(Pro)*
+		- Subscription shipping setup (one-time vs recurring shipping) *(Pro)*
+	- Coupon Integration
+		- Subscription-applicable coupons (apply-to-subscriptions flag on WooCommerce coupons)
+		- Recurring coupon discounts with cycle limits
+		- Initial-checkout cycle counting
+	- Product Lifecycle Behavior
+		- What happens when a product is deleted or trashed (cached product data, admin warnings)
+		- Product test links (direct add-to-cart and one-click checkout helper links)
 
 - Manage Subscriptions
 	- Subscription Operations
-		- All Subscriptions list
-		- Create, edit, and update subscriptions
-		- Subscription detail screen
+		- All Subscriptions list (status filters, customer/product search, status-colored badges)
+		- Create subscription (full form: customer, product, variation, billing schedule, trial, signup fee, different renewal price, addresses)
+		- Edit subscription (limited fields: next payment date, invoice email, billing and shipping addresses, status change with confirmation modal)
+		- Subscription detail screen (info card, customer info, product card, billing info, payment timeline, addresses)
 	- Admin Tools and Records
-		- Subscription notes
-		- Feature log / entitlement review
-		- Related orders, invoices, and refund history
+		- Subscription notes (system-generated and manual admin notes)
+		- Feature log / entitlement review (per-subscription or combined, usage tracking) *(Pro)*
+		- Related orders, invoices, and refund history (type filters, order status, totals, refunds)
+		- Export subscriptions (CSV and JSON formats, status filtering)
+	- Subscription Detail Cards
+		- Cancellation details card (reason, scheduled dates, undo option)
+		- Sync details card (sync day description, proration notes)
+		- Skip and pause card (current skip/pause state, actions)
+		- Coupon discount card (coupon code, discount type, cycle limit, remaining cycles)
+		- Payment gateway card (gateway status, card on file, expiry, detach option) *(Pro)*
+		- Checkout Builder custom fields (custom data captured at checkout) *(Pro)*
+		- Subscription shipping card (shipping type, methods, initial/renewal costs) *(Pro)*
 	- Lifecycle Management
 		- Activation, renewal, on-hold, cancellation, expiration, and reactivation
+		- Trial conversion flow (trial to active, auto-downgrade on trial expire)
 		- Manual status changes and admin-triggered actions
-		- Subscription emails and reminders
+		- Subscription emails and reminders (linked to Email Reference)
 
 - Customer Portal
 	- Customer Portal Pages
-		- My Subscriptions page
-		- View Subscription page
-		- My Features page *(Pro)*
+		- My Subscriptions page (table: product, status badge, next payment, total with billing schedule, pagination)
+		- View Subscription page (overview table, retention discount display, coupon discount display, sync info, action buttons)
+		- My Features page (per-subscription or combined mode, feature names, types, entitlement values, usage) *(Pro)*
+		- Store Credit page (customer credit balance view) *(Pro)*
 	- Subscription Self-Service Actions
-		- Change plan
-		- Cancel subscription
-		- Retention offers
-		- Skip next renewal
-		- Pause subscription
-		- Resume subscription
+		- Change plan (switch options, proration preview)
+		- Cancel subscription (immediate or end-of-period, reason capture)
+		- Undo scheduled cancellation (for end-of-period cancellations)
+		- Retention offers (discount, pause, downgrade, contact support)
+		- Skip next renewal (cycle count, undo skip, modify skip)
+		- Pause subscription (duration, reason, auto-resume)
+		- Resume subscription (from pause, with date extension)
 		- Reactivate subscription
 	- Payment and Shipping Actions
-		- Manage payment methods
-		- Update payment method *(Pro)*
-		- Auto-renew toggle *(Pro)*
-		- Update shipping address *(Pro)*
+		- Manage payment methods (link to WooCommerce account payment methods)
+		- Update payment method (card details display, update link) *(Pro)*
+		- Auto-renew toggle (on/off for automatic billing) *(Pro)*
+		- Update shipping address (with cutoff period enforcement) *(Pro)*
 
 - Manage Members *(Pro)*
 	- Member Lookup and Profiles
-		- Search members
-		- Member profile, roles, addresses, and quick links
-		- Login as customer
+		- Search members (by username, email)
+		- Member profile (stats, roles, addresses, quick links to related screens)
+		- Login as customer (admin impersonation via user profile)
 	- Member Commerce Overview
-		- Subscription history
-		- Order history and purchased products
+		- Subscription history (active subscriptions summary)
+		- Order history and purchased products (non-subscription product purchases)
 		- Store credit balance and adjustments *(Pro)*
 	- Member Operations
 		- Open subscription detail from member view
 		- Manage store credit and credit history *(Pro)*
-		- Member Insight metrics *(Pro)*
+		- Member Insight metrics (subscriber insights, operational data) *(Pro)*
+
+- Store Credit *(Pro)*
+	- Store Credit Management
+		- Customer search (by username/email)
+		- Balance display and manual adjustments (add/deduct with notes)
+		- Transaction history per customer
+	- Credit History
+		- Global transaction log (all customers, all sources)
+		- Filtering by source (downgrade, refund, admin, promotional, purchase, renewal applied, order applied, expired)
+		- Filtering by type (credit/debit)
+	- Store Credit Settings
+		- Enable/disable toggle
+		- Credit application (auto-apply to renewals, allow at checkout, minimum order amount)
+		- Credit expiration (expiration period in days)
+		- Credit purchase (enable purchases, min/max/default amounts)
+	- Store Credit Purchase Product
+		- Store Credit product type in WooCommerce (virtual, no shipping)
+		- Fixed or customer-entered amount, bonus credit percentage
+		- Purchase shortcode: `[arraysubs_buy_credits]`
+	- Store Credit Emails
+		- Credit added, credit used, credit expiring, credit expired notifications
+	- Refund-to-Credit Integration
+		- Processing refunds as store credit instead of gateway refund
+		- Refund eligibility checks
 
 - Member Access and Restriction Rules
 	- Access Rules
-		- Role Mapping
-		- URL Rules
-		- Post Type Rules
+		- Role Mapping (subscription-to-role assignment rules)
+		- URL Rules (restrict specific URLs or URL patterns)
+		- Post Type Rules (restrict by post type, taxonomy, or specific posts; per-post restrictions via post meta)
 	- Commerce and Benefit Rules
-		- Discount Rules
-		- Ecommerce Rules
-		- Download Rules
+		- Discount Rules (member-based discount conditions)
+		- Ecommerce Rules (purchase restrictions for members/non-members)
+		- Download Rules (download rate limits and access control, download usage tracking)
+	- Content Restriction
+		- Scheduled/drip access (delayed content availability based on subscription age) 
+		- Content gating (restricted content messages, custom per-post or global default)
+		- Default redirect URL and default restricted message settings
+		- Cache compatibility setting
 	- Session and Frontend Controls
-		- Login Limit rules *(Pro)*
-		- Restriction shortcodes
-		- Access behavior during pause states
+		- Login Limit rules (session limits per subscription plan) *(Pro)*
+		- Restriction shortcodes (`[arraysubs_restrict]` for content gating with conditions)
+		- Visibility shortcodes (`[arraysubs_visibility]` for logged-in/logged-out content)
+		- Access behavior during pause states (none, limited, or full access)
 
 - Checkout and Payments
 	- Subscription Checkout
-		- Subscription checkout flow
-		- One-click checkout and cart behavior
-		- Trials and account-creation behavior
+		- Subscription checkout flow (classic checkout and Block Checkout / Store API support)
+		- Cart validation rules (mixed cart, one per customer, one per product, different billing cycles, one trial per customer)
+		- One-click checkout behavior (direct to checkout, cart clearing)
+		- Trials and account-creation behavior (auto-create account, payment method requirement)
+		- Plan switching at checkout (auto-migration for upgrade/downgrade/crossgrade)
+		- Checkout subscription summary display (trial length, signup fee, recurring amount, different-renewal-price tiers)
 	- Automatic Payments *(Pro)*
-		- Gateway-based recurring billing
-		- Payment method lifecycle and customer updates
+		- Gateway overview and architecture (ArraySubs-managed vs gateway-managed billing)
+		- Stripe gateway (PaymentIntents, SetupIntents, Checkout Sessions, SCA/3D Secure, card auto-update, dispute handling)
+		- PayPal gateway (Billing Agreements API, PayPal-managed schedule, Smart Payment Buttons)
+		- Paddle gateway (Merchant of Record, Paddle.js overlay, automatic tax/VAT handling, native pause/resume)
+		- Gateway capability comparison matrix
+		- Payment method lifecycle and customer updates (token storage, card on file, expiry notices)
 		- Auto-renew controls and manual fallback flow
+		- Webhook management (webhook URL configuration, event routing, event log)
+		- Gateway Health Dashboard (gateway status cards, subscription counts, webhook event log, pagination)
 	- Checkout Builder *(Pro)*
-		- Builder overview and checkout structure
-		- Fields, sections, and layouts
-		- Checkout Builder settings and frontend behavior
+		- Builder overview and multistep checkout (single-step vs multi-step navigation)
+		- Standard input fields (text, number, email, phone, select, multi-select, textarea, checkbox, toggle)
+		- Advanced input fields (upload, image select, grid select, color picker, calendar, date, datetime, time, date range)
+		- Layout fields (heading, section with columns, paragraph, alert, coupon/notices area, order info/payment, order notes, billing/shipping address, product table)
+		- Locked fields (billing email, first name, last name, country)
+		- Conditional field visibility (show/hide based on other field values)
+		- Section columns (1–3 column layouts)
+		- Design panel (color scheme, container width, border radius, spacing, step position, step indicator style)
+		- Checkout Builder settings (copy to subscription/renewal orders, show on admin/customer, upload settings)
 
 - Billing and Renewals
 	- Renewal Operations
-		- Automatic renewals
-		- Renewal synchronization
-		- Renewal invoices and due dates
-	- Recovery and Grace Flows
-		- Grace period timeline
-		- On-hold handling and overdue renewals
-		- Skip and pause behavior in the billing timeline
-	- Renewal Communication
-		- Upcoming renewal reminders
+		- Automatic renewals (renewal processor, invoice creation, payment processing)
+		- Renewal synchronization (sync types: monthly/weekly/yearly, sync day, proration at checkout)
+		- Renewal invoices and due dates (invoice generation timing, hours before due)
+		- Different renewal price (price changes after N payments)
+	- Trial Management
+		- Trial start, conversion to paid, and auto-downgrade on trial expire
 		- Trial-ending reminders
+		- One trial per customer enforcement
+	- Recovery and Grace Flows
+		- Grace period timeline (active grace days → on-hold grace days → cancellation)
+		- On-hold handling and overdue renewals (overdue checker, scheduled status transitions)
+		- Skip and pause behavior in the billing timeline (date shifting, renewal blocking)
+	- Renewal Communication
+		- Upcoming renewal reminders (configurable days-before)
+		- Renewal invoice emails
 		- Expiring-soon reminders
 
 - Retention, Cancellation, and Refunds
 	- Cancellation Setup
-		- Immediate vs end-of-term cancellation
-		- Cancellation reasons
-		- Retention Flow page
+		- Immediate vs end-of-term cancellation setting
+		- Cancellation reasons (require reason toggle, predefined reasons list, custom reasons)
+		- Retention Flow admin page (reason management and offer configuration)
 	- Retention Offers
-		- Discount offer
-		- Pause offer
-		- Downgrade offer
-		- Contact Support offer
+		- Discount offer (percentage, cycle count, eligibility conditions: subscription age, value range, customer spend, remaining days, trigger reasons)
+		- Pause offer (duration, eligibility conditions, trigger reasons)
+		- Downgrade offer (plan suggestion, eligibility conditions, trigger reasons)
+		- Contact Support offer (support URL, eligibility conditions, trigger reasons)
+		- Offer acceptance flow and subscription updates
+	- Retention Analytics
+		- Summary metrics (total cancellations, churn rate, avg subscription age, avg payments, offers shown/accepted, retained revenue)
+		- Churn reasons chart (breakdown by reason)
+		- Retention offer chart (shown vs accepted vs declined by type)
+		- Trend chart (time-series cancellation and retention data)
+		- Activity logs (paginated, filterable by event type, date range, product)
 	- Refund Management
-		- Refund settings
-		- Customer-visible refund history
-		- Store credit outcomes *(Pro)*
+		- Refund settings (cancellation behavior: immediate/end-of-period/none, auto gateway refund, prorated refunds, minimum amount)
+		- Subscription behavior after full refund (auto-cancel, unschedule future actions)
+		- Customer-visible refund history in related orders
+		- Store credit outcomes (refund-to-credit integration) *(Pro)*
 
-- Advanced Analytics
-	- Subscription Performance *(Pro)*
-		- Overview dashboard and leaderboards
-		- Revenue analytics
-		- Orders analytics
-	- Customer and Product Insights *(Pro)*
-		- Customer analytics
-		- Product and variation analytics
-		- Member Insight
+- Advanced Analytics *(Pro)*
+	- Subscription Performance
+		- Overview dashboard (performance cards: active subscriptions, MRR, new subscriptions, churned, churn rate, trial conversion rate, renewal revenue, revenue at risk, ARPU, retention saves)
+		- Performance charts (MRR trend, net growth, churn rate, trial conversions, active count, renewal revenue — with interval granularity: day/week/month/quarter/year)
+	- WooCommerce Analytics Extension
+		- Order type classification (Initial Sign, Subs Renew, Subs Upgrade, Subs Downgrade, Subs Cross, Other)
+		- Custom type filter in WC Analytics Orders report
+		- Subscription products only filter
+		- Revenue report extensions (subscription total, subscription count, active subscription amount)
+		- Products, variations, and customers report extensions
 	- Retention and Operational Insights
-		- Retention analytics
-		- Cancellation reasons and offer performance
-		- Scheduled-job and audit visibility
+		- Retention analytics (linked to Retention Analytics under Retention topic)
+		- Member Insight (linked to Manage Members topic)
+
+- Emails and Notifications
+	- Email Overview
+		- How ArraySubs emails work (WooCommerce email system integration)
+		- Email enable/disable settings (per-email toggles in General Settings)
+		- Email placeholders reference (site, customer, subscription, billing, order, credit placeholders)
+		- Email templates (HTML and plain-text variants)
+	- Customer Emails
+		- New subscription, trial started, trial converted
+		- Renewal reminder, renewal invoice, payment successful, payment failed
+		- Subscription on-hold, cancelled, expired, reactivated
+		- Auto-downgrade notification
+		- Retention discount accepted
+		- Card expiring notice *(Pro)*, SCA authentication required *(Pro)*
+	- Admin Emails
+		- Admin new subscription, admin payment failed, admin subscription cancelled
+	- Store Credit Emails *(Pro)*
+		- Credit added, credit used, credit expiring, credit expired
 
 - Profile Builder and My Account Customization
 	- Profile Builder
-		- Profile Form
-		- Custom profile fields
-		- Customer account data collection
+		- Profile Form settings page
+		- Custom profile fields (field types: text, textarea, select, date, checkbox, file upload; properties: label, key, placeholder, help text, required, options, file limits)
+		- Avatar settings (enable/disable, max file size, allowed types, Gravatar fallback)
+		- Customer account data collection (My Account edit-account integration, drag-and-drop avatar upload)
+		- Admin user profile fields display
 	- My Account Customization
-		- My Account editor
-		- Menu order, labels, and custom pages
-		- Feature page placement and portal navigation strategy
+		- My Account editor (reorder, rename, hide/show menu items)
+		- Custom endpoint pages (add linked content pages without code)
+		- Menu position configuration and navigation strategy
+		- Feature page and store credit page placement *(Pro)*
 	- Shortcodes and Frontend Display
-		- Account and member shortcodes
-		- Restriction and visibility use cases
+		- Account shortcodes (`[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`)
+		- Visibility shortcode (`[arraysubs_visibility]` for logged-in/logged-out content)
+		- Restriction shortcode (`[arraysubs_restrict]` for subscription-based content gating)
+		- Shortcodes reference page in admin (catalog of all available shortcodes with examples and attributes)
 
 - Audits, Logs, and Troubleshooting
 	- Audit and Log Screens
-		- Activity Audits *(Pro)*
-		- Scheduled-Job Logs *(Pro)*
-		- Gateway Logs *(Pro)*
+		- Activity Audits (filterable by author role, entity type, date range, search; entity types: subscription, member, product, order, coupon, email, settings) *(Pro)*
+		- Audit logging settings (per-entity toggles: product, coupon, email, settings changes) *(Pro)*
+		- Scheduled-Job Logs (execution status, job hook, group, arguments, errors, related subscription) *(Pro)*
+		- Gateway Logs / Gateway Health Dashboard (gateway status cards, webhook event log, subscription counts, last webhook timestamp) *(Pro)*
 	- Troubleshooting Guides
 		- Renewal failures and billing issues
 		- Portal action failures
 		- Access-rule conflicts
 		- Payment method and shipping update issues
 
+- Help and Support
+	- Help page (contact information and support channel)
+
 ## notes for content production
 
 - Keep the hub at a **maximum 3-level hierarchy** when creating real pages.
-- Keep **Manage Subscription Products**, **Advanced Analytics**, **Manage Members**, and **Customer Portal** as dedicated top-level topics.
+- Keep **Manage Subscription Products**, **Advanced Analytics**, **Manage Members**, **Customer Portal**, and **Store Credit** as dedicated top-level topics.
 - Treat **Retention Flow**, **Plan Switching**, **Skip & Pause**, **Refunds**, **Checkout Builder**, **Feature Manager**, **Store Credit**, and **Automatic Payments** as module-owned documentation areas, not shared settings chapters.
+- **Emails and Notifications** is a new dedicated top-level topic — the codebase has 16 customer emails, 3 admin emails, and 4 store credit emails, each with enable/disable toggles, subject/body customization, WooCommerce email settings integration, and a full placeholder system.
+- **Store Credit** is elevated to a top-level topic — it is a full Pro module with management UI, transaction history, settings, purchase product type, expiration, 4 email types, and refund-to-credit integration.
+- **Retention Analytics** is placed under the Retention topic rather than Advanced Analytics, since its data is specific to the cancellation/retention flow.
+- **WooCommerce Analytics Extension** is a distinct subtopic under Advanced Analytics — it extends 5 native WC report screens with subscription-specific filters and metrics.
+- The **HideProductPage** Pro feature directory exists but contains no code — it is not documented (placeholder for future).
 - Use *(Pro)* badges anywhere the topic depends on `arraysubspro`.
+- The **Checkout Builder** section is significantly expanded — the codebase supports 27 field types (9 standard input, 9 advanced input, 9 layout), multistep navigation, a full design panel, conditional visibility rules, and per-address field customization.
+- The **Gateway** documentation should include a capability comparison matrix across Stripe, PayPal, and Paddle (trials, pause, card auto-update, retention offers, disputes, billing ownership, etc.).
