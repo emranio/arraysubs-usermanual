@@ -21,13 +21,13 @@ Use this order for most documentation pages:
 2. **One-line summary**
 3. **Overview**
 4. **When to use this**
-5. **Prerequisites**
+5. **Prerequisites (optional)**
 6. **How it works**
-7. **Real-life use cases**
+7. **Real-life use cases (optional, but try to include)**
 8. **Steps / configuration**
 9. **Settings reference**
-10. **What happens after saving**
-11. **Edge cases / important notes**
+10. **What happens after saving (optional)**
+11. **Edge cases / important notes (optional)**
 12. **Troubleshooting**
 13. **Related guides**
 14. **FAQ**
