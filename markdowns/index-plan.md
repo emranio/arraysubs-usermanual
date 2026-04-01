@@ -27,18 +27,20 @@
 
 ### Settings
 - General Settings
-	- Multiple subscriptions: allow in cart, one per customer, one per product, and auto-migration on checkout
-	- Mixed cart behavior (subscriptions alongside regular products)
-	- Checkout and trial options: account creation enforcement, one trial per customer, payment method requirement for trials
-	- Storefront button text: custom "Add to Cart" label for subscription and non-subscription products
-	- Renewal sync settings: sync type, sync day, proration method, and checkout display
-	- Grace period configuration: days active after due date, days on-hold before cancellation
+	- Multiple subscriptions: allow in cart, one per customer, auto-migration on checkout, one per product, mixed checkout, and different billing-cycle rules
+	- Button text: custom subscription "Add to Cart" label, plus optional non-subscription one-click label when one-click checkout is enabled for all items
+	- Checkout and trial options: auto account creation, one-click checkout mode, cart bypass, one trial per customer, and payment method requirement for trials
+	- Renewal sync settings: enable sync, schedule type, day/month selection, proration method, and checkout display
+	- Grace period and invoice timing: invoice lead time, days active after due date, and days on-hold before cancellation
 	- Email reminder schedule: renewal reminder days, trial-ending days, expiring-soon days
-	- Customer portal menu title, position, and customer action toggles (cancellation, suspension, reactivation, payment method change)
+	- Customer portal menu title and position
+	- Customer self-service action toggles: cancellation, suspension, reactivation, and payment method change
+	- Cancellation timing: immediate cancellation vs end-of-term cancellation
 	- Automatic-payment customer controls (auto-renew toggle permission)
 - Toolkit Settings
-	- Admin bar visibility and `wp-admin` access control with role allowlist and redirect destination
-	- WordPress login page behavior and redirect
+	- Admin bar visibility for non-admin users on the frontend
+	- `wp-admin` access control with role allowlist and redirect destination
+	- WordPress login page hiding behavior and redirect target
 	- Login as User: admin impersonation for customer experience review
 	- Multi-Login Prevention: concurrent session limits, admin exemption, forced logout via heartbeat *(Pro)*
 

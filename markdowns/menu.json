@@ -1,3 +1,8 @@
 [
+    [
+        "settings/README.md",
+        "settings/general-settings.md",
+        "settings/toolkit-settings.md"
+    ],
     "README.md"
 ]
