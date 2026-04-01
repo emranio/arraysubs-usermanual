@@ -257,6 +257,7 @@ A coaching platform has three variable subscription tiers. The merchant configur
 
 - [Before You Launch](before-you-launch.md) — Requirements, core concepts, and the full Free vs Pro feature map.
 - [First-Time Setup](first-time-setup.md) — Step-by-step installation and your first subscription product.
+- [Manage Subscription Products](../subscription-products/README.md) — Complete product configuration, plan switching, coupon integration, and more.
 
 ---
 

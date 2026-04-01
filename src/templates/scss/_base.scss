@@ -11,8 +11,8 @@
   --docs-text: #0f172a;
   --docs-text-soft: #475569;
   --docs-text-muted: #64748b;
-  --docs-primary: #f97316;
-  --docs-primary-soft: #fff1e8;
+  --docs-primary: #13a4b3;
+  --docs-primary-soft: #e6f7f9;
   --docs-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
   --docs-radius: 18px;
   --docs-radius-sm: 12px;
@@ -20,12 +20,12 @@
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --docs-heading-font: "Young Serif", Georgia, serif;
   --docs-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --docs-link: #0f5ad9;
-  --docs-code-bg: #eef2ff;
-  --docs-code-text: #312e81;
+  --docs-link: #0e8f9b;
+  --docs-code-bg: #e6f7f9;
+  --docs-code-text: #0c6b75;
   --docs-hover: rgba(15, 23, 42, 0.04);
-  --docs-blockquote-text: #7c2d12;
-  --docs-nav-current-text: #9a3412;
+  --docs-blockquote-text: #0c6b75;
+  --docs-nav-current-text: #0e7a85;
   --docs-header-bg: rgba(248, 250, 252, 0.88);
   --docs-header-border: rgba(219, 227, 239, 0.9);
 
@@ -51,15 +51,15 @@
   --docs-text: #e2e8f0;
   --docs-text-soft: #a4b0c2;
   --docs-text-muted: #6b7a8f;
-  --docs-primary: #f97316;
-  --docs-primary-soft: rgba(249, 115, 22, 0.1);
+  --docs-primary: #13a4b3;
+  --docs-primary-soft: rgba(19, 164, 179, 0.1);
   --docs-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-  --docs-link: #fb923c;
-  --docs-code-bg: rgba(249, 115, 22, 0.08);
-  --docs-code-text: #fdba74;
+  --docs-link: #3fc5d3;
+  --docs-code-bg: rgba(19, 164, 179, 0.08);
+  --docs-code-text: #5dd8e4;
   --docs-hover: rgba(255, 255, 255, 0.04);
-  --docs-blockquote-text: #fdba74;
-  --docs-nav-current-text: #fb923c;
+  --docs-blockquote-text: #5dd8e4;
+  --docs-nav-current-text: #3fc5d3;
   --docs-header-bg: rgba(11, 14, 20, 0.88);
   --docs-header-border: rgba(37, 45, 59, 0.9);
 
@@ -79,7 +79,7 @@
 // Base / Reset
 // ------------------------------------
 ::selection {
-  background: rgba(249, 115, 22, 0.18);
+  background: rgba(19, 164, 179, 0.18);
   color: var(--docs-text);
 }
 
@@ -119,7 +119,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid rgba(249, 115, 22, 0.35);
+  outline: 3px solid rgba(19, 164, 179, 0.35);
   outline-offset: 2px;
 }
 

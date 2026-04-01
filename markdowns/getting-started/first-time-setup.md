@@ -275,6 +275,7 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 
 - [Before You Launch](before-you-launch.md) — Requirements, core concepts, and feature map.
 - [Essential Daily Workflows](essential-daily-workflows.md) — How the lifecycle works day to day and what to verify before going live.
+- [Create and Configure Subscription Products](../subscription-products/create-and-configure.md) — Detailed guide to all subscription billing fields, trials, signup fees, and different renewal pricing.
 
 ---
 

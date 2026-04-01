@@ -10,5 +10,13 @@
         "settings/README.md",
         "settings/general-settings.md",
         "settings/toolkit-settings.md"
+    ],
+    [
+        "subscription-products/README.md",
+        "subscription-products/create-and-configure.md",
+        "subscription-products/plan-switching-and-relationships.md",
+        "subscription-products/product-experience.md",
+        "subscription-products/coupon-integration.md",
+        "subscription-products/product-lifecycle.md"
     ]
 ]
