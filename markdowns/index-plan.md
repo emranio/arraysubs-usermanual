@@ -279,67 +279,68 @@
 	- File upload rules: global enable switch, default max size, per-field max size/count, allowed type groups (image/PDF/doc), and upload-field display across order/subscription screens
 
 ### Billing and Renewals (plan)
-- Renewal Operations
-	- Automatic renewal processing: invoice generation, payment collection, and next-date advancement
-	- Renewal synchronization: sync all renewals to a specific day (monthly, weekly, yearly) with proration method
-	- Renewal invoices and due dates: invoice generated configurable hours before due date
-	- Different renewal price: price changes after N cycles
-- Recovery and Grace Flows
-	- Grace period timeline: Active → On-Hold → Cancelled with configurable day counts
-	- On-hold handling: restricted access while awaiting payment
-	- Overdue renewal detection and batch processing
-	- Payment retry and recovery flow
-	- Skip and pause behavior in the billing timeline: date advancement and grace-period interaction
-- Trial Lifecycle
-	- Trial start, trial-ending reminders, and trial conversion to paid subscription
-	- Trial conversion batch processing
-	- Auto-downgrade on trial expiry (if configured)
-- Renewal Coupon Tracking
-	- Coupons captured at checkout and stored on subscription
-	- Automatic reapplication on renewal invoices
-	- Duration control: one-time or recurring with cycle limit
-	- Usage count decrement per renewal
-- Renewal Communication
-	- Upcoming renewal reminders: configurable days before due date
-	- Trial-ending reminders: configurable days before trial expires
-	- Expiring-soon reminders: configurable days before subscription end date
-	- Payment failed follow-up notifications
+- Renewal Operations and Schedule Logic
+	- Renewal order generation cadence: hourly batch checks, configurable invoice lead time (hours or days), and the 6-hour safeguard when lead time is longer than the billing cycle
+	- Renewal collection paths: core renewal invoice creation for every renewal, manual payment fallback in core, and automatic gateway collection handoff *(Pro)* when automatic payments are active
+	- Next-date advancement and cycle counting: successful renewal payment updates last-payment data, increments completed payments, advances the next payment date, and reschedules the next renewal
+	- Renewal synchronization: global monthly/weekly/yearly sync rules, proration vs extended first period, checkout disclosure, synced subscription meta, and detail-screen sync context
+	- Different renewal price: stored subscription pricing, completed-payment threshold, and when the alternate renewal amount starts applying
+- Grace Periods, Overdue Recovery, and Customer Deferrals
+	- Grace timeline: configurable Active → On-Hold → Cancelled flow after due date, including invoice-before-due timing and overdue batch checks
+	- On-hold and recovery behavior: unpaid renewal handling, pending renewal order tracking, pay-link recovery, and reactivation after successful renewal payment
+	- Automatic-payment failure handling *(Pro)*: gateway charge attempts, auto-renew on/off behavior, manual-invoice fallback when automatic billing is unavailable, and gateway cleanup on cancellation
+	- Retry and recovery caveats: current 24-hour reschedule behavior after failed renewal attempts, immediate payment-failed email events, and the current limits of dedicated retry/follow-up automation
+	- Skip and pause behavior: skip-cycle date advancement, pause/resume scheduling, customer portal availability, and the need to verify how pause interacts with overdue/on-hold timing in real stores
+- Trial Billing Lifecycle
+	- Trial start state: trial subscriptions use next payment date as trial end and keep trial context until conversion or expiry
+	- Trial conversion batch: daily processing from trial to paid active status, next paid date calculation, and follow-on renewal scheduling
+	- Trial expiry auto-downgrade: auto-downgrade on trial expiry when configured through plan-switching settings, with billing/email implications
+	- Trial reminder current-state note: settings surface vs implemented reminder/scheduler coverage
+- Renewal Discounts and Coupon Carryover
+	- Coupon setup for subscriptions: apply-to-subscriptions flag, one-time vs recurring duration, cycle limit, and whether initial checkout counts as a cycle
+	- Checkout capture and subscription storage: how eligible checkout coupons are copied to subscription meta and shown in admin/customer views
+	- Renewal invoice reapplication: recurring discount fee added to renewal invoices, remaining cycle enforcement, and safe behavior when the original WooCommerce coupon changes or expires
+	- Gateway support caveat: manual renewals and Stripe automatic payments supported; other automatic gateways should be documented as safely skipping recurring coupon carryover
+	- Discount coexistence: coupon carryover alongside retained subscription pricing and other renewal-discount context
+- Renewal Emails, Reminders, and Operational Visibility
+	- Working renewal emails: renewal reminder, renewal invoice, payment successful, payment failed, on-hold, cancelled, expired, reactivated, trial started, trial converted, and auto-downgrade
+	- Reminder timing ownership: General Settings timing vs WooCommerce email template settings
+	- Current reminder gaps to document honestly: renewal reminder is scheduled, expiring-soon sender is stubbed, trial-ending reminder is not wired, and payment-failed follow-up is event-based rather than a separate scheduled sequence
+	- Operations and audit visibility *(Pro where relevant)*: gateway health, webhook logs, scheduled job labels, and what support teams should check during failed-renewal investigations
 
 ### Retention, Cancellation, and Refunds (plan)
-- Cancellation Setup
-	- Immediate vs end-of-term cancellation behavior
-	- Cancellation reasons: custom reason builder with add/remove/reorder
-	- Undo cancellation: reverse a scheduled end-of-term cancellation (customer and admin)
-	- Retention Flow settings page
-	- Cancellation form builder (custom form configuration)
-- Retention Offers
-	- Discount offer: percentage or fixed amount off next N renewals, configurable headline and description
-	- Pause offer: vacation mode for configurable max days with auto-resume
-	- Downgrade offer: redirect to plan switching with downgrade options
-	- Skip offer: skip next renewal cycle as a retention incentive
-	- Contact Support offer: redirect to support URL with configurable button text
-	- Offer trigger reasons: map specific cancellation reasons to specific offers
-	- Retention offer history tracking on subscription
-- Refund Management
-	- Refund settings: cancellation behavior (immediate, end-of-period, none), auto gateway refund, prorated refund option, and minimum amount
-	- Customer-visible refund history
-	- Store credit as refund outcome *(Pro)*
-
-### Advanced Analytics *(Pro)*
-- Overview Dashboard
-	- Performance cards: active subscription count with growth trend, monthly recurring revenue (MRR) with comparison, churn rate, trial conversion rate, and renewal revenue
-	- Time-series charts: MRR trend, net subscriber growth, churn breakdown, trial conversion rate, active count, and renewal revenue
-	- Configurable intervals: day, week, month, quarter, year
-- WooCommerce Analytics Integration
-	- Order type classification: subscription, renewal, trial, and mixed
-	- Admin order list column showing subscription order type
-	- Revenue analytics: subscription revenue attribution in WooCommerce Reports
-	- Orders analytics: filter WooCommerce orders by subscription type
-	- Product and variation analytics: subscription product performance metrics
-- Retention and Operational Insights
-	- Retention analytics: cancellation reasons, offer acceptance rates, and retention success metrics
-	- Retention analytics custom database table for event logging
-	- Data backfilling for retroactive order classification and analytics history
+- Cancellation Workflows
+	- Customer and admin cancellation entry points: My Account cancel flow, subscription-detail quick actions, and cancellable-status rules
+	- Immediate cancellation vs scheduled end-of-period cancellation using the waiting-cancellation state and scheduled cancel date
+	- Cancellation reason capture: required reason setting, reusable reason list, and extra free-text detail for “Other” style responses
+	- Undo scheduled cancellation for both customers and admins before the scheduled cancellation date passes
+	- Subscription-level cancellation details: cancelled date, scheduled date, cancelled-by context, reason label/details, and retention-history summary on the subscription detail screen
+- Retention Flow Settings
+	- Dedicated **Retention Flow** admin page for cancellation reasons and retention-offer configuration
+	- Cancellation reason management: add/remove/reorder reasons and control whether a reason is required
+	- Retention offers master switch plus per-offer enable/disable states
+	- Currently implemented merchant-facing offer types: Discount, Pause, Downgrade, and Contact Support
+	- Trigger-reason mapping plus configurable headline/description/button text per offer
+	- Documentation caution: backend form-config support exists, but the current merchant UI is centered on reasons and offer settings rather than a full visual cancellation-form builder
+- Retention Offer Outcomes and Cross-Feature Handoffs
+	- Discount offer: percentage discount applied to the next N renewals, subscription-detail discount visibility, and remaining-cycle tracking
+	- Pause offer: temporary on-hold / vacation flow with auto-resume, with deep operational detail cross-linked to **Skip & Pause**
+	- Downgrade offer: handoff into configured downgrade targets and **Plan Switching** proration/switch rules
+	- Contact Support offer: redirect to a merchant-defined support URL with custom CTA text
+	- Offer shown / accepted / declined tracking on the subscription plus retention-event logging for later analytics/reporting
+	- Do not treat a standalone “Skip retention offer” as a first-class manual topic yet; the current product exposes skip primarily through the separate **Skip & Pause** workflow rather than the main Retention Flow settings UI
+	- Gateway caveat for docs: retention discount renewal adjustments are currently called out in the UI as supported for manual payments and Stripe, with PayPal/Paddle limitations to explain clearly
+- Refund Settings and Admin Workflows
+	- **Refunds** settings screen: what happens to the subscription after a full refund (cancel immediately, cancel at end of period, or no auto-cancel)
+	- Automatic gateway-refund toggle and fallback to manual WooCommerce refund handling when gateway refunds are disabled or unsupported
+	- Prorated refund coverage: preview, unused-days calculation, eligibility checks, and minimum refund amount threshold
+	- Admin refund workflows tied to WooCommerce orders: full refund, partial refund, prorated refund, and refund-status checks from the subscription side
+	- Refund logging in subscription notes and admin order/subscription history, including total refunded and per-refund breakdowns
+- Customer Refund Visibility and Pro Credit Outcome
+	- Customer-visible refund history through the subscription view / related-orders experience, with refunded amounts and refund reasons where available
+	- Cross-link the admin subscription detail and WooCommerce order screens for merchant troubleshooting instead of duplicating the same refund tables in multiple manual sections
+	- **Refund as Store Credit** option on the WooCommerce order refund workflow *(Pro)*
+	- Store-credit refund balance impact, transaction logging, and customer-facing history should cross-link to **Store Credit** instead of being documented twice *(Pro)*
 
 ### Profile Builder and My Account Customization
 - Profile Builder
@@ -361,6 +362,23 @@
 	- `[arraysubs_visibility]`: conditional content wrapper (show for logged_in or logged_out, fallback)
 	- `[arraysubs_buy_credits]`: store credit purchase form *(Pro)*
 	- Admin Shortcodes reference page with availability badges (Free/Pro)
+
+
+### Advanced Analytics *(Pro)*
+- Overview Dashboard
+	- Performance cards: active subscription count with growth trend, monthly recurring revenue (MRR) with comparison, churn rate, trial conversion rate, and renewal revenue
+	- Time-series charts: MRR trend, net subscriber growth, churn breakdown, trial conversion rate, active count, and renewal revenue
+	- Configurable intervals: day, week, month, quarter, year
+- WooCommerce Analytics Integration
+	- Order type classification: subscription, renewal, trial, and mixed
+	- Admin order list column showing subscription order type
+	- Revenue analytics: subscription revenue attribution in WooCommerce Reports
+	- Orders analytics: filter WooCommerce orders by subscription type
+	- Product and variation analytics: subscription product performance metrics
+- Retention and Operational Insights
+	- Retention analytics: cancellation reasons, offer acceptance rates, and retention success metrics
+	- Retention analytics custom database table for event logging
+	- Data backfilling for retroactive order classification and analytics history
 
 ### Audits, Logs, and Troubleshooting
 - Audit and Log Screens
