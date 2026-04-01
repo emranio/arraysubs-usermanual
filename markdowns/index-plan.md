@@ -171,24 +171,85 @@
 	- WooCommerce email coverage: credit added, credit used, credit expiring soon, and credit expired
 	- Cross-links to existing **Customer Portal**, **Manage Members**, and **Refund Management** docs so Store Credit owns the deep detail without duplicating shared flows
 
-### Member Access and Restriction Rules (plan)
-- Access Rules
-	- Role Mapping: assign WordPress roles based on subscription status and product; first-match evaluation order
-	- URL Rules: pattern-based URL access control with redirect or custom message
-	- Post Type Rules: restrict custom post types and taxonomy terms by membership
+### Member Access and Restriction Rules (done)
+- Ownership, Scope, and Cross-Plugin Boundaries
+	- Core **Members Access** module owns role mapping, URL restrictions, post/content restriction, discount rules, ecommerce restriction rules, download rules, and the `[arraysubs_restrict]` shortcode
+	- Core **Member Shortcodes** owns `[arraysubs_visibility]`, `[arraysubs_login]`, `[arraysubs_logout]`, and `[arraysubs_user]`; this topic should clearly distinguish simple login-state visibility from full membership gating
+	- Pro extensions to cross-link clearly: **Login Limit / Multi-Login Prevention** *(Pro)*, **Feature Manager** entitlement-based conditions *(Pro)*, and **Redirect Product Page** product-level redirect/404 behavior *(Pro)*
+	- Keep **admin bar / wp-admin / hidden wp-login** configuration details under **Toolkit Settings**, but cross-link here where they affect member-access workflows
+- Role Mapping and Member State Automation
+	- Automatic role assignment and removal based on subscription lifecycle events and plan switches
+	- Rule matching behavior, overlapping-rule caveats, and how multiple matching role rules affect the same user
+	- On-hold behavior per rule (`keep` vs `remove`) and fallback roles after cancellation or expiry
+	- Third-party compatibility angle: using subscription-driven WordPress roles for LMS, community, or protected-content plugins
+- Content, URL, and Post-Type Restriction Rules
+	- URL Rules: exact, prefix, contains, and regex pattern matching; exclusions; redirect, login, 403, and message actions
+	- Content/Post Rules: restrict posts, pages, CPT entries, and taxonomy terms by membership conditions
+	- Archive/search visibility behavior for restricted content and how hidden content differs from blocked content
+	- Rule-level scheduled access / drip timing for pages, sections, and gated resources
+	- Default redirect URL, default restriction message, and login requirement behavior
 - Commerce and Benefit Rules
-	- Discount Rules: product discounts for members with condition-based eligibility
-	- Ecommerce Rules: hide products or categories, prevent purchases, tier-based product access
-	- Download Rules: file-level digital download gating by membership
-- Rule Conditions and Logic
-	- Condition builder: AND/OR operators with multiple condition types
-	- Condition types: subscription status, plan/product, subscription duration, purchase history, customer role, and custom hooks
-	- Default redirect URL, restriction message, and login requirement
-- Session and Frontend Controls
-	- Login Limit: concurrent session limits with role-based configuration *(Pro)*
-	- Restriction shortcodes: `[arraysubs_visibility]` for conditional content display
-	- Access behavior during pause and on-hold states
-	- Cache compatibility mode 
+	- Discount Rules: member-only discounts with condition-based eligibility, stacking behavior, and product/cart targeting
+	- Ecommerce Rules: hide products or categories, return 404, redirect to login/page, or block purchase while preserving WooCommerce Store API compatibility
+	- Download Rules: gated files in **My Account > Downloads**, download limits, reset-on-renewal behavior, and secure file delivery
+	- Plan-switching and storefront implications: related products, upsells, cross-sells, widgets, and product API responses
+	- Pro cross-links: entitlement-driven access through **Feature Manager** and premium product-page redirect behavior through **Redirect Product Page**
+- Rule Conditions, Logic, and Access Timing
+	- Condition builder with nested **AND/OR** groups and mixed rule types
+	- Condition types to document precisely: subscription status, active subscription by product, subscription variation, purchased product, purchased variation/group, lifetime spend, WordPress role, feature value, and hook/extensibility-based conditions
+	- Schedule/drip controls: delayed unlocks after a qualifying subscription start date, supported units, and “available later” style scenarios
+	- Explain that some earlier outline ideas need refinement: access behavior is mostly driven by chosen statuses/conditions, while pause-state behavior should be treated as a cross-feature note rather than a standalone access engine
+- Shortcodes and Frontend Visibility
+	- `[arraysubs_restrict]`: full membership/content gating shortcode with status, product, purchase, feature, spend, role, redirect, message, login requirement, and admin-override options
+	- `[arraysubs_visibility]`: lightweight logged-in / logged-out wrapper only — not a substitute for subscription restriction logic
+	- Supporting auth/account shortcodes to cross-link: `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
+	- Best-practice guidance on when to use shortcode gating versus rule-based URL / post / ecommerce restrictions
+- Operational Notes, Edge Cases, and Documentation Cautions
+	- On-hold handling is explicit in role mapping, but broader member access during on-hold / pause should be documented as behavior shaped by rule conditions and related lifecycle settings, not as a separate dedicated rule type
+	- The **cache compatibility** setting exists in the Members Access settings payload, but it should be documented carefully as an advanced/troubleshooting item unless stronger behavioral evidence is verified during manual writing
+	- This topic should avoid duplicating full **Toolkit Settings**, **Feature Manager**, **Shortcodes**, and **Redirect Product Page** docs; use cross-links where the feature boundary is clearer than the screen boundary
+- Real-Life Use Cases and Scenario Playbooks *(very important — make this a large dedicated subtopic)*
+	- Content Membership Sites
+		- Premium tutorial library: active/trial subscribers can read full lessons, while guests see teaser text plus upgrade CTA
+		- Dripped learning hub: lesson access unlocks after 7, 30, or 90 days from subscription start
+		- Archived resource vault: only long-term or high-value members unlock legacy content collections
+		- Hybrid blog model: public articles remain open, but premium sections inside articles are gated with `[arraysubs_restrict]`
+	- Community, Coaching, and LMS Sites
+		- Membership role mapping feeds forum, LMS, or community plugins that already depend on WordPress roles
+		- Coaching portal protection: `/members/` or `/clients/` URL sections require an active plan and redirect non-members to the signup page
+		- Course bonus access: buyers of a one-time course plus an active subscription unlock advanced materials
+		- Annual-plan perks: only a specific subscription variation unlocks a mastermind area or VIP community board
+	- Ecommerce and Wholesale Use Cases
+		- Members-only catalog: selected products/categories disappear from shop pages for non-members and cannot be purchased through classic or Store API flows
+		- Wholesale / reseller program: approved subscribers get role-based pricing and restricted wholesale categories
+		- Subscriber discounts: active members get automatic discounts on merchandise, event tickets, or upsells without separate coupon entry
+		- Loyalty unlocks: customers who spent above a threshold gain access to premium bundles or discounted add-ons
+		- Early-access product drops: members see launch products or private categories before the public release
+	- Digital Downloads and Resource Delivery
+		- Monthly asset club: subscribers receive downloadable templates, presets, or PDFs through My Account downloads
+		- Metered download membership: members can download up to a fixed number of resources per month, week, or year
+		- Renewal-based reset model: download allowances refresh automatically after successful renewal payments
+		- Staggered file release: new member files unlock on a delayed schedule instead of immediately on signup
+	- SaaS, Feature Entitlements, and Productized Services *(Pro cross-links where needed)*
+		- SaaS plan gating: members unlock documentation, dashboards, or workflows based on **Feature Manager** values rather than hardcoded product IDs
+		- Usage-tier access: customers with enough feature quota or entitlement value unlock advanced support, storage, or API content
+		- Premium upsell journeys: non-members landing on premium product pages are redirected to a comparison or upgrade page *(Pro)*
+		- Mixed plan bundles: any one of several qualifying plans grants access to the same feature set, content zone, or product family
+	- Membership Operations and Support Workflows
+		- Graceful on-hold handling: merchants choose whether roles stay in place during billing problems or are removed immediately
+		- Clean frontend experience: customers are redirected away from `wp-admin`, shown simplified login paths, and hidden from the admin bar through Toolkit cross-links
+		- Single-login enforcement for schools, agencies, or internal training portals where account sharing must be reduced *(Pro)*
+		- Membership migration projects: replace manual user-role management with subscription-driven access rules and role sync
+		- Support-team troubleshooting: explain how to diagnose “why can this customer see this page/product/download?” using rule conditions, statuses, overlaps, and related entitlement data
+	- Strategic Scenario Sets to Expand During Manual Writing
+		- Private podcast or newsletter archive
+		- Agency client portal with tiered resources
+		- Certification renewal or alumni-only materials
+		- Church / nonprofit donor-member perks area
+		- Fitness membership with phased workout release
+		- Creator community with VIP Q&A archives and template packs
+		- B2B partner portal with reseller pricing and hidden categories
+		- Software maintenance club with gated downloads, patch notes, and upgrade discounts
 
 ### Checkout and Payments - (done)
 - Subscription Checkout
@@ -217,7 +278,7 @@
 	- Data persistence and display settings: copy custom checkout fields to subscriptions and renewal orders, show saved values in admin order view, customer order view, and subscription detail
 	- File upload rules: global enable switch, default max size, per-field max size/count, allowed type groups (image/PDF/doc), and upload-field display across order/subscription screens
 
-### Billing and Renewals
+### Billing and Renewals (plan)
 - Renewal Operations
 	- Automatic renewal processing: invoice generation, payment collection, and next-date advancement
 	- Renewal synchronization: sync all renewals to a specific day (monthly, weekly, yearly) with proration method
@@ -244,7 +305,7 @@
 	- Expiring-soon reminders: configurable days before subscription end date
 	- Payment failed follow-up notifications
 
-### Retention, Cancellation, and Refunds
+### Retention, Cancellation, and Refunds (plan)
 - Cancellation Setup
 	- Immediate vs end-of-term cancellation behavior
 	- Cancellation reasons: custom reason builder with add/remove/reorder

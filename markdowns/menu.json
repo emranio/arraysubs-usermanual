@@ -56,5 +56,13 @@
         "store-credit/credits-in-renewals-checkout-and-refunds.md",
         "store-credit/customer-portal-and-emails.md"
     ],
+    [
+        "member-access/README.md",
+        "member-access/role-mapping-and-member-state.md",
+        "member-access/content-url-and-post-restrictions.md",
+        "member-access/commerce-rules-discounts-and-downloads.md",
+        "member-access/conditions-shortcodes-and-access-timing.md",
+        "member-access/real-life-use-cases-and-scenario-playbooks.md"
+    ],
     "README.md"
 ]

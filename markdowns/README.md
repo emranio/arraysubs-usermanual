@@ -19,6 +19,7 @@ This documentation is written for merchants, support teams, QA reviewers, and co
 - [Customer Portal](./customer-portal/README.md) — My Account subscription pages, customer self-service actions, renewal recovery, and selected Pro portal extensions.
 - [Manage Members *(Pro)*](./manage-members/README.md) — member search, profile review, subscription summaries, and cross-screen support shortcuts.
 - [Store Credit *(Pro)*](./store-credit/README.md) — credit balances, top-up sales, refund-as-credit workflows, renewal application, and the customer-facing Store Credit page.
+- [Member Access and Restriction Rules](./member-access/README.md) — role automation, protected content and URL areas, members-only commerce, gated downloads, and scenario planning.
 
 ## How this manual is organized
 
@@ -38,10 +39,11 @@ The manual follows product ownership:
 6. Review [Customer Portal](./customer-portal/README.md) before launch so customer-facing actions and renewal recovery behave as expected.
 7. Review [Manage Members *(Pro)*](./manage-members/README.md) if your support or success team works customer-by-customer from the admin side.
 8. Review [Store Credit *(Pro)*](./store-credit/README.md) if your store uses wallet balances, refund-as-credit, or credit top-ups.
-9. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
+9. Review [Member Access and Restriction Rules](./member-access/README.md) if your store uses gated content, role-based permissions, members-only pricing, or restricted product access.
+10. Review [Toolkit Settings](./settings/toolkit-settings.md) if you manage customer-facing login or admin-access behavior.
 
 ## Scope note
 
 This hub is designed to help you move from setup to confident day-to-day operations.
 
-Advanced topics such as refunds, Member Access, Billing and Renewals, Retention and Cancellation, and other deep operational modules should continue expanding in their own dedicated sections as the manual grows.
+Advanced topics such as refunds, Billing and Renewals, Retention and Cancellation, and other deep operational modules should continue expanding in their own dedicated sections as the manual grows.
