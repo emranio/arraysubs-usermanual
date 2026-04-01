@@ -31,5 +31,11 @@
         "customer-portal/portal-pages.md",
         "customer-portal/self-service-actions.md",
         "customer-portal/payment-and-shipping.md"
+    ],
+    [
+        "manage-members/README.md",
+        "manage-members/member-lookup-and-profiles.md",
+        "manage-members/member-commerce-overview.md",
+        "manage-members/member-operations.md"
     ]
 ]

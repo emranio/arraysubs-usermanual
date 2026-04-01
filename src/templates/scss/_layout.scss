@@ -72,6 +72,7 @@
       left: 16px;
       bottom: 16px;
       max-width: none;
+      padding: 10px 8px;
       width: min(360px, calc(100vw - 32px));
       z-index: 40;
       transform: translateX(-120%);
@@ -107,7 +108,7 @@
   }
 
   .docs-header__menu-button {
-    display: inline-flex;
+    display: inline-flex !important;
   }
 }
 
