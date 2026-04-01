@@ -91,6 +91,15 @@ Automated emails for every subscription lifecycle event — configure, customize
 - [Admin Emails](emails/admin-emails.md) — 3 admin notifications: new subscription, payment failed, and subscription cancelled.
 - [Store Credit Emails](emails/store-credit-emails.md) *(Pro)* — 4 credit balance emails: added, used, expiring, and expired.
 
+## Profile Builder and My Account Customization
+
+Collect custom profile data, manage avatars, customize the My Account navigation, and use shortcodes to display user-aware content across your site.
+
+- [Overview](profile-builder/README.md) — What's included, where to find it, and quick start steps.
+- [Profile Form](profile-builder/profile-form.md) — Custom profile fields, avatar upload settings, field types, and where data appears on customer and admin screens.
+- [My Account Editor](profile-builder/my-account-editor.md) — Reorder, rename, hide menu items, and add custom endpoint pages to the WooCommerce My Account area.
+- [Shortcodes and Frontend Display](profile-builder/shortcodes.md) — All shortcodes: login/logout links, user info, visibility gating, subscription-based content restriction, and store credit purchase.
+
 ## Audits, Logs, and Troubleshooting
 
 Track every subscription action, monitor scheduled jobs and gateway health, and diagnose common problems.

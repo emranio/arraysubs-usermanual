@@ -268,7 +268,7 @@
 	- Store Credit Emails *(Pro)*
 		- Credit added, credit used, credit expiring, credit expired
 
-- Profile Builder and My Account Customization
+- Profile Builder and My Account Customization -done
 	- Profile Builder
 		- Profile Form settings page
 		- Custom profile fields (field types: text, textarea, select, date, checkbox, file upload; properties: label, key, placeholder, help text, required, options, file limits)
