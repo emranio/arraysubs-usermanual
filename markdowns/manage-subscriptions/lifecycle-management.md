@@ -424,6 +424,7 @@ A customer signs up for a 14-day trial. During the trial, they have full access.
 - [Subscription Operations](subscription-operations.md) — the admin screens for managing subscriptions
 - [Subscription Detail Cards](subscription-detail-cards.md) — what each card shows at different lifecycle stages
 - [Admin Tools and Records](admin-tools-and-records.md) — notes, order history, and export tools
+- [Customer Portal — Self-Service Actions](../customer-portal/self-service-actions.md) — what customers can do from their account: cancel, skip, pause, switch plans
 - [Settings — General Settings](../settings/general-settings.md) — grace period, email timing, and customer action configuration
 - [Subscription Products — Plan Switching](../subscription-products/plan-switching-and-relationships.md) — auto-downgrade targets
 

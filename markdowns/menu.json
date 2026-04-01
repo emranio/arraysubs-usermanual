@@ -25,5 +25,11 @@
         "manage-subscriptions/admin-tools-and-records.md",
         "manage-subscriptions/subscription-detail-cards.md",
         "manage-subscriptions/lifecycle-management.md"
+    ],
+    [
+        "customer-portal/README.md",
+        "customer-portal/portal-pages.md",
+        "customer-portal/self-service-actions.md",
+        "customer-portal/payment-and-shipping.md"
     ]
 ]
