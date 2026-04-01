@@ -5,5 +5,10 @@
         "getting-started/before-you-launch.md",
         "getting-started/first-time-setup.md",
         "getting-started/essential-daily-workflows.md"
+    ],
+    [
+        "settings/README.md",
+        "settings/general-settings.md",
+        "settings/toolkit-settings.md"
     ]
 ]

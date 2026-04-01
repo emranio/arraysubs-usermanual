@@ -132,8 +132,10 @@
 // On mobile, always show full TOC (no mini bars)
 @media (max-width: 1100px) {
   .docs-toc-panel {
-    .docs-toc-mini {
-      display: none !important;
-    }
+    display: none !important;
+  }
+
+  .docs-shell {
+    grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
   }
 }

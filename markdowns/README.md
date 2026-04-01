@@ -14,3 +14,10 @@ New to ArraySubs? Start here.
 - [Before You Launch](getting-started/before-you-launch.md) — Requirements, core concepts, subscription statuses, and the Free vs Pro feature map.
 - [First-Time Setup](getting-started/first-time-setup.md) — Install the plugins, create your first subscription product, place a test order, and verify the customer portal.
 - [Essential Daily Workflows](getting-started/essential-daily-workflows.md) — How the subscription lifecycle works, where merchants manage everything, and what to check before going live.
+
+## Settings
+
+Configure store-wide subscription behavior and administration tools.
+
+- [General Settings](settings/general-settings.md) — Subscription cart rules, checkout and trial behavior, renewal synchronization, grace periods, email reminder timing, customer portal, customer actions, cancellation timing, and automatic-payment controls.
+- [Toolkit Settings](settings/toolkit-settings.md) — Admin bar visibility, wp-admin access restriction, login page hiding, admin impersonation, and multi-login prevention.

@@ -6,10 +6,7 @@
   width: min(1400px, calc(100% - 32px));
   margin: 26px auto 0;
   display: grid;
-  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(
-      220px,
-      260px
-    );
+  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(50px, 60px);
   gap: 24px;
   align-items: start;
   position: relative;
