@@ -66,6 +66,14 @@
         "profile-builder/shortcodes.md"
     ],
     [
+        "member-access/README.md",
+        "member-access/access-rules.md",
+        "member-access/commerce-and-benefit-rules.md",
+        "member-access/content-restriction.md",
+        "member-access/session-and-frontend-controls.md",
+        "member-access/use-cases.md"
+    ],
+    [
         "audits-and-logs/README.md",
         "audits-and-logs/activity-audits.md",
         "audits-and-logs/scheduled-job-logs.md",

@@ -165,6 +165,9 @@ The first matching rule wins. If no rule matches, content is unrestricted by def
 
 ## Related Guides
 
+- [Member Access Overview](../member-access/README.md) — how the access rule system works, condition types, and rule configuration
+- [Access Rules](../member-access/access-rules.md) — Role Mapping, URL, and Post Type rule details
+- [Commerce and Benefit Rules](../member-access/commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download rule details
 - [Self-Service Actions](../customer-portal/self-service-actions.md) — customer actions that change subscription status and affect access
 - [Activity Audits](activity-audits.md) — trace status changes that may have affected access
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — how subscription status transitions work

@@ -100,6 +100,17 @@ Collect custom profile data, manage avatars, customize the My Account navigation
 - [My Account Editor](profile-builder/my-account-editor.md) — Reorder, rename, hide menu items, and add custom endpoint pages to the WooCommerce My Account area.
 - [Shortcodes and Frontend Display](profile-builder/shortcodes.md) — All shortcodes: login/logout links, user info, visibility gating, subscription-based content restriction, and store credit purchase.
 
+## Member Access and Restriction Rules
+
+Control who can access what across your site — gate content, restrict products, assign roles, offer member discounts, manage downloads, and enforce session limits.
+
+- [Overview](member-access/README.md) — How Member Access works, rule types, condition system, and section navigation.
+- [Access Rules](member-access/access-rules.md) — Role Mapping, URL Rules, and Post Type (CPT) Rules for controlling page, post, and role access.
+- [Commerce and Benefit Rules](member-access/commerce-and-benefit-rules.md) — Discount Rules, Ecommerce Rules, and Download Rules for member pricing, product restrictions, and file access.
+- [Content Restriction](member-access/content-restriction.md) — Drip-schedule access, content gating messages, per-post restrictions, defaults, and cache compatibility.
+- [Session and Frontend Controls](member-access/session-and-frontend-controls.md) — Login Limit *(Pro)*, `[arraysubs_restrict]` shortcode, `[arraysubs_visibility]` shortcode, and pause-state behavior.
+- [Real-World Use Cases](member-access/use-cases.md) — 17 practical examples: course dripping, VIP discounts, wholesale stores, tiered roles, URL gating, streaming limits, and more.
+
 ## Audits, Logs, and Troubleshooting
 
 Track every subscription action, monitor scheduled jobs and gateway health, and diagnose common problems.

@@ -145,7 +145,7 @@
 		- Processing refunds as store credit instead of gateway refund
 		- Refund eligibility checks
 
-- Member Access and Restriction Rules
+- Member Access and Restriction Rules - done
 	- Access Rules
 		- Role Mapping (subscription-to-role assignment rules)
 		- URL Rules (restrict specific URLs or URL patterns)
