@@ -36,7 +36,7 @@ The page helps you answer questions like:
 - ArraySubs core plugin activated
 - WooCommerce 8.0+ with WooCommerce Admin (included by default)
 - At least one subscription with cancellation activity for data to appear
-- The [Retention Flow](../settings/general-settings.md) configured with cancellation reasons and retention offers for full data capture
+- The [Retention Flow](../retention-and-refunds/cancellation-setup.md) configured with cancellation reasons and retention offers for full data capture
 
 ## How It Works
 
@@ -99,7 +99,7 @@ Each slice represents one cancellation reason. The chart shows:
 If no cancellation reason data exists for the selected period, the chart shows an empty state message.
 
 ```box class="info-box"
-Cancellation reasons come from the [Retention Flow](../settings/general-settings.md) configuration. If "Require Cancellation Reason" is disabled, cancellations logged without a reason appear as `not_provided` in the chart.
+Cancellation reasons come from the [Retention Flow](../retention-and-refunds/cancellation-setup.md) configuration. If "Require Cancellation Reason" is disabled, cancellations logged without a reason appear as `not_provided` in the chart.
 ```
 
 ---
@@ -240,6 +240,9 @@ A support agent investigates a customer complaint about unwanted auto-renewal. T
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards on the WC Analytics Overview.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics reports.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Status transitions that drive churn metrics.
+- [Cancellation Setup](../retention-and-refunds/cancellation-setup.md) — Configure cancellation timing and reasons that feed this analytics page.
+- [Retention Offers](../retention-and-refunds/retention-offers.md) — Configure the retention offers tracked by these metrics.
+- [Retention Use Cases](../retention-and-refunds/retention-use-cases.md) — Real-life scenarios for applying retention analytics insights.
 
 ---
 

@@ -145,6 +145,7 @@ A customer wants $25 back on their card and $25 as store credit from a $50 order
 - [Credit History](credit-history.md) — Find refund-sourced credits in the global transaction log.
 - [Emails](emails.md) — The Credit Added email notifies the customer about the refund credit.
 - [Store Credit Settings](store-credit-settings.md) — Enable the credit system that powers refund-to-credit.
+- [Refund Management](../retention-and-refunds/refund-management.md) — Complete refund policies, prorated refunds, and gateway refund configuration.
 
 ---
 

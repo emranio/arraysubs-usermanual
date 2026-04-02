@@ -344,7 +344,9 @@ This table summarizes which actions are available based on subscription status:
 ## Related Guides
 
 - [General Settings](../settings/general-settings.md) — Where you enable or disable each customer action
-- [Retention, Cancellation, and Refunds](../retention/README.md) — Full retention flow configuration and analytics
+- [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) — Full retention flow configuration, offers, analytics, and refund policies
+- [Cancellation Setup](../retention-and-refunds/cancellation-setup.md) — Immediate vs end-of-period cancellation setup and reason management
+- [Retention Offers](../retention-and-refunds/retention-offers.md) — How discount, pause, downgrade, and contact support offers work
 - [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) — How to link products for upgrade/downgrade paths
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Detailed status transition rules
 

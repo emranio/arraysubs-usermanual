@@ -429,6 +429,7 @@ A customer signs up for a 14-day trial. During the trial, they have full access.
 - [Subscription Products — Plan Switching](../subscription-products/plan-switching-and-relationships.md) — auto-downgrade targets
 - [Emails and Notifications](../emails/README.md) — which emails are triggered at each lifecycle stage
 - [Advanced Analytics](../analytics/README.md) *(Pro)* — subscription performance metrics, churn rate, and renewal revenue driven by lifecycle events
+- [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) — cancellation setup, retention offers, refund policies, and retention analytics
 
 ---
 

@@ -213,7 +213,7 @@
 		- Renewal invoice emails
 		- Expiring-soon reminders
 
-- Retention, Cancellation, and Refunds
+- Retention, Cancellation, and Refunds - done
 	- Cancellation Setup
 		- Immediate vs end-of-term cancellation setting
 		- Cancellation reasons (require reason toggle, predefined reasons list, custom reasons)

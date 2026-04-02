@@ -100,6 +100,14 @@
         "billing-and-renewals/renewal-communication.md"
     ],
     [
+        "retention-and-refunds/README.md",
+        "retention-and-refunds/cancellation-setup.md",
+        "retention-and-refunds/retention-offers.md",
+        "retention-and-refunds/retention-use-cases.md",
+        "retention-and-refunds/retention-analytics.md",
+        "retention-and-refunds/refund-management.md"
+    ],
+    [
         "audits-and-logs/README.md",
         "audits-and-logs/activity-audits.md",
         "audits-and-logs/scheduled-job-logs.md",

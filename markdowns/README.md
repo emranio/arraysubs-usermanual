@@ -137,6 +137,17 @@ How ArraySubs creates, schedules, and collects recurring payments — from the f
 - [Recovery and Grace Flows](billing-and-renewals/recovery-and-grace-flows.md) — Two-phase grace period, overdue detection, skip and pause interaction with billing, and payment recovery.
 - [Renewal Communication](billing-and-renewals/renewal-communication.md) — Renewal reminders, invoice emails, payment confirmations, failure alerts, and on-hold notifications.
 
+## Retention, Cancellation, and Refunds
+
+Reduce churn with targeted retention offers, configure cancellation policies, track retention analytics, and manage refund workflows.
+
+- [Overview](retention-and-refunds/README.md) — How the retention system works, the multi-step cancellation flow, and section navigation.
+- [Cancellation Setup](retention-and-refunds/cancellation-setup.md) — Immediate vs end-of-period cancellation, cancellation reasons, and the Retention Flow admin page.
+- [Retention Offers](retention-and-refunds/retention-offers.md) — Discount, Pause, Downgrade, and Contact Support offers — configuration, trigger reasons, eligibility, and the customer modal flow.
+- [Retention Use Cases](retention-and-refunds/retention-use-cases.md) — 18 real-life scenarios showing how subscription businesses use retention offers to save revenue and reduce churn.
+- [Retention Analytics](retention-and-refunds/retention-analytics.md) — Summary of the analytics dashboard and how it connects to your retention configuration. Full guide in the [Analytics section](analytics/retention-analytics.md).
+- [Refund Management](retention-and-refunds/refund-management.md) — Refund policies, prorated refunds, gateway refunds, full refund subscription behavior, and refund-to-store-credit *(Pro)*.
+
 ## Audits, Logs, and Troubleshooting
 
 Track every subscription action, monitor scheduled jobs and gateway health, and diagnose common problems.
