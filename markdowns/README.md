@@ -127,6 +127,16 @@ Everything about how subscriptions are purchased, billed, and collected — from
 - [Field Types Reference](checkout-and-payments/checkout-builder/field-types.md) *(Pro)* — All 27 field types: standard, advanced, and layout elements.
 - [Checkout Builder Use Cases](checkout-and-payments/checkout-builder/use-cases.md) *(Pro)* — 18 real-world examples: subscription boxes, SaaS, gyms, wine clubs, B2B, nonprofits, and more.
 
+## Billing and Renewals
+
+How ArraySubs creates, schedules, and collects recurring payments — from the first invoice to the final renewal.
+
+- [Overview](billing-and-renewals/README.md) — How the billing engine works, background jobs, billing cycle summary, and key concepts.
+- [Renewal Operations](billing-and-renewals/renewal-operations.md) — Invoice generation, manual vs automatic payment routing, renewal synchronization, different renewal pricing, and subscription expiration.
+- [Trial Management](billing-and-renewals/trial-management.md) — Trial start, conversion to paid, first renewal calculation, auto-downgrade on trial expiry *(Pro)*, and trial settings.
+- [Recovery and Grace Flows](billing-and-renewals/recovery-and-grace-flows.md) — Two-phase grace period, overdue detection, skip and pause interaction with billing, and payment recovery.
+- [Renewal Communication](billing-and-renewals/renewal-communication.md) — Renewal reminders, invoice emails, payment confirmations, failure alerts, and on-hold notifications.
+
 ## Audits, Logs, and Troubleshooting
 
 Track every subscription action, monitor scheduled jobs and gateway health, and diagnose common problems.

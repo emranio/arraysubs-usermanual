@@ -185,7 +185,9 @@ While reviewing the Customers report, a store owner notices a high-value custome
 
 ## Related Guides
 
+- [Reports Hub](reports-hub.md) — Central directory of all analytics and data screens.
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards on the Analytics Overview page.
+- [Retention Analytics](retention-analytics.md) — Churn reasons, retention offer effectiveness, and trend charts.
 - [Order List Enhancements](order-list-enhancements.md) — Type column and filters on the WooCommerce Orders list page.
 - [Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — The member profile page linked from the Customers report.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription data export.

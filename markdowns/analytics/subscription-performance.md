@@ -221,6 +221,8 @@ A SaaS store running a 14-day free trial checks the **Trial Conversions** card w
 
 ## Related Guides
 
+- [Reports Hub](reports-hub.md) — Central directory of all analytics and data screens.
+- [Retention Analytics](retention-analytics.md) — Churn reasons, retention offer effectiveness, and trend charts.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics reports.
 - [Order List Enhancements](order-list-enhancements.md) — Type columns and filters on the WooCommerce Orders page.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Status transitions that drive churn and renewal metrics.

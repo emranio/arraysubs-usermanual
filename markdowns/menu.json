@@ -49,7 +49,9 @@
     ],
     [
         "analytics/README.md",
+        "analytics/reports-hub.md",
         "analytics/subscription-performance.md",
+        "analytics/retention-analytics.md",
         "analytics/woocommerce-analytics-extension.md",
         "analytics/order-list-enhancements.md"
     ],
@@ -89,6 +91,13 @@
             "checkout-and-payments/checkout-builder/field-types.md",
             "checkout-and-payments/checkout-builder/use-cases.md"
         ]
+    ],
+    [
+        "billing-and-renewals/README.md",
+        "billing-and-renewals/renewal-operations.md",
+        "billing-and-renewals/trial-management.md",
+        "billing-and-renewals/recovery-and-grace-flows.md",
+        "billing-and-renewals/renewal-communication.md"
     ],
     [
         "audits-and-logs/README.md",

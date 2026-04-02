@@ -1,31 +1,38 @@
 # Info
-- Module: Advanced Analytics
-- Availability: Pro
-- Last updated: 2026-04-02
+- Module: Analytics & Reports
+- Availability: Shared (Free + Pro)
+- Last updated: 2025-07-27
 
-# Advanced Analytics *(Pro)*
+# Analytics & Reports
 
-> Track subscription revenue, growth, churn, and customer behavior from a single analytics hub — then drill into every WooCommerce report with subscription-aware filters and metrics.
+> Track subscription revenue, growth, churn, retention, and customer behavior across a central Reports hub and extended WooCommerce Analytics screens.
 
 ## Overview
 
-Advanced Analytics is a Pro module that adds a full subscription performance dashboard and extends five native WooCommerce Analytics reports with subscription-specific data.
+ArraySubs gives you analytics at two levels:
 
-It answers the questions every subscription merchant asks daily:
+1. **Reports Hub** (Free) — A central directory page inside the ArraySubs admin that links to every report and data screen in the ecosystem, organized by category.
+2. **Advanced Analytics** (Pro) — A full subscription performance dashboard, retention analytics, and extended WooCommerce Analytics reports with subscription-specific filters, columns, and metrics.
+
+Together they answer the questions every subscription merchant asks daily:
 
 - How much recurring revenue am I earning?
 - Are subscriptions growing or shrinking?
 - Which products drive the most renewals?
 - How many trials convert to paid?
 - Where is revenue at risk?
+- Why are customers cancelling?
+- Are retention offers working?
 
-The module has three major surfaces:
+The analytics ecosystem has five major surfaces:
 
-| Surface | Where it appears | What it shows |
-|---------|-----------------|---------------|
-| [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | 10 KPI cards, 6 time-series charts, 5 leaderboards |
-| [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Type column, type filters, subscription revenue cards, subscription-only filters, member links |
-| [Order List Enhancements](order-list-enhancements.md) | WooCommerce → Orders | Type and coupon columns, filter dropdowns, embedded report panel, order type backfill |
+| Surface | Where it appears | Availability | What it shows |
+|---------|-----------------|-------------|---------------|
+| [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 12 categories |
+| [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | Pro | 10 KPI cards, 6 time-series charts, 5 leaderboards |
+| [Retention Analytics](retention-analytics.md) | WooCommerce → Analytics → Retention | Free | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
+| [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Pro | Type column, type filters, subscription revenue cards, subscription-only filters, member links |
+| [Order List Enhancements](order-list-enhancements.md) | WooCommerce → Orders | Pro | Type and coupon columns, filter dropdowns, embedded report panel, order type backfill |
 
 All three surfaces share a unified **order type classification system** that automatically labels every WooCommerce order as one of six subscription-related types.
 
@@ -52,15 +59,18 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 ## Prerequisites
 
-- **ArraySubs Pro** plugin activated
+- **ArraySubs** (free) for the Reports Hub and Retention Analytics
+- **ArraySubs Pro** for the Subscription Performance Dashboard, WooCommerce Analytics Extension, and Order List Enhancements
 - **WooCommerce** 8.0+ with WooCommerce Admin (included by default)
 - At least one subscription product and a few orders to populate metrics
 
 ## What's in This Section
 
-- [Subscription Performance Dashboard](subscription-performance.md) — The overview page with KPI cards, charts, and leaderboards.
-- [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data.
-- [Order List Enhancements](order-list-enhancements.md) — Columns, filters, and the summary panel on the WooCommerce Orders page.
+- [Reports Hub](reports-hub.md) — The central directory page that links to every report in the ArraySubs ecosystem.
+- [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — The overview page with KPI cards, charts, and leaderboards.
+- [Retention Analytics](retention-analytics.md) — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
+- [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) *(Pro)* — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data.
+- [Order List Enhancements](order-list-enhancements.md) *(Pro)* — Columns, filters, and the summary panel on the WooCommerce Orders page.
 
 ---
 
@@ -71,13 +81,17 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 - [Store Credit Management](../store-credit/store-credit-management.md) — Credit purchase orders that appear in analytics.
 - [Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — The member detail page linked from the Customers report.
 - [General Settings](../settings/general-settings.md) — Grace periods and renewal timing that affect billing metrics.
+- [Audits & Logs](../audits-and-logs/README.md) — Scheduled job logs, activity audits, and failure diagnostics.
 
 ---
 
 ## FAQ
 
 ### Do I need to do anything to start seeing analytics data?
-No. The module begins classifying orders as soon as the Pro plugin is activated. For orders that existed before activation, use the **Compute Order Types** backfill tool on the WooCommerce Orders page — see [Order List Enhancements](order-list-enhancements.md).
+The **Reports Hub** and **Retention Analytics** are available immediately with the free plugin — no extra setup required. For the Pro analytics surfaces (Performance Dashboard, WC Analytics Extension, Order List Enhancements), the module begins classifying orders as soon as the Pro plugin is activated. For orders that existed before activation, use the **Compute Order Types** backfill tool on the WooCommerce Orders page — see [Order List Enhancements](order-list-enhancements.md).
+
+### Where is the Reports Hub?
+Navigate to **ArraySubs → Reports** in your WordPress admin sidebar. It is a free feature and available without the Pro plugin.
 
 ### Does this replace WooCommerce Analytics?
 No. It extends the existing WooCommerce Analytics screens. All native WooCommerce report features remain available alongside the subscription additions.

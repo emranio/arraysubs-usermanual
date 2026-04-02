@@ -165,7 +165,9 @@ A store owner wants a daily snapshot of their order mix. They open the Orders pa
 
 ## Related Guides
 
+- [Reports Hub](reports-hub.md) — Central directory of all analytics and data screens.
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards on the Analytics Overview page.
+- [Retention Analytics](retention-analytics.md) — Churn reasons, retention offer effectiveness, and trend charts.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Type filters and subscription metrics in WC Analytics reports.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription export and related orders.
 - [Coupon Integration](../subscription-products/coupon-integration.md) — Configuring subscription-applicable coupons.

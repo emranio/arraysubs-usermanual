@@ -165,7 +165,7 @@
 		- Visibility shortcodes (`[arraysubs_visibility]` for logged-in/logged-out content)
 		- Access behavior during pause states (none, limited, or full access)
 
-- Checkout and Payments
+- Checkout and Payments - done
 	- Subscription Checkout
 		- Subscription checkout flow (classic checkout and Block Checkout / Store API support)
 		- Cart validation rules (mixed cart, one per customer, one per product, different billing cycles, one trial per customer)
@@ -194,7 +194,7 @@
 		- Design panel (color scheme, container width, border radius, spacing, step position, step indicator style)
 		- Checkout Builder settings (copy to subscription/renewal orders, show on admin/customer, upload settings)
 
-- Billing and Renewals
+- Billing and Renewals - done
 	- Renewal Operations
 		- Automatic renewals (renewal processor, invoice creation, payment processing)
 		- Renewal synchronization (sync types: monthly/weekly/yearly, sync day, proration at checkout)
