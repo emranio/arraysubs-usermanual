@@ -111,6 +111,22 @@ Control who can access what across your site — gate content, restrict products
 - [Session and Frontend Controls](member-access/session-and-frontend-controls.md) — Login Limit *(Pro)*, `[arraysubs_restrict]` shortcode, `[arraysubs_visibility]` shortcode, and pause-state behavior.
 - [Real-World Use Cases](member-access/use-cases.md) — 17 practical examples: course dripping, VIP discounts, wholesale stores, tiered roles, URL gating, streaming limits, and more.
 
+## Checkout and Payments
+
+Everything about how subscriptions are purchased, billed, and collected — from the checkout page through recurring payment processing.
+
+- [Overview](checkout-and-payments/README.md) — Section overview, prerequisites, and quick reference.
+- [Subscription Checkout](checkout-and-payments/subscription-checkout.md) — Cart rules, one-click checkout, trial handling, plan switching at checkout, and subscription creation.
+- [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) *(Pro)* — Gateway architecture, billing models, webhook pipeline, and capability comparison.
+- [Stripe](checkout-and-payments/automatic-payments/stripe.md) *(Pro)* — Setup, PaymentIntents, SCA/3DS, card auto-update, and dispute handling.
+- [PayPal](checkout-and-payments/automatic-payments/paypal.md) *(Pro)* — Billing Agreements, Smart Payment Buttons, limitations, and webhook setup.
+- [Paddle](checkout-and-payments/automatic-payments/paddle.md) *(Pro)* — Merchant of Record, catalog sync, native pause, automatic tax, and webhook setup.
+- [Auto-Renew and Manual Fallback](checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md) *(Pro)* — Customer toggle, manual invoice collection, and payment method requirements.
+- [Gateway Health Dashboard](checkout-and-payments/automatic-payments/gateway-health-dashboard.md) *(Pro)* — Gateway status cards, webhook event log, and troubleshooting.
+- [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) *(Pro)* — Builder interface, multi-step checkout, sections, design panel, data flow, and settings.
+- [Field Types Reference](checkout-and-payments/checkout-builder/field-types.md) *(Pro)* — All 27 field types: standard, advanced, and layout elements.
+- [Checkout Builder Use Cases](checkout-and-payments/checkout-builder/use-cases.md) *(Pro)* — 18 real-world examples: subscription boxes, SaaS, gyms, wine clubs, B2B, nonprofits, and more.
+
 ## Audits, Logs, and Troubleshooting
 
 Track every subscription action, monitor scheduled jobs and gateway health, and diagnose common problems.

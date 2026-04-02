@@ -74,6 +74,23 @@
         "member-access/use-cases.md"
     ],
     [
+        "checkout-and-payments/README.md",
+        "checkout-and-payments/subscription-checkout.md",
+        [
+            "checkout-and-payments/automatic-payments/README.md",
+            "checkout-and-payments/automatic-payments/stripe.md",
+            "checkout-and-payments/automatic-payments/paypal.md",
+            "checkout-and-payments/automatic-payments/paddle.md",
+            "checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md",
+            "checkout-and-payments/automatic-payments/gateway-health-dashboard.md"
+        ],
+        [
+            "checkout-and-payments/checkout-builder/README.md",
+            "checkout-and-payments/checkout-builder/field-types.md",
+            "checkout-and-payments/checkout-builder/use-cases.md"
+        ]
+    ],
+    [
         "audits-and-logs/README.md",
         "audits-and-logs/activity-audits.md",
         "audits-and-logs/scheduled-job-logs.md",
