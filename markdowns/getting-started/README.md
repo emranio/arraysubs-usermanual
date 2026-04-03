@@ -16,5 +16,11 @@ Requirements, installation, WooCommerce prerequisites, core concepts (products, 
 ### [First-Time Setup](first-time-setup.md)
 A step-by-step checklist: configure your store, create your first subscription product, place a test order, and review the customer portal.
 
+### [Easy Setup Wizard](easy-setup-wizard.md)
+A 9-step guided interview that configures the most important subscription settings for you — choose your business type and let the wizard do the rest.
+
+### [Import / Export Settings](import-export-settings.md)
+Download your full ArraySubs configuration as a JSON file or restore a previously exported configuration with granular section-level control.
+
 ### [Essential Daily Workflows](essential-daily-workflows.md)
 How the subscription lifecycle works from checkout to renewal, where merchants manage everything, and what to verify before going live.
