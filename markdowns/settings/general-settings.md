@@ -1,7 +1,7 @@
 # Info
 - Module: General Settings
 - Availability: Shared (one section requires Pro)
-- Last updated: 2026-04-01
+- Last updated: 2026-04-03
 
 # General Settings
 
@@ -187,9 +187,20 @@ Prevents customers from signing up for multiple free trials of the same product.
 
 ## Sync Renewals
 
-Renewal synchronization aligns all subscription renewals to the same calendar day. Instead of each subscription renewing on its own anniversary, every subscriber renews on a predictable date — for example, the 1st of every month.
+Renewal synchronization lets you standardize the next renewal date for **new** subscriptions so they bill on one shared calendar day instead of each customer's anniversary date. This is best for stores that want one predictable billing cadence — for example, a monthly box that always renews on the 1st, a weekly route that always renews on Monday, or an annual membership that always renews on the same calendar date.
 
-For an in-depth explanation of how synchronization works, see [Billing and Renewals — Renewal Synchronization](../billing/renewal-synchronization.md) (coming soon).
+This is a **store-wide** setting. Use it only when the subscriptions you want to align share the cadence you choose here. Existing subscriptions are not moved automatically.
+
+For the operational flow behind sync, see [Renewal Operations](../billing-and-renewals/renewal-operations.md).
+
+### Supported renewal paths
+
+| Renewal path | Sync support | Notes |
+|---|---|---|
+| **Manual renewals** | Yes | ArraySubs controls the next payment date locally. |
+| **Stripe automatic renewals** **(Pro)** | Yes | Stripe follows the ArraySubs-managed schedule, so the synced date stays in ArraySubs. |
+| **Paddle automatic renewals** **(Pro)** | Yes, for new synced subscriptions | ArraySubs aligns Paddle's next billing date when the subscription is created. |
+| **PayPal automatic renewals** **(Pro)** | No | PayPal keeps its own remote billing schedule, so shared sync dates are not supported. |
 
 ### Enable Renewal Synchronization
 
@@ -200,7 +211,7 @@ For an in-depth explanation of how synchronization works, see [Billing and Renew
 When enabled, all **new** subscriptions will have their next renewal date shifted to the configured sync day. Existing subscriptions are not moved automatically.
 
 ```box class="info-box"
-When enabled, all new subscriptions will be synchronized to renew on the same day. This makes it easier to manage billing and forecast revenue.
+Use this when you want one predictable billing date for eligible subscriptions. It is especially useful for fulfillment-heavy stores, finance-friendly billing calendars, or programs that start customers in batches.
 ```
 
 ### Sync Schedule
@@ -217,6 +228,10 @@ When enabled, all new subscriptions will be synchronized to renew on the same da
 | **Weekly (same day each week)** | All renewals land on a chosen day of the week |
 | **Yearly (same day each year)** | All renewals land on a chosen month and day of the year |
 
+```box class="info-box"
+Choose the cadence you want to standardize across new synced subscriptions. Monthly works best for monthly billing, weekly for weekly delivery or service plans, and yearly for annual programs that share one renewal date.
+```
+
 ### Day of Month
 
 | | |
@@ -225,6 +240,10 @@ When enabled, all new subscriptions will be synchronized to renew on the same da
 | **Visible when:** Sync Schedule is **Monthly** | |
 
 The day of the month on which all monthly subscriptions renew. The maximum is the 28th to avoid issues with shorter months.
+
+```box class="info-box"
+The 28-day limit keeps the sync date valid in every month, including February.
+```
 
 ### Day of Week
 
@@ -266,6 +285,10 @@ Controls how the customer's first checkout is priced when the purchase date does
 | **Visible when:** Enable Renewal Synchronization is **on** | |
 
 Displays the renewal schedule and any proration details to customers during checkout so they understand why the initial charge may differ from the recurring price.
+
+```box class="warning-box"
+If you are using automatic payments and need synced renewals, choose Stripe or Paddle. PayPal automatic renewals should stay on anniversary billing because PayPal keeps its own billing schedule.
+```
 
 ---
 
@@ -474,6 +497,8 @@ A subscription box store wants to give customers plenty of time to resolve payme
 ## Edge Cases / Important Notes
 
 - **Existing subscriptions are not retroactively synced.** Enabling renewal synchronization only affects new subscriptions — existing ones keep their current renewal dates.
+- **Sync is best for one shared cadence.** Use monthly sync for monthly billing, weekly sync for weekly billing, or yearly sync for annual billing programs that should renew together.
+- **Gateway support is not identical.** Manual renewals, Stripe, and new Paddle synced subscriptions are supported. PayPal automatic renewals are not sync-compatible.
 - **Auto Migrate requires exactly one match.** If a customer has multiple active subscriptions and tries to purchase a new plan, checkout migration will not kick in. The customer must manage the switch manually.
 - **Guest checkout is never available for subscriptions.** Even when WooCommerce allows guest checkout, subscription purchases always require an account.
 - **Disabling "Allow Cancellation" hides the button but does not remove admin's ability** to cancel subscriptions from the admin panel.
@@ -521,6 +546,9 @@ Yes. When a one-click mode is active, clicking the purchase button clears any ex
 
 ### Does renewal synchronization change the subscription price?
 Only for the first payment when **Prorate first payment** is selected. After the first synced renewal, the customer pays the full recurring price on every subsequent cycle.
+
+### Which gateways support renewal synchronization?
+Manual renewals support sync. For automatic payments, **Stripe** supports synced renewals because ArraySubs controls the billing schedule, and **Paddle** supports synced renewals for new synced subscriptions because ArraySubs aligns the remote billing date when the subscription is created. **PayPal** does not support shared sync dates for automatic renewals because PayPal keeps its own billing schedule.
 
 ### Can customers re-enable auto-renew after turning it off?
 Yes. Customers can toggle auto-renew back on at any time from the customer portal, as long as a valid payment method is still on file for the subscription.

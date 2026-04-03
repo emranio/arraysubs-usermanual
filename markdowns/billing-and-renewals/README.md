@@ -56,7 +56,7 @@ These jobs work together to keep every subscription on schedule without manual i
 
 **Grace period** — A configurable window after the due date where the subscription remains accessible (or partially accessible) while waiting for payment. The default is 3 days active + 7 days on-hold before cancellation.
 
-**Renewal synchronization** — An optional feature that aligns all subscription renewals to the same calendar day (e.g., the 1st of every month), regardless of when each customer purchased.
+**Renewal synchronization** — An optional feature that aligns all new subscription renewals to the same calendar day (e.g., the 1st of every month), regardless of when each customer purchased. It works best when you want one shared billing cadence and is compatible with manual renewals, Stripe, and new Paddle synced subscriptions.
 
 ## Related docs
 
@@ -84,3 +84,6 @@ No. Subscription prices are locked at checkout. Product price changes only affec
 
 ### What is the difference between manual and automatic renewals?
 Manual renewals create a pending invoice and email the customer a payment link. The customer must log in and pay. Automatic renewals **(Pro)** charge the customer's saved payment method through the configured gateway (Stripe, PayPal, or Paddle) without requiring customer action.
+
+### Which automatic gateways support renewal synchronization?
+If you want synced automatic renewals, use **Stripe** or **Paddle**. Stripe follows the ArraySubs-managed billing schedule, and Paddle can be aligned for new synced subscriptions when they are created. **PayPal** automatic renewals keep PayPal's own billing schedule and do not support shared sync dates.

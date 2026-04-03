@@ -103,6 +103,8 @@ When a renewal invoice is paid (either manually by the customer or automatically
 
 Renewal synchronization aligns all new subscriptions to the same calendar day, regardless of when each customer purchases. Instead of every subscription renewing on its own anniversary, all renewals fall on a predictable date.
 
+This is best for stores that intentionally want one shared cadence — such as monthly boxes on the 1st, weekly delivery routes on a specific weekday, or annual programs that all renew on one calendar date. Existing subscriptions are not moved automatically.
+
 ### When to use this
 
 - You want all billing to happen on the 1st of each month for accounting simplicity
@@ -113,6 +115,19 @@ Renewal synchronization aligns all new subscriptions to the same calendar day, r
 ### How it works
 
 When renewal sync is enabled, every new subscription's first renewal date is adjusted to fall on the configured sync day. The customer's first payment may be **prorated** or **extended** to cover the gap between their purchase date and the sync date.
+
+### Supported billing paths
+
+| Billing path | Sync support | Notes |
+|---|---|---|
+| **Manual renewals** | Yes | ArraySubs calculates and stores the synced date locally. |
+| **Stripe automatic renewals** **(Pro)** | Yes | Stripe uses ArraySubs-managed billing, so the synced date remains under plugin control. |
+| **Paddle automatic renewals** **(Pro)** | Yes, for new synced subscriptions | ArraySubs aligns Paddle's remote next billing date when the subscription is created. |
+| **PayPal automatic renewals** **(Pro)** | No | PayPal follows its own remote billing schedule and does not support shared sync dates. |
+
+```box class="warning-box"
+If your store depends on synced automatic renewals, use Stripe or Paddle. PayPal automatic renewals should remain on anniversary billing.
+```
 
 ### Sync types
 
@@ -177,6 +192,10 @@ Configure renewal sync at **ArraySubs → Settings → General Settings → Sync
 
 ```box class="warning-box"
 Enabling renewal sync only affects **new** subscriptions created after the setting is turned on. Existing subscriptions keep their original renewal dates.
+```
+
+```box class="info-box"
+Choose the sync cadence to match the subscriptions you want to align. Monthly sync is for monthly billing programs, weekly sync is for weekly billing programs, and yearly sync is for annual billing programs.
 ```
 
 ---
@@ -277,6 +296,7 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 - **Lifetime subscriptions never generate renewal invoices.** Subscriptions with a billing period of Lifetime are excluded from the renewal invoice generation job entirely.
 - **One pending renewal at a time.** The system does not create a second renewal invoice if one is already pending for the subscription.
 - **Sync does not retroactively change existing subscriptions.** Enabling or changing sync settings only affects new subscriptions created after the change.
+- **Automatic gateway support differs.** Stripe and new Paddle synced subscriptions are compatible with renewal sync. PayPal automatic renewals are not.
 - **Different renewal price is permanent.** Once the threshold is reached, the subscription's recurring amount is updated. Even if you later change the product's different renewal price configuration, existing subscriptions keep their stored values.
 
 ---
@@ -322,6 +342,9 @@ The subscription enters the grace period. During the active grace phase (default
 
 ### Does renewal sync affect existing subscriptions?
 No. Sync settings only apply to subscriptions created after the setting is enabled. Existing subscriptions keep their original renewal schedule.
+
+### Which automatic gateways support renewal sync?
+**Stripe** supports synced renewals because ArraySubs controls the billing schedule. **Paddle** supports synced renewals for new synced subscriptions because ArraySubs aligns the next billing date when the subscription is created. **PayPal** does not support shared sync dates for automatic renewals.
 
 ### Can I change the different renewal price after a subscription is created?
 The price stored on the subscription is locked at checkout. To change it, you would need to edit the subscription's meta data directly. Changing the product's configuration only affects new purchases.

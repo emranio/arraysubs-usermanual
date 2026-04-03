@@ -1,7 +1,7 @@
 # Info
 - Module: Checkout and Payments
 - Availability: Shared
-- Last updated: 2026-04-02
+- Last updated: 2026-04-03
 
 # Checkout and Payments
 
@@ -18,6 +18,8 @@ The core checkout engine handles everything from cart validation to subscription
 ### Automatic Payments *(Pro)*
 
 Connect your store to Stripe, PayPal, or Paddle for hands-free recurring billing. Each gateway processes initial payments, stores payment methods, and handles renewals automatically — with webhook-based event routing, dispute tracking, and a live health dashboard.
+
+If you plan to use **Renewal Synchronization**, use **Stripe** or **Paddle** for automatic payments. Stripe follows the ArraySubs-managed billing schedule, and Paddle can align new synced subscriptions when they are created. PayPal automatic renewals keep PayPal's own billing schedule and should be used without renewal sync.
 
 - [Gateway Overview and Architecture](automatic-payments/README.md) — How ArraySubs-managed and gateway-managed billing work, gateway comparison matrix, and payment method lifecycle.
 - [Stripe Gateway](automatic-payments/stripe.md) — PaymentIntents, SetupIntents, Checkout Sessions, SCA/3D Secure, card auto-update, and dispute handling.
@@ -39,7 +41,7 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 | Topic | Availability | What It Controls |
 |---|---|---|
 | Subscription Checkout | Free | Cart rules, one-click checkout, trial validation, plan switching at checkout, subscription creation |
-| Automatic Payments | **Pro** | Stripe, PayPal, Paddle gateways, auto-renewal charging, webhook routing, payment method storage |
+| Automatic Payments | **Pro** | Stripe, PayPal, Paddle gateways, auto-renewal charging, webhook routing, payment method storage; renewal sync compatible with Stripe and Paddle |
 | Checkout Builder | **Pro** | Custom checkout forms, multi-step navigation, 27 field types, conditional logic, design customization |
 
 ## Prerequisites

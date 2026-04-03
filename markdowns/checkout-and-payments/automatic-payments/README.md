@@ -1,7 +1,7 @@
 # Info
 - Module: Automatic Payments
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-04-03
 
 # Gateway Overview and Architecture
 
@@ -12,6 +12,8 @@
 ## Overview
 
 ArraySubs Pro integrates with three payment gateways — **Stripe**, **PayPal**, and **Paddle** — to process subscription payments automatically. Each gateway handles initial checkout payments, stores customer payment methods, and charges renewal invoices without merchant or customer intervention.
+
+Not every gateway supports **Renewal Synchronization** the same way. If you need synced automatic renewals, the supported paths are **Stripe** and **Paddle** (for new synced subscriptions). **PayPal** keeps its own billing schedule and should be used without renewal sync.
 
 The architecture supports two fundamentally different billing models, and understanding which model your gateway uses is essential for configuring your store correctly.
 
@@ -29,6 +31,8 @@ ArraySubs controls the entire billing schedule. It decides when to charge, gener
 
 **Used by:** Stripe
 
+**Renewal sync:** Fully compatible, because ArraySubs keeps the billing schedule and next payment date locally.
+
 **Advantages:** Full control over billing timing, grace periods, retry logic, and renewal dates. The billing schedule in ArraySubs is always the single source of truth.
 
 ### Gateway-Managed Billing
@@ -43,10 +47,12 @@ The payment gateway controls its own billing cycle. ArraySubs creates the initia
 
 **Used by:** PayPal, Paddle
 
+**Renewal sync:** Paddle can be aligned for **new synced subscriptions** when the subscription is created. PayPal does **not** support shared sync dates because PayPal keeps the remote billing schedule.
+
 **Advantages:** Simpler integration, the gateway handles PCI compliance and SCA challenges internally, and features like Paddle's automatic tax/VAT are handled natively.
 
 ```box class="info-box"
-With gateway-managed billing, the gateway is the source of truth for payment timing. When ArraySubs fires a renewal event for PayPal or Paddle subscriptions, **no local charge is sent** — the system waits for the gateway's webhook to confirm a payment occurred.
+With gateway-managed billing, the gateway is the source of truth for payment timing. When ArraySubs fires a renewal event for PayPal or Paddle subscriptions, **no local charge is sent** — the system waits for the gateway's webhook to confirm a payment occurred. Paddle can still be aligned for new synced subscriptions by updating its remote next billing date during subscription creation, but PayPal cannot.
 ```
 
 ---
@@ -72,11 +78,16 @@ Not all gateways support the same features. Use this matrix to choose the right 
 | **Mixed cart** | Yes | No | Yes |
 | **Multiple subscriptions** | Yes | No | Yes |
 | **Different billing cycles** | Yes | No | No |
+| **Renewal sync compatibility** | Yes | No | Yes (new synced subscriptions) |
 | **Retention amount update** | Yes | No | No |
 | **Product sync required** | No | No | Yes |
 
 ```box class="warning-box"
 PayPal does **not** support mixed carts, multiple subscriptions, or different billing cycles in a single checkout. If PayPal is enabled, these restrictions are enforced automatically — even if your General Settings allow them.
+```
+
+```box class="info-box"
+If your store depends on synced automatic renewals, choose Stripe or Paddle. Use PayPal when anniversary billing is acceptable and gateway-managed timing is preferred.
 ```
 
 ---
