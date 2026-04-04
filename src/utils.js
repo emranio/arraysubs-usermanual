@@ -84,9 +84,15 @@ function escapeHtml(value) {
 
 function normalizeBaseUrl(value) {
   const normalized = value && value.trim() ? value.trim() : "/";
+
+  if (/^[a-z][a-z\d+.-]*:\/\//i.test(normalized)) {
+    return normalized.endsWith("/") ? normalized : `${normalized}/`;
+  }
+
   const withLeadingSlash = normalized.startsWith("/")
     ? normalized
     : `/${normalized}`;
+
   return withLeadingSlash.endsWith("/")
     ? withLeadingSlash
     : `${withLeadingSlash}/`;
