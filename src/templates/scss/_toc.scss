@@ -27,8 +27,8 @@
   }
 
   // When mini bars are present, hide title+body by default
-  &.has-mini-toc &__title,
-  &.has-mini-toc &__body {
+  &__title,
+  &__body {
     display: none;
   }
 
