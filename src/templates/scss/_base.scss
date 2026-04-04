@@ -4,7 +4,7 @@
 @font-face {
   font-family: "Google Sans Flex";
   font-style: normal;
-  font-weight: 300 500;
+  font-weight: 300 600;
   font-stretch: 100%;
   font-display: swap;
   src: url("./google-sans-flex.woff2") format("woff2");
@@ -20,36 +20,36 @@
 
 :root {
   color-scheme: light;
-  --docs-bg: #f8fafc;
+  --docs-bg: #ffffff;
   --docs-surface: #ffffff;
-  --docs-surface-muted: #f1f5f9;
-  --docs-border: #cbd7e5;
-  --docs-border-strong: #aebfd1;
+  --docs-surface-muted: #eef8ff;
+  --docs-border: #c7def0;
+  --docs-border-strong: #a9cae3;
   --docs-text: #0f172a;
-  --docs-text-soft: #475569;
-  --docs-text-muted: #526377;
-  --docs-primary: #fb7c25;
-  --docs-primary-soft: #fff4ea;
-  --docs-rule: rgba(15, 23, 42, 0.14);
-  --docs-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  --docs-text-soft: #41556c;
+  --docs-text-muted: #5a6f84;
+  --docs-primary: #0699e7;
+  --docs-primary-soft: #e7f5ff;
+  --docs-rule: rgba(6, 153, 231, 0.2);
+  --docs-shadow: 0 12px 30px rgba(6, 153, 231, 0.1);
   --docs-radius: 18px;
   --docs-radius-sm: 12px;
   --docs-font: "Google Sans Flex", "Segoe UI", Roboto, Arial, sans-serif;
   --docs-heading-font: "EB Garamond", Georgia, serif;
   --docs-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --docs-link: #c2410c;
-  --docs-code-bg: #fff6ee;
-  --docs-code-text: #c2410c;
-  --docs-hover: rgba(15, 23, 42, 0.04);
-  --docs-blockquote-text: #c2410c;
-  --docs-nav-current-text: #c2410c;
-  --docs-header-bg: rgba(248, 250, 252, 0.88);
-  --docs-header-border: rgba(174, 191, 209, 0.92);
-  --docs-table-head-bg: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
-  --docs-table-row-alt: #fffbf7;
-  --docs-table-row-hover: #fff4ec;
+  --docs-link: #0699e7;
+  --docs-code-bg: #edf8ff;
+  --docs-code-text: #055f90;
+  --docs-hover: rgba(6, 153, 231, 0.06);
+  --docs-blockquote-text: #055f90;
+  --docs-nav-current-text: #0699e7;
+  --docs-header-bg: rgba(245, 251, 255, 0.4);
+  --docs-header-border: rgba(169, 202, 227, 0.92);
+  --docs-table-head-bg: linear-gradient(180deg, #f2fbff 0%, #dff3ff 100%);
+  --docs-table-row-alt: #f7fcff;
+  --docs-table-row-hover: #edf8ff;
   --docs-table-head-text: #0f172a;
-  --docs-table-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
+  --docs-table-shadow: 0 16px 34px rgba(6, 153, 231, 0.08);
 
   // Box tokens
   --docs-box-info-bg: #eff6ff;
@@ -65,29 +65,29 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --docs-bg: #0b0e14;
-  --docs-surface: #13171f;
-  --docs-surface-muted: #1a1f2b;
-  --docs-border: #38465a;
-  --docs-border-strong: #52627b;
-  --docs-text: #e2e8f0;
-  --docs-text-soft: #b5c0d0;
-  --docs-text-muted: #94a3b8;
-  --docs-primary: #fb923c;
-  --docs-primary-soft: rgba(251, 146, 60, 0.16);
-  --docs-rule: rgba(148, 163, 184, 0.4);
+  --docs-bg: #111111;
+  --docs-surface: #0f1c28;
+  --docs-surface-muted: #132536;
+  --docs-border: #2c4a62;
+  --docs-border-strong: #3b6483;
+  --docs-text: #e6f3fb;
+  --docs-text-soft: #bed4e4;
+  --docs-text-muted: #96b5cb;
+  --docs-primary: #36b8ff;
+  --docs-primary-soft: rgba(6, 153, 231, 0.18);
+  --docs-rule: rgba(54, 184, 255, 0.34);
   --docs-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-  --docs-link: #fdba74;
-  --docs-code-bg: rgba(251, 146, 60, 0.14);
-  --docs-code-text: #fdba74;
-  --docs-hover: rgba(255, 255, 255, 0.04);
-  --docs-blockquote-text: #fed7aa;
-  --docs-nav-current-text: #fdba74;
-  --docs-header-bg: rgba(11, 14, 20, 0.88);
-  --docs-header-border: rgba(82, 98, 123, 0.78);
-  --docs-table-head-bg: linear-gradient(180deg, #3b1d10 0%, #2d160c 100%);
-  --docs-table-row-alt: rgba(148, 163, 184, 0.05);
-  --docs-table-row-hover: rgba(194, 65, 12, 0.16);
+  --docs-link: #7fd3ff;
+  --docs-code-bg: rgba(6, 153, 231, 0.16);
+  --docs-code-text: #8ad7ff;
+  --docs-hover: rgba(54, 184, 255, 0.08);
+  --docs-blockquote-text: #b6e7ff;
+  --docs-nav-current-text: #8ad7ff;
+  --docs-header-bg: rgba(7, 19, 29, 0.4);
+  --docs-header-border: rgba(59, 100, 131, 0.8);
+  --docs-table-head-bg: linear-gradient(180deg, #103149 0%, #0c2436 100%);
+  --docs-table-row-alt: rgba(150, 181, 203, 0.05);
+  --docs-table-row-hover: rgba(6, 153, 231, 0.14);
   --docs-table-head-text: #f8fafc;
   --docs-table-shadow: 0 20px 40px rgba(0, 0, 0, 0.32);
 
@@ -107,7 +107,7 @@
 // Base / Reset
 // ------------------------------------
 ::selection {
-  background: rgba(249, 115, 22, 0.18);
+  background: rgba(6, 153, 231, 0.2);
   color: var(--docs-text);
 }
 
@@ -123,8 +123,14 @@ body {
   margin: 0;
   font-family: var(--docs-font);
   font-optical-sizing: auto;
+  font-weight: 500;
   color: var(--docs-text);
   background: var(--docs-bg);
+}
+
+strong,
+b {
+  font-weight: 600;
 }
 
 h1,
@@ -149,7 +155,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid rgba(249, 115, 22, 0.35);
+  outline: 3px solid rgba(6, 153, 231, 0.38);
   outline-offset: 2px;
 }
 

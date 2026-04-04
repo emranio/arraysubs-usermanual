@@ -55,7 +55,7 @@
 
   &__title {
     margin: 0;
-    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-size: clamp(2.15rem, 3.2vw, 2.95rem);
     line-height: 1.08;
   }
 }
@@ -64,8 +64,8 @@
 // Markdown content
 // ------------------------------------
 .docs-content {
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: 1.06rem;
+  line-height: 1.8;
 
   hr {
     border: 0;
@@ -98,17 +98,17 @@
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 2.1rem;
     padding-bottom: 0.4em;
   }
 
   h2 {
-    font-size: 1.75rem;
+    font-size: 1.88rem;
     padding-bottom: 0.3em;
   }
 
   h3 {
-    font-size: 1.32rem;
+    font-size: 1.42rem;
   }
 
   p,
