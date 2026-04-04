@@ -18,7 +18,7 @@ jobs:
     name: Build and deploy
     runs-on: ubuntu-latest
     env:
-      DEPLOY_PATH: /home/server-manager/www/arrayhash/support.arrayhash.com/public
+      DEPLOY_PATH: /home/server-manager/www/arrayhash/support.arrayhash.com/public/arraysubs
       SERVER_HOST: "${{ secrets.SERVER_HOST }}"
       SERVER_PORT: "${{ secrets.SERVER_PORT }}"
       SERVER_USER: "${{ secrets.SERVER_USER }}"
