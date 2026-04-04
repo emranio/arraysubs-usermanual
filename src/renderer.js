@@ -16,6 +16,42 @@ function applyTemplate(template, replacements) {
   });
 }
 
+function buildGtmScript(containerId) {
+  const gtmId = String(containerId || "").trim();
+
+  if (!gtmId) {
+    return "";
+  }
+
+  const escapedId = JSON.stringify(gtmId);
+
+  return `<script>
+      // Load GTM on first user interaction
+      var gtmLoaded = false;
+      function loadGTM() {
+        if (gtmLoaded) return;
+        gtmLoaded = true;
+
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+          var j = d.createElement(s);
+          j.async = true;
+          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + "&l=" + l;
+          d.body.appendChild(j);
+        })(window, document, "script", "dataLayer", ${escapedId});
+      }
+
+      ["scroll", "click", "touchstart", "mousemove", "keydown"].forEach(
+        function (evt) {
+          window.addEventListener(evt, loadGTM, { once: true, passive: true });
+        },
+      );
+
+      setTimeout(loadGTM, 5000);
+    </script>`;
+}
+
 async function loadTemplates(templatesDir) {
   const layoutPath = path.join(templatesDir, "layout.html");
   const partialsDir = path.join(templatesDir, "partials");
@@ -111,6 +147,7 @@ async function renderPageHtml(options) {
   const footer = applyTemplate(options.templates.partials.footer, {
     currentYear: String(new Date().getFullYear()),
   });
+  const gtmScript = buildGtmScript(options.config.gtmContainerId);
 
   return applyTemplate(options.templates.layout, {
     bodyClass: page.isPro ? "docs-page docs-page--pro" : "docs-page",
@@ -121,6 +158,7 @@ async function renderPageHtml(options) {
     bodyFontHref: escapeHtml(bodyFontHref),
     faviconHref: escapeHtml(faviconHref),
     footer,
+    gtmScript,
     headingFontHref: escapeHtml(headingFontHref),
     header,
     mermaidHref: escapeHtml(mermaidHref),
