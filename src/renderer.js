@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 const path = require("path");
 const {
+  appendCacheBust,
   escapeHtml,
   normalizeBaseUrl,
   pathExists,
@@ -39,13 +40,14 @@ async function loadTemplates(templatesDir) {
 async function renderPageHtml(options) {
   const baseUrl = normalizeBaseUrl(options.config.siteBaseUrl);
   const page = options.page;
-  const styleHref = relativeAssetPath(
-    page.outputRelativePath,
-    "assets/style.css",
+  const assetVersion = options.assetVersion || "";
+  const styleHref = appendCacheBust(
+    relativeAssetPath(page.outputRelativePath, "assets/style.css"),
+    assetVersion,
   );
-  const scriptHref = relativeAssetPath(
-    page.outputRelativePath,
-    "assets/script.js",
+  const scriptHref = appendCacheBust(
+    relativeAssetPath(page.outputRelativePath, "assets/script.js"),
+    assetVersion,
   );
   const headingFontHref = relativeAssetPath(
     page.outputRelativePath,
@@ -55,9 +57,12 @@ async function renderPageHtml(options) {
     page.outputRelativePath,
     "assets/google-sans-flex.woff2",
   );
-  const mermaidHref = relativeAssetPath(
-    page.outputRelativePath,
-    "assets/vendor/mermaid/mermaid.esm.min.mjs",
+  const mermaidHref = appendCacheBust(
+    relativeAssetPath(
+      page.outputRelativePath,
+      "assets/vendor/mermaid/mermaid.esm.min.mjs",
+    ),
+    assetVersion,
   );
   const faviconHref = relativeAssetPath(
     page.outputRelativePath,

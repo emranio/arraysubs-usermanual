@@ -152,7 +152,17 @@ function relativeAssetPath(outputRelativePath, targetRelativePath) {
   return toPosix(relativePath || path.basename(targetRelativePath));
 }
 
+function appendCacheBust(url, version) {
+  if (!url || !version) {
+    return url;
+  }
+
+  const separator = String(url).includes("?") ? "&" : "?";
+  return `${url}${separator}v=${encodeURIComponent(String(version))}`;
+}
+
 module.exports = {
+  appendCacheBust,
   ensureDir,
   encodeUrlPath,
   escapeHtml,

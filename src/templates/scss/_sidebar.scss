@@ -6,6 +6,7 @@
   top: 95px;
 
   &__head {
+    display: none;
     padding: 4px 18px 4px 0;
   }
 
@@ -25,10 +26,10 @@
   }
 
   &__body {
-    padding: 10px 14px 18px 0;
+    padding: 0px 14px 18px 0;
     max-height: calc(100vh - 150px);
     overflow: auto;
-    font-size: 0.85rem;
+    font-size: 1rem;
   }
 }
 

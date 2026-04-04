@@ -87,6 +87,7 @@ async function collectSiteData(rootDir) {
   const paths = getProjectPaths(rootDir);
   const config = loadProjectConfig(rootDir);
   const buildDate = new Date().toISOString().slice(0, 10);
+  const buildTimestamp = String(Date.now());
   const ignoreSet = loadBuildIgnore(paths.markdownsDir);
   const allFiles = (await walkDir(paths.markdownsDir)).filter(
     (filePath) => !isIgnoredPath(filePath, paths.markdownsDir, ignoreSet),
@@ -115,6 +116,7 @@ async function collectSiteData(rootDir) {
   return {
     assetFiles,
     buildDate,
+    buildTimestamp,
     config,
     navigation,
     pages,
@@ -135,6 +137,7 @@ async function buildSite(options = {}) {
     site.pages.map(async (page) => {
       const breadcrumbItems = buildBreadcrumbs(site.navigation, page);
       const html = await renderPageHtml({
+        assetVersion: site.buildTimestamp,
         breadcrumbHtml: renderBreadcrumbs(breadcrumbItems),
         config: site.config,
         page,

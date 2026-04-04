@@ -66,6 +66,7 @@
 .docs-content {
   font-size: 1.06rem;
   line-height: 1.8;
+  font-weight: 400;
 
   hr {
     border: 0;
@@ -94,7 +95,7 @@
     scroll-margin-top: 100px;
     line-height: 1.2;
     margin-top: 2.2em;
-    margin-bottom: 0.75em;
+    margin-bottom: 0.15em;
   }
 
   h1 {
@@ -118,7 +119,11 @@
   table,
   pre,
   figure {
-    margin: 1.1em 0;
+    margin: 0 0 1.1em 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   ul,
