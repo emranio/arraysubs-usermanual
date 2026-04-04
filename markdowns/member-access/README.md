@@ -92,7 +92,7 @@ Each rule type has its own guide with detailed configuration steps, settings ref
 ## Related Guides
 
 - [Toolkit Settings — Multi-Login Prevention](../settings/toolkit-settings.md) — The global session-limit toggle and default max sessions, required before Login Limit rules take effect.
-- [Shortcodes and Frontend Display](../profile-builder/shortcodes.md) — Full shortcode reference including `[arraysubs_restrict]` and `[arraysubs_visibility]`.
+- [Shortcodes](../shortcodes/README.md) — Full shortcode reference including `[arraysubs_restrict]` and `[arraysubs_visibility]`.
 - [Access-Rule Conflicts (Troubleshooting)](../audits-and-logs/access-rule-conflicts.md) — Diagnose overlapping or conflicting Member Access rules.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses (active, on-hold, cancelled, expired, trial) interact with access rules.
 - [Product Experience and Display — Feature Manager](../subscription-products/product-experience.md) — Set up feature entitlements for Feature Value conditions.

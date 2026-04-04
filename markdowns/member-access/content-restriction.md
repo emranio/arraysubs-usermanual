@@ -209,7 +209,7 @@ If you turn off Cache Compatibility while running a page caching plugin, cached 
 - [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Restriction shortcodes for inline content gating.
-- [Shortcodes and Frontend Display](../profile-builder/shortcodes.md) — Full shortcode attribute reference.
+- [Shortcodes](../shortcodes/README.md) — Full shortcode attribute reference.
 - [Access-Rule Conflicts (Troubleshooting)](../audits-and-logs/access-rule-conflicts.md) — Resolve overlapping restriction issues.
 - [Use Cases](use-cases.md) — Content dripping and gating examples.
 

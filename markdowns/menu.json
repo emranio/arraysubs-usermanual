@@ -64,10 +64,15 @@
         "emails/store-credit-emails.md"
     ],
     [
+        "shortcodes/README.md",
+        "shortcodes/account-shortcodes.md",
+        "shortcodes/content-gating.md",
+        "shortcodes/store-credit-shortcode.md"
+    ],
+    [
         "profile-builder/README.md",
         "profile-builder/profile-form.md",
-        "profile-builder/my-account-editor.md",
-        "profile-builder/shortcodes.md"
+        "profile-builder/my-account-editor.md"
     ],
     [
         "member-access/README.md",

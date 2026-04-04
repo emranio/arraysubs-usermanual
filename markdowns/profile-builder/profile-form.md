@@ -280,7 +280,7 @@ A food subscription box needs dietary information. Add a select field with optio
 ## Related Guides
 
 - [My Account Editor](my-account-editor.md) — Customize the My Account navigation menu
-- [Shortcodes and Frontend Display](shortcodes.md) — Display user data and gated content with shortcodes
+- [Shortcodes](../shortcodes/README.md) — Display user data and gated content with shortcodes
 - [Customer Portal — Portal Pages](../customer-portal/portal-pages.md) — What customers see in their subscriptions area
 - [Manage Members — Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — View member profiles from the admin panel
 

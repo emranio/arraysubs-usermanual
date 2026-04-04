@@ -239,7 +239,7 @@ A digital-only store has no physical products and no downloadable files. Hide bo
 ## Related Guides
 
 - [Profile Form](profile-form.md) — Configure custom profile fields and avatar upload
-- [Shortcodes and Frontend Display](shortcodes.md) — Shortcodes for login links, visibility gating, and content restriction
+- [Shortcodes](../shortcodes/README.md) — Shortcodes for login links, visibility gating, and content restriction
 - [Customer Portal — Portal Pages](../customer-portal/portal-pages.md) — The Subscriptions and View Subscription pages in My Account
 - [Store Credit](../store-credit/README.md) — Store Credit customer portal page *(Pro)*
 - [Settings — General Settings](../settings/general-settings.md) — Customer portal menu title and menu position settings

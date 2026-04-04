@@ -248,7 +248,7 @@ Here is your personalized dashboard link.
 
 Developers can extend the `[arraysubs_visibility]` shortcode with custom conditions via the `arraysubs_visibility_shortcode_show` filter. This filter runs after the built-in login check and can add subscription status, role, or any custom condition logic.
 
-For the full shortcode reference (including `[arraysubs_login]`, `[arraysubs_logout]`, and `[arraysubs_user]`), see [Shortcodes and Frontend Display](../profile-builder/shortcodes.md).
+For the full shortcode reference (including `[arraysubs_login]`, `[arraysubs_logout]`, and `[arraysubs_user]`), see the [Shortcodes](../shortcodes/README.md) section.
 
 ---
 
@@ -311,7 +311,7 @@ If your business model allows customers to pause their subscription while retain
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules.
 - [Content Restriction](content-restriction.md) — Global restriction settings, messages, and per-post meta.
 - [Toolkit Settings](../settings/toolkit-settings.md) — Multi-Login Prevention global toggle, default session limit, and admin inclusion.
-- [Shortcodes and Frontend Display](../profile-builder/shortcodes.md) — Full reference for all shortcodes including login, logout, user, and buy-credits.
+- [Shortcodes](../shortcodes/README.md) — Full reference for all shortcodes including login, logout, user, and buy-credits.
 - [Use Cases](use-cases.md) — Session control and shortcode examples.
 
 ---

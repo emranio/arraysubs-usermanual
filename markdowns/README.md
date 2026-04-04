@@ -93,12 +93,20 @@ Automated emails for every subscription lifecycle event — configure, customize
 
 ## Profile Builder and My Account Customization
 
-Collect custom profile data, manage avatars, customize the My Account navigation, and use shortcodes to display user-aware content across your site.
+Collect custom profile data, manage avatars, and customize the My Account navigation.
 
 - [Overview](profile-builder/README.md) — What's included, where to find it, and quick start steps.
 - [Profile Form](profile-builder/profile-form.md) — Custom profile fields, avatar upload settings, field types, and where data appears on customer and admin screens.
 - [My Account Editor](profile-builder/my-account-editor.md) — Reorder, rename, hide menu items, and add custom endpoint pages to the WooCommerce My Account area.
-- [Shortcodes and Frontend Display](profile-builder/shortcodes.md) — All shortcodes: login/logout links, user info, visibility gating, subscription-based content restriction, and store credit purchase.
+
+## Shortcodes
+
+Use shortcodes to display login/logout links, personalized greetings, gated content, and store credit purchase forms anywhere on your site.
+
+- [Overview](shortcodes/README.md) — Quick reference for all shortcodes and the admin catalog page.
+- [Account Shortcodes](shortcodes/account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]` for login links and personalized display.
+- [Content Gating Shortcodes](shortcodes/content-gating.md) — `[arraysubs_visibility]` and `[arraysubs_restrict]` for login-based and subscription-based content control.
+- [Store Credit Shortcode](shortcodes/store-credit-shortcode.md) *(Pro)* — `[arraysubs_buy_credits]` purchase form for store credits.
 
 ## Member Access and Restriction Rules
 

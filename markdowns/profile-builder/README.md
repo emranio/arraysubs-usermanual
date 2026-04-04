@@ -41,7 +41,7 @@ The Profile Builder menu lives in the main ArraySubs admin panel:
 
 - [Profile Form](profile-form.md) — Custom fields, avatar settings, field types, and where data appears
 - [My Account Editor](my-account-editor.md) — Menu customization, custom endpoint pages, and Pro feature integration
-- [Shortcodes and Frontend Display](shortcodes.md) — All available shortcodes with attributes, examples, and use cases
+- [Shortcodes](../shortcodes/README.md) — All available shortcodes with attributes, examples, and use cases
 
 ---
 
