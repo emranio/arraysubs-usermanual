@@ -1,0 +1,62 @@
+name: Build and Deploy User Manual
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: user-manual-production-deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_PATH: /home/server-manager/www/arrayhash/support.arrayhash.com/public
+      SERVER_HOST: "${{ secrets.SERVER_HOST }}"
+      SERVER_PORT: "${{ secrets.SERVER_PORT }}"
+      SERVER_USER: "${{ secrets.SERVER_USER }}"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: "${{ secrets.SERVER_SSH_KEY }}"
+
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p "$SERVER_PORT" "$SERVER_HOST" >> ~/.ssh/known_hosts
+
+      - name: Ensure remote deploy path exists
+        run: |
+          ssh -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" "mkdir -p '$DEPLOY_PATH'"
+
+      - name: Sync built files to server
+        run: |
+          rsync -az --delete \
+            -e "ssh -p $SERVER_PORT" \
+            dist/ \
+            "$SERVER_USER@$SERVER_HOST:$DEPLOY_PATH/"
