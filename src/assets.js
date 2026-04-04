@@ -8,6 +8,11 @@ async function copyFilePreservingTree(fromPath, toPath) {
   await fs.copyFile(fromPath, toPath);
 }
 
+async function copyDirectoryPreservingTree(fromPath, toPath) {
+  await ensureDir(path.dirname(toPath));
+  await fs.cp(fromPath, toPath, { recursive: true });
+}
+
 async function copyContentAssets(paths, assetFiles) {
   await Promise.all(
     assetFiles.map(async (filePath) => {
@@ -35,6 +40,27 @@ async function copyStaticAssets(paths) {
     path.join(paths.srcDir, "script.js"),
     path.join(assetOutputDir, "script.js"),
   );
+
+  const mermaidSourceDir = path.join(
+    paths.rootDir,
+    "node_modules",
+    "mermaid",
+    "dist",
+  );
+
+  if (await pathExists(mermaidSourceDir)) {
+    const mermaidOutputDir = path.join(assetOutputDir, "vendor", "mermaid");
+
+    await copyFilePreservingTree(
+      path.join(mermaidSourceDir, "mermaid.esm.min.mjs"),
+      path.join(mermaidOutputDir, "mermaid.esm.min.mjs"),
+    );
+
+    await copyDirectoryPreservingTree(
+      path.join(mermaidSourceDir, "chunks"),
+      path.join(mermaidOutputDir, "chunks"),
+    );
+  }
 
   if (!(await pathExists(paths.staticDir))) {
     return;

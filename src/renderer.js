@@ -47,6 +47,14 @@ async function renderPageHtml(options) {
     page.outputRelativePath,
     "assets/script.js",
   );
+  const fontHref = relativeAssetPath(
+    page.outputRelativePath,
+    "assets/young-serif.woff2",
+  );
+  const mermaidHref = relativeAssetPath(
+    page.outputRelativePath,
+    "assets/vendor/mermaid/mermaid.esm.min.mjs",
+  );
   const faviconHref = relativeAssetPath(
     page.outputRelativePath,
     `assets/${options.config.faviconFilename}`,
@@ -102,8 +110,10 @@ async function renderPageHtml(options) {
     description: escapeHtml(page.description || options.config.siteTagline),
     documentTitle: escapeHtml(documentTitle),
     faviconHref: escapeHtml(faviconHref),
+    fontHref: escapeHtml(fontHref),
     footer,
     header,
+    mermaidHref: escapeHtml(mermaidHref),
     ogImageUrl: escapeHtml(ogImageUrl),
     ogType: page.isIndexPage ? "website" : "article",
     pageBadge: proBadge,

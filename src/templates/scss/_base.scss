@@ -1,6 +1,14 @@
 // ------------------------------------
 // Design tokens
 // ------------------------------------
+@font-face {
+  font-family: "Young Serif";
+  src: url("./young-serif.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
   --docs-bg: #f8fafc;
@@ -10,9 +18,9 @@
   --docs-border-strong: #aebfd1;
   --docs-text: #0f172a;
   --docs-text-soft: #475569;
-  --docs-text-muted: #64748b;
-  --docs-primary: #13a4b3;
-  --docs-primary-soft: #e6f7f9;
+  --docs-text-muted: #526377;
+  --docs-primary: #fb7c25;
+  --docs-primary-soft: #fff4ea;
   --docs-rule: rgba(15, 23, 42, 0.14);
   --docs-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
   --docs-radius: 18px;
@@ -21,17 +29,17 @@
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --docs-heading-font: "Young Serif", Georgia, serif;
   --docs-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --docs-link: #0e8f9b;
-  --docs-code-bg: #e6f7f9;
-  --docs-code-text: #0c6b75;
+  --docs-link: #c2410c;
+  --docs-code-bg: #fff6ee;
+  --docs-code-text: #c2410c;
   --docs-hover: rgba(15, 23, 42, 0.04);
-  --docs-blockquote-text: #0c6b75;
-  --docs-nav-current-text: #0e7a85;
+  --docs-blockquote-text: #c2410c;
+  --docs-nav-current-text: #c2410c;
   --docs-header-bg: rgba(248, 250, 252, 0.88);
   --docs-header-border: rgba(174, 191, 209, 0.92);
-  --docs-table-head-bg: linear-gradient(180deg, #f4fbfc 0%, #e8f6f8 100%);
-  --docs-table-row-alt: #f8fbfd;
-  --docs-table-row-hover: #edf8fa;
+  --docs-table-head-bg: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+  --docs-table-row-alt: #fffbf7;
+  --docs-table-row-hover: #fff4ec;
   --docs-table-head-text: #0f172a;
   --docs-table-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
 
@@ -39,9 +47,9 @@
   --docs-box-info-bg: #eff6ff;
   --docs-box-info-border: #93c5fd;
   --docs-box-info-text: #1e40af;
-  --docs-box-warning-bg: #fefce8;
-  --docs-box-warning-border: #fcd34d;
-  --docs-box-warning-text: #92400e;
+  --docs-box-warning-bg: #fff7ed;
+  --docs-box-warning-border: #fdba74;
+  --docs-box-warning-text: #9a3412;
   --docs-box-success-bg: #f0fdf4;
   --docs-box-success-border: #86efac;
   --docs-box-success-text: #166534;
@@ -55,23 +63,23 @@
   --docs-border: #38465a;
   --docs-border-strong: #52627b;
   --docs-text: #e2e8f0;
-  --docs-text-soft: #a4b0c2;
-  --docs-text-muted: #6b7a8f;
-  --docs-primary: #13a4b3;
-  --docs-primary-soft: rgba(19, 164, 179, 0.1);
-  --docs-rule: rgba(148, 163, 184, 0.36);
+  --docs-text-soft: #b5c0d0;
+  --docs-text-muted: #94a3b8;
+  --docs-primary: #fb923c;
+  --docs-primary-soft: rgba(251, 146, 60, 0.16);
+  --docs-rule: rgba(148, 163, 184, 0.4);
   --docs-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-  --docs-link: #3fc5d3;
-  --docs-code-bg: rgba(19, 164, 179, 0.08);
-  --docs-code-text: #5dd8e4;
+  --docs-link: #fdba74;
+  --docs-code-bg: rgba(251, 146, 60, 0.14);
+  --docs-code-text: #fdba74;
   --docs-hover: rgba(255, 255, 255, 0.04);
-  --docs-blockquote-text: #5dd8e4;
-  --docs-nav-current-text: #3fc5d3;
+  --docs-blockquote-text: #fed7aa;
+  --docs-nav-current-text: #fdba74;
   --docs-header-bg: rgba(11, 14, 20, 0.88);
   --docs-header-border: rgba(82, 98, 123, 0.78);
-  --docs-table-head-bg: linear-gradient(180deg, #1f2d3a 0%, #1a2530 100%);
+  --docs-table-head-bg: linear-gradient(180deg, #3b1d10 0%, #2d160c 100%);
   --docs-table-row-alt: rgba(148, 163, 184, 0.05);
-  --docs-table-row-hover: rgba(19, 164, 179, 0.12);
+  --docs-table-row-hover: rgba(194, 65, 12, 0.16);
   --docs-table-head-text: #f8fafc;
   --docs-table-shadow: 0 20px 40px rgba(0, 0, 0, 0.32);
 
@@ -79,9 +87,9 @@
   --docs-box-info-bg: rgba(59, 130, 246, 0.08);
   --docs-box-info-border: rgba(59, 130, 246, 0.3);
   --docs-box-info-text: #93c5fd;
-  --docs-box-warning-bg: rgba(245, 158, 11, 0.08);
-  --docs-box-warning-border: rgba(245, 158, 11, 0.3);
-  --docs-box-warning-text: #fcd34d;
+  --docs-box-warning-bg: rgba(251, 146, 60, 0.12);
+  --docs-box-warning-border: rgba(251, 146, 60, 0.5);
+  --docs-box-warning-text: #fdba74;
   --docs-box-success-bg: rgba(34, 197, 94, 0.08);
   --docs-box-success-border: rgba(34, 197, 94, 0.3);
   --docs-box-success-text: #86efac;
@@ -91,7 +99,7 @@
 // Base / Reset
 // ------------------------------------
 ::selection {
-  background: rgba(19, 164, 179, 0.18);
+  background: rgba(249, 115, 22, 0.18);
   color: var(--docs-text);
 }
 
@@ -131,7 +139,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid rgba(19, 164, 179, 0.35);
+  outline: 3px solid rgba(249, 115, 22, 0.35);
   outline-offset: 2px;
 }
 

@@ -18,19 +18,36 @@
     <meta name="twitter:image" content="{{ogImageUrl}}" />
     <link rel="canonical" href="{{canonicalUrl}}" />
     <link rel="icon" href="{{faviconHref}}" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap"
+      rel="preload"
+      href="{{fontHref}}"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="{{styleHref}}" />
-    <script>(function(){var t=localStorage.getItem('docs-theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.setAttribute('data-theme','dark');var m=document.querySelector('meta[name="theme-color"]');if(m)m.content='#0b0e14'}})()</script>
+    <script>
+      (function () {
+        var t = localStorage.getItem("docs-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme:dark)").matches)
+        ) {
+          document.documentElement.setAttribute("data-theme", "dark");
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.content = "#0b0e14";
+        }
+      })();
+    </script>
   </head>
   <body class="{{bodyClass}}">
     {{header}}
     <div class="docs-shell container">
-      <aside class="docs-shell__sidebar docs-sidebar" id="docs-sidebar" aria-label="Sidebar">
+      <aside
+        class="docs-shell__sidebar docs-sidebar"
+        id="docs-sidebar"
+        aria-label="Sidebar"
+      >
         {{sidebar}}
       </aside>
       <button
@@ -55,22 +72,105 @@
           {{footer}}
         </article>
       </main>
-      <aside class="docs-shell__toc docs-toc-panel" aria-label="On this page">{{toc}}</aside>
+      <aside class="docs-shell__toc docs-toc-panel" aria-label="On this page">
+        {{toc}}
+      </aside>
+    </div>
     <script src="{{scriptHref}}" defer></script>
     <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default' });
-      document.addEventListener('docs-theme-changed', function (e) {
-        mermaid.initialize({ startOnLoad: false, theme: e.detail === 'dark' ? 'dark' : 'default' });
-        document.querySelectorAll('pre.mermaid').forEach(function (el) {
-          var raw = el.getAttribute('data-mermaid-src');
-          if (raw) { el.removeAttribute('data-processed'); el.innerHTML = raw; }
+      import mermaid from "{{mermaidHref}}";
+
+      function getCssVar(name, fallback) {
+        var value = getComputedStyle(document.documentElement)
+          .getPropertyValue(name)
+          .trim();
+
+        return value || fallback;
+      }
+
+      function getMermaidOptions(theme) {
+        var isDark = theme === "dark";
+        var surface = getCssVar(
+          "--docs-surface",
+          isDark ? "#13171f" : "#ffffff",
+        );
+        var surfaceMuted = getCssVar(
+          "--docs-surface-muted",
+          isDark ? "#1a1f2b" : "#f1f5f9",
+        );
+        var accent = getCssVar("--docs-primary", "#c2410c");
+        var accentSoft = getCssVar(
+          "--docs-primary-soft",
+          isDark ? "rgba(194, 65, 12, 0.14)" : "#fff1e8",
+        );
+
+        return {
+          startOnLoad: false,
+          theme: "base",
+          darkMode: isDark,
+          fontFamily: getCssVar(
+            "--docs-font",
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+          ),
+          themeVariables: {
+            background: surface,
+            mainBkg: surface,
+            secondBkg: surfaceMuted,
+            primaryColor: accent,
+            primaryBorderColor: accent,
+            primaryTextColor: "#ffffff",
+            lineColor: getCssVar(
+              "--docs-text-muted",
+              isDark ? "#94a3b8" : "#526377",
+            ),
+            textColor: getCssVar("--docs-text", isDark ? "#e2e8f0" : "#0f172a"),
+            tertiaryColor: accentSoft,
+            clusterBkg: accentSoft,
+            clusterBorder: accent,
+            noteBkgColor: accentSoft,
+            noteTextColor: getCssVar(
+              "--docs-text",
+              isDark ? "#e2e8f0" : "#0f172a",
+            ),
+            edgeLabelBackground: surface,
+            fontFamily: getCssVar(
+              "--docs-font",
+              '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+            ),
+          },
+        };
+      }
+
+      function rerenderMermaid() {
+        document.querySelectorAll("pre.mermaid").forEach(function (el) {
+          var raw = el.getAttribute("data-mermaid-src");
+
+          if (raw) {
+            el.removeAttribute("data-processed");
+            el.innerHTML = raw;
+          }
         });
-        mermaid.run();
+
+        mermaid.run({ querySelector: "pre.mermaid" });
+      }
+
+      var initialTheme =
+        document.documentElement.getAttribute("data-theme") === "dark"
+          ? "dark"
+          : "light";
+
+      document.querySelectorAll("pre.mermaid").forEach(function (el) {
+        el.setAttribute("data-mermaid-src", el.textContent);
       });
-      document.querySelectorAll('pre.mermaid').forEach(function (el) {
-        el.setAttribute('data-mermaid-src', el.textContent);
+
+      mermaid.initialize(getMermaidOptions(initialTheme));
+      rerenderMermaid();
+
+      document.addEventListener("docs-theme-changed", function (e) {
+        mermaid.initialize(
+          getMermaidOptions(e.detail === "dark" ? "dark" : "light"),
+        );
+        rerenderMermaid();
       });
     </script>
   </body>
