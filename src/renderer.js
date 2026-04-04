@@ -47,9 +47,13 @@ async function renderPageHtml(options) {
     page.outputRelativePath,
     "assets/script.js",
   );
-  const fontHref = relativeAssetPath(
+  const headingFontHref = relativeAssetPath(
     page.outputRelativePath,
-    "assets/young-serif.woff2",
+    "assets/eb-garamond.woff2",
+  );
+  const bodyFontHref = relativeAssetPath(
+    page.outputRelativePath,
+    "assets/google-sans-flex.woff2",
   );
   const mermaidHref = relativeAssetPath(
     page.outputRelativePath,
@@ -109,9 +113,10 @@ async function renderPageHtml(options) {
     contentHtml: page.contentHtml,
     description: escapeHtml(page.description || options.config.siteTagline),
     documentTitle: escapeHtml(documentTitle),
+    bodyFontHref: escapeHtml(bodyFontHref),
     faviconHref: escapeHtml(faviconHref),
-    fontHref: escapeHtml(fontHref),
     footer,
+    headingFontHref: escapeHtml(headingFontHref),
     header,
     mermaidHref: escapeHtml(mermaidHref),
     ogImageUrl: escapeHtml(ogImageUrl),

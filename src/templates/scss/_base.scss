@@ -2,11 +2,20 @@
 // Design tokens
 // ------------------------------------
 @font-face {
-  font-family: "Young Serif";
-  src: url("./young-serif.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Google Sans Flex";
   font-style: normal;
+  font-weight: 300 500;
+  font-stretch: 100%;
   font-display: swap;
+  src: url("./google-sans-flex.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("./eb-garamond.woff2") format("woff2");
 }
 
 :root {
@@ -25,9 +34,8 @@
   --docs-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
   --docs-radius: 18px;
   --docs-radius-sm: 12px;
-  --docs-font:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --docs-heading-font: "Young Serif", Georgia, serif;
+  --docs-font: "Google Sans Flex", "Segoe UI", Roboto, Arial, sans-serif;
+  --docs-heading-font: "EB Garamond", Georgia, serif;
   --docs-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --docs-link: #c2410c;
   --docs-code-bg: #fff6ee;
@@ -114,6 +122,7 @@ html {
 body {
   margin: 0;
   font-family: var(--docs-font);
+  font-optical-sizing: auto;
   color: var(--docs-text);
   background: var(--docs-bg);
 }
@@ -126,6 +135,7 @@ h5,
 h6,
 .docs-header__title {
   font-family: var(--docs-heading-font);
+  font-optical-sizing: auto;
 }
 
 a {
