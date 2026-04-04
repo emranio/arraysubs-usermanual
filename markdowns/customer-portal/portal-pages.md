@@ -258,6 +258,8 @@ When usage tracking is enabled, the **Usage** column shows progress:
 
 If the customer has no active subscriptions with features, the page displays: **"You don't have any features yet. Subscribe to a plan to unlock features!"** with a link to the shop.
 
+For the complete Feature Manager guide — including product setup, all settings, usage tracking, and the admin Feature Log — see the dedicated [Feature Manager](../feature-manager/README.md) section.
+
 ---
 
 ## Store Credit Page **Pro**

@@ -117,6 +117,8 @@ All features across all active subscriptions are merged into a single table with
 The Usage column only appears when the **Show usage in admin** setting is enabled in Feature Manager settings.
 ```
 
+For the full Feature Manager guide — including product setup, customer display, all settings, and usage tracking — see the dedicated [Feature Manager](../feature-manager/README.md) section.
+
 ---
 
 ## Related Orders, Invoices, and Refund History

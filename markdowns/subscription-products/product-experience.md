@@ -189,6 +189,8 @@ When enabled in the Feature Manager settings, a "What's Included" section appear
 The storefront display currently renders on simple product pages only.
 ```
 
+For the complete Feature Manager guide — including step-by-step product setup, all display settings, the admin Feature Log, usage tracking, and templates — see the dedicated [Feature Manager](../feature-manager/README.md) section.
+
 ---
 
 ## Subscription Shipping *(Pro)*

@@ -75,6 +75,12 @@
         "profile-builder/my-account-editor.md"
     ],
     [
+        "feature-manager/README.md",
+        "feature-manager/defining-product-features.md",
+        "feature-manager/customer-and-storefront-display.md",
+        "feature-manager/feature-manager-settings.md"
+    ],
+    [
         "member-access/README.md",
         "member-access/access-rules.md",
         "member-access/commerce-and-benefit-rules.md",

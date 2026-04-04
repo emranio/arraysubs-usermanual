@@ -108,6 +108,15 @@ Use shortcodes to display login/logout links, personalized greetings, gated cont
 - [Content Gating Shortcodes](shortcodes/content-gating.md) — `[arraysubs_visibility]` and `[arraysubs_restrict]` for login-based and subscription-based content control.
 - [Store Credit Shortcode](shortcodes/store-credit-shortcode.md) *(Pro)* — `[arraysubs_buy_credits]` purchase form for store credits.
 
+## Feature Manager *(Pro)*
+
+Define named product entitlements — features, limits, and capabilities — so customers always know what their subscription includes.
+
+- [Overview](feature-manager/README.md) — What Feature Manager does, how it works, prerequisites, and section navigation.
+- [Defining Product Features](feature-manager/defining-product-features.md) — Add, edit, reorder, and template features on simple and variable products.
+- [Customer and Storefront Display](feature-manager/customer-and-storefront-display.md) — "What's Included" product page section, My Features customer page, admin Feature Log, usage tracking, and aggregation modes.
+- [Feature Manager Settings](feature-manager/feature-manager-settings.md) — Every setting: enable/disable, display toggles, usage visibility, aggregation mode, and feature comparison.
+
 ## Member Access and Restriction Rules
 
 Control who can access what across your site — gate content, restrict products, assign roles, offer member discounts, manage downloads, and enforce session limits.
