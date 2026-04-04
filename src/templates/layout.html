@@ -33,7 +33,6 @@
       crossorigin
     />
     <link rel="stylesheet" href="{{styleHref}}" />
-    {{gtmScript}}
     <script>
       (function () {
         var t = localStorage.getItem("docs-theme");
@@ -181,5 +180,34 @@
         rerenderMermaid();
       });
     </script>
+    <!-- Google Tag Manager -->
+    <script>
+      // Load GTM on first user interaction
+      var gtmLoaded = false;
+      function loadGTM() {
+        if (gtmLoaded) return;
+        gtmLoaded = true;
+
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+          var j = d.createElement(s);
+          j.async = true;
+          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + "&l=" + l;
+          d.body.appendChild(j);
+        })(window, document, "script", "dataLayer", "GTM-WJJLFRQ4");
+      }
+
+      // Trigger on any interaction
+      ["scroll", "click", "touchstart", "mousemove", "keydown"].forEach(
+        function (evt) {
+          window.addEventListener(evt, loadGTM, { once: true, passive: true });
+        },
+      );
+
+      // Fallback: load after 5 seconds anyway
+      setTimeout(loadGTM, 5000);
+    </script>
+    <!-- End Google Tag Manager -->
   </body>
 </html>

@@ -38,7 +38,6 @@ function loadProjectConfig(rootDir) {
 
   return {
     faviconFilename: process.env.FAVICON_FILENAME || "favicon.svg",
-    gtmContainerId: process.env.GTM_CONTAINER_ID || "",
     port: Number(process.env.PORT || 3000),
     siteBaseUrl: normalizeBaseUrl(process.env.SITE_BASE_URL || "/"),
     siteTagline:
