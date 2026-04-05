@@ -233,9 +233,23 @@
   }
 
   .docs-badge--pro {
-    opacity: 0.7;
     padding: 2px 5px;
     line-height: 1;
+    font-family: "Google Sans Flex";
+    font-weight: 300;
+    background: none;
+    color: currentColor;
+    border: 1px solid;
+    margin-right: 5px;
+  }
+
+  h2,
+  h3,
+  h1 {
+    .docs-badge--pro {
+      position: relative;
+      top: -3px;
+    }
   }
 }
 
