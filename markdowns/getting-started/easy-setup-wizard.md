@@ -98,9 +98,9 @@ When you choose a business type, the wizard preloads recommended defaults for al
 
 | Profile | Key Defaults |
 |---|---|
-| **SaaS / Digital Software** | Multiple plans, trials with payment required, strict grace (1 active / 3 hold days), one subscription per customer, portal payment method change, all-direction plan switching, immediate proration, access control enabled, Feature Manager and Audit Logging on |
+| **SaaS / Digital Software** | Multiple plans, trials with payment required, strict grace (1 active / 3 hold days), one subscription per customer, all-direction plan switching, immediate proration, access control enabled, Feature Manager and Audit Logging on |
 | **Physical Subscription Box** | Lenient grace (5/14 days), skip and pause enabled, monthly renewal sync, contact-support retention offer, Store Credit enabled |
-| **Membership / Community** | Multiple plans, pause flexibility, one per customer, payment method in portal, access control, Feature Manager, Audit Logging, Multi-Login prevention |
+| **Membership / Community** | Multiple plans, pause flexibility, one per customer, access control, Feature Manager, Audit Logging, Multi-Login prevention |
 | **Digital Content** | Multiple plans, trials, upgrade-only plan switching, end-of-period cancellation and refund, access control |
 | **Professional Services** | Pause enabled, contact-support retention, immediate prorated refund, custom profile fields |
 | **Nonprofit / Donations** | Lenient grace, hide admin bar, minimal defaults |
@@ -156,7 +156,7 @@ Chooses which self-service actions customers can use from **My Account → Subsc
 
 | Question | Type | Options |
 |---|---|---|
-| Which actions should customers be able to do from the portal? | Checkboxes | Cancel subscription · Reactivate cancelled subscription · Suspend / hold subscription · Change payment method **Pro** |
+| Which actions should customers be able to do from the portal? | Checkboxes | Cancel subscription · Reactivate cancelled subscription · Suspend / hold subscription |
 | Should customers be able to switch plans from the portal? | Radio | Allow all switching directions · Only upgrades and downgrades · Only upgrades · Disable plan switching (only when multiple plans selected in Step 1) |
 | How should price differences be handled during plan switching? | Radio | Prorate immediately · Apply the change at renewal · No proration (only when plan switching is not disabled) |
 
@@ -281,7 +281,7 @@ Click **Apply Settings** to save. The wizard maps your answers to the correspond
 
 ## Edge Cases / Important Notes
 
-- **Pro features hidden when Pro is inactive.** If ArraySubs Pro is not active, Pro-only options (Change payment method, Store Credit, Feature Manager, Audit Logging, Multi-Login) are hidden from the wizard entirely.
+- **Pro features hidden when Pro is inactive.** If ArraySubs Pro is not active, Pro-only options (Store Credit, Feature Manager, Audit Logging, Multi-Login) are hidden from the wizard entirely.
 - **Conditional questions.** Many questions only appear based on earlier answers. If you change an answer on a previous step, the wizard may show or hide questions on later steps. Previously answered conditional questions that are now hidden are not sent to the server.
 - **Skip with defaults uses business profile values.** When you skip a step, the wizard fills in the defaults for your selected business type — not empty values.
 - **Wizard does not delete data.** It only adds or updates settings. It never removes products, subscriptions, access rules, or other data from your site.

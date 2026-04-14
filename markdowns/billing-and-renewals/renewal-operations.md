@@ -159,7 +159,7 @@ Trial periods are **not affected** by sync. The trial runs for its configured le
 
 ### Sync at checkout
 
-When **Show Sync Info at Checkout** is enabled in settings, customers see a **Renewal Schedule** summary in the cart and checkout:
+When renewal sync applies, customers automatically see a **Renewal Schedule** summary in the cart and checkout:
 
 > **Renewal Schedule**
 > First payment (prorated): $9.68 — covers until February 1, 2025
@@ -188,7 +188,6 @@ Configure renewal sync at **ArraySubs → Settings → General Settings → Sync
 | **Month** (yearly) | Which month all yearly subscriptions renew | January |
 | **Day** (yearly) | Which day within the month for yearly sync | 1 |
 | **First Payment Handling** | Prorate first or extend first period | Prorate first |
-| **Show Sync Info at Checkout** | Display sync schedule to customers during checkout | On |
 
 ```box class="warning-box"
 Enabling renewal sync only affects **new** subscriptions created after the setting is turned on. Existing subscriptions keep their original renewal dates.

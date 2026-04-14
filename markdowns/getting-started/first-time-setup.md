@@ -80,7 +80,10 @@ Want to rename or move the **Subscriptions** tab itself? Do that later in **Arra
 | Allow cancellation | On | Customers can cancel their own subscriptions |
 | Allow suspension | Off | Customers can pause their subscriptions (when skip/pause is configured) |
 | Allow reactivation | On | Customers can reactivate cancelled subscriptions |
-| Allow payment method change | On | Customers can update their payment method |
+
+```box class="info-box"
+Payment-method updates for automatic subscriptions are handled by compatible gateways and are not toggled from General Settings.
+```
 
 ### Trials
 

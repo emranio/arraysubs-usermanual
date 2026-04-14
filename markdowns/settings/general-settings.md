@@ -277,14 +277,9 @@ Controls how the customer's first checkout is priced when the purchase date does
 | **Prorate first payment** | Customer pays a partial amount at checkout covering only the time until the sync date. Full price starts on the sync date |
 | **Extend first period** | Customer pays full price at checkout and receives extra time until the sync date. Full price then continues on subsequent renewals |
 
-### Show Sync Info at Checkout
-
-| | |
-|---|---|
-| **Type:** Toggle (on/off) | **Default:** On |
-| **Visible when:** Enable Renewal Synchronization is **on** | |
-
-Displays the renewal schedule and any proration details to customers during checkout so they understand why the initial charge may differ from the recurring price.
+```box class="info-box"
+When renewal sync applies, ArraySubs automatically shows a **Renewal Schedule** summary in the cart and checkout so customers can see any proration and the regular recurring cadence.
+```
 
 ```box class="warning-box"
 If you are using automatic payments and need synced renewals, choose Stripe or Paddle. PayPal automatic renewals should stay on anniversary billing because PayPal keeps its own billing schedule.
@@ -361,7 +356,7 @@ For example, setting Renewal Reminder to `3` will send the email 3 days before t
 Controls which self-service action buttons appear on the customer's subscription management page in their account area.
 
 ```box class="info-box"
-Need to rename or reorder the **Subscriptions** tab in WooCommerce My Account? Use **ArraySubs → Profile Builder → My Account**. General Settings now controls the actions inside the portal, not the navigation label or menu order.
+Need to rename or reorder the **Subscriptions** tab in WooCommerce My Account? Use **ArraySubs → Profile Builder → My Account**. General Settings now controls the cancellation, pause, and reactivation buttons inside the portal, not the navigation label or menu order. Payment-method update links are handled by compatible automatic payment gateways instead of a toggle on this page.
 ```
 
 | Setting | Default | What it controls |
@@ -369,10 +364,9 @@ Need to rename or reorder the **Subscriptions** tab in WooCommerce My Account? U
 | **Allow Cancellation** | On | Shows or hides the **Cancel Subscription** button |
 | **Allow Suspension (Pause)** | Off | Shows or hides the **Pause** button |
 | **Allow Reactivation** | On | Shows or hides the **Reactivate** button for cancelled subscriptions |
-| **Allow Payment Method Change** | On | Shows or hides the **Change Payment Method** link |
 
 ```box class="info-box"
-These settings control which action buttons appear on the customer's subscription management page. Disabling an action here hides the button for all customers on all subscriptions. Per-subscription or per-product overrides are not available from this screen.
+These settings control which action buttons appear on the customer's subscription management page. Disabling an action here hides the button for all customers on all subscriptions. Payment-method update links, when available, come from the active automatic gateway flow rather than a General Settings switch.
 ```
 
 ---
@@ -437,7 +431,6 @@ Customers who turn off auto-renew will receive manual renewal invoices by email.
 | Month (Yearly) | January | Dropdown | Sync Renewals |
 | Day (Yearly) | 1st | Dropdown | Sync Renewals |
 | First Payment Handling | Prorate first payment | Dropdown | Sync Renewals |
-| Show Sync Info at Checkout | On | Toggle | Sync Renewals |
 | Generate Invoice Before Due | 6 Hours | Number + Dropdown | Grace Period |
 | Days Active After Due | 3 | Number | Grace Period |
 | Days On-Hold Before Cancel | 7 | Number | Grace Period |
@@ -447,7 +440,6 @@ Customers who turn off auto-renew will receive manual renewal invoices by email.
 | Allow Cancellation | On | Toggle | Customer Actions |
 | Allow Suspension (Pause) | Off | Toggle | Customer Actions |
 | Allow Reactivation | On | Toggle | Customer Actions |
-| Allow Payment Method Change | On | Toggle | Customer Actions |
 | Cancel Immediately | On | Toggle | Cancellation Settings |
 | Allow Customers to Turn Off Auto-Renew | Off | Toggle | Automatic Payments *(Pro)* |
 
