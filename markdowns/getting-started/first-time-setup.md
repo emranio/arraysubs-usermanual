@@ -67,13 +67,16 @@ The grace period determines how long the system waits before changing a subscrip
 
 For testing, the defaults are fine. Adjust these once you understand your payment flow.
 
-### Customer Portal
+### Customer Portal Actions
 
 These settings control what customers can do from their My Account → Subscriptions page.
 
+```box class="info-box"
+Want to rename or move the **Subscriptions** tab itself? Do that later in **ArraySubs → Profile Builder → My Account**.
+```
+
 | Setting | Default | What it does |
 |---|---|---|
-| Menu title | Subscriptions | Label shown in the My Account navigation |
 | Allow cancellation | On | Customers can cancel their own subscriptions |
 | Allow suspension | Off | Customers can pause their subscriptions (when skip/pause is configured) |
 | Allow reactivation | On | Customers can reactivate cancelled subscriptions |
@@ -296,4 +299,4 @@ Yes. Go to **ArraySubs → Subscriptions**, find the test subscription, and tras
 It is recommended. Go to **Settings → Permalinks** and click **Save Changes** once after first activation. This ensures the customer portal endpoints (Subscriptions, View Subscription) register correctly.
 
 ### What if I want to change the subscription menu label in My Account?
-Go to **ArraySubs → Settings → General → Customer Portal** and change the **Menu title** field. By default, it shows "Subscriptions."
+Go to **ArraySubs → Profile Builder → My Account** and edit the **Subscriptions** item there. That editor controls the menu label and order for WooCommerce My Account.

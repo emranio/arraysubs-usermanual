@@ -316,8 +316,8 @@ For the full admin-side documentation — including settings, management, purcha
 ### Can customers see cancelled and expired subscriptions?
 Yes. The My Subscriptions list shows all subscription statuses including cancelled and expired subscriptions. Customers can click View to see the full details of past subscriptions.
 
-### Can I customize the Subscriptions menu label?
-Yes. Go to **ArraySubs → Settings → General Settings → Customer Portal** and change the **Menu Title** field. You can also adjust the **Menu Position** to control where the tab appears relative to other My Account menu items.
+### Can I customize the Subscriptions menu label or position?
+Yes. Go to **ArraySubs → Profile Builder → My Account** and edit the **Subscriptions** item there. You can rename it, drag it to a new position, or hide/reorder other My Account items around it. General Settings no longer includes separate **Menu Title** or **Menu Position** fields for the portal tab.
 
 ### What if a customer tries to view someone else's subscription?
 The portal verifies subscription ownership on every page load. If the subscription does not belong to the logged-in user, an error message is displayed: **"Subscription not found or you do not have permission to view it."**

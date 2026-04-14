@@ -29,7 +29,6 @@
 		- Renewal sync settings (enable, sync type, day mapping, proration method)
 		- Grace period configuration (active grace days, on-hold grace days)
 		- Email reminder schedule (renewal reminder days-before, invoice timing value and unit)
-		- Customer portal menu (menu title, menu position)
 		- Customer action toggles (cancellation, suspension, reactivation, payment method change)
 		- Automatic-payment customer controls (auto-renew toggle) *(Pro)*
 	- Toolkit Settings

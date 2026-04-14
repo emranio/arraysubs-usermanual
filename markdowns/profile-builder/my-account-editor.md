@@ -1,7 +1,7 @@
 # Info
 - Module: My Account Editor
 - Availability: Free (Pro features add additional menu items)
-- Last updated: 2026-04-02
+- Last updated: 2026-04-14
 
 # My Account Editor
 
@@ -19,6 +19,10 @@ The My Account Editor gives you full control over the WooCommerce My Account sid
 - **Add custom endpoint pages** linked to existing WordPress pages or custom post types.
 
 The editor runs at a late priority (99) in the WooCommerce menu filter, so it respects items added by other plugins and always applies last.
+
+```box class="info-box"
+This editor is the source of truth for the **Subscriptions** tab label and menu order. General Settings no longer includes separate **Menu Title** or **Menu Position** fields for the customer portal.
+```
 
 ## When to Use This
 
@@ -183,7 +187,7 @@ When ArraySubs Pro is active and certain features are enabled, additional menu i
 - **Endpoint:** `subscriptions`
 - **Always present:** Added by the core Customer Portal feature.
 - **Shows:** The customer's subscription list with status, next payment date, and billing cycle.
-- **Customizable:** Label can be renamed and position can be changed via the My Account Editor.
+- **Customizable:** Label can be renamed and position can be changed here in the My Account Editor.
 
 ```box class="info-box"
 If you deactivate the Pro plugin, the My Features and Store Credit menu items disappear from the customer-facing menu automatically. They also stop appearing in the My Account Editor list. Your saved configuration is preserved — if you reactivate Pro, the items return to their configured positions.
@@ -242,7 +246,7 @@ A digital-only store has no physical products and no downloadable files. Hide bo
 - [Shortcodes](../shortcodes/README.md) — Shortcodes for login links, visibility gating, and content restriction
 - [Customer Portal — Portal Pages](../customer-portal/portal-pages.md) — The Subscriptions and View Subscription pages in My Account
 - [Store Credit](../store-credit/README.md) — Store Credit customer portal page *(Pro)*
-- [Settings — General Settings](../settings/general-settings.md) — Customer portal menu title and menu position settings
+- [Settings — General Settings](../settings/general-settings.md) — Customer self-service actions, cancellation timing, and portal behavior
 
 ---
 

@@ -219,7 +219,7 @@ Depending on your settings, customers can perform actions like:
 | Pause and resume their subscription | Reactivate a cancelled subscription |
 | Update their payment method *(Pro)* | Toggle automatic renewal on/off *(Pro)* |
 
-The portal tab label, position in the My Account menu, and which actions are available to customers are all configurable in **ArraySubs → Settings → General → Customer Portal**.
+The available self-service actions are configurable in **ArraySubs → Settings → General**. The **Subscriptions** tab label and its menu order are managed separately in **ArraySubs → Profile Builder → My Account**.
 
 ---
 

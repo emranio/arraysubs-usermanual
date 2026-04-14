@@ -36,6 +36,8 @@ Managing payment methods, the auto-renew toggle *(Pro)*, and updating the shippi
 
 The customer portal builds on the standard WooCommerce My Account page. When ArraySubs is active, it registers custom endpoints and adds menu items to the account navigation. Customers see a **Subscriptions** link that takes them to a list of their subscriptions. Clicking **View** on any subscription opens the detail page where all self-service actions are available.
 
+If you want to rename or reorder the **Subscriptions** tab itself, use **ArraySubs → Profile Builder → My Account**.
+
 The portal respects your store's settings. If you have disabled customer cancellation, the cancel button does not appear. If skip or pause features are turned off, those sections are hidden. Customers only see actions they are permitted to take on their current subscription.
 
 ## Quick Reference

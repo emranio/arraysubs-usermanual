@@ -1,11 +1,11 @@
 # Info
 - Module: General Settings
 - Availability: Shared (one section requires Pro)
-- Last updated: 2026-04-03
+- Last updated: 2026-04-14
 
 # General Settings
 
-> Configure subscription cart rules, checkout behavior, free trials, renewal synchronization, grace periods, email reminder timing, customer portal placement, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
+> Configure subscription cart rules, checkout behavior, free trials, renewal synchronization, grace periods, email reminder timing, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
 
 **Availability:** Free (the Automatic Payments section requires **Pro**)
 
@@ -356,36 +356,13 @@ For example, setting Renewal Reminder to `3` will send the email 3 days before t
 
 ---
 
-## Customer Portal
-
-Configures how the Subscriptions tab appears in the WooCommerce **My Account** area.
-
-### Menu Title
-
-| | |
-|---|---|
-| **Type:** Text field | **Default:** Empty (uses "Subscriptions") |
-
-Overrides the menu item label in the My Account navigation. Leave empty to use the default "Subscriptions" text.
-
-### Menu Position
-
-| | |
-|---|---|
-| **Type:** Number | **Default:** 20 |
-| **Range:** 0–100 | |
-
-Controls where the Subscriptions tab appears in the My Account sidebar. Lower numbers appear higher.
-
-```box class="info-box"
-Default WooCommerce items use positions like: Dashboard (10), Orders (15), Downloads (20). Set the Subscriptions position to a value between these to control placement.
-```
-
----
-
 ## Customer Actions
 
 Controls which self-service action buttons appear on the customer's subscription management page in their account area.
+
+```box class="info-box"
+Need to rename or reorder the **Subscriptions** tab in WooCommerce My Account? Use **ArraySubs → Profile Builder → My Account**. General Settings now controls the actions inside the portal, not the navigation label or menu order.
+```
 
 | Setting | Default | What it controls |
 |---------|---------|------------------|
@@ -467,8 +444,6 @@ Customers who turn off auto-renew will receive manual renewal invoices by email.
 | Renewal Reminder (Days Before) | 3 | Number | Email Reminder Schedule |
 | Trial Ending Reminder (Days Before) | 3 | Number | Email Reminder Schedule |
 | Expiring Soon Reminder (Days Before) | 7 | Number | Email Reminder Schedule |
-| Menu Title | Empty (Subscriptions) | Text | Customer Portal |
-| Menu Position | 20 | Number | Customer Portal |
 | Allow Cancellation | On | Toggle | Customer Actions |
 | Allow Suspension (Pause) | Off | Toggle | Customer Actions |
 | Allow Reactivation | On | Toggle | Customer Actions |
@@ -523,6 +498,7 @@ A subscription box store wants to give customers plenty of time to resolve payme
 ## Related Guides
 
 - [Toolkit Settings](toolkit-settings.md) — Admin bar, wp-admin access, login page, and multi-login controls.
+- [My Account Editor](../profile-builder/my-account-editor.md) — Rename, reorder, and manage the Subscriptions tab in WooCommerce My Account.
 - [Customer Portal](../customer-portal/README.md) — What customers see and can do in their account area, driven by the settings on this page.
 - [Getting Started — First-Time Setup](../getting-started/first-time-setup.md) — Quick walkthrough of settings to review during initial setup.
 - [Getting Started — Before You Launch](../getting-started/before-you-launch.md) — Grace period lifecycle and subscription status reference.
@@ -549,6 +525,9 @@ Only for the first payment when **Prorate first payment** is selected. After the
 
 ### Which gateways support renewal synchronization?
 Manual renewals support sync. For automatic payments, **Stripe** supports synced renewals because ArraySubs controls the billing schedule, and **Paddle** supports synced renewals for new synced subscriptions because ArraySubs aligns the remote billing date when the subscription is created. **PayPal** does not support shared sync dates for automatic renewals because PayPal keeps its own billing schedule.
+
+### Where do I rename or reorder the Subscriptions tab?
+Use **ArraySubs → Profile Builder → My Account**. The My Account Editor is the built-in place to rename the **Subscriptions** menu item, move it higher or lower in the WooCommerce My Account sidebar, or hide/show other account tabs.
 
 ### Can customers re-enable auto-renew after turning it off?
 Yes. Customers can toggle auto-renew back on at any time from the customer portal, as long as a valid payment method is still on file for the subscription.
