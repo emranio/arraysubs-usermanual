@@ -64,7 +64,7 @@
 	- Subscription Operations
 		- All Subscriptions list (status filters, customer/product search, status-colored badges)
 		- Create subscription (full form: customer, product, variation, billing schedule, trial, signup fee, different renewal price, addresses)
-		- Edit subscription (limited fields: next payment date, invoice email, billing and shipping addresses, status change with confirmation modal)
+		- Edit subscription (limited fields: invoice email, billing and shipping addresses, status change with confirmation modal)
 		- Subscription detail screen (info card, customer info, product card, billing info, payment timeline, addresses)
 	- Admin Tools and Records
 		- Subscription notes (system-generated and manual admin notes)

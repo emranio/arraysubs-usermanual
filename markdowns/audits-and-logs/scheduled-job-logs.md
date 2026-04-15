@@ -190,7 +190,7 @@ A customer says they did not receive a renewal reminder. Filter the logs around 
 
 ### Can I manually run a failed job again?
 
-The Scheduled-Job Logs screen is read-only. To retry a failed job, you can manually trigger the action from the subscription detail page (for example, changing the next payment date to the past to trigger a new renewal) or use the Action Scheduler admin screen provided by WooCommerce at **WooCommerce → Status → Scheduled Actions**.
+The Scheduled-Job Logs screen is read-only. To retry a failed job, use the Action Scheduler admin screen provided by WooCommerce at **WooCommerce → Status → Scheduled Actions**. If no relevant action is queued, review the subscription's billing configuration and scheduler health instead of trying to edit renewal dates manually.
 
 ### Do job logs include jobs from other plugins?
 

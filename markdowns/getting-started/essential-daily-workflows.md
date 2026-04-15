@@ -118,7 +118,7 @@ The main ArraySubs admin interface is a single-page application (SPA) accessible
 | All Subscriptions | **ArraySubs → Subscriptions** | Filterable list of all subscriptions with status badges, customer info, and actions |
 | Add New | **ArraySubs → Subscriptions → Add New** | Manually create a subscription for a customer |
 | Subscription Detail | Click any subscription | Full detail view: info card, customer info, product, billing, addresses, related orders, notes |
-| Edit Subscription | Edit button on detail page | Limited editing: next payment date, invoice email, addresses, status |
+| Edit Subscription | Edit button on detail page | Limited editing: invoice email, addresses, status |
 
 #### Retention
 
@@ -270,7 +270,7 @@ Invoice generation and overdue checks run every hour. Trial conversions run once
 Most settings apply to future actions only. For example, changing the grace period affects future overdue transitions, not subscriptions already in the grace period.
 
 ### Can I manually trigger a renewal for a specific subscription?
-No direct manual trigger exists in the admin UI. To test renewals, you can adjust the subscription's next payment date to a time in the near past, and the hourly batch job will pick it up.
+No direct manual trigger exists in the admin UI. For testing, use a staging site with a short billing cycle, or run the relevant queued action from **WooCommerce → Status → Scheduled Actions** when one exists. ArraySubs no longer supports manually editing the next payment date from the subscription edit form.
 
 ### Do I need WP-Cron or a real server cron?
 ArraySubs uses the Action Scheduler library, which runs through WordPress cron. For reliable scheduling on production stores, a real server cron job (hitting `wp-cron.php` every minute) is recommended over the default WP-Cron visitor-triggered approach.

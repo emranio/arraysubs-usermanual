@@ -10,7 +10,7 @@ ArraySubs gives you four main screens for working with subscriptions:
 
 1. **All Subscriptions** — a filterable, searchable list of every subscription in your store.
 2. **Create Subscription** — a full form for building a subscription from scratch.
-3. **Edit Subscription** — a focused form for changing dates, addresses, and status on an existing subscription.
+3. **Edit Subscription** — a focused form for changing invoice, address, and status details on an existing subscription.
 4. **Subscription Detail** — the read-only dashboard for a single subscription, showing every piece of information, timeline events, order history, and admin notes.
 
 ## Prerequisites
@@ -59,7 +59,7 @@ Hover over any subscription row (or use the action column) to see:
 | Action | What It Does |
 |--------|--------------|
 | **View Details** | Opens the read-only detail screen with full subscription information, timeline, orders, and notes |
-| **Edit** | Opens the edit form where you can change the next payment date, invoice email, addresses, and status |
+| **Edit** | Opens the edit form where you can update the invoice email, addresses, and status-related details |
 | **Delete** | Permanently removes the subscription — only available for Pending, On Hold, Cancelled, and Expired subscriptions |
 
 ```box class="warning-box"
@@ -184,12 +184,15 @@ The top of the edit page shows four items that cannot be changed from this scree
 
 ### Editable Fields
 
-#### Schedule & Contact
+#### Contact
 
 | Field | Type | Notes |
 |-------|------|-------|
-| **Next Payment Date** | Date and time picker | Reschedule the next renewal date and time. Useful when you need to give a customer more time or align dates. |
 | **Invoice Email** | Text | Override the email address where renewal invoices are sent. |
+
+```box class="info-box"
+The next payment date is no longer editable from the admin subscription form. ArraySubs calculates it automatically from the billing schedule, renewal processing, and lifecycle events such as reactivation, skip, or pause flows.
+```
 
 #### Billing Address
 
@@ -216,7 +219,7 @@ Changing status to **Cancelled** from this screen performs an immediate cancella
 
 ### What Happens When You Save
 
-Clicking **Update Subscription** saves the edited fields (dates, email, addresses) and redirects you to the subscription detail page.
+Clicking **Update Subscription** saves the edited contact and address fields and redirects you to the subscription detail page.
 
 ---
 
@@ -377,7 +380,7 @@ The notes panel sits at the bottom of the detail page and includes:
   - **Customer** — visible to the customer in their My Account area as well
 - A **Delete** button on each note (admin only)
 
-System-generated notes are created automatically for events like status changes, payment completions, payment failures, renewal invoice creation, trial conversion, product changes, quantity or amount changes, plan switches, payment method changes, next payment date changes, and reactivation.
+System-generated notes are created automatically for events like status changes, payment completions, payment failures, renewal invoice creation, trial conversion, product changes, quantity or amount changes, plan switches, payment method changes, and reactivation.
 
 ---
 
@@ -387,9 +390,9 @@ System-generated notes are created automatically for events like status changes,
 
 A long-time customer calls to add a second subscription. Go to **ArraySubs → Subscriptions → Add New**, search for the customer by email, select the product, review the auto-filled billing schedule, enter their shipping address, and save. Then open the subscription and change the status to Active.
 
-### Use Case 2: Rescheduling a Renewal
+### Use Case 2: Updating the Invoice Recipient
 
-A customer requests a few extra days before their next charge. Go to the subscription's **Edit** page, change the **Next Payment Date** to the new date and time, and save.
+A customer wants renewal invoices sent to a different address than their account email. Go to the subscription's **Edit** page, update **Invoice Email**, and save.
 
 ### Use Case 3: Reviewing a Disputed Charge
 
@@ -408,7 +411,7 @@ A customer asks to stop their subscription but wants to keep access until their 
 | Cannot find a subscription in the list | Wrong status filter selected, or searching by product name instead of customer | Switch to the **All** tab and search by customer name, email, or username |
 | Cannot delete a subscription | The subscription is Active or in Trial | Cancel the subscription first, then delete it |
 | Product fields do not auto-fill when selecting a product | The product does not have subscription data configured | Verify the product is a subscription product with billing period, interval, and price set |
-| Status change to Active does not schedule renewals | The next payment date may be in the past or blank | Edit the subscription and set a valid future next payment date |
+| Status change to Active does not schedule renewals | The scheduler is not running, or the subscription billing configuration is invalid | Check **WooCommerce → Status → Scheduled Actions**, confirm the billing interval and period are correct, and verify the detail screen shows a valid automatically calculated next payment date |
 | Export CSV opens garbled in Excel | Excel not detecting UTF-8 encoding | The CSV includes a BOM header for Excel compatibility. Try opening with "Import from CSV" instead of double-clicking the file. |
 
 ---
@@ -432,7 +435,7 @@ No. Every subscription must be linked to a subscription product. The product det
 Not from the Edit screen. The product and variation are part of the subscription summary and are read-only on the edit page. To change the product, you would create a new subscription and cancel the old one — or use the Plan Switching feature if configured.
 
 ### What is the difference between Edit and View Details?
-**View Details** is the read-only dashboard with all subscription information, timeline, order history, and notes. **Edit** is a focused form where you can change the next payment date, invoice email, addresses, and subscription status.
+**View Details** is the read-only dashboard with all subscription information, timeline, order history, and notes. **Edit** is a focused form where you can update the invoice email, addresses, and subscription status.
 
 ### Can I export only certain statuses?
 The **Export CSV** button exports all subscriptions matching the current status filter. Switch to the status tab you want (e.g., Active) before clicking export to download only those subscriptions.

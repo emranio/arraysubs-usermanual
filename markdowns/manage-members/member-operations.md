@@ -29,7 +29,7 @@ The subscriptions table in the member profile includes two ways to jump to a sub
 - Click the **subscription ID** link (e.g., `#142`) in the ID column.
 - Click the **View** action in the Actions column.
 
-Both routes open the subscription detail page within ArraySubs, where you can review billing information, change the next payment date, view related orders, and manage the subscription lifecycle.
+Both routes open the subscription detail page within ArraySubs, where you can review billing information, open the focused edit form for invoice or address updates, view related orders, and manage the subscription lifecycle.
 
 ---
 

@@ -168,7 +168,7 @@ Changes to grace period settings apply to future grace period calculations. Subs
 
 ### How do I reactivate a subscription cancelled due to overdue payment?
 
-From the subscription detail page, manually change the status back to Active. Set the next payment date to the appropriate date. A new renewal cycle will begin from that point.
+From the subscription detail page, change the status back to Active. For cancelled, expired, on-hold, and trial subscriptions, ArraySubs recalculates the next payment date automatically from the current time using the stored billing schedule, then starts a new renewal cycle.
 
 ### Why did the renewal happen early?
 

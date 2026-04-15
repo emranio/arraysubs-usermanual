@@ -47,11 +47,11 @@ The system automatically creates notes when these events occur:
 | Payment failed | Renewal invoice created |
 | Trial converted to paid | Product changed on the subscription |
 | Subscription synced or unsynced | Plan switch completed |
-| Payment method changed | Next payment date rescheduled |
+| Payment method changed | Admin-edited subscription details logged |
 | Quantity or recurring amount changed | Subscription reactivated |
 | Scheduled (end-of-period) cancellation set | Subscription placed on hold |
 
-System notes include structured change data showing the **previous value** and **new value** for auditable fields — for example, "Next payment date changed from March 15 to April 1."
+System notes include structured change data showing the **previous value** and **new value** for auditable fields — for example, "Recurring amount changed from $29.00 to $39.00."
 
 ### Adding a Manual Note
 
@@ -226,7 +226,7 @@ At the end of each month, go to **Subscriptions**, filter by **Active**, and cli
 
 ### Use Case 4: Documenting an Admin Action
 
-Before making a manual change to a subscription (like extending the next payment date), add a **Private** note explaining why — e.g., "Extended 7 days per support ticket #5432." This preserves the audit trail.
+Before making a manual change to a subscription (like updating the invoice email or correcting an address), add a **Private** note explaining why — e.g., "Updated invoice email per support ticket #5432." This preserves the audit trail.
 
 ---
 
