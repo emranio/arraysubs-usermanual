@@ -190,8 +190,10 @@ A digital course seller uses Paddle as Merchant of Record. Paddle handles all ta
 - [Stripe Gateway](stripe.md) — Detailed Stripe integration guide
 - [PayPal Gateway](paypal.md) — Detailed PayPal integration guide
 - [Paddle Gateway](paddle.md) — Detailed Paddle integration guide
+- [Payment Recovery Tools](payment-recovery.md) — Automatic retries, manual retry, sync from gateway, pending-cancel handling
 - [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) — Customer toggle and manual payment flow
 - [Gateway Health Dashboard](gateway-health-dashboard.md) — Monitoring and webhook event log
+- [Cron Job Setup](../../getting-started/cron-job-setup.md) — Required for automatic retries and scheduled jobs to fire reliably
 
 ---
 

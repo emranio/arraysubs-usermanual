@@ -13,6 +13,9 @@ This section walks you through the fundamentals: what ArraySubs is, what it requ
 ### [Before You Launch](before-you-launch.md)
 Requirements, installation, WooCommerce prerequisites, core concepts (products, billing cycles, trials, statuses), and a clear breakdown of Free versus Pro features.
 
+### [Cron Job Setup](cron-job-setup.md)
+**Required for production.** Configure a system cron so renewals, scheduled cancellations, and emails fire on time — not just when somebody visits the site. The single most important reliability change.
+
 ### [First-Time Setup](first-time-setup.md)
 A step-by-step checklist: configure your store, create your first subscription product, place a test order, and review the customer portal.
 

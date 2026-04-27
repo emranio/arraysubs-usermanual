@@ -3,6 +3,7 @@
     [
         "getting-started/README.md",
         "getting-started/before-you-launch.md",
+        "getting-started/cron-job-setup.md",
         "getting-started/first-time-setup.md",
         "getting-started/easy-setup-wizard.md",
         "getting-started/import-export-settings.md",
@@ -96,6 +97,7 @@
             "checkout-and-payments/automatic-payments/stripe.md",
             "checkout-and-payments/automatic-payments/paypal.md",
             "checkout-and-payments/automatic-payments/paddle.md",
+            "checkout-and-payments/automatic-payments/payment-recovery.md",
             "checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md",
             "checkout-and-payments/automatic-payments/gateway-health-dashboard.md"
         ],
