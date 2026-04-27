@@ -46,10 +46,10 @@ The system automatically creates notes when these events occur:
 | Status changes (e.g., Active → On Hold) | Payment completed successfully |
 | Payment failed | Renewal invoice created |
 | Trial converted to paid | Product changed on the subscription |
-| Subscription synced or unsynced | Plan switch completed |
-| Payment method changed | Admin-edited subscription details logged |
-| Quantity or recurring amount changed | Subscription reactivated |
-| Scheduled (end-of-period) cancellation set | Subscription placed on hold |
+| Plan switch completed | Payment method changed |
+| Admin-edited subscription details logged | Quantity or recurring amount changed |
+| Subscription reactivated | Subscription placed on hold |
+| Scheduled (end-of-period) cancellation set |  |
 
 System notes include structured change data showing the **previous value** and **new value** for auditable fields — for example, "Recurring amount changed from $29.00 to $39.00."
 
@@ -244,7 +244,7 @@ Before making a manual change to a subscription (like updating the invoice email
 ## Related Guides
 
 - [Subscription Operations](subscription-operations.md) — the full subscription list, create, edit, and detail screens
-- [Subscription Detail Cards](subscription-detail-cards.md) — the conditional cards for cancellation, sync, coupon, and more
+- [Subscription Detail Cards](subscription-detail-cards.md) — the conditional cards for cancellation, coupon, and more
 - [Lifecycle Management](lifecycle-management.md) — understanding the events that create system notes
 - [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) *(Pro)* — order type columns, filters, and the embedded report panel on the WooCommerce Orders page
 

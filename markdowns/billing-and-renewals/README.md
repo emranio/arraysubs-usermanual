@@ -14,7 +14,7 @@ This section covers the complete billing lifecycle — how renewal invoices are 
 
 | Topic | What you will learn |
 |---|---|
-| [Renewal Operations](renewal-operations.md) | How renewal invoices are created, how payment is routed (manual vs automatic), how renewal synchronization aligns billing dates, and how the different renewal price feature changes pricing after N payments |
+| [Renewal Operations](renewal-operations.md) | How renewal invoices are created, how payment is routed (manual vs automatic), and how the different renewal price feature changes pricing after N payments |
 | [Trial Management](trial-management.md) | How free trials start, what happens when a trial ends, how trial-to-paid conversion works, and what auto-downgrade does when a customer does not convert |
 | [Recovery and Grace Flows](recovery-and-grace-flows.md) | The two-phase grace period timeline, how overdue renewals are detected, how skip and pause interact with the billing cycle, and how payment at any point during grace restores the subscription |
 | [Renewal Communication](renewal-communication.md) | What emails are sent during the billing cycle — renewal reminders, invoice notifications, payment confirmations, failure alerts, and on-hold notices |
@@ -56,11 +56,9 @@ These jobs work together to keep every subscription on schedule without manual i
 
 **Grace period** — A configurable window after the due date where the subscription remains accessible (or partially accessible) while waiting for payment. The default is 3 days active + 7 days on-hold before cancellation.
 
-**Renewal synchronization** — An optional feature that aligns all new subscription renewals to the same calendar day (e.g., the 1st of every month), regardless of when each customer purchased. It works best when you want one shared billing cadence and is compatible with manual renewals, Stripe, and new Paddle synced subscriptions.
-
 ## Related docs
 
-- [General Settings — Renewal and Grace Configuration](../settings/general-settings.md) for configuring invoice timing, grace periods, sync, and reminders
+- [General Settings — Renewal and Grace Configuration](../settings/general-settings.md) for configuring invoice timing, grace periods, and reminders
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) for the complete status transition reference
 - [Customer Emails](../emails/customer-emails.md) for all billing-related email templates and placeholders
 - [Self-Service Actions](../customer-portal/self-service-actions.md) for how skip and pause affect the billing timeline from the customer's perspective
@@ -84,6 +82,3 @@ No. Subscription prices are locked at checkout. Product price changes only affec
 
 ### What is the difference between manual and automatic renewals?
 Manual renewals create a pending invoice and email the customer a payment link. The customer must log in and pay. Automatic renewals **(Pro)** charge the customer's saved payment method through the configured gateway (Stripe, PayPal, or Paddle) without requiring customer action.
-
-### Which automatic gateways support renewal synchronization?
-If you want synced automatic renewals, use **Stripe** or **Paddle**. Stripe follows the ArraySubs-managed billing schedule, and Paddle can be aligned for new synced subscriptions when they are created. **PayPal** automatic renewals keep PayPal's own billing schedule and do not support shared sync dates.

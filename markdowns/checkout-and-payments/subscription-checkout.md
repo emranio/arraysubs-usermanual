@@ -335,7 +335,6 @@ A customer on the Basic plan ($9/mo) visits the Pro plan product page ($29/mo) a
 
 - **Variable subscription products** use the selected variation's subscription data (price, trial, billing period) rather than the parent product's data
 - **Coupons** are applied to the cart total at checkout. Recurring coupons (with cycle limits) are captured at this point and applied to future renewals by the billing engine
-- **Renewal synchronization** (if enabled) may adjust the first renewal date and apply proration at checkout — see [General Settings](../settings/general-settings.md) for sync configuration
 - **Store API compatibility** — all cart validation errors surface as proper Store API cart errors, ensuring Block Checkout shows the same restrictions as Classic Checkout
 - **Guest checkout** — if auto-create-account is disabled and WooCommerce allows guest checkout, the subscription is still created but may have limited customer portal access until the customer creates an account
 

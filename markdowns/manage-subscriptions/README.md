@@ -14,7 +14,7 @@ This section covers four main areas:
 |------|----------------|
 | [Subscription Operations](subscription-operations.md) | The subscriptions list, creating a subscription, editing a subscription, and the subscription detail screen |
 | [Admin Tools and Records](admin-tools-and-records.md) | Subscription notes, feature log (**Pro**), related orders and refund history, and CSV/JSON export |
-| [Subscription Detail Cards](subscription-detail-cards.md) | Every information card on the detail screen — cancellation, sync, skip & pause, coupon, gateway (**Pro**), checkout fields (**Pro**), and shipping (**Pro**) |
+| [Subscription Detail Cards](subscription-detail-cards.md) | Every information card on the detail screen — cancellation, skip & pause, coupon, gateway (**Pro**), checkout fields (**Pro**), and shipping (**Pro**) |
 | [Lifecycle Management](lifecycle-management.md) | How subscriptions move through statuses — activation, renewals, grace periods, cancellation, expiration, trials, and email triggers |
 
 ## When to Use This

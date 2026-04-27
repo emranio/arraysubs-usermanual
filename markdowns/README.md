@@ -19,7 +19,7 @@ New to ArraySubs? Start here.
 
 Configure store-wide subscription behavior and administration tools.
 
-- [General Settings](settings/general-settings.md) — Subscription cart rules, checkout and trial behavior, renewal synchronization, grace periods, email reminder timing, customer portal, customer actions, cancellation timing, and automatic-payment controls.
+- [General Settings](settings/general-settings.md) — Subscription cart rules, checkout and trial behavior, grace periods, email reminder timing, customer portal, customer actions, cancellation timing, and automatic-payment controls.
 - [Toolkit Settings](settings/toolkit-settings.md) — Admin bar visibility, wp-admin access restriction, login page hiding, admin impersonation, and multi-login prevention.
 
 ## Manage Subscription Products
@@ -40,7 +40,7 @@ View, create, edit, and manage every subscription in your store.
 - [Overview](manage-subscriptions/README.md) — Section overview and quick reference.
 - [Subscription Operations](manage-subscriptions/subscription-operations.md) — All Subscriptions list, creating and editing subscriptions, the detail screen, and CSV export.
 - [Admin Tools and Records](manage-subscriptions/admin-tools-and-records.md) — Subscription notes, feature log *(Pro)*, related orders and refund history, and data export.
-- [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) — Cancellation, sync, skip & pause, coupon, gateway *(Pro)*, checkout fields *(Pro)*, and shipping *(Pro)* cards.
+- [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) — Cancellation, skip & pause, coupon, gateway *(Pro)*, checkout fields *(Pro)*, and shipping *(Pro)* cards.
 - [Lifecycle Management](manage-subscriptions/lifecycle-management.md) — Status transitions, renewal flow, grace periods, cancellation, expiration, trials, and email triggers.
 
 ## Customer Portal
@@ -149,7 +149,7 @@ Everything about how subscriptions are purchased, billed, and collected — from
 How ArraySubs creates, schedules, and collects recurring payments — from the first invoice to the final renewal.
 
 - [Overview](billing-and-renewals/README.md) — How the billing engine works, background jobs, billing cycle summary, and key concepts.
-- [Renewal Operations](billing-and-renewals/renewal-operations.md) — Invoice generation, manual vs automatic payment routing, renewal synchronization, different renewal pricing, and subscription expiration.
+- [Renewal Operations](billing-and-renewals/renewal-operations.md) — Invoice generation, manual vs automatic payment routing, different renewal pricing, and subscription expiration.
 - [Trial Management](billing-and-renewals/trial-management.md) — Trial start, conversion to paid, first renewal calculation, auto-downgrade on trial expiry *(Pro)*, and trial settings.
 - [Recovery and Grace Flows](billing-and-renewals/recovery-and-grace-flows.md) — Two-phase grace period, overdue detection, skip and pause interaction with billing, and payment recovery.
 - [Renewal Communication](billing-and-renewals/renewal-communication.md) — Renewal reminders, invoice emails, payment confirmations, failure alerts, and on-hold notifications.

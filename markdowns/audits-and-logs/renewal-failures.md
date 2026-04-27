@@ -129,7 +129,6 @@ The grace period durations are configurable in **ArraySubs → Settings → Gene
 | Grace Period: On-Hold Grace Days | General Settings | How many days a subscription stays On-Hold before cancellation (default: 7) |
 | Invoice Timing | General Settings | How far before the due date to create the renewal invoice |
 | Renewal Reminder Days Before | General Settings | How many days before renewal to send the reminder email |
-| Renewal Sync | General Settings | Whether renewals are synchronized to a specific day of the month/week |
 
 ## Diagnostic Checklist
 
@@ -172,4 +171,4 @@ From the subscription detail page, change the status back to Active. For cancell
 
 ### Why did the renewal happen early?
 
-If renewal sync is enabled, the renewal date may be adjusted to align with the configured sync day. Also, the invoice generation job runs a few hours **before** the due date (configurable as invoice timing), which can make it appear that the renewal happened early.
+The invoice generation job runs a few hours **before** the due date (configurable as invoice timing), which can make it appear that the renewal happened early.

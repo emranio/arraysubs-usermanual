@@ -5,7 +5,7 @@
 
 # General Settings
 
-> Configure subscription cart rules, checkout behavior, free trials, renewal synchronization, grace periods, email reminder timing, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
+> Configure subscription cart rules, checkout behavior, free trials, grace periods, email reminder timing, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
 
 **Availability:** Free (the Automatic Payments section requires **Pro**)
 
@@ -19,7 +19,6 @@ Navigate to **ArraySubs → Settings → General** to open the page. Every chang
 
 - You are setting up ArraySubs for the first time and need to review the defaults.
 - You want to change how many subscriptions a customer can buy at once.
-- You are enabling renewal synchronization to align billing dates across all subscribers.
 - You want to adjust grace period timing before unpaid subscriptions are cancelled.
 - You need to enable or disable customer self-service actions like cancellation, pause, or reactivation.
 - You are fine-tuning trial rules or checkout behavior.
@@ -185,108 +184,6 @@ Prevents customers from signing up for multiple free trials of the same product.
 
 ---
 
-## Sync Renewals
-
-Renewal synchronization lets you standardize the next renewal date for **new** subscriptions so they bill on one shared calendar day instead of each customer's anniversary date. This is best for stores that want one predictable billing cadence — for example, a monthly box that always renews on the 1st, a weekly route that always renews on Monday, or an annual membership that always renews on the same calendar date.
-
-This is a **store-wide** setting. Use it only when the subscriptions you want to align share the cadence you choose here. Existing subscriptions are not moved automatically.
-
-For the operational flow behind sync, see [Renewal Operations](../billing-and-renewals/renewal-operations.md).
-
-### Supported renewal paths
-
-| Renewal path | Sync support | Notes |
-|---|---|---|
-| **Manual renewals** | Yes | ArraySubs controls the next payment date locally. |
-| **Stripe automatic renewals** **(Pro)** | Yes | Stripe follows the ArraySubs-managed schedule, so the synced date stays in ArraySubs. |
-| **Paddle automatic renewals** **(Pro)** | Yes, for new synced subscriptions | ArraySubs aligns Paddle's next billing date when the subscription is created. |
-| **PayPal automatic renewals** **(Pro)** | No | PayPal keeps its own remote billing schedule, so shared sync dates are not supported. |
-
-### Enable Renewal Synchronization
-
-| | |
-|---|---|
-| **Type:** Toggle (on/off) | **Default:** Off |
-
-When enabled, all **new** subscriptions will have their next renewal date shifted to the configured sync day. Existing subscriptions are not moved automatically.
-
-```box class="info-box"
-Use this when you want one predictable billing date for eligible subscriptions. It is especially useful for fulfillment-heavy stores, finance-friendly billing calendars, or programs that start customers in batches.
-```
-
-### Sync Schedule
-
-| | |
-|---|---|
-| **Type:** Dropdown | **Default:** No Synchronization |
-| **Visible when:** Enable Renewal Synchronization is **on** | |
-
-| Option | Behavior |
-|--------|----------|
-| **No Synchronization** | Sync is enabled but no schedule is selected yet |
-| **Monthly (same day each month)** | All renewals land on a chosen day of the month |
-| **Weekly (same day each week)** | All renewals land on a chosen day of the week |
-| **Yearly (same day each year)** | All renewals land on a chosen month and day of the year |
-
-```box class="info-box"
-Choose the cadence you want to standardize across new synced subscriptions. Monthly works best for monthly billing, weekly for weekly delivery or service plans, and yearly for annual programs that share one renewal date.
-```
-
-### Day of Month
-
-| | |
-|---|---|
-| **Type:** Dropdown (1st–28th) | **Default:** 1st |
-| **Visible when:** Sync Schedule is **Monthly** | |
-
-The day of the month on which all monthly subscriptions renew. The maximum is the 28th to avoid issues with shorter months.
-
-```box class="info-box"
-The 28-day limit keeps the sync date valid in every month, including February.
-```
-
-### Day of Week
-
-| | |
-|---|---|
-| **Type:** Dropdown | **Default:** Monday |
-| **Visible when:** Sync Schedule is **Weekly** | |
-
-The day of the week on which all weekly subscriptions renew. Options: Monday through Sunday.
-
-### Month and Day (Yearly)
-
-| | |
-|---|---|
-| **Type:** Two dropdowns (Month + Day) | **Default:** January 1st |
-| **Visible when:** Sync Schedule is **Yearly** | |
-
-The month and day on which all yearly subscriptions renew. The day selector goes up to the 28th.
-
-### First Payment Handling
-
-| | |
-|---|---|
-| **Type:** Dropdown | **Default:** Prorate first payment |
-| **Visible when:** Enable Renewal Synchronization is **on** | |
-
-Controls how the customer's first checkout is priced when the purchase date does not fall on the sync day.
-
-| Option | What happens |
-|--------|-------------|
-| **Prorate first payment** | Customer pays a partial amount at checkout covering only the time until the sync date. Full price starts on the sync date |
-| **Extend first period** | Customer pays full price at checkout and receives extra time until the sync date. Full price then continues on subsequent renewals |
-
-```box class="info-box"
-When renewal sync applies, ArraySubs automatically shows a **Renewal Schedule** summary in the cart and checkout so customers can see any proration and the regular recurring cadence.
-```
-
-```box class="warning-box"
-If you are using automatic payments and need synced renewals, choose Stripe or Paddle. PayPal automatic renewals should stay on anniversary billing because PayPal keeps its own billing schedule.
-```
-
----
-
 ## Grace Period
 
 The grace period system controls what happens when a renewal payment is not received by the due date. It uses a two-phase approach: the subscription stays active for a configurable number of days, then moves to on-hold, and is finally cancelled if payment is still not received.
@@ -424,13 +321,6 @@ Customers who turn off auto-renew will receive manual renewal invoices by email.
 | Non-Subscription Purchase Button Text | Empty | Text | Checkout & Trials |
 | Require Payment Method for Trials | On | Toggle | Checkout & Trials |
 | One Trial Per Customer | On | Toggle | Checkout & Trials |
-| Enable Renewal Synchronization | Off | Toggle | Sync Renewals |
-| Sync Schedule | No Synchronization | Dropdown | Sync Renewals |
-| Day of Month | 1st | Dropdown | Sync Renewals |
-| Day of Week | Monday | Dropdown | Sync Renewals |
-| Month (Yearly) | January | Dropdown | Sync Renewals |
-| Day (Yearly) | 1st | Dropdown | Sync Renewals |
-| First Payment Handling | Prorate first payment | Dropdown | Sync Renewals |
 | Generate Invoice Before Due | 6 Hours | Number + Dropdown | Grace Period |
 | Days Active After Due | 3 | Number | Grace Period |
 | Days On-Hold Before Cancel | 7 | Number | Grace Period |
@@ -451,11 +341,7 @@ Customers who turn off auto-renew will receive manual renewal invoices by email.
 
 A coaching platform sells one membership plan at a time. The merchant enables **One Subscription Per Customer** and **Auto Migrate** so that when a member wants to upgrade, they simply purchase the higher-tier plan and checkout automatically replaces the old subscription.
 
-### Use Case 2: SaaS with Annual Billing Alignment
-
-A software company wants all customers to renew on the 1st of the month so invoicing aligns with their accounting cycle. They enable **Renewal Synchronization** with a **Monthly** schedule set to the **1st**, and choose **Prorate first payment** so new customers only pay for the remaining days until the next sync date.
-
-### Use Case 3: Subscription Box with Generous Grace Period
+### Use Case 2: Subscription Box with Generous Grace Period
 
 A subscription box store wants to give customers plenty of time to resolve payment issues. They set **Days Active After Due** to `5` and **Days On-Hold Before Cancel** to `14`, giving a total 19-day window before automatic cancellation.
 
@@ -463,9 +349,6 @@ A subscription box store wants to give customers plenty of time to resolve payme
 
 ## Edge Cases / Important Notes
 
-- **Existing subscriptions are not retroactively synced.** Enabling renewal synchronization only affects new subscriptions — existing ones keep their current renewal dates.
-- **Sync is best for one shared cadence.** Use monthly sync for monthly billing, weekly sync for weekly billing, or yearly sync for annual billing programs that should renew together.
-- **Gateway support is not identical.** Manual renewals, Stripe, and new Paddle synced subscriptions are supported. PayPal automatic renewals are not sync-compatible.
 - **Auto Migrate requires exactly one match.** If a customer has multiple active subscriptions and tries to purchase a new plan, checkout migration will not kick in. The customer must manage the switch manually.
 - **Guest checkout is never available for subscriptions.** Even when WooCommerce allows guest checkout, subscription purchases always require an account.
 - **Disabling "Allow Cancellation" hides the button but does not remove admin's ability** to cancel subscriptions from the admin panel.
@@ -483,7 +366,6 @@ A subscription box store wants to give customers plenty of time to resolve payme
 | Subscription cancelled too quickly after missed payment | Grace period values are too short | Increase **Days Active After Due** and **Days On-Hold Before Cancel** |
 | Renewal invoices arrive too late for customers to pay | **Generate Invoice Before Due** is set too low | Increase the advance notice window (e.g., from 6 hours to 2 days) |
 | Customer cannot cancel from their account | **Allow Cancellation** is turned off | Re-enable it in Customer Actions |
-| Sync renewals not working for existing subscribers | Sync only applies to **new** subscriptions | Existing subscriptions keep their original renewal dates |
 
 ---
 
@@ -511,12 +393,6 @@ Not from this screen. The Customer Actions toggles apply globally to all subscri
 
 ### Does the "One Click Checkout" setting clear the customer's existing cart?
 Yes. When a one-click mode is active, clicking the purchase button clears any existing cart items and adds only the clicked product before redirecting to checkout.
-
-### Does renewal synchronization change the subscription price?
-Only for the first payment when **Prorate first payment** is selected. After the first synced renewal, the customer pays the full recurring price on every subsequent cycle.
-
-### Which gateways support renewal synchronization?
-Manual renewals support sync. For automatic payments, **Stripe** supports synced renewals because ArraySubs controls the billing schedule, and **Paddle** supports synced renewals for new synced subscriptions because ArraySubs aligns the remote billing date when the subscription is created. **PayPal** does not support shared sync dates for automatic renewals because PayPal keeps its own billing schedule.
 
 ### Where do I rename or reorder the Subscriptions tab?
 Use **ArraySubs → Profile Builder → My Account**. The My Account Editor is the built-in place to rename the **Subscriptions** menu item, move it higher or lower in the WooCommerce My Account sidebar, or hide/show other account tabs.

@@ -13,7 +13,7 @@ The **Settings** area in ArraySubs is split into two pages that control fundamen
 
 | Page | What it covers | Navigation path |
 |------|----------------|-----------------|
-| **General Settings** | Subscription cart rules, checkout and trial behavior, button text, renewal synchronization, grace periods, email reminder timing, customer portal, customer self-service actions, cancellation timing, and automatic-payment controls | **ArraySubs → Settings → General** |
+| **General Settings** | Subscription cart rules, checkout and trial behavior, button text, grace periods, email reminder timing, customer portal, customer self-service actions, cancellation timing, and automatic-payment controls | **ArraySubs → Settings → General** |
 | **Toolkit Settings** | Admin bar visibility, wp-admin access restrictions, WordPress login page hiding, admin impersonation, and multi-login prevention | **ArraySubs → Settings → Toolkit** |
 
 Other settings pages (Plan Switching, Refunds, Skip & Pause, Feature Manager, and Gateway Health) are documented inside their owning module topics — they are not part of the General or Toolkit screens.

@@ -26,7 +26,6 @@
 		- Multiple subscriptions and mixed cart behavior (allow multiple in cart, one per customer, one per product, auto-migrate on checkout, mixed checkout, different billing cycles)
 		- Checkout options (auto-create account, one-click checkout modes) and trial settings (require payment method, one trial per customer)
 		- Storefront button text customization (add-to-cart text, non-subscription button text)
-		- Renewal sync settings (enable, sync type, day mapping, proration method)
 		- Grace period configuration (active grace days, on-hold grace days)
 		- Email reminder schedule (renewal reminder days-before, invoice timing value and unit)
 		- Customer action toggles (cancellation, suspension, reactivation, payment method change)
@@ -73,7 +72,6 @@
 		- Export subscriptions (CSV and JSON formats, status filtering)
 	- Subscription Detail Cards
 		- Cancellation details card (reason, scheduled dates, undo option)
-		- Sync details card (sync day description, proration notes)
 		- Skip and pause card (current skip/pause state, actions)
 		- Coupon discount card (coupon code, discount type, cycle limit, remaining cycles)
 		- Payment gateway card (gateway status, card on file, expiry, detach option) *(Pro)*
@@ -88,7 +86,7 @@
 - Customer Portal - done
 	- Customer Portal Pages
 		- My Subscriptions page (table: product, status badge, next payment, total with billing schedule, pagination)
-		- View Subscription page (overview table, retention discount display, coupon discount display, sync info, action buttons)
+		- View Subscription page (overview table, retention discount display, coupon discount display, action buttons)
 		- My Features page (per-subscription or combined mode, feature names, types, entitlement values, usage) *(Pro)*
 		- Store Credit page (customer credit balance view) *(Pro)*
 	- Subscription Self-Service Actions
@@ -196,7 +194,6 @@
 - Billing and Renewals - done
 	- Renewal Operations
 		- Automatic renewals (renewal processor, invoice creation, payment processing)
-		- Renewal synchronization (sync types: monthly/weekly/yearly, sync day, proration at checkout)
 		- Renewal invoices and due dates (invoice generation timing, hours before due)
 		- Different renewal price (price changes after N payments)
 	- Trial Management

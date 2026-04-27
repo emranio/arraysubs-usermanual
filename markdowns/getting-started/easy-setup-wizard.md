@@ -41,7 +41,7 @@ A software company installs ArraySubs and chooses **SaaS / Digital Software** as
 
 ### Use Case 2: Physical Subscription Box
 
-A snack box company selects **Physical Subscription Box**. The wizard pre-selects lenient grace periods, skip and pause flexibility, monthly renewal sync on the 1st, and contact-support retention offers. The merchant adjusts the max pause duration from 30 to 60 days and applies. The box billing model is ready.
+A snack box company selects **Physical Subscription Box**. The wizard pre-selects lenient grace periods, skip and pause flexibility, and contact-support retention offers. The merchant adjusts the max pause duration from 30 to 60 days and applies. The box billing model is ready.
 
 ### Use Case 3: Membership Community
 
@@ -99,7 +99,7 @@ When you choose a business type, the wizard preloads recommended defaults for al
 | Profile | Key Defaults |
 |---|---|
 | **SaaS / Digital Software** | Multiple plans, trials with payment required, strict grace (1 active / 3 hold days), one subscription per customer, all-direction plan switching, immediate proration, access control enabled, Feature Manager and Audit Logging on |
-| **Physical Subscription Box** | Lenient grace (5/14 days), skip and pause enabled, monthly renewal sync, contact-support retention offer, Store Credit enabled |
+| **Physical Subscription Box** | Lenient grace (5/14 days), skip and pause enabled, contact-support retention offer, Store Credit enabled |
 | **Membership / Community** | Multiple plans, pause flexibility, one per customer, access control, Feature Manager, Audit Logging, Multi-Login prevention |
 | **Digital Content** | Multiple plans, trials, upgrade-only plan switching, end-of-period cancellation and refund, access control |
 | **Professional Services** | Pause enabled, contact-support retention, immediate prorated refund, custom profile fields |
@@ -110,7 +110,7 @@ When you choose a business type, the wizard preloads recommended defaults for al
 
 ### Step 2 — Billing & Renewal Rules
 
-Controls grace periods, invoice timing, skip/pause flexibility, and renewal date synchronization.
+Controls grace periods, invoice timing, and skip/pause flexibility.
 
 | Question | Type | Options |
 |---|---|---|
@@ -123,15 +123,6 @@ Controls grace periods, invoice timing, skip/pause flexibility, and renewal date
 | How many days before renewal can a skip still be requested? | Select | Any time · 2 days before · 5 days before · 7 days before (only when skip is enabled) |
 | Maximum pause duration | Select | 14 · 30 · 60 · 90 days (only when pause is enabled) |
 | Maximum pauses per subscription | Select | 1 · 2 · 3 · 5 (only when pause is enabled) |
-| Do you want to synchronize renewals to a shared date? | Radio | No synchronization · Monthly sync · Weekly sync · Yearly sync |
-| Which day of the month should monthly renewals use? | Select | 1–28 (only for monthly sync) |
-| Which weekday should weekly renewals use? | Select | Sunday–Saturday (only for weekly sync) |
-| Which month should yearly renewals use? | Select | January–December (only for yearly sync) |
-| Which day of that month should yearly renewals use? | Select | 1–28 (only for yearly sync) |
-
-```box class="info-box"
-Renewal sync works with manual renewals, Stripe, and new Paddle automatic subscriptions. PayPal automatic renewals keep PayPal's own billing schedule. Sync affects new subscriptions only — existing ones keep their current renewal dates.
-```
 
 ---
 

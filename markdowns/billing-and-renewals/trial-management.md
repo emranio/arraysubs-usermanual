@@ -177,7 +177,6 @@ A membership site offers a 30-day trial of the Premium tier ($99/month) with aut
 
 - **Trial conversion is automated.** The conversion job runs daily at 2 AM. Subscriptions whose trial ends between job runs are processed during the next execution. There is no immediate-trigger conversion.
 - **Manual status changes skip trial hooks.** If an admin manually changes a subscription from Trial to Active, the `trial_converted` hook does not fire and the Trial Converted email is not sent. The system does not run the conversion logic for manual changes.
-- **Trial + sync interaction.** Trial periods run for their full configured length regardless of sync settings. After the trial ends, the first paid renewal date aligns to the next sync date (if renewal sync is enabled).
 - **Variation-level trials.** Each variation on a variable product can have its own trial length and period. The trial stored on the subscription matches the variation the customer purchased.
 - **Trial counter on the subscription.** The trial end date is preserved on the subscription even after conversion. This immutable record is used for analytics (trial conversion rate calculations) and order type classification.
 

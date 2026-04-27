@@ -260,26 +260,25 @@ When you click **Cancel Subscription**, a modal appears with:
 
 ### Information Cards
 
-The detail screen displays up to 17 card sections in this order:
+The detail screen displays up to 16 card sections in this order:
 
 | # | Card | Always Visible? |
 |---|------|-----------------|
 | 1 | [Subscription Info](#subscription-info-card) | Yes |
 | 2 | [Cancellation Details](subscription-detail-cards.md#cancellation-details-card) | Only if the subscription has cancellation data |
-| 3 | [Sync Details](subscription-detail-cards.md#sync-details-card) | Only if renewal sync is enabled |
-| 4 | [Skip & Pause](subscription-detail-cards.md#skip-and-pause-card) | Yes (shows disabled state if features not enabled) |
-| 5 | [Customer Information](#customer-information-card) | Yes |
-| 6 | [Product](#product-card) | Yes |
-| 7 | [Billing Information](#billing-information-card) | Yes |
-| 8 | [Checkout Builder Fields](subscription-detail-cards.md#checkout-builder-custom-fields-card) | Only if custom checkout fields exist (**Pro**) |
-| 9 | [Coupon Discount](subscription-detail-cards.md#coupon-discount-card) | Only if a coupon is applied |
-| 10 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card) | Only if an automatic payment gateway is attached (**Pro**) |
-| 11 | [Billing Address](#billing-address-card) | Yes |
-| 12 | [Shipping Address](#shipping-address-card) | Yes |
-| 13 | [Subscription Shipping](subscription-detail-cards.md#subscription-shipping-card) | Only if the product requires shipping (**Pro**) |
-| 14 | [Order History](#order-history-card) | Yes |
-| 15 | [Payment Timeline](#payment-timeline) | Yes |
-| 16 | [Subscription Notes](#subscription-notes) | Yes |
+| 3 | [Skip & Pause](subscription-detail-cards.md#skip-and-pause-card) | Yes (shows disabled state if features not enabled) |
+| 4 | [Customer Information](#customer-information-card) | Yes |
+| 5 | [Product](#product-card) | Yes |
+| 6 | [Billing Information](#billing-information-card) | Yes |
+| 7 | [Checkout Builder Fields](subscription-detail-cards.md#checkout-builder-custom-fields-card) | Only if custom checkout fields exist (**Pro**) |
+| 8 | [Coupon Discount](subscription-detail-cards.md#coupon-discount-card) | Only if a coupon is applied |
+| 9 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card) | Only if an automatic payment gateway is attached (**Pro**) |
+| 10 | [Billing Address](#billing-address-card) | Yes |
+| 11 | [Shipping Address](#shipping-address-card) | Yes |
+| 12 | [Subscription Shipping](subscription-detail-cards.md#subscription-shipping-card) | Only if the product requires shipping (**Pro**) |
+| 13 | [Order History](#order-history-card) | Yes |
+| 14 | [Payment Timeline](#payment-timeline) | Yes |
+| 15 | [Subscription Notes](#subscription-notes) | Yes |
 
 Each conditional card is covered in detail in the [Subscription Detail Cards](subscription-detail-cards.md) guide. The always-visible cards are described below.
 

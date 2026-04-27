@@ -2,7 +2,7 @@
 
 > A deep dive into every conditional information card on the subscription detail screen.
 
-**Availability:** Free (Cancellation, Sync, Skip & Pause, Coupon); Pro (Payment Gateway, Checkout Builder Fields, Subscription Shipping)
+**Availability:** Free (Cancellation, Skip & Pause, Coupon); Pro (Payment Gateway, Checkout Builder Fields, Subscription Shipping)
 
 ## Overview
 
@@ -11,7 +11,6 @@ The subscription detail screen displays a series of information cards. Some are 
 | Card | Appears When |
 |------|-------------|
 | [Cancellation Details](#cancellation-details-card) | The subscription has been cancelled, has a scheduled cancellation, or has retention history |
-| [Sync Details](#sync-details-card) | Renewal synchronization is enabled for this subscription |
 | [Skip & Pause](#skip-and-pause-card) | Always shown, but displays a disabled state if skip/pause features are turned off |
 | [Coupon Discount](#coupon-discount-card) | A coupon is applied to the subscription |
 | [Payment Gateway](#payment-gateway-card) | An automatic payment gateway is attached (**Pro**) |
@@ -56,27 +55,6 @@ If the subscription has been through the retention flow, a **Retention Offers** 
 
 ```box class="info-box"
 The Retention Offers section only appears if the subscription has been through the retention flow at least once. If the customer cancelled without being shown any offers, this section is hidden.
-```
-
----
-
-## Sync Details Card
-
-This card appears only when a subscription has **renewal synchronization** enabled. Renewal sync aligns all subscriber payments to a fixed day (e.g., the 1st of every month).
-
-### Fields Displayed
-
-| Field | What It Shows |
-|-------|---------------|
-| **Status** | A "Synced" badge |
-| **Sync Schedule** | The sync type — Monthly, Weekly, or Yearly |
-| **Sync Description** | Human-readable description, e.g., "the 15th of every month" |
-| **First Payment Prorated** | A "Prorated" badge with a dollar icon if the customer's initial payment was prorated to align with the sync day |
-
-The card also shows an informational note explaining how sync affects the subscription's renewal timing.
-
-```box class="info-box"
-Sync settings are configured at the product level and in **Settings → General Settings → Renewal Sync**. The sync details card here is read-only — it reflects the subscription's inherited sync configuration.
 ```
 
 ---
@@ -281,7 +259,6 @@ A customer ordered through a customized checkout with extra fields (company name
 | Problem | Likely Cause | What to Do |
 |---------|--------------|------------|
 | Cancellation Details card is missing | The subscription has never been cancelled or scheduled for cancellation | The card only appears when cancellation data exists |
-| Sync Details card is missing | Renewal synchronization is not enabled, or this subscription was created before sync was configured | Check **Settings → General Settings → Renewal Sync** |
 | Skip/Pause card shows "disabled" | The skip or pause feature is turned off in settings | Enable the features in your subscription settings |
 | Gateway card shows "Error" status | The payment method or customer reference is invalid at the gateway | Check the gateway dashboard for the customer/card status. The customer may need to update their payment method. |
 | Checkout Builder fields card is missing | The "Show on subscription detail" setting is off, or no custom fields were captured | Enable the setting in Checkout Builder and verify the checkout had custom fields |
@@ -293,7 +270,7 @@ A customer ordered through a customized checkout with extra fields (company name
 
 - [Subscription Operations](subscription-operations.md) — the detail screen layout and always-visible cards
 - [Lifecycle Management](lifecycle-management.md) — how status transitions affect what cards appear
-- [Settings — General Settings](../settings/general-settings.md) — configuring sync, grace periods, and customer actions
+- [Settings — General Settings](../settings/general-settings.md) — configuring grace periods and customer actions
 - [Subscription Products — Coupon Integration](../subscription-products/coupon-integration.md) — how coupons are applied to subscriptions
 
 ---
@@ -308,9 +285,6 @@ No. The Payment Gateway, Checkout Builder Fields, and Subscription Shipping card
 
 ### Can the Cancellation Details card appear on an active subscription?
 Yes — if the subscription was previously cancelled and then reactivated, or if it went through the retention flow and was retained. The card shows the retention offer history even if the subscription is currently active.
-
-### What does the "Prorated" badge on the Sync card mean?
-It means the customer's first payment was adjusted (prorated) to account for the partial period between their signup date and the next sync day. Subsequent renewals charge the full recurring amount on the sync day.
 
 ### Can I detach a gateway and reattach a different one?
 You can detach a gateway from this screen, but reattaching requires the customer to update their payment method through the customer portal or at checkout. There is no admin control to assign a specific gateway token.

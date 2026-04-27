@@ -1,18 +1,17 @@
 # Renewal Operations
 
-> How ArraySubs generates renewal invoices, routes payments, synchronizes billing dates, and handles price changes across the subscription lifecycle.
+> How ArraySubs generates renewal invoices, routes payments, and handles price changes across the subscription lifecycle.
 
 **Availability:** Free (core renewal engine), with Pro extensions for automatic gateway payments
 
 ## Overview
 
-Every active subscription eventually reaches its next payment date. When that happens, ArraySubs creates a renewal invoice (a pending WooCommerce order), routes the payment through the appropriate channel (manual or automatic), and schedules the next renewal. This page explains each step in that process, including how renewal synchronization and tiered pricing work.
+Every active subscription eventually reaches its next payment date. When that happens, ArraySubs creates a renewal invoice (a pending WooCommerce order), routes the payment through the appropriate channel (manual or automatic), and schedules the next renewal. This page explains each step in that process, including how tiered pricing works.
 
 ## When to use this
 
 - You want to understand how renewal invoices are created and when they appear
 - You need to configure how far in advance invoices are generated
-- You want to align all subscriptions to the same billing date using renewal sync
 - You want to offer introductory pricing that changes after a set number of payments
 
 ## How it works
@@ -96,106 +95,6 @@ When a renewal invoice is paid (either manually by the customer or automatically
 4. **Status restored** — If the subscription was on-hold during the grace period, it returns to Active
 5. **Next renewal scheduled** — The billing engine queues the next renewal action
 6. **Renewal reminder scheduled** — A reminder email is queued for the configured number of days before the next payment
-
----
-
-## Renewal synchronization
-
-Renewal synchronization aligns all new subscriptions to the same calendar day, regardless of when each customer purchases. Instead of every subscription renewing on its own anniversary, all renewals fall on a predictable date.
-
-This is best for stores that intentionally want one shared cadence — such as monthly boxes on the 1st, weekly delivery routes on a specific weekday, or annual programs that all renew on one calendar date. Existing subscriptions are not moved automatically.
-
-### When to use this
-
-- You want all billing to happen on the 1st of each month for accounting simplicity
-- You want weekly subscriptions to all renew on Mondays
-- You want annual subscriptions to all renew on a specific date each year
-- You want predictable cash-flow timing
-
-### How it works
-
-When renewal sync is enabled, every new subscription's first renewal date is adjusted to fall on the configured sync day. The customer's first payment may be **prorated** or **extended** to cover the gap between their purchase date and the sync date.
-
-### Supported billing paths
-
-| Billing path | Sync support | Notes |
-|---|---|---|
-| **Manual renewals** | Yes | ArraySubs calculates and stores the synced date locally. |
-| **Stripe automatic renewals** **(Pro)** | Yes | Stripe uses ArraySubs-managed billing, so the synced date remains under plugin control. |
-| **Paddle automatic renewals** **(Pro)** | Yes, for new synced subscriptions | ArraySubs aligns Paddle's remote next billing date when the subscription is created. |
-| **PayPal automatic renewals** **(Pro)** | No | PayPal follows its own remote billing schedule and does not support shared sync dates. |
-
-```box class="warning-box"
-If your store depends on synced automatic renewals, use Stripe or Paddle. PayPal automatic renewals should remain on anniversary billing.
-```
-
-### Sync types
-
-| Sync type | What it does | Sync day range |
-|---|---|---|
-| **Monthly** | All subscriptions renew on the same day of the month | 1–28 |
-| **Weekly** | All subscriptions renew on the same day of the week | Sunday–Saturday |
-| **Yearly** | All subscriptions renew on the same date each year | Month (1–12) + Day (1–28) |
-
-The sync day is limited to 28 to avoid edge cases with months that have fewer than 31 days (e.g., February).
-
-### First payment handling
-
-When a customer purchases a synced subscription, the gap between their purchase date and the next sync date must be addressed. Two methods are available:
-
-**Prorate first payment** — The customer pays a partial amount at checkout covering only the days until the sync date. Full-price renewals begin on the sync date.
-
-> **Example:** A $30/month subscription with sync on the 1st. Customer buys on January 20. They pay approximately $9.68 at checkout (11 days at the daily rate). Their first full renewal of $30 happens on February 1.
-
-**Extend first period** — The customer pays the full price at checkout and their subscription period extends to reach the sync date. The first renewal happens on the sync date.
-
-> **Example:** Same $30/month subscription. Customer buys on January 20, pays the full $30, and their first renewal happens on February 1. They receive extra days of access as a benefit.
-
-### Sync and trials
-
-Trial periods are **not affected** by sync. The trial runs for its configured length (e.g., 14 days) from the purchase date. After the trial ends, the first **paid** renewal aligns to the next available sync date.
-
-> **Example:** 14-day free trial + monthly sync on the 1st. Customer buys on January 15. Trial ends January 29. First paid renewal: February 1 (synced).
-
-### Sync at checkout
-
-When renewal sync applies, customers automatically see a **Renewal Schedule** summary in the cart and checkout:
-
-> **Renewal Schedule**
-> First payment (prorated): $9.68 — covers until February 1, 2025
-> Regular renewals: $30.00 on the 1st of every month
-
-### Sync in the admin
-
-Synced subscriptions display a **Sync Details** card on the subscription detail page showing:
-
-- **Status badge:** "Synced"
-- **Schedule:** Human-readable description (e.g., "15th of every month")
-- **Sync type:** Monthly, Weekly, or Yearly
-- **Next renewal:** The date of the next synced payment
-- **First payment:** Whether it was prorated
-
-### Configuration
-
-Configure renewal sync at **ArraySubs → Settings → General Settings → Sync Renewals**.
-
-| Setting | What it controls | Default |
-|---|---|---|
-| **Enable Renewal Synchronization** | Master toggle for sync | Off |
-| **Sync Schedule** | Monthly, Weekly, or Yearly renewal alignment | None |
-| **Day of Month** (monthly) | Which day all monthly subscriptions renew | 1 |
-| **Day of Week** (weekly) | Which day all weekly subscriptions renew | Monday |
-| **Month** (yearly) | Which month all yearly subscriptions renew | January |
-| **Day** (yearly) | Which day within the month for yearly sync | 1 |
-| **First Payment Handling** | Prorate first or extend first period | Prorate first |
-
-```box class="warning-box"
-Enabling renewal sync only affects **new** subscriptions created after the setting is turned on. Existing subscriptions keep their original renewal dates.
-```
-
-```box class="info-box"
-Choose the sync cadence to match the subscriptions you want to align. Monthly sync is for monthly billing programs, weekly sync is for weekly billing programs, and yearly sync is for annual billing programs.
-```
 
 ---
 
@@ -294,8 +193,6 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 - **Retention discounts apply to renewal invoices.** If a customer has accepted a retention discount offer, that discount is applied when the next renewal invoice is generated. See [Retention and Cancellation](../retention-and-cancellation/README.md) for details.
 - **Lifetime subscriptions never generate renewal invoices.** Subscriptions with a billing period of Lifetime are excluded from the renewal invoice generation job entirely.
 - **One pending renewal at a time.** The system does not create a second renewal invoice if one is already pending for the subscription.
-- **Sync does not retroactively change existing subscriptions.** Enabling or changing sync settings only affects new subscriptions created after the change.
-- **Automatic gateway support differs.** Stripe and new Paddle synced subscriptions are compatible with renewal sync. PayPal automatic renewals are not.
 - **Different renewal price is permanent.** Once the threshold is reached, the subscription's recurring amount is updated. Even if you later change the product's different renewal price configuration, existing subscriptions keep their stored values.
 
 ---
@@ -308,20 +205,18 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 | Invoice created too early or too late | Invoice timing setting misconfigured | Go to **Settings → General → Renewals** and adjust the invoice advance window (value and unit). |
 | Customer not receiving invoice email | Email disabled in settings, or email delivery issue | Check **WooCommerce → Settings → Emails** for the Renewal Invoice email status. Check email logs. |
 | Price not changing after N payments | Completed payments counter has not reached the threshold yet | View the subscription detail to check the completed payments count against the different renewal price threshold. |
-| Sync not working for new subscriptions | Sync disabled or sync type set to None | Go to **Settings → General → Sync Renewals** and verify sync is enabled with a valid sync type and day. |
-| Prorated amount seems wrong | Proration calculates based on daily rate for the billing cycle | Verify the sync day, purchase date, and billing period. The proration formula divides the full price by cycle days and multiplies by days until sync. |
 
 ---
 
 ## Related docs
 
-- [General Settings](../settings/general-settings.md) for configuring renewal timing, sync, and grace period options
+- [General Settings](../settings/general-settings.md) for configuring renewal timing and grace period options
 - [Recovery and Grace Flows](recovery-and-grace-flows.md) for what happens when payment is not received on time
 - [Trial Management](trial-management.md) for how trials interact with the first renewal
 - [Renewal Communication](renewal-communication.md) for all emails sent during the billing cycle
 - [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) **(Pro)** for gateway-managed automatic billing
 - [Subscription Checkout](../checkout-and-payments/subscription-checkout.md) for how billing terms are established at purchase
-- [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md) for admin-visible sync and pricing cards
+- [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md) for admin-visible pricing cards
 
 ---
 
@@ -333,17 +228,8 @@ By default, 6 hours before the next payment date. This is configurable in Genera
 ### Does the renewal invoice use the current product price?
 No. Renewal invoices use the price stored on the subscription at the time of purchase. Product price changes do not affect existing subscriptions.
 
-### Can a subscription have both renewal sync and a different renewal price?
-Yes. These features work independently. The sync controls when the renewal date falls, and the different renewal price controls the amount charged. Both are applied correctly when the invoice is generated.
-
 ### What happens if the customer pays the renewal invoice late?
 The subscription enters the grace period. During the active grace phase (default 3 days), the subscription stays Active. After that, it moves to On-Hold. Payment at any point during the grace period restores the subscription to Active and advances the next payment date. See [Recovery and Grace Flows](recovery-and-grace-flows.md).
-
-### Does renewal sync affect existing subscriptions?
-No. Sync settings only apply to subscriptions created after the setting is enabled. Existing subscriptions keep their original renewal schedule.
-
-### Which automatic gateways support renewal sync?
-**Stripe** supports synced renewals because ArraySubs controls the billing schedule. **Paddle** supports synced renewals for new synced subscriptions because ArraySubs aligns the next billing date when the subscription is created. **PayPal** does not support shared sync dates for automatic renewals.
 
 ### Can I change the different renewal price after a subscription is created?
 The price stored on the subscription is locked at checkout. To change it, you would need to edit the subscription's meta data directly. Changing the product's configuration only affects new purchases.

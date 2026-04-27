@@ -38,7 +38,6 @@ Sent to the customer when a subscription moves from `Pending`, `Trial`, or `Auto
   - Price and billing period (e.g., "$29.99 / every month")
   - Start date
   - Next payment date
-  - Renewal sync schedule (if applicable)
   - End date (if a fixed-length subscription)
 - Link to view the subscription in the customer portal
 
@@ -194,7 +193,6 @@ Sent when a renewal invoice (order) is created for an upcoming payment.
   - Order number
   - Order total
   - Due date
-  - Sync schedule (if applicable)
 - Conditional **"Pay for this order"** link (only when the order still requires payment — i.e., for manual payment subscriptions)
 - Link to the customer portal
 

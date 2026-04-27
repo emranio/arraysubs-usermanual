@@ -77,7 +77,6 @@ The top section shows a detailed information table:
 | **Recurring Amount** | The effective price per billing cycle with the billing schedule | Always |
 | **Coupon Discount** | Applied coupon code, discount type, and remaining cycles | Only if a recurring coupon is active |
 | **Payment Method** | Payment method name with a link to manage payment methods | If a payment method is on file |
-| **Renewal Schedule** | Sync badge with a description of the sync day | Only if renewal sync is enabled for this subscription |
 
 ### Recurring Amount with Discounts
 
@@ -99,14 +98,6 @@ Below the discount, a note indicates the remaining lifecycle:
 - **Limited cycles:** "X renewal cycle(s) remaining"
 - **Unlimited:** "Applied to all future renewals"
 - **Exhausted:** "Coupon 'CODE' — all discount cycles used" (shown in a muted style)
-
-### Renewal Sync Information
-
-If the subscription is synced to a specific day of the month or week, a sync badge appears in the overview table. The badge includes:
-
-- A sync icon
-- A text description like "Synced to the 15th of every month"
-- A note if the first payment was prorated
 
 ### Payment Method Row
 

@@ -248,7 +248,6 @@ ArraySubs ships as two plugins. The core plugin is free and covers all essential
 | Recurring billing engine | ✅ | ✅ |
 | Renewal invoice generation | ✅ | ✅ |
 | Grace period system (active + on-hold) | ✅ | ✅ |
-| Renewal synchronization (monthly, weekly, yearly) | ✅ | ✅ |
 | Manual renewal payments | ✅ | ✅ |
 | Automatic gateway payments (Stripe, PayPal, Paddle) | — | ✅ |
 | Auto-renew customer toggle | — | ✅ |
