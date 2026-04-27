@@ -1,7 +1,7 @@
 # Info
 - Module: Feature Manager — Product Features
 - Availability: Pro
-- Last updated: 2026-04-04
+- Last updated: 2026-04-27
 
 # Defining Product Features
 
@@ -20,7 +20,7 @@ Simple products have a single feature set. Variable products support per-variati
 1. Go to **Products → Edit Product** for any subscription product.
 2. In the product data panel (below the price fields), click the **Feature Manager** tab.
 
-The tab appears between **Linked Products** and **Advanced** for simple products. For variable products, feature fields appear inside each variation's options panel instead.
+The tab appears after **Attributes** and before **Advanced** in the product data panel. For variable products, the tab does not appear at the product level — feature fields appear inside each variation's options panel instead.
 
 ```box class="info-box"
 The Feature Manager tab only appears when the module is enabled in **ArraySubs → Settings → Feature Manager**.
@@ -29,19 +29,19 @@ The Feature Manager tab only appears when the module is enabled in **ArraySubs �
 ## Adding Features (Simple Product)
 
 1. Click the **Feature Manager** tab in the product data panel.
-2. Click **Add Features** to open the feature manager modal.
+2. Click **Add Feature** (shown when no features exist yet) or **Edit Features** (shown when features already exist) to open the **Manage Features** modal.
 3. Click **Add Feature** inside the modal. A new blank row appears in editing mode.
 4. Fill in the feature details:
    - **Name** — Required. The display name customers see (e.g., "Storage Space", "Priority Support", "API Calls").
    - **Type** — Choose `Toggle`, `Number`, or `Text` (see Feature Types below).
    - **Value** — The entitlement value for this feature (depends on the type).
    - **Enabled** — Toggle on or off. Disabled features are saved but not displayed to customers.
-5. Click the **Save** icon on the row to confirm the feature.
+5. Click the **✓** (check) icon on the row to confirm the feature, or **✗** to cancel.
 6. Add more features by clicking **Add Feature** again.
-7. When finished, click **Save Features** at the bottom of the modal.
+7. When finished, click **Save** at the bottom of the modal.
 8. Click **Update** on the product to save all changes.
 
-After saving, a preview table appears inside the Feature Manager tab showing all defined features at a glance.
+After saving, a preview table appears inside the Feature Manager tab showing all defined features at a glance. The table has four columns: **Title**, **Type**, **Value**, and **Enabled**.
 
 ## Adding Features (Variable Product)
 
@@ -50,7 +50,7 @@ For variable products, features are defined per variation rather than at the pro
 1. Go to the **Variations** tab in the product data panel.
 2. Expand any variation.
 3. Scroll down to the **Feature Manager** section within the variation.
-4. Click **Add Features** to open the modal for that variation.
+4. Click **Add Feature** (when no features exist) or **Edit Features** (when features already exist) to open the **Manage Features** modal for that variation.
 5. Define features the same way as for simple products.
 6. Repeat for each variation that needs features.
 7. Click **Save changes** on the variations panel.
@@ -99,23 +99,23 @@ Features appear in the order you define them. You can reorder features inside th
 - **Drag handle** — Grab the grip icon on the left side of any feature row and drag it to a new position.
 - **Move Up / Move Down buttons** — Use the arrow buttons in the Actions column to shift a feature one position at a time.
 
-The order is saved when you click **Save Features**.
+The order is saved when you click **Save** at the bottom of the modal.
 
 ## Editing and Deleting Features
 
 ### Editing
 
-1. Open the feature modal by clicking **Edit Features**.
+1. Open the modal by clicking **Edit Features** on the Feature Manager tab.
 2. Click the **Edit** (pencil) icon on the feature you want to change.
 3. The row switches to edit mode — modify the name, type, value, or enabled state.
-4. Click **Save** on the row, then **Save Features** to confirm changes.
+4. Click the **✓** (check) icon on the row to confirm, then click **Save** at the bottom of the modal.
 
 ### Deleting
 
-1. Open the feature modal.
+1. Open the modal by clicking **Edit Features** on the Feature Manager tab.
 2. Click the **Delete** (trash) icon on the feature row.
-3. Confirm the deletion in the prompt.
-4. Click **Save Features** to finalize.
+3. Confirm the deletion in the browser confirmation prompt.
+4. Click **Save** at the bottom of the modal to finalize.
 
 Deleting a feature removes it from the product. Customers who already purchased this product will no longer see that feature in their My Features page once the product is updated.
 
