@@ -38,6 +38,14 @@ The toggle only appears when all of these are true:
 - There is no pending cancellation on the subscription
 - A valid payment method exists (required for enabling auto-renew)
 
+### Manual gateway subscriptions — read-only hint
+
+If the global toggle setting is on **but** the subscription was paid with a manual gateway (Bank Transfer / BACS, Cheque, Cash on Delivery, etc.), there is no toggle to flip — the gateway never had automatic billing in the first place. To prevent the customer from seeing an empty Subscription Actions box and assuming the feature is broken, the portal renders a passive read-only line:
+
+> **Auto-Renew:** Not available for this payment method. You will receive an invoice for manual payment at each renewal.
+
+This appears only on otherwise-eligible subscriptions (active / on-hold / trial, not pending-cancel, not lifetime, not on an automatic gateway). It is informational — there is no button to click. To enable a real toggle for these subscribers, you would need to migrate them to an automatic gateway via a fresh checkout.
+
 ---
 
 ## Turning Off Auto-Renew

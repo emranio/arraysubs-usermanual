@@ -205,7 +205,16 @@ This ensures the gateway does not attempt to charge the customer during the paus
 
 ### Use case 1: Grace period saves a customer
 
-A customer's credit card expired and the automatic renewal payment fails. The subscription enters the active grace period (3 days). The customer receives a **Payment Failed** email and updates their card. They pay the pending invoice on day 2. The subscription never leaves Active status and continues normally.
+A customer's credit card expired and the automatic renewal payment fails. The subscription enters the active grace period (3 days). The customer receives a **Renewal Payment Failed** email — the email body now says explicitly *"Reason: the card has expired."* so the customer immediately knows what to fix. They update their card, click the **Pay Now** link, and pay the pending invoice on day 2. The subscription never leaves Active status and continues normally.
+
+```box class="info-box"
+**Failure reason in customer notifications.** When a renewal fails on an automatic gateway, the plugin classifies the gateway error code (Stripe `decline_code`, PayPal/Paddle equivalents) into a stable category and surfaces it in two places:
+
+- the **Renewal Payment Failed** email shows a one-line reason callout above the order details (e.g. *"Reason: insufficient funds on the card."*)
+- the **subscription notes** include both the human reason and the raw gateway message
+
+Recognized categories include `insufficient_funds`, `card_declined`, `expired_card`, `incorrect_cvc`, `invalid_card`, `authentication_required`, `processing_error`, and `generic_decline`. Unknown failures fall back to the raw gateway message only. See [Payment Recovery Tools](../checkout-and-payments/automatic-payments/payment-recovery.md) for the full category reference.
+```
 
 ### Use case 2: On-hold recovery
 

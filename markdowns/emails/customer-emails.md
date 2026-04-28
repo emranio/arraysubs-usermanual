@@ -269,6 +269,7 @@ Sent when a renewal payment attempt fails.
 
 - Personalized greeting
 - Warning that the payment could not be processed
+- **Reason callout** explaining *why* the charge failed — e.g. *"Reason: insufficient funds on the card."* or *"Reason: the bank requires customer authentication (3D Secure)."* — only shown when the gateway returned a recognizable error code
 - Subscription details:
   - Subscription status (Active or On Hold)
   - Order number and total
@@ -279,6 +280,24 @@ Sent when a renewal payment attempt fails.
 ```box class="warning-box"
 The Payment Failed email uses strong urgency styling — a red warning box and a prominent "Pay Now" call-to-action button — to encourage the customer to resolve the issue quickly.
 ```
+
+### Failure reason categories
+
+The plugin classifies the gateway error code (Stripe `decline_code` / `error.code`, equivalents on PayPal and Paddle) into a stable category and renders the customer-friendly description in the callout. Recognized categories:
+
+| Category | Reason text shown to the customer |
+|---|---|
+| `insufficient_funds` | insufficient funds on the card |
+| `card_declined` | the card was declined by the issuer |
+| `expired_card` | the card has expired |
+| `incorrect_cvc` | the card security code (CVC) was incorrect |
+| `invalid_card` | the card details on file are invalid |
+| `authentication_required` | the bank requires customer authentication (3D Secure) |
+| `processing_error` | a temporary processing error occurred at the gateway |
+| `generic_decline` | the card was declined |
+| `unknown` | *(no callout shown — only the raw gateway message goes to the subscription notes)* |
+
+The chosen category is also written to `_last_payment_failure_category` subscription meta so the same wording can drive future dunning rules. See [Payment Recovery Tools](../checkout-and-payments/automatic-payments/payment-recovery.md) for the retry-pipeline interaction.
 
 ### When It Is Sent
 

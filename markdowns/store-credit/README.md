@@ -62,7 +62,22 @@ Every credit transaction is tagged with a source so you can track where credit c
 | `Credit Purchase` | Credit (in) | Customer buys credit through a Store Credit product in the shop. |
 | `Applied to Renewal` | Debit (out) | Credit automatically applied to a subscription renewal invoice. |
 | `Applied to Order` | Debit (out) | Credit applied at checkout for a new order. |
+| `Reversal` | Credit (in) | A previously-applied credit is restored after the renewal payment failed (see "Failed renewal reversal" below). |
 | `Expired` | Debit (out) | Credit passes its expiration date and is removed from the balance. |
+
+## Failed renewal reversal
+
+When credit is auto-applied to a renewal invoice, the deduction happens at the moment the invoice is generated — *before* the payment lands. If the renewal payment then fails (Stripe declines, customer doesn't pay the manual invoice in time, etc.), the credit is automatically restored:
+
+1. The plugin listens for `arraysubs_renewal_payment_failed`.
+2. The original split is read from order meta (subscription bucket vs customer bucket — preserved per-application so reversal returns credit to the right place).
+3. Each bucket is re-credited via the normal `addSubscriptionCredit` / `addCustomerCredit` path with source `Reversal`.
+4. The negative "Store Credit Applied" fee line is removed from the order so its outstanding balance reflects the true amount due.
+5. A subscription system note records the reversal: *"Store credit $X.XX restored after renewal payment failed on order #1234."*
+
+The reversal is **idempotent** — a second failure on the same order is a no-op. When the order is later retried (auto-retry or manual retry), the renewal pipeline re-runs `applyCreditsToOrder`; if credit is still available it will be re-applied to the new attempt.
+
+This guarantees the customer never silently loses credit because of a transient payment failure.
 
 ## Customer Experience
 

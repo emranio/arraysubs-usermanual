@@ -38,9 +38,32 @@ Both admins and customers can click a button to retry a failed renewal immediate
 - Logs a private subscription note recording who initiated the retry.
 - Returns a clear message indicating success, the specific failure reason (e.g. "card declined"), or "no failed renewal to retry" if the subscription is already current.
 
-### Sync from Gateway
+### Failure reason in customer notifications
 
-The admin subscription detail page has a **Sync from Gateway** button when the attached gateway explicitly supports gateway sync. Clicking it asks the gateway "what is the current state of this subscription?" and applies safe corrections to local data:
+When a renewal fails, the plugin classifies the gateway error code into a stable category and shows the **customer-friendly reason** in two places:
+
+1. **The "Renewal Payment Failed" email** displays the reason in a highlighted callout above the order details — for example *"Reason: insufficient funds on the card."* or *"Reason: the bank requires customer authentication (3D Secure)."*
+2. **The subscription notes** include both the human reason and the raw gateway message — for example *"Renewal payment failed: the card has expired. Gateway message: 'Your card has expired.'"*
+
+Categories the plugin recognizes:
+
+| Category | Customer-facing text |
+|---|---|
+| `insufficient_funds` | insufficient funds on the card |
+| `card_declined` | the card was declined by the issuer |
+| `expired_card` | the card has expired |
+| `incorrect_cvc` | the card security code (CVC) was incorrect |
+| `invalid_card` | the card details on file are invalid |
+| `authentication_required` | the bank requires customer authentication (3D Secure) |
+| `processing_error` | a temporary processing error occurred at the gateway |
+| `generic_decline` | the card was declined |
+| `unknown` | (no callout shown — only the raw gateway message goes in notes) |
+
+The category is stored in the `_last_payment_failure_category` subscription meta so it can also drive future dunning rules (e.g. "do not auto-retry an `expired_card`").
+
+### Sync from Gateway (Resync)
+
+The admin subscription detail page has a **Resync from Gateway** button **inside the Payment Gateway card** (next to Detach Gateway), shown only when the attached gateway is automatic and explicitly supports gateway sync. The card itself only renders for automatic gateways — manual gateways like BACS / Cheque / COD do not show the card or any of its actions, since there is no remote state to pull. Clicking Resync asks the gateway "what is the current state of this subscription?" and applies safe corrections to local data:
 
 - `_gateway_status` (active/paused/inactive) — overwritten if the gateway differs.
 - `_next_payment_date` — overwritten when the gateway reports it (PayPal/Paddle; Stripe is plugin-scheduled so no value is reported).
@@ -100,12 +123,15 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 3. Clicks the **Retry Payment** button in the Subscription Actions section.
 4. Confirms the prompt and waits for the result.
 
-### Sync from Gateway (admin)
+### Resync from Gateway (admin)
 
 1. Open the subscription detail page in the admin.
-2. Click **Sync from Gateway** in the action bar.
-3. The toast shows the number of changes applied (e.g. "3 changes applied from gateway state.") or "Local state already matches gateway. No changes were applied."
-4. Subscription notes record exactly what was changed.
+2. Scroll to the **Payment Gateway** card.
+3. Click **Resync from Gateway** (the button sits next to Detach Gateway).
+4. The toast shows the number of changes applied (e.g. "3 changes applied from gateway state.") or "Local state already matches gateway. No changes were applied."
+5. Subscription notes record exactly what was changed.
+
+If the Payment Gateway card itself is missing, the subscription is on a manual gateway and there is nothing to resync.
 
 ## Settings Reference
 

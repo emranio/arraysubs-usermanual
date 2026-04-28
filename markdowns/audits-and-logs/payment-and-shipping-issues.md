@@ -86,12 +86,17 @@ If any step fails, the old payment method remains unchanged.
 
 ## Gateway Detachment
 
-Admins can detach a gateway from a subscription through the subscription detail page. This is a deliberate action, not an error, but it has important consequences:
+Admins can detach a gateway from a subscription through the **Detach Gateway** button inside the Payment Gateway card on the subscription detail page. This is a deliberate action, not an error, but it has important consequences.
+
+```box class="info-box"
+The Detach Gateway button appears **only on automatic-gateway subscriptions** (Stripe, PayPal, Paddle). Manual gateways like BACS, Cheque, or COD do not show the Payment Gateway card at all — there is nothing to detach because no remote payment method is on file.
+```
 
 **What happens on detach:**
 - All stored payment method metadata is removed (`_payment_gateway`, `_gateway_payment_method_id`, card brand, last four digits, expiry, etc.)
 - `_gateway_status` is set to `detached`
 - The subscription reverts to manual renewal — the customer must pay invoices manually
+- The Payment Gateway card disappears (the subscription is now treated as manual-gateway)
 - A note is added to the subscription audit trail
 
 **When to use detach:**
@@ -100,6 +105,17 @@ Admins can detach a gateway from a subscription through the subscription detail 
 - You are migrating the subscription to a different payment method
 
 **After detaching**, the customer needs to go through a new payment flow (e.g., pay a renewal invoice) to re-establish automatic payments with a new payment method.
+
+## Store Credit Reversal Trail (Pro)
+
+When a renewal payment fails on a subscription that had store credit auto-applied, ArraySubs automatically restores the credit. The trail an auditor can follow:
+
+1. **Order notes** — the failed renewal order has a *"Store credit reversed after payment failure: $X.XX"* note.
+2. **Subscription notes** — a system note tagged `credit_reversed`: *"Store credit $X.XX restored after renewal payment failed on order #1234."*
+3. **Credit history table** — the customer / subscription gets a new transaction with source `Reversal` matching the originally-applied amount(s). Subscription bucket and customer bucket are restored separately so each goes back to where it came from.
+4. **Order meta** — `_arraysubs_credit_reversed = yes` and `_arraysubs_credit_reversed_at = <UTC timestamp>` are stamped on the order. `_arraysubs_credit_applied` is cleared so a follow-up retry can re-apply credit cleanly.
+
+If you see a debit followed by a matching `Reversal` credit on the same day, that is the system working correctly — no manual reconciliation needed. If credit was deducted but no reversal entry appears even though the renewal failed, check that the Pro plugin is active (the listener lives in `arraysubspro/StoreCredit/Services/Hooks.php`) and that the `arraysubs_renewal_payment_failed` action actually fired (look in the subscription notes for the failure entry).
 
 ## Shipping Address Update Issues (Pro)
 

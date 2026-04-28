@@ -57,12 +57,22 @@ The grace period durations are configurable in **ArraySubs → Settings → Gene
 
 **Symptoms:** The renewal order was created but payment was declined. The order shows `Failed` status.
 
-**Possible causes:**
+**First place to look:** the subscription notes now include a customer-readable failure note alongside the raw gateway log — for example *"Renewal payment failed: insufficient funds on the card. Gateway message: 'Your card has insufficient funds.'."*. The same classified reason is stored in the `_last_payment_failure_category` subscription meta and shown in the **Renewal Payment Failed** customer email's reason callout. Use the category to triage quickly:
+
+| Category | What it usually means | Fix path |
+|---|---|---|
+| `insufficient_funds` | Card had no balance / over-limit | Customer updates card or waits for funds; auto-retry will run on the configured schedule |
+| `expired_card` | Card on file is past its expiry | Customer updates payment method; not worth retrying until they do |
+| `incorrect_cvc` / `invalid_card` | Card details on file are wrong | Customer must update payment method |
+| `authentication_required` | Bank requires 3D Secure / SCA | Customer must complete authentication via the **Pay Now** link in the email |
+| `card_declined` / `generic_decline` | Issuer declined for unspecified reason | Auto-retry may succeed; if not, customer should contact their bank |
+| `processing_error` | Transient gateway / network issue | Auto-retry usually resolves it |
+| `unknown` | Gateway returned an unrecognized code — only the raw message is in the notes | Read the raw gateway message in the order/subscription notes |
+
+Other possible causes:
 
 | Cause | How to Check | Fix |
 |-------|-------------|-----|
-| Customer's card was declined | Check the order notes for the gateway error message (e.g., "Card declined", "Insufficient funds") | The customer needs to update their payment method from the portal or My Account page |
-| Stored payment method expired | Check the subscription's payment gateway card for the expiry date | The customer should update their card details. ArraySubs sends card-expiring notifications if configured |
 | Gateway API error | Check the order notes and scheduled-job logs for error details | Verify gateway API credentials are valid; check the gateway's status page for outages |
 | Gateway rate limit | Check server logs and gateway dashboard for rate limit responses | Wait for the rate limit to reset; the system retries failed payments on the next scheduled attempt |
 | Payment method was detached | Check the subscription detail for `_gateway_status = detached` | The customer needs to re-add a payment method. The subscription has been reverted to manual payments |

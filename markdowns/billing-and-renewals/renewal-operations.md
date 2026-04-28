@@ -127,6 +127,10 @@ The billing engine uses this priority when setting the renewal invoice amount:
 2. Otherwise, if a **recurring amount** is stored → use the recurring amount
 3. Otherwise → use the subscription price (fallback)
 
+```box class="info-box"
+**The completed-payments counter only increments when money actually changed hands.** Free-trial conversion orders (BDT 0 / $0) and renewal orders fully zeroed out by store credit do **not** advance the counter — only orders with `total > 0`. This guarantees the "different renewal price" threshold trips on the right cycle and matches the customer's intuition (a free trial is not "payment 1", and an applied-credit renewal that costs nothing is also not "payment 1"). Subscription length thresholds and retention analytics use the same counter and benefit from the same guard.
+```
+
 ### Example timeline
 
 | Payment | Cycle # | Price charged | Reason |

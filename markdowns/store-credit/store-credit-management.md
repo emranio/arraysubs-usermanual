@@ -115,6 +115,8 @@ A customer asks "Why was $15 deducted from my credit?" You can:
 3. Check the **Description** column — it might say "Applied to Renewal" with a note referencing the renewal order.
 4. Report back to the customer with the exact date and reason.
 
+If you also see a matching **Reversal** entry for the same amount on a later date, that means the renewal payment failed and the credit was automatically restored — no manual action needed. See [Failed renewal reversal](README.md#failed-renewal-reversal) in the Store Credit overview for the full flow.
+
 ## Settings Reference
 
 | Setting | What it controls | Default |

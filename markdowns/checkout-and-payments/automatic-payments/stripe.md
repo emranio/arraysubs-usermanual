@@ -182,7 +182,10 @@ Stripe gateway settings are configured in **WooCommerce → Settings → Payment
 No. Stripe's Checkout Sessions and Elements handle all card input on Stripe's servers. ArraySubs only stores the payment method ID, card brand, last4, and expiry — never the full card number or CVV.
 
 **What happens if a renewal charge fails?**
-The subscription enters the grace period flow. ArraySubs retries according to your retry settings. If all retries fail, the subscription transitions from Active → On-Hold → Cancelled based on your grace period configuration.
+The plugin records the failure with a classified reason (insufficient funds, expired card, authentication required, etc.) and the customer receives a **Renewal Payment Failed** email that includes the reason in plain language. ArraySubs then schedules the next automatic retry using your gateway settings (max attempts and interval); before each retry the plugin queries Stripe to confirm the customer was not already charged via a missed webhook. If all retries fail, the subscription enters the standard grace-period flow (Active → On-Hold → Cancelled). An admin or the customer can also click **Retry Payment** at any time to trigger an immediate verification + retry — see [Payment Recovery Tools](payment-recovery.md).
+
+**How do I know the local subscription state matches Stripe?**
+Open the subscription detail page and click **Resync from Gateway** in the Payment Gateway card (next to Detach Gateway). The reconciler pulls the customer record, the saved payment method, and recent PaymentIntents matching this subscription, then applies safe corrections to local meta and reconciles any successful charge whose webhook was missed. The card itself only appears for automatic gateways — manual gateways have nothing to resync.
 
 **Can I use Stripe in test mode?**
 Yes. Enable test mode in the Stripe gateway settings and use Stripe's test API keys. Test mode uses Stripe's sandbox environment — no real charges occur. Remember to configure a separate webhook for your test mode endpoint.

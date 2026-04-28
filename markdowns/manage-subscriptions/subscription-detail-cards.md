@@ -182,22 +182,32 @@ The card shows when the coupon was captured (applied) to this subscription.
 
 ## Payment Gateway Card **Pro**
 
-This card appears when an automatic payment gateway (Stripe, PayPal, Paddle) is attached to the subscription. It is part of the **Automatic Payments** Pro module.
+This card appears **only when an automatic payment gateway (Stripe, PayPal, Paddle) is attached to the subscription**. It is part of the **Automatic Payments** Pro module.
+
+```box class="info-box"
+**Manual gateways do not show this card.** If the subscription was paid through Bank Transfer (BACS), Cheque, Cash on Delivery, or any other manual gateway, there is no remote state to surface — the gateway slug is already shown in the Order Summary card. The Payment Gateway card, its status badge, and the Detach / Resync actions all stay hidden.
+```
 
 ### Fields Displayed
 
 | Field | What It Shows |
 |-------|---------------|
 | **Gateway** | The gateway name (e.g., "Stripe", "PayPal") |
-| **Connection Status** | A color-coded badge — "Active" (green), "Detached" (gray), or "Error" (red) |
+| **Connection Status** | A color-coded badge — "Connected" (green), "Detached" (gray), or "Error" (red). New automatic-gateway subscriptions show "Connected" by default. |
 | **Card on File** | The stored payment method title with card brand and last 4 digits (e.g., "Visa ending in 4242") |
 | **Expiry** | Card expiration date — with an "Expired" badge if the card has expired |
 | **Customer ID** | The customer identifier in the payment gateway (displayed in code format) |
 | **Last Transaction ID** | The most recent transaction reference (displayed in code format) |
 
+### Resync from Gateway
+
+When the gateway supports state sync (Stripe, PayPal, Paddle all do), a **Resync from Gateway** button appears in the card. Click it to pull the latest subscription state from the gateway and reconcile any missed webhook events — useful when you suspect the local data has drifted from the gateway (e.g. site was down for a long stretch, signing-secret changed, network blip).
+
+The reconciler updates `_gateway_status`, `_next_payment_date`, payment method card fields, and matches recent successful charges to local orders that are still marked unpaid. Product / plan / amount changes are deliberately not synced — those are merchant decisions, not gateway state.
+
 ### Detach Gateway
 
-If the gateway supports detachment, a **Detach Gateway** button appears. Clicking it shows a confirmation dialog:
+If the gateway supports detachment, a **Detach Gateway** button appears next to Resync. Clicking it shows a confirmation dialog:
 
 > "Are you sure you want to detach the payment gateway? The subscription will revert to manual payment."
 
@@ -206,6 +216,7 @@ After detaching:
 - The subscription no longer processes automatic payments.
 - Future renewals generate invoices that the customer must pay manually.
 - The gateway data is removed from the subscription.
+- The Payment Gateway card disappears (the subscription is now treated as a manual-gateway subscription).
 
 ```box class="warning-box"
 Detaching a gateway is not reversible from this screen. The customer would need to update their payment method to re-enable automatic billing.
@@ -276,7 +287,7 @@ A customer claims their discount is not being applied. Open the subscription det
 
 ### Use Case 3: Checking Gateway Health Before a Renewal
 
-Before a large customer's renewal date, open their subscription detail and check the **Payment Gateway card**. Verify the connection status is "Active", the card on file is not expired, and note the last transaction ID for reference.
+Before a large customer's renewal date, open their subscription detail and check the **Payment Gateway card**. Verify the connection status is "Connected", the card on file is not expired, and note the last transaction ID for reference. If anything looks stale, click **Resync from Gateway** to pull the latest state from Stripe / PayPal / Paddle.
 
 ### Use Case 4: Reviewing Custom Checkout Data
 
