@@ -11,6 +11,7 @@ The subscription detail screen displays a series of information cards. Some are 
 | Card | Appears When |
 |------|-------------|
 | [Cancellation Details](#cancellation-details-card) | The subscription has been cancelled, has a scheduled cancellation, or has retention history |
+| [Pending Plan Switch](#pending-plan-switch-card) | The subscription has an Apply at Renewal plan switch waiting |
 | [Skip & Pause](#skip-and-pause-card) | Always shown, but displays a disabled state if skip/pause features are turned off |
 | [Coupon Discount](#coupon-discount-card) | A coupon is applied to the subscription |
 | [Payment Gateway](#payment-gateway-card) | An automatic payment gateway is attached (**Pro**) |
@@ -55,6 +56,35 @@ If the subscription has been through the retention flow, a **Retention Offers** 
 
 ```box class="info-box"
 The Retention Offers section only appears if the subscription has been through the retention flow at least once. If the customer cancelled without being shown any offers, this section is hidden.
+```
+
+---
+
+## Pending Plan Switch Card
+
+This card appears when a subscription has a plan switch scheduled for the next renewal.
+
+### Fields Displayed
+
+| Field | What It Shows |
+|-------|---------------|
+| **Target Plan** | The product or variation the subscription will move to |
+| **Effective Date** | The renewal date when the switch is expected to apply |
+| **Quantity** | The quantity that will be used on the future renewal |
+| **Target Unit Price** | The per-unit recurring price of the target plan |
+| **Future Renewal Amount** | The target unit price multiplied by quantity |
+| **Switch Fee** | Any configured fee for upgrade, downgrade, or crossgrade |
+| **Requested By** | Customer or admin attribution |
+| **Requested At** | When the pending switch was created |
+
+### Admin Actions
+
+| Action | What It Does |
+|--------|--------------|
+| **Cancel Pending Switch** | Removes the future plan change. The subscription stays on the current plan and no switch fee is charged. |
+
+```box class="info-box"
+The Pending Plan Switch card only appears for Apply at Renewal switches. Immediate switches apply after the switch order is paid, so there is no long-lived pending switch to display.
 ```
 
 ---
@@ -263,6 +293,7 @@ A customer ordered through a customized checkout with extra fields (company name
 | Gateway card shows "Error" status | The payment method or customer reference is invalid at the gateway | Check the gateway dashboard for the customer/card status. The customer may need to update their payment method. |
 | Checkout Builder fields card is missing | The "Show on subscription detail" setting is off, or no custom fields were captured | Enable the setting in Checkout Builder and verify the checkout had custom fields |
 | Shipping card is missing | The subscription product does not require shipping, or shipping is not configured | Verify the product has shipping enabled in its WooCommerce settings |
+| Pending Plan Switch card is missing | The subscription does not currently have an Apply at Renewal switch waiting | Check the subscription notes or customer portal if the switch may have already applied, been cancelled, or been cleared by cancellation |
 
 ---
 

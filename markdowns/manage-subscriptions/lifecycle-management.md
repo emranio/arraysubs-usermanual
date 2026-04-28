@@ -132,7 +132,7 @@ ArraySubs uses a **two-phase renewal system** to give customers time to pay befo
 
 ### Phase 1: Invoice Generation
 
-A scheduled job runs hourly and looks for Active subscriptions whose next payment date is within the next **6 hours**. For each one:
+ArraySubs schedules renewal invoice generation per subscription using your configured **Invoice Timing** setting. The hourly **Generate Upcoming Renewals** job remains as a recovery safety net in case an exact scheduled action is missed. For each qualifying subscription:
 
 1. The system verifies no pending renewal order already exists.
 2. A new WooCommerce order (invoice) is created with **Pending** payment status.
@@ -232,8 +232,10 @@ The subscription is cancelled right now. Available from the [Cancel Subscription
 2. The cancellation date, reason, and who cancelled it (admin ID or system) are recorded.
 3. All future scheduled actions are removed — no more renewals, reminders, or status checks.
 4. The waiting-cancellation flag is cleared (if it was set).
-5. A "Subscription Cancelled" email is sent to the customer.
-6. An admin notification email is sent.
+5. Any pending plan switch is cleared.
+6. Payment retry state is cleared so failed-renewal retry actions do not continue after cancellation.
+7. A "Subscription Cancelled" email is sent to the customer.
+8. An admin notification email is sent.
 
 ### End-of-Period Cancellation
 
@@ -243,14 +245,22 @@ The subscription remains active until the next payment date, then cancels automa
 1. The `_waiting_cancellation` flag is set to true.
 2. The scheduled cancellation date is set to the next payment date.
 3. The subscription stays in its current status (Active, Trial, etc.).
-4. **Renewals are NOT unscheduled** — the subscription continues to bill normally until the cancellation date is reached.
+4. Renewal invoice/payment jobs are unscheduled so the customer is not billed again during the pending-cancellation window.
+5. Any pending plan switch is cleared because it would otherwise wait for a renewal that will not happen.
+
+```box class="warning-box"
+## End-of-period cancellation requires a valid future date
+
+If ArraySubs cannot resolve a valid future cancellation date, the schedule request fails safely. It does not turn the request into an immediate cancellation.
+```
 
 **When the cancellation date arrives:**
 1. A scheduled job detects that the cancellation date has passed.
 2. Status changes to **Cancelled**.
 3. The cancelled date is recorded and the waiting-cancellation meta is cleared.
 4. All future scheduled actions are removed.
-5. A "Subscription Cancelled" email is sent.
+5. Any pending plan switch is cleared.
+6. A "Subscription Cancelled" email is sent.
 
 ### Undo Scheduled Cancellation
 
@@ -266,7 +276,7 @@ If a scheduled cancellation has not yet executed, it can be reversed. Click **Un
 3. The subscription resumes normal renewal scheduling.
 
 ```box class="info-box"
-Undoing a scheduled cancellation does not send an email by default. If you want to notify the customer, add a Customer note to the subscription.
+Undoing a scheduled cancellation restores the renewal schedule and can send the configured cancellation-undone confirmation email.
 ```
 
 ---
@@ -350,7 +360,7 @@ Every major lifecycle event can trigger an email. The table below maps events to
 | Subscription activated (Pending → Active) | New Subscription |
 | Trial started | Trial Started |
 | Trial converted to paid | Trial Converted |
-| Renewal invoice generated (6 hours before due) | Renewal Invoice |
+| Renewal invoice generated (based on invoice timing setting) | Renewal Invoice |
 | Renewal payment successful | Payment Successful |
 | Renewal payment failed | Payment Failed |
 | Subscription placed on hold (grace period) | Subscription On Hold |
@@ -382,7 +392,8 @@ ArraySubs uses the Action Scheduler to run lifecycle operations on a reliable sc
 
 | Job | Frequency | What It Does |
 |-----|-----------|--------------|
-| Generate Upcoming Renewals | Hourly | Creates renewal invoices for subscriptions due within 6 hours |
+| Generate Upcoming Renewals | Hourly | Recovery job that creates missing renewal invoices within the configured invoice timing window |
+| Generate Renewal Invoice | Per-subscription | Creates the exact renewal invoice before the due date based on the invoice timing setting |
 | Check Overdue Renewals | Hourly | Moves unpaid subscriptions through the grace period (Active → On Hold → Cancelled) and processes waiting (end-of-period) cancellations |
 | Process Trial Conversions | Daily at 2:00 AM | Converts expired trials to Active (or auto-downgrades them) |
 | Send Renewal Reminder | Per-subscription | Sends a reminder email before the next renewal (configurable days) |
@@ -394,7 +405,7 @@ ArraySubs uses the Action Scheduler to run lifecycle operations on a reliable sc
 
 ### Use Case 1: Customer's Card Expired Before Renewal
 
-The renewal invoice is generated 6 hours before the due date. The customer's card fails. The subscription stays Active for 3 more days (grace period). During this time, the customer receives a "Renewal Invoice" email with a payment link. If they update their card and pay within 3 days, nothing changes. If they do not, the subscription moves to On Hold and they receive a "Subscription On Hold" email. After 7 more days unpaid, the subscription is cancelled automatically.
+The renewal invoice is generated before the due date based on your invoice timing setting. The customer's card fails. The subscription stays Active for 3 more days (grace period). During this time, the customer receives a "Renewal Invoice" email with a payment link. If they update their card and pay within 3 days, nothing changes. If they do not, the subscription moves to On Hold and they receive a "Subscription On Hold" email. After 7 more days unpaid, the subscription is cancelled automatically.
 
 ### Use Case 2: Seasonal Business with Scheduled Cancellations
 

@@ -18,7 +18,7 @@ Every active subscription eventually reaches its next payment date. When that ha
 
 ### Renewal invoice generation
 
-The billing engine runs an hourly background job called **Generate Upcoming Renewals**. Each time it runs, it looks for active subscriptions whose next payment date falls within the configured advance window.
+The billing engine schedules renewal invoice generation for each subscription using the configured invoice lead time. An hourly background job called **Generate Upcoming Renewals** remains active as a recovery safety net; it creates missing invoices if an exact scheduled invoice action was missed.
 
 **Default behavior:** Invoices are created **6 hours** before the payment is due. This timing is configurable in **ArraySubs → Settings → General Settings → Renewals**.
 
@@ -36,8 +36,9 @@ When a subscription qualifies, the engine creates a **pending WooCommerce order*
 - Renewal shipping costs (if the subscription uses recurring shipping)
 - Any active retention discount applied to the order
 - The different renewal price, if the payment count threshold has been reached
+- The pending target plan price and switch fee when an Apply at Renewal plan switch is waiting
 
-After the order is created, the subscription's `pending renewal order` reference is updated, and the subscription status **stays Active** — no status change happens when an invoice is generated.
+After the order is created, the subscription's `pending renewal order` reference is updated, and the subscription status **stays Active** — no status change happens when an invoice is generated. In the admin timeline, invoice creation appears as a pending event, not as a successful payment.
 
 ```box class="info-box"
 ## Invoice timing is configurable
@@ -61,6 +62,8 @@ Each renewal order is a standard WooCommerce order with additional metadata link
 | Retention discount | Applied if an active retention offer exists |
 
 The order also records the **renewal cycle number** (how many renewals have occurred) and the **scheduled renewal date** (when the payment was originally due).
+
+If the subscription has an Apply at Renewal plan switch waiting, the renewal order uses the target plan and quantity. With **Pro** Subscription Shipping, renewal shipping also uses the target product's shipping rules before the subscription metadata is permanently updated.
 
 **Order note example:**
 > Renewal order for subscription #142 (Cycle #5, scheduled for 2025-04-15, billing every 1 month). Order generated on 2025-04-15.
@@ -93,8 +96,9 @@ When a renewal invoice is paid (either manually by the customer or automatically
 2. **Grace period clears** — Any pending renewal order reference and on-hold date are removed
 3. **Next payment date advances** — Calculated by adding one billing cycle (interval × period) to the current date
 4. **Status restored** — If the subscription was on-hold during the grace period, it returns to Active
-5. **Next renewal scheduled** — The billing engine queues the next renewal action
-6. **Renewal reminder scheduled** — A reminder email is queued for the configured number of days before the next payment
+5. **Pending switch applied** — If this renewal paid an Apply at Renewal switch, the subscription now changes to the target plan and the pending switch is cleared
+6. **Next renewal scheduled** — The billing engine queues the next renewal action
+7. **Renewal reminder scheduled** — A reminder email is queued for the configured number of days before the next payment
 
 ---
 
@@ -193,6 +197,7 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 - **Retention discounts apply to renewal invoices.** If a customer has accepted a retention discount offer, that discount is applied when the next renewal invoice is generated. See [Retention and Cancellation](../retention-and-cancellation/README.md) for details.
 - **Lifetime subscriptions never generate renewal invoices.** Subscriptions with a billing period of Lifetime are excluded from the renewal invoice generation job entirely.
 - **One pending renewal at a time.** The system does not create a second renewal invoice if one is already pending for the subscription.
+- **Invoice created is not payment received.** The admin timeline separates "Renewal Invoice Created" from "Renewal Payment Successful" so support staff can tell the difference between an invoice waiting for payment and an order that was actually paid.
 - **Different renewal price is permanent.** Once the threshold is reached, the subscription's recurring amount is updated. Even if you later change the product's different renewal price configuration, existing subscriptions keep their stored values.
 
 ---

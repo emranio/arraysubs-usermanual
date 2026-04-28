@@ -76,6 +76,8 @@ Finds subscriptions that are On-Hold with a next payment date more than `grace_d
 **Check 3 — Subscriptions waiting for end-of-period cancellation**
 Finds Active or Trial subscriptions with a scheduled cancellation date that has passed (end-of-period cancellations requested by the customer). These are cancelled with the reason stored at the time of the cancellation request.
 
+If ArraySubs cannot resolve a valid future scheduled-cancellation date when the customer requests end-of-period cancellation, the request fails safely instead of cancelling immediately.
+
 ### What happens when a subscription is cancelled for overdue payment
 
 - Status changes to **Cancelled**
@@ -83,6 +85,7 @@ Finds Active or Trial subscriptions with a scheduled cancellation date that has 
 - Cancelled by is set to "system" with reason "overdue_payment"
 - All pending renewal orders are cancelled
 - All future renewal actions are unscheduled
+- Any pending plan switch is cleared
 - A **Subscription Cancelled** email is sent to the customer
 - An **Admin Subscription Cancelled** email is sent to the store admin
 

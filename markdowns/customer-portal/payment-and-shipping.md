@@ -1,7 +1,7 @@
 # Info
 - Module: Payment and Shipping Actions
 - Availability: Shared
-- Last updated: 2026-04-01
+- Last updated: 2026-04-28
 
 # Payment and Shipping Actions
 
@@ -129,6 +129,8 @@ When auto-renew is off and the customer clicks the toggle to re-enable it:
 Turning off auto-renew does **not** cancel the subscription. The subscription remains active and renewals continue — but the customer must pay each renewal invoice manually. If the customer does not pay, the standard grace period applies.
 ```
 
+The auto-renew action works with both pretty permalink and plain permalink WordPress REST URLs. Customers should not need to change any settings based on permalink mode.
+
 ---
 
 ## Update Shipping Address
@@ -189,6 +191,15 @@ When the cutoff prevents updates, the **Update Shipping Address** button is hidd
 ```box class="info-box"
 The 3-day cutoff is the default. Developers can customize this window using the `arraysubs_shipping_address_cutoff_days` filter.
 ```
+
+### Shipping and Plan Changes **Pro**
+
+When a customer changes plans, Pro Subscription Shipping follows the target plan's shipping rules:
+
+- Immediate plan switches recalculate the subscription's saved shipping settings after the switch is paid.
+- Apply at Renewal switches use the target product's shipping amount on the next renewal invoice, even before the subscription permanently changes plans.
+- Switching from a physical product to a virtual product clears recurring shipping for future renewals.
+- Switching from a virtual product to a physical product enables shipping when the target product requires it.
 
 ---
 

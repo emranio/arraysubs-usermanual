@@ -1,7 +1,7 @@
 # Info
 - Module: Plan Switching / Fixed Period Membership
 - Availability: Shared (plan switching: Free, fixed-period membership: Pro)
-- Last updated: 2026-04-01
+- Last updated: 2026-04-28
 
 # Plan Switching and Product Relationships
 
@@ -11,7 +11,7 @@
 
 ## Overview
 
-Plan switching lets customers move between subscription plans — upgrading to a higher tier, downgrading to a lower one, or crossgrading to a similar plan. You define the available paths on each product, and ArraySubs handles proration, order creation, and subscription updates automatically.
+Plan switching lets customers move between subscription plans — upgrading to a higher tier, downgrading to a lower one, or crossgrading to a similar plan. You define the available paths on each product, and ArraySubs handles proration, order creation, pending-switch tracking, and subscription updates automatically.
 
 This guide also covers **auto-downgrade** (automatic plan fallback when a subscription expires or is cancelled) and **Fixed Period Membership** *(Pro)*, which lets you set subscriptions to end on a specific calendar date instead of running indefinitely.
 
@@ -78,7 +78,7 @@ The proration method is controlled in the plan switching settings (**ArraySubs �
 | Type | Behavior |
 |---|---|
 | **Prorate immediately** | Calculate credit for unused time on the current plan and charge the difference for the new plan right away. A proration order is created. This is the default. |
-| **Apply at renewal** | Keep the current next-payment date. The new plan price takes effect at the next scheduled renewal. No proration order is created. |
+| **Apply at renewal** | Keep the current subscription unchanged until the next renewal. ArraySubs stores a pending switch, shows the pending details in admin/customer views, builds the next renewal invoice with the target plan price, and applies the plan change only after that renewal order is paid. |
 | **No proration** | Charge the full new plan price immediately, regardless of time remaining on the current plan. |
 
 ### What the Proration Calculation Includes
@@ -102,6 +102,24 @@ You can configure a flat fee for each switch direction:
 | Upgrade fee | $0 | Additional charge on top of proration when upgrading |
 | Downgrade fee | $0 | Additional charge when downgrading |
 | Crossgrade fee | $0 | Additional charge when crossgrading |
+
+For immediate switches, the fee is shown as part of the proration order. For Apply at Renewal switches, the fee is stored with the pending switch and added to the next renewal invoice. This means a later settings change does not unexpectedly change the fee already shown to the customer.
+
+### Pending Switch Details
+
+When a switch is scheduled for the next renewal, ArraySubs stores a pending switch instead of changing the subscription immediately.
+
+Admins and customers can see:
+
+- target plan and variation
+- effective renewal date
+- quantity
+- target unit price
+- future renewal line total
+- switch fee
+- who requested the change and when
+
+If a customer tries to schedule another Apply at Renewal switch while one is already pending, ArraySubs asks for explicit confirmation before replacing it. The existing future change is not silently overwritten.
 
 ### Rounding
 
@@ -282,8 +300,11 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 - **Bidirectional paths are not automatic.** If Product A can upgrade to Product B, Product B does not automatically get a downgrade path to Product A. You must configure paths on both products.
 - **Auto-downgrade reuses existing subscriptions.** If the customer already has an active subscription to the fallback product, the system reuses it instead of creating a duplicate.
 - **Plan switch orders.** When proration creates an order, it is recorded with type `plan_switch` and includes metadata tracking the old product, new product, switch type, and full proration calculation.
+- **Checkout migration is always immediate.** If a customer buys a replacement subscription product through WooCommerce checkout while they already have a live subscription, ArraySubs treats that checkout as an immediate paid replacement. It does not defer the change even when the global proration type is Apply at Renewal.
+- **Pending switches clear on cancellation.** If the subscription is cancelled before the next renewal, any pending switch is removed because there will no longer be a renewal where it can apply.
 - **Fixed period + plan switching.** If a customer switches from a fixed-period product to a non-fixed product, the fixed-period metadata is cleared. If they switch to another fixed-period product, the end date is recalculated from the switch date.
-- **Gateway interactions.** When a plan switch occurs, the gateway subscription (if using automatic payments) is updated or cancelled and re-created depending on the gateway's capabilities.
+- **Gateway interactions.** When a plan switch occurs, automatic payment metadata stays aligned so future renewals continue through the correct gateway path. Gateway behavior depends on each gateway's capabilities.
+- **Shipping interactions (Pro).** If Subscription Shipping is active, immediate switches recalculate shipping settings from the target product. Apply at Renewal switches use the target product's shipping rules on the renewal invoice before the subscription is permanently switched.
 - **Customer-facing switch.** When "Allow customer switch" is enabled, customers see switch options on their subscription detail page in the customer portal. When disabled, only admins can initiate switches.
 
 ---
@@ -295,6 +316,7 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 | Plan switching fields not visible on Linked Products tab | Product is not marked as a subscription | Check the Subscription checkbox on the product |
 | Auto-downgrade not firing | Auto-downgrade timing does not match the event | Check Settings → Plan Switching → Auto-downgrade timing |
 | Customer cannot see switch options in portal | "Allow customer switch" is off or plan switching is disabled | Enable both in Settings → Plan Switching |
+| Customer sees a pending-switch replacement prompt | The subscription already has a future switch scheduled | Confirm replacement only if the customer wants the new target plan to replace the existing pending change |
 | Fixed Period fields not visible | Pro plugin is not active | Install and activate ArraySubs Pro |
 | Product is unpurchasable | Enrollment window has closed or absolute end date has passed | Check the enrollment window dates and fixed end date |
 | Proration order has unexpected amount | Rounding method or switch fee is configured differently than expected | Review proration type, rounding method, and switch fees in Settings |

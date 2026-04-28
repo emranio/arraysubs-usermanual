@@ -368,6 +368,15 @@ A vertical timeline that combines order events and subscription notes into a sin
 
 Events are sorted newest-first. The timeline shows the 5 most recent events by default, with a **Show All** button to expand the full history.
 
+Renewal events are classified from structured system metadata, not from the wording of the note. This keeps the timeline accurate when notes are translated or reworded:
+
+| Timeline Label | Meaning |
+|---|---|
+| **Renewal Invoice Created** | A renewal order was generated and is waiting for payment. This is pending, not paid. |
+| **Renewal Payment Successful** | The renewal order was paid or safely reconciled from the gateway. |
+| **Renewal Payment Failed** | A renewal payment attempt failed. |
+| **Payment Retry Scheduled** | A retry attempt was scheduled after a failed automatic renewal. |
+
 ### Subscription Notes
 
 The notes panel sits at the bottom of the detail page and includes:

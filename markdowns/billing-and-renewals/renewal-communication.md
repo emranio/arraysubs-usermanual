@@ -23,7 +23,7 @@ The billing cycle sends emails at five key moments. Not every subscription hits 
 
 ```
                     Renewal Reminder           Renewal Invoice
-                    (3 days before)         (6 hours before due)
+                    (3 days before)       (invoice timing setting)
                          │                        │
   ─────────────────────┬─┼────────────────────────┼──┬──────────────────
                        │ │                        │  │
@@ -45,7 +45,7 @@ The billing cycle sends emails at five key moments. Not every subscription hits 
 | Email | Trigger | Recipient | Purpose |
 |---|---|---|---|
 | **Renewal Reminder** | Scheduled X days before next payment | Customer | Advance notice that a renewal payment is coming |
-| **Renewal Invoice** | Renewal invoice order created (6 hours before due date, by default) | Customer | Notifies the customer that a renewal invoice is ready, includes payment link for manual payments |
+| **Renewal Invoice** | Renewal invoice order created based on the invoice timing setting | Customer | Notifies the customer that a renewal invoice is ready, includes payment link for manual payments |
 | **Payment Successful** | Renewal order paid (status = Completed or Processing) | Customer | Confirms that the renewal payment was received |
 | **Payment Failed** | Renewal payment attempt fails | Customer + Admin | Alerts both parties that the payment did not go through |
 | **Subscription On-Hold** | Subscription moves from Active to On-Hold (after active grace period) | Customer | Notifies the customer that their access is now restricted |
@@ -86,7 +86,7 @@ The renewal reminder is the first notification in the billing cycle. It is sent 
 
 The renewal invoice email notifies the customer that a renewal order has been created and is awaiting payment. For manual payment subscriptions, this email is critical because it contains the payment link.
 
-**Trigger:** Fires when the billing engine creates the renewal invoice order (by default, 6 hours before the payment due date).
+**Trigger:** Fires when the billing engine creates the renewal invoice order using the configured invoice timing setting. The default option is 6 hours before the payment due date.
 
 **What the email includes:**
 - Renewal order ID
@@ -201,7 +201,7 @@ For the complete email reference including placeholders, template files, and cus
 
 A membership site with manual billing sends:
 1. **Renewal Reminder** — 3 days before the billing date, customer sees the upcoming charge
-2. **Renewal Invoice** — 6 hours before the due date, customer receives the payment link
+2. **Renewal Invoice** — based on the invoice timing setting, customer receives the payment link
 3. **Payment Successful** — Customer pays within the active grace period, confirmation sent
 4. Next cycle's **Renewal Reminder** is scheduled
 

@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Self-Service Actions
 - Availability: Shared
-- Last updated: 2026-04-01
+- Last updated: 2026-04-28
 
 # Subscription Self-Service Actions
 
@@ -79,6 +79,8 @@ When **Cancel Immediately** is disabled:
 
 - The subscription stays **Active** until the next payment date
 - A pending cancellation flag is set
+- Future renewal billing jobs are removed so the customer is not charged again during the pending-cancellation window
+- Any pending plan switch is cleared
 - The customer continues to have access until the period ends
 - The customer sees: **"Subscription scheduled for cancellation at the end of your current billing period."**
 
@@ -205,12 +207,20 @@ Each option shows the plan name, pricing, and a **View Details** link if the pro
    - **Credit amount** — credit for the unused time on the current plan
    - **Charge amount** — cost of the new plan for the remaining period
    - **Net amount** — what the customer will pay or be refunded
+   - **Switch fee** — shown when a fee is configured for the switch direction
 
 5. The customer clicks **Confirm Plan Change**.
-6. If the net amount requires payment, the customer is redirected to checkout to complete the transaction.
-7. If no additional payment is needed (for example, a downgrade), the switch happens immediately.
+6. The result depends on your store's proration setting:
+   - **Prorate immediately** or **No proration:** if payment is required, the customer is redirected to checkout to complete the switch order. If no payment is required, the switch can complete immediately.
+   - **Apply at renewal:** the current subscription stays unchanged and ArraySubs schedules a pending switch for the next renewal.
 
-After the switch, the subscription is updated with the new product, new recurring amount, and adjusted next payment date.
+After an immediate switch is completed, the subscription is updated with the new product, new recurring amount, and adjusted next payment date. After an Apply at Renewal switch, the subscription updates only after the next renewal order is paid.
+
+### Pending Switch Banner
+
+When a customer has an Apply at Renewal switch waiting, the subscription detail page shows a pending-switch banner with the target plan, effective date, quantity, future renewal amount, and switch fee when applicable.
+
+The customer can cancel the pending switch before the renewal is paid. If they try to schedule another pending switch, ArraySubs asks them to confirm replacement instead of silently overwriting the existing future change.
 
 ---
 

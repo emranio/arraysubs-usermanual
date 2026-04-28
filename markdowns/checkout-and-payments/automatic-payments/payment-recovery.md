@@ -40,7 +40,7 @@ Both admins and customers can click a button to retry a failed renewal immediate
 
 ### Sync from Gateway
 
-The admin subscription detail page has a **Sync from Gateway** button. Clicking it asks the gateway "what is the current state of this subscription?" and applies safe corrections to local data:
+The admin subscription detail page has a **Sync from Gateway** button when the attached gateway explicitly supports gateway sync. Clicking it asks the gateway "what is the current state of this subscription?" and applies safe corrections to local data:
 
 - `_gateway_status` (active/paused/inactive) — overwritten if the gateway differs.
 - `_next_payment_date` — overwritten when the gateway reports it (PayPal/Paddle; Stripe is plugin-scheduled so no value is reported).
@@ -48,6 +48,8 @@ The admin subscription detail page has a **Sync from Gateway** button. Clicking 
 - Recent successful charges that don't have a corresponding paid order locally — marked paid via `WC_Order::payment_complete()` with a clear "missed webhook" note.
 
 The sync is **read-mostly**. It does not change product, plan, or amount; it does not delete or create subscriptions; it does not refund. It's a reconciliation tool, not a configuration tool.
+
+If the gateway does not declare sync support, the button is hidden or the request returns a safe unsupported-gateway message. This prevents support staff from relying on sync where a gateway cannot provide authoritative reconciliation.
 
 ### Pending-cancel gateway handling (PayPal / Paddle)
 
@@ -127,6 +129,7 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 - **Manual retry is allowed even when automatic retries are disabled.** The "enable retries" setting only controls what the plugin schedules itself.
 - **Sync from Gateway does not modify amounts, plans, or products.** Those are deliberate merchant decisions. If the gateway's amount has drifted from local (rare; only if someone changed it directly at the dashboard), reconcile manually.
 - **Sync from Gateway is read-mostly.** It cannot create subscriptions or refund charges; it only updates fields the gateway is authoritative for and reconciles paid status on existing failed orders.
+- **Sync support is explicit.** Do not assume a gateway can sync just because it is attached to the subscription. The action appears only for gateways that opt in.
 - **Pending-cancel gateway handling for PayPal is destructive on undo.** The customer must re-authorize automatic payments — the original PayPal agreement is gone. This is unavoidable because PayPal billing agreements are terminal.
 - **Pending-cancel gateway handling for Paddle is reversible.** If the customer undoes the scheduled cancellation, the plugin tells Paddle to clear the scheduled change, and billing continues normally.
 
@@ -138,6 +141,7 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 | Manual retry returns "no failed renewal to retry" | The renewal order is already paid (recent webhook landed) or has been cancelled | No action needed — the subscription is current |
 | Retries keep failing with the same decline code | The card itself is the problem (expired, blocked, fraud flag) | Ask customer to update payment method via the customer portal; retry will then succeed |
 | Sync from Gateway shows "no remote subscription linked" | The subscription was created without a gateway, was detached, or the gateway IDs are missing | Check `_payment_gateway` meta; if empty, sync isn't applicable |
+| Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and Pro gateway capabilities |
 | Sync changes look wrong | Gateway's webhook had not yet landed; you synced too quickly | Wait a few minutes and re-sync, or check the gateway dashboard directly |
 | PayPal undo cancellation log shows "must re-authorize" but customer says they didn't cancel | Multiple admins/agents may have acted on the same subscription; check the subscription's notes for who scheduled the cancel | Confirm with the customer whether a fresh authorization is needed |
 | Paddle pending-cancel didn't roll back on undo | Paddle's `update` call failed (network error, API change) | Check the subscription notes for the error; if needed, manually reverse via the Paddle dashboard |
