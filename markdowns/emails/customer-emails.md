@@ -562,33 +562,25 @@ Sent when a customer accepts a retention discount offer during the cancellation 
 
 ## Card Expiring Notice *(Pro)*
 
-```box class="info-box"
-The Card Expiring email template exists in the plugin, but the email class and sending trigger are not wired in the current release. This email will be activated in a future update when the gateway integration supports proactive card-expiry notifications.
-```
-
-**Planned behavior:** Notifies customers when their saved payment card is about to expire, encouraging them to update their payment method before the next renewal attempt.
+Notifies customers when Stripe reports that their saved payment card is about to expire, encouraging them to update their payment method before the next renewal attempt.
 
 **Template files:**
 - HTML: `customer-card-expiring.php`
 - Plain: `plain/customer-card-expiring.php`
 
-**Planned placeholders:** `{card_last4}`, `{card_expiry}`, `{update_payment_url}`
+**Key fields shown:** card last four digits, card expiry date, and a payment-method update link.
 
 ---
 
-## SCA Authentication Required *(Pro)*
+## Renewal Requires Verification *(Pro)*
 
-```box class="info-box"
-The SCA Authentication Required email template exists in the plugin, but the email class and sending trigger are not wired in the current release. This email will be activated in a future update when the Stripe gateway integration supports SCA/3D Secure authentication request notifications.
-```
-
-**Planned behavior:** Notifies customers when a renewal payment requires Strong Customer Authentication (SCA / 3D Secure), with a link to complete the authentication step.
+Notifies customers when a Stripe renewal payment requires Strong Customer Authentication (SCA / 3D Secure), with a link to complete the verification step.
 
 **Template files:**
-- HTML: `customer-sca-auth-required.php`
-- Plain: `plain/customer-sca-auth-required.php`
+- HTML: `customer-renewal-requires-verification.php`
+- Plain: `plain/customer-renewal-requires-verification.php`
 
-**Planned placeholders:** `{auth_url}`, `{payment_amount}`, `{auth_deadline}`
+**Key fields shown:** subscription ID, renewal order ID, payment method summary, grace-period date, and verification link.
 
 ---
 

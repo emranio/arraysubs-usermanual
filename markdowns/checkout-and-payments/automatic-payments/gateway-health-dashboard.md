@@ -36,7 +36,7 @@ A **Test Mode** badge appears next to the gateway title when the gateway is runn
 Click the expand button on any card to reveal:
 
 - **Description** — Brief text explaining what the gateway does
-- **Webhook URL** — The exact URL to paste into your gateway's webhook settings, displayed in a monospace code block for easy copying:
+- **Webhook URL** — The exact URL to paste into your gateway's webhook settings, displayed in a monospace code block for easy copying. For Stripe, regular payment/refund/dispute events should use the official WooCommerce Stripe Gateway webhook; the ArraySubs URL is the optional secondary endpoint for card-expiry and payment-method update events:
   ```
   https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe
   ```
@@ -70,7 +70,7 @@ Below the gateway cards, the **Webhook Event Log** shows a paginated table of ev
 
 | Column | Description | Example |
 |---|---|---|
-| **Gateway** | Badge showing the gateway slug | `arraysubs_stripe` |
+| **Gateway** | Badge showing the gateway slug | `stripe` |
 | **Event ID** | The unique event identifier from the gateway | `evt_1234abc` |
 | **Event Type** | The normalized event type | `payment_succeeded`, `payment_failed`, `dispute_created` |
 | **Processed At** | Timestamp when ArraySubs processed the webhook | `Apr 2, 2026, 3:30 PM` |

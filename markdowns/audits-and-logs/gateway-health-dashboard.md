@@ -74,7 +74,7 @@ ArraySubs currently supports three payment gateways:
 
 | Gateway | Slug | Key Capabilities |
 |---------|------|-----------------|
-| **Stripe** | `arraysubs_stripe` | PaymentIntents, SetupIntents, 3D Secure/SCA, card auto-update, dispute handling |
+| **Stripe** | `stripe` | Official WooCommerce Stripe checkout/refunds, ArraySubs-managed renewals, 3D Secure/SCA, card auto-update, dispute handling |
 | **PayPal** | `arraysubs_paypal` | Billing Agreements API, PayPal-managed scheduling, Smart Payment Buttons |
 | **Paddle** | `arraysubs_paddle` | Merchant of Record, automatic tax/VAT, native pause/resume |
 
@@ -92,7 +92,7 @@ Below the gateway cards, the Webhook Event Log table shows every incoming webhoo
 
 | Column | What It Shows |
 |--------|--------------|
-| **Gateway** | The gateway slug as a gray badge (e.g., `arraysubs_stripe`) |
+| **Gateway** | The gateway slug as a gray badge (e.g., `stripe`) |
 | **Event ID** | The unique event identifier from the gateway (displayed in monospace) |
 | **Event Type** | The event type string (e.g., `charge.succeeded`, `invoice.payment_failed`, `subscription.updated`) |
 | **Processed At** | The timestamp when ArraySubs processed the event |

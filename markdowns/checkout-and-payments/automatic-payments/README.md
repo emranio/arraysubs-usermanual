@@ -89,7 +89,7 @@ Every subscription that uses a gateway stores payment method details as metadata
 
 | Meta Key | Description | Example |
 |---|---|---|
-| `_payment_gateway` | Gateway slug | `arraysubs_stripe` |
+| `_payment_gateway` | Gateway slug | `stripe` |
 | `_gateway_customer_id` | Remote customer/payer ID | `cus_abc123` |
 | `_gateway_payment_method_id` | Remote payment method ID | `pm_xyz789` |
 | `_gateway_status` | Gateway connection status | `active`, `paused`, `errored`, `detached`, `cancelled` |
@@ -134,7 +134,7 @@ https://yoursite.com/wp-json/arraysubs/v1/webhooks/{gateway_slug}
 ```
 
 For example:
-- Stripe: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe`
+- Stripe: official WooCommerce Stripe Gateway webhook URL for core payment events; optional ArraySubs secondary endpoint `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe` for card-expiry and payment-method update events
 - PayPal: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal`
 - Paddle: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle`
 
