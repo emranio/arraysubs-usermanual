@@ -1,7 +1,7 @@
 # Info
 - Module: Stripe Gateway
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-05-01
 
 # Stripe Gateway
 
@@ -31,6 +31,32 @@ Stripe is the most fully featured gateway in ArraySubs. It uses the **ArraySubs-
 4. If Stripe immediately succeeds, ArraySubs marks the renewal order paid and the subscription lifecycle continues.
 5. If Stripe reports `processing`, ArraySubs waits for the official Stripe webhook confirmation.
 6. If Stripe returns `requires_action`, ArraySubs stores a verification URL and sends a renewal verification email so the customer can complete authentication.
+
+### Order Status After Successful Stripe Payment
+
+Stripe payment success, subscription status, and WooCommerce order status are related but not identical.
+
+When Stripe confirms payment:
+
+1. The WooCommerce order is marked as paid.
+2. ArraySubs activates the subscription or advances the renewal cycle.
+3. WooCommerce decides whether the order should be **Completed** or **Processing**.
+
+For subscription-only orders that do not need shipping, ArraySubs completes the order after payment. This applies to initial purchases and renewal orders when all subscription products are non-shipping products and no shipping line exists on the order.
+
+If the subscription order includes a product that needs shipping, or a recurring subscription shipping line is added, the paid order remains **Processing**. This is normal WooCommerce fulfillment behavior: `Processing` means payment was received and the order still needs merchant fulfillment.
+
+```box class="info-box"
+## Processing does not always mean payment failed
+
+For Stripe orders, check the order's payment details first. If the order has a Stripe transaction ID, a paid date, and the subscription is Active, payment succeeded. A `Processing` status usually means WooCommerce is waiting for fulfillment, not that Stripe is still charging the customer.
+```
+
+```box class="warning-box"
+## Virtual is not the same as completed in WooCommerce
+
+WooCommerce's default auto-complete behavior is strict: orders auto-complete only when products are both virtual and downloadable. ArraySubs adds subscription-specific handling so non-shipping subscription orders can complete even when the product is virtual but not downloadable. Orders with shipping work still stay Processing.
+```
 
 ### Trial Orders ($0 Total)
 
@@ -157,6 +183,9 @@ Stripe checkout and API credentials are configured in **WooCommerce → Settings
 |---|---|---|
 | Stripe is unavailable in ArraySubs | Official WooCommerce Stripe Gateway is missing, disabled, or older than the supported version | Install/update WooCommerce Stripe Gateway and enable the `stripe` payment method |
 | Renewal payment fails with `authentication_required` | Customer's bank requires SCA | Customer must use the Renewal Requires Verification email link to complete authentication |
+| Stripe payment succeeded but the WooCommerce order is `Processing` | The subscription order still has shipping/fulfillment work, or WooCommerce would normally require processing for the product type | If the product should not ship, make the product non-shipping and remove subscription shipping rules. If it does ship, fulfill the order and complete it when appropriate. |
+| Subscription is Active but the order is `Processing` | Payment and subscription activation succeeded, but WooCommerce is keeping the order open for fulfillment | Treat the subscription as paid. Only manually complete the WooCommerce order when there is no remaining fulfillment work. |
+| Stripe checkout fails with `No such PaymentMethod` | A saved Stripe payment method belongs to an old/disconnected Stripe account or test/live mode context | Ask the customer to use a new payment method. ArraySubs removes stale saved Stripe tokens during subscription checkout when Stripe reports they no longer exist. |
 | Card auto-update not working | Card network doesn't participate in updater program | Not all card issuers support auto-update. Customer needs to manually update their card. |
 | Webhook events not arriving | Official webhook URL or secret is misconfigured | Check the WooCommerce Stripe Gateway webhook settings first; use the ArraySubs secondary URL only for the optional card/payment-method events |
 | Payment method details missing on a subscription | Checkout completed before Stripe order meta was available or webhook was delayed | Open the subscription and run **Resync from Gateway** |

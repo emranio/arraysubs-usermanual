@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Checkout
 - Availability: Free
-- Last updated: 2026-04-02
+- Last updated: 2026-05-01
 
 # Subscription Checkout
 
@@ -309,6 +309,27 @@ ArraySubs prevents double subscription creation through multiple safeguards:
 | Product has a trial period | `Trial` |
 | Product has no trial | `Pending` (transitions to `Active` when payment is confirmed) |
 
+### WooCommerce Order Status After Payment
+
+The WooCommerce order status describes payment and fulfillment. It is not the same as the subscription status.
+
+After payment is confirmed:
+
+| Order condition | Expected order status | Subscription result |
+|---|---|---|
+| Subscription-only order with no shipping work | `Completed` | Subscription becomes `Active` or stays `Trial` |
+| Subscription order includes a shippable product or subscription shipping | `Processing` | Subscription can still become `Active` because payment succeeded |
+| Payment has not been confirmed yet | `Pending payment` | Subscription remains `Pending` until payment succeeds |
+| Payment failed | `Failed` | Subscription may move to `On-Hold` until payment is retried or recovered |
+
+```box class="info-box"
+## Processing can be a normal paid status
+
+If a paid subscription order is `Processing`, check whether the product needs shipping or whether subscription shipping added a shipping line. In that case, WooCommerce is waiting for fulfillment. The subscription can still be Active because payment was received.
+```
+
+For digital subscription products, make sure the product does not need shipping. ArraySubs completes paid subscription-only orders and renewals when there is no shipping work left.
+
 ---
 
 ## Real-Life Use Cases
@@ -348,6 +369,8 @@ A customer on the Basic plan ($9/mo) visits the Pro plan product page ($29/mo) a
 | *"This order cannot contain subscription and regular products together"* | Mixed cart is disabled | Enable *Allow mixed cart* in General Settings, or separate the order |
 | *"You have already used a free trial"* | One-trial-per-customer is enabled and the customer has a past subscription | Disable the restriction or create a coupon-based discount instead of a trial |
 | Subscription not created after checkout | Order payment not yet confirmed | Check the order status — subscriptions are created when the order is paid, not when it is placed |
+| Subscription is Active but the order is Processing | Payment succeeded, but WooCommerce is waiting for fulfillment or shipping | Check whether the product needs shipping or whether subscription shipping is enabled. Complete the order after fulfillment, or remove shipping from digital subscription products. |
+| Digital subscription order does not complete | Product or renewal still has shipping work, or the product is virtual but WooCommerce still considers it processable | Confirm the product does not need shipping and remove recurring shipping rules if the subscription is fully digital. Future non-shipping subscription orders complete automatically. |
 | Plan switch did not trigger | Eligibility not met | Verify all 6 eligibility conditions listed above. The most common miss is that *Auto-migrate on checkout* is disabled |
 | One-click not redirecting to checkout | Product uses AJAX add-to-cart | ArraySubs disables AJAX for one-click products automatically. Check for theme or plugin conflicts that re-enable it |
 

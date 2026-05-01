@@ -4,6 +4,8 @@
 
 **Availability:** Free (core renewal engine), with Pro extensions for automatic gateway payments
 
+**Last updated:** 2026-05-01
+
 ## Overview
 
 Every active subscription eventually reaches its next payment date. When that happens, ArraySubs creates a renewal invoice (a pending WooCommerce order), routes the payment through the appropriate channel (manual or automatic), and schedules the next renewal. This page explains each step in that process, including how tiered pricing works.
@@ -81,11 +83,30 @@ After the renewal invoice is created, the billing engine decides how to collect 
 **Automatic payment (Pro)**
 - The billing engine checks whether the subscription is configured for automatic payment via the gateway (Stripe, PayPal, or Paddle)
 - If yes, the system charges the customer's saved payment method
-- On success, the order moves to **Processing** or **Completed** and the subscription advances to the next cycle
+- On success, the order moves to **Completed** for non-shipping subscription renewals, or **Processing** when fulfillment/shipping is still required, and the subscription advances to the next cycle
 - On failure, the system fires payment failure hooks and may schedule a retry
 
 ```box class="info-box"
 The payment route is determined by the subscription's payment method. If the customer is using a Pro gateway with automatic billing enabled, payment is automatic. Otherwise, it defaults to manual. Customers can toggle auto-renew on or off from the customer portal when the **Pro** auto-renew feature is enabled.
+```
+
+### Renewal order status after successful payment
+
+A successful renewal payment does not always mean the WooCommerce order should be immediately marked **Completed**. ArraySubs separates payment success from fulfillment status:
+
+| Renewal order condition | Expected WooCommerce order status | What it means |
+|---|---|---|
+| Subscription-only renewal with no shipping total, no shipping line, and products that do not need shipping | **Completed** | Payment succeeded and there is no fulfillment work left |
+| Renewal includes recurring subscription shipping or a product that needs shipping | **Processing** | Payment succeeded, but the store still needs to fulfill or ship the order |
+| Manual renewal invoice has not been paid yet | **Pending payment** | Customer still needs to pay the invoice |
+| Automatic gateway charge failed | **Failed** or remains unpaid depending on the gateway response | The renewal follows retry and grace-period rules |
+
+For Stripe renewals, ArraySubs creates the renewal order, charges the stored payment method off-session, and marks the order paid when Stripe succeeds. If the renewal has no shipping work, ArraySubs completes the order. If the renewal has shipping work, the order stays **Processing** so staff can fulfill it.
+
+```box class="info-box"
+## Virtual products and renewal completion
+
+WooCommerce normally auto-completes only when products are both virtual and downloadable. ArraySubs adds subscription-aware handling so paid, non-shipping subscription renewals can complete even when a product is virtual but not downloadable. If shipping is configured, Processing is still the correct status.
 ```
 
 ### After successful payment
@@ -214,6 +235,8 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 | Invoice created too early or too late | Invoice timing setting misconfigured | Go to **Settings → General → Renewals** and adjust the invoice advance window (value and unit). |
 | Customer not receiving invoice email | Email disabled in settings, or email delivery issue | Check **WooCommerce → Settings → Emails** for the Renewal Invoice email status. Check email logs. |
 | Price not changing after N payments | Completed payments counter has not reached the threshold yet | View the subscription detail to check the completed payments count against the different renewal price threshold. |
+| Paid renewal order is still Processing | The renewal includes shipping work, or the order was created before the product/shipping configuration was corrected | Check the order's shipping lines and the subscription product's shipping settings. If there is no shipping work, future paid renewals should complete automatically; existing paid orders can be completed manually after confirming payment. |
+| Subscription is Active but renewal order is Processing | Payment succeeded and the subscription advanced, but WooCommerce is keeping the order open for fulfillment | Treat the subscription as paid. Complete the WooCommerce order only when any fulfillment work is done. |
 
 ---
 
