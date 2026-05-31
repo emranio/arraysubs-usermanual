@@ -1,7 +1,7 @@
 # Info
 - Module: Stripe Gateway
 - Availability: Pro
-- Last updated: 2026-05-01
+- Last updated: 2026-05-31
 
 # Stripe Gateway
 
@@ -140,7 +140,7 @@ Customers can update their card on file through the **Customer Portal → View S
 
 ## Webhook Events
 
-Configure the official WooCommerce Stripe Gateway webhook first. It owns normal payment, refund, dispute, and checkout events.
+Configure and connect the official WooCommerce Stripe Gateway first. It owns normal payment, refund, dispute, and checkout events. ArraySubsPro then uses that official WooCommerce Stripe API connection to automatically create or repair the ArraySubs secondary webhook for the active test/live mode.
 
 | Stripe Event | Handled By |
 |---|---|
@@ -149,13 +149,14 @@ Configure the official WooCommerce Stripe Gateway webhook first. It owns normal 
 | `payment_intent.requires_action` | ArraySubs verification email flow |
 | `charge.refunded` | Official Stripe refund flow plus ArraySubs logging |
 | `charge.dispute.created` / `charge.dispute.closed` | Official Stripe webhook plus ArraySubs logging |
-| `payment_method.updated` | Optional ArraySubs secondary endpoint |
-| `payment_method.automatically_updated` | Optional ArraySubs secondary endpoint |
-| `customer.source.expiring` | Optional ArraySubs secondary endpoint |
+| `payment_method.updated` | Auto-provisioned ArraySubs secondary endpoint |
+| `payment_method.automatically_updated` | Auto-provisioned ArraySubs secondary endpoint |
+| `payment_method.card_automatically_updated` | Auto-provisioned ArraySubs secondary endpoint |
+| `customer.source.expiring` | Auto-provisioned ArraySubs secondary endpoint |
 
 ### Webhook URL
 
-Use the official WooCommerce Stripe Gateway webhook URL for normal Stripe payment events. The ArraySubs secondary endpoint is optional and only needed for payment-method update and card-expiry notifications:
+Use the official WooCommerce Stripe Gateway webhook URL for normal Stripe payment events. ArraySubsPro also maintains this secondary endpoint automatically for payment-method, card, and reconciliation events:
 
 ```
 https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe
@@ -165,7 +166,7 @@ https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe
 
 ## Stripe-Specific Settings
 
-Stripe checkout and API credentials are configured in **WooCommerce → Settings → Payments → Stripe**. ArraySubs adds a sibling settings section for optional secondary webhook settings:
+Stripe checkout and API credentials are configured in **WooCommerce → Settings → Payments → Stripe**. ArraySubs adds a sibling settings section for secondary webhook status and emergency repair values:
 
 | Setting | Where |
 |---|---|
@@ -173,7 +174,9 @@ Stripe checkout and API credentials are configured in **WooCommerce → Settings
 | Title/Description | WooCommerce Stripe Gateway settings |
 | API keys and test mode | WooCommerce Stripe Gateway settings |
 | Official webhook secret | WooCommerce Stripe Gateway settings |
-| ArraySubs secondary webhook secret | WooCommerce → Settings → Payments → ArraySubs Stripe Configs |
+| ArraySubs secondary webhook secret | Auto-managed by ArraySubsPro in WooCommerce → Settings → Payments → ArraySubs Stripe Configs |
+
+The secondary webhook secret is stored separately for test mode and live mode. In normal operation you do not paste a `whsec_` value manually; saving WooCommerce Stripe settings or visiting admin after credentials are available lets ArraySubsPro ensure the endpoint exists. Manual entry is only for repairing a known provisioning failure.
 
 ---
 
@@ -187,7 +190,7 @@ Stripe checkout and API credentials are configured in **WooCommerce → Settings
 | Subscription is Active but the order is `Processing` | Payment and subscription activation succeeded, but WooCommerce is keeping the order open for fulfillment | Treat the subscription as paid. Only manually complete the WooCommerce order when there is no remaining fulfillment work. |
 | Stripe checkout fails with `No such PaymentMethod` | A saved Stripe payment method belongs to an old/disconnected Stripe account or test/live mode context | Ask the customer to use a new payment method. ArraySubs removes stale saved Stripe tokens during subscription checkout when Stripe reports they no longer exist. |
 | Card auto-update not working | Card network doesn't participate in updater program | Not all card issuers support auto-update. Customer needs to manually update their card. |
-| Webhook events not arriving | Official webhook URL or secret is misconfigured | Check the WooCommerce Stripe Gateway webhook settings first; use the ArraySubs secondary URL only for the optional card/payment-method events |
+| Webhook events not arriving | Official webhook URL/secret is misconfigured, or the ArraySubs secondary endpoint could not be provisioned | Check the WooCommerce Stripe Gateway webhook settings first, then open **ArraySubs Stripe Configs** or **Gateway Health** to confirm the secondary webhook is configured with no last-error value |
 | Payment method details missing on a subscription | Checkout completed before Stripe order meta was available or webhook was delayed | Open the subscription and run **Resync from Gateway** |
 
 ---
@@ -212,7 +215,7 @@ The plugin records the failure with a classified reason (insufficient funds, exp
 Open the subscription detail page and click **Resync from Gateway** in the Payment Gateway card (next to Detach Gateway). The reconciler pulls the customer record, the saved payment method, and recent PaymentIntents matching this subscription, then applies safe corrections to local meta and reconciles any successful charge whose webhook was missed. The card itself only appears for automatic gateways — manual gateways have nothing to resync.
 
 **Can I use Stripe in test mode?**
-Yes. Enable test mode in the official WooCommerce Stripe Gateway settings and use Stripe's test API keys. Test mode uses Stripe's sandbox environment — no real charges occur. Remember to configure the official webhook separately for test mode, and the optional ArraySubs secondary webhook if you use it.
+Yes. Enable test mode in the official WooCommerce Stripe Gateway settings and use Stripe's test API keys. Test mode uses Stripe's sandbox environment — no real charges occur. ArraySubsPro stores a separate secondary webhook secret for test mode and creates or repairs that endpoint automatically from the WooCommerce Stripe connection.
 
 **Does Stripe support PayPal or bank transfers?**
 Stripe checkout methods are owned by the official WooCommerce Stripe Gateway. ArraySubs allows subscription checkouts only for methods that can be reused for automatic renewals, such as cards, Link/supported wallets, and supported bank debit methods.

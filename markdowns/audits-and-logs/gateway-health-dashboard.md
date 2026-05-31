@@ -12,7 +12,7 @@ Use this screen when you need to:
 
 - Verify that a gateway is connected and receiving webhooks
 - Check how many subscriptions each gateway handles
-- Find the webhook URL to configure in your gateway's dashboard
+- Confirm webhook setup, including Stripe's auto-provisioned ArraySubs secondary webhook
 - Review recent webhook events for debugging
 - Confirm gateway capabilities (trial support, pause, refunds, etc.)
 
@@ -60,12 +60,12 @@ Three metrics are displayed in every card:
 Click the expand toggle on any card to reveal:
 
 - **Description** — a brief explanation of the gateway
-- **Webhook URL** — the exact URL to paste into your gateway's webhook settings (displayed in a monospace code block for easy copying)
+- **Webhook URL** — the provider webhook URL displayed in a monospace code block. For Stripe, the expanded details also show the official Woo Stripe webhook status and the auto-provisioned ArraySubs secondary webhook URL/status.
 - **Capabilities** — a list of supported features shown as tags (e.g., `subscription`, `trial`, `pause`, `refunds`, `card auto update`)
 - **WooCommerce Settings** button — opens the gateway's configuration page in WooCommerce
 
 ```box class="info-box"
-The webhook URL shown in the card details is the endpoint where your gateway should send event notifications. Copy this URL and paste it into the webhook configuration section of your Stripe, PayPal, or Paddle dashboard.
+For Stripe, connect the official WooCommerce Stripe gateway first; ArraySubsPro automatically creates or repairs the secondary ArraySubs endpoint through that official connection. For PayPal and Paddle, copy the webhook URL shown in the card details and paste it into the provider dashboard.
 ```
 
 ### Supported Gateways
@@ -139,7 +139,7 @@ Events vary by gateway, but common types include:
 
 ### Use Case 1: Confirming Webhook Connectivity
 
-After configuring Stripe webhooks, open the Gateway Health Dashboard and check the Stripe card's **Last Webhook** timestamp. If it shows **Never**, the webhook URL may not be configured correctly in the Stripe dashboard. Copy the webhook URL from the expanded card details and paste it into Stripe.
+After connecting Stripe through WooCommerce Stripe, open the Gateway Health Dashboard and expand the Stripe card. Confirm **Official Woo Stripe webhook** and **ArraySubs secondary webhook** both show configured. If **Last Webhook** still shows **Never**, no event may have arrived yet, or the official/secondary webhook status needs repair.
 
 ### Use Case 2: Investigating a Missing Payment
 
@@ -164,8 +164,8 @@ When switching from one gateway to another, use the stats grid to track the subs
 |---------|------------|------------|
 | Gateway card shows "Needs Setup" | Required API credentials are missing | Open **WooCommerce Settings** from the card and complete the gateway configuration |
 | Gateway card shows "Disabled" | The gateway is turned off in WooCommerce | Enable the gateway in **WooCommerce → Settings → Payments** |
-| Last Webhook shows "Never" | The webhook URL is not configured in the gateway dashboard, or the signing secret is wrong | Copy the webhook URL from the expanded card details and paste it into the gateway's webhook settings; verify the signing secret matches |
-| Webhook events are not appearing | Signature verification is failing, or the gateway is sending to the wrong URL | Verify the webhook URL and signing secret; check server error logs for rejected webhook requests |
+| Last Webhook shows "Never" | No webhook has arrived yet, the provider webhook is wrong, or Stripe's secondary endpoint has not received an ArraySubs-specific event | For Stripe, confirm WooCommerce Stripe is connected and the secondary webhook shows configured with no last-error value. For PayPal/Paddle, verify the provider dashboard URL and secret |
+| Webhook events are not appearing | Signature verification is failing, the provider is sending to the wrong URL, or Stripe secondary provisioning failed | For Stripe, check WooCommerce Stripe settings and the ArraySubs secondary webhook status. For other gateways, verify the webhook URL and signing secret; check server error logs for rejected webhook requests |
 | Subscription count is 0 | No subscriptions are using this gateway, or subscriptions are in a non-active status | Subscription counts include active, on-hold, trial, and pending statuses; check that subscriptions have the correct `_payment_gateway` meta |
 | Events disappear after 30 days | Normal behavior — the cleanup job removes old events | This is expected; use the date range to review events within the 30-day window |
 
@@ -181,7 +181,7 @@ When switching from one gateway to another, use the stats grid to track the subs
 
 ### How do I find the webhook URL for my gateway?
 
-Open the Gateway Health Dashboard, find your gateway card, and click the expand toggle. The **Webhook URL** is displayed in a code block — copy it and paste it into your gateway's webhook configuration page.
+Open the Gateway Health Dashboard, find your gateway card, and click the expand toggle. For Stripe, review both the official Woo Stripe webhook and the ArraySubs secondary webhook; ArraySubsPro creates the secondary endpoint automatically. For PayPal/Paddle, copy the **Webhook URL** and paste it into the gateway's webhook configuration page.
 
 ### Can I manually test a webhook?
 

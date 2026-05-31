@@ -220,7 +220,7 @@ Run through this checklist before opening your store to real customers:
 ### Payment (for automatic renewals — Pro)
 
 - [ ] Your payment gateway is configured and connected.
-- [ ] Gateway health shows a healthy status in **Audits → Gateway Logs** *(Pro)*.
+- [ ] Gateway health shows a healthy status in **Audits → Gateway Logs** *(Pro)*. For Stripe, confirm the official WooCommerce Stripe connection is active and the ArraySubs secondary webhook shows as auto-provisioned for the current test/live mode.
 - [ ] A test automatic renewal processes successfully.
 
 ---

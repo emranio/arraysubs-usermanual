@@ -143,7 +143,7 @@ Your team has multiple shop managers. Filter by **Author: Admin** and **Entity: 
 
 ### Use Case 3: Tracking Gateway Actions
 
-After configuring a new Stripe webhook, filter by **Author: Gateway** to confirm that payment events are being received and processed. Each gateway-triggered action includes the gateway name in the entry.
+After connecting Stripe through the official WooCommerce Stripe gateway, ArraySubsPro automatically provisions its secondary Stripe webhook. Filter by **Author: Gateway** to confirm that payment events are being received and processed. Each gateway-triggered action includes the gateway name in the entry.
 
 ## Edge Cases and Important Notes
 

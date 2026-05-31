@@ -134,7 +134,7 @@ https://yoursite.com/wp-json/arraysubs/v1/webhooks/{gateway_slug}
 ```
 
 For example:
-- Stripe: official WooCommerce Stripe Gateway webhook URL for core payment events; optional ArraySubs secondary endpoint `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe` for card-expiry and payment-method update events
+- Stripe: official WooCommerce Stripe Gateway webhook URL for core payment events, plus an ArraySubs secondary endpoint `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe` for ArraySubs-specific payment-method, card, and reconciliation events. ArraySubsPro creates or repairs this secondary endpoint automatically through the active WooCommerce Stripe API connection.
 - PayPal: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal`
 - Paddle: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle`
 
@@ -209,7 +209,7 @@ The renewal engine has a fallback: if no webhook confirms payment within the gra
 Not directly. You would need to detach the current gateway (converting to manual payments) and then have the customer pay a renewal invoice with the new gateway. The new gateway's payment method is then stored for future renewals.
 
 **Do I need to configure webhooks manually?**
-Yes. Each gateway requires you to set the webhook URL in its dashboard (Stripe Dashboard, PayPal Developer Portal, or Paddle Vendor Dashboard). The exact URL for each gateway is shown on the Gateway Health Dashboard in ArraySubs.
+For Stripe, normally no. Configure and connect the official WooCommerce Stripe Gateway first; ArraySubsPro uses that official connection to create or repair its secondary ArraySubs Stripe webhook automatically for the active test/live mode. PayPal and Paddle still require their webhook details to be configured in their provider dashboards.
 
 **What if a customer's card expires?**
 For Stripe: the card network may automatically update the card details (card auto-update). If not, Stripe sends a `card_expiring` webhook and ArraySubs notifies the customer. For PayPal/Paddle: account-level payment method management is handled by the gateway's own customer portal.
