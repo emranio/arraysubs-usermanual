@@ -1,11 +1,11 @@
 # Info
 - Module: General Settings
 - Availability: Shared (one section requires Pro)
-- Last updated: 2026-04-14
+- Last updated: 2026-06-03
 
 # General Settings
 
-> Configure subscription cart rules, checkout behavior, free trials, grace periods, email reminder timing, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
+> Configure subscription cart rules, checkout behavior, free trials, renewal sync, grace periods, email reminder timing, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
 
 **Availability:** Free (the Automatic Payments section requires **Pro**)
 
@@ -19,6 +19,7 @@ Navigate to **ArraySubs → Settings → General** to open the page. Every chang
 
 - You are setting up ArraySubs for the first time and need to review the defaults.
 - You want to change how many subscriptions a customer can buy at once.
+- You want new subscriptions to renew on predictable calendar billing dates.
 - You want to adjust grace period timing before unpaid subscriptions are cancelled.
 - You need to enable or disable customer self-service actions like cancellation, pause, or reactivation.
 - You are fine-tuning trial rules or checkout behavior.
@@ -228,6 +229,55 @@ The number of days the subscription stays **On-Hold** after the active grace per
 Payment Due Date → Subscription stays **Active** (X days) → Moves to **On-Hold** (Y days) → **Cancelled**.
 
 Customers retain access during the Active period but not during On-Hold. Paying the outstanding invoice at any point during either phase restores the subscription to Active.
+```
+
+---
+
+## Renewal Sync
+
+Renewal Sync aligns new non-trial subscriptions to predictable billing-cycle dates instead of renewing exactly one interval after checkout.
+
+### Sync Renewals to Next Billing Cycle
+
+| | |
+|---|---|
+| **Type:** Toggle (on/off) | **Default:** Off |
+
+When enabled, new eligible subscriptions set their first full renewal date to the next billing-cycle boundary:
+
+| Product billing period | Synced first full renewal |
+|---|---|
+| Daily | Next day |
+| Weekly | Next store week based on the WordPress **Week Starts On** setting |
+| Monthly | First day of the next month |
+| Yearly | January 1 of the next year |
+
+The synced date is stored as the subscription's **Next Payment Date**, and later renewals continue from that date using the product's normal interval.
+
+```box class="info-box"
+Example: a customer buys a $30/month subscription on the 20th of a 30-day cycle. With sync enabled and first-charge prorating, checkout charges $10 for the remaining full billing days, the first full renewal is due on the 1st of the next month, and future renewals stay on the 1st at $30.
+```
+
+### First Charge
+
+| | |
+|---|---|
+| **Type:** Dropdown | **Default:** Prorate until the synced renewal date |
+| **Visible when:** Sync Renewals to Next Billing Cycle is **on** | |
+
+| Option | Behavior |
+|---|---|
+| **Prorate until the synced renewal date** | Checkout charges only the remaining full site-local billing days in the current cycle. Future renewals charge the full recurring amount. |
+| **Charge the full recurring amount** | Checkout charges the full recurring amount immediately, but the first full renewal still lands on the synced date. |
+
+Signup fees are still charged normally. The recurring amount stored on the subscription remains the full product price so renewal orders are not prorated.
+
+```box class="warning-box"
+Renewal Sync applies to new non-trial recurring subscription checkouts paid by manual/offline payment gateways or Stripe. Unsupported ArraySubs automatic gateways such as PayPal and Paddle are hidden while a synced subscription is in the cart. Free trials and Lifetime Deal products keep their normal schedule.
+```
+
+```box class="info-box"
+If Stripe is selected and the prorated first recurring charge would be below Stripe's minimum charge for the store currency, ArraySubs raises only that first recurring line enough to satisfy Stripe. Future renewal orders still use the full recurring amount.
 ```
 
 ---

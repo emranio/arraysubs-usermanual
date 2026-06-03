@@ -4,7 +4,7 @@
 
 **Availability:** Free (core renewal engine), with Pro extensions for automatic gateway payments
 
-**Last updated:** 2026-05-01
+**Last updated:** 2026-06-03
 
 ## Overview
 
@@ -17,6 +17,23 @@ Every active subscription eventually reaches its next payment date. When that ha
 - You want to offer introductory pricing that changes after a set number of payments
 
 ## How it works
+
+### Synced first renewal dates
+
+When **Renewal Sync** is enabled in **ArraySubs → Settings → General**, eligible new subscriptions can start with a partial first cycle and then renew on a predictable billing-cycle boundary.
+
+For non-trial recurring subscriptions:
+
+- The first checkout order can charge a prorated amount for the remaining part of the current cycle, or the full recurring amount, depending on the **First Charge** setting.
+- The subscription's stored recurring amount remains the full product price.
+- The subscription's first **Next Payment Date** is set to the synced boundary.
+- Renewal invoice generation, renewal reminders, and payment processing all use that stored next payment date.
+
+Example: a monthly `$30` subscription purchased on the 20th can charge a prorated first amount at checkout and set the first full renewal to the 1st of the next month. The renewal on the 1st charges the full `$30`, then the next renewal date advances to the 1st of the following month.
+
+```box class="warning-box"
+Renewal Sync applies only to manual/offline checkout gateways and Stripe. Free trials and Lifetime Deal products keep their normal checkout and renewal timing.
+```
 
 ### Renewal invoice generation
 
@@ -115,7 +132,7 @@ When a renewal invoice is paid (either manually by the customer or automatically
 
 1. **Payment tracking updates** — The last payment date is recorded and the completed payments counter increments
 2. **Grace period clears** — Any pending renewal order reference and on-hold date are removed
-3. **Next payment date advances** — Calculated by adding one billing cycle (interval × period) to the current date
+3. **Next payment date advances** — Calculated by adding one billing cycle (interval × period) to the current stored due date
 4. **Status restored** — If the subscription was on-hold during the grace period, it returns to Active
 5. **Pending switch applied** — If this renewal paid an Apply at Renewal switch, the subscription now changes to the target plan and the pending switch is cleared
 6. **Next renewal scheduled** — The billing engine queues the next renewal action

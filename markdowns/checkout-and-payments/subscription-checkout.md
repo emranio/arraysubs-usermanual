@@ -245,6 +245,7 @@ Every checkout page that includes a subscription product displays a detailed sum
 | Duration | *"12 billing cycles"* or *"Continues until cancelled"* | Always |
 | Today's charge calculation | *"$29.99 + $10.00 signup = $39.99"* | Always (varies by trial/fee combo) |
 | Next charge date | *"April 16, 2026"* | Always (except lifetime deals) |
+| Synced renewal note | *"First full renewal: July 1, 2026 ($30.00)"* | Renewal Sync is enabled for the checkout |
 | Authorization notice | *"By completing this purchase, you authorize us to charge..."* | Always |
 
 **Special cases:**
@@ -252,6 +253,7 @@ Every checkout page that includes a subscription product displays a detailed sum
 - **Lifetime subscriptions** show: *"Lifetime Deal — No recurring charges"* instead of a next charge date
 - **Trial + no fee** shows: *"Free (trial starts today)"* as today's charge
 - **Plan switch at checkout** shows the prorated amount and switch context instead of the regular summary
+- **Renewal Sync** can show a prorated first charge today, then the full recurring amount on the synced first renewal date
 
 ### Order Details Page
 
@@ -279,7 +281,7 @@ Every subscription captures a snapshot of the checkout state:
 | Quantity | Cart line item | `2` |
 | Billing period and interval | Product configuration | `month`, `1` |
 | Subscription length | Product configuration | `12` (or `0` for unlimited) |
-| Recurring amount | Cart price at checkout | `$29.99` |
+| Recurring amount | Full product recurring price at checkout | `$29.99` |
 | Signup fee | Product configuration | `$10.00` |
 | Trial length and period | Product configuration | `14`, `day` |
 | Different renewal price | Product configuration | `$19.99` after 3 payments |
@@ -287,11 +289,34 @@ Every subscription captures a snapshot of the checkout state:
 | Currency | Store currency | `USD` |
 | Start date | Order completion time | `2026-04-02 14:30:00` |
 | Next payment date | Calculated from trial or billing cycle | `2026-04-16 14:30:00` |
+| Renewal sync metadata | Checkout sync context when enabled | first charge mode, cycle start, first full renewal date, initial recurring charge |
 | Billing and shipping addresses | Order addresses | JSON-encoded |
 | Parent order ID | The checkout order | `789` |
 
 ```box class="warning-box"
 Prices are locked at checkout. If you later change a product's price, existing subscriptions keep their original checkout price. Only new subscriptions use the updated pricing.
+```
+
+### Renewal Sync at Checkout
+
+If **ArraySubs → Settings → General → Renewal Sync** is enabled, eligible non-trial subscriptions can align their first full renewal to the next billing-cycle boundary.
+
+Example:
+
+1. Product price is `$30/month`.
+2. Customer buys on the 20th.
+3. With **Prorate until the synced renewal date**, checkout charges `$10` for the remaining full billing days in the current 30-day cycle.
+4. The subscription's **Next Payment Date** is set to the 1st of the next month.
+5. The renewal order on the 1st charges the full `$30`, and later renewals continue on the 1st.
+
+With **Charge the full recurring amount**, checkout charges the full `$30` on the 20th, but the first full renewal still lands on the 1st.
+
+```box class="info-box"
+Renewal Sync is supported for manual/offline gateways and Stripe checkout. PayPal and Paddle automatic checkout options are hidden while a synced subscription is in the cart. Free trials and Lifetime Deal products are not synced.
+```
+
+```box class="info-box"
+For Stripe checkout, a very small prorated first charge may be raised to Stripe's minimum charge for the store currency. This adjustment affects only the signup charge; renewal orders still use the full recurring amount.
 ```
 
 ### Duplicate Prevention

@@ -110,7 +110,7 @@ When you choose a business type, the wizard preloads recommended defaults for al
 
 ### Step 2 — Billing & Renewal Rules
 
-Controls grace periods, invoice timing, and skip/pause flexibility.
+Controls grace periods, invoice timing, renewal sync, and skip/pause flexibility.
 
 | Question | Type | Options |
 |---|---|---|
@@ -118,6 +118,8 @@ Controls grace periods, invoice timing, and skip/pause flexibility.
 | How many days should the subscription stay active after a failed payment? | Number (0–30) | Only shown for Custom grace |
 | How many days should it remain on-hold before cancellation? | Number (1–60) | Only shown for Custom grace |
 | When should renewal invoices be generated? | Radio | 6 hours before due date · 1 day before · 3 days before |
+| Should new subscriptions renew on the next billing-cycle boundary? | Radio | Yes · No |
+| How should the first checkout charge work? | Radio | Prorate until the synced renewal date · Charge the full recurring amount (only shown when renewal sync is enabled) |
 | What billing flexibility should customers have? | Checkboxes | Allow skipping the next renewal · Allow pausing the subscription |
 | Maximum consecutive skips allowed | Select | 1 · 2 · 3 · 5 (only when skip is enabled) |
 | How many days before renewal can a skip still be requested? | Select | Any time · 2 days before · 5 days before · 7 days before (only when skip is enabled) |
@@ -266,6 +268,7 @@ Click **Apply Settings** to save. The wizard maps your answers to the correspond
 
 - The wizard maps your answers into the `arraysubs_settings` option and saves them immediately.
 - Settings take effect for **future** subscription actions. Existing subscriptions keep their current state.
+- If Renewal Sync is enabled, it applies only to future non-trial, non-lifetime subscriptions paid through manual/offline gateways or Stripe.
 - The wizard merges with existing settings — any setting you did not configure in the wizard stays unchanged.
 - You can run the wizard again at any time. Re-running it overwrites the settings it touches, leaving manual-only settings intact.
 - The wizard does **not** create, edit, or delete products, subscriptions, access rules, email templates, or cancellation reasons.

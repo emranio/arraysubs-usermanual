@@ -26,7 +26,7 @@ Both tools live on the **ArraySubs → Easy Setup** page alongside the Setup Wiz
 
 ## How It Works
 
-**Export** reads five WordPress options, strips sensitive data (payment gateway API keys), attaches metadata (version numbers, site URL, export date), and returns the result as a downloadable JSON file.
+**Export** reads the ArraySubs configuration options, strips sensitive data (payment gateway API keys and webhook secrets), attaches metadata (version numbers, site URL, export date), and returns the result as a downloadable JSON file.
 
 **Import** is a multi-step process: you provide a JSON file or paste its contents, the system parses and validates the structure, shows you which sections were found, and lets you check or uncheck sections before applying. A confirmation step warns that selected sections will be replaced. After import, you see a summary of what was imported, what was skipped, and any warnings.
 
@@ -66,7 +66,7 @@ The export file contains these WordPress options:
 
 | Option Key | Contents |
 |---|---|
-| `arraysubs_settings` | All core and Pro subscription settings: billing, renewals, checkout, trials, plan switching, proration, refunds, cancellation, access control, emails, store credit, and more |
+| `arraysubs_settings` | All core and Pro subscription settings: billing, renewal sync, grace periods, checkout, trials, plan switching, proration, refunds, cancellation, access control, emails, store credit, and more |
 | `arraysubs_profile_fields_config` | Custom profile field definitions and validation rules |
 | `arraysubs_avatar_settings` | Avatar upload configuration |
 | `arraysubs_myaccount_menu_config` | My Account page menu structure, labels, and positions |
@@ -74,12 +74,13 @@ The export file contains these WordPress options:
 
 ### What Gets Stripped
 
-For security, the export **removes** payment gateway API keys before writing the file:
+For security, the export **removes** any payment gateway API keys and webhook secrets that are stored inside ArraySubs settings before writing the file:
 
-- Stripe secret key and publishable key
-- PayPal client ID and client secret
+- Stripe secret keys, publishable keys, and webhook secrets
+- PayPal client ID, client secret, and webhook IDs
+- Paddle API keys, client tokens, and webhook secrets
 
-These credentials are never included in the exported file and must be re-entered manually on any target site.
+WooCommerce Stripe gateway settings and ArraySubs Stripe secondary webhook secrets are managed in WooCommerce/Pro gateway options and are not exported by this tool. Credentials must be re-entered or re-provisioned manually on any target site.
 
 ### Export File Structure
 
@@ -187,7 +188,7 @@ Click **Dismiss** to close the result view and return to the Easy Setup page.
 | Setting | What It Controls | Details |
 |---|---|---|
 | Export file name | Automatic download naming | `arraysubs-settings-YYYY-MM-DD.json` using the current date |
-| Sensitive data stripping | Which keys are removed from export | Stripe keys, PayPal credentials are always stripped |
+| Sensitive data stripping | Which keys are removed from export | Stripe keys/webhook secrets, PayPal credentials, and Paddle credentials are always stripped when present |
 | Section-level import | Granularity of import | 8 virtual sections that map to specific settings keys and WordPress options |
 | Module version check | Format compatibility | The importer validates that the file format version is compatible with the current plugin |
 
@@ -204,7 +205,8 @@ Click **Dismiss** to close the result view and return to the Easy Setup page.
 - **Selective import is safe.** If you only check one section, every other section remains exactly as it was. This is useful for restoring a single area of configuration.
 - **Site-specific IDs may need re-mapping.** Settings that reference page IDs, product IDs, category IDs, or user IDs from the source site may point to non-existent records on the target site. Review redirect URLs, access rules, and product references after importing.
 - **Pro settings imported without Pro.** If the exported file contains Pro-specific settings (Store Credit, Feature Manager, Automatic Payments, Audit Logging) but the target site does not have ArraySubs Pro active, the import still succeeds. Those settings are stored but remain dormant until Pro is activated. A warning is shown in the result summary.
-- **Payment gateway keys are never exported.** Stripe and PayPal API credentials must be re-entered on the target site. This is a deliberate security measure.
+- **Payment gateway keys are never exported.** Stripe, PayPal, and Paddle API credentials must be re-entered on the target site. This is a deliberate security measure.
+- **Renewal Sync settings are included.** `renewals.sync_to_billing_cycle` and `renewals.sync_first_charge_mode` are part of the Subscription & Others section, so importing that section can change future checkout pricing and first renewal dates.
 - **WooCommerce email templates are included.** The Emails section imports both the ArraySubs email toggle preferences and the WooCommerce email template overrides (subject, heading, content) for all ArraySubs email types.
 - **Importing replaces, does not merge.** For selected sections, the entire section is replaced — not merged field by field. If the imported file has fewer entries than your current configuration for that section, the extra entries are lost.
 - **File size is minimal.** Export files are typically a few kilobytes since they contain settings only — no media, products, or subscription data.
