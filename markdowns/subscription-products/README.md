@@ -29,6 +29,7 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [product-lifecycle](./product-lifecycle.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 | Concept | Where to configure |
 |---|---|
 | Billing period, interval, length | Product editor → Subscription tab |

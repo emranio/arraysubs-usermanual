@@ -49,6 +49,7 @@ Every order that passes through the store is automatically classified into one o
 - **Previous guide:** [order-list-enhancements](./order-list-enhancements.md)
 - **Next guide:** [reports-hub](./reports-hub.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 | Type | Label | When assigned |
 |------|-------|---------------|
 | `Credit Purchase` | Credit Purchase | Order contains at least one Store Credit product |

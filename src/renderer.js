@@ -51,11 +51,11 @@ async function renderPageHtml(options) {
   );
   const headingFontHref = relativeAssetPath(
     page.outputRelativePath,
-    "assets/eb-garamond.woff2",
+    "assets/funnel-display.woff2",
   );
   const bodyFontHref = relativeAssetPath(
     page.outputRelativePath,
-    "assets/google-sans-flex.woff2",
+    "assets/funnel-sans.woff2",
   );
   const mermaidHref = appendCacheBust(
     relativeAssetPath(
@@ -86,7 +86,7 @@ async function renderPageHtml(options) {
     ? '<span class="docs-badge docs-badge--pro">Pro</span>'
     : "";
   const logoMarkup = hasLogo
-    ? `<img src="${escapeHtml(logoHref)}" alt="${escapeHtml(options.config.siteTitle)}" />`
+    ? `<img src="${escapeHtml(logoHref)}" alt="" width="494" height="120" decoding="async" />`
     : `<span class="docs-header__home-fallback">${escapeHtml(options.config.siteTitle)}</span>`;
 
   const header = applyTemplate(options.templates.partials.header, {

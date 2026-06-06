@@ -37,13 +37,13 @@ function loadProjectConfig(rootDir) {
   dotenv.config({ path: path.join(rootDir, ".env") });
 
   return {
-    faviconFilename: process.env.FAVICON_FILENAME || "favicon.svg",
+    faviconFilename: process.env.FAVICON_FILENAME || "arrayhash-favicon.webp",
     port: Number(process.env.PORT || 3000),
     siteBaseUrl: normalizeBaseUrl(process.env.SITE_BASE_URL || "/"),
     siteTagline:
       process.env.SITE_TAGLINE || "WooCommerce Subscription Plugin User Manual",
     siteTitle: process.env.SITE_TITLE || "ArraySubs Documentation",
-    logoFilename: process.env.LOGO_FILENAME || "logo.svg",
+    logoFilename: process.env.LOGO_FILENAME || "arrayhash-logo.webp",
   };
 }
 

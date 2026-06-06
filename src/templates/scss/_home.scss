@@ -7,15 +7,9 @@
 
   &__hero {
     padding: clamp(22px, 4vw, 34px);
-    border-radius: 24px;
-    background:
-      radial-gradient(
-        circle at top right,
-        rgba(19, 164, 179, 0.17),
-        transparent 28%
-      ),
-      linear-gradient(135deg, #ffffff 0%, #f0fafb 100%);
-    border: 1px solid rgba(19, 164, 179, 0.2);
+    border-radius: var(--docs-radius);
+    background: var(--docs-surface-muted);
+    border: 1px solid var(--docs-border);
 
     h2 {
       margin: 16px 0 10px;
@@ -37,7 +31,7 @@
     gap: 8px;
     padding: 6px 10px;
     border-radius: 999px;
-    background: rgba(15, 23, 42, 0.06);
+    background: var(--docs-primary-soft);
     color: var(--docs-text-soft);
     font-size: 0.82rem;
     font-weight: 700;
@@ -57,15 +51,14 @@
       justify-content: center;
       padding: 11px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(14, 143, 155, 0.16);
-      background: #fff;
-      color: #0e8f9b;
+      border: 1px solid var(--docs-border-strong);
+      background: var(--docs-surface);
+      color: var(--docs-primary);
       font-weight: 700;
-      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.04);
 
       &:first-child {
-        background: #0f172a;
-        border-color: #0f172a;
+        background: var(--docs-primary);
+        border-color: var(--docs-primary);
         color: #fff;
       }
 
@@ -84,10 +77,9 @@
 
   &__card {
     padding: 22px;
-    border-radius: 20px;
+    border-radius: var(--docs-radius);
     border: 1px solid var(--docs-border);
-    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+    background: var(--docs-surface);
 
     h3 {
       margin: 0 0 10px;
@@ -114,14 +106,8 @@
 // ------------------------------------
 [data-theme="dark"] .docs-home {
   &__hero {
-    background:
-      radial-gradient(
-        circle at top right,
-        rgba(19, 164, 179, 0.12),
-        transparent 28%
-      ),
-      linear-gradient(135deg, var(--docs-surface) 0%, #0f1a1b 100%);
-    border-color: rgba(19, 164, 179, 0.15);
+    background: var(--docs-surface-muted);
+    border-color: var(--docs-border);
   }
 
   &__eyebrow {
@@ -132,7 +118,6 @@
     background: var(--docs-surface);
     border-color: var(--docs-border);
     color: var(--docs-link);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 
     &:first-child {
       background: var(--docs-primary);
@@ -142,8 +127,7 @@
   }
 
   &__card {
-    background: linear-gradient(180deg, var(--docs-surface) 0%, #0f1219 100%);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    background: var(--docs-surface);
   }
 }
 

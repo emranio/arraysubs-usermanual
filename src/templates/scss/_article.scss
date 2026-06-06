@@ -135,12 +135,59 @@
     margin-top: 0.35rem;
   }
 
+  .docs-support-card {
+    padding: clamp(1.4rem, 3vw, 2rem);
+    margin: 2rem 0;
+    border: 1px solid var(--docs-border-strong);
+    border-radius: var(--docs-radius);
+    background: var(--docs-surface-muted);
+
+    h2 {
+      margin: 0 0 0.65rem;
+      padding: 0;
+    }
+
+    p {
+      margin-bottom: 1.1rem;
+      color: var(--docs-text-soft);
+    }
+
+    a {
+      color: var(--docs-link);
+      font-weight: 600;
+    }
+  }
+
+  .docs-support-card__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.3rem;
+      padding: 0.45rem 0.85rem;
+      border: 1px solid var(--docs-border-strong);
+      border-radius: 999px;
+      background: var(--docs-surface);
+      color: var(--docs-text);
+
+      &:hover {
+        text-decoration: none;
+        border-color: var(--docs-primary);
+        color: var(--docs-primary-strong);
+      }
+    }
+  }
+
   table {
+    display: block;
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    overflow: hidden;
-    border-radius: 14px;
+    overflow-x: auto;
+    border-radius: var(--docs-radius-sm);
     border: 1px solid var(--docs-border-strong);
     background: var(--docs-surface);
     box-shadow: var(--docs-table-shadow);
@@ -166,7 +213,7 @@
       color: var(--docs-table-head-text);
       font-size: 0.88rem;
       font-weight: 700;
-      letter-spacing: 0.02em;
+      letter-spacing: 0;
       text-transform: uppercase;
       border-bottom: 1px solid var(--docs-border-strong);
     }
@@ -191,8 +238,8 @@
     border-left: 4px solid var(--docs-primary);
     background: var(--docs-primary-soft);
     color: var(--docs-blockquote-text);
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
+    border-top-right-radius: var(--docs-radius-sm);
+    border-bottom-right-radius: var(--docs-radius-sm);
   }
 
   .contains-task-list {
@@ -222,8 +269,8 @@
     overflow: auto;
     padding: 18px;
     border-radius: 16px;
-    background: #0f172a;
-    color: #e2e8f0;
+    background: #12002b;
+    color: #f6f0ff;
 
     code {
       background: transparent;
@@ -235,7 +282,7 @@
   .docs-badge--pro {
     padding: 2px 5px;
     line-height: 1;
-    font-family: "Google Sans Flex";
+    font-family: var(--docs-font);
     font-weight: 300;
     background: none;
     color: currentColor;

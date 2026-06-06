@@ -6,7 +6,7 @@
     <title>{{documentTitle}}</title>
     <meta name="description" content="{{description}}" />
     <meta name="generator" content="ArraySubs Docs Generator" />
-    <meta name="theme-color" content="#f8fafc" />
+    <meta name="theme-color" content="#ffffff" />
     <meta property="og:title" content="{{documentTitle}}" />
     <meta property="og:description" content="{{description}}" />
     <meta property="og:type" content="{{ogType}}" />
@@ -17,7 +17,7 @@
     <meta name="twitter:description" content="{{description}}" />
     <meta name="twitter:image" content="{{ogImageUrl}}" />
     <link rel="canonical" href="{{canonicalUrl}}" />
-    <link rel="icon" href="{{faviconHref}}" type="image/svg+xml" />
+    <link rel="icon" href="{{faviconHref}}" />
     <link
       rel="preload"
       href="{{bodyFontHref}}"
@@ -42,7 +42,7 @@
         ) {
           document.documentElement.setAttribute("data-theme", "dark");
           var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.content = "#0b0e14";
+          if (m) m.content = "#12002b";
         }
       })();
     </script>
@@ -82,6 +82,66 @@
       <aside class="docs-shell__toc docs-toc-panel" aria-label="On this page">
         {{toc}}
       </aside>
+    </div>
+    <div
+      class="docs-cookie-preferences"
+      data-cookie-preferences-modal
+      hidden
+      role="presentation"
+    >
+      <div
+        class="docs-cookie-preferences__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="docs-cookie-preferences-title"
+        tabindex="-1"
+      >
+        <div class="docs-cookie-preferences__header">
+          <h2 id="docs-cookie-preferences-title">Privacy choices</h2>
+          <button
+            type="button"
+            class="docs-cookie-preferences__close"
+            data-cookie-preferences-close
+            aria-label="Close privacy choices"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <p class="docs-cookie-preferences__intro">
+          Analytics is optional. Advertising cookies are not used.
+          <a href="https://arrayhash.com/trust-center/privacy-policy/">Privacy policy</a>
+        </p>
+        <div class="docs-cookie-preferences__options">
+          <div class="docs-cookie-preferences__option">
+            <div>
+              <h3>Necessary</h3>
+              <p>Site basics and this consent record.</p>
+              <p class="docs-cookie-preferences__meta">
+                Always on &middot; cc_cookie
+              </p>
+            </div>
+            <span class="docs-cookie-preferences__status docs-cookie-preferences__status--on">On</span>
+          </div>
+          <div class="docs-cookie-preferences__option">
+            <div>
+              <h3>Analytics</h3>
+              <p>Aggregate GA4/GTM measurement. No retargeting.</p>
+              <p class="docs-cookie-preferences__meta">
+                Optional &middot; _ga, _ga_*
+              </p>
+            </div>
+            <span class="docs-cookie-preferences__status">Optional</span>
+          </div>
+        </div>
+        <div class="docs-cookie-preferences__actions">
+          <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--secondary" data-cookie-preferences-reject>
+            Reject
+          </button>
+          <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--primary" data-cookie-preferences-accept>
+            Accept
+          </button>
+        </div>
+      </div>
     </div>
     <script src="{{scriptHref}}" defer></script>
     <script type="module">
@@ -130,14 +190,14 @@
               "--docs-text-muted",
               isDark ? "#94a3b8" : "#526377",
             ),
-            textColor: getCssVar("--docs-text", isDark ? "#e2e8f0" : "#0f172a"),
+            textColor: getCssVar("--docs-text", isDark ? "#f6f0ff" : "#12002b"),
             tertiaryColor: accentSoft,
             clusterBkg: accentSoft,
             clusterBorder: accent,
             noteBkgColor: accentSoft,
             noteTextColor: getCssVar(
               "--docs-text",
-              isDark ? "#e2e8f0" : "#0f172a",
+              isDark ? "#f6f0ff" : "#12002b",
             ),
             edgeLabelBackground: surface,
             fontFamily: getCssVar(
@@ -180,11 +240,12 @@
         rerenderMermaid();
       });
     </script>
-    <!-- Google Tag Manager -->
+    <!-- Google Tag Manager: loaded after cookie consent -->
     <script>
-      // Load GTM on first user interaction
-      var gtmLoaded = false;
-      function loadGTM() {
+      (function () {
+        var gtmLoaded = false;
+
+        window.docsLoadGTM = function () {
         if (gtmLoaded) return;
         gtmLoaded = true;
 
@@ -196,17 +257,8 @@
           j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + "&l=" + l;
           d.body.appendChild(j);
         })(window, document, "script", "dataLayer", "GTM-WJJLFRQ4");
-      }
-
-      // Trigger on any interaction
-      ["scroll", "click", "touchstart", "mousemove", "keydown"].forEach(
-        function (evt) {
-          window.addEventListener(evt, loadGTM, { once: true, passive: true });
-        },
-      );
-
-      // Fallback: load after 5 seconds anyway
-      setTimeout(loadGTM, 5000);
+        };
+      })();
     </script>
     <!-- End Google Tag Manager -->
   </body>

@@ -7,6 +7,17 @@
 
 Welcome to the ArraySubs user manual — the complete guide to running a subscription store with WooCommerce.
 
+<section class="docs-support-card" aria-labelledby="homepage-support-title">
+  <h2 id="homepage-support-title">Bugs And Feature Requests</h2>
+  <p>If you find a bug or need a feature added, contact me directly at <a href="mailto:emran@arrayhash.com">emran@arrayhash.com</a>. Include the manual page URL, a screenshot if helpful, and what you expected to happen.</p>
+  <div class="docs-support-card__links" aria-label="ArraySubs product pages">
+    <a href="https://arrayhash.com/deals/arraysubs">Product Page</a>
+    <a href="https://arrayhash.com/deals/arraysubs/use-cases">Use Cases</a>
+    <a href="https://arrayhash.com/deals/arraysubs/features">Features</a>
+    <a href="https://arrayhash.com/deals/arraysubs/alternatives">Alternatives</a>
+  </div>
+</section>
+
 ## Start Here
 
 - **New store setup:** [Before You Launch](getting-started/before-you-launch.md) → [Easy Setup Wizard](getting-started/easy-setup-wizard.md) → [First-Time Setup](getting-started/first-time-setup.md)
@@ -28,6 +39,7 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 - **First setup path:** [Before You Launch](getting-started/before-you-launch.md) -> [Easy Setup Wizard](getting-started/easy-setup-wizard.md) -> [First-Time Setup](getting-started/first-time-setup.md)
 - **Daily admin path:** [Subscription Operations](manage-subscriptions/subscription-operations.md) -> [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) -> [Lifecycle Management](manage-subscriptions/lifecycle-management.md)
 - **Troubleshooting path:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
+
 | Admin Path | Use It For | Related Guide |
 |---|---|---|
 | **ArraySubs → Subscriptions** | Search, filter, create, export, edit, and open subscription records | [Subscription Operations](manage-subscriptions/subscription-operations.md) |
