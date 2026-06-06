@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/README.assets/01-dashboard-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscriptions list table labeled 'Subscription management'",
+      "target_description": "subscriptions list table in the main content area below the filters and action buttons",
+      "label_text": "Subscription management",
+      "bbox": {
+        "x": 201,
+        "y": 267,
+        "width": 1218,
+        "height": 733
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

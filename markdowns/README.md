@@ -20,6 +20,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 
 Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 
+![The ArraySubs subscription management dashboard in WordPress Admin](README.assets/01-dashboard-annotated.png)
 
 ## Page Navigation
 
