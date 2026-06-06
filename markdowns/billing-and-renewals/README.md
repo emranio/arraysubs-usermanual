@@ -1,8 +1,22 @@
+# Info
+- Module: Billing and Renewals
+- Availability: Free, with Pro extensions for automatic gateway payments
+- Last updated: 2026-06-04
+
 # Billing and Renewals
 
 > How ArraySubs creates, schedules, and collects recurring payments — from the first invoice to the final renewal.
 
 **Availability:** Free (core billing engine), with Pro extensions for automatic gateway payments
+
+## Page Navigation
+
+- **Current guide:** Billing and Renewals
+- **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [scheduled-job-logs](../audits-and-logs/scheduled-job-logs.md)
+- **Next guide:** [recovery-and-grace-flows](./recovery-and-grace-flows.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

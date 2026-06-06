@@ -9,6 +9,22 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Store Credit Settings
+- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/store-credit/settings`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [store-credit-management](./store-credit-management.md)
+- **Next guide:** [coupon-integration](../subscription-products/coupon-integration.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Store Credit Settings screenshot: Store Credit Settings](store-credit-settings.assets/01-store-credit-settings-annotated.png)
+
 ## Overview
 
 The Store Credit Settings page is the central control panel for every aspect of the credit system. From here you decide whether credit is active, how it is consumed, when it expires, and whether customers can buy it directly.

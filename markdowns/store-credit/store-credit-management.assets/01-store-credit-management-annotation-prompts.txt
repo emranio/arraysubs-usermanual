@@ -1,0 +1,3 @@
+rectangle around the customer search field labeled 'Find Customer'
+rectangle around the empty-state credit panel labeled 'Credit Workspace'
+rectangle around the instruction text labeled 'Search First'

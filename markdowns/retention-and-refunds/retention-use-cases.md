@@ -9,6 +9,15 @@
 
 **Availability:** Free
 
+## Page Navigation
+
+- **Current guide:** Retention Use Cases
+- **Where to open it:** WordPress Admin -> ArraySubs -> Retention Flow
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [retention-offers](./retention-offers.md)
+- **Next guide:** [general-settings](../settings/general-settings.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 The retention system is not just a feature — it is a revenue strategy. Every subscription cancelled is recurring revenue lost, and the cost of acquiring a new subscriber almost always exceeds the cost of keeping an existing one.

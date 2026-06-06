@@ -9,6 +9,15 @@
 
 **Availability:** Free
 
+## Page Navigation
+
+- **Current guide:** Content Restriction
+- **Where to open it:** WordPress Admin -> ArraySubs -> Member Access
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [commerce-and-benefit-rules](./commerce-and-benefit-rules.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Content Restriction covers the presentation and behavior layer of Member Access — the part visitors actually see when they hit a wall. While the rule types (Post Type Rules, URL Rules, etc.) define *who* can access *what*, this guide covers:

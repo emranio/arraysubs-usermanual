@@ -1,0 +1,81 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/settings/general-settings.assets/01-general-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "Draw a red rectangle around the settings tab navigation at the top and label it \"Settings tabs\".",
+      "target_description": "Top horizontal settings tab navigation with General, Toolkit, Plan Switching, Refunds, Skip & Pause, and Feature Manager",
+      "label_text": "Settings tabs",
+      "bbox": {
+        "x": 143,
+        "y": 33,
+        "width": 721,
+        "height": 35
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "Draw a red rectangle around the Multiple Subscriptions panel title and first options and label it \"Cart rules\".",
+      "target_description": "Upper portion of the Multiple Subscriptions panel including the title, subtitle, first toggle, first blue notice, and One Subscription per Customer option",
+      "label_text": "Cart rules",
+      "bbox": {
+        "x": 145,
+        "y": 173,
+        "width": 713,
+        "height": 378
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "Draw a red rectangle around the One Subscription per Customer toggle and label it \"Customer limit\".",
+      "target_description": "One Subscription per Customer toggle switch and label",
+      "label_text": "Customer limit",
+      "bbox": {
+        "x": 219,
+        "y": 405,
+        "width": 293,
+        "height": 25
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 3,
+      "request_text": "Draw a red rectangle around the blue and yellow helper notices and label it \"Behavior notes\".",
+      "target_description": "Pair of helper notice boxes below One Subscription per Customer: one blue notice and one yellow notice",
+      "label_text": "Behavior notes",
+      "bbox": {
+        "x": 189,
+        "y": 448,
+        "width": 662,
+        "height": 185
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 4,
+      "request_text": "Draw a red rectangle around the fixed Save Settings action bar at the bottom and label it \"Save changes\".",
+      "target_description": "Fixed bottom action bar containing Save Settings and Discard Changes buttons",
+      "label_text": "Save changes",
+      "bbox": {
+        "x": 196,
+        "y": 933,
+        "width": 1244,
+        "height": 66
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

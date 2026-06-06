@@ -1,10 +1,23 @@
-# user manual hub index plan
+# Info
+- Module: Manual Planning
+- Availability: Internal reference
+- Last updated: 2026-06-04
+
+# User Manual Hub Index Plan
+
+## Page Navigation
+
+- **Current guide:** User Manual Hub Index Plan
+- **Where to open it:** User manual repository -> markdowns -> index-plan.md
+- **Section overview:** [Manual Home](README.md)
+- **Next guide:** [Writing Format](writing-format.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
 > Based on a thorough codebase review of both `arraysubs` (23 feature modules) and `arraysubspro` (12 feature modules).
 >
 > Rule applied to this hub plan: only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Every other settings screen is documented inside its owning module topic.
 
-## proposed hub structure
+## Proposed Hub Structure
 
 - Get Started - done
 	- Before You Launch

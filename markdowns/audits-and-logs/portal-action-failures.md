@@ -1,8 +1,23 @@
+# Info
+- Module: Audits and Logs
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Portal Action Failures
 
 > Troubleshoot cancellation, pause, skip, reactivation, and plan switch errors in the customer portal.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Portal Action Failures
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/portal-action-failures`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [payment-and-shipping-issues](./payment-and-shipping-issues.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

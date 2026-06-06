@@ -1,0 +1,3 @@
+rectangle around the profile form settings heading labeled 'Profile Form'
+rectangle around the form configuration fields labeled 'Form Controls'
+rectangle around the save button area labeled 'Save Profile Form'

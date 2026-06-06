@@ -1,14 +1,31 @@
+# Info
+- Module: Easy Setup
+- Availability: Shared
+- Last updated: 2026-06-04
+
 # Easy Setup Wizard
 
 > Answer a guided set of questions about your subscription business and let the wizard configure the most important settings for you — no manual hunting through settings pages required.
 
 **Availability:** Free (Pro options appear when ArraySubs Pro is active)
 
+## Page Navigation
+
+- **Admin screen:** WordPress Admin → **ArraySubs → Easy Setup**
+- **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
+- **Use this first:** [First-Time Setup](first-time-setup.md)
+- **Review settings after saving:** [General Settings](../settings/general-settings.md), [Toolkit Settings](../settings/toolkit-settings.md), [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md)
+- **Need to move settings between sites?** Use the Export and Import cards on this same screen.
+
+![Annotated Easy Setup screen showing the wizard, export, and import entry points](easy-setup-wizard.assets/01-easy-setup-annotated.png)
+
 ## Overview
 
 The Easy Setup Wizard is a 9-step guided interview that walks you through the key decisions for your subscription business and automatically configures matching settings. Instead of visiting each settings page individually, you answer plain-language questions about your billing model, customer experience, cancellation policy, access control, emails, and optional tools. The wizard translates your answers into the correct plugin settings and applies them in one click.
 
 The wizard lives on the **ArraySubs → Easy Setup** page alongside the Export and Import tools.
+
+The same screen is also the safest place to back up or restore an ArraySubs configuration. Export before major changes, then import the JSON file on another site or after a reset.
 
 ## When to Use This
 

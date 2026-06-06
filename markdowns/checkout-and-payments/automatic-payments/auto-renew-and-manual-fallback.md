@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Auto-Renew and Manual Fallback
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [trial-management](../../billing-and-renewals/trial-management.md)
+- **Next guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
+
 ## Overview
 
 Subscriptions created through an automatic payment gateway (Stripe, PayPal, or Paddle) are configured for automatic renewal by default — the gateway charges the stored payment method on each billing date without any customer action.

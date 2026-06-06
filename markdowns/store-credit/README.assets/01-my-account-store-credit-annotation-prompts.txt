@@ -1,0 +1,3 @@
+rectangle around the Store credit is not available notice labeled 'Availability Notice'
+rectangle around the My account menu items labeled 'Account Menu'
+rectangle around the impersonation bar at the top labeled 'Admin Impersonation'

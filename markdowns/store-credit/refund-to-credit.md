@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Refund to Credit
+- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [store-credit-management](./store-credit-management.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 The Refund to Credit integration adds a new refund method directly inside the WooCommerce order edit screen. Instead of issuing a traditional gateway refund (which sends money back to the customer's card or PayPal), you can convert the refund amount into store credit that is deposited into the customer's account.

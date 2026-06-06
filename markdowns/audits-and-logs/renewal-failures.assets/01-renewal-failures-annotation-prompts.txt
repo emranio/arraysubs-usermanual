@@ -1,0 +1,3 @@
+rectangle around the page title labeled 'Renewal Failures'
+rectangle around the failure list or table labeled 'Failed Renewals'
+rectangle around action buttons or filters labeled 'Review Actions'

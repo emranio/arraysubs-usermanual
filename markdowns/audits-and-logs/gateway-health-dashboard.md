@@ -1,8 +1,23 @@
+# Info
+- Module: Audits and Logs
+- Availability: Pro
+- Last updated: 2026-06-04
+
 # Gateway Health Dashboard
 
 > Monitor payment gateway connections, active subscription counts, capabilities, and incoming webhook events in one place.
 
 **Availability:** Pro
+
+## Page Navigation
+
+- **Current guide:** Gateway Health Dashboard
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/gateways`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [activity-audits](./activity-audits.md)
+- **Next guide:** [payment-and-shipping-issues](./payment-and-shipping-issues.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

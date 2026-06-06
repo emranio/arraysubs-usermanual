@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/reports-hub.assets/01-reports-hub-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the dashboard heading and report tabs labeled 'Reports Hub'",
+      "target_description": "Top page header area containing the Reports heading and subtitle",
+      "label_text": "Reports Hub",
+      "bbox": {
+        "x": 170,
+        "y": 34,
+        "width": 1270,
+        "height": 74
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the filter controls labeled 'Report Filters'",
+      "target_description": "Quick Navigation panel with report category pill controls",
+      "label_text": "Report Filters",
+      "bbox": {
+        "x": 64,
+        "y": 262,
+        "width": 1353,
+        "height": 200
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the visible report table or chart area labeled 'Report Results'",
+      "target_description": "Subscription Performance report results card containing visible chart/report tiles",
+      "label_text": "Report Results",
+      "bbox": {
+        "x": 101,
+        "y": 530,
+        "width": 1302,
+        "height": 403
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

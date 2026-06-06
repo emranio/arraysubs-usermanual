@@ -1,0 +1,4 @@
+rectangle around the Retention Flow page heading at the top of the content area labeled 'Retention Flow'
+rectangle around the Cancellation Reasons card labeled 'Require reasons'
+rectangle around the Cancellation Reason Options list labeled 'Reason options'
+rectangle around the save button area labeled 'Save Retention Flow'

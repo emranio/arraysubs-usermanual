@@ -9,6 +9,21 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Gateway Health Dashboard
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [auto-renew-and-manual-fallback](./auto-renew-and-manual-fallback.md)
+- **Next guide:** [paddle](./paddle.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Gateway Health Dashboard screenshot: Gateway Health](gateway-health-dashboard.assets/01-gateway-health-annotated.png)
+
 ## Overview
 
 The Gateway Health Dashboard gives you a single view of every payment gateway's status, connection health, and recent webhook activity. Use it to verify your gateway setup is working, confirm Stripe's auto-provisioned ArraySubs webhook status, find provider webhook URLs where manual setup is still required, and diagnose webhook delivery issues.

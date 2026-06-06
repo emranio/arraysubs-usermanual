@@ -1,0 +1,66 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/getting-started/easy-setup-wizard.assets/01-easy-setup-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "Draw a red rectangle around the Setup Wizard card and label it \"Guided setup\".",
+      "target_description": "Setup Wizard card at the top of the main content area",
+      "label_text": "Guided setup",
+      "bbox": {
+        "x": 142,
+        "y": 173,
+        "width": 780,
+        "height": 171
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "Draw a red rectangle around the Launch Setup Wizard button and label it \"Start wizard\".",
+      "target_description": "Launch Setup Wizard button inside the Setup Wizard card",
+      "label_text": "Start wizard",
+      "bbox": {
+        "x": 234,
+        "y": 279,
+        "width": 119,
+        "height": 26
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "Draw a red rectangle around the Export Settings card and label it \"Backup settings\".",
+      "target_description": "Export Settings card in the middle of the main content area",
+      "label_text": "Backup settings",
+      "bbox": {
+        "x": 136,
+        "y": 370,
+        "width": 782,
+        "height": 172
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 3,
+      "request_text": "Draw a red rectangle around the Import Settings card and label it \"Restore settings\".",
+      "target_description": "Import Settings card at the bottom of the stacked cards",
+      "label_text": "Restore settings",
+      "bbox": {
+        "x": 139,
+        "y": 567,
+        "width": 781,
+        "height": 172
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

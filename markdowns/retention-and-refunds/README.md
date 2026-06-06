@@ -1,8 +1,22 @@
+# Info
+- Module: Retention and Refunds
+- Availability: Free, with Pro extensions for store credit refunds
+- Last updated: 2026-06-04
+
 # Retention, Cancellation, and Refunds
 
 > Reduce churn, capture cancellation insights, win back leaving customers with targeted offers, and manage refunds — all from one unified toolkit.
 
 **Availability:** Free (cancellation, retention offers, analytics, refunds), with Pro extensions for store credit refunds
+
+## Page Navigation
+
+- **Current guide:** Retention, Cancellation, and Refunds
+- **Where to open it:** WordPress Admin -> ArraySubs -> Retention Flow
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [cancellation-setup](./cancellation-setup.md)
+- **Next guide:** [refund-management](./refund-management.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

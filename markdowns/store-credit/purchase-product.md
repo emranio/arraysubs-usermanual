@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Purchase Product
+- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [emails](./emails.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 The Store Credit Purchase Product is a special WooCommerce product type (`arraysubs_store_credit`) that allows customers to buy credit for their store account. When the order completes, the purchased credit (plus any configured bonus) is automatically added to the customer's balance.

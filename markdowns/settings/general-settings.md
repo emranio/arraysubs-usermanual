@@ -9,11 +9,24 @@
 
 **Availability:** Free (the Automatic Payments section requires **Pro**)
 
+## Page Navigation
+
+- **Admin screen:** WordPress Admin → **ArraySubs → Settings → General**
+- **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/general`
+- **Related setup page:** [Easy Setup Wizard](../getting-started/easy-setup-wizard.md)
+- **Related product setup:** [Create and Configure Subscription Products](../subscription-products/create-and-configure.md)
+- **Related checkout guide:** [Subscription Checkout](../checkout-and-payments/subscription-checkout.md)
+- **Related renewal guide:** [Renewal Operations](../billing-and-renewals/renewal-operations.md)
+
+![Annotated General Settings screen showing tabs, cart rules, customer limit, and save bar](general-settings.assets/01-general-settings-annotated.png)
+
 ## Overview
 
 The General Settings page is the first place to visit after installing ArraySubs. It collects the store-wide rules that shape how subscriptions behave during checkout, renewal, and day-to-day management.
 
 Navigate to **ArraySubs → Settings → General** to open the page. Every change takes effect after you click **Save Settings**. You can click **Discard Changes** at any time to revert unsaved edits.
+
+The settings tabs at the top let you move from store-wide behavior into more specialized areas such as Toolkit, Plan Switching, Refunds, Skip & Pause, and Feature Manager. The fixed action bar at the bottom stays visible while you scroll, so save only after reviewing every changed section.
 
 ## When to Use This
 
@@ -293,7 +306,7 @@ Controls how many days before an event the system sends reminder emails to custo
 | **Expiring Soon Reminder (Days Before)** | 7 | 1–60 | Notice that a fixed-length subscription is approaching its end date |
 
 ```box class="info-box"
-For example, setting Renewal Reminder to `3` will send the email 3 days before the next payment is due. Individual email templates can be enabled or disabled separately — see [Emails and Notifications](../emails/README.md) (coming soon).
+For example, setting Renewal Reminder to `3` will send the email 3 days before the next payment is due. Individual email templates can be enabled or disabled separately in WooCommerce email settings; see [Emails and Notifications](../emails/README.md) for the complete email reference.
 ```
 
 ---

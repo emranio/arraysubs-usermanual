@@ -1,8 +1,22 @@
+# Info
+- Module: Getting Started
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Essential Daily Workflows
 
 > How the subscription lifecycle works from checkout to renewal, where merchants manage everything, and what to verify before going live.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Essential Daily Workflows
+- **Where to open it:** WordPress Admin -> ArraySubs
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [easy-setup-wizard](./easy-setup-wizard.md)
+- **Next guide:** [first-time-setup](./first-time-setup.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

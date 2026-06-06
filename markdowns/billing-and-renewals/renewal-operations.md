@@ -1,8 +1,22 @@
+# Info
+- Module: Billing and Renewals
+- Availability: Free, with Pro extensions for automatic gateway payments
+- Last updated: 2026-06-04
+
 # Renewal Operations
 
 > How ArraySubs generates renewal invoices, routes payments, and handles price changes across the subscription lifecycle.
 
 **Availability:** Free (core renewal engine), with Pro extensions for automatic gateway payments
+
+## Page Navigation
+
+- **Current guide:** Renewal Operations
+- **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [renewal-communication](./renewal-communication.md)
+- **Next guide:** [trial-management](./trial-management.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 **Last updated:** 2026-06-03
 

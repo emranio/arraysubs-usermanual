@@ -56,3 +56,13 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 - [Billing and Renewals](../billing-and-renewals/README.md) — How renewal invoices are created, grace period timelines, and different renewal pricing
 - [Customer Portal — Payment and Shipping](../customer-portal/payment-and-shipping.md) — Customer-facing payment method management and auto-renew toggle
 - [Gateway Health Dashboard (Audits)](../audits-and-logs/gateway-health-dashboard.md) — Detailed monitoring and troubleshooting guide
+
+
+## Page Navigation
+
+- **Current guide:** Checkout and Payments
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [use-cases](./checkout-builder/use-cases.md)
+- **Next guide:** [subscription-checkout](./subscription-checkout.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)

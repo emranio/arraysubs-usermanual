@@ -1,8 +1,22 @@
+# Info
+- Module: Getting Started
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Getting Started
 
 > Everything you need to know before launching your subscription store with ArraySubs.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Getting Started
+- **Where to open it:** WordPress Admin -> ArraySubs
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [import-export-settings](./import-export-settings.md)
+- **Next guide:** [member-commerce-overview](../manage-members/member-commerce-overview.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

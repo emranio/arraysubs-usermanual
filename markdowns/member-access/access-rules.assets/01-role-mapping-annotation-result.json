@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/member-access/access-rules.assets/01-role-mapping-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Role Mapping tab labeled 'Role Mapping'",
+      "target_description": "Role Mapping tab in the horizontal navigation near the top of the page",
+      "label_text": "Role Mapping",
+      "bbox": {
+        "x": 168,
+        "y": 44,
+        "width": 101,
+        "height": 24
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the rule row labeled 'Access Rule'",
+      "target_description": "Role Mapping Rule #1 row/card containing the rule title and controls",
+      "label_text": "Access Rule",
+      "bbox": {
+        "x": 71,
+        "y": 497,
+        "width": 1324,
+        "height": 62
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the Save Changes button labeled 'Save Rules'",
+      "target_description": "Save Rules button fixed at the bottom left of the page",
+      "label_text": "Save Rules",
+      "bbox": {
+        "x": 187,
+        "y": 948,
+        "width": 113,
+        "height": 44
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

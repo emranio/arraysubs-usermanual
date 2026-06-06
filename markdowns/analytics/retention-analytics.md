@@ -9,6 +9,15 @@
 
 **Availability:** Free
 
+## Page Navigation
+
+- **Current guide:** Retention Analytics
+- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [reports-hub](./reports-hub.md)
+- **Next guide:** [subscription-performance](./subscription-performance.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Retention Analytics is a free analytics page that tracks every cancellation, scheduled cancellation, and retention offer interaction across your subscription business. It lives under the WooCommerce Analytics menu and provides summary cards, visual charts, a trend timeline, and a detailed activity log.

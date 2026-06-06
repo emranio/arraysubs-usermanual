@@ -1,0 +1,3 @@
+rectangle around the Discounts tab labeled 'Discount Rules'
+rectangle around the How Discount Rules Work panel labeled 'How discounts work'
+rectangle around the Add New Rule button labeled 'Add rule'

@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/store-credit/credit-history.assets/01-credit-history-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the All Credit Transactions page title labeled 'Credit History'",
+      "target_description": "The page title text 'All Credit Transactions' near the top of the main content area",
+      "label_text": "Credit History",
+      "bbox": {
+        "x": 151,
+        "y": 46,
+        "width": 177,
+        "height": 16
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the history table labeled 'Credit Ledger'",
+      "target_description": "The transactions history table below the filters, including header row and visible rows",
+      "label_text": "Credit Ledger",
+      "bbox": {
+        "x": 202,
+        "y": 283,
+        "width": 1209,
+        "height": 686
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around filters or search controls labeled 'Find Transactions'",
+      "target_description": "The filter controls panel containing the Filters label and the two dropdowns above the history table",
+      "label_text": "Find Transactions",
+      "bbox": {
+        "x": 50,
+        "y": 174,
+        "width": 1350,
+        "height": 83
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

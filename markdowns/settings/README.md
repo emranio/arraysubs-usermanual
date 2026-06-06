@@ -22,3 +22,13 @@ Other settings pages (Plan Switching, Refunds, Skip & Pause, Feature Manager, an
 
 - [General Settings](general-settings.md) — Every setting on the General page, explained with defaults, options, and practical guidance.
 - [Toolkit Settings](toolkit-settings.md) — Admin-facing security and convenience tools for controlling dashboard access, login flows, and session limits.
+
+
+## Page Navigation
+
+- **Current guide:** Settings
+- **Where to open it:** WordPress Admin -> ArraySubs -> Settings
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [general-settings](./general-settings.md)
+- **Next guide:** [toolkit-settings](./toolkit-settings.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)

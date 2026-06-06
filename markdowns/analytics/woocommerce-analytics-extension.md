@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** WooCommerce Analytics Extension *(Pro)*
+- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [subscription-performance](./subscription-performance.md)
+- **Next guide:** [access-rule-conflicts](../audits-and-logs/access-rule-conflicts.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 The WooCommerce Analytics Extension adds subscription-aware columns, filters, and metrics to five native WooCommerce Analytics reports:

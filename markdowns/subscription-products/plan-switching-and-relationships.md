@@ -9,6 +9,21 @@
 
 **Availability:** Free (plan switching), Pro (fixed-period membership)
 
+## Page Navigation
+
+- **Current guide:** Plan Switching and Product Relationships
+- **Where to open it:** WordPress Admin -> Products -> Add/Edit Product
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [create-and-configure](./create-and-configure.md)
+- **Next guide:** [product-experience](./product-experience.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Plan Switching and Product Relationships screenshot: Plan Switching Settings](plan-switching-and-relationships.assets/01-plan-switching-settings-annotated.png)
+
 ## Overview
 
 Plan switching lets customers move between subscription plans — upgrading to a higher tier, downgrading to a lower one, or crossgrading to a similar plan. You define the available paths on each product, and ArraySubs handles proration, order creation, pending-switch tracking, and subscription updates automatically.

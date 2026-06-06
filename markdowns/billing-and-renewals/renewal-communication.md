@@ -1,8 +1,22 @@
+# Info
+- Module: Billing and Renewals
+- Availability: Free
+- Last updated: 2026-06-04
+
 # Renewal Communication
 
 > Every email the billing engine sends during the renewal cycle — reminders before payment, invoices at generation, confirmations after payment, and alerts when things go wrong.
 
 **Availability:** Free
+
+## Page Navigation
+
+- **Current guide:** Renewal Communication
+- **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [recovery-and-grace-flows](./recovery-and-grace-flows.md)
+- **Next guide:** [renewal-operations](./renewal-operations.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

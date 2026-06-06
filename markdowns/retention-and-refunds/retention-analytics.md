@@ -9,6 +9,15 @@
 
 **Availability:** Free
 
+## Page Navigation
+
+- **Current guide:** Retention Analytics
+- **Where to open it:** WordPress Admin -> ArraySubs -> Retention Flow
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [refund-management](./refund-management.md)
+- **Next guide:** [retention-offers](./retention-offers.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Retention Analytics is a dedicated reporting page inside WooCommerce Analytics that gives you a complete picture of cancellation and retention activity across your subscription business. It answers the questions that matter most for reducing churn: **Why are customers leaving?** **Are your retention offers working?** **How much revenue have you saved?**

@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/checkout-builder/README.assets/01-checkout-builder-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Checkout Form Builder panel labeled 'Builder Entry'",
+      "target_description": "large top panel containing the Checkout Form Builder heading and Open Builder button",
+      "label_text": "Builder Entry",
+      "bbox": {
+        "x": 209,
+        "y": 197,
+        "width": 1131,
+        "height": 294
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the Open Builder button labeled 'Open Builder'",
+      "target_description": "blue Open Builder button in the center of the Checkout Form Builder panel",
+      "label_text": "Open Builder",
+      "bbox": {
+        "x": 717,
+        "y": 381,
+        "width": 169,
+        "height": 38
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the setup cards labeled 'Builder Workflows'",
+      "target_description": "the two lower informational setup cards side by side beneath the main builder panel",
+      "label_text": "Builder Workflows",
+      "bbox": {
+        "x": 207,
+        "y": 515,
+        "width": 1139,
+        "height": 485
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

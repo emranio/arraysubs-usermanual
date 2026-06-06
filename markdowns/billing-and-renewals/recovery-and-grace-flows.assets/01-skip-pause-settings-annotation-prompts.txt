@@ -1,0 +1,3 @@
+rectangle around the skip and pause settings section labeled 'Skip and Pause'
+rectangle around the Pause Subscription card labeled 'Pause subscriptions'
+rectangle around the save button area labeled 'Save Changes'

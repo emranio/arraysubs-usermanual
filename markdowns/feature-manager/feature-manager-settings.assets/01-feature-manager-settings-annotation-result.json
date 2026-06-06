@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/feature-manager/feature-manager-settings.assets/01-feature-manager-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Feature Manager Settings heading labeled 'Feature Manager'",
+      "target_description": "Feature Manager heading text at the top of the first settings panel",
+      "label_text": "Feature Manager",
+      "bbox": {
+        "x": 211,
+        "y": 188,
+        "width": 209,
+        "height": 20
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the enable toggle and display controls labeled 'Feature Controls'",
+      "target_description": "Top settings panel containing the Enable Feature Manager toggle and the larger Display Settings panel below it",
+      "label_text": "Feature Controls",
+      "bbox": {
+        "x": 67,
+        "y": 153,
+        "width": 1349,
+        "height": 588
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the save button area labeled 'Save Features'",
+      "target_description": "Blue Save Settings button in the sticky footer area at the bottom left of the content pane",
+      "label_text": "Save Features",
+      "bbox": {
+        "x": 204,
+        "y": 950,
+        "width": 114,
+        "height": 38
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

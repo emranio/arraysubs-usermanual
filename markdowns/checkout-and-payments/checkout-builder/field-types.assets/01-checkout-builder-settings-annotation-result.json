@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/checkout-builder/field-types.assets/01-checkout-builder-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Settings tab labeled 'Builder Settings'",
+      "target_description": "Settings tab in the page header breadcrumb navigation",
+      "label_text": "Builder Settings",
+      "bbox": {
+        "x": 247,
+        "y": 44,
+        "width": 76,
+        "height": 27
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the checkout settings fields labeled 'Checkout Controls'",
+      "target_description": "Main white settings content area containing the General, Order Display, and File Uploads checkout settings fields",
+      "label_text": "Checkout Controls",
+      "bbox": {
+        "x": 180,
+        "y": 149,
+        "width": 1241,
+        "height": 851
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the save button labeled 'Save Settings'",
+      "target_description": "Blue Save Settings button at the bottom left of the settings page",
+      "label_text": "Save Settings",
+      "bbox": {
+        "x": 185,
+        "y": 949,
+        "width": 129,
+        "height": 40
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

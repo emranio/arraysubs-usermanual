@@ -1,0 +1,3 @@
+rectangle around the page title labeled 'Access Rule Conflicts'
+rectangle around the conflict list area labeled 'Conflict Results'
+rectangle around the filters or search controls labeled 'Find Conflicts'

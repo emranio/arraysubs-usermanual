@@ -1,0 +1,3 @@
+rectangle around the page title labeled 'Scheduled Job Logs'
+rectangle around the job log table labeled 'Scheduled Actions'
+rectangle around the filters labeled 'Job Filters'

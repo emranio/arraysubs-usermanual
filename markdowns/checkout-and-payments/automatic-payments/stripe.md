@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Stripe Gateway
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [field-types](../checkout-builder/field-types.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
+
 ## Overview
 
 Stripe is the most fully featured gateway in ArraySubs. It uses the **ArraySubs-managed billing** model, meaning ArraySubs controls renewal dates, grace periods, retry timing, proration, and subscription lifecycle while the official WooCommerce Stripe Gateway owns checkout UI, Stripe credentials, saved payment methods, refunds, wallets, Link, and SCA/3D Secure handling.

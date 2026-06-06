@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/customer-portal/portal-pages.assets/01-my-account-subscriptions-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the My Subscriptions heading labeled 'Subscriptions List'",
+      "target_description": "My Subscriptions section heading above the subscriptions table",
+      "label_text": "Subscriptions List",
+      "bbox": {
+        "x": 539,
+        "y": 458,
+        "width": 182,
+        "height": 26
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the subscriptions table labeled 'Customer Subscriptions'",
+      "target_description": "Subscriptions table showing product, status, next payment, total, and actions columns",
+      "label_text": "Customer Subscriptions",
+      "bbox": {
+        "x": 540,
+        "y": 509,
+        "width": 681,
+        "height": 162
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the View action button labeled 'Open Detail'",
+      "target_description": "View action link in the Actions column of the subscriptions table row",
+      "label_text": "Open Detail",
+      "bbox": {
+        "x": 1131,
+        "y": 613,
+        "width": 46,
+        "height": 17
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

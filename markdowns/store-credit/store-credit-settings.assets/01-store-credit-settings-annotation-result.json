@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/store-credit/store-credit-settings.assets/01-store-credit-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Store Credit Settings heading labeled 'Store Credit Settings'",
+      "target_description": "Store Credit Settings heading text near the top of the main content card",
+      "label_text": "Store Credit Settings",
+      "bbox": {
+        "x": 218,
+        "y": 191,
+        "width": 290,
+        "height": 23
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the settings fields labeled 'Credit Controls'",
+      "target_description": "Credit Application settings panel containing the toggle fields and minimum order amount input",
+      "label_text": "Credit Controls",
+      "bbox": {
+        "x": 202,
+        "y": 432,
+        "width": 1198,
+        "height": 509
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the save button area labeled 'Save Store Credit'",
+      "target_description": "Blue Save Settings button at the bottom left of the content area",
+      "label_text": "Save Store Credit",
+      "bbox": {
+        "x": 201,
+        "y": 956,
+        "width": 115,
+        "height": 30
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

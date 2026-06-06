@@ -9,11 +9,43 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Paddle Gateway
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
+- **Next guide:** [payment-recovery](./payment-recovery.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
+
 ## Overview
 
 Paddle is unique among ArraySubs gateways because it operates as a **Merchant of Record (MoR)**. This means Paddle is the legal seller of your product — it handles all payment processing, tax calculation, VAT collection, compliance, and customer invoicing. You receive net payouts after Paddle deducts its fee and applicable taxes.
 
 Paddle uses the **gateway-managed billing** model and includes features that other gateways don't offer, such as native pause/resume and automatic tax handling in 200+ countries.
+
+## Current Capability Snapshot
+
+| Capability | Paddle Behavior in ArraySubsPro |
+|---|---|
+| Automatic renewals | Yes. Paddle manages the billing schedule and confirms events by webhook. |
+| Checkout type | Paddle.js overlay using a Paddle transaction. |
+| Required credentials | API Key, Client-Side Token, Seller ID, and Webhook Secret. |
+| Webhook URL | `wp-json/arraysubs/v1/webhooks/arraysubs_paddle` |
+| Sandbox mode | Supported through the gateway settings. |
+| Product sync | Required before checkout. ArraySubs creates or updates Paddle product/price records. |
+| Mixed carts | Supported. |
+| Multiple subscriptions in one checkout | Supported only when billing cycles are compatible. |
+| Different billing cycles in one checkout | Not supported by default. |
+| Native pause/resume | Supported. |
+| End-of-period cancellation | Supported and reversible. |
+| Payment method update | Supported through Paddle customer billing flows. |
+| Card expiry notices | Not exposed by ArraySubs because Paddle owns the payment method experience. |
+| Refunds | Supported through Paddle adjustment APIs. |
+
+```box class="info-box"
+Paddle is the best fit when you want Merchant-of-Record handling for tax, invoices, and payment compliance. It is not the best fit when one checkout must contain subscriptions with unrelated billing cycles.
+```
 
 ## How Paddle Payments Work
 

@@ -21,6 +21,14 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 
 ## Quick Reference
 
+
+## Page Navigation
+
+- **Current guide:** Manage Subscription Products
+- **Where to open it:** WordPress Admin -> Products -> Add/Edit Product
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [product-lifecycle](./product-lifecycle.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 | Concept | Where to configure |
 |---|---|
 | Billing period, interval, length | Product editor → Subscription tab |

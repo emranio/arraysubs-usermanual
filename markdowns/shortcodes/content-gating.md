@@ -9,6 +9,15 @@
 
 **Availability:** Free — `feature` conditions require **Pro** with Feature Manager
 
+## Page Navigation
+
+- **Current guide:** Content Gating Shortcodes
+- **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [account-shortcodes](./account-shortcodes.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Two shortcodes handle content gating on the frontend:

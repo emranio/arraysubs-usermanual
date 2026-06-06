@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-subscriptions/subscription-operations.assets/01-admin-menu-subscriptions-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the WordPress admin ArraySubs menu labeled 'ArraySubs Menu'",
+      "target_description": "ArraySubs top-level menu item in the left WordPress admin sidebar",
+      "label_text": "ArraySubs Menu",
+      "bbox": {
+        "x": 2,
+        "y": 306,
+        "width": 177,
+        "height": 40
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the Subscriptions entry labeled 'Subscriptions'",
+      "target_description": "Subscriptions submenu entry under ArraySubs in the left admin sidebar",
+      "label_text": "Subscriptions",
+      "bbox": {
+        "x": 0,
+        "y": 347,
+        "width": 119,
+        "height": 23
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the main subscriptions page area labeled 'Admin Workspace'",
+      "target_description": "Main subscriptions content workspace including the white panel with filters and the subscriptions table",
+      "label_text": "Admin Workspace",
+      "bbox": {
+        "x": 181,
+        "y": 150,
+        "width": 1240,
+        "height": 850
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

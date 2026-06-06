@@ -9,6 +9,15 @@
 
 **Availability:** Free — cases marked *(Pro)* require ArraySubs Pro
 
+## Page Navigation
+
+- **Current guide:** Member Access — Real-World Use Cases
+- **Where to open it:** WordPress Admin -> ArraySubs -> Member Access
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [session-and-frontend-controls](./session-and-frontend-controls.md)
+- **Next guide:** [my-account-editor](../profile-builder/my-account-editor.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 This guide demonstrates how merchants across different industries use Member Access to solve real business problems. Each use case follows the same format:

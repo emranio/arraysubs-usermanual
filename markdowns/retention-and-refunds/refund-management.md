@@ -9,6 +9,24 @@
 
 **Availability:** Free (core refund processing), Pro (refund-to-store-credit)
 
+## Page Navigation
+
+- **Current guide:** Refund Management
+- **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> Refunds
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/refunds`
+- **Process prorated refunds from:** WordPress Admin -> ArraySubs -> Subscriptions -> open a subscription -> **Prorated Refund**
+- **Related customer cancellation setup:** [Cancellation Setup](cancellation-setup.md)
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [retention-analytics](./retention-analytics.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Refund Management screenshot: Refund Settings](refund-management.assets/01-refund-settings-annotated.png)
+
 ## Overview
 
 Refund management controls what happens financially after a subscription is cancelled. ArraySubs integrates directly with WooCommerce's native refund system, adding subscription-aware logic on top: configurable cancellation behavior, prorated refund calculations based on unused billing cycle days, minimum refund thresholds, and automatic payment gateway refund routing.

@@ -1,12 +1,30 @@
+# Info
+- Module: Subscription Detail
+- Availability: Shared
+- Last updated: 2026-06-04
+
 # Subscription Detail Cards
 
 > A deep dive into every conditional information card on the subscription detail screen.
 
 **Availability:** Free (Cancellation, Skip & Pause, Coupon); Pro (Payment Gateway, Checkout Builder Fields, Subscription Shipping)
 
+## Page Navigation
+
+- **Admin screen:** WordPress Admin → **ArraySubs → Subscriptions → View Details**
+- **Direct admin route pattern:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/subscriptions/detail/{subscription_id}`
+- **Start from the list:** [Subscription Operations](subscription-operations.md)
+- **Change core fields:** [Subscription Operations → Edit a Subscription](subscription-operations.md#edit-a-subscription)
+- **Customer version:** [Subscription Self-Service Actions](../customer-portal/self-service-actions.md)
+- **Payment troubleshooting:** [Gateway Health Dashboard](../checkout-and-payments/automatic-payments/gateway-health-dashboard.md)
+
+![Annotated subscription detail screen showing action bar, billing dates, skip and pause state, and gateway connection](subscription-detail-cards.assets/01-subscription-detail-annotated.png)
+
 ## Overview
 
 The subscription detail screen displays a series of information cards. Some are always visible (covered in [Subscription Operations](subscription-operations.md#subscription-detail-screen)), but several cards only appear when specific conditions are met. This guide covers each conditional card in detail.
+
+The detail screen is intentionally read-heavy. Use it when support needs to understand the current state before taking action: status, renewal date, payment gateway, skip/pause state, customer, product, billing amount, cancellation history, and related order context.
 
 | Card | Appears When |
 |------|-------------|

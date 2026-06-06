@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/renewal-failures.assets/01-renewal-failures-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the page title labeled 'Renewal Failures'",
+      "target_description": "Page title text 'Renewal Failures' in the top navigation/header area",
+      "label_text": "Renewal Failures",
+      "bbox": {
+        "x": 495,
+        "y": 46,
+        "width": 73,
+        "height": 17
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the failure list or table labeled 'Failed Renewals'",
+      "target_description": "Main failure list table containing the subscription renewal failure row",
+      "label_text": "Failed Renewals",
+      "bbox": {
+        "x": 66,
+        "y": 245,
+        "width": 1333,
+        "height": 114
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around action buttons or filters labeled 'Review Actions'",
+      "target_description": "Action buttons 'Retry' and 'Mark Resolved' in the Actions column of the table",
+      "label_text": "Review Actions",
+      "bbox": {
+        "x": 1224,
+        "y": 291,
+        "width": 123,
+        "height": 33
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

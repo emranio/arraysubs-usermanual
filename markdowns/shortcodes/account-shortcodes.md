@@ -9,6 +9,15 @@
 
 **Availability:** Free
 
+## Page Navigation
+
+- **Current guide:** Account Shortcodes
+- **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [toolkit-settings](../settings/toolkit-settings.md)
+- **Next guide:** [content-gating](./content-gating.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Three shortcodes handle authentication-related display on the frontend:

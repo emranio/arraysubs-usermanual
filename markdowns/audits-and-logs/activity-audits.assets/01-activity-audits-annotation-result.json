@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/activity-audits.assets/01-activity-audits-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the page title labeled 'Activity Audits'",
+      "target_description": "The page title text 'Activity Audits' near the top of the main content area",
+      "label_text": "Activity Audits",
+      "bbox": {
+        "x": 171,
+        "y": 46,
+        "width": 87,
+        "height": 17
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the audit log table labeled 'Audit Events'",
+      "target_description": "The large audit log table below the filters, including the header row and visible entries",
+      "label_text": "Audit Events",
+      "bbox": {
+        "x": 69,
+        "y": 257,
+        "width": 1347,
+        "height": 743
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the filters labeled 'Audit Filters'",
+      "target_description": "The filter controls container with dropdowns, date fields, search box, and action buttons above the table",
+      "label_text": "Audit Filters",
+      "bbox": {
+        "x": 67,
+        "y": 173,
+        "width": 1332,
+        "height": 66
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

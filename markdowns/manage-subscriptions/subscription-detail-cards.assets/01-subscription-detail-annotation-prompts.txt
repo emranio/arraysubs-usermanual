@@ -1,0 +1,9 @@
+# Annotation Prompts
+
+Source screenshot: `01-subscription-detail-original.png`
+
+- Draw a red rectangle around the status and action bar at the top of the subscription detail screen and label it "Status and actions".
+- Draw a red rectangle around the Subscription card on the left and label it "Billing dates".
+- Draw a red rectangle around the Skip & Pause card on the right and label it "Skip and pause state".
+- Draw a red rectangle around the Customer Information card and label it "Customer details".
+- Draw a red rectangle around the Payment Gateway card and label it "Gateway connection".

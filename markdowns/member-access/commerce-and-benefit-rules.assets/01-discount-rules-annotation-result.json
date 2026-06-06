@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/member-access/commerce-and-benefit-rules.assets/01-discount-rules-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Discounts tab labeled 'Discount Rules'",
+      "target_description": "The selected Discount tab in the horizontal settings navigation near the top",
+      "label_text": "Discount Rules",
+      "bbox": {
+        "x": 297,
+        "y": 46,
+        "width": 65,
+        "height": 33
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the How Discount Rules Work panel labeled 'How discounts work'",
+      "target_description": "The blue bordered informational panel titled How Discount Rules Work",
+      "label_text": "How discounts work",
+      "bbox": {
+        "x": 98,
+        "y": 252,
+        "width": 1318,
+        "height": 246
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the Add New Rule button labeled 'Add rule'",
+      "target_description": "The dashed outline button with plus icon reading Add New Rule below the empty rules area",
+      "label_text": "Add rule",
+      "bbox": {
+        "x": 187,
+        "y": 639,
+        "width": 157,
+        "height": 40
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

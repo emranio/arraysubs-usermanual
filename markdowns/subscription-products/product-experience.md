@@ -9,6 +9,21 @@
 
 **Availability:** Free (pricing display), Pro (Redirect Product Page, Feature Manager, Subscription Shipping)
 
+## Page Navigation
+
+- **Current guide:** Product Experience and Display
+- **Where to open it:** WordPress Admin -> Products -> Add/Edit Product
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [plan-switching-and-relationships](./plan-switching-and-relationships.md)
+- **Next guide:** [product-lifecycle](./product-lifecycle.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Product Experience and Display screenshot: Product Page](product-experience.assets/01-product-page-annotated.png)
+
 ## Overview
 
 ArraySubs automatically extends WooCommerce's product display to show subscription-specific information wherever products appear. Customers see the recurring price, billing schedule, trial details, signup fees, and different renewal pricing on the product page, in the cart, at checkout, in the mini-cart, and on order confirmation screens.

@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/automatic-payments/gateway-health-dashboard.assets/01-gateway-health-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the dashboard header labeled 'Gateway Health'",
+      "target_description": "Top page header area with the gateway log navigation tabs and subtitle",
+      "label_text": "Gateway Health",
+      "bbox": {
+        "x": 177,
+        "y": 20,
+        "width": 1263,
+        "height": 89
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the gateway health cards labeled 'Gateway Status'",
+      "target_description": "Row of three gateway status cards for Paddle, PayPal, and Stripe",
+      "label_text": "Gateway Status",
+      "bbox": {
+        "x": 88,
+        "y": 192,
+        "width": 1289,
+        "height": 92
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the issue or log area labeled 'Operational Signals'",
+      "target_description": "Webhook Event Log panel including its header, filters, and table",
+      "label_text": "Operational Signals",
+      "bbox": {
+        "x": 223,
+        "y": 373,
+        "width": 1157,
+        "height": 627
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

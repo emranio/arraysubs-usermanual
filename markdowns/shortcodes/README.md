@@ -9,6 +9,22 @@
 
 **Availability:** Free — `[arraysubs_buy_credits]` requires **Pro**
 
+## Page Navigation
+
+- **Current guide:** Shortcodes
+- **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/shortcodes`
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [content-gating](./content-gating.md)
+- **Next guide:** [store-credit-shortcode](./store-credit-shortcode.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Shortcodes screenshot: Shortcodes](README.assets/01-shortcodes-annotated.png)
+
 ## Overview
 
 ArraySubs provides six shortcodes that let you embed dynamic, user-aware content into any WordPress page, post, widget, or page-builder block. Drop them into your content editor and they render the right output for each visitor based on login state, subscription status, product ownership, and more.

@@ -1,8 +1,29 @@
+# Info
+- Module: Audits and Logs
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Access-Rule Conflicts
 
 > Troubleshoot overlapping membership rules, unexpected access denials, and content restriction evaluation problems.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Access-Rule Conflicts
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/access-rule-conflicts`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [woocommerce-analytics-extension](../analytics/woocommerce-analytics-extension.md)
+- **Next guide:** [activity-audits](./activity-audits.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Access-Rule Conflicts screenshot: Access Conflicts](access-rule-conflicts.assets/01-access-conflicts-annotated.png)
 
 ## Overview
 

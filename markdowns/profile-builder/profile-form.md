@@ -9,6 +9,22 @@
 
 **Availability:** Free
 
+## Page Navigation
+
+- **Current guide:** Profile Form
+- **Where to open it:** WordPress Admin -> ArraySubs -> Profile Builder
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/profile-builder/profile-form`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [my-account-editor](./my-account-editor.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Profile Form screenshot: Profile Form Settings](profile-form.assets/01-profile-form-settings-annotated.png)
+
 ## Overview
 
 The Profile Form settings page lets you create custom fields that appear on two surfaces:

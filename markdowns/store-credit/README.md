@@ -9,6 +9,25 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Store Credit
+- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [purchase-product](./purchase-product.md)
+- **Next guide:** [refund-to-credit](./refund-to-credit.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Store Credit screenshot: My Account Store Credit](README.assets/01-my-account-store-credit-annotated.png)
+
+```box class="info-box"
+The customer screenshot above shows the disabled/unavailable state. If a customer sees **"Store credit is not available."**, confirm ArraySubs Pro is active and Store Credit is enabled in [Store Credit Settings](store-credit-settings.md). The same My Account menu location becomes the balance, purchase, expiration, and transaction-history page once the module is available.
+```
+
 ## Overview
 
 Store Credit is a complete virtual-wallet system built into ArraySubs Pro. It lets you reward customers with reusable credit that automatically applies to subscription renewals or can be spent at checkout, reducing friction and increasing retention.

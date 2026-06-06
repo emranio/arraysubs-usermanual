@@ -1,8 +1,32 @@
+# Info
+- Module: Subscription Admin
+- Availability: Shared
+- Last updated: 2026-06-04
+
 # Subscription Operations
 
 > Browse, create, edit, and inspect every subscription from a single set of screens.
 
 **Availability:** Free
+
+## Page Navigation
+
+- **Admin screen:** WordPress Admin → **ArraySubs → Subscriptions**
+- **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/subscriptions`
+- **Create manually:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/subscriptions/form`
+- **Open one subscription:** use **View Details** from a row, then continue with [Subscription Detail Cards](subscription-detail-cards.md)
+- **Lifecycle concepts:** [Lifecycle Management](lifecycle-management.md)
+- **Customer-facing version:** [Customer Portal Pages](../customer-portal/portal-pages.md)
+
+![Annotated All Subscriptions screen showing filters, search, row actions, and export controls](subscription-operations.assets/02-subscriptions-list-annotated.png)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Subscription Operations screenshot: Admin Menu Subscriptions](subscription-operations.assets/01-admin-menu-subscriptions-annotated.png)
+
+![Annotated Subscription Operations screenshot: Create Subscription](subscription-operations.assets/03-create-subscription-annotated.png)
 
 ## Overview
 
@@ -23,6 +47,8 @@ ArraySubs gives you four main screens for working with subscriptions:
 ## All Subscriptions List
 
 Open **ArraySubs → Subscriptions** to see every subscription in your store.
+
+Use this screen as the daily support desk for active customers. It is the fastest place to answer "Who owns this subscription?", "When is the next payment?", "Which product is it for?", and "Should I view details or edit the record?"
 
 ### What the List Shows
 

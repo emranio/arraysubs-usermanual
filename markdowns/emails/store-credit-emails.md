@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Store Credit Emails *(Pro)*
+- **Where to open it:** WordPress Admin -> WooCommerce -> Settings -> Emails
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [customer-and-storefront-display](../feature-manager/customer-and-storefront-display.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 The Store Credit module *(Pro)* includes its own set of four customer-facing WooCommerce emails. These emails are registered separately from the core subscription emails but follow the same WooCommerce email framework — they appear in **WooCommerce → Settings → Emails**, support HTML and Plain Text, and can be toggled independently.

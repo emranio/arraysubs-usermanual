@@ -1,0 +1,3 @@
+rectangle around the My Account Editor heading labeled 'My Account Editor'
+rectangle around the endpoint list labeled 'Account Endpoints'
+rectangle around the save button area labeled 'Save Layout'

@@ -9,6 +9,23 @@
 
 **Availability:** Free + Pro
 
+## Page Navigation
+
+- **Current guide:** Customer Portal Pages
+- **Where to open it:** Storefront -> My Account -> Subscriptions
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [payment-and-shipping](./payment-and-shipping.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Customer Portal Pages screenshot: My Account Subscriptions](portal-pages.assets/01-my-account-subscriptions-annotated.png)
+
+![Annotated Customer Portal Pages screenshot: View Subscription](portal-pages.assets/02-view-subscription-annotated.png)
+
 ## Overview
 
 ArraySubs adds dedicated pages to the WooCommerce My Account navigation. The two core pages — **My Subscriptions** and **View Subscription** — are available in the free plugin. With Pro active, customers may also see **My Features** and **Store Credit** tabs depending on your configuration.

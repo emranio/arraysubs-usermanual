@@ -73,3 +73,13 @@ Features are only shown for subscriptions with an `active` or `trial` status. On
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — How My Features fits into the customer account area.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Feature Log access from the subscription detail screen.
 - [Manage Members](../manage-members/README.md) — Feature Log shortcut from the member profile.
+
+
+## Page Navigation
+
+- **Current guide:** Feature Manager *(Pro)*
+- **Where to open it:** WordPress Admin -> Products -> Edit Product and ArraySubs -> Settings -> Feature Manager
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [feature-manager-settings](./feature-manager-settings.md)
+- **Next guide:** [before-you-launch](../getting-started/before-you-launch.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)

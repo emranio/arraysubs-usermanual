@@ -1,8 +1,22 @@
+# Info
+- Module: Getting Started
+- Availability: Free
+- Last updated: 2026-06-04
+
 # Import / Export Settings
 
 > Download your entire ArraySubs configuration as a JSON file or restore a previously exported configuration — with granular control over which sections get imported.
 
 **Availability:** Free
+
+## Page Navigation
+
+- **Current guide:** Import / Export Settings
+- **Where to open it:** WordPress Admin -> ArraySubs
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [first-time-setup](./first-time-setup.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

@@ -9,6 +9,22 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Checkout Builder
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/checkout-builder`
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [field-types](./field-types.md)
+- **Next guide:** [use-cases](./use-cases.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Checkout Builder screenshot: Checkout Builder](README.assets/01-checkout-builder-annotated.png)
+
 ## Overview
 
 The Checkout Builder lets you redesign your entire checkout page without writing code. It provides a visual drag-and-drop editor where you arrange fields, sections, and layout elements into single-step or multi-step checkout flows. Custom field data captured at checkout flows through to orders, subscriptions, and renewal invoices automatically.

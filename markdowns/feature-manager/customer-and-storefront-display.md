@@ -9,6 +9,21 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Customer and Storefront Display
+- **Where to open it:** WordPress Admin -> Products -> Edit Product and ArraySubs -> Settings -> Feature Manager
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [store-credit-emails](../emails/store-credit-emails.md)
+- **Next guide:** [defining-product-features](./defining-product-features.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Customer and Storefront Display screenshot: My Account Features](customer-and-storefront-display.assets/01-my-account-features-annotated.png)
+
 ## Overview
 
 Feature Manager surfaces product entitlements in three places:

@@ -10,6 +10,16 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Checkout Builder Use Cases
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/checkout-builder`
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [README](../README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
+
 ## Overview
 
 The Checkout Builder is not just a form editor — it's how you shape the first interaction your customer has with your subscription. The examples below cover a wide range of industries and use cases. Each one explains the business need, the builder configuration, and how the captured data flows through orders and subscriptions.

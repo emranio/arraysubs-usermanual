@@ -9,6 +9,15 @@
 
 **Availability:** Free + Pro
 
+## Page Navigation
+
+- **Current guide:** Customer Portal
+- **Where to open it:** Storefront -> My Account -> Subscriptions
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [portal-pages](./portal-pages.md)
+- **Next guide:** [self-service-actions](./self-service-actions.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 ArraySubs adds a **Subscriptions** tab to the WooCommerce My Account page. This tab gives customers a complete view of their subscriptions and lets them take actions like cancelling, changing plans, skipping renewals, or pausing — depending on the settings you have enabled.

@@ -1,0 +1,9 @@
+# Annotation Prompts
+
+Source screenshot: `01-general-settings-original.png`
+
+- Draw a red rectangle around the settings tab navigation at the top and label it "Settings tabs".
+- Draw a red rectangle around the Multiple Subscriptions panel title and first options and label it "Cart rules".
+- Draw a red rectangle around the One Subscription per Customer toggle and label it "Customer limit".
+- Draw a red rectangle around the blue and yellow helper notices and label it "Behavior notes".
+- Draw a red rectangle around the fixed Save Settings action bar at the bottom and label it "Save changes".

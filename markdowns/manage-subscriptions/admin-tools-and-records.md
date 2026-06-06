@@ -1,8 +1,22 @@
+# Info
+- Module: Subscription Admin
+- Availability: Free; Pro
+- Last updated: 2026-06-04
+
 # Admin Tools and Records
 
 > Subscription notes, feature entitlements, related orders, and data export — the tools that keep your records complete.
 
 **Availability:** Free (Notes, Orders, Export); Pro (Feature Log)
+
+## Page Navigation
+
+- **Current guide:** Admin Tools and Records
+- **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](../manage-members/README.md)
+- **Next guide:** [lifecycle-management](./lifecycle-management.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

@@ -1,4 +1,17 @@
+# Info
+- Module: Manual Writing Standard
+- Availability: Internal reference
+- Last updated: 2026-06-04
+
 # Writing Format for a Single User Manual Page
+
+## Page Navigation
+
+- **Current guide:** Writing Format for a Single User Manual Page
+- **Where to open it:** User manual repository -> markdowns -> writing-format.md
+- **Section overview:** [Manual Home](README.md)
+- **Previous guide:** [User Manual Hub Index Plan](index-plan.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
 > Reusable structure for a WordPress + WooCommerce subscription plugin manual page. Use this format for settings, features, setup flows, and admin help pages.
 

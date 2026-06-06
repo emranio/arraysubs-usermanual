@@ -1,8 +1,31 @@
+# Info
+- Module: Billing and Renewals
+- Availability: Free
+- Last updated: 2026-06-04
+
 # Recovery and Grace Flows
 
 > What happens when a renewal payment is missed — the two-phase grace period, overdue detection, skip and pause interactions, and how payment at any point restores the subscription.
 
 **Availability:** Free
+
+## Page Navigation
+
+- **Current guide:** Recovery and Grace Flows
+- **Where to open renewal settings:** WordPress Admin -> ArraySubs -> Settings -> General
+- **Where to open skip/pause settings:** WordPress Admin -> ArraySubs -> Settings -> Skip & Pause
+- **Direct skip/pause route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/skip-pause`
+- **Where to inspect a renewal:** WordPress Admin -> ArraySubs -> Subscriptions -> open a subscription
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [renewal-communication](./renewal-communication.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Recovery and Grace Flows screenshot: Skip Pause Settings](recovery-and-grace-flows.assets/01-skip-pause-settings-annotated.png)
 
 ## Overview
 

@@ -9,14 +9,23 @@
 
 **Availability:** Free (core emails) / Pro (Store Credit emails, gateway emails)
 
+## Page Navigation
+
+- **Current guide:** Emails and Notifications
+- **Where to open it:** WordPress Admin -> WooCommerce -> Settings -> Emails
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [customer-emails](./customer-emails.md)
+- **Next guide:** [store-credit-emails](./store-credit-emails.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 ArraySubs includes a full email notification system built on top of the WooCommerce email framework. Every email inherits your store's design, can be toggled on or off, and supports rich placeholders that pull live subscription data into the subject line and body. No custom mailer setup is needed — everything works through the same **WooCommerce → Settings → Emails** page your store already uses.
 
 The system covers three audiences:
 
-- **Customer emails** — 13 emails about subscription status, billing, trials, and retention events
-- **Admin emails** — 3 emails that alert the store admin about new subscriptions, payment failures, and cancellations
+- **Customer emails** — 17 emails about subscription status, billing, trials, retention, card expiry, and gateway verification events
+- **Admin emails** — 4 emails that alert the store admin about new subscriptions, payment failures, scheduled cancellations, and completed cancellations
 - **Store Credit emails** *(Pro)* — 4 emails about credit balance changes, usage, and expiration
 
 ## How ArraySubs Emails Work
@@ -68,11 +77,15 @@ Emails are triggered automatically by subscription lifecycle events:
 | Renewal payment successful | Payment Successful (customer) |
 | Payment failed | Payment Failed (customer) + Admin Payment Failed (admin) |
 | Subscription on hold | Subscription On Hold (customer) |
+| Subscription scheduled for end-of-period cancellation | Subscription Pending Cancellation (customer) + Admin Subscription Pending Cancellation (admin) |
 | Subscription cancelled | Subscription Cancelled (customer) + Admin Subscription Cancelled (admin) |
 | Subscription expired | Subscription Expired (customer) |
+| Fixed-length subscription ending soon | Subscription Expiring Soon (customer) |
 | Subscription reactivated | Subscription Reactivated (customer) |
 | Plan auto-downgraded | Auto-Downgrade (customer) |
 | Retention discount accepted | Retention Discount Accepted (customer) |
+| Saved Stripe card expiring | Card Expiring (customer) |
+| Renewal requires 3D Secure/SCA verification | Renewal Requires Verification (customer) |
 | Store credit added *(Pro)* | Credit Added (customer) |
 | Store credit applied to order *(Pro)* | Credit Used (customer) |
 | Store credit expiring soon *(Pro)* | Credit Expiring (customer) |
@@ -161,8 +174,10 @@ Some emails include additional placeholders beyond the base set:
 | Placeholder | Available In | Description |
 |-------------|-------------|------------|
 | `{cancellation_date}` | Subscription Cancelled | When the subscription was cancelled |
-| `{cancellation_reason}` | Subscription Cancelled, Admin Subscription Cancelled | Customer-provided cancellation reason |
+| `{scheduled_cancel_date}` | Subscription Pending Cancellation, Admin Subscription Pending Cancellation | End-of-period cancellation date |
+| `{cancellation_reason}` | Subscription Pending Cancellation, Subscription Cancelled, Admin Subscription Pending Cancellation, Admin Subscription Cancelled | Customer-provided cancellation reason |
 | `{expiration_date}` | Subscription Expired | When the subscription expired |
+| `{subscription_end_date}` | Subscription Expiring Soon | When the fixed-length subscription ends |
 
 #### Retention and Plan Change Emails
 
@@ -249,30 +264,36 @@ For the plain text version:
 
 ### Template File Reference
 
-**Core Customer Email Templates (13):**
+**Core Customer Email Classes / Templates (17 emails):**
+
+Subscription Expiring Soon uses the Renewal Reminder template files with a different reminder context.
 
 | Template File | Email |
 |--------------|-------|
 | `customer-new-subscription.php` | New Subscription |
 | `customer-trial-started.php` | Trial Started |
 | `customer-trial-converted.php` | Trial Converted |
-| `customer-renewal-reminder.php` | Renewal Reminder |
+| `customer-renewal-reminder.php` | Renewal Reminder / Subscription Expiring Soon |
 | `customer-renewal-invoice.php` | Renewal Invoice |
 | `customer-payment-successful.php` | Payment Successful |
 | `customer-payment-failed.php` | Payment Failed |
 | `customer-subscription-on-hold.php` | Subscription On Hold |
+| `customer-subscription-pending-cancellation.php` | Subscription Pending Cancellation |
 | `customer-subscription-cancelled.php` | Subscription Cancelled |
 | `customer-subscription-expired.php` | Subscription Expired |
 | `customer-subscription-reactivated.php` | Subscription Reactivated |
 | `customer-auto-downgrade.php` | Auto-Downgrade |
 | `customer-retention-discount-accepted.php` | Retention Discount Accepted |
+| `customer-card-expiring.php` | Card Expiring |
+| `customer-renewal-requires-verification.php` | Renewal Requires Verification |
 
-**Core Admin Email Templates (3):**
+**Core Admin Email Templates (4):**
 
 | Template File | Email |
 |--------------|-------|
 | `admin-new-subscription.php` | Admin New Subscription |
 | `admin-payment-failed.php` | Admin Payment Failed |
+| `admin-subscription-pending-cancellation.php` | Admin Subscription Pending Cancellation |
 | `admin-subscription-cancelled.php` | Admin Subscription Cancelled |
 
 **Store Credit Email Templates (4 — Pro):**
@@ -304,8 +325,8 @@ Every HTML template has a matching plain text version in a `plain/` subdirectory
 
 ## Related Guides
 
-- [Customer Emails](customer-emails.md) — Detailed reference for all 13 customer-facing subscription emails.
-- [Admin Emails](admin-emails.md) — Detailed reference for the 3 admin notification emails.
+- [Customer Emails](customer-emails.md) — Detailed reference for all 17 customer-facing subscription emails.
+- [Admin Emails](admin-emails.md) — Detailed reference for the 4 admin notification emails.
 - [Store Credit Emails](store-credit-emails.md) — Detailed reference for the 4 Store Credit emails *(Pro)*.
 - [General Settings](../settings/general-settings.md) — Configure the email reminder schedule.
 - [Store Credit Settings](../store-credit/store-credit-settings.md) — Configure credit expiration (affects expiring/expired emails).
@@ -336,4 +357,4 @@ No. The four Store Credit emails (Credit Added, Credit Used, Credit Expiring, Cr
 Yes. Copy the template file to your theme's `woocommerce/emails/` directory (see the "How to Override Templates" section above) and edit it. The overridden template takes priority over the plugin default.
 
 ### What happens if the Pro plugin is deactivated?
-The 4 Store Credit emails will stop appearing in WooCommerce settings and will no longer be sent. All 16 core emails continue to work normally.
+The 4 Store Credit emails will stop appearing in WooCommerce settings and will no longer be sent. All 21 core subscription/admin emails continue to work normally.

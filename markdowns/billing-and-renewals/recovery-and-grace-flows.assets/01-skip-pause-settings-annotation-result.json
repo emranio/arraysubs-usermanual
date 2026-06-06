@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/billing-and-renewals/recovery-and-grace-flows.assets/01-skip-pause-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the skip and pause settings section labeled 'Skip and Pause'",
+      "target_description": "main settings panel containing both Skip Next Renewal and Pause Subscription sections",
+      "label_text": "Skip and Pause",
+      "bbox": {
+        "x": 180,
+        "y": 150,
+        "width": 1223,
+        "height": 815
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the Pause Subscription card labeled 'Pause subscriptions'",
+      "target_description": "Pause Subscription (Vacation Mode) settings card",
+      "label_text": "Pause subscriptions",
+      "bbox": {
+        "x": 44,
+        "y": 349,
+        "width": 1376,
+        "height": 152
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the save button area labeled 'Save Changes'",
+      "target_description": "Save Settings and Discard Changes button area at the bottom of the panel",
+      "label_text": "Save Changes",
+      "bbox": {
+        "x": 180,
+        "y": 947,
+        "width": 271,
+        "height": 33
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -40,6 +40,15 @@ All three surfaces share a unified **order type classification system** that aut
 
 Every order that passes through the store is automatically classified into one of six types. This classification powers the filters, columns, and metrics across all analytics surfaces.
 
+
+## Page Navigation
+
+- **Current guide:** Analytics & Reports
+- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [order-list-enhancements](./order-list-enhancements.md)
+- **Next guide:** [reports-hub](./reports-hub.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 | Type | Label | When assigned |
 |------|-------|---------------|
 | `Credit Purchase` | Credit Purchase | Order contains at least one Store Credit product |

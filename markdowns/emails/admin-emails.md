@@ -5,15 +5,24 @@
 
 # Admin Emails
 
-> Three automated notifications alert you to the subscription events that need your attention — new signups, payment failures, and cancellations.
+> Four automated notifications alert you to the subscription events that need your attention — new signups, payment failures, scheduled cancellations, and completed cancellations.
 
 **Availability:** Free
+
+## Page Navigation
+
+- **Current guide:** Admin Emails
+- **Where to open it:** WordPress Admin -> WooCommerce -> Settings -> Emails
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [self-service-actions](../customer-portal/self-service-actions.md)
+- **Next guide:** [customer-emails](./customer-emails.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 
 ArraySubs sends admin emails to keep the store owner (or a designated team) informed about critical subscription activity. Unlike customer emails, admin emails are sent to the store's admin email address (or a custom recipient list) rather than to the subscribing customer.
 
-All three admin emails are enabled by default and appear in **WooCommerce → Settings → Emails** alongside customer emails. Each admin email supports a customizable **Recipient(s)** field so you can route notifications to specific team members.
+All four admin emails appear in **WooCommerce → Settings → Emails** alongside customer emails. Each admin email supports a customizable **Recipient(s)** field so you can route notifications to specific team members.
 
 ---
 
@@ -180,13 +189,41 @@ Notifies the admin when a subscription is cancelled.
 
 ---
 
+## Admin Subscription Pending Cancellation
+
+Notifies the admin when a customer schedules a subscription to cancel at the end of the current billing period. This is different from the completed cancellation email: the subscription is still active until the scheduled date.
+
+**WooCommerce email ID:** `arraysubs_admin_subscription_pending_cancellation`
+
+**Default subject:** `[{site_title}] Subscription #{subscription_id} scheduled to cancel on {scheduled_cancel_date}`
+
+**Default heading:** `Subscription scheduled to cancel`
+
+**Trigger:** Fires when the subscription receives an end-of-period cancellation date.
+
+### What the Email Contains
+
+- Customer and subscription summary
+- Scheduled cancellation date
+- Cancellation reason, when one was collected
+- Direct link to the subscription record in ArraySubs admin
+
+### Specific Placeholders
+
+| Placeholder | Description |
+|-------------|------------|
+| `{scheduled_cancel_date}` | The date the subscription will cancel |
+| `{cancellation_reason}` | Customer-selected reason, or "Not specified" |
+
+---
+
 ## Admin Email Settings in ArraySubs
 
 In addition to the per-email settings on the WooCommerce email page, the ArraySubs General Settings include quick toggles for admin emails:
 
 **Location:** ArraySubs settings (stored as `emails.admin_new_subscription`, `emails.admin_cancelled`, `emails.admin_payment_failed`)
 
-These toggles control whether the email is evaluated for sending during lifecycle events. The WooCommerce email settings page provides the detailed per-email customization (subject, heading, recipient, content, and type).
+These toggles control whether the main admin emails are evaluated for sending during lifecycle events. The WooCommerce email settings page provides the detailed per-email customization (subject, heading, recipient, content, and type). The pending-cancellation admin email is managed from WooCommerce email settings.
 
 | Settings Key | Controls | Default |
 |-------------|---------|---------|

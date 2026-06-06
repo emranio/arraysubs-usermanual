@@ -1,8 +1,22 @@
+# Info
+- Module: Audits and Logs
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Payment Method and Shipping Update Issues
 
 > Resolve problems with auto-renew toggles, payment method updates, gateway detachment, and shipping address changes.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Payment Method and Shipping Update Issues
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
+- **Next guide:** [portal-action-failures](./portal-action-failures.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/customer-portal/self-service-actions.assets/01-subscription-actions-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Subscription Actions section labeled 'Self-Service Actions'",
+      "target_description": "Subscription Actions section containing the heading and the two action buttons",
+      "label_text": "Self-Service Actions",
+      "bbox": {
+        "x": 539,
+        "y": 415,
+        "width": 476,
+        "height": 112
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the Change Plan button labeled 'Change Plan'",
+      "target_description": "Blue Change Plan button in the Subscription Actions section",
+      "label_text": "Change Plan",
+      "bbox": {
+        "x": 525,
+        "y": 472,
+        "width": 109,
+        "height": 38
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the Cancel Subscription button labeled 'Cancel'",
+      "target_description": "Red Cancel Subscription button in the Subscription Actions section",
+      "label_text": "Cancel",
+      "bbox": {
+        "x": 681,
+        "y": 466,
+        "width": 175,
+        "height": 40
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

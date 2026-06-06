@@ -1,0 +1,3 @@
+rectangle around the Feature Manager Settings heading labeled 'Feature Manager'
+rectangle around the enable toggle and display controls labeled 'Feature Controls'
+rectangle around the save button area labeled 'Save Features'

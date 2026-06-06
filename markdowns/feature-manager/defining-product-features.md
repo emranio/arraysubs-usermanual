@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Defining Product Features
+- **Where to open it:** WordPress Admin -> Products -> Edit Product and ArraySubs -> Settings -> Feature Manager
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [customer-and-storefront-display](./customer-and-storefront-display.md)
+- **Next guide:** [feature-manager-settings](./feature-manager-settings.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Features are defined inside the WooCommerce product editor on a dedicated **Feature Manager** tab. Each feature has a name, a type, a value, and an enabled state. You can add as many features as needed, reorder them, and save feature sets as reusable templates.

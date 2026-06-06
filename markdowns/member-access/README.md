@@ -9,6 +9,15 @@
 
 **Availability:** Free — Login Limit rules require **Pro**
 
+## Page Navigation
+
+- **Current guide:** Member Access and Restriction Rules
+- **Where to open it:** WordPress Admin -> ArraySubs -> Member Access
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [content-restriction](./content-restriction.md)
+- **Next guide:** [session-and-frontend-controls](./session-and-frontend-controls.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Member Access is the rule engine behind content gating, product restrictions, member discounts, download provisioning, automatic role assignment, and session controls in ArraySubs. Instead of locking content behind a single "members only" toggle, you build layered rules with conditions, targets, actions, and optional scheduling — giving you precise control over what each subscriber group can access, purchase, and download.

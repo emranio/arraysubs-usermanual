@@ -1,8 +1,29 @@
+# Info
+- Module: Audits and Logs
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Renewal Failures and Billing Issues
 
 > Diagnose and resolve problems with subscription renewals, invoice creation, payment processing, and grace period behavior.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Renewal Failures and Billing Issues
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/renewal-failures`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [scheduled-job-logs](./scheduled-job-logs.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Renewal Failures and Billing Issues screenshot: Renewal Failures](renewal-failures.assets/01-renewal-failures-annotated.png)
 
 ## Overview
 

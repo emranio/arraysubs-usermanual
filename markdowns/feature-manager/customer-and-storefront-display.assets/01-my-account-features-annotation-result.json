@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/feature-manager/customer-and-storefront-display.assets/01-my-account-features-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the My Features heading labeled 'My Features'",
+      "target_description": "The 'My Features' section heading in the main content area",
+      "label_text": "My Features",
+      "bbox": {
+        "x": 539,
+        "y": 470,
+        "width": 168,
+        "height": 26
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the feature entitlement table labeled 'Entitlements'",
+      "target_description": "The feature entitlement message box beneath the My Features description",
+      "label_text": "Entitlements",
+      "bbox": {
+        "x": 541,
+        "y": 580,
+        "width": 681,
+        "height": 109
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the subscription link labeled 'Subscription Link'",
+      "target_description": "The 'Subscriptions' link in the left account navigation menu",
+      "label_text": "Subscription Link",
+      "bbox": {
+        "x": 220,
+        "y": 592,
+        "width": 167,
+        "height": 20
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

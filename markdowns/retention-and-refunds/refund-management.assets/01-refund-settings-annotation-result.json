@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/retention-and-refunds/refund-management.assets/01-refund-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Refund Management tab labeled 'Refund Management'",
+      "target_description": "Refunds tab in the top settings navigation bar",
+      "label_text": "Refund Management",
+      "bbox": {
+        "x": 454,
+        "y": 46,
+        "width": 72,
+        "height": 29
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the refund settings controls labeled 'Refund Rules'",
+      "target_description": "Refund Settings section card containing refund on cancellation radio controls",
+      "label_text": "Refund Rules",
+      "bbox": {
+        "x": 68,
+        "y": 173,
+        "width": 1349,
+        "height": 302
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the save button area labeled 'Save Refund Settings'",
+      "target_description": "Save Settings button in the sticky footer at the bottom left",
+      "label_text": "Save Refund Settings",
+      "bbox": {
+        "x": 187,
+        "y": 950,
+        "width": 105,
+        "height": 39
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -9,6 +9,15 @@
 
 **Availability:** Free
 
+## Page Navigation
+
+- **Current guide:** Create and Configure Subscription Products
+- **Where to open it:** WordPress Admin -> Products -> Add/Edit Product
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [coupon-integration](./coupon-integration.md)
+- **Next guide:** [plan-switching-and-relationships](./plan-switching-and-relationships.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 ArraySubs adds a **Subscription** checkbox to the WooCommerce product editor. When enabled, a new Subscription tab appears with fields for billing period, billing interval, subscription length, free trials, signup fees, and different renewal pricing. Both simple products and variable products are supported — variable products allow each variation to have its own independent subscription configuration.

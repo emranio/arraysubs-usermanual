@@ -5,9 +5,18 @@
 
 # Customer Emails
 
-> Thirteen automated emails keep your customers informed throughout the entire subscription lifecycle — from activation and trials to renewals, payment issues, status changes, and retention offers.
+> Seventeen automated emails keep your customers informed throughout the entire subscription lifecycle — from activation and trials to renewals, payment issues, status changes, retention offers, saved-card expiry, and gateway verification.
 
 **Availability:** Free
+
+## Page Navigation
+
+- **Current guide:** Customer Emails
+- **Where to open it:** WordPress Admin -> WooCommerce -> Settings -> Emails
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [admin-emails](./admin-emails.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 
@@ -396,6 +405,29 @@ Sent when a subscription transitions to the `Cancelled` status.
 
 ---
 
+## Subscription Pending Cancellation
+
+Sent when the customer schedules an end-of-period cancellation. The subscription remains active until the scheduled cancellation date, and the customer can undo the scheduled cancellation from their account while it is still pending.
+
+**WooCommerce email ID:** `arraysubs_subscription_pending_cancellation`
+
+**Default subject:** `[{site_title}] Subscription #{subscription_id} scheduled to cancel on {scheduled_cancel_date}`
+
+**Default heading:** `Your subscription is scheduled to cancel`
+
+**Templates:**
+- HTML: `customer-subscription-pending-cancellation.php`
+- Plain: `plain/customer-subscription-pending-cancellation.php`
+
+### Specific Placeholders
+
+| Placeholder | Description |
+|-------------|-------------|
+| `{scheduled_cancel_date}` | Date the subscription will cancel, or "end of billing period" |
+| `{cancellation_reason}` | Customer-selected reason, or "Not specified" |
+
+---
+
 ## Subscription Expired
 
 Sent when a subscription transitions to the `Expired` status.
@@ -430,6 +462,29 @@ Sent when a subscription transitions to the `Expired` status.
 | Placeholder | Description |
 |-------------|------------|
 | `{expiration_date}` | The date the subscription expired |
+
+---
+
+## Subscription Expiring Soon
+
+Sent before a fixed-length subscription reaches its end date. It uses the same reminder template family as Renewal Reminder, but the date context is the subscription end date rather than the next payment date.
+
+**WooCommerce email ID:** `arraysubs_expiring_soon`
+
+**Default subject:** `[{site_title}] Your subscription #{subscription_id} is ending soon`
+
+**Default heading:** `Your subscription is ending soon`
+
+**Templates:**
+- HTML: `customer-renewal-reminder.php`
+- Plain: `plain/customer-renewal-reminder.php`
+
+### Specific Placeholders
+
+| Placeholder | Description |
+|-------------|-------------|
+| `{days_before}` | Number of days before the end date |
+| `{subscription_end_date}` | The subscription end date |
 
 ---
 

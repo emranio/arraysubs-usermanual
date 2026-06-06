@@ -9,6 +9,16 @@
 
 **Availability:** Free — Login Limit rules require **Pro**
 
+## Page Navigation
+
+- **Current guide:** Session and Frontend Controls
+- **Where to open it:** WordPress Admin -> ArraySubs -> Member Access
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/members-access/login-limit`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [use-cases](./use-cases.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 Session and Frontend Controls cover the parts of Member Access that go beyond server-side page gating:

@@ -9,11 +9,41 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** PayPal Gateway
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [payment-recovery](./payment-recovery.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
+
 ## Overview
 
 PayPal uses the **gateway-managed billing** model. ArraySubs creates a PayPal Billing Plan and Subscription during checkout, and PayPal handles all future charges on its own schedule. When PayPal processes a payment, it sends a webhook to ArraySubs, which creates the corresponding renewal order and updates the subscription.
 
 This model is simpler than ArraySubs-managed billing but gives you less direct control over renewal timing, retry behavior, and grace periods.
+
+## Current Capability Snapshot
+
+| Capability | PayPal Behavior in ArraySubsPro |
+|---|---|
+| Automatic renewals | Yes. PayPal charges on its own schedule and ArraySubs records webhook-confirmed payments. |
+| Checkout type | PayPal Smart Payment Buttons through the PayPal JS SDK. |
+| Required credentials | Client ID, Client Secret, and Webhook ID. |
+| Webhook URL | `wp-json/arraysubs/v1/webhooks/arraysubs_paypal` |
+| Sandbox mode | Supported through the gateway settings. |
+| Mixed carts | Not supported by default. |
+| Multiple subscriptions in one checkout | Not supported by default. |
+| Different billing cycles in one checkout | Not supported by default. |
+| Native pause/resume | Not supported. |
+| Payment method update | Supported by creating a new Billing Agreement. |
+| Card expiry notices | Not applicable because the payer is tied to a PayPal account, not a stored card in ArraySubs. |
+| Refunds and disputes | Refunds are supported; disputes are handled through PayPal Resolution Center events. |
+
+```box class="warning-box"
+PayPal is stricter than manual renewal or Stripe checkout. Plan around one PayPal subscription per checkout, no mixed regular products, and no mixed billing cycles unless you intentionally customize the gateway filters in code.
+```
 
 ## How PayPal Payments Work
 

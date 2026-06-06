@@ -1,0 +1,66 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/retention-and-refunds/cancellation-setup.assets/01-retention-flow-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Retention Flow page heading at the top of the content area labeled 'Retention Flow'",
+      "target_description": "Retention Flow page heading text at the top of the main content area",
+      "label_text": "Retention Flow",
+      "bbox": {
+        "x": 165,
+        "y": 47,
+        "width": 117,
+        "height": 21
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the Cancellation Reasons card labeled 'Require reasons'",
+      "target_description": "Cancellation Reasons bordered card in the main content area",
+      "label_text": "Require reasons",
+      "bbox": {
+        "x": 71,
+        "y": 174,
+        "width": 1345,
+        "height": 234
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the Cancellation Reason Options list labeled 'Reason options'",
+      "target_description": "Cancellation Reason Options bordered card containing the list of reason rows",
+      "label_text": "Reason options",
+      "bbox": {
+        "x": 60,
+        "y": 432,
+        "width": 1349,
+        "height": 509
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 3,
+      "request_text": "rectangle around the save button area labeled 'Save Retention Flow'",
+      "target_description": "Blue Save Settings button area at the bottom left of the content panel",
+      "label_text": "Save Retention Flow",
+      "bbox": {
+        "x": 186,
+        "y": 949,
+        "width": 125,
+        "height": 43
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

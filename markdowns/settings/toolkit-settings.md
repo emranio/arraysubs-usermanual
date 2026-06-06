@@ -9,6 +9,22 @@
 
 **Availability:** Free (Multi-Login Prevention requires **Pro**)
 
+## Page Navigation
+
+- **Current guide:** Toolkit Settings
+- **Where to open it:** WordPress Admin -> ArraySubs -> Settings
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [account-shortcodes](../shortcodes/account-shortcodes.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Toolkit Settings screenshot: Toolkit Settings](toolkit-settings.assets/01-toolkit-settings-annotated.png)
+
 ## Overview
 
 The Toolkit Settings page contains site administration controls that sit outside the subscription engine itself. These settings help you lock down your WordPress installation for a membership or subscription storefront — hiding backend entry points from customers, restricting dashboard access to authorized roles, and giving administrators the ability to impersonate users for support.

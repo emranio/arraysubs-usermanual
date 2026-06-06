@@ -1,0 +1,3 @@
+rectangle around the page title labeled 'Activity Audits'
+rectangle around the audit log table labeled 'Audit Events'
+rectangle around the filters labeled 'Audit Filters'

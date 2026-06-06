@@ -1,0 +1,3 @@
+rectangle around the Subscription Actions section labeled 'Self-Service Actions'
+rectangle around the Change Plan button labeled 'Change Plan'
+rectangle around the Cancel Subscription button labeled 'Cancel'

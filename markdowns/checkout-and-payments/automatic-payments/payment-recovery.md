@@ -1,8 +1,22 @@
+# Info
+- Module: Checkout and Payments
+- Availability: Pro
+- Last updated: 2026-06-04
+
 # Payment Recovery Tools
 
 > Automatic retries, manual retry buttons, gateway sync, and gateway-side handling of pending cancellations — the operational tools that keep automatic billing reliable when something goes wrong.
 
 **Availability:** Pro
+
+## Page Navigation
+
+- **Current guide:** Payment Recovery Tools
+- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [paddle](./paddle.md)
+- **Next guide:** [paypal](./paypal.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
 ## Overview
 

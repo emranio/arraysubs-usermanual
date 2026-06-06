@@ -1,0 +1,3 @@
+rectangle around the Settings tab labeled 'Builder Settings'
+rectangle around the checkout settings fields labeled 'Checkout Controls'
+rectangle around the save button labeled 'Save Settings'

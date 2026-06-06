@@ -1,8 +1,22 @@
+# Info
+- Module: Getting Started
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Before You Launch
 
 > Understand what ArraySubs needs, how subscriptions work, and which features are included in Free versus Pro — all before you write a single line of configuration.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Before You Launch
+- **Where to open it:** WordPress Admin -> ArraySubs
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](../feature-manager/README.md)
+- **Next guide:** [cron-job-setup](./cron-job-setup.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

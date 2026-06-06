@@ -1,0 +1,3 @@
+rectangle around the Shortcodes page heading labeled 'Shortcodes'
+rectangle around a shortcode card labeled 'Shortcode Reference'
+rectangle around the copy or action area labeled 'Use Shortcode'

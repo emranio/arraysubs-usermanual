@@ -1,0 +1,3 @@
+rectangle around the dashboard heading and report tabs labeled 'Reports Hub'
+rectangle around the filter controls labeled 'Report Filters'
+rectangle around the visible report table or chart area labeled 'Report Results'

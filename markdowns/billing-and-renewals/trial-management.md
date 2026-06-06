@@ -1,8 +1,22 @@
+# Info
+- Module: Billing and Renewals
+- Availability: Free, with Pro extensions for auto-downgrade on trial expiry
+- Last updated: 2026-06-04
+
 # Trial Management
 
 > How free trials start, what happens when a trial ends, and how the system converts trials to paid subscriptions or downgrades them automatically.
 
 **Availability:** Free (core trial engine), with Pro extensions for auto-downgrade on trial expiry
+
+## Page Navigation
+
+- **Current guide:** Trial Management
+- **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [renewal-operations](./renewal-operations.md)
+- **Next guide:** [auto-renew-and-manual-fallback](../checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

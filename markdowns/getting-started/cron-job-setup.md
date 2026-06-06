@@ -1,8 +1,22 @@
+# Info
+- Module: Getting Started
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # Cron Job Setup
 
 > Configure a reliable system cron so renewals, scheduled cancellations, expirations, and emails fire on time — not just when someone visits the site.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** Cron Job Setup
+- **Where to open it:** WordPress Admin -> ArraySubs
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [before-you-launch](./before-you-launch.md)
+- **Next guide:** [easy-setup-wizard](./easy-setup-wizard.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

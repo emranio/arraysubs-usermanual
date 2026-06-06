@@ -1,8 +1,28 @@
+# Info
+- Module: Manage Members
+- Availability: Pro
+- Last updated: 2026-06-04
+
 # Member Lookup and Profiles
 
 > Search for any customer by name, username, or email, then view their complete profile with contact info, roles, lifetime stats, and one-click admin impersonation.
 
 **Availability:** Pro
+
+## Page Navigation
+
+- **Current guide:** Member Lookup and Profiles
+- **Where to open it:** WordPress Admin -> ArraySubs -> Manage Members
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [member-commerce-overview](./member-commerce-overview.md)
+- **Next guide:** [member-operations](./member-operations.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Member Lookup and Profiles screenshot: Manage Members](member-lookup-and-profiles.assets/01-manage-members-annotated.png)
 
 ## Overview
 

@@ -1,0 +1,3 @@
+rectangle around the Plan Switching tab labeled 'Plan Switching'
+rectangle around the switching behavior fields labeled 'Switch Rules'
+rectangle around the save button area labeled 'Save Rules'

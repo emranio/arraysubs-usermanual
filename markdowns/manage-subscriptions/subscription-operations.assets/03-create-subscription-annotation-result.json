@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-subscriptions/subscription-operations.assets/03-create-subscription-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Add Subscription heading labeled 'Create Subscription'",
+      "target_description": "Page header area with breadcrumb 'All Subscriptions | Add New' and subtitle 'Create a new subscription manually' at the top of the content pane",
+      "label_text": "Create Subscription",
+      "bbox": {
+        "x": 179,
+        "y": 51,
+        "width": 225,
+        "height": 34
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the customer and product fields labeled 'Required Details'",
+      "target_description": "Combined upper form sections containing the General customer field and the Product & Subscription Details fields",
+      "label_text": "Required Details",
+      "bbox": {
+        "x": 70,
+        "y": 173,
+        "width": 1342,
+        "height": 648
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the create or save button area labeled 'Save Subscription'",
+      "target_description": "Bottom sticky action bar area containing the blue Create Subscription button and Cancel button",
+      "label_text": "Save Subscription",
+      "bbox": {
+        "x": 179,
+        "y": 931,
+        "width": 1243,
+        "height": 68
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

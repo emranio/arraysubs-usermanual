@@ -9,6 +9,14 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Order List Enhancements *(Pro)*
+- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
+- **Section overview:** [Open overview](./README.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 The Order List Enhancements add four capabilities to the standard **WooCommerce → Orders** page:

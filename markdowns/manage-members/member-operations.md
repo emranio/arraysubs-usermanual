@@ -1,8 +1,22 @@
+# Info
+- Module: Manage Members
+- Availability: Pro
+- Last updated: 2026-06-04
+
 # Member Operations
 
 > Jump from the member profile to related screens across ArraySubs and WooCommerce, and understand the insight metrics the dashboard calculates for each customer.
 
 **Availability:** Pro
+
+## Page Navigation
+
+- **Current guide:** Member Operations
+- **Where to open it:** WordPress Admin -> ArraySubs -> Manage Members
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [member-lookup-and-profiles](./member-lookup-and-profiles.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

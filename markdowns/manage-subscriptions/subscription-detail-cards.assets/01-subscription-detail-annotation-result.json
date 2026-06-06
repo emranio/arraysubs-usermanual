@@ -1,0 +1,81 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-subscriptions/subscription-detail-cards.assets/01-subscription-detail-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "Draw a red rectangle around the status and action bar at the top of the subscription detail screen and label it \"Status and actions\".",
+      "target_description": "Top status and action bar containing ACTIVE badge and action buttons",
+      "label_text": "Status and actions",
+      "bbox": {
+        "x": 93,
+        "y": 193,
+        "width": 1287,
+        "height": 70
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "Draw a red rectangle around the Subscription card on the left and label it \"Billing dates\".",
+      "target_description": "Subscription card in the left column",
+      "label_text": "Billing dates",
+      "bbox": {
+        "x": 199,
+        "y": 295,
+        "width": 587,
+        "height": 326
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "Draw a red rectangle around the Skip & Pause card on the right and label it \"Skip and pause state\".",
+      "target_description": "Skip & Pause card in the right column",
+      "label_text": "Skip and pause state",
+      "bbox": {
+        "x": 811,
+        "y": 295,
+        "width": 570,
+        "height": 326
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 3,
+      "request_text": "Draw a red rectangle around the Customer Information card and label it \"Customer details\".",
+      "target_description": "Customer Information card in the left column below Subscription",
+      "label_text": "Customer details",
+      "bbox": {
+        "x": 200,
+        "y": 642,
+        "width": 588,
+        "height": 200
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 4,
+      "request_text": "Draw a red rectangle around the Payment Gateway card and label it \"Gateway connection\".",
+      "target_description": "Payment Gateway card in the right column near the bottom",
+      "label_text": "Gateway connection",
+      "bbox": {
+        "x": 810,
+        "y": 861,
+        "width": 568,
+        "height": 139
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

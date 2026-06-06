@@ -1,0 +1,3 @@
+rectangle around the customer search field labeled 'Find a Member'
+rectangle around the empty-state profile panel labeled 'Member Profile Area'
+rectangle around the search instructions labeled 'Search Guidance'

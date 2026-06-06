@@ -1,0 +1,3 @@
+rectangle around the Toolkit Settings heading labeled 'Toolkit Settings'
+rectangle around the enable or configuration controls labeled 'Toolkit Controls'
+rectangle around the save button area labeled 'Save Toolkit'

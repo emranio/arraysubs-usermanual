@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/customer-portal/portal-pages.assets/02-view-subscription-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription overview table labeled 'Subscription Overview'",
+      "target_description": "Subscription details table beneath the 'Subscription #4406' heading",
+      "label_text": "Subscription Overview",
+      "bbox": {
+        "x": 540,
+        "y": 508,
+        "width": 681,
+        "height": 492
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the status and next payment rows labeled 'Billing Status'",
+      "target_description": "Rows for Status and Next Payment within the subscription details table",
+      "label_text": "Billing Status",
+      "bbox": {
+        "x": 540,
+        "y": 706,
+        "width": 680,
+        "height": 103
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the payment method row labeled 'Payment Method'",
+      "target_description": "Payment Method row within the subscription details table",
+      "label_text": "Payment Method",
+      "bbox": {
+        "x": 437,
+        "y": 871,
+        "width": 886,
+        "height": 101
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

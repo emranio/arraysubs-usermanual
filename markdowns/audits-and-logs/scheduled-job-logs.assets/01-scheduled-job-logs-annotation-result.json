@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/scheduled-job-logs.assets/01-scheduled-job-logs-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the page title labeled 'Scheduled Job Logs'",
+      "target_description": "page title text 'Scheduled-Job Logs' in the top content header",
+      "label_text": "Scheduled Job Logs",
+      "bbox": {
+        "x": 954,
+        "y": 49,
+        "width": 147,
+        "height": 24
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the job log table labeled 'Scheduled Actions'",
+      "target_description": "main job log table below the filters with columns Date, Status, Job, and Details",
+      "label_text": "Scheduled Actions",
+      "bbox": {
+        "x": 65,
+        "y": 255,
+        "width": 1328,
+        "height": 745
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the filters labeled 'Job Filters'",
+      "target_description": "filter panel containing From and To date inputs and reset/refresh controls above the table",
+      "label_text": "Job Filters",
+      "bbox": {
+        "x": 45,
+        "y": 174,
+        "width": 1347,
+        "height": 63
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

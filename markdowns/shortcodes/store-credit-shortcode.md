@@ -9,6 +9,15 @@
 
 **Availability:** Pro
 
+## Page Navigation
+
+- **Current guide:** Store Credit Shortcode *(Pro)*
+- **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [credit-history](../store-credit/credit-history.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## Overview
 
 The `[arraysubs_buy_credits]` shortcode renders a storefront purchase form for buying store credit. Place it on any page, post, or widget where you want customers to top up their credit balance.

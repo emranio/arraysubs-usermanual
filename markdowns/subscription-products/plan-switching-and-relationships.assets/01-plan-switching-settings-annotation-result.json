@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-products/plan-switching-and-relationships.assets/01-plan-switching-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Plan Switching tab labeled 'Plan Switching'",
+      "target_description": "Plan Switching tab in the horizontal settings navigation near the top",
+      "label_text": "Plan Switching",
+      "bbox": {
+        "x": 351,
+        "y": 49,
+        "width": 112,
+        "height": 25
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the switching behavior fields labeled 'Switch Rules'",
+      "target_description": "Allowed Switch Types settings card containing the switching behavior toggle fields",
+      "label_text": "Switch Rules",
+      "bbox": {
+        "x": 203,
+        "y": 463,
+        "width": 1202,
+        "height": 339
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the save button area labeled 'Save Rules'",
+      "target_description": "Save Settings button in the sticky footer at the bottom left",
+      "label_text": "Save Rules",
+      "bbox": {
+        "x": 188,
+        "y": 951,
+        "width": 128,
+        "height": 39
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

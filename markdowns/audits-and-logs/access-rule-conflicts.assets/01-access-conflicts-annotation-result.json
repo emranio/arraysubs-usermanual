@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/access-rule-conflicts.assets/01-access-conflicts-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the page title labeled 'Access Rule Conflicts'",
+      "target_description": "Page title text at the top of the content area reading about access rule conflicts",
+      "label_text": "Access Rule Conflicts",
+      "bbox": {
+        "x": 178,
+        "y": 80,
+        "width": 421,
+        "height": 14
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the conflict list area labeled 'Conflict Results'",
+      "target_description": "Large bordered white results panel containing the refresh button, tabs, and empty conflict results message",
+      "label_text": "Conflict Results",
+      "bbox": {
+        "x": 181,
+        "y": 150,
+        "width": 1240,
+        "height": 850
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the filters or search controls labeled 'Find Conflicts'",
+      "target_description": "Top controls area inside the results panel containing the Refresh button",
+      "label_text": "Find Conflicts",
+      "bbox": {
+        "x": 47,
+        "y": 174,
+        "width": 1369,
+        "height": 52
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

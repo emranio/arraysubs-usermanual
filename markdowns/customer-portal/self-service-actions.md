@@ -9,6 +9,21 @@
 
 **Availability:** Free + Pro
 
+## Page Navigation
+
+- **Current guide:** Subscription Self-Service Actions
+- **Where to open it:** Storefront -> My Account -> Subscriptions
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](./README.md)
+- **Next guide:** [admin-emails](../emails/admin-emails.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Subscription Self-Service Actions screenshot: Subscription Actions](self-service-actions.assets/01-subscription-actions-annotated.png)
+
 ## Overview
 
 The subscription detail page in the customer portal shows action buttons and controls based on the subscription's current status and your store settings. Customers can only see actions they are actually permitted to take. If you disable a feature in settings, the corresponding button simply does not appear.

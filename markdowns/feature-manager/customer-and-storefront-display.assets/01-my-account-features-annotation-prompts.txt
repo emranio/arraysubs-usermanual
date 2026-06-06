@@ -1,0 +1,3 @@
+rectangle around the My Features heading labeled 'My Features'
+rectangle around the feature entitlement table labeled 'Entitlements'
+rectangle around the subscription link labeled 'Subscription Link'

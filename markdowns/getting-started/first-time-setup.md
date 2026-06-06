@@ -1,8 +1,22 @@
+# Info
+- Module: Getting Started
+- Availability: Free + Pro
+- Last updated: 2026-06-04
+
 # First-Time Setup
 
 > A step-by-step checklist to go from a fresh install to a working subscription product with a test order and a verified customer portal.
 
 **Availability:** Free + Pro
+
+## Page Navigation
+
+- **Current guide:** First-Time Setup
+- **Where to open it:** WordPress Admin -> ArraySubs
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [essential-daily-workflows](./essential-daily-workflows.md)
+- **Next guide:** [import-export-settings](./import-export-settings.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

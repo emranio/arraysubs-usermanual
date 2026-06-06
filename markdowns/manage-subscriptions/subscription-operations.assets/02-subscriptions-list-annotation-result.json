@@ -1,0 +1,81 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-subscriptions/subscription-operations.assets/02-subscriptions-list-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "Draw a red rectangle around the ArraySubs admin menu section on the left and label it \"ArraySubs navigation\".",
+      "target_description": "ArraySubs submenu section in the left WordPress admin sidebar",
+      "label_text": "ArraySubs navigation",
+      "bbox": {
+        "x": 0,
+        "y": 301,
+        "width": 207,
+        "height": 458
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "Draw a red rectangle around the subscription status filter tabs near the top of the table and label it \"Status filters\".",
+      "target_description": "Subscription status filter links row above the table",
+      "label_text": "Status filters",
+      "bbox": {
+        "x": 158,
+        "y": 168,
+        "width": 625,
+        "height": 17
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "Draw a red rectangle around the search field and gateway dropdown and label it \"Find subscriptions\".",
+      "target_description": "Search text field and All Gateways dropdown controls above the table",
+      "label_text": "Find subscriptions",
+      "bbox": {
+        "x": 443,
+        "y": 221,
+        "width": 473,
+        "height": 32
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 3,
+      "request_text": "Draw a red rectangle around the Add New Subscription and Export CSV buttons and label it \"Create or export\".",
+      "target_description": "Add New Subscription and Export CSV buttons above the subscriptions table",
+      "label_text": "Create or export",
+      "bbox": {
+        "x": 894,
+        "y": 236,
+        "width": 261,
+        "height": 25
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 4,
+      "request_text": "Draw a red rectangle around the View Details and Edit row actions in the first visible subscription row and label it \"Row actions\".",
+      "target_description": "View Details and Edit action links in the first visible subscription row with hover actions shown",
+      "label_text": "Row actions",
+      "bbox": {
+        "x": 232,
+        "y": 404,
+        "width": 95,
+        "height": 11
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

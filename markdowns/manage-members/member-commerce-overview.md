@@ -1,8 +1,22 @@
+# Info
+- Module: Manage Members
+- Availability: Pro
+- Last updated: 2026-06-04
+
 # Member Commerce Overview
 
 > Review a customer's subscription history, non-subscription purchases, store credit balance, and saved addresses — all within the member profile.
 
 **Availability:** Pro
+
+## Page Navigation
+
+- **Current guide:** Member Commerce Overview
+- **Where to open it:** WordPress Admin -> ArraySubs -> Manage Members
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [README](../getting-started/README.md)
+- **Next guide:** [member-lookup-and-profiles](./member-lookup-and-profiles.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

@@ -1,8 +1,22 @@
+# Info
+- Module: Subscription Admin
+- Availability: Free
+- Last updated: 2026-06-04
+
 # Lifecycle Management
 
 > How subscriptions move through statuses — from creation to activation, renewal, grace periods, cancellation, and expiration.
 
 **Availability:** Free
+
+## Page Navigation
+
+- **Current guide:** Lifecycle Management
+- **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [admin-tools-and-records](./admin-tools-and-records.md)
+- **Next guide:** [README](./README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

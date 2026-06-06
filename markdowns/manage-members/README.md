@@ -1,8 +1,23 @@
+# Info
+- Module: Manage Members
+- Availability: Pro
+- Last updated: 2026-06-04
+
 # Manage Members
 
 > Look up any customer, view their complete subscription and commerce profile, and jump to related screens — all from one unified dashboard.
 
 **Availability:** Pro
+
+## Page Navigation
+
+- **Current guide:** Manage Members
+- **Where to open it:** WordPress Admin -> ArraySubs -> Manage Members
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/manage-members`
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [member-operations](./member-operations.md)
+- **Next guide:** [admin-tools-and-records](../manage-subscriptions/admin-tools-and-records.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

@@ -9,6 +9,15 @@
 
 **Availability:** Free — some integrations like My Features page and Store Credit page placement require **Pro**
 
+## Page Navigation
+
+- **Current guide:** Profile Builder and My Account Customization
+- **Where to open it:** WordPress Admin -> ArraySubs -> Profile Builder
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [profile-form](./profile-form.md)
+- **Next guide:** [shortcodes](./shortcodes.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
 ## What's Inside
 
 The Profile Builder area in ArraySubs gives you three sets of tools under one menu:

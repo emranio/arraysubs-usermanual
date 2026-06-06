@@ -1,8 +1,22 @@
+# Info
+- Module: Subscription Admin
+- Availability: Free, some cards and tools require Pro
+- Last updated: 2026-06-04
+
 # Manage Subscriptions
 
 > The central hub for viewing, creating, editing, and managing every subscription in your store.
 
 **Availability:** Free (core features), some cards and tools require Pro
+
+## Page Navigation
+
+- **Current guide:** Manage Subscriptions
+- **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
+- **Section overview:** [Open overview](../README.md)
+- **Previous guide:** [lifecycle-management](./lifecycle-management.md)
+- **Next guide:** [subscription-detail-cards](./subscription-detail-cards.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 

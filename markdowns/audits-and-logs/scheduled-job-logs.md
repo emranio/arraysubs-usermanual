@@ -1,8 +1,29 @@
+# Info
+- Module: Audits and Logs
+- Availability: Pro
+- Last updated: 2026-06-04
+
 # Scheduled-Job Logs
 
 > Execution history for every automated subscription job — renewals, status transitions, email sends, and maintenance tasks.
 
 **Availability:** Pro
+
+## Page Navigation
+
+- **Current guide:** Scheduled-Job Logs
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/scheduled-job-logs`
+- **Section overview:** [Open overview](./README.md)
+- **Previous guide:** [renewal-failures](./renewal-failures.md)
+- **Next guide:** [README](../billing-and-renewals/README.md)
+- **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+## Visual Guide
+
+Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+
+![Annotated Scheduled-Job Logs screenshot: Scheduled Job Logs](scheduled-job-logs.assets/01-scheduled-job-logs-annotated.png)
 
 ## Overview
 

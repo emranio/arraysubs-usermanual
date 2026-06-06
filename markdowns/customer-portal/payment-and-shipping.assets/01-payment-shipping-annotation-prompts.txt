@@ -1,0 +1,3 @@
+rectangle around the shipping address section labeled 'Shipping Address'
+rectangle around the payment method row or card labeled 'Payment Method'
+rectangle around any update links or address actions labeled 'Customer Updates'
