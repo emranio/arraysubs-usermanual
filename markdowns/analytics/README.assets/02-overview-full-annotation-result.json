@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/README.assets/02-overview-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription performance cards labeled 'Subscription KPIs'",
+      "target_description": "Performance KPI cards section near the top of the Analytics overview containing subscription metrics and sales metrics",
+      "label_text": "Subscription KPIs",
+      "bbox": {
+        "x": 199,
+        "y": 327,
+        "width": 1204,
+        "height": 207
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

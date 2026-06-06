@@ -15,7 +15,7 @@ const MD = path.join(ROOT, "markdowns");
 const SITE = "https://mirror-help.arrayhash.com";
 const ADMIN = `${SITE}/wp-admin/admin.php?page=arraysubs-mainadmin`;
 const USER = process.env.ARRAYSUBS_DOCS_ADMIN_USER || "admin";
-const PASS = process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "@GuDw(0$K7M9t8ehjqDb4Vwj";
+const PASS = process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "";
 
 // surface, page.md, slug, scrollText, [queries]
 const JOBS = [

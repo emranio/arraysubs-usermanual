@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/gateway-health-dashboard.assets/02-gateway-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the gateway status panels labeled 'Gateway health'",
+      "target_description": "row of three gateway status panels for Paddle, PayPal, and Stripe near the top of the main content area",
+      "label_text": "Gateway health",
+      "bbox": {
+        "x": 112,
+        "y": 191,
+        "width": 1265,
+        "height": 138
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

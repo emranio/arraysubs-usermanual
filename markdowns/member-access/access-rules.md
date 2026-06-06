@@ -25,6 +25,9 @@ Use these annotated screenshots to match each step in this guide with the actual
 
 ![Annotated Access Rules screenshot: Role Mapping](access-rules.assets/01-role-mapping-annotated.png)
 
+![The full role-mapping rules screen](access-rules.assets/02-role-full-annotated.png)
+
+
 ## Overview
 
 Access Rules are the foundational layer of Member Access. They control three things:

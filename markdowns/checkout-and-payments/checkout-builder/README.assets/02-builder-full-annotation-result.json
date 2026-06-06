@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/checkout-builder/README.assets/02-builder-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the checkout builder canvas labeled 'Checkout layout'",
+      "target_description": "large bordered Checkout Form Builder canvas panel near the top center of the page",
+      "label_text": "Checkout layout",
+      "bbox": {
+        "x": 207,
+        "y": 197,
+        "width": 1147,
+        "height": 294
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

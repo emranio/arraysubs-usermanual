@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/access-rule-conflicts.assets/02-conflicts-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the access-rule conflict report labeled 'Rule conflicts'",
+      "target_description": "main access-rule conflict report panel in the content area under the Go Back link",
+      "label_text": "Rule conflicts",
+      "bbox": {
+        "x": 181,
+        "y": 154,
+        "width": 1240,
+        "height": 890
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -25,6 +25,9 @@ Use these annotated screenshots to match each step in this guide with the actual
 
 ![Annotated Renewal Failures and Billing Issues screenshot: Renewal Failures](renewal-failures.assets/01-renewal-failures-annotated.png)
 
+![The full renewal-failure log with retry and resolve actions (Pro)](renewal-failures.assets/02-renewal-full-annotated.png)
+
+
 ## Overview
 
 The renewal system is the core engine of ArraySubs. When a subscription's next payment date arrives, the system creates a renewal invoice, attempts payment (manual or automatic), and advances the subscription to the next billing cycle. When something goes wrong at any step, the subscription may stay unpaid, move to on-hold, or eventually be cancelled.

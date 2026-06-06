@@ -21,6 +21,9 @@
 
 ![The portal action failures log (Pro)](portal-action-failures.assets/01-portal-failures-annotated.png)
 
+![The full portal action failure log (Pro)](portal-action-failures.assets/02-portal-full-annotated.png)
+
+
 ## Overview
 
 The customer portal lets subscribers manage their own subscriptions through self-service actions — cancel, pause, skip, resume, reactivate, and switch plans. Each action goes through validation checks for permissions, subscription status, and feature availability. When a check fails, the customer sees an error message.

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/retention-and-refunds/cancellation-setup.assets/02-retention-flow-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the cancellation reasons list labeled 'Cancellation reasons'",
+      "target_description": "Cancellation Reason Options list panel containing the draggable reason rows",
+      "label_text": "Cancellation reasons",
+      "bbox": {
+        "x": 203,
+        "y": 433,
+        "width": 1186,
+        "height": 582
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

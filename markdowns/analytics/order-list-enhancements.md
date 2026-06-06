@@ -19,6 +19,9 @@
 
 ![Subscription order context added to the orders list (Pro)](order-list-enhancements.assets/01-orders-list-annotated.png)
 
+![The full orders list with subscription order context (Pro)](order-list-enhancements.assets/02-orders-list-full-annotated.png)
+
+
 ## Overview
 
 The Order List Enhancements add four capabilities to the standard **WooCommerce → Orders** page:

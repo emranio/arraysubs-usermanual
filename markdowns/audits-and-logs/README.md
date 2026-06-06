@@ -20,6 +20,9 @@
 
 ![The activity audit trail (Pro)](README.assets/01-activity-audits-annotated.png)
 
+![The full activity audit log (Pro)](README.assets/02-activity-full-annotated.png)
+
+
 ## Overview
 
 ArraySubs records a detailed trail of everything that happens to subscriptions, members, products, orders, coupons, emails, and settings. The **Audits** section gives you searchable, filterable views into this activity so you can answer support questions, diagnose billing problems, and verify that scheduled automation is running correctly.

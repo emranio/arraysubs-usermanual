@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/order-list-enhancements.assets/02-orders-list-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the orders table labeled 'Subscription orders'",
+      "target_description": "main orders data table listing subscription orders below the summary stats cards",
+      "label_text": "Subscription orders",
+      "bbox": {
+        "x": 179,
+        "y": 574,
+        "width": 1241,
+        "height": 1188
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

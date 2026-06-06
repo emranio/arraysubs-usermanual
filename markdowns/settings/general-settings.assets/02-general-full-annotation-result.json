@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/settings/general-settings.assets/02-general-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the cart and checkout rule toggles labeled 'Store-wide rules'",
+      "target_description": "The top settings card titled Multiple Subscriptions containing the cart and checkout rule toggles",
+      "label_text": "Store-wide rules",
+      "bbox": {
+        "x": 40,
+        "y": 173,
+        "width": 1380,
+        "height": 1321
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/subscription-performance.assets/03-revenue-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the recurring revenue summary labeled 'Renewal revenue'",
+      "target_description": "summary card showing Total Subs Renew Amount in the top metrics grid",
+      "label_text": "Renewal revenue",
+      "bbox": {
+        "x": 1055,
+        "y": 359,
+        "width": 385,
+        "height": 132
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

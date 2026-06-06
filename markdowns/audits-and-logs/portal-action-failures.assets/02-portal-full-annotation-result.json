@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/portal-action-failures.assets/02-portal-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the portal action failure list labeled 'Portal errors'",
+      "target_description": "Portal Action Failures table listing failed portal actions",
+      "label_text": "Portal errors",
+      "bbox": {
+        "x": 65,
+        "y": 245,
+        "width": 1338,
+        "height": 372
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

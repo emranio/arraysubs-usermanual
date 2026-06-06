@@ -24,6 +24,9 @@ Use these annotated screenshots to match each step in this guide with the actual
 
 ![Annotated Gateway Health Dashboard screenshot: Gateway Health](gateway-health-dashboard.assets/01-gateway-health-annotated.png)
 
+![The full gateway health dashboard (Pro)](gateway-health-dashboard.assets/02-gateway-full-annotated.png)
+
+
 ## Overview
 
 The Gateway Health Dashboard gives you a single view of every payment gateway's status, connection health, and recent webhook activity. Use it to verify your gateway setup is working, confirm Stripe's auto-provisioned ArraySubs webhook status, find provider webhook URLs where manual setup is still required, and diagnose webhook delivery issues.

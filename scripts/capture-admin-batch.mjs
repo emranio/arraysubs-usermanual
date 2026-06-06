@@ -12,7 +12,7 @@ const SITE_URL = "https://mirror-help.arrayhash.com";
 const ADMIN_URL = `${SITE_URL}/wp-admin/admin.php?page=arraysubs-mainadmin`;
 const USERNAME = process.env.ARRAYSUBS_DOCS_ADMIN_USER || "admin";
 const PASSWORD =
-  process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "@GuDw(0$K7M9t8ehjqDb4Vwj";
+  process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "";
 
 const routes = [
   {

@@ -17,7 +17,7 @@ const ADMIN = `${SITE}/wp-admin/admin.php?page=arraysubs-mainadmin`;
 const MY = `${SITE}/my-account`;
 const SUB = process.env.ARRAYSUBS_DOCS_SUBSCRIPTION_ID || "4406";
 const USER = process.env.ARRAYSUBS_DOCS_ADMIN_USER || "admin";
-const PASS = process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "@GuDw(0$K7M9t8ehjqDb4Vwj";
+const PASS = process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "";
 const TMP = "/tmp/manual-shots-cust";
 const onlyIdx = process.argv.indexOf("--only");
 const ONLY = onlyIdx === -1 ? null : new Set((process.argv[onlyIdx + 1] || "").split(",").map((x) => x.trim()).filter(Boolean));

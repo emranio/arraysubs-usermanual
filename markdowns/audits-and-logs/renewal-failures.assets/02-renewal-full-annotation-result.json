@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/renewal-failures.assets/02-renewal-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the renewal failure list labeled 'Failed renewals'",
+      "target_description": "renewal failures table/list in the main content area below the Refresh button",
+      "label_text": "Failed renewals",
+      "bbox": {
+        "x": 232,
+        "y": 245,
+        "width": 1170,
+        "height": 113
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

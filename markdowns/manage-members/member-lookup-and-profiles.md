@@ -24,6 +24,9 @@ Use these annotated screenshots to match each step in this guide with the actual
 
 ![Annotated Member Lookup and Profiles screenshot: Manage Members](member-lookup-and-profiles.assets/01-manage-members-annotated.png)
 
+![A full member profile with metrics, subscriptions, and quick actions (Pro)](member-lookup-and-profiles.assets/02-member-full-annotated.png)
+
+
 ## Overview
 
 The top of the Manage Members page is built around a fast member search and a rich profile card. Type at least two characters, pick a customer from the dropdown, and the page loads their full profile, stats, and commerce data. The profile card puts the customer's identity, contact information, and key metrics front and center so you can assess the account at a glance without opening any other screen.

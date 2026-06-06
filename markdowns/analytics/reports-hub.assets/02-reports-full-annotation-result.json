@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/reports-hub.assets/02-reports-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the report category links labeled 'Report directory'",
+      "target_description": "quick navigation section containing the report category links near the top of the Reports page",
+      "label_text": "Report directory",
+      "bbox": {
+        "x": 63,
+        "y": 263,
+        "width": 1334,
+        "height": 202
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

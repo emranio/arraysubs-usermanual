@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-members/member-lookup-and-profiles.assets/02-member-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the member metric cards labeled 'Member snapshot'",
+      "target_description": "the 2x3 grid of member metric cards below the member profile section showing Total Spent, Total Orders, Active Subscriptions, Total Subscriptions, Store Credit, and Total Refunds",
+      "label_text": "Member snapshot",
+      "bbox": {
+        "x": 57,
+        "y": 496,
+        "width": 1360,
+        "height": 162
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

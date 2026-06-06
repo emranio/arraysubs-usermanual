@@ -16,7 +16,7 @@ const PRODUCT_URL =
   process.env.ARRAYSUBS_DOCS_PRODUCT_URL || `${SITE_URL}/product/basic-monthly/`;
 const USERNAME = process.env.ARRAYSUBS_DOCS_ADMIN_USER || "admin";
 const PASSWORD =
-  process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "@GuDw(0$K7M9t8ehjqDb4Vwj";
+  process.env.ARRAYSUBS_DOCS_ADMIN_PASSWORD || "";
 
 async function ensureParent(filePath) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });

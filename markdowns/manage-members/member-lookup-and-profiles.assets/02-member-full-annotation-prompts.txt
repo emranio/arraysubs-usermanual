@@ -1,0 +1,1 @@
+- rectangle around the member metric cards labeled 'Member snapshot'

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/woocommerce-analytics-extension.assets/03-revenue-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription revenue summary numbers labeled 'Subscription revenue'",
+      "target_description": "Summary tile showing the Total Subs Renew Amount value in the top metrics grid",
+      "label_text": "Subscription revenue",
+      "bbox": {
+        "x": 1099,
+        "y": 355,
+        "width": 264,
+        "height": 135
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

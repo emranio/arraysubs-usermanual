@@ -20,6 +20,9 @@
 
 ![The Retention analytics report under WooCommerce Analytics](retention-analytics.assets/01-retention-report-annotated.png)
 
+![The full Retention report](retention-analytics.assets/02-retention-full-annotated.png)
+
+
 ## Overview
 
 Retention Analytics is a dedicated reporting page inside WooCommerce Analytics that gives you a complete picture of cancellation and retention activity across your subscription business. It answers the questions that matter most for reducing churn: **Why are customers leaving?** **Are your retention offers working?** **How much revenue have you saved?**

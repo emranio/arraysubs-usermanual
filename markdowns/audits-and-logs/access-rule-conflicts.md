@@ -25,6 +25,9 @@ Use these annotated screenshots to match each step in this guide with the actual
 
 ![Annotated Access-Rule Conflicts screenshot: Access Conflicts](access-rule-conflicts.assets/01-access-conflicts-annotated.png)
 
+![The full access-rule conflict report](access-rule-conflicts.assets/02-conflicts-full-annotated.png)
+
+
 ## Overview
 
 ArraySubs evaluates access rules to determine what content, URLs, products, downloads, and discounts a subscriber can access. Rules are built from conditions (subscription status, product ownership, user role, lifetime spend, etc.) combined with AND/OR logic. When multiple rules overlap or conflict, the result can be unexpected — a subscriber may be denied access they should have, or granted access they should not.

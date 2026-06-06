@@ -21,6 +21,11 @@
 
 ![MRR, churn, ARPU and other subscription cards (Pro)](subscription-performance.assets/01-performance-cards-annotated.png)
 
+![The full performance dashboard with charts and MRR/churn leaderboards (Pro)](subscription-performance.assets/02-performance-full-annotated.png)
+
+![Subscription revenue totals in the WooCommerce Revenue report (Pro)](subscription-performance.assets/03-revenue-full-annotated.png)
+
+
 ## Overview
 
 The Subscription Performance Dashboard adds three dedicated sections to the **WooCommerce → Analytics → Overview** page:

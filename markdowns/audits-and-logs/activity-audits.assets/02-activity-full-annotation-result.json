@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/activity-audits.assets/02-activity-full-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the activity audit timeline labeled 'Audit log'",
+      "target_description": "main activity audit timeline table and its filter controls in the content area",
+      "label_text": "Audit log",
+      "bbox": {
+        "x": 196,
+        "y": 167,
+        "width": 1174,
+        "height": 2501
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

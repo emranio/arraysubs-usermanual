@@ -68,6 +68,9 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 ![Subscription performance cards added to WooCommerce Analytics (Pro)](README.assets/01-analytics-overview-annotated.png)
 
+![The full WooCommerce Analytics overview — subscription KPIs, charts, and leaderboards (Pro)](README.assets/02-overview-full-annotated.png)
+
+
 ## Prerequisites
 
 - **ArraySubs** (free) for the Reports Hub and Retention Analytics
