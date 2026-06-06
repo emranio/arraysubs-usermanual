@@ -1,0 +1,1 @@
+- rectangle around the renewal failure retry action labeled 'Payment recovery'

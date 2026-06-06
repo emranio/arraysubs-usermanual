@@ -18,6 +18,8 @@
 - **Next guide:** [product-experience](./product-experience.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Fixed-period membership end-date fields (Pro)](plan-switching-and-relationships.assets/02-fixed-period-fields-annotated.png)
+
 ## Visual Guide
 
 Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.

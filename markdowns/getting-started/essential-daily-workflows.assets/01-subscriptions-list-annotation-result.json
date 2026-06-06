@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/getting-started/essential-daily-workflows.assets/01-subscriptions-list-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscriptions list table labeled 'Daily workflow hub'",
+      "target_description": "Main subscriptions list table below the filters and action buttons in the content area",
+      "label_text": "Daily workflow hub",
+      "bbox": {
+        "x": 202,
+        "y": 267,
+        "width": 1219,
+        "height": 733
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

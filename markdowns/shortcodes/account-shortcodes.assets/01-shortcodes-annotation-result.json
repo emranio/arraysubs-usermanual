@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/shortcodes/account-shortcodes.assets/01-shortcodes-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the account shortcodes reference labeled 'Account shortcodes'",
+      "target_description": "Account section containing the shortcode reference cards under the 'Account' heading",
+      "label_text": "Account shortcodes",
+      "bbox": {
+        "x": 203,
+        "y": 460,
+        "width": 1199,
+        "height": 540
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.assets/01-auto-renew-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the automatic renewal toggle labeled 'Auto-renew control'",
+      "target_description": "green Auto-Renew toggle switch to the right of the 'Auto-Renew:' label",
+      "label_text": "Auto-renew control",
+      "bbox": {
+        "x": 685,
+        "y": 485,
+        "width": 46,
+        "height": 21
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

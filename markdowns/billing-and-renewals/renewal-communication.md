@@ -18,6 +18,8 @@
 - **Next guide:** [renewal-operations](./renewal-operations.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The reminder schedule that drives renewal emails](renewal-communication.assets/01-email-schedule-annotated.png)
+
 ## Overview
 
 The billing engine sends targeted emails at specific points in the renewal cycle to keep customers informed and drive timely payment. Renewal reminders give advance notice, invoice emails provide payment links, success confirmations acknowledge payment, and failure alerts prompt action. This page maps every billing-related email to its trigger point in the lifecycle.

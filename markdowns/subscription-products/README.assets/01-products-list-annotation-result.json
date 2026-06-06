@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-products/README.assets/01-products-list-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around a product row showing its subscription indicator labeled 'Subscription product'",
+      "target_description": "The product row for 'Smoke Plan Plus' showing the purple 'Subscription' indicator",
+      "label_text": "Subscription product",
+      "bbox": {
+        "x": 229,
+        "y": 544,
+        "width": 1005,
+        "height": 108
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

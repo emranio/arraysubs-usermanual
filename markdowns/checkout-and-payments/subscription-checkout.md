@@ -18,6 +18,8 @@
 - **Next guide:** [payment-and-shipping](../customer-portal/payment-and-shipping.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Recurring totals and authorization terms in the checkout summary](subscription-checkout.assets/01-checkout-summary-annotated.png)
+
 ## Overview
 
 When a customer adds a subscription product to the cart, ArraySubs takes over several parts of the WooCommerce checkout experience. It validates the cart against your store rules, displays a detailed subscription summary, handles account creation for guest purchasers, detects plan-switching eligibility, and — once the order is paid — creates the subscription record with all its billing schedule, trial, and pricing data locked in.

@@ -1,0 +1,36 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-products/create-and-configure.assets/01-subscription-fields-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Billing Period and Billing Interval fields labeled 'Billing schedule'",
+      "target_description": "Billing Cycle section containing the Billing Period dropdown and Billing Interval input",
+      "label_text": "Billing schedule",
+      "bbox": {
+        "x": 188,
+        "y": 121,
+        "width": 475,
+        "height": 175
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the Free Trial and Sign-up Fee fields labeled 'Trial and signup fee'",
+      "target_description": "Combined area covering the Free Trial section and the Sign-up Fee section",
+      "label_text": "Trial and signup fee",
+      "bbox": {
+        "x": 187,
+        "y": 391,
+        "width": 752,
+        "height": 374
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

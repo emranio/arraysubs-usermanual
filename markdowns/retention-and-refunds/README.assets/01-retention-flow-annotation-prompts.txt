@@ -1,0 +1,1 @@
+- rectangle around the cancellation reasons configuration labeled 'Cancellation flow'

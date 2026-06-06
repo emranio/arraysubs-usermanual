@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the skip and pause settings section labeled 'Skip and Pause'",
-      "target_description": "main white settings panel containing both Skip Next Renewal and Pause Subscription sections",
+      "target_description": "Main white settings panel containing both Skip Next Renewal and Pause Subscription cards",
       "label_text": "Skip and Pause",
       "bbox": {
         "x": 181,
-        "y": 152,
-        "width": 1242,
-        "height": 848
+        "y": 147,
+        "width": 1240,
+        "height": 815
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the Pause Subscription card labeled 'Pause subscriptions'",
-      "target_description": "Pause Subscription (Vacation Mode) settings card in the lower part of the main panel",
+      "target_description": "Pause Subscription (Vacation Mode) settings card",
       "label_text": "Pause subscriptions",
       "bbox": {
-        "x": 202,
-        "y": 349,
-        "width": 1199,
-        "height": 153
+        "x": 70,
+        "y": 350,
+        "width": 1321,
+        "height": 150
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Changes'",
-      "target_description": "blue Save Settings button in the bottom action bar",
+      "target_description": "Blue Save Settings button in the bottom action area",
       "label_text": "Save Changes",
       "bbox": {
-        "x": 202,
-        "y": 950,
-        "width": 115,
-        "height": 39
+        "x": 201,
+        "y": 954,
+        "width": 114,
+        "height": 32
       },
       "color": null,
       "not_found": false,

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/README.assets/01-checkout-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the order summary on the checkout page labeled 'Subscription checkout'",
+      "target_description": "Order summary panel on the right side of the checkout page",
+      "label_text": "Subscription checkout",
+      "bbox": {
+        "x": 951,
+        "y": 122,
+        "width": 437,
+        "height": 680
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

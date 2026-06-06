@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/billing-and-renewals/trial-management.assets/01-trial-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the trial-related settings labeled 'Trial rules'",
+      "target_description": "The settings section containing the 'One Subscription per Customer' toggle and related explanatory blue/yellow notices, which mention trial subscriptions",
+      "label_text": "Trial rules",
+      "bbox": {
+        "x": 215,
+        "y": 408,
+        "width": 636,
+        "height": 225
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

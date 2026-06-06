@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/getting-started/before-you-launch.assets/01-plugins-active-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the ArraySubs and ArraySubs Pro plugin rows in the list labeled 'Free core + Pro addon'",
+      "target_description": "The first two plugin rows in the plugins table: 'ArraySubs - Subscription Manager for WooCommerce' and 'ArraySubsPro - Pro Addon for ArraySubs WooCommerce Subscription Plugin'",
+      "label_text": "Free core + Pro addon",
+      "bbox": {
+        "x": 184,
+        "y": 326,
+        "width": 1256,
+        "height": 211
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

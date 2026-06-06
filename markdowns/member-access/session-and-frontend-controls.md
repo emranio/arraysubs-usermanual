@@ -19,6 +19,8 @@
 - **Next guide:** [use-cases](./use-cases.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Multi-login prevention controls in Toolkit (Pro)](session-and-frontend-controls.assets/01-multi-login-annotated.png)
+
 ## Overview
 
 Session and Frontend Controls cover the parts of Member Access that go beyond server-side page gating:

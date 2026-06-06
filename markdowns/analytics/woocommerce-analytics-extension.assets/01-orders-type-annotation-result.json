@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/woocommerce-analytics-extension.assets/01-orders-type-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription Type column or filter labeled 'Subscription type'",
+      "target_description": "Type column header and visible cells in the orders table near the bottom center",
+      "label_text": "Subscription type",
+      "bbox": {
+        "x": 521,
+        "y": 852,
+        "width": 124,
+        "height": 148
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

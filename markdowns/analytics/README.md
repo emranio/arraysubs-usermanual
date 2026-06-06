@@ -66,6 +66,8 @@ The classification is stored as order meta (`_arraysubs_computed_type`) and reco
 The **Subs Trial** classification is permanent. Even after a trial converts to an active paid subscription, the original order keeps its Subs Trial label because it uses the immutable `_trial_end_date` meta rather than the subscription's current status.
 ```
 
+![Subscription performance cards added to WooCommerce Analytics (Pro)](README.assets/01-analytics-overview-annotated.png)
+
 ## Prerequisites
 
 - **ArraySubs** (free) for the Reports Hub and Retention Analytics

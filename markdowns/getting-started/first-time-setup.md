@@ -18,6 +18,8 @@
 - **Next guide:** [import-export-settings](./import-export-settings.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![General settings are the first stop when configuring ArraySubs](first-time-setup.assets/01-general-settings-annotated.png)
+
 ## Overview
 
 This guide walks you through the initial setup of ArraySubs. By the end, you will have a live subscription product, a completed test order, and a working customer portal. Follow the steps in order — each one builds on the previous.

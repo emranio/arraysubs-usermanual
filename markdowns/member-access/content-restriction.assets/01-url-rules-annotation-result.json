@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/member-access/content-restriction.assets/01-url-rules-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the URL restriction rule labeled 'URL gating'",
+      "target_description": "The expanded URL Rule card titled 'Premium Content URL gate' in the main content area",
+      "label_text": "URL gating",
+      "bbox": {
+        "x": 202,
+        "y": 497,
+        "width": 1198,
+        "height": 442
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/store-credit/emails.assets/01-credit-emails-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the ArraySubsPro Store Credit email rows labeled 'Store credit emails'",
+      "target_description": "The four consecutive email rows titled [ArraySubsPro] Store Credit Added, Store Credit Used, Store Credit Expiring Soon, and Store Credit Expired",
+      "label_text": "Store credit emails",
+      "bbox": {
+        "x": 190,
+        "y": 491,
+        "width": 1238,
+        "height": 298
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

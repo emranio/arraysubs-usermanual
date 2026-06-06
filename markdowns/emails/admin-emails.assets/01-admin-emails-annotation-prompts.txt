@@ -1,0 +1,1 @@
+- rectangle around the email rows ending in (Admin) labeled 'Admin emails'

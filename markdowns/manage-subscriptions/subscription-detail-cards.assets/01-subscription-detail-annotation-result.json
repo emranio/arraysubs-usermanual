@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "Draw a red rectangle around the status and action bar at the top of the subscription detail screen and label it \"Status and actions\".",
-      "target_description": "Top horizontal status and action bar containing ACTIVE badge and action buttons",
+      "target_description": "Top status and action bar containing ACTIVE badge and action buttons",
       "label_text": "Status and actions",
       "bbox": {
-        "x": 222,
-        "y": 193,
-        "width": 1159,
-        "height": 71
+        "x": 95,
+        "y": 189,
+        "width": 1285,
+        "height": 29
       },
       "color": null,
       "not_found": false,
@@ -19,12 +19,12 @@
     {
       "request_index": 1,
       "request_text": "Draw a red rectangle around the Subscription card on the left and label it \"Billing dates\".",
-      "target_description": "Subscription card in the left column with subscription ID and payment dates",
+      "target_description": "Subscription card in the left column",
       "label_text": "Billing dates",
       "bbox": {
-        "x": 222,
+        "x": 220,
         "y": 295,
-        "width": 568,
+        "width": 571,
         "height": 327
       },
       "color": null,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "Draw a red rectangle around the Skip & Pause card on the right and label it \"Skip and pause state\".",
-      "target_description": "Skip & Pause card in the right column showing skip renewals and vacation mode",
+      "target_description": "Skip & Pause card in the right column",
       "label_text": "Skip and pause state",
       "bbox": {
-        "x": 811,
+        "x": 812,
         "y": 295,
-        "width": 569,
-        "height": 327
+        "width": 587,
+        "height": 328
       },
       "color": null,
       "not_found": false,
@@ -52,9 +52,9 @@
       "target_description": "Customer Information card in the left column below Subscription",
       "label_text": "Customer details",
       "bbox": {
-        "x": 222,
+        "x": 199,
         "y": 643,
-        "width": 568,
+        "width": 589,
         "height": 199
       },
       "color": null,
@@ -64,13 +64,13 @@
     {
       "request_index": 4,
       "request_text": "Draw a red rectangle around the Payment Gateway card and label it \"Gateway connection\".",
-      "target_description": "Payment Gateway card in the lower right column with connected badge",
+      "target_description": "Payment Gateway card in the lower right column",
       "label_text": "Gateway connection",
       "bbox": {
-        "x": 811,
-        "y": 864,
-        "width": 569,
-        "height": 136
+        "x": 810,
+        "y": 861,
+        "width": 568,
+        "height": 139
       },
       "color": null,
       "not_found": false,

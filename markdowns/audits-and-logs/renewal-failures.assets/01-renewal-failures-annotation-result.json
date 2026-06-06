@@ -7,10 +7,10 @@
       "target_description": "Page title text 'Renewal Failures' in the top navigation/header area",
       "label_text": "Renewal Failures",
       "bbox": {
-        "x": 434,
-        "y": 52,
-        "width": 123,
-        "height": 34
+        "x": 462,
+        "y": 51,
+        "width": 98,
+        "height": 16
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the failure list or table labeled 'Failed Renewals'",
-      "target_description": "Main failed renewals table containing the subscription failure row",
+      "target_description": "Main failed renewals table containing the subscription row and column headers",
       "label_text": "Failed Renewals",
       "bbox": {
-        "x": 202,
+        "x": 203,
         "y": 245,
-        "width": 1197,
-        "height": 115
+        "width": 1195,
+        "height": 113
       },
       "color": null,
       "not_found": false,
@@ -34,12 +34,12 @@
     {
       "request_index": 2,
       "request_text": "rectangle around action buttons or filters labeled 'Review Actions'",
-      "target_description": "Action buttons area on the right side of the failed renewals row containing Retry and Mark Resolved",
+      "target_description": "Action buttons 'Retry' and 'Mark Resolved' in the Actions column of the table row",
       "label_text": "Review Actions",
       "bbox": {
-        "x": 1238,
+        "x": 1223,
         "y": 288,
-        "width": 116,
+        "width": 126,
         "height": 56
       },
       "color": null,

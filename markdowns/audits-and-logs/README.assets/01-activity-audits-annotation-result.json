@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/README.assets/01-activity-audits-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the activity audit timeline labeled 'Audit trail'",
+      "target_description": "Main Activity Audits timeline table listing audit entries",
+      "label_text": "Audit trail",
+      "bbox": {
+        "x": 202,
+        "y": 257,
+        "width": 1172,
+        "height": 743
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

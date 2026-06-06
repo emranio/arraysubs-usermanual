@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-products/product-lifecycle.assets/01-helper-links-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the direct add-to-cart and one-click checkout helper links labeled 'Test links'",
+      "target_description": "the two helper link input rows for Direct add to cart and One-click checkout in the main product data panel",
+      "label_text": "Test links",
+      "bbox": {
+        "x": 200,
+        "y": 233,
+        "width": 738,
+        "height": 87
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

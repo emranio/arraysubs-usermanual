@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/retention-and-refunds/README.assets/01-retention-flow-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the cancellation reasons configuration labeled 'Cancellation flow'",
+      "target_description": "Cancellation Reasons configuration card near the top of the main content area",
+      "label_text": "Cancellation flow",
+      "bbox": {
+        "x": 70,
+        "y": 173,
+        "width": 1346,
+        "height": 233
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -18,6 +18,8 @@
 - **Next guide:** [auto-renew-and-manual-fallback](../checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Trial-related settings in General settings](trial-management.assets/01-trial-settings-annotated.png)
+
 ## Overview
 
 Trials let customers try a subscription before paying. During the trial period, the customer has full access to their subscription benefits without being charged (beyond an optional signup fee). When the trial ends, the system automatically converts the subscription to a paid active subscription and schedules the first real billing cycle.

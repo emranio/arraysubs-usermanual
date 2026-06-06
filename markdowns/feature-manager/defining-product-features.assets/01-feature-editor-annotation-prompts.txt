@@ -1,0 +1,1 @@
+- rectangle around the feature definition rows labeled 'Define features'

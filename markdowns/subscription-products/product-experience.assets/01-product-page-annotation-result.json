@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the product title and price labeled 'Subscription Product'",
-      "target_description": "Product title and price text on the right side of the product page",
+      "target_description": "product title 'Basic Monthly' and price '$29.99 / month' on the right side of the product page",
       "label_text": "Subscription Product",
       "bbox": {
-        "x": 610,
-        "y": 282,
-        "width": 313,
-        "height": 104
+        "x": 615,
+        "y": 284,
+        "width": 255,
+        "height": 93
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the subscription details section labeled 'Billing Terms'",
-      "target_description": "Subscription details section beneath the product title containing quantity, subscribe button, and payment options",
+      "target_description": "subscription details section beneath the product title containing quantity selector, Subscribe Now button, and payment options",
       "label_text": "Billing Terms",
       "bbox": {
-        "x": 611,
-        "y": 405,
-        "width": 775,
-        "height": 184
+        "x": 547,
+        "y": 402,
+        "width": 841,
+        "height": 156
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the add to cart area labeled 'Subscribe'",
-      "target_description": "Add to cart controls including quantity selector and Subscribe Now button",
+      "target_description": "add to cart controls with quantity input and Subscribe Now button",
       "label_text": "Subscribe",
       "bbox": {
-        "x": 611,
+        "x": 610,
         "y": 405,
         "width": 272,
-        "height": 57
+        "height": 55
       },
       "color": null,
       "not_found": false,

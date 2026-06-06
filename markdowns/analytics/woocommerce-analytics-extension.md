@@ -18,6 +18,8 @@
 - **Next guide:** [access-rule-conflicts](../audits-and-logs/access-rule-conflicts.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The subscription Type column and filter in the Orders report (Pro)](woocommerce-analytics-extension.assets/01-orders-type-annotated.png)
+
 ## Overview
 
 The WooCommerce Analytics Extension adds subscription-aware columns, filters, and metrics to five native WooCommerce Analytics reports:

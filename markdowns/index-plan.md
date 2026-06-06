@@ -315,7 +315,7 @@
 - Keep the hub at a **maximum 3-level hierarchy** when creating real pages.
 - Keep **Manage Subscription Products**, **Advanced Analytics**, **Manage Members**, **Customer Portal**, and **Store Credit** as dedicated top-level topics.
 - Treat **Retention Flow**, **Plan Switching**, **Skip & Pause**, **Refunds**, **Checkout Builder**, **Feature Manager**, **Store Credit**, and **Automatic Payments** as module-owned documentation areas, not shared settings chapters.
-- **Emails and Notifications** is a new dedicated top-level topic — the codebase has 16 customer emails, 3 admin emails, and 4 store credit emails, each with enable/disable toggles, subject/body customization, WooCommerce email settings integration, and a full placeholder system.
+- **Emails and Notifications** is a new dedicated top-level topic — the codebase has 17 customer emails, 4 admin emails, and 4 store credit emails, each with enable/disable toggles, subject/body customization, WooCommerce email settings integration, and a full placeholder system.
 - **Store Credit** is elevated to a top-level topic — it is a full Pro module with management UI, transaction history, settings, purchase product type, expiration, 4 email types, and refund-to-credit integration.
 - **Retention Analytics** is placed under the Retention topic rather than Advanced Analytics, since its data is specific to the cancellation/retention flow.
 - **WooCommerce Analytics Extension** is a distinct subtopic under Advanced Analytics — it extends 5 native WC report screens with subscription-specific filters and metrics.

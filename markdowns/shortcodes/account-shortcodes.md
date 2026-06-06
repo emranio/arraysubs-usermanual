@@ -18,6 +18,8 @@
 - **Next guide:** [content-gating](./content-gating.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The in-plugin Shortcodes reference](account-shortcodes.assets/01-shortcodes-annotated.png)
+
 ## Overview
 
 Three shortcodes handle authentication-related display on the frontend:

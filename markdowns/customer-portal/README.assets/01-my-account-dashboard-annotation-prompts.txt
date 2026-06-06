@@ -1,0 +1,1 @@
+- rectangle around the Subscriptions item in the My Account navigation labeled 'Self-service portal'

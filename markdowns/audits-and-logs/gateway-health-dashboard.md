@@ -19,6 +19,8 @@
 - **Next guide:** [payment-and-shipping-issues](./payment-and-shipping-issues.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The gateway health dashboard (Pro)](gateway-health-dashboard.assets/01-gateway-health-annotated.png)
+
 ## Overview
 
 The Gateway Health Dashboard gives you a real-time view of every payment gateway connected to ArraySubs. Each gateway is displayed as a status card showing whether it is connected, how many active subscriptions it manages, when the last webhook was received, and what capabilities it supports. Below the cards, a webhook event log lists every incoming event from all gateways.

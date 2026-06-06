@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/retention-and-refunds/retention-use-cases.assets/01-retention-modal-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the retention offer shown in the cancellation modal labeled 'Save offer'",
+      "target_description": "retention offer card inside the cancellation modal with 'Stay and Save!' text and Accept Offer button",
+      "label_text": "Save offer",
+      "bbox": {
+        "x": 425,
+        "y": 482,
+        "width": 592,
+        "height": 89
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

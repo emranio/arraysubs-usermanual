@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/retention-and-refunds/retention-offers.assets/01-offers-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the discount retention offer settings labeled 'Retention offers'",
+      "target_description": "Retention Offers settings card section in the middle of the page",
+      "label_text": "Retention offers",
+      "bbox": {
+        "x": 70,
+        "y": 611,
+        "width": 1322,
+        "height": 234
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

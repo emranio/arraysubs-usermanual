@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/getting-started/first-time-setup.assets/01-general-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the General settings form labeled 'Core subscription rules'",
+      "target_description": "Main General settings form panel containing the Multiple Subscriptions settings and Save Settings button",
+      "label_text": "Core subscription rules",
+      "bbox": {
+        "x": 68,
+        "y": 165,
+        "width": 1325,
+        "height": 772
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

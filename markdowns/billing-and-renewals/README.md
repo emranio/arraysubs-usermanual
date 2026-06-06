@@ -18,6 +18,8 @@
 - **Next guide:** [recovery-and-grace-flows](./recovery-and-grace-flows.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Grace-period and renewal-timing settings](README.assets/01-grace-renewal-annotated.png)
+
 ## Overview
 
 Billing and renewals form the heart of the ArraySubs subscription engine. Every active subscription follows a repeating cycle: an invoice is created before the due date, payment is collected (manually or automatically), and the next renewal date is scheduled. When payment doesn't arrive on time, a configurable grace period activates before the subscription is placed on hold or cancelled.

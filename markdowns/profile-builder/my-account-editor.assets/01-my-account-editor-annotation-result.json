@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the My Account Editor heading labeled 'My Account Editor'",
-      "target_description": "page heading area showing the breadcrumb/title 'Profile Form | My Account' near the top of the content",
+      "target_description": "Page heading area showing the breadcrumb/title with 'My Account' at the top of the content pane",
       "label_text": "My Account Editor",
       "bbox": {
-        "x": 184,
-        "y": 44,
-        "width": 227,
-        "height": 33
+        "x": 274,
+        "y": 41,
+        "width": 106,
+        "height": 27
       },
       "color": null,
       "not_found": false,
@@ -19,23 +19,23 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the endpoint list labeled 'Account Endpoints'",
-      "target_description": "endpoint list area inside the main panel under 'Menu Items'",
+      "target_description": "Endpoint list section requested, but no endpoint list is visible on this screen",
       "label_text": "Account Endpoints",
       "bbox": null,
       "color": null,
       "not_found": true,
-      "notes": "no visible endpoint list is shown; the customization area is disabled and empty"
+      "notes": "no endpoint list is visible in the screenshot"
     },
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Layout'",
-      "target_description": "blue save button at the bottom left of the page footer area",
+      "target_description": "Blue save button at the bottom left of the content area",
       "label_text": "Save Layout",
       "bbox": {
-        "x": 202,
-        "y": 950,
-        "width": 145,
-        "height": 40
+        "x": 203,
+        "y": 955,
+        "width": 146,
+        "height": 30
       },
       "color": null,
       "not_found": false,

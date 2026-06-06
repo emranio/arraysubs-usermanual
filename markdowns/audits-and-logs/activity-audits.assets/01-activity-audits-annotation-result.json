@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the page title labeled 'Activity Audits'",
-      "target_description": "Page title text 'Activity Audits' near the top of the main content area",
+      "target_description": "The page title text 'Activity Audits' near the top of the content area",
       "label_text": "Activity Audits",
       "bbox": {
-        "x": 180,
-        "y": 51,
-        "width": 99,
-        "height": 32
+        "x": 171,
+        "y": 53,
+        "width": 107,
+        "height": 16
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the audit log table labeled 'Audit Events'",
-      "target_description": "Main audit log table containing the Date, Author, Type, Visibility, Entity, and Activity columns",
+      "target_description": "The main audit log table containing the Date, Author, Type, Visibility, Entity, and Activity columns",
       "label_text": "Audit Events",
       "bbox": {
-        "x": 200,
-        "y": 257,
-        "width": 1200,
-        "height": 743
+        "x": 67,
+        "y": 251,
+        "width": 1350,
+        "height": 749
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the filters labeled 'Audit Filters'",
-      "target_description": "Filter controls row above the audit table with dropdowns, date fields, search box, and reset/refresh/settings buttons",
+      "target_description": "The filter controls row above the audit table with dropdowns, date fields, search input, and action buttons",
       "label_text": "Audit Filters",
       "bbox": {
-        "x": 200,
+        "x": 61,
         "y": 173,
-        "width": 1200,
-        "height": 67
+        "width": 1338,
+        "height": 66
       },
       "color": null,
       "not_found": false,

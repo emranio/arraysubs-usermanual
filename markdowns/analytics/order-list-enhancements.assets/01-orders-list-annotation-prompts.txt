@@ -1,0 +1,1 @@
+- rectangle around an order row type indicator labeled 'Order type'

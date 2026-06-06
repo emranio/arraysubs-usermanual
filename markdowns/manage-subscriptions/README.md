@@ -18,6 +18,8 @@
 - **Next guide:** [subscription-detail-cards](./subscription-detail-cards.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The Subscriptions admin list with filters and search](README.assets/01-subscriptions-list-annotated.png)
+
 ## Overview
 
 The **Manage Subscriptions** area is where you spend most of your day-to-day time as a subscription merchant. From here you can browse all subscriptions, create new ones manually, edit billing details, review order history, track lifecycle changes, and take action on individual subscriptions.

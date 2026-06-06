@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-subscriptions/lifecycle-management.assets/01-status-control-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription status field labeled 'Status control'",
+      "target_description": "Status section at the top right showing ACTIVE with the dropdown and disabled Change Status button",
+      "label_text": "Status control",
+      "bbox": {
+        "x": 1289,
+        "y": 189,
+        "width": 113,
+        "height": 94
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

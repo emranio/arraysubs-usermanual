@@ -18,6 +18,8 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The status control on the subscription editor](lifecycle-management.assets/01-status-control-annotated.png)
+
 ## Overview
 
 Every ArraySubs subscription follows a defined lifecycle. Understanding how and when subscriptions change status helps you predict billing behavior, handle support requests, and configure your store correctly.

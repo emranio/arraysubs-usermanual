@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/profile-builder/README.assets/01-profile-form-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the custom profile field builder labeled 'Profile fields'",
+      "target_description": "Custom Profile Fields builder card in the main content area",
+      "label_text": "Profile fields",
+      "bbox": {
+        "x": 201,
+        "y": 374,
+        "width": 1194,
+        "height": 202
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

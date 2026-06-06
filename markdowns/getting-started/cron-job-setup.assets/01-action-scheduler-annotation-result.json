@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/getting-started/cron-job-setup.assets/01-action-scheduler-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the scheduled actions table labeled 'Background job queue'",
+      "target_description": "Scheduled Actions results table beneath the filters and search controls",
+      "label_text": "Background job queue",
+      "bbox": {
+        "x": 181,
+        "y": 320,
+        "width": 1238,
+        "height": 679
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

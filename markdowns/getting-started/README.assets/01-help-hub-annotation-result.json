@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/getting-started/README.assets/01-help-hub-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the in-plugin documentation cards labeled 'Built-in help'",
+      "target_description": "the two large help/documentation cards in the main content area",
+      "label_text": "Built-in help",
+      "bbox": {
+        "x": 67,
+        "y": 174,
+        "width": 1331,
+        "height": 750
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/shortcodes/content-gating.assets/01-restrict-shortcode-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the arraysubs_restrict shortcode card labeled 'Content gating shortcode'",
+      "target_description": "Content Restriction shortcode card in the lower left under the Membership section",
+      "label_text": "Content gating shortcode",
+      "bbox": {
+        "x": 162,
+        "y": 574,
+        "width": 631,
+        "height": 426
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

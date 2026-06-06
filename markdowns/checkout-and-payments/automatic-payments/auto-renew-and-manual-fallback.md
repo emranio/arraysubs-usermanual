@@ -18,6 +18,8 @@
 - **Next guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
+![The customer Auto-Renew toggle and saved card (Pro)](auto-renew-and-manual-fallback.assets/01-auto-renew-annotated.png)
+
 ## Overview
 
 Subscriptions created through an automatic payment gateway (Stripe, PayPal, or Paddle) are configured for automatic renewal by default — the gateway charges the stored payment method on each billing date without any customer action.

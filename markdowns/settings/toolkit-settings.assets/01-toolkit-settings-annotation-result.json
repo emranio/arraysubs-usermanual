@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Toolkit Settings heading labeled 'Toolkit Settings'",
-      "target_description": "The active Toolkit tab heading in the top settings navigation bar",
+      "target_description": "The active 'Toolkit' page heading/tab label in the top navigation row",
       "label_text": "Toolkit Settings",
       "bbox": {
-        "x": 265,
-        "y": 51,
-        "width": 50,
-        "height": 25
+        "x": 260,
+        "y": 54,
+        "width": 46,
+        "height": 23
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the enable or configuration controls labeled 'Toolkit Controls'",
-      "target_description": "The Admin Dashboard Access configuration controls section containing toggle, redirect dropdown, and allowed roles fields",
+      "target_description": "The main configuration controls area within the Admin Dashboard Access card, including toggle and dropdown fields",
       "label_text": "Toolkit Controls",
       "bbox": {
-        "x": 200,
-        "y": 532,
-        "width": 1200,
-        "height": 408
+        "x": 68,
+        "y": 536,
+        "width": 1329,
+        "height": 303
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Toolkit'",
-      "target_description": "The Save Settings button in the sticky footer action bar at the bottom left",
+      "target_description": "The blue Save Settings button in the sticky footer action bar",
       "label_text": "Save Toolkit",
       "bbox": {
-        "x": 202,
-        "y": 949,
-        "width": 114,
-        "height": 40
+        "x": 185,
+        "y": 945,
+        "width": 129,
+        "height": 48
       },
       "color": null,
       "not_found": false,

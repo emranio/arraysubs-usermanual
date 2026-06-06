@@ -7,10 +7,10 @@
       "target_description": "Subscription Actions section containing the heading and the two action buttons",
       "label_text": "Self-Service Actions",
       "bbox": {
-        "x": 540,
-        "y": 429,
-        "width": 343,
-        "height": 80
+        "x": 537,
+        "y": 433,
+        "width": 319,
+        "height": 78
       },
       "color": null,
       "not_found": false,
@@ -22,10 +22,10 @@
       "target_description": "Blue Change Plan button in the Subscription Actions section",
       "label_text": "Change Plan",
       "bbox": {
-        "x": 540,
-        "y": 468,
-        "width": 130,
-        "height": 41
+        "x": 522,
+        "y": 469,
+        "width": 106,
+        "height": 40
       },
       "color": null,
       "not_found": false,
@@ -37,10 +37,10 @@
       "target_description": "Red Cancel Subscription button in the Subscription Actions section",
       "label_text": "Cancel",
       "bbox": {
-        "x": 681,
-        "y": 468,
+        "x": 682,
+        "y": 466,
         "width": 176,
-        "height": 41
+        "height": 38
       },
       "color": null,
       "not_found": false,

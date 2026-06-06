@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/automatic-payments/README.assets/01-gateways-list-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the ArraySubs PayPal and Paddle payment methods labeled 'Automatic gateways'",
+      "target_description": "The two consecutive payment provider rows labeled Paddle (ArraySubs) and PayPal (ArraySubs) in the Payment providers list",
+      "label_text": "Automatic gateways",
+      "bbox": {
+        "x": 214,
+        "y": 602,
+        "width": 1226,
+        "height": 161
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

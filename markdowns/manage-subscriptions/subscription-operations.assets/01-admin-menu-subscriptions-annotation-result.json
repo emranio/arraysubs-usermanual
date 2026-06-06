@@ -8,9 +8,9 @@
       "label_text": "ArraySubs Menu",
       "bbox": {
         "x": 0,
-        "y": 311,
-        "width": 181,
-        "height": 37
+        "y": 303,
+        "width": 184,
+        "height": 41
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the Subscriptions entry labeled 'Subscriptions'",
-      "target_description": "Subscriptions submenu entry under ArraySubs in the left sidebar",
+      "target_description": "Subscriptions submenu entry under ArraySubs in the left admin sidebar",
       "label_text": "Subscriptions",
       "bbox": {
-        "x": 0,
-        "y": 353,
-        "width": 181,
-        "height": 35
+        "x": 2,
+        "y": 348,
+        "width": 103,
+        "height": 18
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the main subscriptions page area labeled 'Admin Workspace'",
-      "target_description": "Main content workspace showing the All Subscriptions page and subscriptions table",
+      "target_description": "Main subscriptions management workspace panel containing filters and the subscriptions table",
       "label_text": "Admin Workspace",
       "bbox": {
         "x": 181,
-        "y": 0,
-        "width": 1259,
-        "height": 1000
+        "y": 151,
+        "width": 1240,
+        "height": 849
       },
       "color": null,
       "not_found": false,

@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/member-access/README.assets/01-role-mapping-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the role mapping rule list labeled 'Access rule engine'",
+      "target_description": "Role mapping rule list panel containing Role Mapping Rule #1 with IF/THEN sections",
+      "label_text": "Access rule engine",
+      "bbox": {
+        "x": 79,
+        "y": 529,
+        "width": 1331,
+        "height": 442
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

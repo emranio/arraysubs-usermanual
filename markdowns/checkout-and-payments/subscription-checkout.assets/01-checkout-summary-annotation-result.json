@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/subscription-checkout.assets/01-checkout-summary-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription order summary labeled 'Recurring totals'",
+      "target_description": "Order summary panel on the right side showing subscription renewal details and totals",
+      "label_text": "Recurring totals",
+      "bbox": {
+        "x": 951,
+        "y": 120,
+        "width": 436,
+        "height": 683
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

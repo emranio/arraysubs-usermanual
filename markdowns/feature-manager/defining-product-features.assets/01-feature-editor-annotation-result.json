@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/feature-manager/defining-product-features.assets/01-feature-editor-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the feature definition rows labeled 'Define features'",
+      "target_description": "table of feature definition rows under Product Features",
+      "label_text": "Define features",
+      "bbox": {
+        "x": 209,
+        "y": 223,
+        "width": 708,
+        "height": 386
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

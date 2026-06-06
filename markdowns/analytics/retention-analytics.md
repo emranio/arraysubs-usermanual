@@ -18,6 +18,8 @@
 - **Next guide:** [subscription-performance](./subscription-performance.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The Retention report tracks cancellations and saves](retention-analytics.assets/01-retention-report-annotated.png)
+
 ## Overview
 
 Retention Analytics is a free analytics page that tracks every cancellation, scheduled cancellation, and retention offer interaction across your subscription business. It lives under the WooCommerce Analytics menu and provides summary cards, visual charts, a trend timeline, and a detailed activity log.

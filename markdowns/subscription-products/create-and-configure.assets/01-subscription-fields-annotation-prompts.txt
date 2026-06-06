@@ -1,0 +1,2 @@
+- rectangle around the Billing Period and Billing Interval fields labeled 'Billing schedule'
+- rectangle around the Free Trial and Sign-up Fee fields labeled 'Trial and signup fee'

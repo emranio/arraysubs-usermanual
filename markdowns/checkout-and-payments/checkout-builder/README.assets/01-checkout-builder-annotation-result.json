@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Checkout Form Builder panel labeled 'Builder Entry'",
-      "target_description": "large bordered panel near the top center containing the Checkout Form Builder heading and Open Builder button",
+      "target_description": "large top panel containing the Checkout Form Builder heading, button, and settings link",
       "label_text": "Builder Entry",
       "bbox": {
-        "x": 261,
+        "x": 207,
         "y": 197,
-        "width": 1080,
+        "width": 1134,
         "height": 293
       },
       "color": null,
@@ -22,10 +22,10 @@
       "target_description": "blue Open Builder button in the center of the Checkout Form Builder panel",
       "label_text": "Open Builder",
       "bbox": {
-        "x": 711,
-        "y": 376,
-        "width": 179,
-        "height": 48
+        "x": 722,
+        "y": 383,
+        "width": 169,
+        "height": 39
       },
       "color": null,
       "not_found": false,
@@ -34,12 +34,12 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the setup cards labeled 'Builder Workflows'",
-      "target_description": "two bordered setup/information cards below the main builder panel",
+      "target_description": "the two lower informational setup cards side by side below the main builder panel",
       "label_text": "Builder Workflows",
       "bbox": {
-        "x": 261,
+        "x": 182,
         "y": 516,
-        "width": 1080,
+        "width": 1160,
         "height": 484
       },
       "color": null,

@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the profile form settings heading labeled 'Profile Form'",
-      "target_description": "The page heading 'Profile Form' near the top of the content area",
+      "target_description": "The page heading 'Profile Form' near the top of the main content area",
       "label_text": "Profile Form",
       "bbox": {
-        "x": 182,
-        "y": 52,
-        "width": 92,
-        "height": 31
+        "x": 169,
+        "y": 48,
+        "width": 93,
+        "height": 23
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the form configuration fields labeled 'Form Controls'",
-      "target_description": "The main form configuration panel containing the Avatar Settings and Custom Profile Fields sections",
+      "target_description": "The Custom Profile Fields configuration panel in the main content area",
       "label_text": "Form Controls",
       "bbox": {
-        "x": 202,
-        "y": 173,
-        "width": 1199,
-        "height": 404
+        "x": 68,
+        "y": 343,
+        "width": 1348,
+        "height": 233
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Profile Form'",
-      "target_description": "The blue 'Save Configuration' button at the bottom left of the page",
+      "target_description": "The blue Save Configuration button at the bottom left of the content area",
       "label_text": "Save Profile Form",
       "bbox": {
         "x": 202,
-        "y": 950,
+        "y": 952,
         "width": 146,
-        "height": 39
+        "height": 32
       },
       "color": null,
       "not_found": false,

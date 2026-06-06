@@ -1,0 +1,1 @@
+- rectangle around the discount retention offer settings labeled 'Retention offers'

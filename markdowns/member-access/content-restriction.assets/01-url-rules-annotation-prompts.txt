@@ -1,0 +1,1 @@
+- rectangle around the URL restriction rule labeled 'URL gating'

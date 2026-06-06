@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/emails/customer-emails.assets/01-email-settings-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the email subject and additional content fields labeled 'Editable email'",
+      "target_description": "The editable form area containing the Subject input, Email heading input, and Additional content textarea in the main settings panel",
+      "label_text": "Editable email",
+      "bbox": {
+        "x": 188,
+        "y": 693,
+        "width": 637,
+        "height": 233
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

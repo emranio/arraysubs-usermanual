@@ -7,10 +7,10 @@
       "target_description": "Role Mapping tab in the top horizontal navigation under the admin bar",
       "label_text": "Role Mapping",
       "bbox": {
-        "x": 181,
-        "y": 51,
-        "width": 103,
-        "height": 29
+        "x": 182,
+        "y": 49,
+        "width": 99,
+        "height": 19
       },
       "color": null,
       "not_found": false,
@@ -22,10 +22,10 @@
       "target_description": "Role Mapping Rule #1 row/card containing the rule title and controls",
       "label_text": "Access Rule",
       "bbox": {
-        "x": 202,
-        "y": 497,
-        "width": 1199,
-        "height": 441
+        "x": 71,
+        "y": 529,
+        "width": 1345,
+        "height": 442
       },
       "color": null,
       "not_found": false,
@@ -34,12 +34,12 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the Save Changes button labeled 'Save Rules'",
-      "target_description": "Save Rules button fixed at the bottom left of the page",
+      "target_description": "Blue Save Rules button fixed at the bottom left of the content area",
       "label_text": "Save Rules",
       "bbox": {
         "x": 202,
-        "y": 950,
-        "width": 100,
+        "y": 948,
+        "width": 98,
         "height": 40
       },
       "color": null,

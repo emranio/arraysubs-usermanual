@@ -32,3 +32,5 @@ Other settings pages (Plan Switching, Refunds, Skip & Pause, Feature Manager, an
 - **Previous guide:** [general-settings](./general-settings.md)
 - **Next guide:** [toolkit-settings](./toolkit-settings.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+![ArraySubs settings are grouped into tabbed sections](README.assets/01-settings-tabs-annotated.png)

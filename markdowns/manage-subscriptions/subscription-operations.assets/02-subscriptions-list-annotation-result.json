@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "Draw a red rectangle around the ArraySubs admin menu section on the left and label it \"ArraySubs navigation\".",
-      "target_description": "ArraySubs expanded admin menu section in the left sidebar",
+      "target_description": "ArraySubs submenu section in the left WordPress admin sidebar",
       "label_text": "ArraySubs navigation",
       "bbox": {
         "x": 0,
-        "y": 312,
-        "width": 180,
-        "height": 415
+        "y": 310,
+        "width": 207,
+        "height": 450
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "Draw a red rectangle around the subscription status filter tabs near the top of the table and label it \"Status filters\".",
-      "target_description": "Subscription status filter tabs row above the toolbar",
+      "target_description": "Subscription status filter tabs row above the table",
       "label_text": "Status filters",
       "bbox": {
         "x": 200,
-        "y": 172,
-        "width": 575,
-        "height": 30
+        "y": 166,
+        "width": 603,
+        "height": 18
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "Draw a red rectangle around the search field and gateway dropdown and label it \"Find subscriptions\".",
-      "target_description": "Search input field and All Gateways dropdown in the filter toolbar",
+      "target_description": "Search text field and All Gateways dropdown controls above the subscription table",
       "label_text": "Find subscriptions",
       "bbox": {
         "x": 441,
-        "y": 224,
-        "width": 436,
-        "height": 35
+        "y": 219,
+        "width": 458,
+        "height": 37
       },
       "color": null,
       "not_found": false,
@@ -49,13 +49,13 @@
     {
       "request_index": 3,
       "request_text": "Draw a red rectangle around the Add New Subscription and Export CSV buttons and label it \"Create or export\".",
-      "target_description": "Add New Subscription and Export CSV buttons on the right side of the toolbar",
+      "target_description": "Add New Subscription and Export CSV buttons above the table on the right",
       "label_text": "Create or export",
       "bbox": {
-        "x": 897,
+        "x": 894,
         "y": 218,
-        "width": 291,
-        "height": 40
+        "width": 302,
+        "height": 27
       },
       "color": null,
       "not_found": false,
@@ -64,13 +64,13 @@
     {
       "request_index": 4,
       "request_text": "Draw a red rectangle around the View Details and Edit row actions in the first visible subscription row and label it \"Row actions\".",
-      "target_description": "View Details and Edit actions under the first visible subscription row",
+      "target_description": "View Details and Edit action links in the first visible subscription row showing row actions",
       "label_text": "Row actions",
       "bbox": {
-        "x": 240,
-        "y": 405,
-        "width": 118,
-        "height": 26
+        "x": 226,
+        "y": 399,
+        "width": 110,
+        "height": 14
       },
       "color": null,
       "not_found": false,

@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Add Subscription heading labeled 'Create Subscription'",
-      "target_description": "Page title area at the top showing 'Add New' with the subtitle 'Create a new subscription manually'",
+      "target_description": "Page header area containing the breadcrumbs, Add New heading, and subtitle at the top of the content area",
       "label_text": "Create Subscription",
       "bbox": {
-        "x": 179,
-        "y": 21,
-        "width": 217,
-        "height": 72
+        "x": 172,
+        "y": 34,
+        "width": 293,
+        "height": 71
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the customer and product fields labeled 'Required Details'",
-      "target_description": "The General and Product & Subscription Details form sections containing the customer and product fields",
+      "target_description": "Main form sections containing the Customer field and Product & Subscription Details fields",
       "label_text": "Required Details",
       "bbox": {
-        "x": 202,
-        "y": 152,
-        "width": 1200,
-        "height": 668
+        "x": 70,
+        "y": 153,
+        "width": 1323,
+        "height": 667
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the create or save button area labeled 'Save Subscription'",
-      "target_description": "Bottom sticky action area containing the Create Subscription button",
+      "target_description": "Bottom action bar area with the Create Subscription and Cancel buttons",
       "label_text": "Save Subscription",
       "bbox": {
         "x": 202,
-        "y": 940,
-        "width": 334,
-        "height": 49
+        "y": 931,
+        "width": 1238,
+        "height": 69
       },
       "color": null,
       "not_found": false,

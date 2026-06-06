@@ -1,0 +1,1 @@
+- rectangle around the order summary on the checkout page labeled 'Subscription checkout'

@@ -1,0 +1,1 @@
+- rectangle around the row of settings tabs at the top labeled 'Settings sections'

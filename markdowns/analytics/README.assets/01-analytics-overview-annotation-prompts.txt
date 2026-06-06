@@ -1,0 +1,1 @@
+- rectangle around the subscription performance cards labeled 'Subscription analytics'

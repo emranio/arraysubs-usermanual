@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/billing-and-renewals/renewal-operations.assets/01-related-orders-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the related orders list labeled 'Renewal orders'",
+      "target_description": "related orders table/list near the top of the page showing order #4251",
+      "label_text": "Renewal orders",
+      "bbox": {
+        "x": 161,
+        "y": 108,
+        "width": 1192,
+        "height": 83
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

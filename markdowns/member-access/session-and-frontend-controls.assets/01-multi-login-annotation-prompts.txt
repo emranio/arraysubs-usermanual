@@ -1,0 +1,1 @@
+- rectangle around the Multi-Login Prevention controls labeled 'Concurrent session limit'

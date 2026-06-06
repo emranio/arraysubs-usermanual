@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-members/member-commerce-overview.assets/01-member-commerce-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the member subscriptions and orders area labeled 'Member commerce'",
+      "target_description": "Commerce summary and actions area containing orders, subscriptions, store credit, refunds, and related action cards below the member profile card",
+      "label_text": "Member commerce",
+      "bbox": {
+        "x": 200,
+        "y": 498,
+        "width": 1204,
+        "height": 355
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

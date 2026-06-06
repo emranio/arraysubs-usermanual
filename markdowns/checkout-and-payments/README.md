@@ -66,3 +66,5 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 - **Previous guide:** [use-cases](./checkout-builder/use-cases.md)
 - **Next guide:** [subscription-checkout](./subscription-checkout.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+![The subscription order summary at checkout](README.assets/01-checkout-annotated.png)

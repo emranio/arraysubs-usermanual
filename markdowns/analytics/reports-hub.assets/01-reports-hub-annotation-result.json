@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the dashboard heading and report tabs labeled 'Reports Hub'",
-      "target_description": "Top page header area containing the Reports heading, subtitle, and the quick navigation/report category tabs section beneath it",
+      "target_description": "Top page header area containing the Reports heading and descriptive subtitle",
       "label_text": "Reports Hub",
       "bbox": {
-        "x": 181,
-        "y": 82,
-        "width": 1239,
-        "height": 383
+        "x": 171,
+        "y": 38,
+        "width": 1269,
+        "height": 67
       },
       "color": null,
       "not_found": false,
@@ -19,30 +19,33 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the filter controls labeled 'Report Filters'",
-      "target_description": "Filter controls area for reports",
+      "target_description": "Quick Navigation panel with report category tabs/chips used to filter reports",
       "label_text": "Report Filters",
-      "bbox": null,
+      "bbox": {
+        "x": 44,
+        "y": 263,
+        "width": 1372,
+        "height": 201
+      },
       "color": null,
-      "not_found": true,
-      "notes": "no distinct filter controls are visible in the screenshot"
+      "not_found": false,
+      "notes": ""
     },
     {
       "request_index": 2,
       "request_text": "rectangle around the visible report table or chart area labeled 'Report Results'",
-      "target_description": "Main visible report results area showing the Subscription Performance report cards/charts grid",
+      "target_description": "Visible Subscription Performance report results section containing report cards/charts",
       "label_text": "Report Results",
       "bbox": {
         "x": 202,
-        "y": 498,
-        "width": 1198,
-        "height": 434
+        "y": 529,
+        "width": 1220,
+        "height": 371
       },
       "color": null,
       "not_found": false,
       "notes": ""
     }
   ],
-  "unresolved": [
-    "rectangle around the filter controls labeled 'Report Filters'"
-  ]
+  "unresolved": []
 }

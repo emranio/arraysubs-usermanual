@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-products/plan-switching-and-relationships.assets/02-fixed-period-fields-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the fixed end date fields labeled 'Fixed-period membership (Pro)'",
+      "target_description": "Fixed Period Membership section containing the Use fixed end date checkbox, End date type dropdown, and End date field",
+      "label_text": "Fixed-period membership (Pro)",
+      "bbox": {
+        "x": 363,
+        "y": 793,
+        "width": 299,
+        "height": 175
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

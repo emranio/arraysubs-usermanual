@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-products/coupon-integration.assets/01-coupon-fields-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription coupon options labeled 'Recurring discount controls'",
+      "target_description": "ArraySubs Subscription Settings section containing Apply to subscriptions, Discount duration, Number of renewal cycles, and Count initial checkout options",
+      "label_text": "Recurring discount controls",
+      "bbox": {
+        "x": 349,
+        "y": 338,
+        "width": 509,
+        "height": 317
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

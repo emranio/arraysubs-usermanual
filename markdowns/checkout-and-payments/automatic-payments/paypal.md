@@ -18,6 +18,8 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
+![PayPal gateway credential fields (Pro)](paypal.assets/01-paypal-settings-annotated.png)
+
 ## Overview
 
 PayPal uses the **gateway-managed billing** model. ArraySubs creates a PayPal Billing Plan and Subscription during checkout, and PayPal handles all future charges on its own schedule. When PayPal processes a payment, it sends a webhook to ArraySubs, which creates the corresponding renewal order and updates the subscription.

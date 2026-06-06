@@ -18,6 +18,8 @@
 - **Next guide:** [cron-job-setup](./cron-job-setup.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![ArraySubs (free core) and ArraySubs Pro both active on the Plugins screen](before-you-launch.assets/01-plugins-active-annotated.png)
+
 ## Overview
 
 ArraySubs is a WooCommerce subscription engine that adds recurring billing, a self-service customer portal, and membership access control to any WooCommerce store. It works as two plugins: a free core plugin that covers all essential subscription functionality, and an optional Pro addon that adds automatic payments, advanced analytics, store credit, checkout customization, and more.

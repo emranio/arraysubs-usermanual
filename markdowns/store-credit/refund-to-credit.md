@@ -18,6 +18,8 @@
 - **Next guide:** [store-credit-management](./store-credit-management.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The WooCommerce refund panel on a subscription order (Pro)](refund-to-credit.assets/01-refund-to-credit-annotated.png)
+
 ## Overview
 
 The Refund to Credit integration adds a new refund method directly inside the WooCommerce order edit screen. Instead of issuing a traditional gateway refund (which sends money back to the customer's card or PayPal), you can convert the refund amount into store credit that is deposited into the customer's account.

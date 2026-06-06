@@ -122,8 +122,8 @@ Track subscription revenue, growth, churn, and customer behavior — from a dedi
 Automated emails for every subscription lifecycle event — configure, customize, and troubleshoot the full notification system.
 
 - [Email Overview](emails/README.md) — How ArraySubs emails work, WooCommerce integration, placeholder reference, template overrides, and reminder scheduling.
-- [Customer Emails](emails/customer-emails.md) — 13 customer-facing emails: new subscription, trials, renewals, payments, status changes, auto-downgrade, and retention.
-- [Admin Emails](emails/admin-emails.md) — 3 admin notifications: new subscription, payment failed, and subscription cancelled.
+- [Customer Emails](emails/customer-emails.md) — 17 customer-facing emails: new subscription, trials, renewals, payments, status changes, auto-downgrade, retention, card expiry, and gateway verification.
+- [Admin Emails](emails/admin-emails.md) — 4 admin notifications: new subscription, payment failed, scheduled cancellation, and subscription cancelled.
 - [Store Credit Emails](emails/store-credit-emails.md) *(Pro)* — 4 credit balance emails: added, used, expiring, and expired.
 
 ## Profile Builder and My Account Customization

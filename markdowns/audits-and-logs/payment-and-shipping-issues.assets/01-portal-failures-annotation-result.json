@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/audits-and-logs/payment-and-shipping-issues.assets/01-portal-failures-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around a failed portal action entry labeled 'Update failures'",
+      "target_description": "Top failed portal action table row entry in the Portal Action Failures list",
+      "label_text": "Update failures",
+      "bbox": {
+        "x": 49,
+        "y": 265,
+        "width": 1391,
+        "height": 129
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

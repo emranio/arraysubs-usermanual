@@ -1,0 +1,1 @@
+- rectangle around a product row showing its subscription indicator labeled 'Subscription product'

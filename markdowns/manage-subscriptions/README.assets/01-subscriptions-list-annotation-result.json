@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/manage-subscriptions/README.assets/01-subscriptions-list-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscriptions list with its filters labeled 'Subscriptions list'",
+      "target_description": "Main subscriptions list panel including the filter links, search/filter controls, and table of subscriptions",
+      "label_text": "Subscriptions list",
+      "bbox": {
+        "x": 180,
+        "y": 149,
+        "width": 1241,
+        "height": 851
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

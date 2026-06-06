@@ -1,0 +1,1 @@
+- rectangle around the custom profile field builder labeled 'Profile fields'

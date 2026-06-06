@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/checkout-and-payments/checkout-builder/use-cases.assets/01-builder-canvas-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the checkout builder editing canvas labeled 'Drag-and-drop editor'",
+      "target_description": "large top-center bordered checkout builder canvas panel containing the 'Checkout Form Builder' heading and Open Builder button",
+      "label_text": "Drag-and-drop editor",
+      "bbox": {
+        "x": 205,
+        "y": 197,
+        "width": 1149,
+        "height": 295
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

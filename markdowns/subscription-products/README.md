@@ -46,6 +46,8 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 
 ---
 
+![Subscription products are flagged in the WooCommerce Products list](README.assets/01-products-list-annotated.png)
+
 ## Related Guides
 
 - [First-Time Setup](../getting-started/first-time-setup.md) — Create your first subscription product step by step.

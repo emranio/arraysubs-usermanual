@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Settings tab labeled 'Builder Settings'",
-      "target_description": "Settings tab in the top content header next to Editor",
+      "target_description": "Settings tab in the page header breadcrumb area near the top left",
       "label_text": "Builder Settings",
       "bbox": {
-        "x": 249,
-        "y": 51,
-        "width": 84,
-        "height": 31
+        "x": 240,
+        "y": 47,
+        "width": 46,
+        "height": 16
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the checkout settings fields labeled 'Checkout Controls'",
-      "target_description": "Main checkout builder settings content area containing the General, Order Display, and File Uploads sections",
+      "target_description": "Main settings content area containing the General, Order Display, and File Uploads checkout builder settings",
       "label_text": "Checkout Controls",
       "bbox": {
-        "x": 201,
-        "y": 152,
-        "width": 1220,
-        "height": 848
+        "x": 184,
+        "y": 149,
+        "width": 1234,
+        "height": 844
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button labeled 'Save Settings'",
-      "target_description": "Blue Save Settings button at the bottom left of the content area",
+      "target_description": "Blue Save Settings button at the bottom left of the settings page",
       "label_text": "Save Settings",
       "bbox": {
-        "x": 202,
-        "y": 950,
-        "width": 114,
-        "height": 39
+        "x": 185,
+        "y": 949,
+        "width": 128,
+        "height": 44
       },
       "color": null,
       "not_found": false,

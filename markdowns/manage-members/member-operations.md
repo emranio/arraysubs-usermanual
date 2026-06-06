@@ -18,6 +18,8 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![The member profile header and quick actions (Pro)](member-operations.assets/01-member-profile-annotated.png)
+
 ## Overview
 
 The Manage Members page is not just a data viewer — it is a navigation hub. Three quick-link cards, inline table links, and five admin-wide shortcut integrations let you reach any customer-related screen in one or two clicks. This guide covers every outbound navigation path and explains how the insight metrics shown in the stats grid are calculated.

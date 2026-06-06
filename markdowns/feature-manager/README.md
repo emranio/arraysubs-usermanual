@@ -83,3 +83,5 @@ Features are only shown for subscriptions with an `active` or `trial` status. On
 - **Previous guide:** [feature-manager-settings](./feature-manager-settings.md)
 - **Next guide:** [before-you-launch](../getting-started/before-you-launch.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+
+![The Feature Manager product tab with defined features (Pro)](README.assets/01-feature-tab-annotated.png)

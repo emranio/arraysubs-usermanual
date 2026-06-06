@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/analytics/README.assets/01-analytics-overview-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription performance cards labeled 'Subscription analytics'",
+      "target_description": "Performance section grid of subscription analytics cards under the 'Performance' heading",
+      "label_text": "Subscription analytics",
+      "bbox": {
+        "x": 199,
+        "y": 327,
+        "width": 1201,
+        "height": 207
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

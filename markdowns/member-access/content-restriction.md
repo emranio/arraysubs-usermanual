@@ -18,6 +18,8 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![A URL restriction rule in Member Access](content-restriction.assets/01-url-rules-annotated.png)
+
 ## Overview
 
 Content Restriction covers the presentation and behavior layer of Member Access — the part visitors actually see when they hit a wall. While the rule types (Post Type Rules, URL Rules, etc.) define *who* can access *what*, this guide covers:

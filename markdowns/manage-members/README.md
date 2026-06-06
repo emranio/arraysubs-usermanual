@@ -19,6 +19,8 @@
 - **Next guide:** [admin-tools-and-records](../manage-subscriptions/admin-tools-and-records.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Member search in Manage Members (Pro)](README.assets/01-member-search-annotated.png)
+
 ## Overview
 
 The **Manage Members** page is a centralized member insight dashboard that brings together everything you need to know about a subscriber in one place. Instead of clicking between the WordPress user list, WooCommerce orders, subscription records, and store credit screens, you search for a customer and see the full picture immediately.

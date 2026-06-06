@@ -18,6 +18,8 @@
 - **Next guide:** [stripe](./stripe.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
+![ArraySubs PayPal and Paddle payment methods (Pro)](README.assets/01-gateways-list-annotated.png)
+
 ## Overview
 
 ArraySubs Pro integrates with three payment gateways — **Stripe**, **PayPal**, and **Paddle** — to process subscription payments automatically. Each gateway handles initial checkout payments, stores customer payment methods, and charges renewal invoices without merchant or customer intervention.

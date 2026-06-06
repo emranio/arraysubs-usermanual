@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/getting-started/import-export-settings.assets/01-import-export-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the export and import settings panel labeled 'Backup and restore'",
+      "target_description": "The combined section containing the Export Settings card and the Import Settings card in the main content area",
+      "label_text": "Backup and restore",
+      "bbox": {
+        "x": 202,
+        "y": 402,
+        "width": 717,
+        "height": 338
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

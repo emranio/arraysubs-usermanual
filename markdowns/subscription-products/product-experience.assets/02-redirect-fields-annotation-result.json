@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-products/product-experience.assets/02-redirect-fields-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the Enable redirect checkbox and its description labeled 'Product page redirect (Pro)'",
+      "target_description": "Enable redirect checkbox and the text 'Activate page-level redirect for this product.' in the main content area",
+      "label_text": "Product page redirect (Pro)",
+      "bbox": {
+        "x": 351,
+        "y": 142,
+        "width": 239,
+        "height": 18
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -18,6 +18,10 @@
 - **Next guide:** [product-lifecycle](./product-lifecycle.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Per-product page redirect settings (Pro)](product-experience.assets/02-redirect-fields-annotated.png)
+
+![Recurring vs one-time subscription shipping fields (Pro)](product-experience.assets/03-shipping-fields-annotated.png)
+
 ## Visual Guide
 
 Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.

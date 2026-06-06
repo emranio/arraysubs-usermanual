@@ -1,0 +1,1 @@
+- rectangle around the account shortcodes reference labeled 'Account shortcodes'

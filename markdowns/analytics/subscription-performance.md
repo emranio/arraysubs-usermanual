@@ -19,6 +19,8 @@
 - **Next guide:** [woocommerce-analytics-extension](./woocommerce-analytics-extension.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![MRR, churn, ARPU and other subscription cards (Pro)](subscription-performance.assets/01-performance-cards-annotated.png)
+
 ## Overview
 
 The Subscription Performance Dashboard adds three dedicated sections to the **WooCommerce → Analytics → Overview** page:

@@ -18,6 +18,8 @@
 - **Next guide:** [member-lookup-and-profiles](./member-lookup-and-profiles.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![A member's subscriptions, orders, credit and metrics (Pro)](member-commerce-overview.assets/01-member-commerce-annotated.png)
+
 ## Overview
 
 Once you select a member on the Manage Members page, three collapsible data sections appear below the stats grid and quick links. These sections show the customer's subscription records, non-subscription product purchases, and billing/shipping addresses. Together with the stats cards, they give you a complete commerce picture for the customer without leaving the page.

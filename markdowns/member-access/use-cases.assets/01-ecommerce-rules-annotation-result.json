@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/member-access/use-cases.assets/01-ecommerce-rules-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the ecommerce restriction rule labeled 'Commerce rule'",
+      "target_description": "Ecommerce Rules panel in the main content area",
+      "label_text": "Commerce rule",
+      "bbox": {
+        "x": 24,
+        "y": 118,
+        "width": 1394,
+        "height": 590
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

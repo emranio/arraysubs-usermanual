@@ -17,6 +17,8 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Subscription order context added to the orders list (Pro)](order-list-enhancements.assets/01-orders-list-annotated.png)
+
 ## Overview
 
 The Order List Enhancements add four capabilities to the standard **WooCommerce → Orders** page:

@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Discounts tab labeled 'Discount Rules'",
-      "target_description": "Discount tab in the top horizontal navigation under the site header",
+      "target_description": "Discount tab in the horizontal navigation near the top of the page",
       "label_text": "Discount Rules",
       "bbox": {
-        "x": 306,
-        "y": 47,
-        "width": 83,
-        "height": 28
+        "x": 298,
+        "y": 48,
+        "width": 74,
+        "height": 32
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the How Discount Rules Work panel labeled 'How discounts work'",
-      "target_description": "Blue bordered informational panel titled How Discount Rules Work in the main content area",
+      "target_description": "Informational panel titled How Discount Rules Work in the main content area",
       "label_text": "How discounts work",
       "bbox": {
-        "x": 202,
-        "y": 251,
-        "width": 1198,
-        "height": 250
+        "x": 47,
+        "y": 284,
+        "width": 1373,
+        "height": 215
       },
       "color": null,
       "not_found": false,
@@ -37,10 +37,10 @@
       "target_description": "Dashed outline button labeled Add New Rule below the empty rules area",
       "label_text": "Add rule",
       "bbox": {
-        "x": 202,
-        "y": 642,
-        "width": 142,
-        "height": 55
+        "x": 201,
+        "y": 641,
+        "width": 125,
+        "height": 41
       },
       "color": null,
       "not_found": false,

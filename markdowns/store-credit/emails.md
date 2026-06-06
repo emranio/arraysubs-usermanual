@@ -18,6 +18,8 @@
 - **Next guide:** [purchase-product](./purchase-product.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
+![Store Credit event emails (Pro)](emails.assets/01-credit-emails-annotated.png)
+
 ## Overview
 
 The Store Credit system includes four dedicated WooCommerce emails that are automatically triggered by credit events. These emails use the standard WooCommerce email framework, which means they inherit your store's email template styling and can be customized from **WooCommerce → Settings → Emails**.

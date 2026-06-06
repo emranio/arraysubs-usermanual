@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Shortcodes page heading labeled 'Shortcodes'",
-      "target_description": "The page heading text 'Shortcodes' near the top-left of the main content area",
+      "target_description": "The page heading text 'Shortcodes' near the top of the main content area",
       "label_text": "Shortcodes",
       "bbox": {
-        "x": 180,
-        "y": 51,
-        "width": 137,
-        "height": 36
+        "x": 165,
+        "y": 42,
+        "width": 70,
+        "height": 28
       },
       "color": null,
       "not_found": false,
@@ -19,12 +19,12 @@
     {
       "request_index": 1,
       "request_text": "rectangle around a shortcode card labeled 'Shortcode Reference'",
-      "target_description": "The left shortcode card for 'Current User Name' in the Account section",
+      "target_description": "The left shortcode reference card titled 'Current User Name' in the Account section",
       "label_text": "Shortcode Reference",
       "bbox": {
-        "x": 202,
+        "x": 156,
         "y": 461,
-        "width": 593,
+        "width": 637,
         "height": 539
       },
       "color": null,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the copy or action area labeled 'Use Shortcode'",
-      "target_description": "The dark quick usage shortcode code block inside the 'Current User Name' card",
+      "target_description": "The dark quick usage shortcode input/action area within the left 'Current User Name' card",
       "label_text": "Use Shortcode",
       "bbox": {
-        "x": 225,
+        "x": 186,
         "y": 649,
-        "width": 544,
-        "height": 43
+        "width": 619,
+        "height": 44
       },
       "color": null,
       "not_found": false,
