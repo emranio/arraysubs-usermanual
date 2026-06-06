@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Refund Management tab labeled 'Refund Management'",
-      "target_description": "Refunds tab in the top settings navigation bar",
+      "target_description": "Refunds tab in the top horizontal navigation",
       "label_text": "Refund Management",
       "bbox": {
-        "x": 454,
+        "x": 467,
         "y": 46,
-        "width": 72,
+        "width": 73,
         "height": 29
       },
       "color": null,
@@ -19,12 +19,12 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the refund settings controls labeled 'Refund Rules'",
-      "target_description": "Refund Settings section card containing refund on cancellation radio controls",
+      "target_description": "Refund Settings panel containing refund on cancellation options",
       "label_text": "Refund Rules",
       "bbox": {
-        "x": 68,
+        "x": 202,
         "y": 173,
-        "width": 1349,
+        "width": 1198,
         "height": 302
       },
       "color": null,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Refund Settings'",
-      "target_description": "Save Settings button in the sticky footer at the bottom left",
+      "target_description": "Save Settings button in the bottom sticky action bar",
       "label_text": "Save Refund Settings",
       "bbox": {
-        "x": 187,
-        "y": 950,
-        "width": 105,
-        "height": 39
+        "x": 202,
+        "y": 949,
+        "width": 113,
+        "height": 40
       },
       "color": null,
       "not_found": false,

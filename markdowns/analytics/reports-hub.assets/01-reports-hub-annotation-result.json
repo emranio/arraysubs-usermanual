@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the dashboard heading and report tabs labeled 'Reports Hub'",
-      "target_description": "Top page header area containing the Reports heading and subtitle",
+      "target_description": "Top page header area containing the Reports heading, subtitle, and the quick navigation/report category tabs section beneath it",
       "label_text": "Reports Hub",
       "bbox": {
-        "x": 170,
-        "y": 34,
-        "width": 1270,
-        "height": 74
+        "x": 181,
+        "y": 82,
+        "width": 1239,
+        "height": 383
       },
       "color": null,
       "not_found": false,
@@ -19,33 +19,30 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the filter controls labeled 'Report Filters'",
-      "target_description": "Quick Navigation panel with report category pill controls",
+      "target_description": "Filter controls area for reports",
       "label_text": "Report Filters",
-      "bbox": {
-        "x": 64,
-        "y": 262,
-        "width": 1353,
-        "height": 200
-      },
+      "bbox": null,
       "color": null,
-      "not_found": false,
-      "notes": ""
+      "not_found": true,
+      "notes": "no distinct filter controls are visible in the screenshot"
     },
     {
       "request_index": 2,
       "request_text": "rectangle around the visible report table or chart area labeled 'Report Results'",
-      "target_description": "Subscription Performance report results card containing visible chart/report tiles",
+      "target_description": "Main visible report results area showing the Subscription Performance report cards/charts grid",
       "label_text": "Report Results",
       "bbox": {
-        "x": 101,
-        "y": 530,
-        "width": 1302,
-        "height": 403
+        "x": 202,
+        "y": 498,
+        "width": 1198,
+        "height": 434
       },
       "color": null,
       "not_found": false,
       "notes": ""
     }
   ],
-  "unresolved": []
+  "unresolved": [
+    "rectangle around the filter controls labeled 'Report Filters'"
+  ]
 }

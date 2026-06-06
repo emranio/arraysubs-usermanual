@@ -7,10 +7,10 @@
       "target_description": "Top horizontal settings tab navigation with General, Toolkit, Plan Switching, Refunds, Skip & Pause, and Feature Manager",
       "label_text": "Settings tabs",
       "bbox": {
-        "x": 143,
-        "y": 33,
-        "width": 721,
-        "height": 35
+        "x": 180,
+        "y": 43,
+        "width": 600,
+        "height": 31
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "Draw a red rectangle around the Multiple Subscriptions panel title and first options and label it \"Cart rules\".",
-      "target_description": "Upper portion of the Multiple Subscriptions panel including the title, subtitle, first toggle, first blue notice, and One Subscription per Customer option",
+      "target_description": "Multiple Subscriptions section header and first two options at the top of the main settings panel",
       "label_text": "Cart rules",
       "bbox": {
-        "x": 145,
+        "x": 219,
         "y": 173,
-        "width": 713,
-        "height": 378
+        "width": 634,
+        "height": 380
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "Draw a red rectangle around the One Subscription per Customer toggle and label it \"Customer limit\".",
-      "target_description": "One Subscription per Customer toggle switch and label",
+      "target_description": "One Subscription per Customer toggle row",
       "label_text": "Customer limit",
       "bbox": {
         "x": 219,
-        "y": 405,
-        "width": 293,
-        "height": 25
+        "y": 407,
+        "width": 372,
+        "height": 37
       },
       "color": null,
       "not_found": false,
@@ -49,13 +49,13 @@
     {
       "request_index": 3,
       "request_text": "Draw a red rectangle around the blue and yellow helper notices and label it \"Behavior notes\".",
-      "target_description": "Pair of helper notice boxes below One Subscription per Customer: one blue notice and one yellow notice",
+      "target_description": "Middle pair of helper notice boxes, one blue and one yellow, below One Subscription per Customer",
       "label_text": "Behavior notes",
       "bbox": {
-        "x": 189,
-        "y": 448,
-        "width": 662,
-        "height": 185
+        "x": 219,
+        "y": 449,
+        "width": 634,
+        "height": 184
       },
       "color": null,
       "not_found": false,
@@ -67,10 +67,10 @@
       "target_description": "Fixed bottom action bar containing Save Settings and Discard Changes buttons",
       "label_text": "Save changes",
       "bbox": {
-        "x": 196,
-        "y": 933,
-        "width": 1244,
-        "height": 66
+        "x": 181,
+        "y": 939,
+        "width": 1240,
+        "height": 61
       },
       "color": null,
       "not_found": false,

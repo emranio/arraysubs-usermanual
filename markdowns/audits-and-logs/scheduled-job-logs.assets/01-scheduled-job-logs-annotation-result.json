@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the page title labeled 'Scheduled Job Logs'",
-      "target_description": "page title text 'Scheduled-Job Logs' in the top content header",
+      "target_description": "page title text 'Scheduled-Job Logs' near the top of the content area",
       "label_text": "Scheduled Job Logs",
       "bbox": {
-        "x": 954,
-        "y": 49,
-        "width": 147,
-        "height": 24
+        "x": 943,
+        "y": 47,
+        "width": 178,
+        "height": 34
       },
       "color": null,
       "not_found": false,
@@ -22,10 +22,10 @@
       "target_description": "main job log table below the filters with columns Date, Status, Job, and Details",
       "label_text": "Scheduled Actions",
       "bbox": {
-        "x": 65,
+        "x": 202,
         "y": 255,
-        "width": 1328,
-        "height": 745
+        "width": 1197,
+        "height": 744
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the filters labeled 'Job Filters'",
-      "target_description": "filter panel containing From and To date inputs and reset/refresh controls above the table",
+      "target_description": "filter controls panel containing From and To date inputs and Reset/refresh buttons",
       "label_text": "Job Filters",
       "bbox": {
-        "x": 45,
-        "y": 174,
-        "width": 1347,
-        "height": 63
+        "x": 202,
+        "y": 173,
+        "width": 1197,
+        "height": 65
       },
       "color": null,
       "not_found": false,

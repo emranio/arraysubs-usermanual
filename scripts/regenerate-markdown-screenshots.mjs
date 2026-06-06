@@ -12,6 +12,8 @@ const ANNOTATE = path.join(MARKER, "annotate.py");
 const useRefine = process.argv.includes("--refine");
 const onlyIndex = process.argv.indexOf("--only");
 const only = onlyIndex === -1 ? "" : process.argv[onlyIndex + 1] || "";
+const colorIndex = process.argv.indexOf("--color");
+const color = colorIndex === -1 ? "#DC2626" : process.argv[colorIndex + 1] || "#DC2626";
 
 function walk(dir, files = []) {
   for (const entry of readdirSync(dir)) {
@@ -83,6 +85,8 @@ for (const imagePath of originals) {
     imagePath,
     "--output",
     outputPath,
+    "--color",
+    color,
     "--allow-unresolved",
   ];
 
@@ -119,7 +123,7 @@ for (const imagePath of originals) {
 
 skipped = walk(MARKDOWNS).length - originals.length;
 console.log(
-  `regenerate summary: completed=${completed} skipped=${skipped} failed=${failed} refine=${useRefine ? "yes" : "no"}`,
+  `regenerate summary: completed=${completed} skipped=${skipped} failed=${failed} refine=${useRefine ? "yes" : "no"} color=${color}`,
 );
 
 if (failed > 0) {

@@ -7,9 +7,9 @@
       "target_description": "Setup Wizard card at the top of the main content area",
       "label_text": "Guided setup",
       "bbox": {
-        "x": 142,
+        "x": 201,
         "y": 173,
-        "width": 780,
+        "width": 721,
         "height": 171
       },
       "color": null,
@@ -22,10 +22,10 @@
       "target_description": "Launch Setup Wizard button inside the Setup Wizard card",
       "label_text": "Start wizard",
       "bbox": {
-        "x": 234,
-        "y": 279,
-        "width": 119,
-        "height": 26
+        "x": 227,
+        "y": 280,
+        "width": 159,
+        "height": 40
       },
       "color": null,
       "not_found": false,
@@ -37,10 +37,10 @@
       "target_description": "Export Settings card in the middle of the main content area",
       "label_text": "Backup settings",
       "bbox": {
-        "x": 136,
+        "x": 201,
         "y": 370,
-        "width": 782,
-        "height": 172
+        "width": 721,
+        "height": 171
       },
       "color": null,
       "not_found": false,
@@ -49,12 +49,12 @@
     {
       "request_index": 3,
       "request_text": "Draw a red rectangle around the Import Settings card and label it \"Restore settings\".",
-      "target_description": "Import Settings card at the bottom of the stacked cards",
+      "target_description": "Import Settings card at the bottom of the main content area",
       "label_text": "Restore settings",
       "bbox": {
-        "x": 139,
-        "y": 567,
-        "width": 781,
+        "x": 201,
+        "y": 566,
+        "width": 721,
         "height": 172
       },
       "color": null,

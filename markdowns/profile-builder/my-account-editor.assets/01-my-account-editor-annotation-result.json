@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the My Account Editor heading labeled 'My Account Editor'",
-      "target_description": "Breadcrumb/page heading text 'My Account' near the top of the content area",
+      "target_description": "page heading area showing the breadcrumb/title 'Profile Form | My Account' near the top of the content",
       "label_text": "My Account Editor",
       "bbox": {
-        "x": 319,
-        "y": 47,
-        "width": 97,
-        "height": 20
+        "x": 184,
+        "y": 44,
+        "width": 227,
+        "height": 33
       },
       "color": null,
       "not_found": false,
@@ -19,33 +19,30 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the endpoint list labeled 'Account Endpoints'",
-      "target_description": "Main Menu Items panel containing the account endpoint list area",
+      "target_description": "endpoint list area inside the main panel under 'Menu Items'",
       "label_text": "Account Endpoints",
-      "bbox": {
-        "x": 203,
-        "y": 174,
-        "width": 1204,
-        "height": 223
-      },
+      "bbox": null,
       "color": null,
-      "not_found": false,
-      "notes": ""
+      "not_found": true,
+      "notes": "no visible endpoint list is shown; the customization area is disabled and empty"
     },
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Layout'",
-      "target_description": "Blue Save Configuration button at the bottom left of the main content area",
+      "target_description": "blue save button at the bottom left of the page footer area",
       "label_text": "Save Layout",
       "bbox": {
         "x": 202,
-        "y": 953,
-        "width": 148,
-        "height": 33
+        "y": 950,
+        "width": 145,
+        "height": 40
       },
       "color": null,
       "not_found": false,
       "notes": ""
     }
   ],
-  "unresolved": []
+  "unresolved": [
+    "rectangle around the endpoint list labeled 'Account Endpoints'"
+  ]
 }

@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Feature Manager Settings heading labeled 'Feature Manager'",
-      "target_description": "Feature Manager heading text at the top of the first settings panel",
+      "target_description": "Feature Manager heading text at the top of the main content card",
       "label_text": "Feature Manager",
       "bbox": {
-        "x": 211,
-        "y": 188,
-        "width": 209,
-        "height": 20
+        "x": 217,
+        "y": 191,
+        "width": 259,
+        "height": 48
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the enable toggle and display controls labeled 'Feature Controls'",
-      "target_description": "Top settings panel containing the Enable Feature Manager toggle and the larger Display Settings panel below it",
+      "target_description": "Upper settings area containing the Enable Feature Manager toggle and the Display Settings controls",
       "label_text": "Feature Controls",
       "bbox": {
-        "x": 67,
-        "y": 153,
-        "width": 1349,
-        "height": 588
+        "x": 202,
+        "y": 173,
+        "width": 1200,
+        "height": 566
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Features'",
-      "target_description": "Blue Save Settings button in the sticky footer area at the bottom left of the content pane",
+      "target_description": "Blue Save Settings button at the bottom left of the content area",
       "label_text": "Save Features",
       "bbox": {
-        "x": 204,
+        "x": 202,
         "y": 950,
         "width": 114,
-        "height": 38
+        "height": 39
       },
       "color": null,
       "not_found": false,

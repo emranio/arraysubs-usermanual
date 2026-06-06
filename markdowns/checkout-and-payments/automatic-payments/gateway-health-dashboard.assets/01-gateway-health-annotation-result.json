@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the dashboard header labeled 'Gateway Health'",
-      "target_description": "Top page header area with the gateway log navigation tabs and subtitle",
+      "target_description": "Top page header section with the Gateway Logs tab and subtitle describing gateway connections, subscriptions, counts, and webhook activity",
       "label_text": "Gateway Health",
       "bbox": {
-        "x": 177,
-        "y": 20,
-        "width": 1263,
-        "height": 89
+        "x": 181,
+        "y": 0,
+        "width": 1259,
+        "height": 107
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the gateway health cards labeled 'Gateway Status'",
-      "target_description": "Row of three gateway status cards for Paddle, PayPal, and Stripe",
+      "target_description": "Row of three gateway cards for Paddle, PayPal, and Stripe near the top of the main content area",
       "label_text": "Gateway Status",
       "bbox": {
-        "x": 88,
-        "y": 192,
-        "width": 1289,
-        "height": 92
+        "x": 221,
+        "y": 193,
+        "width": 1160,
+        "height": 149
       },
       "color": null,
       "not_found": false,
@@ -34,12 +34,12 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the issue or log area labeled 'Operational Signals'",
-      "target_description": "Webhook Event Log panel including its header, filters, and table",
+      "target_description": "Webhook Event Log panel containing filters and the event table below the gateway cards",
       "label_text": "Operational Signals",
       "bbox": {
-        "x": 223,
+        "x": 221,
         "y": 373,
-        "width": 1157,
+        "width": 1160,
         "height": 627
       },
       "color": null,

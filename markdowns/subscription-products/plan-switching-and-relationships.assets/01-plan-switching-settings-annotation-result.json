@@ -7,10 +7,10 @@
       "target_description": "Plan Switching tab in the horizontal settings navigation near the top",
       "label_text": "Plan Switching",
       "bbox": {
-        "x": 351,
-        "y": 49,
-        "width": 112,
-        "height": 25
+        "x": 336,
+        "y": 45,
+        "width": 160,
+        "height": 31
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the switching behavior fields labeled 'Switch Rules'",
-      "target_description": "Allowed Switch Types settings card containing the switching behavior toggle fields",
+      "target_description": "Allowed Switch Types settings card containing the switch behavior toggles",
       "label_text": "Switch Rules",
       "bbox": {
-        "x": 203,
-        "y": 463,
-        "width": 1202,
-        "height": 339
+        "x": 202,
+        "y": 432,
+        "width": 1199,
+        "height": 371
       },
       "color": null,
       "not_found": false,
@@ -34,12 +34,12 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Rules'",
-      "target_description": "Save Settings button in the sticky footer at the bottom left",
+      "target_description": "Save Settings button area at the bottom left of the page",
       "label_text": "Save Rules",
       "bbox": {
-        "x": 188,
-        "y": 951,
-        "width": 128,
+        "x": 202,
+        "y": 949,
+        "width": 114,
         "height": 39
       },
       "color": null,

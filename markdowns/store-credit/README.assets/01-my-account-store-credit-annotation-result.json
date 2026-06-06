@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Store credit is not available notice labeled 'Availability Notice'",
-      "target_description": "blue outlined notice box in the account content area stating Store credit is not available.",
+      "target_description": "blue outlined notice box containing the text 'Store credit is not available.' in the main content area",
       "label_text": "Availability Notice",
       "bbox": {
-        "x": 510,
-        "y": 455,
-        "width": 706,
-        "height": 60
+        "x": 540,
+        "y": 454,
+        "width": 681,
+        "height": 61
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the My account menu items labeled 'Account Menu'",
-      "target_description": "left sidebar list of My account navigation menu items under the My account heading",
+      "target_description": "left-side vertical list of My account navigation menu items under the 'My account' heading",
       "label_text": "Account Menu",
       "bbox": {
         "x": 219,
         "y": 430,
-        "width": 208,
-        "height": 570
+        "width": 183,
+        "height": 564
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the impersonation bar at the top labeled 'Admin Impersonation'",
-      "target_description": "green admin impersonation banner near the top center saying Go back as admin",
+      "target_description": "green admin impersonation banner at the top saying 'Go back as admin (admin@mirror-help.arrayhash.com)'",
       "label_text": "Admin Impersonation",
       "bbox": {
-        "x": 383,
-        "y": 45,
-        "width": 640,
-        "height": 47
+        "x": 416,
+        "y": 48,
+        "width": 608,
+        "height": 38
       },
       "color": null,
       "not_found": false,

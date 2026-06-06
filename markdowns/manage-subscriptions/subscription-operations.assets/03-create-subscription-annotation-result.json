@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Add Subscription heading labeled 'Create Subscription'",
-      "target_description": "Page header area with breadcrumb 'All Subscriptions | Add New' and subtitle 'Create a new subscription manually' at the top of the content pane",
+      "target_description": "Page title area at the top showing 'Add New' with the subtitle 'Create a new subscription manually'",
       "label_text": "Create Subscription",
       "bbox": {
         "x": 179,
-        "y": 51,
-        "width": 225,
-        "height": 34
+        "y": 21,
+        "width": 217,
+        "height": 72
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the customer and product fields labeled 'Required Details'",
-      "target_description": "Combined upper form sections containing the General customer field and the Product & Subscription Details fields",
+      "target_description": "The General and Product & Subscription Details form sections containing the customer and product fields",
       "label_text": "Required Details",
       "bbox": {
-        "x": 70,
-        "y": 173,
-        "width": 1342,
-        "height": 648
+        "x": 202,
+        "y": 152,
+        "width": 1200,
+        "height": 668
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the create or save button area labeled 'Save Subscription'",
-      "target_description": "Bottom sticky action bar area containing the blue Create Subscription button and Cancel button",
+      "target_description": "Bottom sticky action area containing the Create Subscription button",
       "label_text": "Save Subscription",
       "bbox": {
-        "x": 179,
-        "y": 931,
-        "width": 1243,
-        "height": 68
+        "x": 202,
+        "y": 940,
+        "width": 334,
+        "height": 49
       },
       "color": null,
       "not_found": false,

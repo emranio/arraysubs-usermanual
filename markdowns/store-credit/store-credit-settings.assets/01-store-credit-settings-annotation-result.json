@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Store Credit Settings heading labeled 'Store Credit Settings'",
-      "target_description": "Store Credit Settings heading text near the top of the main content card",
+      "target_description": "The 'Store Credit Settings' heading text at the top of the main settings card",
       "label_text": "Store Credit Settings",
       "bbox": {
         "x": 218,
-        "y": 191,
-        "width": 290,
-        "height": 23
+        "y": 193,
+        "width": 276,
+        "height": 41
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the settings fields labeled 'Credit Controls'",
-      "target_description": "Credit Application settings panel containing the toggle fields and minimum order amount input",
+      "target_description": "The Credit Application settings section containing the toggles and minimum order amount field",
       "label_text": "Credit Controls",
       "bbox": {
         "x": 202,
         "y": 432,
-        "width": 1198,
-        "height": 509
+        "width": 1199,
+        "height": 506
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Store Credit'",
-      "target_description": "Blue Save Settings button at the bottom left of the content area",
+      "target_description": "The blue 'Save Settings' button at the bottom left of the content area",
       "label_text": "Save Store Credit",
       "bbox": {
-        "x": 201,
-        "y": 956,
+        "x": 202,
+        "y": 950,
         "width": 115,
-        "height": 30
+        "height": 40
       },
       "color": null,
       "not_found": false,

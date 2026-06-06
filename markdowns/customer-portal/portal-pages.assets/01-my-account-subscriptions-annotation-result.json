@@ -8,9 +8,9 @@
       "label_text": "Subscriptions List",
       "bbox": {
         "x": 539,
-        "y": 458,
-        "width": 182,
-        "height": 26
+        "y": 460,
+        "width": 235,
+        "height": 39
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the subscriptions table labeled 'Customer Subscriptions'",
-      "target_description": "Subscriptions table showing product, status, next payment, total, and actions columns",
+      "target_description": "Subscriptions table showing product, status, next payment, total, and actions",
       "label_text": "Customer Subscriptions",
       "bbox": {
-        "x": 540,
-        "y": 509,
+        "x": 539,
+        "y": 508,
         "width": 681,
-        "height": 162
+        "height": 161
       },
       "color": null,
       "not_found": false,
@@ -37,10 +37,10 @@
       "target_description": "View action link in the Actions column of the subscriptions table row",
       "label_text": "Open Detail",
       "bbox": {
-        "x": 1131,
-        "y": 613,
-        "width": 46,
-        "height": 17
+        "x": 1139,
+        "y": 604,
+        "width": 45,
+        "height": 29
       },
       "color": null,
       "not_found": false,

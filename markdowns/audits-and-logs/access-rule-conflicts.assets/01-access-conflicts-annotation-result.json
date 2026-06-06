@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the page title labeled 'Access Rule Conflicts'",
-      "target_description": "Page title text at the top of the content area reading about access rule conflicts",
+      "target_description": "Page title and subtitle area at the top of the content pane, with the selected Conflicts tab and description text",
       "label_text": "Access Rule Conflicts",
       "bbox": {
-        "x": 178,
-        "y": 80,
-        "width": 421,
-        "height": 14
+        "x": 180,
+        "y": 14,
+        "width": 1260,
+        "height": 92
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the conflict list area labeled 'Conflict Results'",
-      "target_description": "Large bordered white results panel containing the refresh button, tabs, and empty conflict results message",
+      "target_description": "Large main results panel below the Go Back link containing tabs and the empty conflict results message",
       "label_text": "Conflict Results",
       "bbox": {
         "x": 181,
-        "y": 150,
+        "y": 152,
         "width": 1240,
-        "height": 850
+        "height": 848
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the filters or search controls labeled 'Find Conflicts'",
-      "target_description": "Top controls area inside the results panel containing the Refresh button",
+      "target_description": "Controls region at the top of the results panel containing the Refresh button and rule-type filter tabs",
       "label_text": "Find Conflicts",
       "bbox": {
-        "x": 47,
-        "y": 174,
-        "width": 1369,
-        "height": 52
+        "x": 202,
+        "y": 173,
+        "width": 1200,
+        "height": 101
       },
       "color": null,
       "not_found": false,
