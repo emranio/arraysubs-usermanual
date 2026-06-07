@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the email subject and additional content fields labeled 'Editable email'",
-      "target_description": "The editable form area containing the Subject input, Email heading input, and Additional content textarea in the main settings panel",
+      "target_description": "Subject input and Additional content textarea fields in the email settings form",
       "label_text": "Editable email",
       "bbox": {
-        "x": 188,
-        "y": 693,
-        "width": 637,
-        "height": 233
+        "x": 424,
+        "y": 694,
+        "width": 400,
+        "height": 232
       },
       "color": null,
       "not_found": false,

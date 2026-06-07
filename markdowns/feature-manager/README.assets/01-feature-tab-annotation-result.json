@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the product features list labeled 'Product features'",
-      "target_description": "Product Features table/list in the main content area",
+      "target_description": "Product features table/list containing columns Title, Type, Value, and Enabled with feature rows",
       "label_text": "Product features",
       "bbox": {
         "x": 208,
-        "y": 223,
-        "width": 708,
-        "height": 386
+        "y": 222,
+        "width": 709,
+        "height": 387
       },
       "color": null,
       "not_found": false,

@@ -4,17 +4,17 @@
     {
       "request_index": 0,
       "request_text": "rectangle around a failed portal action entry labeled 'Update failures'",
-      "target_description": "Top failed portal action table row entry in the Portal Action Failures list",
+      "target_description": "Failed portal action entry row in the Portal Action Failures table",
       "label_text": "Update failures",
       "bbox": {
-        "x": 49,
-        "y": 265,
-        "width": 1391,
-        "height": 129
+        "x": 202,
+        "y": 281,
+        "width": 1197,
+        "height": 109
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Annotated the first visible failed portal action row."
     }
   ],
   "unresolved": []

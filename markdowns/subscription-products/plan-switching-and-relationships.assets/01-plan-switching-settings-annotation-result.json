@@ -4,28 +4,28 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Plan Switching tab labeled 'Plan Switching'",
-      "target_description": "Plan Switching tab in the top horizontal navigation",
+      "target_description": "Plan Switching tab in the top ArraySubs settings navigation",
       "label_text": "Plan Switching",
       "bbox": {
-        "x": 345,
+        "x": 323,
         "y": 47,
-        "width": 101,
-        "height": 25
+        "width": 130,
+        "height": 41
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded vertically to include the full tab/control area, including the underline/subtext region visually associated with the selected tab."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the switching behavior fields labeled 'Switch Rules'",
-      "target_description": "Allowed Switch Types settings panel containing the switching behavior toggle fields",
+      "target_description": "Allowed Switch Types settings panel with upgrade, downgrade, crossgrade, and customer-initiated switch toggles",
       "label_text": "Switch Rules",
       "bbox": {
         "x": 203,
-        "y": 464,
-        "width": 1199,
-        "height": 338
+        "y": 431,
+        "width": 1197,
+        "height": 370
       },
       "color": null,
       "not_found": false,
@@ -34,12 +34,12 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the save button area labeled 'Save Rules'",
-      "target_description": "Bottom sticky action bar area containing the Save Settings and Discard Changes buttons",
+      "target_description": "Sticky bottom save controls area containing Save Settings and Discard Changes buttons",
       "label_text": "Save Rules",
       "bbox": {
-        "x": 1,
-        "y": 940,
-        "width": 1421,
+        "x": 181,
+        "y": 939,
+        "width": 1240,
         "height": 60
       },
       "color": null,

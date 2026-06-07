@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the WordPress admin ArraySubs menu labeled 'ArraySubs Menu'",
-      "target_description": "ArraySubs top-level menu item in the left WordPress admin sidebar",
+      "target_description": "Active ArraySubs menu item in the left WordPress admin sidebar",
       "label_text": "ArraySubs Menu",
       "bbox": {
         "x": 0,
-        "y": 303,
-        "width": 184,
-        "height": 41
+        "y": 314,
+        "width": 160,
+        "height": 33
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the Subscriptions entry labeled 'Subscriptions'",
-      "target_description": "Subscriptions submenu entry under ArraySubs in the left admin sidebar",
+      "target_description": "Subscriptions submenu entry under ArraySubs in the left WordPress admin sidebar",
       "label_text": "Subscriptions",
       "bbox": {
-        "x": 2,
-        "y": 348,
-        "width": 103,
-        "height": 18
+        "x": 0,
+        "y": 346,
+        "width": 160,
+        "height": 43
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the main subscriptions page area labeled 'Admin Workspace'",
-      "target_description": "Main subscriptions management workspace panel containing filters and the subscriptions table",
+      "target_description": "Main WordPress admin workspace to the right of the sidebar, below the top admin bar",
       "label_text": "Admin Workspace",
       "bbox": {
-        "x": 181,
-        "y": 151,
-        "width": 1240,
-        "height": 849
+        "x": 160,
+        "y": 33,
+        "width": 1280,
+        "height": 967
       },
       "color": null,
       "not_found": false,

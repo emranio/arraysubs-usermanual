@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the customer search field labeled 'Find Customer'",
-      "target_description": "customer search input field near the top of the content area under the 'Find a Customer' label",
+      "target_description": "Customer search input field under the Find a Customer label",
       "label_text": "Find Customer",
       "bbox": {
         "x": 228,
-        "y": 224,
-        "width": 499,
-        "height": 42
+        "y": 223,
+        "width": 500,
+        "height": 40
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the empty-state credit panel labeled 'Credit Workspace'",
-      "target_description": "large empty-state credit panel below the search section with a dollar sign icon and instructional text",
+      "target_description": "Large bordered empty-state credit workspace panel below the customer search section",
       "label_text": "Credit Workspace",
       "bbox": {
-        "x": 199,
-        "y": 315,
-        "width": 1201,
-        "height": 232
+        "x": 202,
+        "y": 314,
+        "width": 1199,
+        "height": 233
       },
       "color": null,
       "not_found": false,
@@ -34,17 +34,17 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the instruction text labeled 'Search First'",
-      "target_description": "instructional empty-state text centered inside the credit panel below the dollar sign icon",
+      "target_description": "Instruction text in the center of the empty-state credit panel",
       "label_text": "Search First",
       "bbox": {
-        "x": 633,
-        "y": 444,
-        "width": 337,
-        "height": 38
+        "x": 612,
+        "y": 445,
+        "width": 377,
+        "height": 36
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to cover the full two-line instruction text rather than the thin underline area."
     }
   ],
   "unresolved": []

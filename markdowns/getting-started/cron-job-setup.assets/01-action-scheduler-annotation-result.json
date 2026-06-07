@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the scheduled actions table labeled 'Background job queue'",
-      "target_description": "Scheduled Actions results table beneath the filters and search controls",
+      "target_description": "Scheduled Actions table below the filters and bulk actions controls",
       "label_text": "Background job queue",
       "bbox": {
-        "x": 181,
-        "y": 320,
-        "width": 1238,
+        "x": 182,
+        "y": 321,
+        "width": 1236,
         "height": 679
       },
       "color": null,

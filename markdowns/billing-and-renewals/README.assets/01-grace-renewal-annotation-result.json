@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Grace Period settings labeled 'Grace and renewal timing'",
-      "target_description": "Grace Period settings card section near the bottom of the page",
+      "target_description": "Grace Period settings panel below the subscription checkout settings, including its header and visible fields",
       "label_text": "Grace and renewal timing",
       "bbox": {
-        "x": 64,
-        "y": 604,
-        "width": 1325,
-        "height": 396
+        "x": 202,
+        "y": 603,
+        "width": 1192,
+        "height": 387
       },
       "color": null,
       "not_found": false,

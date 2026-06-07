@@ -3,14 +3,14 @@
   "annotations": [
     {
       "request_index": 0,
-      "request_text": "rectangle around the ecommerce restriction rule labeled 'Commerce rule'",
-      "target_description": "Ecommerce Rules panel in the main content area",
+      "request_text": "rectangle around the How Ecommerce Rules Work info panel labeled 'Commerce rule'",
+      "target_description": "How Ecommerce Rules Work info panel in the Ecommerce Rules card",
       "label_text": "Commerce rule",
       "bbox": {
-        "x": 24,
-        "y": 118,
-        "width": 1394,
-        "height": 590
+        "x": 203,
+        "y": 252,
+        "width": 1197,
+        "height": 240
       },
       "color": null,
       "not_found": false,

@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Billing Period and Billing Interval fields labeled 'Billing schedule'",
-      "target_description": "Billing Cycle section containing the Billing Period dropdown and Billing Interval input",
+      "target_description": "Billing Period and Billing Interval field rows in the Subscription settings panel",
       "label_text": "Billing schedule",
       "bbox": {
-        "x": 188,
-        "y": 121,
-        "width": 475,
-        "height": 175
+        "x": 212,
+        "y": 147,
+        "width": 447,
+        "height": 152
       },
       "color": null,
       "not_found": false,
@@ -19,12 +19,12 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the Free Trial and Sign-up Fee fields labeled 'Trial and signup fee'",
-      "target_description": "Combined area covering the Free Trial section and the Sign-up Fee section",
+      "target_description": "Free Trial and Sign-up Fee field groups in the Subscription settings panel",
       "label_text": "Trial and signup fee",
       "bbox": {
-        "x": 187,
-        "y": 391,
-        "width": 752,
+        "x": 188,
+        "y": 393,
+        "width": 541,
         "height": 374
       },
       "color": null,

@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the retention offer shown in the cancellation modal labeled 'Save offer'",
-      "target_description": "retention offer card inside the cancellation modal with 'Stay and Save!' text and Accept Offer button",
+      "target_description": "Retention offer card inside the cancellation modal containing 'Stay and Save!' and the 'Accept Offer' button",
       "label_text": "Save offer",
       "bbox": {
-        "x": 425,
-        "y": 482,
-        "width": 592,
-        "height": 89
+        "x": 424,
+        "y": 479,
+        "width": 591,
+        "height": 81
       },
       "color": null,
       "not_found": false,

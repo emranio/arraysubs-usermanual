@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the member profile header labeled 'Member profile'",
-      "target_description": "member profile summary header card showing avatar, sync-stripe name, contact details, and action buttons",
+      "target_description": "Member profile header card containing the avatar, sync-stripe member details, and action buttons",
       "label_text": "Member profile",
       "bbox": {
-        "x": 43,
-        "y": 311,
-        "width": 1350,
-        "height": 138
+        "x": 202,
+        "y": 315,
+        "width": 1196,
+        "height": 158
       },
       "color": null,
       "not_found": false,

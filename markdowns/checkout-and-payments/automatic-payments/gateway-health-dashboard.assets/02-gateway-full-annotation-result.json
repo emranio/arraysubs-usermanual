@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the gateway status panels labeled 'Gateway health'",
-      "target_description": "row of three gateway status panels for Paddle, PayPal, and Stripe near the top of the content area",
+      "target_description": "Group of three gateway status panels for Paddle, PayPal, and Stripe near the top of the page",
       "label_text": "Gateway health",
       "bbox": {
-        "x": 113,
-        "y": 190,
-        "width": 1266,
-        "height": 154
+        "x": 224,
+        "y": 192,
+        "width": 1175,
+        "height": 149
       },
       "color": null,
       "not_found": false,

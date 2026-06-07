@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the subscription performance cards labeled 'Subscription analytics'",
-      "target_description": "Performance section grid of subscription analytics cards under the 'Performance' heading",
+      "target_description": "The two-row grid of subscription performance metric cards under the Performance heading, above the sales summary cards",
       "label_text": "Subscription analytics",
       "bbox": {
         "x": 199,
-        "y": 327,
+        "y": 326,
         "width": 1201,
-        "height": 207
+        "height": 209
       },
       "color": null,
       "not_found": false,

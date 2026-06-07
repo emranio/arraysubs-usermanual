@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "Draw a red rectangle around the status and action bar at the top of the subscription detail screen and label it \"Status and actions\".",
-      "target_description": "Top status and action bar containing ACTIVE badge and action buttons",
+      "target_description": "Status and action bar containing ACTIVE status and action buttons near the top of the subscription detail screen",
       "label_text": "Status and actions",
       "bbox": {
-        "x": 95,
-        "y": 189,
-        "width": 1285,
-        "height": 29
+        "x": 222,
+        "y": 193,
+        "width": 1161,
+        "height": 70
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "Draw a red rectangle around the Subscription card on the left and label it \"Billing dates\".",
-      "target_description": "Subscription card in the left column",
+      "target_description": "Subscription card in the left column showing subscription ID, created date, start date, next payment, last payment, and total paid",
       "label_text": "Billing dates",
       "bbox": {
-        "x": 220,
+        "x": 222,
         "y": 295,
-        "width": 571,
-        "height": 327
+        "width": 568,
+        "height": 329
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "Draw a red rectangle around the Skip & Pause card on the right and label it \"Skip and pause state\".",
-      "target_description": "Skip & Pause card in the right column",
+      "target_description": "Skip & Pause card in the right column showing skip renewals and vacation mode state",
       "label_text": "Skip and pause state",
       "bbox": {
-        "x": 812,
-        "y": 295,
-        "width": 587,
-        "height": 328
+        "x": 813,
+        "y": 293,
+        "width": 585,
+        "height": 335
       },
       "color": null,
       "not_found": false,
@@ -49,13 +49,13 @@
     {
       "request_index": 3,
       "request_text": "Draw a red rectangle around the Customer Information card and label it \"Customer details\".",
-      "target_description": "Customer Information card in the left column below Subscription",
+      "target_description": "Customer Information card in the left column below the Subscription card",
       "label_text": "Customer details",
       "bbox": {
-        "x": 199,
-        "y": 643,
-        "width": 589,
-        "height": 199
+        "x": 222,
+        "y": 642,
+        "width": 569,
+        "height": 201
       },
       "color": null,
       "not_found": false,
@@ -64,17 +64,17 @@
     {
       "request_index": 4,
       "request_text": "Draw a red rectangle around the Payment Gateway card and label it \"Gateway connection\".",
-      "target_description": "Payment Gateway card in the lower right column",
+      "target_description": "Payment Gateway card in the right column near the bottom of the screenshot",
       "label_text": "Gateway connection",
       "bbox": {
-        "x": 810,
-        "y": 861,
-        "width": 568,
-        "height": 139
+        "x": 813,
+        "y": 864,
+        "width": 583,
+        "height": 136
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "bottom of card is clipped by the screenshot"
     }
   ],
   "unresolved": []

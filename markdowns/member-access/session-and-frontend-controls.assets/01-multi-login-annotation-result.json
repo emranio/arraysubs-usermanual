@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Multi-Login Prevention controls labeled 'Concurrent session limit'",
-      "target_description": "Multi-Login Prevention settings card near the bottom of the page",
+      "target_description": "Enable Multi-Login Prevention toggle control row in the Multi-Login Prevention section",
       "label_text": "Concurrent session limit",
       "bbox": {
-        "x": 66,
-        "y": 811,
-        "width": 1328,
-        "height": 127
+        "x": 202,
+        "y": 896,
+        "width": 313,
+        "height": 42
       },
       "color": null,
       "not_found": false,

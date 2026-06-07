@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the trial-related settings labeled 'Trial rules'",
-      "target_description": "The settings section containing the 'One Subscription per Customer' toggle and related explanatory blue/yellow notices, which mention trial subscriptions",
+      "target_description": "One Subscription per Customer setting group, including its toggle row and explanatory blue and yellow notices",
       "label_text": "Trial rules",
       "bbox": {
-        "x": 215,
-        "y": 408,
-        "width": 636,
-        "height": 225
+        "x": 219,
+        "y": 407,
+        "width": 634,
+        "height": 229
       },
       "color": null,
       "not_found": false,

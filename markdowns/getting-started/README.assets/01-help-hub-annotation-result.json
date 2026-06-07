@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the in-plugin documentation cards labeled 'Built-in help'",
-      "target_description": "the two large help/documentation cards in the main content area",
+      "target_description": "Two large in-plugin help/documentation cards in the main content area",
       "label_text": "Built-in help",
       "bbox": {
-        "x": 67,
-        "y": 174,
-        "width": 1331,
-        "height": 750
+        "x": 203,
+        "y": 172,
+        "width": 1196,
+        "height": 754
       },
       "color": null,
       "not_found": false,

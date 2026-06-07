@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the member search box labeled 'Member lookup'",
-      "target_description": "search input box under the 'Find a Member' heading near the top of the page",
+      "target_description": "Find a Member search input box in the upper content area",
       "label_text": "Member lookup",
       "bbox": {
-        "x": 227,
-        "y": 224,
-        "width": 499,
-        "height": 41
+        "x": 229,
+        "y": 223,
+        "width": 498,
+        "height": 42
       },
       "color": null,
       "not_found": false,

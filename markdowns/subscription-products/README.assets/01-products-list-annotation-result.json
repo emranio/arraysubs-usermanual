@@ -4,17 +4,17 @@
     {
       "request_index": 0,
       "request_text": "rectangle around a product row showing its subscription indicator labeled 'Subscription product'",
-      "target_description": "The product row for 'Smoke Plan Plus' showing the purple 'Subscription' indicator",
+      "target_description": "Product table row with a visible Subscription indicator",
       "label_text": "Subscription product",
       "bbox": {
-        "x": 229,
-        "y": 544,
-        "width": 1005,
-        "height": 108
+        "x": 180,
+        "y": 526,
+        "width": 1240,
+        "height": 124
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Selected the visible Smoke Plan Plus row and bounded the whole row from table left edge to right edge and from separator to separator."
     }
   ],
   "unresolved": []

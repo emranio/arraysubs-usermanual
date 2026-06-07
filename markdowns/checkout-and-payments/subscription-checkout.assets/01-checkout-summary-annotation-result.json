@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the subscription order summary labeled 'Recurring totals'",
-      "target_description": "Order summary panel on the right side showing subscription renewal details and totals",
+      "target_description": "Order summary panel in the right column showing the Basic Monthly subscription and recurring billing details",
       "label_text": "Recurring totals",
       "bbox": {
         "x": 951,
-        "y": 120,
-        "width": 436,
+        "y": 121,
+        "width": 438,
         "height": 683
       },
       "color": null,

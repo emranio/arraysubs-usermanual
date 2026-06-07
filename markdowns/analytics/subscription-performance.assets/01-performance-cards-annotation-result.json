@@ -4,17 +4,17 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the recurring revenue and churn cards labeled 'Performance metrics'",
-      "target_description": "The two top-row Performance cards for Monthly Recurring Revenue and Churned Subscriptions",
+      "target_description": "Performance metric cards spanning Monthly Recurring Revenue through Churn Rate in the top Performance grid",
       "label_text": "Performance metrics",
       "bbox": {
-        "x": 441,
-        "y": 328,
-        "width": 719,
-        "height": 104
+        "x": 440,
+        "y": 326,
+        "width": 960,
+        "height": 105
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded right edge to align with the visible grid/card border."
     }
   ],
   "unresolved": []

@@ -4,28 +4,28 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the page title labeled 'Renewal Failures'",
-      "target_description": "Page title text 'Renewal Failures' in the top navigation/header area",
+      "target_description": "Active Renewal Failures title/tab in the top navigation row",
       "label_text": "Renewal Failures",
       "bbox": {
-        "x": 462,
-        "y": 51,
-        "width": 98,
-        "height": 16
+        "x": 434,
+        "y": 46,
+        "width": 122,
+        "height": 27
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Only visible Renewal Failures title target is the active navigation item."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the failure list or table labeled 'Failed Renewals'",
-      "target_description": "Main failed renewals table containing the subscription row and column headers",
+      "target_description": "Renewal failures table containing subscription, customer, failure, failed date, last attempted, order, and actions columns",
       "label_text": "Failed Renewals",
       "bbox": {
-        "x": 203,
-        "y": 245,
-        "width": 1195,
-        "height": 113
+        "x": 200,
+        "y": 244,
+        "width": 1186,
+        "height": 115
       },
       "color": null,
       "not_found": false,
@@ -34,17 +34,17 @@
     {
       "request_index": 2,
       "request_text": "rectangle around action buttons or filters labeled 'Review Actions'",
-      "target_description": "Action buttons 'Retry' and 'Mark Resolved' in the Actions column of the table row",
+      "target_description": "Retry and Mark Resolved action buttons in the Actions column of the failure row",
       "label_text": "Review Actions",
       "bbox": {
-        "x": 1223,
-        "y": 288,
-        "width": 126,
+        "x": 1238,
+        "y": 291,
+        "width": 111,
         "height": 56
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Tightened to the visible bounds of the two action buttons."
     }
   ],
   "unresolved": []

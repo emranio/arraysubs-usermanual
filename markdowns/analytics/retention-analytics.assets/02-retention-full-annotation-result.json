@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the retention summary cards labeled 'Retention KPIs'",
-      "target_description": "The top summary KPI cards section below the date filters, containing eight retention metrics in a 4-column grid",
+      "target_description": "The retention KPI summary grid of eight cards beneath the filters and above the charts",
       "label_text": "Retention KPIs",
       "bbox": {
-        "x": 199,
-        "y": 229,
-        "width": 1200,
+        "x": 201,
+        "y": 228,
+        "width": 1198,
         "height": 212
       },
       "color": null,

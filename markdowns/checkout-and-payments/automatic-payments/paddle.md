@@ -18,8 +18,6 @@
 - **Next guide:** [payment-recovery](./payment-recovery.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
-![Paddle gateway credential fields (Pro)](paddle.assets/01-paddle-settings-annotated.png)
-
 ## Overview
 
 Paddle is unique among ArraySubs gateways because it operates as a **Merchant of Record (MoR)**. This means Paddle is the legal seller of your product — it handles all payment processing, tax calculation, VAT collection, compliance, and customer invoicing. You receive net payouts after Paddle deducts its fee and applicable taxes.

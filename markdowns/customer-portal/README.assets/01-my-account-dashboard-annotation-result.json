@@ -4,17 +4,17 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Subscriptions item in the My Account navigation labeled 'Self-service portal'",
-      "target_description": "Subscriptions item in the left-side My Account navigation, including its blue count badge",
+      "target_description": "Subscriptions navigation item with blue count badge in the left My Account menu",
       "label_text": "Self-service portal",
       "bbox": {
-        "x": 194,
-        "y": 586,
-        "width": 216,
-        "height": 32
+        "x": 219,
+        "y": 588,
+        "width": 170,
+        "height": 28
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to include the full Subscriptions text line and blue count badge."
     }
   ],
   "unresolved": []

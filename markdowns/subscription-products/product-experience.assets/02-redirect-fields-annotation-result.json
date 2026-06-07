@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Enable redirect checkbox and its description labeled 'Product page redirect (Pro)'",
-      "target_description": "Enable redirect checkbox and the text 'Activate page-level redirect for this product.' in the main content area",
+      "target_description": "Enable redirect checkbox and the description text \"Activate page-level redirect for this product.\" in the ArraySubs Redirect panel",
       "label_text": "Product page redirect (Pro)",
       "bbox": {
-        "x": 351,
-        "y": 142,
-        "width": 239,
+        "x": 350,
+        "y": 145,
+        "width": 311,
         "height": 18
       },
       "color": null,

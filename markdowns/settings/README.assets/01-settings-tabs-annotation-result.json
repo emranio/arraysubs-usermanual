@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the row of settings tabs at the top labeled 'Settings sections'",
-      "target_description": "Horizontal row of settings tabs near the top of the main content area including General, Toolkit, Plan Switching, Refunds, Skip & Pause, and Feature Manager",
+      "target_description": "Horizontal settings tab row containing General, Toolkit, Plan Switching, Refunds, Skip & Pause, and Feature Manager near the top of the page",
       "label_text": "Settings sections",
       "bbox": {
-        "x": 110,
-        "y": 44,
-        "width": 739,
-        "height": 23
+        "x": 181,
+        "y": 43,
+        "width": 586,
+        "height": 27
       },
       "color": null,
       "not_found": false,

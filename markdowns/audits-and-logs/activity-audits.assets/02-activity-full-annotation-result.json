@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the activity audit timeline labeled 'Audit log'",
-      "target_description": "main activity audit timeline table and its filter controls in the content area",
+      "target_description": "Activity audit log table/timeline containing the Date, Author, Type, Visibility, Entity, and Activity columns with log rows",
       "label_text": "Audit log",
       "bbox": {
-        "x": 196,
-        "y": 167,
-        "width": 1174,
-        "height": 2501
+        "x": 200,
+        "y": 256,
+        "width": 1200,
+        "height": 2401
       },
       "color": null,
       "not_found": false,

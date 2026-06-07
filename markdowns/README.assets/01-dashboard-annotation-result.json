@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the subscriptions list table labeled 'Subscription management'",
-      "target_description": "subscriptions list table in the main content area below the filters and action buttons",
+      "target_description": "Subscriptions list table with Status, Date, Customer, Product, and Next Payment columns",
       "label_text": "Subscription management",
       "bbox": {
-        "x": 201,
+        "x": 202,
         "y": 267,
-        "width": 1218,
+        "width": 1199,
         "height": 733
       },
       "color": null,

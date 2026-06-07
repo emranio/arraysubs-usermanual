@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the ArraySubs PayPal and Paddle payment methods labeled 'Automatic gateways'",
-      "target_description": "The two consecutive payment provider rows labeled Paddle (ArraySubs) and PayPal (ArraySubs) in the Payment providers list",
+      "target_description": "The two ArraySubs payment method rows: Paddle (ArraySubs) and PayPal (ArraySubs) in the payment providers list",
       "label_text": "Automatic gateways",
       "bbox": {
-        "x": 214,
-        "y": 602,
-        "width": 1226,
-        "height": 161
+        "x": 160,
+        "y": 568,
+        "width": 1280,
+        "height": 195
       },
       "color": null,
       "not_found": false,

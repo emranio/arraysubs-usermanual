@@ -4,47 +4,47 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the My Subscriptions heading labeled 'Subscriptions List'",
-      "target_description": "My Subscriptions section heading above the subscriptions table",
+      "target_description": "My Subscriptions heading above the subscriptions table",
       "label_text": "Subscriptions List",
       "bbox": {
-        "x": 536,
-        "y": 462,
-        "width": 176,
-        "height": 26
+        "x": 539,
+        "y": 452,
+        "width": 211,
+        "height": 37
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to include the full heading line box."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the subscriptions table labeled 'Customer Subscriptions'",
-      "target_description": "Subscriptions table showing product, status, next payment, total, and actions columns",
+      "target_description": "Subscriptions table under My Subscriptions heading, including header and product row",
       "label_text": "Customer Subscriptions",
       "bbox": {
         "x": 540,
-        "y": 509,
-        "width": 713,
-        "height": 162
+        "y": 508,
+        "width": 677,
+        "height": 158
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Aligned to the visible table border including header and row."
     },
     {
       "request_index": 2,
       "request_text": "rectangle around the View action button labeled 'Open Detail'",
-      "target_description": "Blue View action link in the Actions column of the subscriptions table row",
+      "target_description": "View action link in the Actions column of the subscriptions table",
       "label_text": "Open Detail",
       "bbox": {
-        "x": 1132,
-        "y": 606,
-        "width": 52,
-        "height": 15
+        "x": 1134,
+        "y": 598,
+        "width": 44,
+        "height": 34
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to cover the clickable View control bounds, not just the text ink."
     }
   ],
   "unresolved": []

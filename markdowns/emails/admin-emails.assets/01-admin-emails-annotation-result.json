@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the email rows ending in (Admin) labeled 'Admin emails'",
-      "target_description": "The four consecutive email list rows whose titles end with '(Admin)' in the middle of the settings table",
+      "target_description": "Four WooCommerce email notification rows whose names end with (Admin)",
       "label_text": "Admin emails",
       "bbox": {
-        "x": 188,
-        "y": 476,
-        "width": 1205,
-        "height": 291
+        "x": 193,
+        "y": 478,
+        "width": 1215,
+        "height": 319
       },
       "color": null,
       "not_found": false,

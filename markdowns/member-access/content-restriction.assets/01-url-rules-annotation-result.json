@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the URL restriction rule labeled 'URL gating'",
-      "target_description": "The expanded URL Rule card titled 'Premium Content URL gate' in the main content area",
+      "target_description": "The visible URL rule accordion/card for \"Premium Content URL gate\", including its header and rule sections",
       "label_text": "URL gating",
       "bbox": {
         "x": 202,
-        "y": 497,
-        "width": 1198,
-        "height": 442
+        "y": 495,
+        "width": 1188,
+        "height": 504
       },
       "color": null,
       "not_found": false,

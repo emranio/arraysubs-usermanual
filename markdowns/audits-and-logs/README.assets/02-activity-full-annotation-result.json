@@ -4,17 +4,17 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the activity audit timeline labeled 'Audit log'",
-      "target_description": "main Activity Audits log table and timeline area beneath the filters",
+      "target_description": "Activity audit log table/timeline listing Date, Author, Type, Visibility, Entity, and Activity rows",
       "label_text": "Audit log",
       "bbox": {
-        "x": 202,
-        "y": 284,
-        "width": 1196,
-        "height": 2406
+        "x": 200,
+        "y": 256,
+        "width": 1203,
+        "height": 2380
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Extended the bottom edge to include the full visible audit timeline/table through its lower border."
     }
   ],
   "unresolved": []

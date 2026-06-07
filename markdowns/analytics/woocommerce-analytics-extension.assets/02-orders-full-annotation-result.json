@@ -4,17 +4,17 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the orders report Type column labeled 'Subscription type'",
-      "target_description": "Type column in the lower Orders report table, including the header and all visible cells",
+      "target_description": "Type column in the Orders report table, including header and visible order rows",
       "label_text": "Subscription type",
       "bbox": {
-        "x": 522,
-        "y": 821,
-        "width": 94,
-        "height": 483
+        "x": 546,
+        "y": 819,
+        "width": 102,
+        "height": 455
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to the full Type column bounds from the header row through the visible order rows, excluding the totals footer."
     }
   ],
   "unresolved": []

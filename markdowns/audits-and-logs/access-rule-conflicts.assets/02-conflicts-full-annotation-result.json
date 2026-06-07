@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the access-rule conflict report labeled 'Rule conflicts'",
-      "target_description": "main access-rule conflict report panel in the content area under the Go Back link",
+      "target_description": "Main access-rule conflict report panel containing the Refresh button, rule tabs, and no-conflicts message",
       "label_text": "Rule conflicts",
       "bbox": {
-        "x": 181,
-        "y": 154,
-        "width": 1240,
+        "x": 182,
+        "y": 152,
+        "width": 1241,
         "height": 890
       },
       "color": null,

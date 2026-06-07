@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the ArraySubs and ArraySubs Pro plugin rows in the list labeled 'Free core + Pro addon'",
-      "target_description": "The first two plugin rows in the plugins table: 'ArraySubs - Subscription Manager for WooCommerce' and 'ArraySubsPro - Pro Addon for ArraySubs WooCommerce Subscription Plugin'",
+      "target_description": "The first two plugin rows in the installed plugins table: ArraySubs and ArraySubsPro",
       "label_text": "Free core + Pro addon",
       "bbox": {
-        "x": 184,
-        "y": 326,
-        "width": 1256,
-        "height": 211
+        "x": 183,
+        "y": 354,
+        "width": 1237,
+        "height": 176
       },
       "color": null,
       "not_found": false,

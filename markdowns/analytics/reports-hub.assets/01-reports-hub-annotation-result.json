@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the dashboard heading and report tabs labeled 'Reports Hub'",
-      "target_description": "Top page header area containing the Reports heading and descriptive subtitle",
+      "target_description": "Reports page heading and the quick navigation report category tabs",
       "label_text": "Reports Hub",
       "bbox": {
-        "x": 171,
-        "y": 38,
-        "width": 1269,
-        "height": 67
+        "x": 182,
+        "y": 53,
+        "width": 1141,
+        "height": 391
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the filter controls labeled 'Report Filters'",
-      "target_description": "Quick Navigation panel with report category tabs/chips used to filter reports",
+      "target_description": "Quick Navigation report category filter controls",
       "label_text": "Report Filters",
       "bbox": {
-        "x": 44,
-        "y": 263,
-        "width": 1372,
-        "height": 201
+        "x": 226,
+        "y": 314,
+        "width": 1118,
+        "height": 128
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the visible report table or chart area labeled 'Report Results'",
-      "target_description": "Visible Subscription Performance report results section containing report cards/charts",
+      "target_description": "Visible Subscription Performance report results card grid",
       "label_text": "Report Results",
       "bbox": {
-        "x": 202,
-        "y": 529,
-        "width": 1220,
-        "height": 371
+        "x": 226,
+        "y": 607,
+        "width": 1148,
+        "height": 300
       },
       "color": null,
       "not_found": false,

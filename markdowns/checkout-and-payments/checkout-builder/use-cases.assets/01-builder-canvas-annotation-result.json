@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the checkout builder editing canvas labeled 'Drag-and-drop editor'",
-      "target_description": "large top-center bordered checkout builder canvas panel containing the 'Checkout Form Builder' heading and Open Builder button",
+      "target_description": "Large bordered Checkout Form Builder editing canvas near the top center of the page",
       "label_text": "Drag-and-drop editor",
       "bbox": {
-        "x": 205,
-        "y": 197,
-        "width": 1149,
-        "height": 295
+        "x": 261,
+        "y": 198,
+        "width": 1080,
+        "height": 293
       },
       "color": null,
       "not_found": false,

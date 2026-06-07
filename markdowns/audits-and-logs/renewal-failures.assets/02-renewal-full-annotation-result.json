@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the renewal failure list labeled 'Failed renewals'",
-      "target_description": "renewal failures table/list in the main content area below the Refresh button",
+      "target_description": "Renewal failures table/list containing the subscription failure row",
       "label_text": "Failed renewals",
       "bbox": {
-        "x": 232,
+        "x": 200,
         "y": 245,
-        "width": 1170,
-        "height": 113
+        "width": 1190,
+        "height": 110
       },
       "color": null,
       "not_found": false,

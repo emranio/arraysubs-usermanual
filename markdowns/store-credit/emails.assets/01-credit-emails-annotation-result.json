@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the ArraySubsPro Store Credit email rows labeled 'Store credit emails'",
-      "target_description": "The four consecutive email rows titled [ArraySubsPro] Store Credit Added, Store Credit Used, Store Credit Expiring Soon, and Store Credit Expired",
+      "target_description": "Four consecutive ArraySubsPro Store Credit email rows in the WooCommerce email settings table",
       "label_text": "Store credit emails",
       "bbox": {
         "x": 190,
-        "y": 491,
-        "width": 1238,
-        "height": 298
+        "y": 489,
+        "width": 1204,
+        "height": 299
       },
       "color": null,
       "not_found": false,

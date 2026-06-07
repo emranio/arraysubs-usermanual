@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the subscription overview table labeled 'Subscription Overview'",
-      "target_description": "The subscription details table under the heading 'Subscription #4406'",
+      "target_description": "Subscription overview table under the Subscription #4406 heading",
       "label_text": "Subscription Overview",
       "bbox": {
-        "x": 539,
-        "y": 509,
-        "width": 680,
-        "height": 491
+        "x": 540,
+        "y": 508,
+        "width": 681,
+        "height": 492
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the status and next payment rows labeled 'Billing Status'",
-      "target_description": "The first four rows of the subscription table from Status through Next Payment",
+      "target_description": "Rows from Status through Next Payment in the subscription overview table",
       "label_text": "Billing Status",
       "bbox": {
-        "x": 541,
+        "x": 540,
         "y": 508,
-        "width": 680,
-        "height": 266
+        "width": 681,
+        "height": 265
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the payment method row labeled 'Payment Method'",
-      "target_description": "The 'Payment Method' row within the subscription table",
+      "target_description": "Payment Method row in the subscription overview table",
       "label_text": "Payment Method",
       "bbox": {
-        "x": 437,
-        "y": 874,
-        "width": 886,
-        "height": 110
+        "x": 540,
+        "y": 871,
+        "width": 679,
+        "height": 100
       },
       "color": null,
       "not_found": false,

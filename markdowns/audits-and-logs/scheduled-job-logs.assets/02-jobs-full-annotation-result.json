@@ -4,17 +4,17 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the scheduled job log table labeled 'Scheduled jobs'",
-      "target_description": "Scheduled job logs table below the date filters in the main content area",
+      "target_description": "Scheduled job log table below the date filters, including header and all visible rows",
       "label_text": "Scheduled jobs",
       "bbox": {
-        "x": 197,
-        "y": 267,
-        "width": 1204,
-        "height": 1728
+        "x": 200,
+        "y": 254,
+        "width": 1200,
+        "height": 1698
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Aligned to the visible table border, including the header and all visible rows but excluding pagination."
     }
   ],
   "unresolved": []

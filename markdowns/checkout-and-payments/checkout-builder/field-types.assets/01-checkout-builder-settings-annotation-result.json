@@ -4,47 +4,47 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Settings tab labeled 'Builder Settings'",
-      "target_description": "Settings tab in the page header breadcrumb area near the top left",
+      "target_description": "Settings tab in the top navigation next to Editor",
       "label_text": "Builder Settings",
       "bbox": {
-        "x": 240,
-        "y": 47,
-        "width": 46,
-        "height": 16
+        "x": 204,
+        "y": 46,
+        "width": 139,
+        "height": 42
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to the full visible tab control including its rounded border."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the checkout settings fields labeled 'Checkout Controls'",
-      "target_description": "Main settings content area containing the General, Order Display, and File Uploads checkout builder settings",
+      "target_description": "Visible checkout builder settings field panels in the main content area",
       "label_text": "Checkout Controls",
       "bbox": {
-        "x": 184,
-        "y": 149,
-        "width": 1234,
-        "height": 844
+        "x": 202,
+        "y": 171,
+        "width": 1198,
+        "height": 768
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Aligned to the visible left/right edges of the settings panels and the visible panel area above the sticky footer."
     },
     {
       "request_index": 2,
       "request_text": "rectangle around the save button labeled 'Save Settings'",
-      "target_description": "Blue Save Settings button at the bottom left of the settings page",
+      "target_description": "Save Settings button in the sticky footer at the bottom left",
       "label_text": "Save Settings",
       "bbox": {
-        "x": 185,
-        "y": 949,
-        "width": 128,
-        "height": 44
+        "x": 203,
+        "y": 950,
+        "width": 113,
+        "height": 41
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Aligned to the button bounds."
     }
   ],
   "unresolved": []

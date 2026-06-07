@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the automatic renewal toggle labeled 'Auto-renew control'",
-      "target_description": "green Auto-Renew toggle switch to the right of the 'Auto-Renew:' label",
+      "target_description": "Green automatic renewal toggle switch next to the Auto-Renew label",
       "label_text": "Auto-renew control",
       "bbox": {
-        "x": 685,
-        "y": 485,
-        "width": 46,
-        "height": 21
+        "x": 691,
+        "y": 489,
+        "width": 42,
+        "height": 22
       },
       "color": null,
       "not_found": false,

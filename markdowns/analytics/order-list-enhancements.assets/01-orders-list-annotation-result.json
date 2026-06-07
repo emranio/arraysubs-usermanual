@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around an order row type indicator labeled 'Order type'",
-      "target_description": "Type indicator pill 'Subs Renew' in the first visible order row under the Type column",
+      "target_description": "The 'Subs Renew' type badge in an order row under the Type column",
       "label_text": "Order type",
       "bbox": {
-        "x": 757,
-        "y": 640,
-        "width": 61,
-        "height": 13
+        "x": 760,
+        "y": 641,
+        "width": 86,
+        "height": 22
       },
       "color": null,
       "not_found": false,

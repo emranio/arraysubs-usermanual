@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the checkout builder canvas labeled 'Checkout layout'",
-      "target_description": "large bordered Checkout Form Builder canvas panel near the top center of the page",
+      "target_description": "Large bordered Checkout Form Builder canvas panel near the top of the editor page",
       "label_text": "Checkout layout",
       "bbox": {
-        "x": 207,
-        "y": 197,
-        "width": 1147,
+        "x": 263,
+        "y": 196,
+        "width": 1097,
         "height": 294
       },
       "color": null,

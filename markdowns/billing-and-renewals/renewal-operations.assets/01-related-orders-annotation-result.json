@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the related orders list labeled 'Renewal orders'",
-      "target_description": "related orders table/list near the top of the page showing order #4251",
+      "target_description": "related orders list table near the top of the subscription page",
       "label_text": "Renewal orders",
       "bbox": {
-        "x": 161,
-        "y": 108,
-        "width": 1192,
-        "height": 83
+        "x": 222,
+        "y": 107,
+        "width": 1158,
+        "height": 82
       },
       "color": null,
       "not_found": false,

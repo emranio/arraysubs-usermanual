@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the My Features heading labeled 'My Features'",
-      "target_description": "The 'My Features' section heading in the main content area",
+      "target_description": "My Features heading in the account content area",
       "label_text": "My Features",
       "bbox": {
-        "x": 535,
-        "y": 467,
-        "width": 200,
-        "height": 29
+        "x": 539,
+        "y": 464,
+        "width": 176,
+        "height": 35
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the feature entitlement table labeled 'Entitlements'",
-      "target_description": "The feature entitlement message panel beneath the My Features heading",
+      "target_description": "Feature entitlement message table beneath the My Features description",
       "label_text": "Entitlements",
       "bbox": {
         "x": 540,
-        "y": 579,
-        "width": 681,
-        "height": 110
+        "y": 580,
+        "width": 684,
+        "height": 103
       },
       "color": null,
       "not_found": false,
@@ -34,17 +34,17 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the subscription link labeled 'Subscription Link'",
-      "target_description": "The 'Subscriptions' link in the left account navigation menu",
+      "target_description": "Subscriptions link in the left My account navigation",
       "label_text": "Subscription Link",
       "bbox": {
-        "x": 204,
-        "y": 593,
-        "width": 190,
-        "height": 23
+        "x": 145,
+        "y": 588,
+        "width": 290,
+        "height": 44
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to include the full clickable navigation row and notification badge."
     }
   ],
   "unresolved": []

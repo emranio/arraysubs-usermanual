@@ -4,47 +4,47 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Checkout Form Builder panel labeled 'Builder Entry'",
-      "target_description": "large top panel containing the Checkout Form Builder heading, button, and settings link",
+      "target_description": "Large bordered Checkout Form Builder panel near the top center of the page",
       "label_text": "Builder Entry",
       "bbox": {
-        "x": 207,
-        "y": 197,
-        "width": 1134,
-        "height": 293
+        "x": 262,
+        "y": 196,
+        "width": 1079,
+        "height": 295
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Adjusted to the visible rounded panel border."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the Open Builder button labeled 'Open Builder'",
-      "target_description": "blue Open Builder button in the center of the Checkout Form Builder panel",
+      "target_description": "Blue Open Builder button in the Checkout Form Builder panel",
       "label_text": "Open Builder",
       "bbox": {
-        "x": 722,
-        "y": 383,
-        "width": 169,
-        "height": 39
+        "x": 712,
+        "y": 376,
+        "width": 179,
+        "height": 48
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Adjusted to the blue clickable button bounds."
     },
     {
       "request_index": 2,
       "request_text": "rectangle around the setup cards labeled 'Builder Workflows'",
-      "target_description": "the two lower informational setup cards side by side below the main builder panel",
+      "target_description": "Two setup information cards below the Checkout Form Builder panel",
       "label_text": "Builder Workflows",
       "bbox": {
-        "x": 182,
-        "y": 516,
-        "width": 1160,
-        "height": 484
+        "x": 262,
+        "y": 515,
+        "width": 1094,
+        "height": 485
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Kept around the visible setup cards container, clamped to image bottom."
     }
   ],
   "unresolved": []

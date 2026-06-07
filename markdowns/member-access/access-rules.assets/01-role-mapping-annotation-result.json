@@ -4,28 +4,28 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Role Mapping tab labeled 'Role Mapping'",
-      "target_description": "Role Mapping tab in the top horizontal navigation under the admin bar",
+      "target_description": "Active Role Mapping tab in the top ArraySubs navigation bar",
       "label_text": "Role Mapping",
       "bbox": {
-        "x": 182,
+        "x": 161,
         "y": 49,
-        "width": 99,
-        "height": 19
+        "width": 134,
+        "height": 24
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded from text-only bounds to the full tab/link area."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the rule row labeled 'Access Rule'",
-      "target_description": "Role Mapping Rule #1 row/card containing the rule title and controls",
+      "target_description": "Rule header row containing the drag handle, enabled toggle, rule name field, and action icons",
       "label_text": "Access Rule",
       "bbox": {
-        "x": 71,
-        "y": 529,
-        "width": 1345,
-        "height": 442
+        "x": 200,
+        "y": 496,
+        "width": 1199,
+        "height": 64
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the Save Changes button labeled 'Save Rules'",
-      "target_description": "Blue Save Rules button fixed at the bottom left of the content area",
+      "target_description": "Blue Save Rules button in the sticky footer at the bottom left of the content area",
       "label_text": "Save Rules",
       "bbox": {
         "x": 202,
-        "y": 948,
-        "width": 98,
-        "height": 40
+        "y": 951,
+        "width": 99,
+        "height": 43
       },
       "color": null,
       "not_found": false,

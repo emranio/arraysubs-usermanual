@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Stripe payment method row labeled 'Stripe gateway'",
-      "target_description": "Stripe payment method row in the Payment providers list",
+      "target_description": "Stripe payment method row in the WooCommerce Payments providers list",
       "label_text": "Stripe gateway",
       "bbox": {
-        "x": 179,
-        "y": 503,
-        "width": 1212,
-        "height": 65
+        "x": 160,
+        "y": 471,
+        "width": 1280,
+        "height": 97
       },
       "color": null,
       "not_found": false,

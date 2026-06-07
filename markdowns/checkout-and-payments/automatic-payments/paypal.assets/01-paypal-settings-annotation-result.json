@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the PayPal Client ID and Secret fields labeled 'PayPal credentials'",
-      "target_description": "The two PayPal credentials input fields labeled Client ID and Client Secret in the PayPal settings form",
+      "target_description": "PayPal Client ID and Client Secret input fields in the PayPal gateway settings form",
       "label_text": "PayPal credentials",
       "bbox": {
-        "x": 187,
-        "y": 821,
-        "width": 638,
-        "height": 137
+        "x": 424,
+        "y": 809,
+        "width": 399,
+        "height": 147
       },
       "color": null,
       "not_found": false,

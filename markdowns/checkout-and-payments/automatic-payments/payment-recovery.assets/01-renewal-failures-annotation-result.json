@@ -4,12 +4,12 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the renewal failure retry action labeled 'Payment recovery'",
-      "target_description": "Retry action button in the Actions column of the renewal failures table row",
+      "target_description": "Retry button in the Actions column for the renewal failure row",
       "label_text": "Payment recovery",
       "bbox": {
-        "x": 1271,
-        "y": 288,
-        "width": 31,
+        "x": 1239,
+        "y": 289,
+        "width": 61,
         "height": 24
       },
       "color": null,

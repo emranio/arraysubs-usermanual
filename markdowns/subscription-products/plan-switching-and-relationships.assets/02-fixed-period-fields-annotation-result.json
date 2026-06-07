@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the fixed end date fields labeled 'Fixed-period membership (Pro)'",
-      "target_description": "Fixed Period Membership section containing the Use fixed end date checkbox, End date type dropdown, and End date field",
+      "target_description": "Fixed Period Membership field group containing Use fixed end date, End date type, and End date controls",
       "label_text": "Fixed-period membership (Pro)",
       "bbox": {
-        "x": 363,
-        "y": 793,
-        "width": 299,
-        "height": 175
+        "x": 188,
+        "y": 766,
+        "width": 541,
+        "height": 213
       },
       "color": null,
       "not_found": false,

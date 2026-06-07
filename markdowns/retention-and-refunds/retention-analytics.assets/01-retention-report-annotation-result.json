@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the retention KPI cards labeled 'Retention metrics'",
-      "target_description": "The grid of eight KPI cards beneath the date/product filters at the top of the Retention page",
+      "target_description": "Retention KPI cards grid containing totals, churn, age, payments, offers, and retained revenue metrics",
       "label_text": "Retention metrics",
       "bbox": {
-        "x": 200,
-        "y": 228,
+        "x": 201,
+        "y": 227,
         "width": 1201,
-        "height": 213
+        "height": 220
       },
       "color": null,
       "not_found": false,

@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the customer search field labeled 'Find a Member'",
-      "target_description": "search input field under the Find a Member heading near the top of the page",
+      "target_description": "Search input field under the Find a Member label",
       "label_text": "Find a Member",
       "bbox": {
-        "x": 227,
-        "y": 224,
-        "width": 499,
-        "height": 41
+        "x": 229,
+        "y": 222,
+        "width": 498,
+        "height": 37
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the empty-state profile panel labeled 'Member Profile Area'",
-      "target_description": "large empty-state member profile panel centered below the search section",
+      "target_description": "Large bordered empty-state Member Insight Dashboard panel",
       "label_text": "Member Profile Area",
       "bbox": {
         "x": 202,
-        "y": 347,
-        "width": 1202,
-        "height": 230
+        "y": 314,
+        "width": 1199,
+        "height": 258
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the search instructions labeled 'Search Guidance'",
-      "target_description": "instructional text below the Member Insight Dashboard heading in the empty-state panel",
+      "target_description": "Centered two-line instructional text beneath Member Insight Dashboard heading",
       "label_text": "Search Guidance",
       "bbox": {
-        "x": 590,
+        "x": 562,
         "y": 473,
-        "width": 331,
-        "height": 31
+        "width": 477,
+        "height": 37
       },
       "color": null,
       "not_found": false,

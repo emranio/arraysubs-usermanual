@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the export and import settings panel labeled 'Backup and restore'",
-      "target_description": "The combined section containing the Export Settings card and the Import Settings card in the main content area",
+      "target_description": "Combined Export Settings and Import Settings cards in the main content area",
       "label_text": "Backup and restore",
       "bbox": {
         "x": 202,
-        "y": 402,
-        "width": 717,
-        "height": 338
+        "y": 370,
+        "width": 721,
+        "height": 369
       },
       "color": null,
       "not_found": false,

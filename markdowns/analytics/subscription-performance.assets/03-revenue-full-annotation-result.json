@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the recurring revenue summary labeled 'Renewal revenue'",
-      "target_description": "summary card showing Total Subs Renew Amount in the top metrics grid",
+      "target_description": "Summary tile labeled Total Subs Renew Amount in the revenue metrics grid",
       "label_text": "Renewal revenue",
       "bbox": {
-        "x": 1055,
-        "y": 359,
-        "width": 385,
-        "height": 132
+        "x": 1099,
+        "y": 374,
+        "width": 300,
+        "height": 116
       },
       "color": null,
       "not_found": false,

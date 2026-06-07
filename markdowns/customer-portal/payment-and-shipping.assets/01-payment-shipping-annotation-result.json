@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the shipping address section labeled 'Shipping Address'",
-      "target_description": "Shipping Address section including header, helper text, address card, and update button in the lower right content area",
+      "target_description": "Shipping Address section including heading, explanatory text, address card, and update button",
       "label_text": "Shipping Address",
       "bbox": {
-        "x": 541,
-        "y": 604,
-        "width": 679,
-        "height": 352
+        "x": 540,
+        "y": 631,
+        "width": 690,
+        "height": 324
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the payment method row or card labeled 'Payment Method'",
-      "target_description": "Payment Method row in the upper details table showing Stripe and Manage payment methods link",
+      "target_description": "Payment Method row in the subscription details table",
       "label_text": "Payment Method",
       "bbox": {
-        "x": 438,
-        "y": 175,
-        "width": 885,
-        "height": 127
+        "x": 540,
+        "y": 188,
+        "width": 680,
+        "height": 100
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around any update links or address actions labeled 'Customer Updates'",
-      "target_description": "Blue Update Shipping Address button below the shipping address card",
+      "target_description": "Customer update controls: Update payment method link and Update Shipping Address button",
       "label_text": "Customer Updates",
       "bbox": {
         "x": 540,
-        "y": 921,
-        "width": 172,
-        "height": 22
+        "y": 354,
+        "width": 337,
+        "height": 601
       },
       "color": null,
       "not_found": false,

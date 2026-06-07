@@ -4,28 +4,28 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Add Subscription heading labeled 'Create Subscription'",
-      "target_description": "Page header area containing the breadcrumbs, Add New heading, and subtitle at the top of the content area",
+      "target_description": "Large Create Subscription page heading near the upper left of the form",
       "label_text": "Create Subscription",
       "bbox": {
-        "x": 172,
-        "y": 34,
-        "width": 293,
-        "height": 71
+        "x": 182,
+        "y": 151,
+        "width": 265,
+        "height": 63
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Moved from the small All Subscriptions/Add New tab area to the page heading area."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the customer and product fields labeled 'Required Details'",
-      "target_description": "Main form sections containing the Customer field and Product & Subscription Details fields",
+      "target_description": "General customer section and Product & Subscription Details form section",
       "label_text": "Required Details",
       "bbox": {
-        "x": 70,
-        "y": 153,
-        "width": 1323,
-        "height": 667
+        "x": 202,
+        "y": 172,
+        "width": 1198,
+        "height": 650
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the create or save button area labeled 'Save Subscription'",
-      "target_description": "Bottom action bar area with the Create Subscription and Cancel buttons",
+      "target_description": "Bottom action bar containing the Create Subscription and Cancel buttons",
       "label_text": "Save Subscription",
       "bbox": {
-        "x": 202,
-        "y": 931,
-        "width": 1238,
-        "height": 69
+        "x": 184,
+        "y": 940,
+        "width": 1253,
+        "height": 60
       },
       "color": null,
       "not_found": false,

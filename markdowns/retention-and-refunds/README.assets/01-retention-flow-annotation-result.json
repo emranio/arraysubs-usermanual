@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the cancellation reasons configuration labeled 'Cancellation flow'",
-      "target_description": "Cancellation Reasons configuration card near the top of the main content area",
+      "target_description": "Cancellation Reasons configuration panel containing the require cancellation reason toggle and explanatory notice",
       "label_text": "Cancellation flow",
       "bbox": {
-        "x": 70,
-        "y": 173,
-        "width": 1346,
-        "height": 233
+        "x": 202,
+        "y": 172,
+        "width": 1192,
+        "height": 235
       },
       "color": null,
       "not_found": false,

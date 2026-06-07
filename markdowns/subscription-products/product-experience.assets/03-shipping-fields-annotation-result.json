@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the subscription shipping type field labeled 'Recurring shipping (Pro)'",
-      "target_description": "Shipping Type dropdown field in the Subscription Shipping section near the bottom of the form",
+      "target_description": "Subscription Shipping section Shipping Type dropdown field",
       "label_text": "Recurring shipping (Pro)",
       "bbox": {
-        "x": 362,
-        "y": 1075,
-        "width": 515,
-        "height": 40
+        "x": 363,
+        "y": 1074,
+        "width": 517,
+        "height": 38
       },
       "color": null,
       "not_found": false,

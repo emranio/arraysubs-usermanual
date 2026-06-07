@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "Draw a red rectangle around the Setup Wizard card and label it \"Guided setup\".",
-      "target_description": "Setup Wizard card at the top of the main content area",
+      "target_description": "Setup Wizard card near the top of the Easy Setup page",
       "label_text": "Guided setup",
       "bbox": {
-        "x": 141,
-        "y": 172,
-        "width": 779,
-        "height": 173
+        "x": 202,
+        "y": 171,
+        "width": 719,
+        "height": 158
       },
       "color": null,
       "not_found": false,
@@ -19,28 +19,28 @@
     {
       "request_index": 1,
       "request_text": "Draw a red rectangle around the Launch Setup Wizard button and label it \"Start wizard\".",
-      "target_description": "Blue Launch Setup Wizard button inside the Setup Wizard card",
+      "target_description": "Launch Setup Wizard button inside the Setup Wizard card",
       "label_text": "Start wizard",
       "bbox": {
         "x": 227,
-        "y": 279,
-        "width": 126,
-        "height": 26
+        "y": 281,
+        "width": 160,
+        "height": 42
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Tightened to the visible button bounds."
     },
     {
       "request_index": 2,
       "request_text": "Draw a red rectangle around the Export Settings card and label it \"Backup settings\".",
-      "target_description": "Export Settings card in the middle of the main content area",
+      "target_description": "Export Settings card in the middle of the Easy Setup page",
       "label_text": "Backup settings",
       "bbox": {
-        "x": 138,
-        "y": 370,
-        "width": 785,
-        "height": 171
+        "x": 202,
+        "y": 369,
+        "width": 720,
+        "height": 172
       },
       "color": null,
       "not_found": false,
@@ -52,14 +52,14 @@
       "target_description": "Import Settings card below the Export Settings card",
       "label_text": "Restore settings",
       "bbox": {
-        "x": 140,
+        "x": 202,
         "y": 567,
-        "width": 781,
-        "height": 172
+        "width": 720,
+        "height": 176
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to include the full right card border."
     }
   ],
   "unresolved": []

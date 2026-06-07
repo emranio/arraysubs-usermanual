@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the cart and checkout rule toggles labeled 'Store-wide rules'",
-      "target_description": "The top settings card titled Multiple Subscriptions containing the cart and checkout rule toggles",
+      "target_description": "Multiple Subscriptions store-wide cart and checkout rule toggle group at the top of the settings page",
       "label_text": "Store-wide rules",
       "bbox": {
-        "x": 40,
-        "y": 173,
-        "width": 1380,
-        "height": 1321
+        "x": 202,
+        "y": 172,
+        "width": 1206,
+        "height": 1322
       },
       "color": null,
       "not_found": false,

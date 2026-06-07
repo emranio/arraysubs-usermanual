@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the direct add-to-cart and one-click checkout helper links labeled 'Test links'",
-      "target_description": "the two helper link input rows for Direct add to cart and One-click checkout in the main product data panel",
+      "target_description": "Two helper link rows for Direct add to cart and One-click checkout, including labels, copy links, and URL fields",
       "label_text": "Test links",
       "bbox": {
-        "x": 200,
-        "y": 233,
-        "width": 738,
-        "height": 87
+        "x": 191,
+        "y": 221,
+        "width": 747,
+        "height": 110
       },
       "color": null,
       "not_found": false,

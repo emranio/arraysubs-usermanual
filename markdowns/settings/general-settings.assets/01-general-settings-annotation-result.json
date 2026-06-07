@@ -4,62 +4,62 @@
     {
       "request_index": 0,
       "request_text": "Draw a red rectangle around the settings tab navigation at the top and label it \"Settings tabs\".",
-      "target_description": "Top horizontal settings tab navigation with General, Toolkit, Plan Switching, Refunds, Skip & Pause, and Feature Manager",
+      "target_description": "Horizontal settings tab navigation row near the top of the page",
       "label_text": "Settings tabs",
       "bbox": {
-        "x": 159,
-        "y": 36,
-        "width": 694,
-        "height": 40
+        "x": 181,
+        "y": 50,
+        "width": 591,
+        "height": 23
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Tightened to the actual tab navigation text row and separators."
     },
     {
       "request_index": 1,
       "request_text": "Draw a red rectangle around the Multiple Subscriptions panel title and first options and label it \"Cart rules\".",
-      "target_description": "Upper portion of the Multiple Subscriptions panel including the title, subtitle, Allow Multiple Subscriptions in Cart option, first helper notice, One Subscription per Customer toggle, and the next helper notices",
+      "target_description": "Top of Multiple Subscriptions panel containing the heading, subtitle, first toggle option, and its helper notice",
       "label_text": "Cart rules",
       "bbox": {
-        "x": 152,
-        "y": 139,
-        "width": 702,
-        "height": 499
+        "x": 219,
+        "y": 191,
+        "width": 633,
+        "height": 200
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Aligned to the content column containing the title, subtitle, first option row, and first blue helper notice."
     },
     {
       "request_index": 2,
       "request_text": "Draw a red rectangle around the One Subscription per Customer toggle and label it \"Customer limit\".",
-      "target_description": "One Subscription per Customer toggle switch and label",
+      "target_description": "One Subscription per Customer toggle row",
       "label_text": "Customer limit",
       "bbox": {
-        "x": 186,
-        "y": 407,
-        "width": 358,
-        "height": 28
+        "x": 219,
+        "y": 400,
+        "width": 633,
+        "height": 49
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to the full toggle row from separator to separator inside the settings list."
     },
     {
       "request_index": 3,
       "request_text": "Draw a red rectangle around the blue and yellow helper notices and label it \"Behavior notes\".",
-      "target_description": "Middle pair of helper notices under One Subscription per Customer: one blue notice and one yellow notice",
+      "target_description": "Stack of blue and yellow helper notice boxes under the subscription options",
       "label_text": "Behavior notes",
       "bbox": {
-        "x": 217,
-        "y": 448,
-        "width": 636,
-        "height": 187
+        "x": 219,
+        "y": 310,
+        "width": 633,
+        "height": 583
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Extended to include the full visible stack of blue and yellow helper notices through the bottom yellow note."
     },
     {
       "request_index": 4,
@@ -67,14 +67,14 @@
       "target_description": "Fixed bottom action bar containing Save Settings and Discard Changes buttons",
       "label_text": "Save changes",
       "bbox": {
-        "x": 183,
-        "y": 940,
-        "width": 1230,
+        "x": 181,
+        "y": 939,
+        "width": 1240,
         "height": 60
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Current bbox correctly anchors the fixed bottom action bar."
     }
   ],
   "unresolved": []

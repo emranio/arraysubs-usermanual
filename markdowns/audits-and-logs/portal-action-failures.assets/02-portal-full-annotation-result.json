@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the portal action failure list labeled 'Portal errors'",
-      "target_description": "Portal Action Failures table listing failed portal actions",
+      "target_description": "Portal Action Failures table/list containing the failed action rows",
       "label_text": "Portal errors",
       "bbox": {
-        "x": 65,
-        "y": 245,
-        "width": 1338,
-        "height": 372
+        "x": 202,
+        "y": 244,
+        "width": 1199,
+        "height": 371
       },
       "color": null,
       "not_found": false,

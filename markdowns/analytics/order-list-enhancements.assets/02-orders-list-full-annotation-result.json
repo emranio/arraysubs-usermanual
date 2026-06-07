@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the orders table labeled 'Subscription orders'",
-      "target_description": "main orders data table listing subscription orders below the summary stats cards",
+      "target_description": "WooCommerce orders list table containing order rows and column headers",
       "label_text": "Subscription orders",
       "bbox": {
-        "x": 179,
-        "y": 574,
-        "width": 1241,
-        "height": 1188
+        "x": 180,
+        "y": 573,
+        "width": 1240,
+        "height": 1163
       },
       "color": null,
       "not_found": false,

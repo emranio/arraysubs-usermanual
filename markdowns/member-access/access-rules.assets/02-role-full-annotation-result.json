@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the role mapping rules labeled 'Role rules'",
-      "target_description": "The main rule card titled with the text input 'Pro Plan grants Pro Member' and 'Role Mapping Rule #1', containing the IF and THEN sections",
+      "target_description": "Main white card titled Role Mapping Rules containing the role mapping rule editor",
       "label_text": "Role rules",
       "bbox": {
-        "x": 45,
-        "y": 497,
-        "width": 1374,
-        "height": 873
+        "x": 180,
+        "y": 152,
+        "width": 1240,
+        "height": 1410
       },
       "color": null,
       "not_found": false,

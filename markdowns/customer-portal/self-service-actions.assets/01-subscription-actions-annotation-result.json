@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Subscription Actions section labeled 'Self-Service Actions'",
-      "target_description": "Subscription Actions section containing the heading and the two action buttons",
+      "target_description": "Subscription Actions section containing heading and Change Plan / Cancel Subscription buttons",
       "label_text": "Self-Service Actions",
       "bbox": {
-        "x": 537,
-        "y": 433,
-        "width": 319,
-        "height": 78
+        "x": 540,
+        "y": 430,
+        "width": 317,
+        "height": 79
       },
       "color": null,
       "not_found": false,
@@ -19,13 +19,13 @@
     {
       "request_index": 1,
       "request_text": "rectangle around the Change Plan button labeled 'Change Plan'",
-      "target_description": "Blue Change Plan button in the Subscription Actions section",
+      "target_description": "Blue Change Plan button under Subscription Actions",
       "label_text": "Change Plan",
       "bbox": {
-        "x": 522,
-        "y": 469,
-        "width": 106,
-        "height": 40
+        "x": 540,
+        "y": 468,
+        "width": 128,
+        "height": 39
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the Cancel Subscription button labeled 'Cancel'",
-      "target_description": "Red Cancel Subscription button in the Subscription Actions section",
+      "target_description": "Red Cancel Subscription button under Subscription Actions",
       "label_text": "Cancel",
       "bbox": {
         "x": 682,
-        "y": 466,
-        "width": 176,
-        "height": 38
+        "y": 467,
+        "width": 174,
+        "height": 42
       },
       "color": null,
       "not_found": false,

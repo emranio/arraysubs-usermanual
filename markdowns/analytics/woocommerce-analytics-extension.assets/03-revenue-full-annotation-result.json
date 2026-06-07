@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the subscription revenue summary numbers labeled 'Subscription revenue'",
-      "target_description": "Summary tile showing the Total Subs Renew Amount value in the top metrics grid",
+      "target_description": "Subscription revenue summary KPI tiles in the top revenue summary grid, including Total Subs Renew Amount and Total Subs Upgrade Amount",
       "label_text": "Subscription revenue",
       "bbox": {
-        "x": 1099,
-        "y": 355,
-        "width": 264,
-        "height": 135
+        "x": 197,
+        "y": 373,
+        "width": 1173,
+        "height": 234
       },
       "color": null,
       "not_found": false,

@@ -4,28 +4,28 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the All Credit Transactions page title labeled 'Credit History'",
-      "target_description": "The page title text 'All Credit Transactions' near the top of the main content area",
+      "target_description": "All Credit Transactions page title in the top content header",
       "label_text": "Credit History",
       "bbox": {
-        "x": 166,
-        "y": 52,
-        "width": 180,
-        "height": 23
+        "x": 181,
+        "y": 43,
+        "width": 169,
+        "height": 29
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Expanded to include the full title line box."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the history table labeled 'Credit Ledger'",
-      "target_description": "The main transactions history table below the filters panel, including header row and visible rows",
+      "target_description": "credit transactions history table including header and visible rows",
       "label_text": "Credit Ledger",
       "bbox": {
         "x": 203,
-        "y": 284,
-        "width": 1214,
-        "height": 686
+        "y": 282,
+        "width": 1197,
+        "height": 718
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around filters or search controls labeled 'Find Transactions'",
-      "target_description": "The filter controls panel containing the Filters label and the two dropdowns 'All Sources' and 'All Types'",
+      "target_description": "filters control panel above the credit transactions table",
       "label_text": "Find Transactions",
       "bbox": {
-        "x": 70,
-        "y": 173,
-        "width": 1329,
-        "height": 84
+        "x": 201,
+        "y": 172,
+        "width": 1190,
+        "height": 86
       },
       "color": null,
       "not_found": false,

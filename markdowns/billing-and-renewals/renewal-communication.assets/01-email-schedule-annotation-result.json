@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the Email Reminder Schedule day fields labeled 'Reminder timing'",
-      "target_description": "The three day input fields within the Email Reminder Schedule section",
+      "target_description": "Three day input fields in the Email Reminder Schedule section",
       "label_text": "Reminder timing",
       "bbox": {
-        "x": 241,
-        "y": 691,
-        "width": 1147,
-        "height": 69
+        "x": 219,
+        "y": 718,
+        "width": 1163,
+        "height": 34
       },
       "color": null,
       "not_found": false,

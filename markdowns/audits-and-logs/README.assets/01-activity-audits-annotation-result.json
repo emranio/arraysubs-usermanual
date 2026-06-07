@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the activity audit timeline labeled 'Audit trail'",
-      "target_description": "Main Activity Audits timeline table listing audit entries",
+      "target_description": "Activity audit log table/timeline beneath the filters",
       "label_text": "Audit trail",
       "bbox": {
         "x": 202,
-        "y": 257,
-        "width": 1172,
-        "height": 743
+        "y": 256,
+        "width": 1199,
+        "height": 744
       },
       "color": null,
       "not_found": false,

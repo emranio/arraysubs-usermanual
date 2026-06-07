@@ -3,14 +3,14 @@
   "annotations": [
     {
       "request_index": 0,
-      "request_text": "rectangle around the My Account Editor heading labeled 'My Account Editor'",
-      "target_description": "Page heading area showing the breadcrumb/title with 'My Account' at the top of the content pane",
+      "request_text": "rectangle around the page subtitle line that begins 'Customize the WooCommerce My Account navigation' labeled 'My Account Editor'",
+      "target_description": "Subtitle line below the Profile Form / My Account header tabs",
       "label_text": "My Account Editor",
       "bbox": {
-        "x": 274,
-        "y": 41,
-        "width": 106,
-        "height": 27
+        "x": 184,
+        "y": 76,
+        "width": 651,
+        "height": 18
       },
       "color": null,
       "not_found": false,
@@ -18,31 +18,34 @@
     },
     {
       "request_index": 1,
-      "request_text": "rectangle around the endpoint list labeled 'Account Endpoints'",
-      "target_description": "Endpoint list section requested, but no endpoint list is visible on this screen",
-      "label_text": "Account Endpoints",
-      "bbox": null,
+      "request_text": "rectangle around the Enable My Account menu items customization checkbox row labeled 'Menu Items'",
+      "target_description": "Checkbox row for Enable My Account menu items customization inside the Menu Items panel",
+      "label_text": "Menu Items",
+      "bbox": {
+        "x": 228,
+        "y": 246,
+        "width": 462,
+        "height": 42
+      },
       "color": null,
-      "not_found": true,
-      "notes": "no endpoint list is visible in the screenshot"
+      "not_found": false,
+      "notes": ""
     },
     {
       "request_index": 2,
-      "request_text": "rectangle around the save button area labeled 'Save Layout'",
-      "target_description": "Blue save button at the bottom left of the content area",
+      "request_text": "rectangle around the Save Configuration button labeled 'Save Layout'",
+      "target_description": "Blue Save Configuration button in the fixed footer at bottom left of content area",
       "label_text": "Save Layout",
       "bbox": {
         "x": 203,
-        "y": 955,
-        "width": 146,
-        "height": 30
+        "y": 950,
+        "width": 150,
+        "height": 38
       },
       "color": null,
       "not_found": false,
       "notes": ""
     }
   ],
-  "unresolved": [
-    "rectangle around the endpoint list labeled 'Account Endpoints'"
-  ]
+  "unresolved": []
 }

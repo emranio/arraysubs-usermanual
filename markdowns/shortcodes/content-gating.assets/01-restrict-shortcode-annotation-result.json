@@ -4,13 +4,13 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the arraysubs_restrict shortcode card labeled 'Content gating shortcode'",
-      "target_description": "Content Restriction shortcode card in the lower left under the Membership section",
+      "target_description": "Content Restriction card for the [arraysubs_restrict] shortcode in the Membership section, left column",
       "label_text": "Content gating shortcode",
       "bbox": {
-        "x": 162,
-        "y": 574,
-        "width": 631,
-        "height": 426
+        "x": 202,
+        "y": 573,
+        "width": 588,
+        "height": 427
       },
       "color": null,
       "not_found": false,

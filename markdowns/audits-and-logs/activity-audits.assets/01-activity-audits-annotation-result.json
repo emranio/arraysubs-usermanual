@@ -4,28 +4,28 @@
     {
       "request_index": 0,
       "request_text": "rectangle around the page title labeled 'Activity Audits'",
-      "target_description": "The page title text 'Activity Audits' near the top of the content area",
+      "target_description": "Activity Audits tab/page title in the header navigation near the top left of the main content",
       "label_text": "Activity Audits",
       "bbox": {
-        "x": 171,
-        "y": 53,
-        "width": 107,
-        "height": 16
+        "x": 132,
+        "y": 48,
+        "width": 191,
+        "height": 39
       },
       "color": null,
       "not_found": false,
-      "notes": ""
+      "notes": "Adjusted to include the full active tab/title bounds, including its visible rounded border."
     },
     {
       "request_index": 1,
       "request_text": "rectangle around the audit log table labeled 'Audit Events'",
-      "target_description": "The main audit log table containing the Date, Author, Type, Visibility, Entity, and Activity columns",
+      "target_description": "Audit log table including header row and visible rows below the filters",
       "label_text": "Audit Events",
       "bbox": {
-        "x": 67,
-        "y": 251,
-        "width": 1350,
-        "height": 749
+        "x": 203,
+        "y": 256,
+        "width": 1196,
+        "height": 735
       },
       "color": null,
       "not_found": false,
@@ -34,13 +34,13 @@
     {
       "request_index": 2,
       "request_text": "rectangle around the filters labeled 'Audit Filters'",
-      "target_description": "The filter controls row above the audit table with dropdowns, date fields, search input, and action buttons",
+      "target_description": "Filter controls bar above the audit log table",
       "label_text": "Audit Filters",
       "bbox": {
-        "x": 61,
-        "y": 173,
-        "width": 1338,
-        "height": 66
+        "x": 200,
+        "y": 171,
+        "width": 1200,
+        "height": 62
       },
       "color": null,
       "not_found": false,

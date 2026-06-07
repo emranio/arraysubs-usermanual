@@ -1,1 +1,0 @@
-- rectangle around the Paddle API key and webhook fields labeled 'Paddle credentials'
