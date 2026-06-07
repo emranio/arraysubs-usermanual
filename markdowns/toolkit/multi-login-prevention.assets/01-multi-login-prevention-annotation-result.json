@@ -1,0 +1,49 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/toolkit/multi-login-prevention.assets/01-multi-login-prevention-annotated.png",
+  "annotations": [
+    {
+      "request_text": "Draw a purple rectangle around Enable session limits.",
+      "target_description": "Enable Multi-Login Prevention",
+      "label_text": "Enable session limits",
+      "bbox": [
+        214,
+        570,
+        275,
+        34
+      ]
+    },
+    {
+      "request_text": "Draw a purple rectangle around Default sessions.",
+      "target_description": "Default max sessions per user",
+      "label_text": "Default sessions",
+      "bbox": [
+        214,
+        610,
+        1174,
+        28
+      ]
+    },
+    {
+      "request_text": "Draw a purple rectangle around Admin enforcement.",
+      "target_description": "Apply to administrators",
+      "label_text": "Admin enforcement",
+      "bbox": [
+        214,
+        789,
+        225,
+        34
+      ]
+    },
+    {
+      "request_text": "Draw a purple rectangle around Member Access override.",
+      "target_description": "Login Limit Rules",
+      "label_text": "Member Access override",
+      "bbox": [
+        231,
+        1025,
+        610,
+        46
+      ]
+    }
+  ]
+}

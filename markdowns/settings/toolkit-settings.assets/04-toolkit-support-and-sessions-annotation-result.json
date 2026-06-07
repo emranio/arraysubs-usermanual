@@ -1,0 +1,38 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/settings/toolkit-settings.assets/04-toolkit-support-and-sessions-annotated.png",
+  "annotations": [
+    {
+      "request_text": "Draw a purple rectangle around Support impersonation.",
+      "target_description": "Login as User",
+      "label_text": "Support impersonation",
+      "bbox": [
+        197,
+        197,
+        1208,
+        263
+      ]
+    },
+    {
+      "request_text": "Draw a purple rectangle around Enable customer login.",
+      "target_description": "Enable Login as User",
+      "label_text": "Enable customer login",
+      "bbox": [
+        214,
+        293,
+        215,
+        34
+      ]
+    },
+    {
+      "request_text": "Draw a purple rectangle around Session sharing controls.",
+      "target_description": "Multi-Login Prevention",
+      "label_text": "Session sharing controls",
+      "bbox": [
+        197,
+        475,
+        1208,
+        647
+      ]
+    }
+  ]
+}

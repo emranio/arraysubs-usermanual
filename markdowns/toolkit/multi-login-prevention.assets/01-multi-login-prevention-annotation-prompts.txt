@@ -1,0 +1,4 @@
+- Draw a purple rectangle around Enable session limits.
+- Draw a purple rectangle around Default sessions.
+- Draw a purple rectangle around Admin enforcement.
+- Draw a purple rectangle around Member Access override.

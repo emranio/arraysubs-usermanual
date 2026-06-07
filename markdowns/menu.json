@@ -15,6 +15,14 @@
         "settings/toolkit-settings.md"
     ],
     [
+        "toolkit/README.md",
+        "toolkit/admin-bar.md",
+        "toolkit/admin-dashboard-access.md",
+        "toolkit/wordpress-login-page.md",
+        "toolkit/login-as-user.md",
+        "toolkit/multi-login-prevention.md"
+    ],
+    [
         "subscription-products/README.md",
         "subscription-products/create-and-configure.md",
         "subscription-products/plan-switching-and-relationships.md",

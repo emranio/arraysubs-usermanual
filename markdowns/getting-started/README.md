@@ -38,6 +38,9 @@ A step-by-step checklist: configure your store, create your first subscription p
 ### [Easy Setup Wizard](easy-setup-wizard.md)
 A 9-step guided interview that configures the most important subscription settings for you — choose your business type and let the wizard do the rest.
 
+### [Toolkit Modules](../toolkit/README.md)
+Dedicated site-operation tools for hiding the admin bar, restricting `/wp-admin`, routing login pages through My Account, impersonating customers for support, and limiting concurrent sessions *(Pro)*.
+
 ### [Import / Export Settings](import-export-settings.md)
 Download your full ArraySubs configuration as a JSON file or restore a previously exported configuration with granular section-level control.
 

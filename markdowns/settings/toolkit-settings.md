@@ -16,20 +16,34 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
-- **Next guide:** [account-shortcodes](../shortcodes/account-shortcodes.md)
+- **Next guide:** [Toolkit](../toolkit/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
 
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
+Use these annotated screenshots together. The Toolkit screen has controls above and below the fold, and several settings reveal extra fields only after their toggle is enabled.
 
-![Annotated Toolkit Settings screenshot: Toolkit Settings](toolkit-settings.assets/01-toolkit-settings-annotated.png)
+![Annotated Toolkit Settings screenshot: upper Toolkit controls](toolkit-settings.assets/01-toolkit-settings-annotated.png)
+
+![Annotated Toolkit Settings screenshot: dashboard access options](toolkit-settings.assets/02-toolkit-dashboard-access-annotated.png)
+
+![Annotated Toolkit Settings screenshot: login page options](toolkit-settings.assets/03-toolkit-login-page-annotated.png)
+
+![Annotated Toolkit Settings screenshot: support and session controls](toolkit-settings.assets/04-toolkit-support-and-sessions-annotated.png)
 
 ## Overview
 
 The Toolkit Settings page contains site administration controls that sit outside the subscription engine itself. These settings help you lock down your WordPress installation for a membership or subscription storefront — hiding backend entry points from customers, restricting dashboard access to authorized roles, and giving administrators the ability to impersonate users for support.
 
 Navigate to **ArraySubs → Settings → Toolkit** to open the page. Every change takes effect after you click **Save Settings**.
+
+For task-focused guidance, use the dedicated [Toolkit module](../toolkit/README.md). Each tool has its own page:
+
+- [Admin Bar Visibility](../toolkit/admin-bar.md)
+- [Admin Dashboard Access](../toolkit/admin-dashboard-access.md)
+- [WordPress Login Page](../toolkit/wordpress-login-page.md)
+- [Login as User](../toolkit/login-as-user.md)
+- [Multi-Login Prevention](../toolkit/multi-login-prevention.md) *(Pro)*
 
 ## When to Use This
 
@@ -285,6 +299,7 @@ A professional tools subscription allows up to 3 team members per account. The m
 ## Related Guides
 
 - [General Settings](general-settings.md) — Subscription cart rules, checkout, trials, renewals, grace periods, and customer actions.
+- [Toolkit](../toolkit/README.md) — Dedicated module pages for each Toolkit tool.
 - [Getting Started — Essential Daily Workflows](../getting-started/essential-daily-workflows.md) — Admin menu reference and settings overview.
 - [Manage Members](../manage-members/README.md) — The member insight dashboard where Login as Customer is used most often *(Pro)*.
 

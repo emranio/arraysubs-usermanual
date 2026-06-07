@@ -1,0 +1,38 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/toolkit/admin-dashboard-access.assets/01-admin-dashboard-access-annotated.png",
+  "annotations": [
+    {
+      "request_text": "Draw a purple rectangle around Enable access restriction.",
+      "target_description": "Restrict wp-admin access",
+      "label_text": "Enable access restriction",
+      "bbox": [
+        214,
+        219,
+        244,
+        34
+      ]
+    },
+    {
+      "request_text": "Draw a purple rectangle around Redirect destination.",
+      "target_description": "Redirect unauthorized users to",
+      "label_text": "Redirect destination",
+      "bbox": [
+        214,
+        259,
+        1174,
+        28
+      ]
+    },
+    {
+      "request_text": "Draw a purple rectangle around Allowed staff roles.",
+      "target_description": "Allowed roles",
+      "label_text": "Allowed staff roles",
+      "bbox": [
+        214,
+        333,
+        1174,
+        28
+      ]
+    }
+  ]
+}
