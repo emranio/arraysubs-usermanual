@@ -166,7 +166,7 @@ The main ArraySubs admin interface is a single-page application (SPA) accessible
 | Page | Path | Purpose |
 |---|---|---|
 | General | **ArraySubs → Settings → General** | Core configuration: billing, checkout, trials, grace period, emails, customer portal |
-| Toolkit | **Settings → Toolkit** | Dedicated site-operation modules: admin bar, wp-admin access, login page, Login as User, multi-login prevention *(Pro)*. See [Toolkit](../toolkit/README.md). |
+| Toolkit | **Settings → Toolkit** | Configuration screen for [Admin Bar Visibility](../admin-bar-visibility/README.md), [Admin Dashboard Access](../admin-dashboard-access/README.md), [WordPress Login Page](../wordpress-login-page/README.md), [Login as User](../login-as-user/README.md), and [Multi-Login Prevention](../multi-login-prevention/README.md) *(Pro)*. |
 | Plan Switching | **Settings → Plan Switching** | Upgrade, downgrade, crossgrade rules and proration settings |
 | Refunds | **Settings → Refunds** | Refund behavior, proration, auto gateway refund |
 | Skip & Pause | **Settings → Skip & Pause** | Skip renewal and pause subscription settings *(Pro)* |

@@ -25,7 +25,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Customer self-service:** [Customer Portal Pages](customer-portal/portal-pages.md) → [Subscription Self-Service Actions](customer-portal/self-service-actions.md)
 - **Paid automation:** [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) → [Stripe](checkout-and-payments/automatic-payments/stripe.md) → [Gateway Health Dashboard](checkout-and-payments/automatic-payments/gateway-health-dashboard.md)
 - **Access and memberships:** [Member Access Overview](member-access/README.md) → [Access Rules](member-access/access-rules.md) → [Feature Manager](feature-manager/README.md) *(Pro)*
-- **Toolkit modules:** [Toolkit](toolkit/README.md) → [Admin Dashboard Access](toolkit/admin-dashboard-access.md) → [Login as User](toolkit/login-as-user.md) → [Multi-Login Prevention](toolkit/multi-login-prevention.md) *(Pro)*
+- **Site access tools:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Multi-Login Prevention](multi-login-prevention/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
 ## Admin Screen Map
@@ -51,7 +51,7 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | **ArraySubs → Profile Builder** | Configure custom profile fields and My Account navigation | [Profile Builder](profile-builder/README.md) |
 | **ArraySubs → Reports** | Review subscription reporting entry points | [Reports Hub](analytics/reports-hub.md) |
 | **ArraySubs → Settings** | Configure global subscription, toolkit, plan switching, refund, skip/pause, and feature settings | [General Settings](settings/general-settings.md) |
-| **ArraySubs → Settings → Toolkit** | Hide customer-facing WordPress clutter, restrict dashboard access, route login pages, impersonate customers, and limit account sharing | [Toolkit](toolkit/README.md) |
+| **ArraySubs → Settings → Toolkit** | Hide customer-facing WordPress clutter, restrict dashboard access, route login pages, impersonate customers, and limit account sharing | [Toolkit Settings](settings/toolkit-settings.md) |
 | **ArraySubs → Audits [beta]** *(Pro)* | Diagnose activity, scheduled jobs, gateway events, renewals, portal actions, and access conflicts | [Audits and Logs](audits-and-logs/README.md) |
 | **ArraySubs → Easy Setup** | Launch the guided setup wizard or import/export settings | [Easy Setup Wizard](getting-started/easy-setup-wizard.md) |
 
@@ -72,16 +72,25 @@ Configure store-wide subscription behavior and administration tools.
 - [General Settings](settings/general-settings.md) — Subscription cart rules, checkout and trial behavior, grace periods, email reminder timing, customer portal, customer actions, cancellation timing, and automatic-payment controls.
 - [Toolkit Settings](settings/toolkit-settings.md) — Field-by-field settings reference for the Toolkit screen.
 
-## Toolkit
+## Admin Bar Visibility
 
-Small controls with large operational impact: keep customers out of WordPress admin surfaces, route login traffic through the storefront, support customers by impersonating their session, and reduce credential sharing.
+[Admin Bar Visibility](admin-bar-visibility/README.md) hides the WordPress frontend toolbar for customers while administrators keep normal shortcuts.
 
-- [Overview](toolkit/README.md) — Toolkit module map, setup order, and multi-screen visual guide.
-- [Admin Bar Visibility](toolkit/admin-bar.md) — Hide the WordPress frontend toolbar for customers.
-- [Admin Dashboard Access](toolkit/admin-dashboard-access.md) — Redirect unauthorized users away from `/wp-admin`.
-- [WordPress Login Page](toolkit/wordpress-login-page.md) — Send customer login traffic to WooCommerce My Account.
-- [Login as User](toolkit/login-as-user.md) — Impersonate non-admin customers for support and verification.
-- [Multi-Login Prevention](toolkit/multi-login-prevention.md) *(Pro)* — Limit concurrent sessions per account.
+## Admin Dashboard Access
+
+[Admin Dashboard Access](admin-dashboard-access/README.md) redirects unauthorized users away from `/wp-admin` while preserving backend access for administrators and selected staff roles.
+
+## WordPress Login Page
+
+[WordPress Login Page](wordpress-login-page/README.md) sends customer login and registration traffic to WooCommerce My Account instead of the default WordPress login screen.
+
+## Login as User
+
+[Login as User](login-as-user/README.md) lets administrators impersonate non-admin customers for support, verification, and customer-portal troubleshooting.
+
+## Multi-Login Prevention *(Pro)*
+
+[Multi-Login Prevention](multi-login-prevention/README.md) limits concurrent sessions per account to reduce casual credential sharing.
 
 ## Manage Subscription Products
 

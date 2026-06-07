@@ -15,12 +15,19 @@
         "settings/toolkit-settings.md"
     ],
     [
-        "toolkit/README.md",
-        "toolkit/admin-bar.md",
-        "toolkit/admin-dashboard-access.md",
-        "toolkit/wordpress-login-page.md",
-        "toolkit/login-as-user.md",
-        "toolkit/multi-login-prevention.md"
+        "admin-bar-visibility/README.md"
+    ],
+    [
+        "admin-dashboard-access/README.md"
+    ],
+    [
+        "wordpress-login-page/README.md"
+    ],
+    [
+        "login-as-user/README.md"
+    ],
+    [
+        "multi-login-prevention/README.md"
     ],
     [
         "subscription-products/README.md",

@@ -27,8 +27,7 @@ const views = [
     ],
     outputs: [
       "settings/toolkit-settings.assets/01-toolkit-settings",
-      "toolkit/README.assets/01-toolkit-overview",
-      "toolkit/admin-bar.assets/01-admin-bar",
+      "admin-bar-visibility/README.assets/01-admin-bar",
     ],
   },
   {
@@ -43,7 +42,7 @@ const views = [
     ],
     outputs: [
       "settings/toolkit-settings.assets/02-toolkit-dashboard-access",
-      "toolkit/admin-dashboard-access.assets/01-admin-dashboard-access",
+      "admin-dashboard-access/README.assets/01-admin-dashboard-access",
     ],
   },
   {
@@ -58,7 +57,7 @@ const views = [
     ],
     outputs: [
       "settings/toolkit-settings.assets/03-toolkit-login-page",
-      "toolkit/wordpress-login-page.assets/01-wordpress-login-page",
+      "wordpress-login-page/README.assets/01-wordpress-login-page",
     ],
   },
   {
@@ -72,8 +71,7 @@ const views = [
     ],
     outputs: [
       "settings/toolkit-settings.assets/04-toolkit-support-and-sessions",
-      "toolkit/README.assets/02-toolkit-lower-tools",
-      "toolkit/login-as-user.assets/01-login-as-user",
+      "login-as-user/README.assets/01-login-as-user",
     ],
   },
   {
@@ -87,7 +85,7 @@ const views = [
       { label: "Member Access override", type: "text", text: "Login Limit Rules" },
     ],
     outputs: [
-      "toolkit/multi-login-prevention.assets/01-multi-login-prevention",
+      "multi-login-prevention/README.assets/01-multi-login-prevention",
     ],
   },
 ];

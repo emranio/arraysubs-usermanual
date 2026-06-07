@@ -38,8 +38,20 @@ A step-by-step checklist: configure your store, create your first subscription p
 ### [Easy Setup Wizard](easy-setup-wizard.md)
 A 9-step guided interview that configures the most important subscription settings for you — choose your business type and let the wizard do the rest.
 
-### [Toolkit Modules](../toolkit/README.md)
-Dedicated site-operation tools for hiding the admin bar, restricting `/wp-admin`, routing login pages through My Account, impersonating customers for support, and limiting concurrent sessions *(Pro)*.
+### [Admin Bar Visibility](../admin-bar-visibility/README.md)
+Hide the WordPress frontend toolbar for customers while administrators keep normal shortcuts.
+
+### [Admin Dashboard Access](../admin-dashboard-access/README.md)
+Redirect unauthorized users away from `/wp-admin` while preserving backend access for administrators and staff roles.
+
+### [WordPress Login Page](../wordpress-login-page/README.md)
+Route customer login and registration traffic through WooCommerce My Account.
+
+### [Login as User](../login-as-user/README.md)
+Impersonate non-admin customers for support and customer-portal troubleshooting.
+
+### [Multi-Login Prevention](../multi-login-prevention/README.md)
+Limit concurrent sessions per account to reduce credential sharing *(Pro)*.
 
 ### [Import / Export Settings](import-export-settings.md)
 Download your full ArraySubs configuration as a JSON file or restore a previously exported configuration with granular section-level control.

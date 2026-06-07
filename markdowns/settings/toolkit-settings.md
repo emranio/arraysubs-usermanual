@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
-- **Next guide:** [Toolkit](../toolkit/README.md)
+- **Next guide:** [Admin Bar Visibility](../admin-bar-visibility/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
@@ -37,13 +37,13 @@ The Toolkit Settings page contains site administration controls that sit outside
 
 Navigate to **ArraySubs → Settings → Toolkit** to open the page. Every change takes effect after you click **Save Settings**.
 
-For task-focused guidance, use the dedicated [Toolkit module](../toolkit/README.md). Each tool has its own page:
+For task-focused guidance, use the dedicated root-level module pages:
 
-- [Admin Bar Visibility](../toolkit/admin-bar.md)
-- [Admin Dashboard Access](../toolkit/admin-dashboard-access.md)
-- [WordPress Login Page](../toolkit/wordpress-login-page.md)
-- [Login as User](../toolkit/login-as-user.md)
-- [Multi-Login Prevention](../toolkit/multi-login-prevention.md) *(Pro)*
+- [Admin Bar Visibility](../admin-bar-visibility/README.md)
+- [Admin Dashboard Access](../admin-dashboard-access/README.md)
+- [WordPress Login Page](../wordpress-login-page/README.md)
+- [Login as User](../login-as-user/README.md)
+- [Multi-Login Prevention](../multi-login-prevention/README.md) *(Pro)*
 
 ## When to Use This
 
@@ -299,7 +299,11 @@ A professional tools subscription allows up to 3 team members per account. The m
 ## Related Guides
 
 - [General Settings](general-settings.md) — Subscription cart rules, checkout, trials, renewals, grace periods, and customer actions.
-- [Toolkit](../toolkit/README.md) — Dedicated module pages for each Toolkit tool.
+- [Admin Bar Visibility](../admin-bar-visibility/README.md) — Hide the WordPress frontend toolbar for customers.
+- [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect customers away from `/wp-admin`.
+- [WordPress Login Page](../wordpress-login-page/README.md) — Route login traffic through WooCommerce My Account.
+- [Login as User](../login-as-user/README.md) — Impersonate customers for support.
+- [Multi-Login Prevention](../multi-login-prevention/README.md) *(Pro)* — Limit concurrent sessions per account.
 - [Getting Started — Essential Daily Workflows](../getting-started/essential-daily-workflows.md) — Admin menu reference and settings overview.
 - [Manage Members](../manage-members/README.md) — The member insight dashboard where Login as Customer is used most often *(Pro)*.
 

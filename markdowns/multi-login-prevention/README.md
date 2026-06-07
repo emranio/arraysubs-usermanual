@@ -1,5 +1,5 @@
 # Info
-- Module: Toolkit
+- Module: Multi-Login Prevention
 - Availability: Pro
 - Last updated: 2026-06-07
 
@@ -14,14 +14,14 @@
 - **Current guide:** Multi-Login Prevention
 - **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> Toolkit
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
-- **Section overview:** [Toolkit](README.md)
-- **Previous guide:** [Login as User](login-as-user.md)
+- **Section overview:** [Manual Home](../README.md)
+- **Previous guide:** [Login as User](../login-as-user/README.md)
 - **Next guide:** [Create and Configure Subscription Products](../subscription-products/create-and-configure.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
 
-![Annotated Multi-Login Prevention Toolkit screenshot](multi-login-prevention.assets/01-multi-login-prevention-annotated.png)
+![Annotated Multi-Login Prevention Toolkit screenshot](README.assets/01-multi-login-prevention-annotated.png)
 
 ## What This Tool Does
 
@@ -85,5 +85,4 @@ Use this pattern:
 ## Related Guides
 
 - [Member Access — Session and Frontend Controls](../member-access/session-and-frontend-controls.md) — Login Limit rules for plan-specific limits.
-- [Login as User](login-as-user.md) — Impersonation sessions are excluded from session limits.
-
+- [Login as User](../login-as-user/README.md) — Impersonation sessions are excluded from session limits.

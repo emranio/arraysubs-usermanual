@@ -1,5 +1,5 @@
 # Info
-- Module: Toolkit
+- Module: WordPress Login Page
 - Availability: Free
 - Last updated: 2026-06-07
 
@@ -14,14 +14,14 @@
 - **Current guide:** WordPress Login Page
 - **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> Toolkit
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
-- **Section overview:** [Toolkit](README.md)
-- **Previous guide:** [Admin Dashboard Access](admin-dashboard-access.md)
-- **Next guide:** [Login as User](login-as-user.md)
+- **Section overview:** [Manual Home](../README.md)
+- **Previous guide:** [Admin Dashboard Access](../admin-dashboard-access/README.md)
+- **Next guide:** [Login as User](../login-as-user/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
 
-![Annotated WordPress Login Page Toolkit screenshot](wordpress-login-page.assets/01-wordpress-login-page-annotated.png)
+![Annotated WordPress Login Page Toolkit screenshot](README.assets/01-wordpress-login-page-annotated.png)
 
 ## What This Tool Does
 
@@ -82,4 +82,3 @@ Confirm these are already working:
 
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — Customer-facing subscription account pages.
 - [First-Time Setup](../getting-started/first-time-setup.md) — Store setup checklist before launch.
-

@@ -1,3 +1,0 @@
-- Draw a purple rectangle around Support impersonation.
-- Draw a purple rectangle around Enable customer login.
-- Draw a purple rectangle around Session sharing controls.

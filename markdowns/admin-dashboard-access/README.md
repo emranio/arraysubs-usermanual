@@ -1,5 +1,5 @@
 # Info
-- Module: Toolkit
+- Module: Admin Dashboard Access
 - Availability: Free
 - Last updated: 2026-06-07
 
@@ -14,14 +14,14 @@
 - **Current guide:** Admin Dashboard Access
 - **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> Toolkit
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
-- **Section overview:** [Toolkit](README.md)
-- **Previous guide:** [Admin Bar Visibility](admin-bar.md)
-- **Next guide:** [WordPress Login Page](wordpress-login-page.md)
+- **Section overview:** [Manual Home](../README.md)
+- **Previous guide:** [Admin Bar Visibility](../admin-bar-visibility/README.md)
+- **Next guide:** [WordPress Login Page](../wordpress-login-page/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
 
-![Annotated Admin Dashboard Access Toolkit screenshot](admin-dashboard-access.assets/01-admin-dashboard-access-annotated.png)
+![Annotated Admin Dashboard Access Toolkit screenshot](README.assets/01-admin-dashboard-access-annotated.png)
 
 ## What This Tool Does
 
@@ -83,7 +83,6 @@ Administrators are always allowed. You can also allow staff roles such as Shop M
 
 ## Related Guides
 
-- [Admin Bar Visibility](admin-bar.md) — Hide the frontend toolbar.
-- [WordPress Login Page](wordpress-login-page.md) — Redirect default login and registration URLs.
+- [Admin Bar Visibility](../admin-bar-visibility/README.md) — Hide the frontend toolbar.
+- [WordPress Login Page](../wordpress-login-page/README.md) — Redirect default login and registration URLs.
 - [Member Access Overview](../member-access/README.md) — Restrict content, products, discounts, and downloads.
-

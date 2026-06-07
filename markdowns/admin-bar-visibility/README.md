@@ -1,5 +1,5 @@
 # Info
-- Module: Toolkit
+- Module: Admin Bar Visibility
 - Availability: Free
 - Last updated: 2026-06-07
 
@@ -14,20 +14,20 @@
 - **Current guide:** Admin Bar Visibility
 - **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> Toolkit
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
-- **Section overview:** [Toolkit](README.md)
-- **Previous guide:** [Toolkit](README.md)
-- **Next guide:** [Admin Dashboard Access](admin-dashboard-access.md)
+- **Section overview:** [Manual Home](../README.md)
+- **Previous guide:** [Toolkit Settings](../settings/toolkit-settings.md)
+- **Next guide:** [Admin Dashboard Access](../admin-dashboard-access/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
 
-![Annotated Admin Bar Toolkit screenshot](admin-bar.assets/01-admin-bar-annotated.png)
+![Annotated Admin Bar Toolkit screenshot](README.assets/01-admin-bar-annotated.png)
 
 ## What This Tool Does
 
 **Hide admin bar for non-admin users** removes the WordPress toolbar from frontend pages for users who are not administrators. Customers get a cleaner storefront and portal experience, while administrators still see their normal WordPress toolbar.
 
-This is a presentation control, not a permission system. A customer can still try to visit `/wp-admin` directly unless [Admin Dashboard Access](admin-dashboard-access.md) is also configured.
+This is a presentation control, not a permission system. A customer can still try to visit `/wp-admin` directly unless [Admin Dashboard Access](../admin-dashboard-access/README.md) is also configured.
 
 ## When to Use This
 
@@ -54,10 +54,9 @@ This is a presentation control, not a permission system. A customer can still tr
 - Administrators always keep the toolbar.
 - This does not block direct `/wp-admin` access.
 - This does not change user roles or capabilities.
-- Use it with [Admin Dashboard Access](admin-dashboard-access.md) for a complete customer-facing cleanup.
+- Use it with [Admin Dashboard Access](../admin-dashboard-access/README.md) for a complete customer-facing cleanup.
 
 ## Related Guides
 
-- [Admin Dashboard Access](admin-dashboard-access.md) — Redirect customers away from `/wp-admin`.
-- [WordPress Login Page](wordpress-login-page.md) — Route customer login traffic through WooCommerce My Account.
-
+- [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect customers away from `/wp-admin`.
+- [WordPress Login Page](../wordpress-login-page/README.md) — Route customer login traffic through WooCommerce My Account.

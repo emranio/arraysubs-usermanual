@@ -22,7 +22,11 @@ Other settings pages (Plan Switching, Refunds, Skip & Pause, Feature Manager, an
 
 - [General Settings](general-settings.md) — Every setting on the General page, explained with defaults, options, and practical guidance.
 - [Toolkit Settings](toolkit-settings.md) — Admin-facing security and convenience tools for controlling dashboard access, login flows, and session limits.
-- [Toolkit Module](../toolkit/README.md) — Dedicated guide group for each Toolkit tool.
+- [Admin Bar Visibility](../admin-bar-visibility/README.md) — Hide the WordPress frontend toolbar for customers.
+- [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect unauthorized users away from `/wp-admin`.
+- [WordPress Login Page](../wordpress-login-page/README.md) — Route customer login traffic through WooCommerce My Account.
+- [Login as User](../login-as-user/README.md) — Impersonate customers for support and verification.
+- [Multi-Login Prevention](../multi-login-prevention/README.md) *(Pro)* — Limit concurrent sessions per account.
 
 
 ## Page Navigation

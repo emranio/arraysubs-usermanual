@@ -1,5 +1,5 @@
 # Info
-- Module: Toolkit
+- Module: Login as User
 - Availability: Free
 - Last updated: 2026-06-07
 
@@ -14,14 +14,14 @@
 - **Current guide:** Login as User
 - **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> Toolkit
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
-- **Section overview:** [Toolkit](README.md)
-- **Previous guide:** [WordPress Login Page](wordpress-login-page.md)
-- **Next guide:** [Multi-Login Prevention](multi-login-prevention.md)
+- **Section overview:** [Manual Home](../README.md)
+- **Previous guide:** [WordPress Login Page](../wordpress-login-page/README.md)
+- **Next guide:** [Multi-Login Prevention](../multi-login-prevention/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
 
-![Annotated Login as User Toolkit screenshot](login-as-user.assets/01-login-as-user-annotated.png)
+![Annotated Login as User Toolkit screenshot](README.assets/01-login-as-user-annotated.png)
 
 ## What This Tool Does
 
@@ -81,4 +81,3 @@ When enabled, administrators can start impersonation from:
 
 - [Manage Members — Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — Member profile workflow and Login as Customer usage *(Pro)*.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — What the customer sees after impersonation.
-
