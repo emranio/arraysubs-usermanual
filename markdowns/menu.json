@@ -5,7 +5,6 @@
         "getting-started/before-you-launch.md",
         "getting-started/cron-job-setup.md",
         "getting-started/first-time-setup.md",
-        "getting-started/easy-setup-wizard.md",
         "getting-started/import-export-settings.md",
         "getting-started/essential-daily-workflows.md"
     ],
@@ -13,6 +12,9 @@
         "settings/README.md",
         "settings/general-settings.md",
         "settings/toolkit-settings.md"
+    ],
+    [
+        "getting-started/easy-setup-wizard.md"
     ],
     [
         "admin-bar-visibility/README.md"

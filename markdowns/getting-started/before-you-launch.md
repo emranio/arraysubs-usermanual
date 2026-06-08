@@ -245,20 +245,19 @@ ArraySubs ships as two plugins. The core plugin is free and covers all essential
 
 ### Dedicated Manual Module Count
 
-The manual exposes **28 root-level modules**. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **7 modules** require ArraySubs Pro.
+The manual tracks **27 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **20 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **7 modules** require ArraySubs Pro.
 
 | Count | Module Group |
 |---|---|
-| 21 | Free/core-accessible modules |
+| 20 | Free/core-accessible modules |
 | 7 | Pro-only modules |
-| 28 | Total dedicated root-level modules |
+| 27 | Total dedicated modules |
 
-### Free/Core-Accessible Root Modules
+### Free/Core-Accessible Dedicated Modules
 
 | Module | Availability Notes |
 |---|---|
-| [Getting Started](README.md) | Free + Pro setup path |
-| [Settings](../settings/README.md) | Free settings with Pro-only automatic payment fields |
+| [Easy Setup Wizard](easy-setup-wizard.md) | Free guided setup with Pro-only options when Pro is active |
 | [Admin Bar Visibility](../admin-bar-visibility/README.md) | Free |
 | [Admin Dashboard Access](../admin-dashboard-access/README.md) | Free |
 | [WordPress Login Page](../wordpress-login-page/README.md) | Free |
@@ -279,7 +278,7 @@ The manual exposes **28 root-level modules**. **21 modules** are available from 
 | [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) | Free core with Pro store-credit refund extension |
 | [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md) | Free troubleshooting with Pro audit/log screens |
 
-### Pro-Only Root Modules
+### Pro-Only Dedicated Modules
 
 | Module | What It Adds |
 |---|---|

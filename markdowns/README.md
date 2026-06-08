@@ -33,13 +33,13 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 
 ## Dedicated Module Count
 
-The manual now exposes **28 root-level modules**. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **7 modules** require ArraySubs Pro.
+The manual now tracks **27 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **20 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **7 modules** require ArraySubs Pro.
 
 | Count | Module Group |
 |---|---|
-| 21 | Free/core-accessible modules |
+| 20 | Free/core-accessible modules |
 | 7 | Pro-only modules |
-| 28 | Total dedicated root-level modules |
+| 27 | Total dedicated modules |
 
 ## Admin Screen Map
 
@@ -89,6 +89,10 @@ Configure store-wide subscription behavior and administration tools.
 
 - [General Settings](settings/general-settings.md) — Subscription cart rules, checkout and trial behavior, grace periods, email reminder timing, customer portal, customer actions, cancellation timing, and automatic-payment controls.
 - [Toolkit Settings](settings/toolkit-settings.md) — Field-by-field settings reference for the Toolkit screen.
+
+## Easy Setup Wizard
+
+[Easy Setup Wizard](getting-started/easy-setup-wizard.md) is a dedicated setup module that turns the first configuration pass into a guided interview, applies recommended defaults, and includes import/export tools for moving settings between sites.
 
 ## Site Access Toolkit Modules
 
