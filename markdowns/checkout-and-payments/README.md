@@ -24,7 +24,7 @@ Connect your store to Stripe, PayPal, or Paddle for hands-free recurring billing
 - [PayPal Gateway](automatic-payments/paypal.md) — Billing Agreements, PayPal-managed renewal schedule, and Smart Payment Buttons.
 - [Paddle Gateway](automatic-payments/paddle.md) — Merchant of Record model, Paddle.js overlay, automatic tax/VAT handling, and native pause/resume.
 - [Auto-Renew and Manual Fallback](automatic-payments/auto-renew-and-manual-fallback.md) — Customer-facing auto-renew toggle, what happens when auto-renew is turned off, and the manual invoice collection flow.
-- [Gateway Health Dashboard](automatic-payments/gateway-health-dashboard.md) — Gateway status cards, subscription counts, webhook URL configuration, event log, and monitoring.
+- [Gateway Health Dashboard](../gateway-health/README.md) — Gateway status cards, subscription counts, webhook URL configuration, event log, and monitoring.
 
 ### Checkout Builder *(Pro)*
 
@@ -55,7 +55,7 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 - [General Settings](../settings/general-settings.md) — Cart rules, checkout options, trial settings, and grace period configuration
 - [Billing and Renewals](../billing-and-renewals/README.md) — How renewal invoices are created, grace period timelines, and different renewal pricing
 - [Customer Portal — Payment and Shipping](../customer-portal/payment-and-shipping.md) — Customer-facing payment method management and auto-renew toggle
-- [Gateway Health Dashboard (Audits)](../audits-and-logs/gateway-health-dashboard.md) — Detailed monitoring and troubleshooting guide
+- [Gateway Health Dashboard (Audits)](../gateway-health/README.md) — Detailed monitoring and troubleshooting guide
 
 
 ## Page Navigation

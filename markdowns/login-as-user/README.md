@@ -79,5 +79,5 @@ When enabled, administrators can start impersonation from:
 
 ## Related Guides
 
-- [Manage Members — Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — Member profile workflow and Login as Customer usage *(Pro)*.
+- [Manage Members — Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — Member profile workflow and Login as Customer usage *(Pro)*.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — What the customer sees after impersonation.

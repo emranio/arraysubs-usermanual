@@ -191,7 +191,7 @@ PayPal gateway settings are configured in **WooCommerce → Settings → Payment
 
 - [Gateway Overview](README.md) — Architecture and capability comparison
 - [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) — What happens when auto-renew is toggled off
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — Monitoring PayPal connection and webhooks
+- [Gateway Health Dashboard](../../gateway-health/README.md) — Monitoring PayPal connection and webhooks
 
 ---
 

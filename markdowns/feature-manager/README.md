@@ -72,7 +72,7 @@ Features are only shown for subscriptions with an `active` or `trial` status. On
 - [Product Experience and Display](../subscription-products/product-experience.md) — Broader storefront product display options.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — How My Features fits into the customer account area.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Feature Log access from the subscription detail screen.
-- [Manage Members](../manage-members/README.md) — Feature Log shortcut from the member profile.
+- [Manage Members](../member-insight/README.md) — Feature Log shortcut from the member profile.
 
 
 ## Page Navigation

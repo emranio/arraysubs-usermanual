@@ -43,7 +43,7 @@ const S = {
   checkout_builder: { kind: "spa", route: "#/checkout-builder", wait: "Checkout" },
   members_role:     { kind: "spa", route: "#/members-access", wait: "Role" },
   store_credit:     { kind: "spa", route: "#/store-credit", wait: "store credit" },
-  member_detail:    { kind: "spa", route: "#/manage-members/319", wait: "Login as Customer" },
+  member_detail:    { kind: "spa", route: "#/member-insight/319", wait: "Login as Customer" },
 };
 
 // surface, page.md, slug, [queries]
@@ -59,9 +59,9 @@ const D = [
     ["rectangle around the subscription revenue summary numbers labeled 'Subscription revenue'"]],
   ["an_revenue", "analytics/subscription-performance.md", "03-revenue-full",
     ["rectangle around the recurring revenue summary labeled 'Renewal revenue'"]],
-  ["an_retention", "analytics/retention-analytics.md", "02-retention-full",
+  ["an_retention", "retention-analytics/README.md", "02-retention-full",
     ["rectangle around the retention summary cards labeled 'Retention KPIs'"]],
-  ["an_retention", "retention-and-refunds/retention-analytics.md", "02-retention-full",
+  ["an_retention", "retention-analytics/README.md", "02-retention-full",
     ["rectangle around the retention summary cards labeled 'Retention KPIs'"]],
   ["reports", "analytics/reports-hub.md", "02-reports-full",
     ["rectangle around the report category links labeled 'Report directory'"]],
@@ -83,9 +83,9 @@ const D = [
     ["rectangle around the portal action failure list labeled 'Update failures'"]],
   ["audits_conflicts", "audits-and-logs/access-rule-conflicts.md", "02-conflicts-full",
     ["rectangle around the access-rule conflict report labeled 'Rule conflicts'"]],
-  ["gateway_health", "audits-and-logs/gateway-health-dashboard.md", "02-gateway-full",
+  ["gateway_health", "gateway-health/README.md", "02-gateway-full",
     ["rectangle around the gateway status panels labeled 'Gateway health'"]],
-  ["gateway_health", "checkout-and-payments/automatic-payments/gateway-health-dashboard.md", "02-gateway-full",
+  ["gateway_health", "gateway-health/README.md", "02-gateway-full",
     ["rectangle around the gateway status panels labeled 'Gateway health'"]],
 
   // Other long screens — full page
@@ -99,7 +99,7 @@ const D = [
     ["rectangle around the role mapping rules labeled 'Role rules'"]],
   ["store_credit", "store-credit/store-credit-management.md", "02-management-full",
     ["rectangle around the customer credit list labeled 'Credit balances'"]],
-  ["member_detail", "manage-members/member-lookup-and-profiles.md", "02-member-full",
+  ["member_detail", "member-insight/member-lookup-and-profiles.md", "02-member-full",
     ["rectangle around the member metric cards labeled 'Member snapshot'"]],
 ];
 

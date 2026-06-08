@@ -30,11 +30,19 @@
         "multi-login-prevention/README.md"
     ],
     [
+        "coupons/README.md"
+    ],
+    [
+        "redirect-product-page/README.md"
+    ],
+    [
+        "subscription-shipping/README.md"
+    ],
+    [
         "subscription-products/README.md",
         "subscription-products/create-and-configure.md",
         "subscription-products/plan-switching-and-relationships.md",
         "subscription-products/product-experience.md",
-        "subscription-products/coupon-integration.md",
         "subscription-products/product-lifecycle.md"
     ],
     [
@@ -45,16 +53,19 @@
         "manage-subscriptions/lifecycle-management.md"
     ],
     [
+        "subscription-notes/README.md"
+    ],
+    [
         "customer-portal/README.md",
         "customer-portal/portal-pages.md",
         "customer-portal/self-service-actions.md",
         "customer-portal/payment-and-shipping.md"
     ],
     [
-        "manage-members/README.md",
-        "manage-members/member-lookup-and-profiles.md",
-        "manage-members/member-commerce-overview.md",
-        "manage-members/member-operations.md"
+        "member-insight/README.md",
+        "member-insight/member-lookup-and-profiles.md",
+        "member-insight/member-commerce-overview.md",
+        "member-insight/member-operations.md"
     ],
     [
         "store-credit/README.md",
@@ -69,9 +80,11 @@
         "analytics/README.md",
         "analytics/reports-hub.md",
         "analytics/subscription-performance.md",
-        "analytics/retention-analytics.md",
         "analytics/woocommerce-analytics-extension.md",
         "analytics/order-list-enhancements.md"
+    ],
+    [
+        "retention-analytics/README.md"
     ],
     [
         "emails/README.md",
@@ -113,8 +126,7 @@
             "checkout-and-payments/automatic-payments/paypal.md",
             "checkout-and-payments/automatic-payments/paddle.md",
             "checkout-and-payments/automatic-payments/payment-recovery.md",
-            "checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md",
-            "checkout-and-payments/automatic-payments/gateway-health-dashboard.md"
+            "checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md"
         ],
         [
             "checkout-and-payments/checkout-builder/README.md",
@@ -134,14 +146,15 @@
         "retention-and-refunds/cancellation-setup.md",
         "retention-and-refunds/retention-offers.md",
         "retention-and-refunds/retention-use-cases.md",
-        "retention-and-refunds/retention-analytics.md",
         "retention-and-refunds/refund-management.md"
+    ],
+    [
+        "gateway-health/README.md"
     ],
     [
         "audits-and-logs/README.md",
         "audits-and-logs/activity-audits.md",
         "audits-and-logs/scheduled-job-logs.md",
-        "audits-and-logs/gateway-health-dashboard.md",
         "audits-and-logs/renewal-failures.md",
         "audits-and-logs/portal-action-failures.md",
         "audits-and-logs/access-rule-conflicts.md",

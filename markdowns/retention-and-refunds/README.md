@@ -33,7 +33,7 @@ This section covers the full lifecycle of a cancellation — from the moment a c
 | [Cancellation Setup](cancellation-setup.md) | How to configure cancellation timing (immediate vs end-of-period), manage cancellation reasons, and set up the Retention Flow admin page |
 | [Retention Offers](retention-offers.md) | How to configure and trigger Discount, Pause, Downgrade, and Contact Support offers — including eligibility conditions, trigger reasons, and the customer-facing modal flow |
 | [Retention Use Cases](retention-use-cases.md) | 15+ real-life scenarios showing how subscription businesses use the retention system to reduce churn, increase lifetime value, and recover revenue |
-| [Retention Analytics](retention-analytics.md) | How to read the retention analytics dashboard — summary cards, churn reasons chart, offer performance, trend data, and the activity log |
+| [Retention Analytics](../retention-analytics/README.md) | How to read the retention analytics dashboard — summary cards, churn reasons chart, offer performance, trend data, and the activity log |
 | [Refund Management](refund-management.md) | How to configure refund policies, process prorated and full refunds, understand refund-driven cancellation behavior, and use store credit refunds **(Pro)** |
 
 ## How the retention system works

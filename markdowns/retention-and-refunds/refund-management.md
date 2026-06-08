@@ -18,7 +18,7 @@
 - **Related customer cancellation setup:** [Cancellation Setup](cancellation-setup.md)
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
-- **Next guide:** [retention-analytics](./retention-analytics.md)
+- **Next guide:** [Retention Analytics](../retention-analytics/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide

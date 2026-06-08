@@ -138,7 +138,7 @@ This guide presents real-life scenarios across different industries, business mo
 
 **What customers see:** A discount that essentially brings them back to the old price for 4 cycles, giving them time to adjust.
 
-**Business benefit:** Price increases inevitably cause a churn spike. The retention discount acts as a soft landing period — loyal customers get time to adjust, and by the end of the discount period, most have accepted the new price. Check [Retention Analytics](retention-analytics.md) after 4 weeks to measure the spike and the save rate.
+**Business benefit:** Price increases inevitably cause a churn spike. The retention discount acts as a soft landing period — loyal customers get time to adjust, and by the end of the discount period, most have accepted the new price. Check [Retention Analytics](../retention-analytics/README.md) after 4 weeks to measure the spike and the save rate.
 
 ---
 
@@ -389,5 +389,5 @@ A discounted subscriber is always more valuable than a cancelled subscriber. Eve
 
 - [Retention Offers](retention-offers.md) — How to configure each offer type
 - [Cancellation Setup](cancellation-setup.md) — Configure the cancellation flow that feeds into retention
-- [Retention Analytics](retention-analytics.md) — Measure the impact of your retention strategy
+- [Retention Analytics](../retention-analytics/README.md) — Measure the impact of your retention strategy
 - [Refund Management](refund-management.md) — What happens after cancellation is confirmed

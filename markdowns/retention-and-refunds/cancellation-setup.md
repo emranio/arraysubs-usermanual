@@ -97,7 +97,7 @@ End-of-period cancellation is generally recommended for most subscription busine
 
 ## Cancellation Reasons
 
-Cancellation reasons are the predefined options customers choose from when cancelling. They serve two purposes: helping customers articulate why they are leaving, and giving you structured data to analyze in [Retention Analytics](retention-analytics.md).
+Cancellation reasons are the predefined options customers choose from when cancelling. They serve two purposes: helping customers articulate why they are leaving, and giving you structured data to analyze in [Retention Analytics](../retention-analytics/README.md).
 
 ### Require Cancellation Reason
 
@@ -278,7 +278,7 @@ The admin sees the same option in the **Cancellation Details** card on the admin
 ## Related Guides
 
 - [Retention Offers](retention-offers.md) — Configure discount, pause, downgrade, and contact support offers
-- [Retention Analytics](retention-analytics.md) — Track cancellation trends and offer performance
+- [Retention Analytics](../retention-analytics/README.md) — Track cancellation trends and offer performance
 - [Refund Management](refund-management.md) — Configure refund policies after cancellation
 - [Subscription Self-Service Actions](../customer-portal/self-service-actions.md) — The complete customer portal actions guide
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses transition

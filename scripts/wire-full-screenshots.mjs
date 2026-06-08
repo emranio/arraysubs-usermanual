@@ -15,8 +15,7 @@ const WIRE = [
   ["analytics/subscription-performance.md", "03-revenue-full", "Subscription revenue totals in the WooCommerce Revenue report (Pro)"],
   ["analytics/woocommerce-analytics-extension.md", "02-orders-full", "The full Orders report with the subscription Type column and filter (Pro)"],
   ["analytics/woocommerce-analytics-extension.md", "03-revenue-full", "Subscription revenue figures in the Revenue report (Pro)"],
-  ["analytics/retention-analytics.md", "02-retention-full", "The full Retention report — KPI cards, churn reasons, and offer breakdown"],
-  ["retention-and-refunds/retention-analytics.md", "02-retention-full", "The full Retention report"],
+  ["retention-analytics/README.md", "02-retention-full", "The full Retention report — KPI cards, churn reasons, and offer breakdown"],
   ["analytics/reports-hub.md", "02-reports-full", "The full Reports hub directory of analytics links"],
   ["analytics/order-list-enhancements.md", "02-orders-list-full", "The full orders list with subscription order context (Pro)"],
 
@@ -27,14 +26,13 @@ const WIRE = [
   ["audits-and-logs/portal-action-failures.md", "02-portal-full", "The full portal action failure log (Pro)"],
   ["audits-and-logs/payment-and-shipping-issues.md", "02-portal-full", "Portal action failures, including payment-method and shipping update errors"],
   ["audits-and-logs/access-rule-conflicts.md", "02-conflicts-full", "The full access-rule conflict report"],
-  ["audits-and-logs/gateway-health-dashboard.md", "02-gateway-full", "The full gateway health dashboard (Pro)"],
-  ["checkout-and-payments/automatic-payments/gateway-health-dashboard.md", "02-gateway-full", "The full gateway health dashboard (Pro)"],
+  ["gateway-health/README.md", "02-gateway-full", "The full gateway health dashboard (Pro)"],
 
   ["settings/general-settings.md", "02-general-full", "The complete General settings page, top to bottom"],
   ["retention-and-refunds/cancellation-setup.md", "02-retention-flow-full", "The full Retention Flow builder — reasons and offers"],
   ["checkout-and-payments/checkout-builder/README.md", "02-builder-full", "The full Checkout Builder editor (Pro)"],
   ["member-access/access-rules.md", "02-role-full", "The full role-mapping rules screen"],
-  ["manage-members/member-lookup-and-profiles.md", "02-member-full", "A full member profile with metrics, subscriptions, and quick actions (Pro)"],
+  ["member-insight/member-lookup-and-profiles.md", "02-member-full", "A full member profile with metrics, subscriptions, and quick actions (Pro)"],
 ];
 
 function assetsBase(p) { return path.basename(p).replace(/\.md$/, ".assets"); }

@@ -165,7 +165,7 @@ No additional settings are specific to this page. The management page inherits t
 
 - [Credit History](credit-history.md) — View all transactions across all customers.
 - [Store Credit Settings](store-credit-settings.md) — Enable/disable the system and configure credit behavior.
-- [Manage Members — Commerce Overview](../manage-members/member-commerce-overview.md) — View credit balances from the member profile.
+- [Manage Members — Commerce Overview](../member-insight/member-commerce-overview.md) — View credit balances from the member profile.
 
 ---
 

@@ -210,7 +210,7 @@ The secondary webhook secret is stored separately for test mode and live mode. I
 
 - [Gateway Overview](README.md) — Architecture and capability comparison
 - [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) — Customer toggle behavior
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — Monitoring Stripe status and webhook events
+- [Gateway Health Dashboard](../../gateway-health/README.md) — Monitoring Stripe status and webhook events
 
 ---
 

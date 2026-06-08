@@ -252,7 +252,7 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 ## Edge cases and important notes
 
 - **Prices are locked at checkout.** Changing a product's price in WooCommerce does not affect existing subscriptions. Only new purchases use the updated price.
-- **Retention discounts apply to renewal invoices.** If a customer has accepted a retention discount offer, that discount is applied when the next renewal invoice is generated. See [Retention and Cancellation](../retention-and-cancellation/README.md) for details.
+- **Retention discounts apply to renewal invoices.** If a customer has accepted a retention discount offer, that discount is applied when the next renewal invoice is generated. See [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) for details.
 - **Lifetime subscriptions never generate renewal invoices.** Subscriptions with a billing period of Lifetime are excluded from the renewal invoice generation job entirely.
 - **One pending renewal at a time.** The system does not create a second renewal invoice if one is already pending for the subscription.
 - **Invoice created is not payment received.** The admin timeline separates "Renewal Invoice Created" from "Renewal Payment Successful" so support staff can tell the difference between an invoice waiting for payment and an order that was actually paid.

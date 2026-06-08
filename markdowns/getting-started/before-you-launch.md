@@ -243,6 +243,54 @@ The available self-service actions are configurable in **ArraySubs → Settings 
 
 ArraySubs ships as two plugins. The core plugin is free and covers all essential subscription functionality. The Pro addon adds advanced features for stores that need more control, automation, and analytics.
 
+### Dedicated Manual Module Count
+
+The manual exposes **28 root-level modules**. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **7 modules** require ArraySubs Pro.
+
+| Count | Module Group |
+|---|---|
+| 21 | Free/core-accessible modules |
+| 7 | Pro-only modules |
+| 28 | Total dedicated root-level modules |
+
+### Free/Core-Accessible Root Modules
+
+| Module | Availability Notes |
+|---|---|
+| [Getting Started](README.md) | Free + Pro setup path |
+| [Settings](../settings/README.md) | Free settings with Pro-only automatic payment fields |
+| [Admin Bar Visibility](../admin-bar-visibility/README.md) | Free |
+| [Admin Dashboard Access](../admin-dashboard-access/README.md) | Free |
+| [WordPress Login Page](../wordpress-login-page/README.md) | Free |
+| [Login as User](../login-as-user/README.md) | Free |
+| [Coupons](../coupons/README.md) | Free |
+| [Subscription Products](../subscription-products/README.md) | Free core with Pro product extensions |
+| [Manage Subscriptions](../manage-subscriptions/README.md) | Free core with Pro-only cards where applicable |
+| [Subscription Notes](../subscription-notes/README.md) | Free |
+| [Customer Portal](../customer-portal/README.md) | Free core with Pro payment/shipping actions |
+| [Analytics](../analytics/README.md) | Free reports hub with Pro analytics extensions |
+| [Retention Analytics](../retention-analytics/README.md) | Free |
+| [Emails](../emails/README.md) | Free core emails with Pro store-credit/gateway emails |
+| [Shortcodes](../shortcodes/README.md) | Free shortcodes with one Pro store-credit shortcode |
+| [Profile Builder](../profile-builder/README.md) | Free core with Pro menu integrations |
+| [Member Access](../member-access/README.md) | Free core with Pro login-limit extension |
+| [Checkout and Payments](../checkout-and-payments/README.md) | Free checkout flow with Pro automatic payments |
+| [Billing and Renewals](../billing-and-renewals/README.md) | Free renewal engine with Pro automatic collection |
+| [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) | Free core with Pro store-credit refund extension |
+| [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md) | Free troubleshooting with Pro audit/log screens |
+
+### Pro-Only Root Modules
+
+| Module | What It Adds |
+|---|---|
+| [Multi-Login Prevention](../multi-login-prevention/README.md) | Concurrent session limits and plan-level session overrides |
+| [Redirect Product Page](../redirect-product-page/README.md) | Product URL redirects or 404 handling |
+| [Subscription Shipping](../subscription-shipping/README.md) | One-time or recurring shipping charges for physical subscriptions |
+| [Member Insight](../member-insight/README.md) | Unified member profile, commerce history, shortcuts, and support actions |
+| [Store Credit](../store-credit/README.md) | Credit wallet, purchase products, credit history, and credit refunds |
+| [Feature Manager](../feature-manager/README.md) | Product entitlements, feature display, and feature logs |
+| [Gateway Health](../gateway-health/README.md) | Gateway status cards, webhook URLs, capabilities, and webhook event log |
+
 ### Subscription Fundamentals
 
 | Feature | Free | Pro |

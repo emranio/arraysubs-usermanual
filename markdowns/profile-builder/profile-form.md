@@ -298,14 +298,14 @@ A food subscription box needs dietary information. Add a select field with optio
 - [My Account Editor](my-account-editor.md) — Customize the My Account navigation menu
 - [Shortcodes](../shortcodes/README.md) — Display user data and gated content with shortcodes
 - [Customer Portal — Portal Pages](../customer-portal/portal-pages.md) — What customers see in their subscriptions area
-- [Manage Members — Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — View member profiles from the admin panel
+- [Manage Members — Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — View member profiles from the admin panel
 
 ---
 
 ## FAQ
 
 ### Do custom profile fields work with WooCommerce checkout?
-No. Profile fields are designed for the **My Account → Account Details** page and the admin user profile. They do not appear at checkout. For checkout field customization, see [Checkout Builder](../checkout-and-payments/checkout-builder.md) *(Pro)*.
+No. Profile fields are designed for the **My Account → Account Details** page and the admin user profile. They do not appear at checkout. For checkout field customization, see [Checkout Builder](../checkout-and-payments/checkout-builder/README.md) *(Pro)*.
 
 ### Can I make the avatar field required?
 No. Avatar upload is optional by design. You can encourage customers to upload a photo, but the system does not block account saves when no avatar is set.

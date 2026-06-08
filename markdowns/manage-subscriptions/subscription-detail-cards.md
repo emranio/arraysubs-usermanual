@@ -16,7 +16,7 @@
 - **Start from the list:** [Subscription Operations](subscription-operations.md)
 - **Change core fields:** [Subscription Operations → Edit a Subscription](subscription-operations.md#edit-a-subscription)
 - **Customer version:** [Subscription Self-Service Actions](../customer-portal/self-service-actions.md)
-- **Payment troubleshooting:** [Gateway Health Dashboard](../checkout-and-payments/automatic-payments/gateway-health-dashboard.md)
+- **Payment troubleshooting:** [Gateway Health Dashboard](../gateway-health/README.md)
 
 ![Annotated subscription detail screen showing action bar, billing dates, skip and pause state, and gateway connection](subscription-detail-cards.assets/01-subscription-detail-annotated.png)
 
@@ -331,7 +331,7 @@ A customer ordered through a customized checkout with extra fields (company name
 - [Subscription Operations](subscription-operations.md) — the detail screen layout and always-visible cards
 - [Lifecycle Management](lifecycle-management.md) — how status transitions affect what cards appear
 - [Settings — General Settings](../settings/general-settings.md) — configuring grace periods and customer actions
-- [Subscription Products — Coupon Integration](../subscription-products/coupon-integration.md) — how coupons are applied to subscriptions
+- [Subscription Products — Coupon Integration](../coupons/README.md) — how coupons are applied to subscriptions
 
 ---
 

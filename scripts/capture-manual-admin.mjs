@@ -104,21 +104,21 @@ const D = [
   ["prod_sub", "subscription-products/create-and-configure.md", "01-subscription-fields",
     ["rectangle around the Billing Period and Billing Interval fields labeled 'Billing schedule'",
      "rectangle around the Free Trial and Sign-up Fee fields labeled 'Trial and signup fee'"]],
-  ["coupon_sub", "subscription-products/coupon-integration.md", "01-coupon-fields",
+  ["coupon_sub", "coupons/README.md", "01-coupon-fields",
     ["rectangle around the subscription coupon options labeled 'Recurring discount controls'"]],
   ["prod_helper", "subscription-products/product-lifecycle.md", "01-helper-links",
     ["rectangle around the direct add-to-cart and one-click checkout helper links labeled 'Test links'"]],
   ["prod_fixed", "subscription-products/plan-switching-and-relationships.md", "02-fixed-period-fields",
     ["rectangle around the fixed end date fields labeled 'Fixed-period membership (Pro)'"]],
-  ["prod_redirect", "subscription-products/product-experience.md", "02-redirect-fields",
+  ["prod_redirect", "redirect-product-page/README.md", "01-redirect-fields",
     ["rectangle around the redirect action setting labeled 'Product page redirect (Pro)'"]],
-  ["prod_shipping", "subscription-products/product-experience.md", "03-shipping-fields",
+  ["prod_shipping", "subscription-shipping/README.md", "01-shipping-product-fields",
     ["rectangle around the subscription shipping type field labeled 'Recurring shipping (Pro)'"]],
 
   // Manage subscriptions
   ["sub_list", "manage-subscriptions/README.md", "01-subscriptions-list",
     ["rectangle around the subscriptions list with its filters labeled 'Subscriptions list'"]],
-  ["sub_detail", "manage-subscriptions/admin-tools-and-records.md", "01-notes-records",
+  ["sub_detail", "subscription-notes/README.md", "01-notes-records",
     ["rectangle around the subscription notes timeline labeled 'Notes and records'"]],
   ["feature_log", "manage-subscriptions/admin-tools-and-records.md", "02-feature-log",
     ["rectangle around the feature log content labeled 'Feature log'"]],
@@ -144,11 +144,11 @@ const D = [
     ["rectangle around the cancellation reasons configuration labeled 'Cancellation flow'"]],
   ["retention_flow", "retention-and-refunds/retention-offers.md", "01-offers",
     ["rectangle around the retention offer settings labeled 'Retention offers'"]],
-  ["an_retention", "retention-and-refunds/retention-analytics.md", "01-retention-report",
+  ["an_retention", "retention-analytics/README.md", "01-retention-report",
     ["rectangle around the retention KPI cards labeled 'Retention metrics'"]],
 
   // Analytics
-  ["an_retention", "analytics/retention-analytics.md", "01-retention-report",
+  ["an_retention", "retention-analytics/README.md", "01-retention-report",
     ["rectangle around the retention summary cards labeled 'Retention analytics'"]],
   ["an_overview", "analytics/README.md", "01-analytics-overview",
     ["rectangle around the subscription performance cards labeled 'Subscription analytics'"]],
@@ -214,7 +214,7 @@ const D = [
   // Audits & logs
   ["audits_activity", "audits-and-logs/README.md", "01-activity-audits",
     ["rectangle around the activity audit timeline labeled 'Audit trail'"]],
-  ["gateways", "audits-and-logs/gateway-health-dashboard.md", "01-gateway-health",
+  ["gateways", "gateway-health/README.md", "01-gateway-health",
     ["rectangle around the gateway status overview labeled 'Gateway health'"]],
   ["audits_portal", "audits-and-logs/portal-action-failures.md", "01-portal-failures",
     ["rectangle around the portal action failures list labeled 'Portal errors'"]],
@@ -228,11 +228,11 @@ const D = [
     ["rectangle around the feature definition rows labeled 'Define features'"]],
 
   // Manage members
-  ["manage_members", "manage-members/README.md", "01-member-search",
+  ["manage_members", "member-insight/README.md", "01-member-search",
     ["rectangle around the member search box labeled 'Member lookup'"]],
-  ["member_detail", "manage-members/member-commerce-overview.md", "01-member-commerce",
+  ["member_detail", "member-insight/member-commerce-overview.md", "01-member-commerce",
     ["rectangle around the member subscriptions and orders area labeled 'Member commerce'"]],
-  ["member_detail", "manage-members/member-operations.md", "01-member-profile",
+  ["member_detail", "member-insight/member-operations.md", "01-member-profile",
     ["rectangle around the member profile header labeled 'Member profile'"]],
 ];
 

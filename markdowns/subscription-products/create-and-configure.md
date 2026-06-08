@@ -14,7 +14,7 @@
 - **Current guide:** Create and Configure Subscription Products
 - **Where to open it:** WordPress Admin -> Products -> Add/Edit Product
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [coupon-integration](./coupon-integration.md)
+- **Previous guide:** [Coupons](../coupons/README.md)
 - **Next guide:** [plan-switching-and-relationships](./plan-switching-and-relationships.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
@@ -279,7 +279,7 @@ All billing fields below appear in the **Subscription** tab of the WooCommerce p
 - [First-Time Setup](../getting-started/first-time-setup.md) — Quick walkthrough for creating your first subscription product.
 - [Plan Switching and Product Relationships](plan-switching-and-relationships.md) — Configure upgrade, downgrade, and crossgrade paths.
 - [Product Experience and Display](product-experience.md) — How pricing appears on the product page, cart, and checkout.
-- [Coupon Integration](coupon-integration.md) — Apply WooCommerce coupons to subscription renewals.
+- [Coupon Integration](../coupons/README.md) — Apply WooCommerce coupons to subscription renewals.
 
 ---
 

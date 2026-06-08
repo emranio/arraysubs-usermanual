@@ -15,7 +15,7 @@
 - **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [trial-management](../../billing-and-renewals/trial-management.md)
-- **Next guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
+- **Next guide:** [Gateway Health](../../gateway-health/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
 ![The customer Auto-Renew toggle and saved card (Pro)](auto-renew-and-manual-fallback.assets/01-auto-renew-annotated.png)

@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/store-credit/settings`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [store-credit-management](./store-credit-management.md)
-- **Next guide:** [coupon-integration](../subscription-products/coupon-integration.md)
+- **Next guide:** [Coupons](../coupons/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide

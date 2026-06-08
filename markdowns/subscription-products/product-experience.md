@@ -18,10 +18,6 @@
 - **Next guide:** [product-lifecycle](./product-lifecycle.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Per-product page redirect settings (Pro)](product-experience.assets/02-redirect-fields-annotated.png)
-
-![Recurring vs one-time subscription shipping fields (Pro)](product-experience.assets/03-shipping-fields-annotated.png)
-
 ## Visual Guide
 
 Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
@@ -32,7 +28,7 @@ Use these annotated screenshots to match each step in this guide with the actual
 
 ArraySubs automatically extends WooCommerce's product display to show subscription-specific information wherever products appear. Customers see the recurring price, billing schedule, trial details, signup fees, and different renewal pricing on the product page, in the cart, at checkout, in the mini-cart, and on order confirmation screens.
 
-This guide also covers three Pro features that enhance the product experience: **Redirect Product Page** (control direct product page access), **Feature Manager** (define product entitlements), and **Subscription Shipping** (configure one-time vs recurring shipping).
+This guide focuses on the shared storefront and checkout display behavior. The product-level Pro modules now have their own dedicated guides: [Redirect Product Page](../redirect-product-page/README.md), [Subscription Shipping](../subscription-shipping/README.md), and [Feature Manager](../feature-manager/README.md).
 
 ---
 
@@ -103,59 +99,15 @@ On WooCommerce order pages (admin and customer-facing), the subscription billing
 
 ---
 
-## Redirect Product Page *(Pro)*
+## Dedicated Product Modules
 
-```box class="info-box"
-This feature requires ArraySubs Pro.
-```
+Product-level Pro controls are documented as their own modules:
 
-Redirect Product Page lets you control what happens when a visitor navigates directly to a subscription product's WooCommerce page. You can either redirect them to a custom landing page or show a 404 error. This is useful when you sell subscriptions through dedicated sales pages and don't want customers to see the default WooCommerce product layout.
-
-### How It Works
-
-The redirect fires **only** on the product page itself. It does not affect:
-
-- Direct add-to-cart links (e.g., `?add-to-cart=123` — these continue to work)
-- The REST API
-- Backend admin operations
-- WooCommerce catalog listings (shop page, category pages)
-
-### Product-Level Configuration
-
-The redirect settings are configured per product in the WooCommerce product editor. Look for the **Redirect Product Page** panel.
-
-| Field | Type | Description |
+| Module | Availability | Use It For |
 |---|---|---|
-| **Enable redirect** | Checkbox | Activate page-level redirect for this product |
-| **Redirect action** | Select | **301 Redirect to a page** or **Show 404 (page not found)** |
-| **Redirect to page** | AJAX page search | The WordPress page to redirect visitors to (only visible when action is "301 Redirect") |
-
-### Behavior Details
-
-**301 Redirect:**
-- Sends a permanent redirect to the selected page.
-- Search engines transfer ranking authority from the product URL to the target page.
-- The product URL is excluded from XML sitemaps automatically.
-
-**404 (Page Not Found):**
-- Returns a 404 response for the product URL.
-- The product is excluded from XML sitemaps.
-- A `noindex` robots meta tag is added.
-
-### SEO Integration
-
-Redirect Product Page automatically integrates with:
-
-- **WordPress core sitemaps** — Redirected products are excluded from the default sitemap.
-- **Yoast SEO** — Products are added to the Yoast exclusion list.
-- **Rank Math** — Products are filtered from Rank Math sitemap entries.
-
-### Important Notes
-
-- **Variable products:** The redirect applies to the parent product page. Individual variations do not have their own pages, so no extra handling is needed.
-- **Catalog visibility** is a separate WooCommerce setting. To also hide the product from shop listings and search results, change its Catalog Visibility under the Publish panel.
-- **Caching:** If your site uses full-page caching, clear the product URL cache after saving redirect changes.
-- **Admin bypass:** Users with the `manage_options` capability are not redirected — they see the product page normally.
+| [Redirect Product Page](../redirect-product-page/README.md) | Pro | Redirect direct product URLs to sales pages or return 404 responses |
+| [Subscription Shipping](../subscription-shipping/README.md) | Pro | Charge physical-product shipping once or on every renewal |
+| [Feature Manager](../feature-manager/README.md) | Pro | Define feature entitlements and display "What's Included" content |
 
 ---
 
@@ -209,49 +161,6 @@ The storefront display currently renders on simple product pages only.
 ```
 
 For the complete Feature Manager guide — including step-by-step product setup, all display settings, the admin Feature Log, usage tracking, and templates — see the dedicated [Feature Manager](../feature-manager/README.md) section.
-
----
-
-## Subscription Shipping *(Pro)*
-
-```box class="info-box"
-This feature requires ArraySubs Pro.
-```
-
-Subscription Shipping controls how shipping charges are handled for physical subscription products. You can choose to charge shipping on every renewal or only on the initial order.
-
-### Product Configuration
-
-The shipping settings appear in the **Subscription** tab of the product editor, inside a **Subscription Shipping** section. This section is only visible when:
-
-- The product is marked as a subscription.
-- The product is **not** virtual or downloadable (physical products only).
-- The ArraySubs Pro Subscription Shipping module is active.
-
-| Field | Options | Default | Description |
-|---|---|---|---|
-| **Shipping Type** | Recurring / One-time | Recurring | **Recurring:** Charge shipping on every renewal. **One-time:** Charge shipping only on the first order. |
-| **Initial Shipping Override** | Currency amount | (empty) | Override the calculated shipping cost on the initial order. Set to 0 to use WooCommerce's standard shipping calculation. |
-| **Renewal Shipping Override** | Currency amount | (empty) | Override the shipping cost on renewals. Set to 0 to use the same as initial shipping. Only visible when Shipping Type is Recurring. |
-
-### How Shipping Is Applied
-
-| Shipping Type | Initial Order | Renewal Orders |
-|---|---|---|
-| **Recurring** | Charged (standard WC shipping or override) | Charged (same rate or renewal override) |
-| **One-time** | Charged (standard WC shipping or override) | Not charged (shipping = $0) |
-
-### Frontend Display
-
-Subscription Shipping adds information to the product page, cart, and checkout:
-
-- **Product page:** Shows a shipping note below the product description — either "Shipping charged on every renewal" or "One-time shipping."
-- **Cart:** A shipping note appears below the shipping totals.
-- **Checkout:** A shipping note appears below the shipping section in the order review.
-
-### Variation Support
-
-Each variation of a variable product can have its own shipping type and override values. This lets you offer different shipping arrangements per plan (e.g., monthly plans charge shipping each time, annual plans include free shipping on renewals).
 
 ---
 
@@ -324,7 +233,9 @@ Alternatively, for a supplement subscription where shipping is only charged once
 
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up the billing fields that drive pricing display.
 - [Plan Switching and Product Relationships](plan-switching-and-relationships.md) — Configure upgrade/downgrade paths shown to customers.
-- [Coupon Integration](coupon-integration.md) — Coupons that affect displayed pricing on renewals.
+- [Coupons](../coupons/README.md) — Coupons that affect displayed pricing on renewals.
+- [Redirect Product Page](../redirect-product-page/README.md) — Product URL redirects and 404 handling.
+- [Subscription Shipping](../subscription-shipping/README.md) — One-time and recurring shipping behavior.
 
 ---
 

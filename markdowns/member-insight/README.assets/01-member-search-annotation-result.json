@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/member-insight/README.assets/01-member-search-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the member search box labeled 'Member lookup'",
+      "target_description": "Find a Member search input box in the upper content area",
+      "label_text": "Member lookup",
+      "bbox": {
+        "x": 229,
+        "y": 223,
+        "width": 498,
+        "height": 42
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

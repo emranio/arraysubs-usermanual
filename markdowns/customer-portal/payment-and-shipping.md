@@ -237,7 +237,7 @@ When a customer changes plans, Pro Subscription Shipping follows the target plan
 
 ## Related Guides
 
-- [Checkout and Payments](../checkout-payments/README.md) — Gateway configuration and checkout behavior
+- [Checkout and Payments](../checkout-and-payments/README.md) — Gateway configuration and checkout behavior
 - [General Settings](../settings/general-settings.md) — Auto-renew toggle and customer action settings
 - [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md) — Admin-side gateway and shipping cards
 

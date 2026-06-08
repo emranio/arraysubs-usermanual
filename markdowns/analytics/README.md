@@ -30,7 +30,7 @@ The analytics ecosystem has five major surfaces:
 |---------|-----------------|-------------|---------------|
 | [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 12 categories |
 | [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | Pro | 10 KPI cards, 6 time-series charts, 5 leaderboards |
-| [Retention Analytics](retention-analytics.md) | WooCommerce → Analytics → Retention | Free | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
+| [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Free | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
 | [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Pro | Type column, type filters, subscription revenue cards, subscription-only filters, member links |
 | [Order List Enhancements](order-list-enhancements.md) | WooCommerce → Orders | Pro | Type and coupon columns, filter dropdowns, embedded report panel, order type backfill |
 
@@ -83,7 +83,7 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 - [Reports Hub](reports-hub.md) — The central directory page that links to every report in the ArraySubs ecosystem.
 - [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — The overview page with KPI cards, charts, and leaderboards.
-- [Retention Analytics](retention-analytics.md) — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
+- [Retention Analytics](../retention-analytics/README.md) — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) *(Pro)* — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data.
 - [Order List Enhancements](order-list-enhancements.md) *(Pro)* — Columns, filters, and the summary panel on the WooCommerce Orders page.
 
@@ -94,7 +94,7 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Status transitions that drive churn and renewal metrics.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription export and related orders.
 - [Store Credit Management](../store-credit/store-credit-management.md) — Credit purchase orders that appear in analytics.
-- [Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — The member detail page linked from the Customers report.
+- [Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — The member detail page linked from the Customers report.
 - [General Settings](../settings/general-settings.md) — Grace periods and renewal timing that affect billing metrics.
 - [Audits & Logs](../audits-and-logs/README.md) — Scheduled job logs, activity audits, and failure diagnostics.
 

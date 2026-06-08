@@ -280,7 +280,7 @@ For rules that have download limits configured in the backend, the system tracks
 - [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
 - [Content Restriction](content-restriction.md) — Content gating messages, per-post restrictions, and cache compatibility.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limit rules and content restriction shortcodes.
-- [Coupon Integration](../subscription-products/coupon-integration.md) — How coupons interact with member discounts.
+- [Coupon Integration](../coupons/README.md) — How coupons interact with member discounts.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — Where customers access their downloads.
 - [Use Cases](use-cases.md) — Real-world discount, ecommerce, and download rule examples.
 

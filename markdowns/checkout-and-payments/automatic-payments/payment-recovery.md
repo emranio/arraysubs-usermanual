@@ -196,7 +196,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 - [Cron Job Setup](../../getting-started/cron-job-setup.md) — Required for retries to fire on time
 - [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md) — Subscription state transitions after retries are exhausted
 - [Renewal Failures Audit](../../audits-and-logs/renewal-failures.md) — Where to find logs of failed renewals
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — Webhook delivery status
+- [Gateway Health Dashboard](../../gateway-health/README.md) — Webhook delivery status
 
 ## FAQ
 

@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Retention Flow
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/retention-flow`
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [retention-analytics](./retention-analytics.md)
+- **Previous guide:** [Retention Analytics](../retention-analytics/README.md)
 - **Next guide:** [retention-use-cases](./retention-use-cases.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
@@ -53,7 +53,7 @@ The retention offer flow inserts itself between the cancellation reason step and
 3. System checks: Are retention offers enabled? Is the customer eligible for any offers based on the selected reason?
 4. If yes → **Retention offers modal** appears with available offers
 5. Customer either **accepts an offer** (subscription is retained) or clicks **"No thanks, continue to cancel"** (cancellation proceeds)
-6. Every step is logged for [Retention Analytics](retention-analytics.md)
+6. Every step is logged for [Retention Analytics](../retention-analytics/README.md)
 
 ### The Retention Modal
 
@@ -343,7 +343,7 @@ The subscription status changes to **On-Hold** with a note about the scheduled r
 ## Related Guides
 
 - [Cancellation Setup](cancellation-setup.md) — Configure cancellation timing and reasons
-- [Retention Analytics](retention-analytics.md) — Measure the impact of your retention offers
+- [Retention Analytics](../retention-analytics/README.md) — Measure the impact of your retention offers
 - [Retention Use Cases](retention-use-cases.md) — 15+ real-life scenarios for using retention offers effectively
 - [Subscription Self-Service Actions](../customer-portal/self-service-actions.md) — The complete customer portal actions guide
 - [Plan Switching and Relationships](../subscription-products/plan-switching-and-relationships.md) — Configure upgrade/downgrade paths for the downgrade offer

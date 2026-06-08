@@ -1,0 +1,51 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/member-insight/member-lookup-and-profiles.assets/01-manage-members-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the customer search field labeled 'Find a Member'",
+      "target_description": "Search input field under the Find a Member label",
+      "label_text": "Find a Member",
+      "bbox": {
+        "x": 229,
+        "y": 222,
+        "width": 498,
+        "height": 37
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 1,
+      "request_text": "rectangle around the empty-state profile panel labeled 'Member Profile Area'",
+      "target_description": "Large bordered empty-state Member Insight Dashboard panel",
+      "label_text": "Member Profile Area",
+      "bbox": {
+        "x": 202,
+        "y": 314,
+        "width": 1199,
+        "height": 258
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    },
+    {
+      "request_index": 2,
+      "request_text": "rectangle around the search instructions labeled 'Search Guidance'",
+      "target_description": "Centered two-line instructional text beneath Member Insight Dashboard heading",
+      "label_text": "Search Guidance",
+      "bbox": {
+        "x": 562,
+        "y": 473,
+        "width": 477,
+        "height": 37
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/reports`
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [retention-analytics](./retention-analytics.md)
+- **Previous guide:** [Retention Analytics](../retention-analytics/README.md)
 - **Next guide:** [woocommerce-analytics-extension](./woocommerce-analytics-extension.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
@@ -239,7 +239,7 @@ A SaaS store running a 14-day free trial checks the **Trial Conversions** card w
 ## Related Guides
 
 - [Reports Hub](reports-hub.md) — Central directory of all analytics and data screens.
-- [Retention Analytics](retention-analytics.md) — Churn reasons, retention offer effectiveness, and trend charts.
+- [Retention Analytics](../retention-analytics/README.md) — Churn reasons, retention offer effectiveness, and trend charts.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics reports.
 - [Order List Enhancements](order-list-enhancements.md) — Type columns and filters on the WooCommerce Orders page.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Status transitions that drive churn and renewal metrics.

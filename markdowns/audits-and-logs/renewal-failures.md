@@ -180,7 +180,7 @@ When investigating a renewal problem, work through this checklist:
 
 - [Scheduled-Job Logs](scheduled-job-logs.md) — check if renewal jobs ran successfully
 - [Activity Audits](activity-audits.md) — trace the complete renewal timeline
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — verify gateway connectivity
+- [Gateway Health Dashboard](../gateway-health/README.md) — verify gateway connectivity
 - [Payment Method and Shipping Update Issues](payment-and-shipping-issues.md) — resolve card and gateway problems
 
 ---

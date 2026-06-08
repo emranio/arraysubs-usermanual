@@ -14,7 +14,7 @@
 - **Current guide:** Payment Method and Shipping Update Issues
 - **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
+- **Previous guide:** [Gateway Health](../gateway-health/README.md)
 - **Next guide:** [portal-action-failures](./portal-action-failures.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
@@ -44,7 +44,7 @@ The auto-renew toggle lets customers switch between automatic and manual renewal
 | Pro plugin is not active | Install and activate the Pro plugin |
 | The auto-renew toggle setting is disabled | Enable **Allow Customers to Toggle Auto-Renew** in **ArraySubs → Settings → General Settings** |
 | The subscription does not have an automatic gateway | The toggle only appears when a subscription has an active payment gateway with automatic payment capability |
-| The gateway does not support auto-renew | Check the [Gateway Health Dashboard](gateway-health-dashboard.md) for the gateway's capabilities |
+| The gateway does not support auto-renew | Check the [Gateway Health Dashboard](../gateway-health/README.md) for the gateway's capabilities |
 
 ### Turning Off Auto-Renew
 
@@ -82,7 +82,7 @@ When a customer's stored card has expired (past the `_payment_method_expiry_mont
 | Cause | Fix |
 |-------|-----|
 | No gateway is configured on the subscription | The subscription uses manual payments and has no gateway to update |
-| The gateway does not support payment method updates | Check the [Gateway Health Dashboard](gateway-health-dashboard.md) for the `payment_method_update` capability |
+| The gateway does not support payment method updates | Check the [Gateway Health Dashboard](../gateway-health/README.md) for the `payment_method_update` capability |
 | Pro plugin is not active | Install and activate the Pro plugin |
 
 ### Update Request Fails
@@ -187,7 +187,7 @@ When investigating a payment method or shipping issue:
 
 1. **Is the Pro plugin active?** Payment method updates, auto-renew toggle, and shipping updates all require Pro
 2. **Does the subscription have a gateway?** Check the subscription detail page for the payment gateway card
-3. **What capabilities does the gateway support?** Check the [Gateway Health Dashboard](gateway-health-dashboard.md)
+3. **What capabilities does the gateway support?** Check the [Gateway Health Dashboard](../gateway-health/README.md)
 4. **What is the subscription status?** Most update actions require Active, On-Hold, or Trial status
 5. **Is there a pending cancellation?** Auto-renew cannot be toggled when `_waiting_cancellation` is set
 6. **Is the stored payment method valid?** Check card expiry, gateway status, and whether the method was detached
@@ -195,7 +195,7 @@ When investigating a payment method or shipping issue:
 
 ## Related Guides
 
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — verify gateway capabilities and connection status
+- [Gateway Health Dashboard](../gateway-health/README.md) — verify gateway capabilities and connection status
 - [Portal Pages](../customer-portal/portal-pages.md) — what customers see on the subscription detail page
 - [Renewal Failures and Billing Issues](renewal-failures.md) — when payment method problems cause renewal failures
 
@@ -221,4 +221,4 @@ The cutoff period is controlled by a filter (`arraysubs_shipping_address_cutoff_
 
 ### What happens if the gateway is in test mode?
 
-Test-mode gateways function normally for all operations — auto-renew, payment method update, and webhook processing. Test events appear in the [Gateway Health Dashboard](gateway-health-dashboard.md) webhook log. No real charges are made.
+Test-mode gateways function normally for all operations — auto-renew, payment method update, and webhook processing. Test events appear in the [Gateway Health Dashboard](../gateway-health/README.md) webhook log. No real charges are made.

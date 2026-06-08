@@ -23,10 +23,23 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **New store setup:** [Before You Launch](getting-started/before-you-launch.md) → [Easy Setup Wizard](getting-started/easy-setup-wizard.md) → [First-Time Setup](getting-started/first-time-setup.md)
 - **Daily admin work:** [Subscription Operations](manage-subscriptions/subscription-operations.md) → [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) → [Lifecycle Management](manage-subscriptions/lifecycle-management.md)
 - **Customer self-service:** [Customer Portal Pages](customer-portal/portal-pages.md) → [Subscription Self-Service Actions](customer-portal/self-service-actions.md)
-- **Paid automation:** [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) → [Stripe](checkout-and-payments/automatic-payments/stripe.md) → [Gateway Health Dashboard](checkout-and-payments/automatic-payments/gateway-health-dashboard.md)
+- **Paid automation:** [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) → [Stripe](checkout-and-payments/automatic-payments/stripe.md) → [Gateway Health Dashboard](gateway-health/README.md)
+- **Dedicated operations modules:** [Coupons](coupons/README.md) → [Subscription Notes](subscription-notes/README.md) → [Member Insight](member-insight/README.md) *(Pro)*
+- **Dedicated product modules:** [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Subscription Shipping](subscription-shipping/README.md) *(Pro)*
+- **Dedicated reporting modules:** [Retention Analytics](retention-analytics/README.md) → [Gateway Health](gateway-health/README.md) *(Pro)*
 - **Access and memberships:** [Member Access Overview](member-access/README.md) → [Access Rules](member-access/access-rules.md) → [Feature Manager](feature-manager/README.md) *(Pro)*
 - **Site access toolkit modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Multi-Login Prevention](multi-login-prevention/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
+
+## Dedicated Module Count
+
+The manual now exposes **28 root-level modules**. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **7 modules** require ArraySubs Pro.
+
+| Count | Module Group |
+|---|---|
+| 21 | Free/core-accessible modules |
+| 7 | Pro-only modules |
+| 28 | Total dedicated root-level modules |
 
 ## Admin Screen Map
 
@@ -44,14 +57,19 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | Admin Path | Use It For | Related Guide |
 |---|---|---|
 | **ArraySubs → Subscriptions** | Search, filter, create, export, edit, and open subscription records | [Subscription Operations](manage-subscriptions/subscription-operations.md) |
+| **ArraySubs → Subscriptions → Detail → Subscription Notes** | Review system notes, admin notes, customer-visible notes, gateway notes, and lifecycle history | [Subscription Notes](subscription-notes/README.md) |
 | **ArraySubs → Store Credit** *(Pro)* | Manage balances, adjustments, and transaction history | [Store Credit Management](store-credit/store-credit-management.md) |
 | **ArraySubs → Retention Flow** | Configure cancellation reasons and save-the-sale offers | [Cancellation Setup](retention-and-refunds/cancellation-setup.md) |
 | **ArraySubs → Member Access** | Build role, URL, post type, discount, ecommerce, and download access rules | [Member Access Overview](member-access/README.md) |
 | **ArraySubs → Checkout Builder** *(Pro)* | Design custom subscription checkout fields and steps | [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) |
 | **ArraySubs → Profile Builder** | Configure custom profile fields and My Account navigation | [Profile Builder](profile-builder/README.md) |
-| **ArraySubs → Reports** | Review subscription reporting entry points | [Reports Hub](analytics/reports-hub.md) |
+| **ArraySubs → Manage Members** *(Pro)* | Search customers and open the Member Insight profile | [Member Insight](member-insight/README.md) |
+| **ArraySubs → Reports** | Review subscription reporting entry points and open Retention Analytics | [Reports Hub](analytics/reports-hub.md) |
 | **ArraySubs → Settings** | Configure global subscription, toolkit, plan switching, refund, skip/pause, and feature settings | [General Settings](settings/general-settings.md) |
 | **ArraySubs → Settings → Toolkit** | Hide customer-facing WordPress clutter, restrict dashboard access, route login pages, impersonate customers, and limit account sharing | [Toolkit Settings](settings/toolkit-settings.md) |
+| **ArraySubs → Settings → Payment Gateways** *(Pro)* | Monitor gateway status, webhook URLs, and webhook event logs | [Gateway Health](gateway-health/README.md) |
+| **Products → Edit Product → Subscription** *(Pro)* | Configure Redirect Product Page and Subscription Shipping controls | [Redirect Product Page](redirect-product-page/README.md), [Subscription Shipping](subscription-shipping/README.md) |
+| **Marketing → Coupons** | Configure subscription-aware coupon discounts and renewal cycle limits | [Coupons](coupons/README.md) |
 | **ArraySubs → Audits [beta]** *(Pro)* | Diagnose activity, scheduled jobs, gateway events, renewals, portal actions, and access conflicts | [Audits and Logs](audits-and-logs/README.md) |
 | **ArraySubs → Easy Setup** | Launch the guided setup wizard or import/export settings | [Easy Setup Wizard](getting-started/easy-setup-wizard.md) |
 
@@ -96,6 +114,18 @@ These are dedicated ArraySubs modules, even though their controls live together 
 
 [Multi-Login Prevention](multi-login-prevention/README.md) limits concurrent sessions per account to reduce casual credential sharing.
 
+## Coupons
+
+[Coupons](coupons/README.md) extends WooCommerce coupons with subscription-aware recurring discounts, cycle limits, and initial-checkout counting.
+
+## Redirect Product Page *(Pro)*
+
+[Redirect Product Page](redirect-product-page/README.md) controls whether direct subscription product URLs redirect to a sales page or return a 404.
+
+## Subscription Shipping *(Pro)*
+
+[Subscription Shipping](subscription-shipping/README.md) controls one-time versus recurring shipping charges for physical subscription products.
+
 ## Manage Subscription Products
 
 Create, configure, and manage subscription products in WooCommerce.
@@ -103,8 +133,7 @@ Create, configure, and manage subscription products in WooCommerce.
 - [Overview](subscription-products/README.md) — Section overview and quick reference.
 - [Create and Configure Subscription Products](subscription-products/create-and-configure.md) — Simple and variable products, billing periods, trials, signup fees, and different renewal pricing.
 - [Plan Switching and Product Relationships](subscription-products/plan-switching-and-relationships.md) — Upgrade, downgrade, and crossgrade paths, auto-downgrade, and Fixed Period Membership *(Pro)*.
-- [Product Experience and Display](subscription-products/product-experience.md) — Frontend pricing display, Redirect Product Page *(Pro)*, Feature Manager *(Pro)*, and Subscription Shipping *(Pro)*.
-- [Coupon Integration](subscription-products/coupon-integration.md) — Subscription coupons with recurring discounts, cycle limits, and initial-checkout counting.
+- [Product Experience and Display](subscription-products/product-experience.md) — Frontend pricing display and links to dedicated product modules.
 - [Product Lifecycle and Test Links](subscription-products/product-lifecycle.md) — Product deletion, cached data, and quick checkout test links.
 
 ## Manage Subscriptions
@@ -117,6 +146,10 @@ View, create, edit, and manage every subscription in your store.
 - [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) — Cancellation, skip & pause, coupon, gateway *(Pro)*, checkout fields *(Pro)*, and shipping *(Pro)* cards.
 - [Lifecycle Management](manage-subscriptions/lifecycle-management.md) — Status transitions, renewal flow, grace periods, cancellation, expiration, trials, and email triggers.
 
+## Subscription Notes
+
+[Subscription Notes](subscription-notes/README.md) is the subscription-level timeline for system events, gateway events, admin notes, and customer-visible notes.
+
 ## Customer Portal
 
 Your subscribers' self-service hub in the WooCommerce My Account area.
@@ -126,14 +159,14 @@ Your subscribers' self-service hub in the WooCommerce My Account area.
 - [Subscription Self-Service Actions](customer-portal/self-service-actions.md) — Cancel, undo cancel, retention offers, change plan, skip, pause, resume, and reactivate.
 - [Payment and Shipping Actions](customer-portal/payment-and-shipping.md) — Payment methods, card on file *(Pro)*, auto-renew toggle *(Pro)*, and shipping address updates.
 
-## Manage Members *(Pro)*
+## Member Insight *(Pro)*
 
 Look up any customer and view their complete subscription and commerce profile from one dashboard.
 
-- [Overview](manage-members/README.md) — All entry points, page layout summary, and prerequisites.
-- [Member Lookup and Profiles](manage-members/member-lookup-and-profiles.md) — Search for members, read the profile card, view stats, and use Login as Customer.
-- [Member Commerce Overview](manage-members/member-commerce-overview.md) — Subscription history, purchased products, store credit balance, and addresses.
-- [Member Operations](manage-members/member-operations.md) — Quick links to related screens, admin shortcuts across WordPress and WooCommerce, and insight metrics.
+- [Overview](member-insight/README.md) — All entry points, page layout summary, and prerequisites.
+- [Member Lookup and Profiles](member-insight/member-lookup-and-profiles.md) — Search for members, read the profile card, view stats, and use Login as Customer.
+- [Member Commerce Overview](member-insight/member-commerce-overview.md) — Subscription history, purchased products, store credit balance, and addresses.
+- [Member Operations](member-insight/member-operations.md) — Quick links to related screens, admin shortcuts across WordPress and WooCommerce, and insight metrics.
 
 ## Store Credit *(Pro)*
 
@@ -155,6 +188,10 @@ Track subscription revenue, growth, churn, and customer behavior — from a dedi
 - [Subscription Performance Dashboard](analytics/subscription-performance.md) — 10 KPI cards, 6 time-series charts, and 5 leaderboards on the WooCommerce Analytics Overview page.
 - [WooCommerce Analytics Extension](analytics/woocommerce-analytics-extension.md) — Type column, type filters, subscription revenue cards, subscription-only filters, and member links across 5 WC Analytics reports.
 - [Order List Enhancements](analytics/order-list-enhancements.md) — Type and coupon columns, filter dropdowns, embedded report panel, and order type backfill on the WooCommerce Orders page.
+
+## Retention Analytics
+
+[Retention Analytics](retention-analytics/README.md) is a free dedicated analytics module for churn reasons, retention offer performance, cancellation trends, and retained revenue.
 
 ## Emails and Notifications
 
@@ -213,7 +250,7 @@ Everything about how subscriptions are purchased, billed, and collected — from
 - [PayPal](checkout-and-payments/automatic-payments/paypal.md) *(Pro)* — Billing Agreements, Smart Payment Buttons, limitations, and webhook setup.
 - [Paddle](checkout-and-payments/automatic-payments/paddle.md) *(Pro)* — Merchant of Record, catalog sync, native pause, automatic tax, and webhook setup.
 - [Auto-Renew and Manual Fallback](checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md) *(Pro)* — Customer toggle, manual invoice collection, and payment method requirements.
-- [Gateway Health Dashboard](checkout-and-payments/automatic-payments/gateway-health-dashboard.md) *(Pro)* — Gateway status cards, webhook event log, and troubleshooting.
+- [Gateway Health Dashboard](gateway-health/README.md) *(Pro)* — Gateway status cards, webhook event log, and troubleshooting.
 - [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) *(Pro)* — Builder interface, multi-step checkout, sections, design panel, data flow, and settings.
 - [Field Types Reference](checkout-and-payments/checkout-builder/field-types.md) *(Pro)* — All 27 field types: standard, advanced, and layout elements.
 - [Checkout Builder Use Cases](checkout-and-payments/checkout-builder/use-cases.md) *(Pro)* — 18 real-world examples: subscription boxes, SaaS, gyms, wine clubs, B2B, nonprofits, and more.
@@ -236,8 +273,12 @@ Reduce churn with targeted retention offers, configure cancellation policies, tr
 - [Cancellation Setup](retention-and-refunds/cancellation-setup.md) — Immediate vs end-of-period cancellation, cancellation reasons, and the Retention Flow admin page.
 - [Retention Offers](retention-and-refunds/retention-offers.md) — Discount, Pause, Downgrade, and Contact Support offers — configuration, trigger reasons, eligibility, and the customer modal flow.
 - [Retention Use Cases](retention-and-refunds/retention-use-cases.md) — 18 real-life scenarios showing how subscription businesses use retention offers to save revenue and reduce churn.
-- [Retention Analytics](retention-and-refunds/retention-analytics.md) — Summary of the analytics dashboard and how it connects to your retention configuration. Full guide in the [Analytics section](analytics/retention-analytics.md).
+- [Retention Analytics](retention-analytics/README.md) — Dedicated analytics module for cancellation and offer performance.
 - [Refund Management](retention-and-refunds/refund-management.md) — Refund policies, prorated refunds, gateway refunds, full refund subscription behavior, and refund-to-store-credit *(Pro)*.
+
+## Gateway Health *(Pro)*
+
+[Gateway Health](gateway-health/README.md) is the dedicated gateway monitoring module for payment gateway status, subscription counts, webhook URLs, capabilities, and webhook events.
 
 ## Audits, Logs, and Troubleshooting
 
@@ -246,7 +287,7 @@ Track every subscription action, monitor scheduled jobs and gateway health, and 
 - [Overview](audits-and-logs/README.md) — Section overview and navigation.
 - [Activity Audits](audits-and-logs/activity-audits.md) *(Pro)* — Searchable, filterable log of every action across the subscription lifecycle.
 - [Scheduled-Job Logs](audits-and-logs/scheduled-job-logs.md) *(Pro)* — Execution history for all Action Scheduler jobs with success/failure status.
-- [Gateway Health Dashboard](audits-and-logs/gateway-health-dashboard.md) *(Pro)* — Gateway status cards, subscription counts, capabilities, and webhook event log.
+- [Gateway Health](gateway-health/README.md) *(Pro)* — Dedicated gateway status and webhook monitoring module.
 - [Renewal Failures and Billing Issues](audits-and-logs/renewal-failures.md) — Diagnose missing invoices, failed payments, grace period behavior, and automatic cancellation.
 - [Portal Action Failures](audits-and-logs/portal-action-failures.md) — Troubleshoot cancellation, pause, skip, plan switch, and reactivation errors.
 - [Access-Rule Conflicts](audits-and-logs/access-rule-conflicts.md) — Resolve overlapping membership rules and content restriction problems.

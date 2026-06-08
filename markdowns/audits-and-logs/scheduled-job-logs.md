@@ -205,7 +205,7 @@ A customer says they did not receive a renewal reminder. Filter the logs around 
 ## Related Guides
 
 - [Activity Audits](activity-audits.md) — full activity log for all subscription actions
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — gateway connection and webhook status
+- [Gateway Health Dashboard](../gateway-health/README.md) — gateway connection and webhook status
 - [Renewal Failures and Billing Issues](renewal-failures.md) — diagnosing why renewals fail
 
 ---

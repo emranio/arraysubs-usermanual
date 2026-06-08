@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/subscription-shipping/README.assets/01-shipping-product-fields-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the subscription shipping type field labeled 'Recurring shipping (Pro)'",
+      "target_description": "Subscription Shipping section Shipping Type dropdown field",
+      "label_text": "Recurring shipping (Pro)",
+      "bbox": {
+        "x": 363,
+        "y": 1074,
+        "width": 517,
+        "height": 38
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

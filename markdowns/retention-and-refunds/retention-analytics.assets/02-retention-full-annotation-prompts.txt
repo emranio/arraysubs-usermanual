@@ -1,1 +1,0 @@
-- rectangle around the retention summary cards labeled 'Retention KPIs'

@@ -60,7 +60,7 @@ const screenshots = [
     ],
   },
   {
-    image: "markdowns/checkout-and-payments/automatic-payments/gateway-health-dashboard.assets/01-gateway-health-original.png",
+    image: "markdowns/gateway-health/README.assets/01-gateway-health-original.png",
     queries: [
       "rectangle around the dashboard header labeled 'Gateway Health'",
       "rectangle around the gateway health cards labeled 'Gateway Status'",
@@ -132,7 +132,7 @@ const screenshots = [
     ],
   },
   {
-    image: "markdowns/manage-members/member-lookup-and-profiles.assets/01-manage-members-original.png",
+    image: "markdowns/member-insight/member-lookup-and-profiles.assets/01-manage-members-original.png",
     queries: [
       "rectangle around the customer search field labeled 'Find a Member'",
       "rectangle around the empty-state profile panel labeled 'Member Profile Area'",

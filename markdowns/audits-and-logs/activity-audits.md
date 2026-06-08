@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/activity-audits`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [access-rule-conflicts](./access-rule-conflicts.md)
-- **Next guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
+- **Next guide:** [Gateway Health](../gateway-health/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
@@ -188,7 +188,7 @@ After connecting Stripe through the official WooCommerce Stripe gateway, ArraySu
 ## Related Guides
 
 - [Scheduled-Job Logs](scheduled-job-logs.md) — execution history for automated jobs
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — gateway connection and webhook monitoring
+- [Gateway Health Dashboard](../gateway-health/README.md) — gateway connection and webhook monitoring
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — per-subscription notes and export
 
 ---

@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/reports`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
-- **Next guide:** [retention-analytics](./retention-analytics.md)
+- **Next guide:** [Retention Analytics](../retention-analytics/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Visual Guide
@@ -113,7 +113,7 @@ Cancellation and retention flow analytics under WooCommerce Analytics.
 
 All 6 reports link to **WooCommerce → Analytics → Retention**.
 
-For full documentation see [Retention Analytics](retention-analytics.md).
+For full documentation see [Retention Analytics](../retention-analytics/README.md).
 
 ---
 
@@ -224,7 +224,7 @@ Detailed member profiles with subscription stats, order history, and lifetime va
 
 Both reports link to **ArraySubs → Manage Members**.
 
-For full documentation see [Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md).
+For full documentation see [Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md).
 
 ---
 
@@ -255,7 +255,7 @@ Activity audit trails, webhook delivery logs, and scheduled job execution histor
 
 Reports link to **ArraySubs → Audits** pages.
 
-For full documentation see [Activity Audits](../audits-and-logs/activity-audits.md), [Gateway Health Dashboard](../audits-and-logs/gateway-health-dashboard.md), and [Scheduled Job Logs](../audits-and-logs/scheduled-job-logs.md).
+For full documentation see [Activity Audits](../audits-and-logs/activity-audits.md), [Gateway Health Dashboard](../gateway-health/README.md), and [Scheduled Job Logs](../audits-and-logs/scheduled-job-logs.md).
 
 ---
 
@@ -287,11 +287,11 @@ A store owner on the free plan opens the Reports page and sees 9 free reports al
 ## Related Guides
 
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards.
-- [Retention Analytics](retention-analytics.md) — Cancellation and retention flow analytics.
+- [Retention Analytics](../retention-analytics/README.md) — Cancellation and retention flow analytics.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics.
 - [Order List Enhancements](order-list-enhancements.md) — Type and coupon columns on the Orders page.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription export and related orders.
-- [Member Lookup and Profiles](../manage-members/member-lookup-and-profiles.md) — Member detail page.
+- [Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — Member detail page.
 - [Store Credit Management](../store-credit/store-credit-management.md) — Credit balance management.
 - [Activity Audits](../audits-and-logs/activity-audits.md) — Subscription activity audit trail.
 

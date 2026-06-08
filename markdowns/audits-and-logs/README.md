@@ -35,7 +35,7 @@ This topic covers three admin screens and four troubleshooting guides:
 |--------|--------------|--------------|
 | [Activity Audits](activity-audits.md) | Every logged action across the subscription lifecycle — who did what, when, and to which entity | **Pro** |
 | [Scheduled-Job Logs](scheduled-job-logs.md) | Execution history for all Action Scheduler jobs — renewals, status changes, emails, maintenance | **Pro** |
-| [Gateway Health Dashboard](gateway-health-dashboard.md) | Gateway connection status, subscription counts, capabilities, and webhook event log | **Pro** |
+| [Gateway Health Dashboard](../gateway-health/README.md) | Gateway connection status, subscription counts, capabilities, and webhook event log | **Pro** |
 
 The troubleshooting guides cover common problems independent of whether you run the free or Pro plugin:
 
@@ -52,8 +52,8 @@ Use this decision table when you know the symptom but not the root cause yet.
 
 | What the user reports | Start here | Then check |
 |-----------------------|------------|------------|
-| "A renewal did not charge" | [Renewal Failures and Billing Issues](renewal-failures.md) | [Scheduled-Job Logs](scheduled-job-logs.md), [Gateway Health Dashboard](gateway-health-dashboard.md), subscription notes |
-| "The customer paid, but the subscription is still on-hold" | [Gateway Health Dashboard](gateway-health-dashboard.md) | Webhook event log, order notes, subscription payment timeline |
+| "A renewal did not charge" | [Renewal Failures and Billing Issues](renewal-failures.md) | [Scheduled-Job Logs](scheduled-job-logs.md), [Gateway Health Dashboard](../gateway-health/README.md), subscription notes |
+| "The customer paid, but the subscription is still on-hold" | [Gateway Health Dashboard](../gateway-health/README.md) | Webhook event log, order notes, subscription payment timeline |
 | "The customer cannot cancel, pause, skip, reactivate, or switch plans" | [Portal Action Failures](portal-action-failures.md) | Customer portal page, subscription status, feature settings, gateway capabilities |
 | "Content access is wrong" | [Access-Rule Conflicts](access-rule-conflicts.md) | Member Access rules, role mapping, subscription status, cache compatibility |
 | "Card update or auto-renew toggle failed" | [Payment Method and Shipping Update Issues](payment-and-shipping-issues.md) | Gateway capability card, payment token status, customer ownership |
@@ -65,7 +65,7 @@ Use this decision table when you know the symptom but not the root cause yet.
 
 1. Capture the exact subscription ID, order ID, customer ID, and customer email from the report.
 2. Open the subscription detail page and read the status, payment timeline, order history, and notes.
-3. If money is involved, open the [Gateway Health Dashboard](gateway-health-dashboard.md) and confirm the relevant webhook event arrived.
+3. If money is involved, open the [Gateway Health Dashboard](../gateway-health/README.md) and confirm the relevant webhook event arrived.
 4. If timing is involved, open [Scheduled-Job Logs](scheduled-job-logs.md) and look for renewal, reminder, expiry, pause, skip, or cancellation jobs.
 5. If access is involved, open [Access-Rule Conflicts](access-rule-conflicts.md) and compare the customer's active subscriptions with the matching rules.
 6. If a customer-facing button failed, open [Portal Action Failures](portal-action-failures.md) and verify the action's eligibility rules.
@@ -100,11 +100,11 @@ Some issues look similar but need different fixes:
 
 Yes. For support teams, the quickest workflow is:
 
-1. Search the customer in [Manage Members](../manage-members/member-lookup-and-profiles.md).
+1. Search the customer in [Manage Members](../member-insight/member-lookup-and-profiles.md).
 2. Open the subscription from the member profile.
 3. Review notes, orders, timeline, and cards.
 4. Use the symptom table above to open the correct troubleshooting guide.
-5. Use [Login as Customer](../manage-members/member-lookup-and-profiles.md#login-as-customer) only when you need to see the customer's portal state exactly.
+5. Use [Login as Customer](../member-insight/member-lookup-and-profiles.md#login-as-customer) only when you need to see the customer's portal state exactly.
 
 ## Can I Troubleshoot Without Pro?
 

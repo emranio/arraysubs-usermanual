@@ -98,7 +98,7 @@ const routes = [
   {
     route: "#/manage-members",
     waitFor: "Member",
-    path: "markdowns/manage-members/member-lookup-and-profiles.assets/01-manage-members-original.png",
+    path: "markdowns/member-insight/member-lookup-and-profiles.assets/01-manage-members-original.png",
   },
   {
     route: "#/reports",
@@ -128,7 +128,7 @@ const routes = [
   {
     route: "#/settings/gateways",
     waitFor: "Gateway",
-    path: "markdowns/checkout-and-payments/automatic-payments/gateway-health-dashboard.assets/01-gateway-health-original.png",
+    path: "markdowns/gateway-health/README.assets/01-gateway-health-original.png",
   },
 ];
 

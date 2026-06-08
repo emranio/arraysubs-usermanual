@@ -1,0 +1,21 @@
+{
+  "output_path": "/home/server-manager/www/arrayhash/mirror-help.arrayhash.com/public/wp-content/plugins/user-manual/markdowns/retention-analytics/README.assets/01-retention-report-annotated.png",
+  "annotations": [
+    {
+      "request_index": 0,
+      "request_text": "rectangle around the retention summary cards labeled 'Retention analytics'",
+      "target_description": "The two-row retention summary metric cards grid below the filters, spanning from Total Cancellations through Retained Revenue",
+      "label_text": "Retention analytics",
+      "bbox": {
+        "x": 201,
+        "y": 230,
+        "width": 1201,
+        "height": 223
+      },
+      "color": null,
+      "not_found": false,
+      "notes": ""
+    }
+  ],
+  "unresolved": []
+}

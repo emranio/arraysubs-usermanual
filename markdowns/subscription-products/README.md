@@ -16,7 +16,7 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up simple and variable subscription products with billing periods, trials, signup fees, and different renewal pricing.
 - [Plan Switching and Product Relationships](plan-switching-and-relationships.md) — Configure upgrade, downgrade, and crossgrade paths, auto-downgrade fallback plans, and fixed-period memberships *(Pro)*.
 - [Product Experience and Display](product-experience.md) — How subscription pricing appears on the product page, cart, checkout, and order screens. Includes Redirect Product Page *(Pro)*, Feature Manager *(Pro)*, and Subscription Shipping *(Pro)*.
-- [Coupon Integration](coupon-integration.md) — Apply WooCommerce coupons to subscriptions with recurring discounts, cycle limits, and initial-checkout counting.
+- [Coupon Integration](../coupons/README.md) — Apply WooCommerce coupons to subscriptions with recurring discounts, cycle limits, and initial-checkout counting.
 - [Product Lifecycle and Test Links](product-lifecycle.md) — What happens when a product is deleted, how cached product data works, and how to use test links for quick checkout testing.
 
 ## Quick Reference

@@ -14,7 +14,7 @@
 - **Current guide:** Paddle Gateway
 - **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [gateway-health-dashboard](./gateway-health-dashboard.md)
+- **Previous guide:** [Gateway Health](../../gateway-health/README.md)
 - **Next guide:** [payment-recovery](./payment-recovery.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
@@ -215,7 +215,7 @@ Paddle gateway settings are configured in **WooCommerce → Settings → Payment
 
 - [Gateway Overview](README.md) — Architecture overview and capability matrix
 - [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) — Customer toggle and manual payment
-- [Gateway Health Dashboard](gateway-health-dashboard.md) — Monitoring Paddle status
+- [Gateway Health Dashboard](../../gateway-health/README.md) — Monitoring Paddle status
 - [Customer Portal — Self-Service Actions](../../customer-portal/self-service-actions.md) — How pause/resume works from the customer's perspective
 
 ---

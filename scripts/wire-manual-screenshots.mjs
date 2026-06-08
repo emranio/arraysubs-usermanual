@@ -22,14 +22,14 @@ const WIRE = [
 
   ["subscription-products/README.md", "01-products-list", "Subscription products are flagged in the WooCommerce Products list"],
   ["subscription-products/create-and-configure.md", "01-subscription-fields", "The Subscription panel in the WooCommerce product editor"],
-  ["subscription-products/coupon-integration.md", "01-coupon-fields", "ArraySubs subscription options on a WooCommerce coupon"],
+  ["coupons/README.md", "01-coupon-fields", "ArraySubs subscription options on a WooCommerce coupon"],
   ["subscription-products/product-lifecycle.md", "01-helper-links", "Direct add-to-cart and one-click checkout helper links for testing"],
   ["subscription-products/plan-switching-and-relationships.md", "02-fixed-period-fields", "Fixed-period membership end-date fields (Pro)"],
-  ["subscription-products/product-experience.md", "02-redirect-fields", "Per-product page redirect settings (Pro)"],
-  ["subscription-products/product-experience.md", "03-shipping-fields", "Recurring vs one-time subscription shipping fields (Pro)"],
+  ["redirect-product-page/README.md", "01-redirect-fields", "Per-product page redirect settings (Pro)"],
+  ["subscription-shipping/README.md", "01-shipping-product-fields", "Recurring vs one-time subscription shipping fields (Pro)"],
 
   ["manage-subscriptions/README.md", "01-subscriptions-list", "The Subscriptions admin list with filters and search"],
-  ["manage-subscriptions/admin-tools-and-records.md", "01-notes-records", "The subscription notes timeline records every lifecycle event"],
+  ["subscription-notes/README.md", "01-notes-records", "The subscription notes timeline records every lifecycle event"],
   ["manage-subscriptions/admin-tools-and-records.md", "02-feature-log", "The subscription feature log (Pro)"],
   ["manage-subscriptions/lifecycle-management.md", "01-status-control", "The status control on the subscription editor"],
 
@@ -42,11 +42,11 @@ const WIRE = [
 
   ["retention-and-refunds/README.md", "01-retention-flow", "Cancellation reasons configured in the Retention Flow builder"],
   ["retention-and-refunds/retention-offers.md", "01-offers", "Retention offers (discount, pause, downgrade, contact) in the builder"],
-  ["retention-and-refunds/retention-analytics.md", "01-retention-report", "The Retention analytics report under WooCommerce Analytics"],
+  ["retention-analytics/README.md", "01-retention-report", "The Retention analytics report under WooCommerce Analytics"],
   ["retention-and-refunds/retention-use-cases.md", "01-retention-modal", "A save offer shown to the customer in the cancellation flow"],
 
   ["analytics/README.md", "01-analytics-overview", "Subscription performance cards added to WooCommerce Analytics (Pro)"],
-  ["analytics/retention-analytics.md", "01-retention-report", "The Retention report tracks cancellations and saves"],
+  ["retention-analytics/README.md", "01-retention-report", "The Retention report tracks cancellations and saves"],
   ["analytics/subscription-performance.md", "01-performance-cards", "MRR, churn, ARPU and other subscription cards (Pro)"],
   ["analytics/woocommerce-analytics-extension.md", "01-orders-type", "The subscription Type column and filter in the Orders report (Pro)"],
   ["analytics/order-list-enhancements.md", "01-orders-list", "Subscription order context added to the orders list (Pro)"],
@@ -79,16 +79,16 @@ const WIRE = [
   ["checkout-and-payments/checkout-builder/use-cases.md", "01-builder-canvas", "The drag-and-drop Checkout Builder canvas (Pro)"],
 
   ["audits-and-logs/README.md", "01-activity-audits", "The activity audit trail (Pro)"],
-  ["audits-and-logs/gateway-health-dashboard.md", "01-gateway-health", "The gateway health dashboard (Pro)"],
+  ["gateway-health/README.md", "01-gateway-health", "The gateway health dashboard (Pro)"],
   ["audits-and-logs/portal-action-failures.md", "01-portal-failures", "The portal action failures log (Pro)"],
   ["audits-and-logs/payment-and-shipping-issues.md", "01-portal-failures", "Portal action failures help diagnose payment and shipping update issues"],
 
   ["feature-manager/README.md", "01-feature-tab", "The Feature Manager product tab with defined features (Pro)"],
   ["feature-manager/defining-product-features.md", "01-feature-editor", "Defining product features in the editor (Pro)"],
 
-  ["manage-members/README.md", "01-member-search", "Member search in Manage Members (Pro)"],
-  ["manage-members/member-commerce-overview.md", "01-member-commerce", "A member's subscriptions, orders, credit and metrics (Pro)"],
-  ["manage-members/member-operations.md", "01-member-profile", "The member profile header and quick actions (Pro)"],
+  ["member-insight/README.md", "01-member-search", "Member search in Manage Members (Pro)"],
+  ["member-insight/member-commerce-overview.md", "01-member-commerce", "A member's subscriptions, orders, credit and metrics (Pro)"],
+  ["member-insight/member-operations.md", "01-member-profile", "The member profile header and quick actions (Pro)"],
 
   ["customer-portal/README.md", "01-my-account-dashboard", "The Subscriptions self-service area inside My Account"],
 ];

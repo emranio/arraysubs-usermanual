@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [import-export-settings](./import-export-settings.md)
-- **Next guide:** [member-commerce-overview](../manage-members/member-commerce-overview.md)
+- **Next guide:** [member-commerce-overview](../member-insight/member-commerce-overview.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ![The built-in Help screen links to every guide from inside the plugin](README.assets/01-help-hub-annotated.png)
@@ -52,6 +52,27 @@ Impersonate non-admin customers for support and customer-portal troubleshooting.
 
 ### [Multi-Login Prevention](../multi-login-prevention/README.md)
 Limit concurrent sessions per account to reduce credential sharing *(Pro)*.
+
+### [Coupons](../coupons/README.md)
+Configure subscription-aware WooCommerce coupons with recurring discounts, cycle limits, and initial-checkout counting.
+
+### [Subscription Notes](../subscription-notes/README.md)
+Review the subscription timeline for system events, gateway events, admin notes, and customer-visible notes.
+
+### [Member Insight](../member-insight/README.md)
+Search customers and open a complete subscription, commerce, profile, and support dashboard *(Pro)*.
+
+### [Redirect Product Page](../redirect-product-page/README.md)
+Redirect direct subscription product URLs to sales pages or return 404 responses *(Pro)*.
+
+### [Subscription Shipping](../subscription-shipping/README.md)
+Control one-time versus recurring shipping charges on physical subscription products *(Pro)*.
+
+### [Retention Analytics](../retention-analytics/README.md)
+Analyze cancellation reasons, churn trends, offer acceptance, and retained revenue.
+
+### [Gateway Health](../gateway-health/README.md)
+Monitor payment gateway connection status, webhook URLs, capabilities, and webhook events *(Pro)*.
 
 ### [Import / Export Settings](import-export-settings.md)
 Download your full ArraySubs configuration as a JSON file or restore a previously exported configuration with granular section-level control.

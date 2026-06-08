@@ -305,7 +305,7 @@ A professional tools subscription allows up to 3 team members per account. The m
 - [Login as User](../login-as-user/README.md) — Impersonate customers for support.
 - [Multi-Login Prevention](../multi-login-prevention/README.md) *(Pro)* — Limit concurrent sessions per account.
 - [Getting Started — Essential Daily Workflows](../getting-started/essential-daily-workflows.md) — Admin menu reference and settings overview.
-- [Manage Members](../manage-members/README.md) — The member insight dashboard where Login as Customer is used most often *(Pro)*.
+- [Manage Members](../member-insight/README.md) — The member insight dashboard where Login as Customer is used most often *(Pro)*.
 
 ---
 

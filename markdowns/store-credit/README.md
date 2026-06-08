@@ -114,7 +114,7 @@ Credit is applied automatically to renewal orders (if enabled) — customers do 
 ## Related Guides
 
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — How the Store Credit page appears in the customer portal.
-- [Manage Members — Commerce Overview](../manage-members/member-commerce-overview.md) — View a member's credit balance from the admin profile.
+- [Manage Members — Commerce Overview](../member-insight/member-commerce-overview.md) — View a member's credit balance from the admin profile.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How renewals and downgrades interact with credit.
 
 ---

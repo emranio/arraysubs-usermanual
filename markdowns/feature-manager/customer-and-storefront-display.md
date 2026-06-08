@@ -285,4 +285,4 @@ Yes. Go to **ArraySubs → Settings → Feature Manager** and set a custom **My 
 - [Feature Manager Settings](feature-manager-settings.md) — Complete settings reference.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — My Features in the broader customer portal context.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Feature Log from the subscription detail screen.
-- [Manage Members](../manage-members/README.md) — Feature Log from the member profile.
+- [Manage Members](../member-insight/README.md) — Feature Log from the member profile.
