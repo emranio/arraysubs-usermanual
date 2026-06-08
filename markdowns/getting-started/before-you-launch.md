@@ -307,7 +307,6 @@ ArraySubs ships as two plugins. The core plugin is free and covers all essential
 | Download access and rate limiting | ✅ | ✅ |
 | Scheduled / drip content access | ✅ | ✅ |
 | Content restriction shortcodes | ✅ | ✅ |
-| Multi-login prevention (session limits, cooldown) | — | ✅ |
 
 ### Admin and Analytics
 
@@ -348,7 +347,16 @@ ArraySubs ships as two plugins. The core plugin is free and covers all essential
 | Custom endpoint pages | ✅ | ✅ |
 | Avatar upload settings | ✅ | ✅ |
 | Shortcodes reference page | ✅ | ✅ |
+
+### Site Access Toolkit
+
+| Feature | Free | Pro |
+|---|---|---|
+| Admin Bar Visibility | ✅ | ✅ |
+| Admin Dashboard Access | ✅ | ✅ |
+| WordPress Login Page | ✅ | ✅ |
 | Login as User (admin impersonation) | ✅ | ✅ |
+| Multi-Login Prevention (session limits, plan overrides) | — | ✅ |
 
 ### Store Credit
 

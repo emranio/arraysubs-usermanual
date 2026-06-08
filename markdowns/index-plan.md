@@ -13,9 +13,9 @@
 - **Next guide:** [Writing Format](writing-format.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
-> Based on a thorough codebase review of both `arraysubs` (23 feature modules) and `arraysubspro` (12 feature modules).
+> Based on a thorough codebase review of both `arraysubs` (27 feature modules, including four free Toolkit modules) and `arraysubspro` (13 feature modules, including Multi-Login Prevention).
 >
-> Rule applied to this hub plan: only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Every other settings screen is documented inside its owning module topic.
+> Rule applied to this hub plan: only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Toolkit Settings remains the shared control surface, but **Admin Bar Visibility**, **Admin Dashboard Access**, **WordPress Login Page**, **Login as User**, and **Multi-Login Prevention** are dedicated modules with standalone manual pages.
 
 ## Proposed Hub Structure
 
@@ -44,11 +44,19 @@
 		- Customer action toggles (cancellation, suspension, reactivation, payment method change)
 		- Automatic-payment customer controls (auto-renew toggle) *(Pro)*
 	- Toolkit Settings
-		- Admin bar visibility for non-admin users
-		- `wp-admin` access restriction (redirect options, allowed roles)
-		- WordPress login page hiding (redirect to My Account)
-		- Login as User (admin impersonation)
-		- Multi-Login Prevention (session limits, cooldown period, admin inclusion) *(Pro)*
+		- Shared settings surface for the dedicated Site Access Toolkit modules
+
+- Site Access Toolkit Modules - done
+	- Admin Bar Visibility
+		- Hide the frontend WordPress toolbar for non-admin customers while administrators keep shortcuts
+	- Admin Dashboard Access
+		- `wp-admin` access restriction with redirect options and allowed staff roles
+	- WordPress Login Page
+		- Redirect default WordPress login traffic to WooCommerce My Account or 404
+	- Login as User
+		- Admin-to-customer impersonation for support and portal verification
+	- Multi-Login Prevention *(Pro)*
+		- Global concurrent-session limit, plan-specific overrides, admin inclusion, and Login as User exclusion
 
 - Manage Subscription Products - done
 	- Create and Configure Subscription Products

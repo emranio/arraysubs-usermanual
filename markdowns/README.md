@@ -25,7 +25,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Customer self-service:** [Customer Portal Pages](customer-portal/portal-pages.md) → [Subscription Self-Service Actions](customer-portal/self-service-actions.md)
 - **Paid automation:** [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) → [Stripe](checkout-and-payments/automatic-payments/stripe.md) → [Gateway Health Dashboard](checkout-and-payments/automatic-payments/gateway-health-dashboard.md)
 - **Access and memberships:** [Member Access Overview](member-access/README.md) → [Access Rules](member-access/access-rules.md) → [Feature Manager](feature-manager/README.md) *(Pro)*
-- **Site access tools:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Multi-Login Prevention](multi-login-prevention/README.md) *(Pro)*
+- **Site access toolkit modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Multi-Login Prevention](multi-login-prevention/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
 ## Admin Screen Map
@@ -71,6 +71,10 @@ Configure store-wide subscription behavior and administration tools.
 
 - [General Settings](settings/general-settings.md) — Subscription cart rules, checkout and trial behavior, grace periods, email reminder timing, customer portal, customer actions, cancellation timing, and automatic-payment controls.
 - [Toolkit Settings](settings/toolkit-settings.md) — Field-by-field settings reference for the Toolkit screen.
+
+## Site Access Toolkit Modules
+
+These are dedicated ArraySubs modules, even though their controls live together on **ArraySubs → Settings → Toolkit**. Four are available in the free core; **Multi-Login Prevention** requires Pro.
 
 ## Admin Bar Visibility
 

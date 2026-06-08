@@ -33,7 +33,7 @@ Use these annotated screenshots together. The Toolkit screen has controls above 
 
 ## Overview
 
-The Toolkit Settings page contains site administration controls that sit outside the subscription engine itself. These settings help you lock down your WordPress installation for a membership or subscription storefront — hiding backend entry points from customers, restricting dashboard access to authorized roles, and giving administrators the ability to impersonate users for support.
+The Toolkit Settings page is the shared control surface for five dedicated site-access modules. These modules sit outside the subscription engine itself, but they are part of the ArraySubs feature set: they hide backend entry points from customers, restrict dashboard access to authorized roles, route customer login traffic through My Account, let administrators impersonate users for support, and limit concurrent sessions with Pro.
 
 Navigate to **ArraySubs → Settings → Toolkit** to open the page. Every change takes effect after you click **Save Settings**.
 

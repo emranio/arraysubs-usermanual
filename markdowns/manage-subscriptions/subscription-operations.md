@@ -271,7 +271,7 @@ Up to four buttons appear in the header, depending on the subscription's state:
 | **Undo Scheduled Cancellation** | When a cancellation is scheduled for end-of-period | Removes the scheduled cancellation and resumes normal renewals. Asks for confirmation first. |
 | **Cancel Subscription** | When the subscription is Active, On Hold, Trial, or Pending and no cancellation is already scheduled | Opens a cancellation modal where you choose Immediate or End of Period and optionally enter a reason. |
 | **Edit Subscription** | Always | Navigates to the edit form. |
-| **Login as Customer** | When the subscription has a valid customer | Opens the store frontend logged in as that customer (requires the Login as User plugin). Includes a back-URL so you can return to the admin. |
+| **Login as Customer** | When the subscription has a valid customer | Opens the store frontend logged in as that customer (requires the Login as User module). Includes a back-URL so you can return to the admin. |
 
 ### Cancel Subscription Modal
 
@@ -475,7 +475,7 @@ Not from the Edit screen. The product and variation are part of the subscription
 The **Export CSV** button exports all subscriptions matching the current status filter. Switch to the status tab you want (e.g., Active) before clicking export to download only those subscriptions.
 
 ### What does "Login as Customer" do?
-It opens the store frontend in a new session logged in as that customer. This requires the Login as User plugin to be active. The button includes a back-URL so you can return to the admin dashboard.
+It opens the store frontend in a new session logged in as that customer. This requires the Login as User module to be enabled. The button includes a back-URL so you can return to the admin dashboard.
 
 ### Why is the Delete button missing on some subscriptions?
 Active and Trial subscriptions cannot be deleted directly. Cancel the subscription first, then the delete action will become available.
