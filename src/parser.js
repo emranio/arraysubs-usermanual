@@ -347,6 +347,14 @@ function createMarkdownParser(toc) {
     md.renderer.rules.image ||
     ((tokens, index, options, env, self) =>
       self.renderToken(tokens, index, options));
+  const defaultTableOpen =
+    md.renderer.rules.table_open ||
+    ((tokens, index, options, env, self) =>
+      self.renderToken(tokens, index, options));
+  const defaultTableClose =
+    md.renderer.rules.table_close ||
+    ((tokens, index, options, env, self) =>
+      self.renderToken(tokens, index, options));
 
   md.renderer.rules.link_open = (tokens, index, options, env, self) => {
     const token = tokens[index];
@@ -377,6 +385,14 @@ function createMarkdownParser(toc) {
 
     const caption = title || alt;
     return `<figure class="docs-figure">${renderedImage}<figcaption>${md.utils.escapeHtml(caption)}</figcaption></figure>`;
+  };
+
+  md.renderer.rules.table_open = (tokens, index, options, env, self) => {
+    return `<div class="docs-table-wrapper">${defaultTableOpen(tokens, index, options, env, self)}`;
+  };
+
+  md.renderer.rules.table_close = (tokens, index, options, env, self) => {
+    return `${defaultTableClose(tokens, index, options, env, self)}</div>\n`;
   };
 
   const defaultFence =
