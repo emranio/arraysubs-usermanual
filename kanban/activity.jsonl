@@ -200,3 +200,16 @@
 {"timestamp":"2026-06-09T18:10:38.284759+06:00","action":"move","task_id":99,"detail":"todo -\u003e backlog"}
 {"timestamp":"2026-06-09T18:10:38.284955+06:00","action":"move","task_id":100,"detail":"todo -\u003e backlog"}
 {"timestamp":"2026-06-09T18:10:38.285128+06:00","action":"move","task_id":101,"detail":"todo -\u003e backlog"}
+{"timestamp":"2026-06-15T20:26:17.235772545+02:00","action":"edit","task_id":21,"detail":"automatic-payments - README.md"}
+{"timestamp":"2026-06-15T20:26:17.393702409+02:00","action":"edit","task_id":22,"detail":"automatic-payments - auto-renew-and-manual-fallback.md"}
+{"timestamp":"2026-06-15T20:26:17.59426881+02:00","action":"edit","task_id":23,"detail":"automatic-payments - paddle.md"}
+{"timestamp":"2026-06-15T20:26:17.66142043+02:00","action":"edit","task_id":24,"detail":"automatic-payments - payment-recovery.md"}
+{"timestamp":"2026-06-15T20:26:17.787948452+02:00","action":"edit","task_id":25,"detail":"automatic-payments - stripe.md"}
+{"timestamp":"2026-06-15T20:26:17.869040323+02:00","action":"edit","task_id":26,"detail":"automatic-payments - payment-recovery.md"}
+{"timestamp":"2026-06-15T20:26:24.265639326+02:00","action":"edit","task_id":25,"detail":"automatic-payments - paypal.md"}
+{"timestamp":"2026-06-15T20:26:24.53974853+02:00","action":"edit","task_id":26,"detail":"automatic-payments - stripe.md"}
+{"timestamp":"2026-06-15T20:26:24.658159362+02:00","action":"edit","task_id":27,"detail":"checkout-builder - README.md"}
+{"timestamp":"2026-06-15T20:26:24.877446377+02:00","action":"edit","task_id":28,"detail":"checkout-builder - field-types.md"}
+{"timestamp":"2026-06-15T20:26:25.106279382+02:00","action":"edit","task_id":29,"detail":"checkout-builder - use-cases.md"}
+{"timestamp":"2026-06-15T20:42:08.658467804+02:00","action":"delete","task_id":23,"detail":"automatic-payments - paddle.md"}
+{"timestamp":"2026-06-15T20:42:08.996463028+02:00","action":"delete","task_id":25,"detail":"automatic-payments - paypal.md"}
