@@ -1,1 +1,0 @@
-- rectangle around the How Ecommerce Rules Work info panel labeled 'Commerce rule'

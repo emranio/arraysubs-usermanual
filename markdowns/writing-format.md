@@ -211,7 +211,6 @@ Use these rules for every manual page:
 - Add **troubleshooting** when a feature can fail or depends on external systems.
 - End with an **FAQ** section.
 - If the page is about a premium feature, clearly mark it near the top.
-- If useful, include screenshots close to the related step instead of dumping them all at the end.
 
 ## Quick Mental Model
 

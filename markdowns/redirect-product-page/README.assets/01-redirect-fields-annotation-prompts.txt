@@ -1,1 +1,0 @@
-- rectangle around the Enable redirect checkbox and its description labeled 'Product page redirect (Pro)'

@@ -1,3 +1,0 @@
-rectangle around the product title and price labeled 'Subscription Product'
-rectangle around the subscription details section labeled 'Billing Terms'
-rectangle around the add to cart area labeled 'Subscribe'

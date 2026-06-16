@@ -1,1 +1,0 @@
-- rectangle around the scheduled actions table labeled 'Background job queue'

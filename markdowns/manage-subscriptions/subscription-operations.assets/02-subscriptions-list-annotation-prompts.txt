@@ -1,9 +1,0 @@
-# Annotation Prompts
-
-Source screenshot: `02-subscriptions-list-original.png`
-
-- Draw a red rectangle around the ArraySubs admin menu section on the left and label it "ArraySubs navigation".
-- Draw a red rectangle around the subscription status filter tabs near the top of the table and label it "Status filters".
-- Draw a red rectangle around the search field and gateway dropdown and label it "Find subscriptions".
-- Draw a red rectangle around the Add New Subscription and Export CSV buttons and label it "Create or export".
-- Draw a red rectangle around the View Details and Edit row actions in the first visible subscription row and label it "Row actions".

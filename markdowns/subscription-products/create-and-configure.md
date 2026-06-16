@@ -18,8 +18,6 @@
 - **Next guide:** [plan-switching-and-relationships](./plan-switching-and-relationships.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The Subscription panel in the WooCommerce product editor](create-and-configure.assets/01-subscription-fields-annotated.png)
-
 ## Overview
 
 ArraySubs adds a **Subscription** checkbox to the WooCommerce product editor. When enabled, a new Subscription tab appears with fields for billing period, billing interval, subscription length, free trials, signup fees, and different renewal pricing. Both simple products and variable products are supported — variable products allow each variation to have its own independent subscription configuration.

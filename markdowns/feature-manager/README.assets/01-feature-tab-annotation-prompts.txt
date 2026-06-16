@@ -1,1 +1,0 @@
-- rectangle around the product features list labeled 'Product features'

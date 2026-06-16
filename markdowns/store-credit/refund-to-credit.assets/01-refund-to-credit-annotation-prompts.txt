@@ -1,1 +1,0 @@
-- rectangle around the Refund button in the order items totals labeled 'Refund to store credit'

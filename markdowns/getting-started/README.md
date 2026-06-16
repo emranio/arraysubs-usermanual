@@ -18,8 +18,6 @@
 - **Next guide:** [member-commerce-overview](../member-insight/member-commerce-overview.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The built-in Help screen links to every guide from inside the plugin](README.assets/01-help-hub-annotated.png)
-
 ## Overview
 
 This section walks you through the fundamentals: what ArraySubs is, what it requires, and how to get your first subscription product live and collecting payments. Whether you are setting up a simple monthly membership or a multi-tier product catalog, start here.

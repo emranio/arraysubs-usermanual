@@ -1,4 +1,0 @@
-- Draw a purple rectangle around Hide default login page.
-- Draw a purple rectangle around Login redirect target.
-- Draw a purple rectangle around Password reset stays safe.
-- Draw a purple rectangle around Customer login flow.

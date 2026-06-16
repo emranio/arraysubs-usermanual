@@ -19,12 +19,6 @@
 - **Next guide:** [content-restriction](./content-restriction.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Commerce and Benefit Rules screenshot: Discount Rules](commerce-and-benefit-rules.assets/01-discount-rules-annotated.png)
-
 ## Overview
 
 Commerce and Benefit Rules extend Member Access into WooCommerce's product catalog, pricing, cart, and downloads system. Three rule types cover the commercial side of membership:

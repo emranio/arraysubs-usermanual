@@ -19,18 +19,6 @@
 - **Next guide:** [Admin Bar Visibility](../admin-bar-visibility/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots together. The Toolkit screen has controls above and below the fold, and several settings reveal extra fields only after their toggle is enabled.
-
-![Annotated Toolkit Settings screenshot: upper Toolkit controls](toolkit-settings.assets/01-toolkit-settings-annotated.png)
-
-![Annotated Toolkit Settings screenshot: dashboard access options](toolkit-settings.assets/02-toolkit-dashboard-access-annotated.png)
-
-![Annotated Toolkit Settings screenshot: login page options](toolkit-settings.assets/03-toolkit-login-page-annotated.png)
-
-![Annotated Toolkit Settings screenshot: support and session controls](toolkit-settings.assets/04-toolkit-support-and-sessions-annotated.png)
-
 ## Overview
 
 The Toolkit Settings page is the shared control surface for five dedicated site-access modules. These modules sit outside the subscription engine itself, but they are part of the ArraySubs feature set: they hide backend entry points from customers, restrict dashboard access to authorized roles, route customer login traffic through My Account, let administrators impersonate users for support, and limit concurrent sessions with Pro.

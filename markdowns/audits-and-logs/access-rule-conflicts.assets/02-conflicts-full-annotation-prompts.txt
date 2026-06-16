@@ -1,1 +1,0 @@
-- rectangle around the access-rule conflict report labeled 'Rule conflicts'

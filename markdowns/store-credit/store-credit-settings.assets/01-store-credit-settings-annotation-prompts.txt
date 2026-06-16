@@ -1,3 +1,0 @@
-rectangle around the Store Credit Settings heading labeled 'Store Credit Settings'
-rectangle around the settings fields labeled 'Credit Controls'
-rectangle around the save button area labeled 'Save Store Credit'

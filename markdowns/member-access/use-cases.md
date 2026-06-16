@@ -18,8 +18,6 @@
 - **Next guide:** [my-account-editor](../profile-builder/my-account-editor.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![An ecommerce restriction rule used for member-only pricing](use-cases.assets/01-ecommerce-rules-annotated.png)
-
 ## Overview
 
 This guide demonstrates how merchants across different industries use Member Access to solve real business problems. Each use case follows the same format:

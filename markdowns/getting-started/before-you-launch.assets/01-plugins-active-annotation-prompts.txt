@@ -1,1 +1,0 @@
-- rectangle around the ArraySubs and ArraySubs Pro plugin rows in the list labeled 'Free core + Pro addon'

@@ -1,1 +1,0 @@
-- rectangle around the related orders list labeled 'Renewal orders'

@@ -1,1 +1,0 @@
-- rectangle around the orders table labeled 'Subscription orders'

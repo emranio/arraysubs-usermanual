@@ -1,3 +1,0 @@
-rectangle around the Checkout Form Builder panel labeled 'Builder Entry'
-rectangle around the Open Builder button labeled 'Open Builder'
-rectangle around the setup cards labeled 'Builder Workflows'

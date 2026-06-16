@@ -1,1 +1,0 @@
-- rectangle around the checkout builder editing canvas labeled 'Drag-and-drop editor'

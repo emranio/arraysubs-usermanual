@@ -18,8 +18,6 @@
 - **Next guide:** [easy-setup-wizard](./easy-setup-wizard.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The Action Scheduler queue running ArraySubs background jobs](cron-job-setup.assets/01-action-scheduler-annotated.png)
-
 ## Overview
 
 ArraySubs runs almost every time-sensitive action through WordPress's scheduling system: renewal charges, end-of-period cancellations, free-trial conversions, on-hold transitions, expirations, dunning emails, and webhook cleanup. By default, WordPress fires those scheduled jobs through "WP-Cron," which only runs when somebody actually visits a page on your site. On a low-traffic store the next renewal can sit idle for hours; on a site that has been quiet for a day or two, jobs can pile up so badly that several customers' renewals run at the same moment when traffic resumes.

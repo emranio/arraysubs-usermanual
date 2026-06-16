@@ -21,7 +21,6 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 
 ## Quick Reference
 
-
 ## Page Navigation
 
 - **Current guide:** Manage Subscription Products
@@ -46,8 +45,6 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 | Test links | Product editor → General tab → Helper Links |
 
 ---
-
-![Subscription products are flagged in the WooCommerce Products list](README.assets/01-products-list-annotated.png)
 
 ## Related Guides
 

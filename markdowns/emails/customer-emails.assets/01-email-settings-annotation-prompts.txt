@@ -1,1 +1,0 @@
-- rectangle around the email subject and additional content fields labeled 'Editable email'

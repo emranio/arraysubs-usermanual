@@ -1,1 +1,0 @@
-- rectangle around the member search box labeled 'Member lookup'

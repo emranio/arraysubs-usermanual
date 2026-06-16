@@ -1,1 +1,0 @@
-- rectangle around a failed portal action entry labeled 'Update failures'

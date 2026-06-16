@@ -18,8 +18,6 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![A customer email with the click-to-insert placeholder helper](customer-emails.assets/01-email-settings-annotated.png)
-
 ## Overview
 
 ArraySubs sends customer emails automatically when key subscription events occur. Each email is registered with WooCommerce and appears in **WooCommerce → Settings → Emails** for full customization. All customer emails are enabled by default and support the [placeholder system](README.md#email-placeholders-reference) documented in the Email Overview.

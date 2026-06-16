@@ -1,1 +1,0 @@
-- rectangle around the subscription status field labeled 'Status control'

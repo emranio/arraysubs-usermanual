@@ -18,10 +18,6 @@
 - **Next guide:** [Create and Configure Subscription Products](../subscription-products/create-and-configure.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![ArraySubs subscription options on a WooCommerce coupon](README.assets/01-coupon-fields-annotated.png)
-
-![WooCommerce coupon list with subscription coupon examples](README.assets/02-coupon-list-original.png)
-
 ## Overview
 
 ArraySubs extends WooCommerce coupons with subscription-specific settings. When a coupon is flagged to apply to subscriptions, it is captured at checkout and can automatically discount future renewal orders for a configurable number of cycles. All standard WooCommerce coupon types (percentage, fixed product, fixed cart) are supported.

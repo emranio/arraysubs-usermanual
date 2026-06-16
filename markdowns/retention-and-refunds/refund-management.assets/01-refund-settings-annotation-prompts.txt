@@ -1,3 +1,0 @@
-rectangle around the Refund Management tab labeled 'Refund Management'
-rectangle around the refund settings controls labeled 'Refund Rules'
-rectangle around the save button area labeled 'Save Refund Settings'

@@ -1,1 +1,0 @@
-- rectangle around the renewal failure list labeled 'Failed renewals'

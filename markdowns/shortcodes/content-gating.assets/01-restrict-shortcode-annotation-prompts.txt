@@ -1,1 +1,0 @@
-- rectangle around the arraysubs_restrict shortcode card labeled 'Content gating shortcode'

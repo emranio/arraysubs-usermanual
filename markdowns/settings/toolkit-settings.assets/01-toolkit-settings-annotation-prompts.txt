@@ -1,3 +1,0 @@
-- Draw a purple rectangle around Toolkit screen.
-- Draw a purple rectangle around Admin bar module.
-- Draw a purple rectangle around Dashboard access module.

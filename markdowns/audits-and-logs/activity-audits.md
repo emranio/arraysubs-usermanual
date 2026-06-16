@@ -19,15 +19,6 @@
 - **Next guide:** [Gateway Health](../gateway-health/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Activity Audits screenshot: Activity Audits](activity-audits.assets/01-activity-audits-annotated.png)
-
-![The full activity audit log (Pro)](activity-audits.assets/02-activity-full-annotated.png)
-
-
 ## Overview
 
 The Activity Audits screen provides a centralized timeline of everything that happens inside ArraySubs. Every subscription status change, product update, coupon application, email send, and settings change is recorded as an audit entry with the author, timestamp, entity references, and a structured diff of what changed.

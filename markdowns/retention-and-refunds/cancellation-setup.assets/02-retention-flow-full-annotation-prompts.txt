@@ -1,1 +1,0 @@
-- rectangle around the cancellation reasons list labeled 'Cancellation reasons'

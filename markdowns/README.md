@@ -9,7 +9,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 
 <section class="docs-support-card" aria-labelledby="homepage-support-title">
   <h2 id="homepage-support-title">Bugs And Feature Requests</h2>
-  <p>If you find a bug or need a feature added, contact me directly at <a href="mailto:emran@arrayhash.com">emran@arrayhash.com</a>. Include the manual page URL, a screenshot if helpful, and what you expected to happen.</p>
+  <p>If you find a bug or need a feature added, contact me directly at <a href="mailto:emran@arrayhash.com">emran@arrayhash.com</a>. Include the manual page URL and what you expected to happen.</p>
   <div class="docs-support-card__links" aria-label="ArraySubs product pages">
     <a href="https://arrayhash.com/deals/arraysubs">Product Page</a>
     <a href="https://arrayhash.com/deals/arraysubs/use-cases">Use Cases</a>
@@ -44,8 +44,6 @@ The manual now tracks **27 dedicated product modules**. Documentation-only secti
 ## Admin Screen Map
 
 Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
-
-![The ArraySubs subscription management dashboard in WordPress Admin](README.assets/01-dashboard-annotated.png)
 
 ## Page Navigation
 

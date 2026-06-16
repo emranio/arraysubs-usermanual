@@ -18,12 +18,6 @@
 - **Next guide:** [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md)
 - **Troubleshooting:** [Payment Method and Shipping Update Issues](../audits-and-logs/payment-and-shipping-issues.md)
 
-## Visual Guide
-
-![Recurring vs one-time subscription shipping fields](README.assets/01-shipping-product-fields-annotated.png)
-
-![Subscription detail screen showing shipping data for a physical subscription](README.assets/02-subscription-shipping-card-original.png)
-
 ## Overview
 
 Subscription Shipping is a Pro module for physical subscription products. It tells ArraySubs how shipping should behave after the first checkout order.

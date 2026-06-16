@@ -18,8 +18,6 @@
 - **Customer version:** [Subscription Self-Service Actions](../customer-portal/self-service-actions.md)
 - **Payment troubleshooting:** [Gateway Health Dashboard](../gateway-health/README.md)
 
-![Annotated subscription detail screen showing action bar, billing dates, skip and pause state, and gateway connection](subscription-detail-cards.assets/01-subscription-detail-annotated.png)
-
 ## Overview
 
 The subscription detail screen displays a series of information cards. Some are always visible (covered in [Subscription Operations](subscription-operations.md#subscription-detail-screen)), but several cards only appear when specific conditions are met. This guide covers each conditional card in detail.

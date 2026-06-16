@@ -1,8 +1,0 @@
-# Annotation Prompts
-
-Source screenshot: `01-easy-setup-original.png`
-
-- Draw a red rectangle around the Setup Wizard card and label it "Guided setup".
-- Draw a red rectangle around the Launch Setup Wizard button and label it "Start wizard".
-- Draw a red rectangle around the Export Settings card and label it "Backup settings".
-- Draw a red rectangle around the Import Settings card and label it "Restore settings".

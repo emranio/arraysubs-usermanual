@@ -18,8 +18,6 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Direct add-to-cart and one-click checkout helper links for testing](product-lifecycle.assets/01-helper-links-annotated.png)
-
 ## Overview
 
 Subscription products may outlive the product listing that created them. ArraySubs handles this gracefully by caching product data at the time of subscription creation and using that cache when the original product is no longer available. This guide explains the product lifecycle from creation through deletion, admin warnings that help prevent accidental disruption, and the helper test links available on every subscription product.

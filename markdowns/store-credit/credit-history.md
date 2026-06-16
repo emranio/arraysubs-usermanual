@@ -19,12 +19,6 @@
 - **Next guide:** [emails](./emails.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Credit History screenshot: Credit History](credit-history.assets/01-credit-history-annotated.png)
-
 ## Overview
 
 The Credit History page gives you a bird's-eye view of all store credit activity in your store. Every credit transaction — from admin adjustments and refund conversions to automated renewal applications and expirations — appears here in a single, filterable log.

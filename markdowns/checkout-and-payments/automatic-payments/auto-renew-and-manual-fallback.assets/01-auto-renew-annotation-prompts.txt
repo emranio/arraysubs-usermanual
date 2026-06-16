@@ -1,1 +1,0 @@
-- rectangle around the automatic renewal toggle labeled 'Auto-renew control'

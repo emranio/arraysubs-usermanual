@@ -1,1 +1,0 @@
-- rectangle around the Email Reminder Schedule day fields labeled 'Reminder timing'

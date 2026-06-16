@@ -19,10 +19,6 @@
 - **Next guide:** [Login as User](../login-as-user/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-![Annotated WordPress Login Page Toolkit screenshot](README.assets/01-wordpress-login-page-annotated.png)
-
 ## What This Tool Does
 
 **Hide WordPress login page** redirects visits to the default `/wp-login.php` screen. Most stores use this to send customers to the WooCommerce **My Account** page, where login, registration, subscriptions, orders, payment methods, and customer portal pages live together.

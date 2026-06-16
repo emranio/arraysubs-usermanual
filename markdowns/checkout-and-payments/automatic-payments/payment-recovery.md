@@ -18,8 +18,6 @@
 - **Next guide:** [paypal](./paypal.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
-![Renewal-failure recovery tools (Pro)](payment-recovery.assets/01-renewal-failures-annotated.png)
-
 ## Overview
 
 Automatic recurring billing fails sometimes. A card declines, a customer's bank flags the charge, a webhook is missed during a brief outage, a network hiccup interrupts a charge attempt. This page documents the four tools ArraySubs Pro provides to keep things on track:

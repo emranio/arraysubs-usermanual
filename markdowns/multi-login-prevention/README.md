@@ -19,10 +19,6 @@
 - **Next guide:** [Create and Configure Subscription Products](../subscription-products/create-and-configure.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-![Annotated Multi-Login Prevention Toolkit screenshot](README.assets/01-multi-login-prevention-annotated.png)
-
 ## What This Tool Does
 
 **Multi-Login Prevention** enforces a maximum number of concurrent sessions per user. When a user logs in and the account already has the maximum allowed sessions, ArraySubs destroys the oldest session. The new login succeeds.

@@ -1,1 +1,0 @@
-- rectangle around the subscription notes timeline labeled 'Notes and records'

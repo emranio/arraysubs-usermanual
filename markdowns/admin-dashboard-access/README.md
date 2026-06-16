@@ -19,10 +19,6 @@
 - **Next guide:** [WordPress Login Page](../wordpress-login-page/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-![Annotated Admin Dashboard Access Toolkit screenshot](README.assets/01-admin-dashboard-access-annotated.png)
-
 ## What This Tool Does
 
 **Restrict wp-admin access** stops customers and other unauthorized users from browsing the WordPress admin dashboard. When they visit `/wp-admin`, ArraySubs redirects them to your selected destination.

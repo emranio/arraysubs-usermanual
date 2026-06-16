@@ -18,11 +18,6 @@
 - **Next guide:** [renewal-failures](./renewal-failures.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The activity audit trail (Pro)](README.assets/01-activity-audits-annotated.png)
-
-![The full activity audit log (Pro)](README.assets/02-activity-full-annotated.png)
-
-
 ## Overview
 
 ArraySubs records a detailed trail of everything that happens to subscriptions, members, products, orders, coupons, emails, and settings. The **Audits** section gives you searchable, filterable views into this activity so you can answer support questions, diagnose billing problems, and verify that scheduled automation is running correctly.
@@ -81,7 +76,7 @@ Use this decision table when you know the symptom but not the root cause yet.
 | Activity Audits | Cross-entity changes by admin, customer, gateway, or system | ArraySubs -> Audits [beta] |
 | Scheduled-Job Logs | Whether renewal, reminder, expiry, cancellation, or pause jobs executed | ArraySubs -> Audits [beta] |
 | Gateway Health Dashboard | Connection state, webhook URL, webhook event log, gateway capability matrix | ArraySubs -> Settings -> Gateway Health |
-| Customer portal screenshots | Whether the customer saw the expected button, message, or disabled state | My Account -> Subscriptions |
+| Customer portal state | Whether the customer saw the expected button, message, or disabled state | My Account -> Subscriptions |
 
 ## Edge-Case Map
 

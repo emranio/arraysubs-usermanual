@@ -18,11 +18,6 @@
 - **Related checkout guide:** [Subscription Checkout](../checkout-and-payments/subscription-checkout.md)
 - **Related renewal guide:** [Renewal Operations](../billing-and-renewals/renewal-operations.md)
 
-![Annotated General Settings screen showing tabs, cart rules, customer limit, and save bar](general-settings.assets/01-general-settings-annotated.png)
-
-![The complete General settings page, top to bottom](general-settings.assets/02-general-full-annotated.png)
-
-
 ## Overview
 
 The General Settings page is the first place to visit after installing ArraySubs. It collects the store-wide rules that shape how subscriptions behave during checkout, renewal, and day-to-day management.

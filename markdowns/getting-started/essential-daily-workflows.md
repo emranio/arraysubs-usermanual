@@ -18,8 +18,6 @@
 - **Next guide:** [first-time-setup](./first-time-setup.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The Subscriptions list is the hub for day-to-day work](essential-daily-workflows.assets/01-subscriptions-list-annotated.png)
-
 ## Overview
 
 Once your store is set up and products are published, the subscription system runs largely on autopilot. This guide explains the day-to-day mechanics: what happens automatically, what you should monitor, and how the major pieces connect. Read this before going live to understand what your store will be doing behind the scenes.

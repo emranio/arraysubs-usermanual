@@ -1,1 +1,0 @@
-- rectangle around the subscription Type column or filter labeled 'Subscription type'

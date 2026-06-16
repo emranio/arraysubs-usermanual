@@ -19,8 +19,6 @@
 - **Next guide:** [retention-use-cases](./retention-use-cases.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Retention offers (discount, pause, downgrade, contact) in the builder](retention-offers.assets/01-offers-annotated.png)
-
 ## Overview
 
 Retention offers are the most powerful churn-reduction tool in ArraySubs. When a customer starts the cancellation process, instead of letting them leave silently, the system presents one or more offers designed to address their specific reason for leaving. A customer who says "too expensive" sees a discount. A customer who says "need a break" sees a pause option. A customer with technical problems is directed to support.

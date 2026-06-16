@@ -21,12 +21,6 @@
 - **Next guide:** [Retention Analytics](../retention-analytics/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Refund Management screenshot: Refund Settings](refund-management.assets/01-refund-settings-annotated.png)
-
 ## Overview
 
 Refund management controls what happens financially after a subscription is cancelled. ArraySubs integrates directly with WooCommerce's native refund system, adding subscription-aware logic on top: configurable cancellation behavior, prorated refund calculations based on unused billing cycle days, minimum refund thresholds, and automatic payment gateway refund routing.

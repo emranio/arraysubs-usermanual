@@ -18,8 +18,6 @@
 - **Next guide:** [store-credit-emails](./store-credit-emails.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![ArraySubs emails listed under WooCommerce email settings](README.assets/01-emails-list-annotated.png)
-
 ## Overview
 
 ArraySubs includes a full email notification system built on top of the WooCommerce email framework. Every email inherits your store's design, can be toggled on or off, and supports rich placeholders that pull live subscription data into the subject line and body. No custom mailer setup is needed — everything works through the same **WooCommerce → Settings → Emails** page your store already uses.

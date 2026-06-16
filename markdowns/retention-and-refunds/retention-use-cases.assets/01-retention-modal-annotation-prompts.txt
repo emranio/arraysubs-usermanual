@@ -1,1 +1,0 @@
-- rectangle around the retention offer shown in the cancellation modal labeled 'Save offer'

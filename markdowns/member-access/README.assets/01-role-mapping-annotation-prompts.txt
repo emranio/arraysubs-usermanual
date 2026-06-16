@@ -1,1 +1,0 @@
-- rectangle around the role mapping rule list labeled 'Access rule engine'

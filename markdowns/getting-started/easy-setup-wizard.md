@@ -17,8 +17,6 @@
 - **Review settings after saving:** [General Settings](../settings/general-settings.md), [Toolkit Settings](../settings/toolkit-settings.md), [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md)
 - **Need to move settings between sites?** Use the Export and Import cards on this same screen.
 
-![Annotated Easy Setup screen showing the wizard, export, and import entry points](easy-setup-wizard.assets/01-easy-setup-annotated.png)
-
 ## Overview
 
 The Easy Setup Wizard is a 9-step guided interview that walks you through the key decisions for your subscription business and automatically configures matching settings. Instead of visiting each settings page individually, you answer plain-language questions about your billing model, customer experience, cancellation policy, access control, emails, and optional tools. The wizard translates your answers into the correct plugin settings and applies them in one click.

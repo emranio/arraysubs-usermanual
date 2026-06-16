@@ -1,3 +1,0 @@
-rectangle around the My Subscriptions heading labeled 'Subscriptions List'
-rectangle around the subscriptions table labeled 'Customer Subscriptions'
-rectangle around the View action button labeled 'Open Detail'

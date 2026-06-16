@@ -1,1 +1,0 @@
-- rectangle around the member profile header labeled 'Member profile'

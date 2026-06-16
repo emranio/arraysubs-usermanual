@@ -19,15 +19,6 @@
 - **Next guide:** [README](../billing-and-renewals/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Scheduled-Job Logs screenshot: Scheduled Job Logs](scheduled-job-logs.assets/01-scheduled-job-logs-annotated.png)
-
-![The full scheduled-job log of background tasks (Pro)](scheduled-job-logs.assets/02-jobs-full-annotated.png)
-
-
 ## Overview
 
 ArraySubs uses Action Scheduler to run background jobs that process renewals, convert trials, send email reminders, transition subscription statuses, and perform maintenance. The Scheduled-Job Logs screen shows you the outcome of every job execution — whether it succeeded or failed, which subscription it affected, and what error occurred if something went wrong.

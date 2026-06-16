@@ -1,1 +1,0 @@
-- rectangle around the ArraySubs subscription email rows labeled 'Subscription emails'

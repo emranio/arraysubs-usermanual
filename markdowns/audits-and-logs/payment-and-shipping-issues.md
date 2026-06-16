@@ -18,11 +18,6 @@
 - **Next guide:** [portal-action-failures](./portal-action-failures.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Portal action failures help diagnose payment and shipping update issues](payment-and-shipping-issues.assets/01-portal-failures-annotated.png)
-
-![Portal action failures, including payment-method and shipping update errors](payment-and-shipping-issues.assets/02-portal-full-annotated.png)
-
-
 ## Overview
 
 Subscribers may need to update their payment method, toggle automatic renewals, or change their shipping address between billing cycles. These actions involve validation checks for gateway capabilities, subscription status, ownership, and timing cutoffs. When a check fails, the customer sees an error that can be confusing without context.

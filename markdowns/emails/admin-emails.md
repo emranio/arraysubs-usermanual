@@ -18,8 +18,6 @@
 - **Next guide:** [customer-emails](./customer-emails.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Store-owner notification emails in WooCommerce](admin-emails.assets/01-admin-emails-annotated.png)
-
 ## Overview
 
 ArraySubs sends admin emails to keep the store owner (or a designated team) informed about critical subscription activity. Unlike customer emails, admin emails are sent to the store's admin email address (or a custom recipient list) rather than to the subscribing customer.

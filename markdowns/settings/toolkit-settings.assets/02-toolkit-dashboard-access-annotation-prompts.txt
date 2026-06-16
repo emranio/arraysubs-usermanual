@@ -1,3 +1,0 @@
-- Draw a purple rectangle around Enable access restriction.
-- Draw a purple rectangle around Redirect destination.
-- Draw a purple rectangle around Allowed staff roles.

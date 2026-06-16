@@ -1,1 +1,0 @@
-- rectangle around the activity audit timeline labeled 'Audit log'

@@ -19,10 +19,6 @@
 - **Next guide:** [Multi-Login Prevention](../multi-login-prevention/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-![Annotated Login as User Toolkit screenshot](README.assets/01-login-as-user-annotated.png)
-
 ## What This Tool Does
 
 **Enable Login as User** lets an administrator impersonate a non-admin customer account without knowing the customer's password. This is useful when a customer reports that they cannot see a subscription, update payment details, use member-only content, or access a feature.

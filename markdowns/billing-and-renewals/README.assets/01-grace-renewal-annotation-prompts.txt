@@ -1,1 +1,0 @@
-- rectangle around the Grace Period settings labeled 'Grace and renewal timing'

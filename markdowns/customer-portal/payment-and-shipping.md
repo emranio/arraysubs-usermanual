@@ -18,12 +18,6 @@
 - **Next guide:** [portal-pages](./portal-pages.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Payment and Shipping Actions screenshot: Payment Shipping](payment-and-shipping.assets/01-payment-shipping-annotated.png)
-
 ## Overview
 
 The subscription detail page includes payment and shipping controls that help customers keep their billing and delivery information up to date. The free plugin provides a link to manage payment methods and a shipping address update form. The Pro plugin adds gateway-specific card details, an auto-renew toggle, and enhanced payment method update flows.

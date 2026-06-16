@@ -1,1 +1,0 @@
-- rectangle around the direct add-to-cart and one-click checkout helper links labeled 'Test links'

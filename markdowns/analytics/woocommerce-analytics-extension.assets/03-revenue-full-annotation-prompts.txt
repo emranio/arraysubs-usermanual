@@ -1,1 +1,0 @@
-- rectangle around the subscription revenue summary numbers labeled 'Subscription revenue'

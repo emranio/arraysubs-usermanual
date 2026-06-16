@@ -18,16 +18,6 @@
 - **Lifecycle concepts:** [Lifecycle Management](lifecycle-management.md)
 - **Customer-facing version:** [Customer Portal Pages](../customer-portal/portal-pages.md)
 
-![Annotated All Subscriptions screen showing filters, search, row actions, and export controls](subscription-operations.assets/02-subscriptions-list-annotated.png)
-
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Subscription Operations screenshot: Admin Menu Subscriptions](subscription-operations.assets/01-admin-menu-subscriptions-annotated.png)
-
-![Annotated Subscription Operations screenshot: Create Subscription](subscription-operations.assets/03-create-subscription-annotated.png)
-
 ## Overview
 
 ArraySubs gives you four main screens for working with subscriptions:

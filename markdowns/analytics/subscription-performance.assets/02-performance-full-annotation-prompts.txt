@@ -1,1 +1,0 @@
-- rectangle around the MRR and churn leaderboards labeled 'Performance leaderboards'

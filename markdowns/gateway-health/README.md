@@ -18,17 +18,6 @@
 - **Next guide:** [Payment Recovery](../checkout-and-payments/automatic-payments/payment-recovery.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Gateway Health Dashboard screenshot: Gateway Health](README.assets/01-gateway-health-annotated.png)
-
-![The full gateway health dashboard (Pro)](README.assets/02-gateway-full-annotated.png)
-
-![Gateway Health webhook event log](README.assets/03-webhook-log-original.png)
-
-
 ## Overview
 
 The Gateway Health Dashboard gives you a single view of every payment gateway's status, connection health, and recent webhook activity. Use it to verify your gateway setup is working, confirm Stripe's auto-provisioned ArraySubs webhook status, find provider webhook URLs where manual setup is still required, and diagnose webhook delivery issues.

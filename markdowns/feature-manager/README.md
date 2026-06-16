@@ -74,7 +74,6 @@ Features are only shown for subscriptions with an `active` or `trial` status. On
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Feature Log access from the subscription detail screen.
 - [Manage Members](../member-insight/README.md) — Feature Log shortcut from the member profile.
 
-
 ## Page Navigation
 
 - **Current guide:** Feature Manager *(Pro)*
@@ -84,4 +83,3 @@ Features are only shown for subscriptions with an `active` or `trial` status. On
 - **Next guide:** [before-you-launch](../getting-started/before-you-launch.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The Feature Manager product tab with defined features (Pro)](README.assets/01-feature-tab-annotated.png)

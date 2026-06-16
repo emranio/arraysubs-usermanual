@@ -19,12 +19,6 @@
 - **Next guide:** [Coupons](../coupons/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-![The subscription notes timeline records every lifecycle event](README.assets/01-notes-records-annotated.png)
-
-![A full subscription detail screen with the notes area visible](README.assets/02-notes-full-original.png)
-
 ## Overview
 
 Subscription Notes is a dedicated record-keeping module in the free core plugin. Every subscription detail screen includes a notes panel that combines system-generated lifecycle events with manual notes from administrators and, when enabled, customer-visible notes.

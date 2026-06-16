@@ -18,8 +18,6 @@
 - **Next guide:** [customer-and-storefront-display](../feature-manager/customer-and-storefront-display.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The four Store Credit emails (Pro)](store-credit-emails.assets/01-credit-emails-annotated.png)
-
 ## Overview
 
 The Store Credit module *(Pro)* includes its own set of four customer-facing WooCommerce emails. These emails are registered separately from the core subscription emails but follow the same WooCommerce email framework — they appear in **WooCommerce → Settings → Emails**, support HTML and Plain Text, and can be toggled independently.

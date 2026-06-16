@@ -18,12 +18,6 @@
 - **Next guide:** [Subscription Shipping](../subscription-shipping/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-![Per-product page redirect settings](README.assets/01-redirect-fields-annotated.png)
-
-![The product editor with Redirect Product Page controls in context](README.assets/02-redirect-panel-full-original.png)
-
 ## Overview
 
 Redirect Product Page is a Pro product-experience module. It controls what happens when somebody opens the direct WooCommerce product page for a subscription product.

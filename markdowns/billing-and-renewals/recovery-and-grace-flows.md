@@ -21,12 +21,6 @@
 - **Next guide:** [renewal-communication](./renewal-communication.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Recovery and Grace Flows screenshot: Skip Pause Settings](recovery-and-grace-flows.assets/01-skip-pause-settings-annotated.png)
-
 ## Overview
 
 Not every renewal payment arrives on time. When a customer misses a payment, ArraySubs does not immediately cancel the subscription. Instead, it activates a **two-phase grace period** that gives the customer time to pay while progressively restricting access. This page explains the complete recovery timeline, how overdue renewals are detected, and how skip and pause features interact with the billing cycle.

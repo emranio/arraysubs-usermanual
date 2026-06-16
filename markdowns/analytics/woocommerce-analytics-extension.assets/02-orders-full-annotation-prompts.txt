@@ -1,1 +1,0 @@
-- rectangle around the orders report Type column labeled 'Subscription type'

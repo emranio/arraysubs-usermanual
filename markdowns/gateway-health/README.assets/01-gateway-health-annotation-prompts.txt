@@ -1,3 +1,0 @@
-rectangle around the dashboard header labeled 'Gateway Health'
-rectangle around the gateway health cards labeled 'Gateway Status'
-rectangle around the issue or log area labeled 'Operational Signals'

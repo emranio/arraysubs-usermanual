@@ -18,8 +18,6 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Export and import settings as JSON from the Easy Setup screen](import-export-settings.assets/01-import-export-annotated.png)
-
 ## Overview
 
 The Import / Export tools let you back up your ArraySubs configuration and restore it on the same site or a different one. Export produces a single JSON file containing all plugin settings, email templates, profile fields, My Account menu layout, and more. Import reads that file back and lets you choose exactly which sections to apply — unchecked sections remain untouched.

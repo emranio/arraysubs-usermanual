@@ -18,8 +18,6 @@
 - **Next guide:** [lifecycle-management](./lifecycle-management.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The subscription feature log (Pro)](admin-tools-and-records.assets/02-feature-log-annotated.png)
-
 ## Overview
 
 Beyond browsing and editing subscriptions, ArraySubs gives you a set of tools for record-keeping and operational insight. This guide covers:

@@ -1,1 +1,0 @@
-- rectangle around the trial-related settings labeled 'Trial rules'

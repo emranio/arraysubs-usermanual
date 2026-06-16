@@ -1,3 +1,0 @@
-rectangle around the WordPress admin ArraySubs menu labeled 'ArraySubs Menu'
-rectangle around the Subscriptions entry labeled 'Subscriptions'
-rectangle around the main subscriptions page area labeled 'Admin Workspace'

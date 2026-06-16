@@ -18,8 +18,6 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Content-gating shortcode reference](content-gating.assets/01-restrict-shortcode-annotated.png)
-
 ## Overview
 
 Two shortcodes handle content gating on the frontend:

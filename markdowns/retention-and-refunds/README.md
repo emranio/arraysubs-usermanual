@@ -18,8 +18,6 @@
 - **Next guide:** [refund-management](./refund-management.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![Cancellation reasons configured in the Retention Flow builder](README.assets/01-retention-flow-annotated.png)
-
 ## Overview
 
 Losing subscribers is the single most impactful threat to recurring revenue. ArraySubs provides a complete retention and cancellation management system that goes far beyond a simple "Cancel" button. You can capture the reasons customers leave, present targeted retention offers at the exact moment a customer is about to cancel, track the results with a dedicated analytics dashboard, and manage refunds with configurable policies.

@@ -18,8 +18,6 @@
 - **Next guide:** [general-settings](../settings/general-settings.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![A save offer shown to the customer in the cancellation flow](retention-use-cases.assets/01-retention-modal-annotated.png)
-
 ## Overview
 
 The retention system is not just a feature — it is a revenue strategy. Every subscription cancelled is recurring revenue lost, and the cost of acquiring a new subscriber almost always exceeds the cost of keeping an existing one.

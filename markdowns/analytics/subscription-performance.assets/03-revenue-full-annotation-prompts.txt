@@ -1,1 +1,0 @@
-- rectangle around the recurring revenue summary labeled 'Renewal revenue'

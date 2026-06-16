@@ -20,12 +20,6 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Feature Manager Settings screenshot: Feature Manager Settings](feature-manager-settings.assets/01-feature-manager-settings-annotated.png)
-
 ## Overview
 
 Feature Manager settings control the entire module: whether it's active, how features display to customers and admins, how entitlements are grouped, and whether usage tracking is visible.

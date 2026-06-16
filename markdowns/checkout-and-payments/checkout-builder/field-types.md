@@ -19,12 +19,6 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Field Types Reference screenshot: Checkout Builder Settings](field-types.assets/01-checkout-builder-settings-annotated.png)
-
 ## Overview
 
 The Checkout Builder supports 27 field types across three categories. Every custom input field stores its data as order meta with the `_arraysubs_cf_` prefix. Layout elements do not store data — they only control the visual structure of the form.

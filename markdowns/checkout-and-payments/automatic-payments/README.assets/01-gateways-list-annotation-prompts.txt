@@ -1,1 +1,0 @@
-- rectangle around the ArraySubs PayPal and Paddle payment methods labeled 'Automatic gateways'

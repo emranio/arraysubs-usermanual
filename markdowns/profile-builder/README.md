@@ -18,8 +18,6 @@
 - **Next guide:** [shortcodes](./shortcodes.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The custom profile field builder](README.assets/01-profile-form-annotated.png)
-
 ## What's Inside
 
 The Profile Builder area in ArraySubs gives you three sets of tools under one menu:

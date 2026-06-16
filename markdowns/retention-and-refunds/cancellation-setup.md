@@ -19,15 +19,6 @@
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Cancellation Setup screenshot: Retention Flow](cancellation-setup.assets/01-retention-flow-annotated.png)
-
-![The full Retention Flow builder — reasons and offers](cancellation-setup.assets/02-retention-flow-full-annotated.png)
-
-
 ## Overview
 
 Cancellation setup controls three things: **when** a subscription is cancelled (immediately or at the end of the billing period), **why** the customer is cancelling (the reason they select), and **how** the admin Retention Flow page lets you manage both in one place. Getting this right is foundational — every retention offer, analytics report, and refund decision depends on the cancellation configuration.

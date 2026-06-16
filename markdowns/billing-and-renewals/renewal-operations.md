@@ -20,8 +20,6 @@
 
 **Last updated:** 2026-06-03
 
-![Related renewal orders shown on a subscription](renewal-operations.assets/01-related-orders-annotated.png)
-
 ## Overview
 
 Every active subscription eventually reaches its next payment date. When that happens, ArraySubs creates a renewal invoice (a pending WooCommerce order), routes the payment through the appropriate channel (manual or automatic), and schedules the next renewal. This page explains each step in that process, including how tiered pricing works.

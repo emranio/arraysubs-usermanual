@@ -19,15 +19,6 @@
 - **Next guide:** [Retention Analytics](../retention-analytics/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Reports Hub screenshot: Reports Hub](reports-hub.assets/01-reports-hub-annotated.png)
-
-![The full Reports hub directory of analytics links](reports-hub.assets/02-reports-full-annotated.png)
-
-
 ## Overview
 
 The Reports Hub is a centralized directory page inside the ArraySubs admin panel. It lists every analytics and reporting surface available in the product, organized by category, and provides direct links so you can jump to any report in one click.

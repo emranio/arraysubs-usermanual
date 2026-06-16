@@ -57,7 +57,6 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 - [Customer Portal — Payment and Shipping](../customer-portal/payment-and-shipping.md) — Customer-facing payment method management and auto-renew toggle
 - [Gateway Health Dashboard (Audits)](../gateway-health/README.md) — Detailed monitoring and troubleshooting guide
 
-
 ## Page Navigation
 
 - **Current guide:** Checkout and Payments
@@ -67,4 +66,3 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 - **Next guide:** [subscription-checkout](./subscription-checkout.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-![The subscription order summary at checkout](README.assets/01-checkout-annotated.png)

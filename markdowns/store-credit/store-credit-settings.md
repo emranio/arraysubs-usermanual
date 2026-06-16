@@ -19,12 +19,6 @@
 - **Next guide:** [Coupons](../coupons/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Store Credit Settings screenshot: Store Credit Settings](store-credit-settings.assets/01-store-credit-settings-annotated.png)
-
 ## Overview
 
 The Store Credit Settings page is the central control panel for every aspect of the credit system. From here you decide whether credit is active, how it is consumed, when it expires, and whether customers can buy it directly.

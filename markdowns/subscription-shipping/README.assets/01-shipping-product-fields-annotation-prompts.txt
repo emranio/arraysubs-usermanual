@@ -1,1 +1,0 @@
-- rectangle around the subscription shipping type field labeled 'Recurring shipping (Pro)'

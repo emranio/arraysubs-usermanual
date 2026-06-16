@@ -1,1 +1,0 @@
-- rectangle around the checkout builder canvas labeled 'Checkout layout'

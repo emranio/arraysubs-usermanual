@@ -1,3 +1,0 @@
-rectangle around the All Credit Transactions page title labeled 'Credit History'
-rectangle around the history table labeled 'Credit Ledger'
-rectangle around filters or search controls labeled 'Find Transactions'

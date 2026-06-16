@@ -19,12 +19,6 @@
 - **Next guide:** [profile-form](./profile-form.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated My Account Editor screenshot: My Account Editor](my-account-editor.assets/01-my-account-editor-annotated.png)
-
 ## Overview
 
 The My Account Editor gives you full control over the WooCommerce My Account sidebar navigation. By default, WooCommerce shows a fixed set of menu items (Dashboard, Orders, Downloads, Addresses, Account Details, Logout). ArraySubs and its Pro extensions add more items (Subscriptions, My Features, Store Credit). The editor lets you:

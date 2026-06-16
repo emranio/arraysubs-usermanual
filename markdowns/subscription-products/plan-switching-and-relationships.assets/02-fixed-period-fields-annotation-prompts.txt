@@ -1,1 +1,0 @@
-- rectangle around the fixed end date fields labeled 'Fixed-period membership (Pro)'

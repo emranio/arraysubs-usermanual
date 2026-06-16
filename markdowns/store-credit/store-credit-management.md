@@ -19,12 +19,6 @@
 - **Next guide:** [store-credit-settings](./store-credit-settings.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-## Visual Guide
-
-Use these annotated screenshots to match each step in this guide with the actual ArraySubs admin screen.
-
-![Annotated Store Credit Management screenshot: Store Credit Management](store-credit-management.assets/01-store-credit-management-annotated.png)
-
 ## Overview
 
 The Store Credit Management page is the primary admin interface for working with individual customer credit. You can look up any customer by name, username, or email, see their current balance at a glance, add or deduct credit with a note, and scroll through their complete transaction history.

@@ -1,1 +1,0 @@
-- rectangle around the cart and checkout rule toggles labeled 'Store-wide rules'

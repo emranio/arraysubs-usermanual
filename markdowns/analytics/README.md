@@ -40,7 +40,6 @@ All three surfaces share a unified **order type classification system** that aut
 
 Every order that passes through the store is automatically classified into one of six types. This classification powers the filters, columns, and metrics across all analytics surfaces.
 
-
 ## Page Navigation
 
 - **Current guide:** Analytics & Reports
@@ -66,11 +65,6 @@ The classification is stored as order meta (`_arraysubs_computed_type`) and reco
 ```box class="info-box"
 The **Subs Trial** classification is permanent. Even after a trial converts to an active paid subscription, the original order keeps its Subs Trial label because it uses the immutable `_trial_end_date` meta rather than the subscription's current status.
 ```
-
-![Subscription performance cards added to WooCommerce Analytics (Pro)](README.assets/01-analytics-overview-annotated.png)
-
-![The full WooCommerce Analytics overview — subscription KPIs, charts, and leaderboards (Pro)](README.assets/02-overview-full-annotated.png)
-
 
 ## Prerequisites
 
