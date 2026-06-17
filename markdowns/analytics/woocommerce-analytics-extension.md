@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** WooCommerce Analytics Extension *(Pro)*
-- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
+- **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Orders, Revenue, Products, Variations, and Customers
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [subscription-performance](./subscription-performance.md)
 - **Next guide:** [access-rule-conflicts](../audits-and-logs/access-rule-conflicts.md)

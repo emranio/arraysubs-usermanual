@@ -12,8 +12,8 @@
 ## Page Navigation
 
 - **Current guide:** Subscription Performance Dashboard *(Pro)*
-- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
-- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/reports`
+- **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Overview
+- **Direct route:** `/wp-admin/admin.php?page=wc-admin&path=/analytics/overview`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [Retention Analytics](../retention-analytics/README.md)
 - **Next guide:** [woocommerce-analytics-extension](./woocommerce-analytics-extension.md)

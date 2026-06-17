@@ -12,7 +12,8 @@
 ## Page Navigation
 
 - **Current guide:** Retention Analytics
-- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
+- **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Retention
+- **Direct route:** `/wp-admin/admin.php?page=wc-admin&path=/analytics/arraysubs-retention`
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [Reports Hub](../analytics/reports-hub.md)
 - **Next guide:** [Subscription Performance Dashboard](../analytics/subscription-performance.md)

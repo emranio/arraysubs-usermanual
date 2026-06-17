@@ -12,7 +12,8 @@
 ## Page Navigation
 
 - **Current guide:** Order List Enhancements *(Pro)*
-- **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
+- **Where to open it:** WordPress Admin -> WooCommerce -> Orders
+- **Direct route:** `/wp-admin/admin.php?page=wc-orders`
 - **Section overview:** [Open overview](./README.md)
 - **Next guide:** [README](./README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
