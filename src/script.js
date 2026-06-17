@@ -178,34 +178,6 @@
     });
   }
 
-  function initThemeToggle() {
-    var button = document.querySelector("[data-theme-toggle]");
-
-    if (!button) {
-      return;
-    }
-
-    function setTheme(theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("docs-theme", theme);
-
-      var meta = document.querySelector('meta[name="theme-color"]');
-
-      if (meta) {
-        meta.content = theme === "dark" ? "#12002b" : "#ffffff";
-      }
-
-      document.dispatchEvent(
-        new CustomEvent("docs-theme-changed", { detail: theme }),
-      );
-    }
-
-    button.addEventListener("click", function () {
-      var current = document.documentElement.getAttribute("data-theme");
-      setTheme(current === "dark" ? "light" : "dark");
-    });
-  }
-
   function initCookieConsent() {
     var preferenceButtons = document.querySelectorAll("[data-cookie-preferences]");
     var preferenceModal = document.querySelector("[data-cookie-preferences-modal]");
@@ -431,7 +403,6 @@
     initCopyButtons();
     initTocHighlight();
     initSmoothScroll();
-    initThemeToggle();
     initCookieConsent();
   });
 })();
