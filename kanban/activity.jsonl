@@ -247,3 +247,9 @@
 {"timestamp":"2026-06-17T17:52:30.828053+06:00","action":"edit","task_id":74,"detail":"retention-analytics - README.md"}
 {"timestamp":"2026-06-17T17:52:30.841188+06:00","action":"edit","task_id":74,"detail":"retention-analytics - README.md"}
 {"timestamp":"2026-06-17T17:52:30.84132+06:00","action":"release","task_id":74,"detail":"orant-massily"}
+{"timestamp":"2026-06-18T10:32:56.832912711+02:00","action":"move","task_id":3,"detail":"done -\u003e backlog"}
+{"timestamp":"2026-06-18T10:32:56.962716127+02:00","action":"move","task_id":4,"detail":"done -\u003e backlog"}
+{"timestamp":"2026-06-18T10:32:56.970344807+02:00","action":"move","task_id":5,"detail":"done -\u003e backlog"}
+{"timestamp":"2026-06-18T10:32:56.971198321+02:00","action":"move","task_id":6,"detail":"done -\u003e backlog"}
+{"timestamp":"2026-06-18T10:32:56.972056364+02:00","action":"move","task_id":7,"detail":"done -\u003e backlog"}
+{"timestamp":"2026-06-18T10:32:56.972859624+02:00","action":"move","task_id":74,"detail":"done -\u003e backlog"}
