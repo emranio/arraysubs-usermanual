@@ -4,6 +4,6 @@ title: subscription-products - README.md
 status: backlog
 priority: medium
 created: 2026-06-09T18:08:35.369029+06:00
-updated: 2026-06-09T18:10:38.283824+06:00
+updated: 2026-06-21T15:28:41.745913+06:00
 class: standard
 ---
