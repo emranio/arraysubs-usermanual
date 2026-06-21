@@ -1,3 +1,4 @@
 dist/
 node_modules/
 .design-cache/
+kanban/activity.jsonl
