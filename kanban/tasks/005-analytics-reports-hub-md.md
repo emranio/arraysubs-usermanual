@@ -1,10 +1,25 @@
 ---
 id: 5
 title: analytics - reports-hub.md
-status: backlog
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.412128+06:00
-updated: 2026-06-21T15:28:41.723152+06:00
+updated: 2026-06-21T17:19:29.197716+06:00
 started: 2026-06-17T17:38:01.386898+06:00
+completed: 2026-06-21T17:19:29.197716+06:00
+claimed_by: ureteric-rigidist
+claimed_at: 2026-06-21T17:19:29.197716+06:00
 class: standard
 ---
+
+1. `01-reports-hub-full-directory`
+Placement: after `## Overview`
+Surface to cover: ArraySubs -> Reports hub full directory.
+context: The full-page Reports Hub frame shows the page header, summary bar, quick navigation pills, all 12 report categories, Free/Pro badges, report counts, and the lower Member Insights, Store Credit, and Audit Logs sections that appear below the fold.
+Markers:
+- `arrow pointing to the Reports page title, label 'Reports Hub'`
+- `arrow pointing to the summary bar, label 'Category and report totals'`
+- `arrow pointing to Quick Navigation, label 'Jump links'`
+- `arrow pointing to a Pro badge, label 'Pro-only report'`
+- `arrow pointing to a Free badge, label 'Included report'`
+- `arrow pointing to the Audit Logs section near the bottom, label 'Lower categories included'`
