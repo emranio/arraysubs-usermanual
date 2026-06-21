@@ -154,7 +154,7 @@ This means a per-post restriction can be more restrictive or less restrictive th
 | Scenario | Use |
 |----------|-----|
 | All posts of a type should be restricted | Post Type Rule with `Entire Post Type` target |
-| All posts in a category should be restricted | Post Type Rule with `Taxonomy` target |
+| All posts in a category should be restricted | Post Type Rule with `By Taxonomy/Category` target |
 | A few specific posts need different restriction levels | Per-post restrictions on those individual posts |
 | A post type rule exists, but one post should be open to everyone | Set `_arraysubs_restrict_enabled` = `0` on that post — the per-post check returns "not restricted," overriding the global rule |
 
@@ -166,7 +166,7 @@ The following global settings are configured via the **ArraySubs → Member Acce
 
 | Setting | Default | What It Controls |
 |---------|---------|-----------------|
-| **Default Redirect URL** | `/pricing` | The URL visitors are sent to when a rule's action is "redirect" and no rule-specific redirect URL is set. Also used as the target of the "View Plans & Pricing" button on restriction pages. |
+| **Default Redirect URL** | `/pricing` | The URL visitors are sent to when a rule's action is **Redirect to URL** and no rule-specific redirect URL is set. Also used as the target of the "View Plans & Pricing" button on restriction pages. |
 | **Default Message** | "This content is restricted. Please subscribe to access." | The fallback restriction message used when neither the per-post message nor the rule-level message is set. |
 | **Require Login** | `true` | When enabled, logged-out visitors are sent to the WordPress login page before restriction conditions are evaluated. |
 | **Cache Compatibility** | `true` | Prevents page caching plugins from caching restricted page states. See the Cache Compatibility section below. |
@@ -227,7 +227,7 @@ If you turn off Cache Compatibility while running a page caching plugin, cached 
 ## FAQ
 
 ### Can I restrict content and show a teaser at the same time?
-Post Type Rules with `Show normally` archive behavior show the post in listings, but gate the actual content. Visitors see the title and excerpt in archives but must subscribe to read the full content. For more control over the teaser experience, use the `[arraysubs_restrict]` shortcode to wrap only the premium portion of a post — see [Session and Frontend Controls](session-and-frontend-controls.md).
+Post Type Rules with `Show normally (restrict content only)` archive behavior show the post in listings, but gate the actual content. Visitors see the title and excerpt in archives but must subscribe to read the full content. For more control over the teaser experience, use the `[arraysubs_restrict]` shortcode to wrap only the premium portion of a post — see [Session and Frontend Controls](session-and-frontend-controls.md).
 
 ### Does the schedule work with paused subscriptions?
 Paused subscriptions are not `active` or `trial`, so they do not qualify for schedule evaluation. The timer effectively pauses when the subscription is paused and resumes when it becomes active again — because the check compares the current time to the subscription start date, not a running clock.

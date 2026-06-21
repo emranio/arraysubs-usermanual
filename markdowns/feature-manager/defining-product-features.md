@@ -123,7 +123,7 @@ The order is saved when you click **Save** at the bottom of the modal.
 
 1. Open the modal by clicking **Edit Features** on the Feature Manager tab.
 2. Click the **Delete** (trash) icon on the feature row.
-3. Confirm the deletion in the browser confirmation prompt.
+3. Confirm the deletion in the **Delete Feature** confirmation modal.
 4. Click **Save** at the bottom of the modal to finalize.
 
 Deleting a feature removes it from the product. Customers who already purchased this product will no longer see that feature in their My Features page once the product is updated.
@@ -134,11 +134,11 @@ Templates let you save a feature set and reuse it across multiple products, so y
 
 ### Saving a Template
 
-Templates are managed through the REST API. When you define a reusable feature set, it is stored as a named template with all its features.
+Templates are managed through the REST API. When a reusable feature set is saved through the API, it is stored as a named template with all its features.
 
 ### Using a Template
 
-When editing a product, you can load a saved template to populate the feature list quickly. Features loaded from a template can still be customized for this specific product — the template just provides the starting point.
+The current product editor does not expose a template picker. Saved templates are available for integrations through the Feature Manager REST API, while product features are still added or edited directly in the **Manage Features** modal.
 
 ### Template Storage
 

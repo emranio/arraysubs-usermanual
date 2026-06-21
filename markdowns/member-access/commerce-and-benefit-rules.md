@@ -51,7 +51,7 @@ Discounts are evaluated in real-time, per request. They do not modify the produc
 ### Configuring a Discount Rule
 
 1. Go to **ArraySubs → Member Access → Discount**.
-2. Click **Add Rule**.
+2. Click **Add New Rule**.
 3. Set the **IF conditions** (e.g., Has Active Subscription to "Premium Plan").
 4. Configure the **TARGET** section:
 
@@ -65,7 +65,7 @@ Discounts are evaluated in real-time, per request. They do not modify the produc
 
 | Field | Values | What It Does |
 |-------|--------|-------------|
-| **Discount Type** | `Percentage` or `Fixed amount` | Whether the discount is a % off or a flat amount off |
+| **Discount Type** | `Percentage (%)` or `Fixed amount` | Whether the discount is a % off or a flat amount off |
 | **Discount Value** | Number | The percentage (e.g., `20` for 20%) or the fixed amount (e.g., `5` for $5 off) |
 | **Apply To** | `Per item` or `Per cart` (only shown for fixed-amount discounts) | Whether the fixed discount applies to each item individually or as a single cart-level discount |
 
@@ -76,10 +76,10 @@ Discounts are evaluated in real-time, per request. They do not modify the produc
 
 | Setting | Values | Default | Effect |
 |---------|--------|---------|--------|
-| **Discount Target** | `All`, `Specific products`, `Specific categories`, `Specific tags` | `All` | What products the discount applies to |
+| **Discount Target** | `All products`, `Specific products`, `Specific categories`, `Specific tags` | `All products` | What products the discount applies to |
 | **Exclude Products** | Multi-select product IDs | _(empty)_ | Products exempted from the discount |
 | **Exclude Categories** | Multi-select category IDs | _(empty)_ | Categories exempted from the discount |
-| **Discount Type** | `Percentage`, `Fixed` | `Percentage` | Type of discount |
+| **Discount Type** | `Percentage (%)`, `Fixed amount` | `Percentage (%)` | Type of discount |
 | **Discount Value** | Number | `0` | Size of the discount (% or amount) |
 | **Apply To** | `Per item`, `Per cart` | `Per item` | How a fixed discount is distributed (only shown for fixed discounts) |
 
@@ -129,13 +129,13 @@ Ecommerce restriction rules are deeply integrated with WooCommerce:
 ### Configuring an Ecommerce Rule
 
 1. Go to **ArraySubs → Member Access → Ecommerce**.
-2. Click **Add Rule**.
+2. Click **Add New Rule**.
 3. Set the **IF conditions** (e.g., Has Active Subscription).
 4. Configure the **TARGET** section:
 
 | Field | What It Does |
 |-------|-------------|
-| **Restrict access to** | `All products`, `Specific products` (AJAX search), or `Specific categories` (AJAX search) |
+| **Restrict access to** | `Full store (all products)`, `Specific products` (AJAX search), or `Specific categories` (AJAX search) |
 | **Exclude products** | Products exempted from the restriction |
 | **Exclude categories** | Categories exempted from the restriction |
 
@@ -143,10 +143,10 @@ Ecommerce restriction rules are deeply integrated with WooCommerce:
 
 | Action | What Happens |
 |--------|-------------|
-| **Block purchase** | Product is visible, but the add-to-cart button is disabled and a restriction message is shown |
-| **404 Not Found** | Product returns a 404 and is hidden from all catalogs, searches, and sitemaps |
-| **Redirect to login** | Visitor is sent to the WordPress login page |
-| **Redirect to page** | Visitor is sent to a custom URL (e.g., your pricing or signup page) |
+| **Show product, block purchase** | Product is visible, but the add-to-cart button is disabled and a restriction message is shown |
+| **Return 404 (product not found)** | Product returns a 404 and is hidden from all catalogs, searches, and sitemaps |
+| **Redirect to login page** | Visitor is sent to the WordPress login page |
+| **Redirect to a specific page** | Visitor is sent to a custom URL (e.g., your pricing or signup page) |
 
 6. Set a custom **Message** or **Redirect URL** depending on the chosen action.
 7. Optionally enable a **Schedule** for time-delayed access.
@@ -156,10 +156,10 @@ Ecommerce restriction rules are deeply integrated with WooCommerce:
 
 | Setting | Values | Default | Effect |
 |---------|--------|---------|--------|
-| **Restriction Scope** | `All`, `Specific products`, `Specific categories` | `All` | What products are affected |
+| **Restriction Scope** | `Full store (all products)`, `Specific products`, `Specific categories` | `Full store (all products)` | What products are affected |
 | **Exclude Products** | Multi-select product IDs | _(empty)_ | Exceptions even if scope matches |
 | **Exclude Categories** | Multi-select category IDs | _(empty)_ | Category-level exceptions |
-| **Action** | `Block purchase`, `404`, `Redirect to login`, `Redirect to page` | `Block purchase` | What happens for non-qualifying visitors |
+| **Action** | `Show product, block purchase`, `Return 404 (product not found)`, `Redirect to login page`, `Redirect to a specific page` | `Show product, block purchase` | What happens for non-qualifying visitors |
 | **Redirect URL** | URL | _(empty)_ | Destination for redirect actions |
 | **Message** | Text/HTML | _(empty)_ | Custom restriction message for block-purchase action |
 
@@ -208,7 +208,7 @@ Download Rules are completely separate from WooCommerce's native downloadable pr
 ### Configuring a Download Rule
 
 1. Go to **ArraySubs → Member Access → Downloads**.
-2. Click **Add Rule**.
+2. Click **Add New Rule**.
 3. In the **TARGET** section, add files:
    - Click **Add File**.
    - Enter a **Display name** (what the customer sees).

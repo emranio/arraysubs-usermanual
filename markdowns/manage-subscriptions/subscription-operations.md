@@ -66,7 +66,7 @@ Use the status tabs at the top of the list to narrow results:
 
 ### Searching
 
-The search bar accepts customer name, email address, or username. Type at least a few characters and press Enter or click the search icon.
+The search bar accepts customer name, email address, or username. Type at least a few characters and press Enter to refresh the list with matching records.
 
 ### Row Actions
 
@@ -254,24 +254,26 @@ The header shows:
 
 ### Header Action Buttons
 
-Up to four buttons appear in the header, depending on the subscription's state:
+The header actions change depending on the subscription's state and available modules:
 
 | Button | When It Appears | What It Does |
 |--------|----------------|--------------|
 | **Undo Scheduled Cancellation** | When a cancellation is scheduled for end-of-period | Removes the scheduled cancellation and resumes normal renewals. Asks for confirmation first. |
 | **Cancel Subscription** | When the subscription is Active, On Hold, Trial, or Pending and no cancellation is already scheduled | Opens a cancellation modal where you choose Immediate or End of Period and optionally enter a reason. |
+| **Retry Payment** | When the subscription has a failed renewal available for retry | Starts a retry flow that verifies with the payment gateway before attempting the renewal payment again. |
 | **Edit Subscription** | Always | Navigates to the edit form. |
+| **Feature Log** | When Feature Manager data is available for the customer | Opens the customer's entitlement and usage log. |
 | **Login as Customer** | When the subscription has a valid customer | Opens the store frontend logged in as that customer (requires the Login as User module). Includes a back-URL so you can return to the admin. |
 
 ### Cancel Subscription Modal
 
 When you click **Cancel Subscription**, a modal appears with:
 
-1. A warning message: "Are you sure you want to cancel this subscription?"
-2. Two radio options:
+1. Two radio options:
    - **Cancel Immediately** — the subscription is cancelled right now and the customer loses access.
    - **Cancel at End of Period** — the subscription stays active until the next payment date, then cancels automatically. No further payments are collected.
-3. An optional **Reason** text field.
+2. An optional **Reason** dropdown.
+3. An optional **Additional Details** field.
 4. Two buttons: **Keep Subscription** (closes the modal) and **Confirm Cancellation** (executes the cancellation).
 
 ### Information Cards

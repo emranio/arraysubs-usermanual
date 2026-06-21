@@ -51,7 +51,7 @@ This discourages credential sharing without blocking legitimate login attempts.
 
 ## Global Default vs Login Limit Rules
 
-The Toolkit setting is the global fallback. If a user matches a **Login Limit** rule in **Members Access -> Login Limit**, the rule's session limit overrides the global Toolkit value.
+The Toolkit setting is the global fallback. If a user matches a **Login Limit** rule in **Member Access -> Login Limit**, the rule's session limit overrides the global Toolkit value.
 
 Use this pattern:
 

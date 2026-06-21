@@ -56,12 +56,12 @@ When the Pro plugin is active, the Member Insight feature injects **Member Detai
 | Screen | Where the shortcut appears | What it looks like |
 |--------|----------------------------|--------------------|
 | **All Subscriptions list** | Customer name column | The customer name link redirects to the member profile instead of the WordPress user editor |
-| **WooCommerce order edit** | Below the order details section | A **Open Member Details** button |
+| **WooCommerce order edit** | Below the order details section | An **Open Member Details** button |
 | **WooCommerce order preview** | Quick-view modal actions | A **Member details** action link |
 | **WordPress user edit page** | Near the page heading | A **Member Details** button |
 | **WooCommerce Analytics → Customers** | Under each customer's username in the report table | A **Member details** action link |
 
-All shortcuts open the Manage Members page at `#/member-insight/{user_id}` and automatically load the customer's profile.
+All shortcuts open the Manage Members page at `#/manage-members/{user_id}` and automatically load the customer's profile.
 
 ---
 

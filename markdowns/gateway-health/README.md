@@ -12,7 +12,8 @@
 ## Page Navigation
 
 - **Current guide:** Gateway Health
-- **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> Payment Gateways
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta] -> Gateway Logs
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/gateways`
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [Auto-Renew and Manual Fallback](../checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md)
 - **Next guide:** [Payment Recovery](../checkout-and-payments/automatic-payments/payment-recovery.md)
@@ -22,7 +23,7 @@
 
 The Gateway Health Dashboard gives you a single view of every payment gateway's status, connection health, and recent webhook activity. Use it to verify your gateway setup is working, confirm Stripe's auto-provisioned ArraySubs webhook status, find provider webhook URLs where manual setup is still required, and diagnose webhook delivery issues.
 
-**Navigation:** **ArraySubs → Settings → Payment Gateways**
+**Navigation:** **ArraySubs → Audits [beta] → Gateway Logs**. The admin page title is **Payment Gateways**.
 
 ## Gateway Status Cards
 

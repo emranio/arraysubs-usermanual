@@ -127,7 +127,7 @@ The skip feature lets you (or the customer) skip one or more upcoming renewal cy
 
 | Action | What It Does |
 |--------|--------------|
-| **Skip Next Renewal** | Opens a modal where you set the number of cycles to skip (up to the configured maximum, default 3) and an optional reason |
+| **Skip Renewal** | Opens a modal where you set the number of cycles to skip (up to the configured maximum, default 3) and an optional reason |
 | **Modify Skip** | Opens a modal to change the number of remaining skip cycles |
 | **Undo Skip** | Cancels the active skip and restores the original next payment date. Requires confirmation. |
 

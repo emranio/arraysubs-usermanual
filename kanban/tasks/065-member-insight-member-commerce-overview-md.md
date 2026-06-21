@@ -1,9 +1,33 @@
 ---
 id: 65
 title: member-insight - member-commerce-overview.md
-status: backlog
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.010989+06:00
-updated: 2026-06-21T15:28:41.738728+06:00
+updated: 2026-06-22T02:14:32.165754+06:00
+started: 2026-06-22T02:12:52.950004+06:00
+completed: 2026-06-22T02:14:32.16981+06:00
+claimed_by: codex-screenshot
+claimed_at: 2026-06-22T02:14:32.165754+06:00
 class: standard
 ---
+
+Processed with take-screenshot.
+
+Source markdown: `markdowns/member-insight/member-commerce-overview.md`
+
+Screenshots captured:
+
+- `markdowns/member-insight/member-commerce-overview.ASSETS/01-member-commerce-subscriptions-original.png`
+  - Placement/context: Use in the Subscriptions section.
+  - Marker notes: Shows the `cust1` profile with stats, quick links, and the expanded Subscriptions table with ID, product, status, total, billing, next payment, created date, and View action.
+- `markdowns/member-insight/member-commerce-overview.ASSETS/02-purchased-products-expanded-original.png`
+  - Placement/context: Use in the Purchased Products (Non-Subscription) section.
+  - Marker notes: Shows the purchased-products accordion expanded with Product, Type, Qty Purchased, and Total Spent columns.
+- `markdowns/member-insight/member-commerce-overview.ASSETS/03-addresses-expanded-original.png`
+  - Placement/context: Use in the Addresses section.
+  - Marker notes: Shows the member commerce page with Addresses expanded below the subscription and purchased-products accordions.
+
+Source updates:
+
+- Fixed the Page Navigation **Previous guide** link so README points to `./README.md` instead of the Getting Started README.

@@ -43,8 +43,8 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 ### How It Works
 
 1. When a subscriber logs in, the Multi-Login Prevention system evaluates all enabled Login Limit rules.
-2. For each rule where the subscriber meets the IF conditions, the `Max Sessions` value is extracted.
-3. If multiple rules match, the **highest** `Max Sessions` value wins (most permissive).
+2. For each rule where the subscriber meets the IF conditions, the `Max Allowed Sessions` value is extracted.
+3. If multiple rules match, the **highest** `Max Allowed Sessions` value wins (most permissive).
 4. If no rules match, the system falls back to the **global default** set in Toolkit Settings.
 5. If the subscriber's active session count exceeds the limit, the **oldest sessions are destroyed** automatically. The newest login always survives.
 6. Evicted sessions are detected via the WordPress heartbeat API, and the evicted browser tabs are redirected to the login page.
@@ -53,7 +53,7 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 
 1. Ensure **Multi-Login Prevention** is enabled at **ArraySubs → Settings → Toolkit**.
 2. Go to **ArraySubs → Member Access → Login Limit**.
-3. Click **Add Rule**.
+3. Click **Add New Rule**.
 4. Set the **IF conditions** — for example, "Has Active Subscription" to your Basic plan product.
 5. Set the **THEN** field:
 
@@ -61,7 +61,7 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 |-------|-------------|
 | **Max Allowed Sessions** | Maximum number of concurrent login sessions for subscribers matching this rule. Minimum value is 1. |
 
-6. Click **Save**.
+6. Click **Save Rules**.
 
 ### Settings Reference
 
@@ -74,13 +74,13 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 | Scenario | Effective Limit |
 |----------|----------------|
 | No Login Limit rules match the subscriber | Global default from Toolkit Settings (`multi_login_max_sessions`) |
-| One rule matches | That rule's `Max Sessions` value |
-| Multiple rules match | The **highest** `Max Sessions` value from any matching rule |
-| Rule has `Max Sessions = 3`, global default is `1` | `3` (rule overrides global default) |
+| One rule matches | That rule's `Max Allowed Sessions` value |
+| Multiple rules match | The **highest** `Max Allowed Sessions` value from any matching rule |
+| Rule has `Max Allowed Sessions = 3`, global default is `1` | `3` (rule overrides global default) |
 
 ### Admin Exemption
 
-By default, administrators (`manage_options` capability) are exempt from session limits. To include admins, enable the **Include administrators** toggle in **ArraySubs → Settings → Toolkit → Multi-Login Prevention**.
+By default, administrators (`manage_options` capability) are exempt from session limits. To include admins, enable the **Apply to administrators** toggle in **ArraySubs → Settings → Toolkit → Multi-Login Prevention**.
 
 ### Impersonation Sessions
 
@@ -213,7 +213,7 @@ Must be logged in and have an active subscription.
 |---------|----------------------------------|-----------------|
 | **Scope** | Specific portion of a page | Entire post/page |
 | **Configuration** | Inline in content editor | Admin UI at Member Access → Post Types |
-| **Archive behavior** | Not applicable — page itself is accessible | Configurable (hide, show with lock, show normally) |
+| **Archive behavior** | Not applicable — page itself is accessible | Configurable (hide, show with lock, show normally / restrict content only) |
 | **Drip/schedule** | Not built-in (use Post Type Rules for drip) | Built-in schedule option |
 | **Nesting** | Can be nested inside other shortcodes | N/A |
 | **Ideal for** | Teaser pages with both free and premium sections | Full-page restrictions |

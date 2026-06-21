@@ -22,7 +22,7 @@
 
 Member Access is the rule engine behind content gating, product restrictions, member discounts, download provisioning, automatic role assignment, and session controls in ArraySubs. Instead of locking content behind a single "members only" toggle, you build layered rules with conditions, targets, actions, and optional scheduling — giving you precise control over what each subscriber group can access, purchase, and download.
 
-Everything is managed from one admin screen at **ArraySubs → Member Access**, organized into seven tabs:
+Everything is managed from one admin screen at **ArraySubs → Member Access**, organized into eight tabs:
 
 | Tab | What It Controls |
 |-----|-----------------|
@@ -32,6 +32,7 @@ Everything is managed from one admin screen at **ArraySubs → Member Access**, 
 | **URL** | Block access to specific pages or URL patterns on your site |
 | **Post Types** | Gate posts, pages, and custom post types behind subscription conditions |
 | **Downloads** | Provision downloadable files to qualifying subscribers via My Account |
+| **Conflicts** | Review overlapping or competing rules before they affect customers |
 | **Login Limit** *(Pro)* | Cap concurrent login sessions per subscriber tier |
 
 Every tab uses the same rule builder interface: define **who qualifies** (IF conditions), **what is affected** (TARGET), **what happens** (THEN action), and optionally **when it unlocks** (SCHEDULE for drip content).
@@ -78,7 +79,7 @@ For example, a Post Type rule with a 30-day schedule means a new subscriber must
 
 1. Go to **ArraySubs → Member Access**.
 2. Choose the tab for the rule type you need (Role Mapping, Discount, Ecommerce, URL, Post Types, Downloads, or Login Limit).
-3. Click **Add Rule**.
+3. Click **Add New Rule**.
 4. Name your rule.
 5. Set the IF conditions (e.g., Has Active Subscription to "Gold Membership").
 6. Set the TARGET if the rule type requires one (e.g., specific product categories for a discount).

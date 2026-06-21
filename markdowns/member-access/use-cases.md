@@ -43,15 +43,15 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 3. Go to **ArraySubs → Member Access → Post Types**.
 4. Create 12 rules, one per week:
 
-| Rule | Target Type | Taxonomy | Terms | IF Condition | Schedule |
+| Rule | Target Type | Taxonomy/Category | Terms | IF Condition | Schedule |
 |------|------------|----------|-------|-------------|----------|
-| Week 1 | Taxonomy | Category | Week 1 | Has Active Subscription to "12-Week Course" | _(none — immediate)_ |
-| Week 2 | Taxonomy | Category | Week 2 | Has Active Subscription to "12-Week Course" | 7 days |
-| Week 3 | Taxonomy | Category | Week 3 | Has Active Subscription to "12-Week Course" | 14 days |
+| Week 1 | By Taxonomy/Category | Category | Week 1 | Has Active Subscription to "12-Week Course" | _(none — immediate)_ |
+| Week 2 | By Taxonomy/Category | Category | Week 2 | Has Active Subscription to "12-Week Course" | 7 days |
+| Week 3 | By Taxonomy/Category | Category | Week 3 | Has Active Subscription to "12-Week Course" | 14 days |
 | ... | ... | ... | ... | ... | ... |
-| Week 12 | Taxonomy | Category | Week 12 | Has Active Subscription to "12-Week Course" | 77 days |
+| Week 12 | By Taxonomy/Category | Category | Week 12 | Has Active Subscription to "12-Week Course" | 77 days |
 
-5. Set **Action** to `Message` with a message like: "This lesson unlocks on {unlock_date}. Keep up with the schedule!"
+5. Set **Action when denied** to `Show message` with a message like: "This lesson unlocks on {unlock_date}. Keep up with the schedule!"
 6. Set **Archive Behavior** to `Show with lock` so students can see upcoming lesson titles.
 
 **What happens:**
@@ -70,12 +70,12 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → Discount**.
-2. Click **Add Rule** and name it "6-Month Loyalty Discount".
+2. Click **Add New Rule** and name it "6-Month Loyalty Discount".
 3. **IF conditions:** Has Active Subscription (any product) **AND** schedule enabled, 180 days.
-4. **TARGET:** All products.
+4. **TARGET:** Full store (all products).
 5. **Exclude categories:** Add your "Subscription Plans" category to prevent discounts on subscription products themselves.
-6. **THEN:** Discount Type = `Percentage`, Discount Value = `15`.
-7. Save.
+6. **THEN:** Discount Type = `Percentage (%)`, Discount Value = `15`.
+7. Save the rules.
 
 **What happens:**
 - New subscribers see regular prices for their first 6 months.
@@ -94,11 +94,11 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → Ecommerce**.
-2. Click **Add Rule** and name it "Wholesale Members Only".
+2. Click **Add New Rule** and name it "Wholesale Members Only".
 3. **IF conditions:** Has Active Subscription to "Wholesale Membership".
-4. **TARGET:** All products.
-5. **THEN:** Action = `Redirect to page`, Redirect URL = `/become-a-member`.
-6. Save.
+4. **TARGET:** Full store (all products).
+5. **THEN:** Action = `Redirect to a specific page`, Redirect URL = `/become-a-member`.
+6. Save the rules.
 
 **What happens:**
 - Non-members who visit any product page are redirected to your membership signup page.
@@ -145,15 +145,15 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → URL**.
-2. Click **Add Rule** and name it "Community Area".
+2. Click **Add New Rule** and name it "Community Area".
 3. **TARGET:**
-   - Pattern Type: `Prefix`
+   - Match Type: `Starts with`
    - URL Pattern: `/community/`
    - Priority: `10`
    - Exclusions: `/community/about/, /community/preview/`
 4. **IF conditions:** Has Active Subscription (any product).
-5. **THEN:** Action = `Redirect`, Redirect URL = `/pricing`.
-6. Save.
+5. **THEN:** Action = `Redirect to URL`, Redirect URL = `/pricing`.
+6. Save the rules.
 
 **What happens:**
 - `/community/forum`, `/community/events`, `/community/resources` — all require an active subscription. Non-members are redirected to `/pricing`.
@@ -171,15 +171,15 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → Post Types**.
-2. Click **Add Rule** and name it "Premium Articles".
+2. Click **Add New Rule** and name it "Premium Articles".
 3. **TARGET:**
-   - Target Type: `Taxonomy`
-   - Taxonomy: `Category`
+   - Target Type: `By Taxonomy/Category`
+   - Taxonomy/Category: `Category`
    - Terms: Select "Premium Articles"
 4. **IF conditions:** Has Active Subscription (any product).
-5. **THEN:** Action = `Message`, Message = "This article is available to subscribers only. {pricing_link} to view our plans."
-6. **Archive Behavior:** `Show normally` — premium articles still appear in listings and search, but the full content is gated.
-7. Save.
+5. **THEN:** Action = `Show message`, Message = "This article is available to subscribers only. {pricing_link} to view our plans."
+6. **Archive Behavior:** `Show normally (restrict content only)` — premium articles still appear in listings and search, but the full content is gated.
+7. Save the rules.
 
 **What happens:**
 - Free Articles are accessible to everyone.
@@ -198,11 +198,11 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → Ecommerce**.
-2. Click **Add Rule** and name it "Premium Products — Members Only".
+2. Click **Add New Rule** and name it "Premium Products — Members Only".
 3. **IF conditions:** Has Active Subscription (any product) **AND** Lifetime Purchase Amount >= $200.
 4. **TARGET:** Specific categories → select "Premium Products" category.
-5. **THEN:** Action = `Block purchase`, Message = "This product is available to members who have spent $200 or more. Upgrade your membership to unlock."
-6. Save.
+5. **THEN:** Action = `Show product, block purchase`, Message = "This product is available to members who have spent $200 or more. Upgrade your membership to unlock."
+6. Save the rules.
 
 **What happens:**
 - The premium products are visible on the shop page to everyone.
@@ -221,14 +221,14 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → Downloads**.
-2. Click **Add Rule** and name it "Pro Templates Library".
+2. Click **Add New Rule** and name it "Pro Templates Library".
 3. **TARGET:** Add files:
    - "Business Proposal Template" → upload `business-proposal.docx`
    - "Invoice Template" → upload `invoice-template.xlsx`
    - "Brand Guidelines Kit" → upload `brand-guidelines.zip`
 4. **IF conditions:** Has Active Subscription to "Pro Plan".
 5. No schedule needed — all files available immediately.
-6. Save.
+6. Save the settings.
 
 When new templates are released, simply edit this rule and add new files.
 
@@ -273,11 +273,11 @@ Create three Download Rules:
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → Discount**.
-2. Click **Add Rule** and name it "Gold Member — $25 Off".
+2. Click **Add New Rule** and name it "Gold Member — $25 Off".
 3. **IF conditions:** Has Active Subscription to "Gold Plan".
-4. **TARGET:** All products.
-5. **THEN:** Discount Type = `Fixed`, Discount Value = `25`, Apply To = `Per cart`.
-6. Save.
+4. **TARGET:** Full store (all products).
+5. **THEN:** Discount Type = `Fixed amount`, Discount Value = `25`, Apply To = `Per cart`.
+6. Save the rules.
 
 **What happens:**
 - Gold members see a **-$25.00 Member Discount** fee line in their cart and checkout.
@@ -290,7 +290,7 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 
 ---
 
-## 11. Restricting a Forum with Regex URL Patterns
+## 11. Restricting a Forum with Regular Expression URL Patterns
 
 **Industry:** Community / SaaS  
 **Rule types:** URL Rules
@@ -299,15 +299,15 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → URL**.
-2. Click **Add Rule** and name it "Forum Boards — Members Only".
+2. Click **Add New Rule** and name it "Forum Boards — Members Only".
 3. **TARGET:**
-   - Pattern Type: `Regex`
+   - Match Type: `Regular expression`
    - URL Pattern: `^/forum/board-[0-9]+/`
    - Priority: `5`
    - Exclusions: _(none — the regex already excludes non-numeric paths)_
 4. **IF conditions:** Has Active Subscription (any product).
-5. **THEN:** Action = `Login` (redirects non-logged-in visitors to login, then re-evaluates).
-6. Save.
+5. **THEN:** Action = `Redirect to login` (redirects non-logged-in visitors to login, then re-evaluates).
+6. Save the rules.
 
 **What happens:**
 - `/forum/board-1/`, `/forum/board-42/` → restricted to active subscribers.
@@ -328,19 +328,19 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 2. Go to **ArraySubs → Member Access → Login Limit**.
 3. Create three rules:
 
-| Rule | IF Condition | Max Sessions |
+| Rule | IF Condition | Max Allowed Sessions |
 |------|-------------|-------------|
 | Basic Limit | Has Active Subscription to "Basic Plan" | 1 |
 | Standard Limit | Has Active Subscription to "Standard Plan" | 3 |
 | Premium Limit | Has Active Subscription to "Premium Plan" | 5 |
 
-4. Save.
+4. Save the rules.
 
 **What happens:**
 - A Basic subscriber logged in on their laptop who also logs in on their phone will have the laptop session evicted (oldest first).
 - A Standard subscriber can use 3 devices simultaneously. The 4th login evicts the oldest session.
 - If a subscriber qualifies for both Standard and Premium rules (e.g., they have two subscriptions), the highest limit (5) applies.
-- Admins are exempt by default unless **Include administrators** is enabled in Toolkit.
+- Admins are exempt by default unless **Apply to administrators** is enabled in Toolkit.
 
 ---
 
@@ -362,7 +362,7 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 1. Go to **ArraySubs → Member Access → Ecommerce**.
 2. Create a rule: IF "Has Active Subscription to Supplier Partnership". Schedule = 30 days.
 3. TARGET: Specific categories → "Supplier Catalog".
-4. THEN: Action = `404`.
+4. THEN: Action = `Return 404 (product not found)`.
 
 **What happens:**
 - New supplier members get the `verified_supplier` role immediately (useful for other plugins).
@@ -418,12 +418,12 @@ This final section is also free for everyone.
 
 **The setup:**
 1. Go to **ArraySubs → Member Access → Post Types**.
-2. Click **Add Rule** and name it "Photography Resources — Buyers Only".
+2. Click **Add New Rule** and name it "Photography Resources — Buyers Only".
 3. **TARGET:** Target Type = `Specific Posts`, select the "Photography Resources" page.
 4. **IF conditions:** Purchased Product → product #456.
-5. **THEN:** Action = `Message`, Message = "Purchase the Advanced Photography Guide to access these resources."
+5. **THEN:** Action = `Show message`, Message = "Purchase the Advanced Photography Guide to access these resources."
 6. **Archive Behavior:** `Hide`.
-7. Save.
+7. Save the rules.
 
 **What happens:**
 - Customers who bought product #456 see the Photography Resources page.
@@ -442,16 +442,16 @@ This final section is also free for everyone.
 **The setup:**
 
 **Rule 1 — Standard Reports:**
-1. TARGET: Taxonomy → Category → "Standard Reports".
+1. TARGET: By Taxonomy/Category → Category → "Standard Reports".
 2. IF: Has Active Subscription (any product).
-3. THEN: Message. Archive Behavior: Show normally.
+3. THEN: Show message. Archive Behavior: Show normally (restrict content only).
 
 **Rule 2 — Executive Reports:**
-1. TARGET: Taxonomy → Category → "Executive Reports".
+1. TARGET: By Taxonomy/Category → Category → "Executive Reports".
 2. IF: Condition logic = `OR`:
    - Has Active Subscription to "Enterprise Plan"
    - Lifetime Purchase Amount >= $5,000
-3. THEN: Message = "Executive Reports are available to Enterprise subscribers and customers with $5,000+ in lifetime purchases." Archive Behavior: Show with lock.
+3. THEN: Show message = "Executive Reports are available to Enterprise subscribers and customers with $5,000+ in lifetime purchases." Archive Behavior: Show with lock.
 
 **What happens:**
 - Standard Reports are accessible to all active subscribers. Non-subscribers see the article titles in archives but get a message when clicking.
@@ -502,13 +502,13 @@ Monitor who's doing what across your organization...
 | 2 | VIP loyalty discount | Discount + Schedule | Time-delayed member pricing |
 | 3 | Members-only wholesale store | Ecommerce | Full catalog restriction |
 | 4 | Tiered role mapping for LMS | Role Mapping | Multi-tier role assignment |
-| 5 | Private community URL area | URL | Prefix matching + exclusions |
+| 5 | Private community URL area | URL | Starts with matching + exclusions |
 | 6 | Magazine premium articles | Post Type | Category-based gating |
 | 7 | Purchase-restricted products | Ecommerce | Lifetime spend + subscription condition |
 | 8 | Subscription file downloads | Downloads | Member-gated file library |
 | 9 | Drip-access training materials | Downloads + Schedule | Timed download unlock |
 | 10 | Per-cart flat discount | Discount | Cart-level fee discount |
-| 11 | Regex forum restriction | URL | Regex + login redirect |
+| 11 | Regular expression forum restriction | URL | Regular expression + login redirect |
 | 12 | Streaming session limits *(Pro)* | Login Limit | Per-tier concurrent sessions |
 | 13 | Supplier catalog with waiting period | Ecommerce + Role + Schedule | 30-day access delay |
 | 14 | Inline content gating on sales page | `[arraysubs_restrict]` | Partial page restriction |

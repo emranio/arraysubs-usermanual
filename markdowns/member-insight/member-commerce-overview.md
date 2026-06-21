@@ -14,7 +14,7 @@
 - **Current guide:** Member Commerce Overview
 - **Where to open it:** WordPress Admin -> ArraySubs -> Manage Members
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [README](../getting-started/README.md)
+- **Previous guide:** [README](./README.md)
 - **Next guide:** [member-lookup-and-profiles](./member-lookup-and-profiles.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 

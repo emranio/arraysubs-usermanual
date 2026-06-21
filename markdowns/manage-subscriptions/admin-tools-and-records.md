@@ -41,7 +41,7 @@ The Feature Log shows what product entitlements (features) a customer has access
 
 ### How to Access
 
-Navigate to **ArraySubs → Subscriptions → Feature Log** (or follow the link from a Manage Members profile). The page requires a `user_id` parameter and displays feature data for that customer.
+Open a subscription detail screen and click **Feature Log** in the header (or follow the link from a Manage Members profile). The route uses `/subscriptions/feature-log?user_id=...` and displays feature data for that customer.
 
 ### What It Shows
 

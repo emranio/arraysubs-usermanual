@@ -12,7 +12,8 @@
 ## Page Navigation
 
 - **Current guide:** Import / Export Settings
-- **Where to open it:** WordPress Admin -> ArraySubs
+- **Where to open it:** WordPress Admin -> ArraySubs -> Easy Setup
+- **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [first-time-setup](./first-time-setup.md)
 - **Next guide:** [README](./README.md)

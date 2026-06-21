@@ -48,7 +48,7 @@ When a subscription status changes, the Role Manager evaluates all enabled Role 
 ### Configuring a Role Mapping Rule
 
 1. Go to **ArraySubs → Member Access → Role Mapping**.
-2. Click **Add Rule**.
+2. Click **Add New Rule**.
 3. Name the rule (e.g., "Gold Members get Editor role").
 4. Set the **IF conditions** — for example, "Has Active Subscription" to your Gold Membership product.
 5. Set the **THEN** fields:
@@ -105,20 +105,20 @@ Pattern matching supports four modes:
 
 | Pattern Type | Matches | Example Pattern | Would Match |
 |-------------|---------|----------------|-------------|
-| **Prefix** | URL starts with the pattern | `/members/` | `/members/courses`, `/members/dashboard` |
+| **Starts with** | URL starts with the pattern | `/members/` | `/members/courses`, `/members/dashboard` |
 | **Contains** | URL includes the pattern anywhere | `premium` | `/courses/premium-videos`, `/premium/` |
-| **Exact** | URL matches exactly | `/members/secret-page` | Only `/members/secret-page` |
-| **Regex** | URL matches a regular expression | `^/courses/level-[0-9]+$` | `/courses/level-1`, `/courses/level-5` |
+| **Exact match** | URL matches exactly | `/members/secret-page` | Only `/members/secret-page` |
+| **Regular expression** | URL matches a regular expression | `^/courses/level-[0-9]+$` | `/courses/level-1`, `/courses/level-5` |
 
 ### Configuring a URL Rule
 
 1. Go to **ArraySubs → Member Access → URL**.
-2. Click **Add Rule**.
+2. Click **Add New Rule**.
 3. Configure the **TARGET** section:
 
 | Field | What It Does | Example |
 |-------|-------------|---------|
-| **Pattern Type** | How the URL is matched | `Prefix` |
+| **Pattern Type** | How the URL is matched | `Starts with` |
 | **URL Pattern** | The URL path to match against | `/members/` |
 | **Priority** | Evaluation order (1–100, lower = higher priority) | `10` |
 | **Exclusions** | Comma-separated paths that are exempt from the rule | `/members/public/, /members/signup/` |
@@ -128,10 +128,10 @@ Pattern matching supports four modes:
 
 | Action | What Happens |
 |--------|-------------|
-| **Redirect** | Sends the visitor to the specified redirect URL |
-| **Message** | Displays a custom HTML message on the page |
-| **403 Forbidden** | Returns a 403 HTTP status |
-| **Login** | Redirects to the WordPress login page |
+| **Redirect to URL** | Sends the visitor to the specified redirect URL |
+| **Show message** | Displays a custom HTML message on the page |
+| **Show 403 forbidden** | Returns a 403 HTTP status |
+| **Redirect to login** | Redirects to the WordPress login page |
 
 6. Optionally enable a **Schedule** to delay access (drip content).
 7. Click **Save**.
@@ -140,13 +140,13 @@ Pattern matching supports four modes:
 
 | Setting | Values | Default | Effect |
 |---------|--------|---------|--------|
-| **Pattern Type** | `Prefix`, `Contains`, `Exact`, `Regex` | `Prefix` | How the URL is matched against the pattern |
+| **Pattern Type** | `Starts with`, `Contains`, `Exact match`, `Regular expression` | `Starts with` | How the URL is matched against the pattern |
 | **URL Pattern** | String | _(empty)_ | The URL path or pattern to protect |
 | **Priority** | Number (1–100) | `10` | Lower = evaluated first; first failing rule wins |
 | **Exclusions** | Comma-separated paths | _(empty)_ | Paths exempt from the rule even when the pattern matches |
-| **Action** | `Redirect`, `Message`, `403 Forbidden`, `Login` | `Redirect` | What happens when a non-qualifying visitor hits the URL |
+| **Action** | `Redirect to URL`, `Show message`, `Show 403 forbidden`, `Redirect to login` | `Redirect to URL` | What happens when a non-qualifying visitor hits the URL |
 | **Redirect URL** | URL | _(empty)_ | Destination for redirect action |
-| **Message** | Text/HTML | _(empty)_ | Content shown for message action |
+| **Access Denied Message** | Text/HTML | _(empty)_ | Content shown for the message action |
 
 ### Edge Cases
 
@@ -157,9 +157,9 @@ Pattern matching supports four modes:
 
 ---
 
-## Post Type Rules
+## Post Type / CPT Rules
 
-**Tab:** ArraySubs → Member Access → **Post Types**
+**Tab:** ArraySubs → Member Access → **Post Types** (the screen heading is **CPT Rules**)
 
 Post Type Rules restrict access to WordPress posts, pages, and custom post types. You can gate an entire post type, specific taxonomy terms, or hand-picked individual posts.
 
@@ -172,18 +172,18 @@ The system supports three targeting modes:
 | Target Type | What It Restricts | Example |
 |------------|-------------------|---------|
 | **Entire Post Type** | All content of a given post type | All `post` entries |
-| **Taxonomy** | Posts in specific categories, tags, or custom taxonomy terms | Posts in category "Premium Guides" |
-| **Specific Posts** | Individual posts or pages by ID | Post #142 and Post #305 only |
+| **By Taxonomy/Category** | Posts in specific categories, tags, or custom taxonomy terms | Posts in category "Premium Guides" |
+| **Specific Posts/Pages** | Individual posts or pages by ID | Post #142 and Post #305 only |
 
 ### Configuring a Post Type Rule
 
 1. Go to **ArraySubs → Member Access → Post Types**.
-2. Click **Add Rule**.
+2. Click **Add New Rule**.
 3. Configure the **TARGET** section:
 
 | Field | What It Does |
 |-------|-------------|
-| **Target Type** | `Entire Post Type`, `By Taxonomy`, or `Specific Posts/Pages` |
+| **Target Type** | `Entire Post Type`, `By Taxonomy/Category`, or `Specific Posts/Pages` |
 | **Post Type** | Which post type to restrict (shown for Entire Post Type and Specific Posts targeting) |
 | **Taxonomy** | Which taxonomy to filter by (shown for Taxonomy targeting) |
 | **Terms** | Which terms within the taxonomy (AJAX search) |
@@ -195,16 +195,17 @@ The system supports three targeting modes:
 | Action | What Happens |
 |--------|-------------|
 | **Redirect** | Sends the visitor to a redirect URL |
-| **Message** | Replaces the post content with a restriction message |
-| **403 Forbidden** | Returns a 403 HTTP status |
+| **Show message** | Replaces the post content with a restriction message |
+| **Show 403 forbidden** | Returns a 403 HTTP status |
+| **Redirect to URL** | Sends the visitor to a redirect URL |
 
 6. Set the **Archive Behavior**:
 
 | Behavior | Effect on Archive/Listing Pages |
 |----------|-------------------------------|
-| **Hide** | Restricted posts are completely hidden from archives, search results, and listings |
-| **Show with lock** | Posts appear in archives with a lock indicator, but content is gated on click |
-| **Show normally** | Posts appear normally in archives; content is only gated when the visitor opens the post |
+| **Hide from archives/listings** | Restricted posts are completely hidden from archives, search results, and listings |
+| **Show with lock icon** | Posts appear in archives with a lock indicator, but content is gated on click |
+| **Show normally (restrict content only)** | Posts appear normally in archives; content is only gated when the visitor opens the post |
 
 7. Optionally enable a **Schedule** for drip content.
 8. Click **Save**.
@@ -213,13 +214,13 @@ The system supports three targeting modes:
 
 | Setting | Values | Default | Effect |
 |---------|--------|---------|--------|
-| **Target Type** | `Entire Post Type`, `Taxonomy`, `Specific Posts` | `Entire Post Type` | Determines what content the rule covers |
+| **Target Type** | `Entire Post Type`, `By Taxonomy/Category`, `Specific Posts/Pages` | `Entire Post Type` | Determines what content the rule covers |
 | **Post Type** | WordPress post type slug | `post` | Which post type is affected |
 | **Taxonomy** | Taxonomy slug | _(none)_ | Filter by taxonomy (only for Taxonomy target) |
 | **Terms** | Multi-select term IDs | _(empty)_ | Specific terms within the taxonomy |
 | **Posts/Pages** | Multi-select post IDs | _(empty)_ | Individual posts to restrict |
-| **Action** | `Redirect`, `Message`, `403 Forbidden` | `Message` | What happens for non-qualifying visitors |
-| **Archive Behavior** | `Hide`, `Show with lock`, `Show normally` | `Hide` | How restricted posts appear in listings |
+| **Action** | `Redirect to URL`, `Show message`, `Show 403 forbidden` | `Show message` | What happens for non-qualifying visitors |
+| **Archive Behavior** | `Hide from archives/listings`, `Show with lock icon`, `Show normally (restrict content only)` | `Hide from archives/listings` | How restricted posts appear in listings |
 | **Redirect URL** | URL | _(empty)_ | Destination for redirect action |
 | **Message** | Text/HTML | _(empty)_ | Custom restriction message shown to non-qualifying visitors |
 

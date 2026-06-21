@@ -239,7 +239,7 @@ ArraySubs supports two cancellation modes.
 
 ### Immediate Cancellation
 
-The subscription is cancelled right now. Available from the [Cancel Subscription](#) button on the detail page or the status change control on the edit page.
+The subscription is cancelled right now. Available from the **Cancel Subscription** button on the detail page or the status change control on the edit page.
 
 **What happens:**
 1. Status changes to **Cancelled**.
