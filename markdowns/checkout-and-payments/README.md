@@ -1,7 +1,7 @@
 # Info
 - Module: Checkout and Payments
 - Availability: Shared
-- Last updated: 2026-04-03
+- Last updated: 2026-06-21
 
 # Checkout and Payments
 
@@ -28,10 +28,10 @@ Connect your store to Stripe, PayPal, or Paddle for hands-free recurring billing
 
 ### Checkout Builder *(Pro)*
 
-Replace the default WooCommerce checkout form with a fully customizable, multi-step checkout experience. Drag and drop 27 field types, apply conditional visibility rules, style every element, and capture custom data that flows through to orders, subscriptions, and renewal invoices.
+Replace the default WooCommerce classic checkout form with a fully customizable, multi-step checkout experience. Drag and drop 28 element types, apply conditional visibility rules, style every element, and capture custom data that flows through to orders, subscriptions, and renewal invoices.
 
 - [Checkout Builder Overview](checkout-builder/README.md) — Builder interface, multi-step navigation, field types, design panel, and settings.
-- [Field Types Reference](checkout-builder/field-types.md) — All 27 field types: 9 standard inputs, 9 advanced inputs, and 9 layout elements.
+- [Field Types Reference](checkout-builder/field-types.md) — All 28 element types: 9 standard inputs, 9 advanced inputs, and 10 layout/WooCommerce elements.
 - [Checkout Builder Use Cases](checkout-builder/use-cases.md) — 15+ real-world examples for subscription stores of all types.
 
 ## Quick Reference
@@ -40,7 +40,7 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 |---|---|---|
 | Subscription Checkout | Free | Cart rules, one-click checkout, trial validation, plan switching at checkout, subscription creation |
 | Automatic Payments | **Pro** | Stripe, PayPal, Paddle gateways, auto-renewal charging, webhook routing, payment method storage |
-| Checkout Builder | **Pro** | Custom checkout forms, multi-step navigation, 27 field types, conditional logic, design customization |
+| Checkout Builder | **Pro** | Custom classic checkout forms, multi-step navigation, 28 element types, conditional logic, design customization |
 
 ## Prerequisites
 
@@ -65,4 +65,3 @@ Replace the default WooCommerce checkout form with a fully customizable, multi-s
 - **Previous guide:** [use-cases](./checkout-builder/use-cases.md)
 - **Next guide:** [subscription-checkout](./subscription-checkout.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
-

@@ -1,11 +1,11 @@
 # Info
 - Module: Checkout Builder
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-06-21
 
 # Checkout Builder
 
-> Replace the default WooCommerce checkout form with a fully customizable, multi-step checkout experience — drag and drop 27 field types, create section-based layouts, apply conditional visibility, and style every element to match your brand.
+> Replace the default WooCommerce classic checkout form with a fully customizable, multi-step checkout experience — drag and drop 28 element types, create section-based layouts, apply conditional visibility, and style every element to match your brand.
 
 **Availability:** Pro
 
@@ -21,9 +21,9 @@
 
 ## Overview
 
-The Checkout Builder lets you redesign your entire checkout page without writing code. It provides a visual drag-and-drop editor where you arrange fields, sections, and layout elements into single-step or multi-step checkout flows. Custom field data captured at checkout flows through to orders, subscriptions, and renewal invoices automatically.
+The Checkout Builder lets you redesign your classic WooCommerce checkout page without writing code. It provides a visual drag-and-drop editor where you arrange fields, sections, and layout elements into single-step or multi-step checkout flows. Custom field data captured at checkout flows through to orders, subscriptions, and renewal invoices automatically.
 
-Both Classic Checkout (shortcode) and Block Checkout (Store API) are supported. The builder injects its fields and styling into whichever checkout your theme uses.
+For the builder layout to apply on the frontend, use the classic WooCommerce checkout page or place the `[woocommerce_checkout]` shortcode on your checkout page. WooCommerce Checkout block and Store API flows can still participate in supported data handling, but the visual builder layout and multi-step arrangement are not applied the same way.
 
 **Navigation:** **ArraySubs → Checkout Builder**
 
@@ -51,7 +51,7 @@ The builder has two main areas:
 
 | Tab | Purpose |
 |---|---|
-| **Elements** | Draggable palette of all 27 field types, grouped by category (Standard, Advanced, Layout) |
+| **Elements** | Draggable palette of all 28 element types, grouped by category (Standard, Advanced, Layout) |
 | **Design** | Visual design settings: colors, layout, spacing, and step navigation style |
 
 When you select a field in the editor, the left sidebar switches to show that field's settings (label, key, placeholder, required toggle, type-specific options, visibility rules). Click the back arrow to return to the Elements palette.
@@ -82,7 +82,7 @@ To add a step, click **+ Add Step** in the step tab bar. Each step has a name an
 
 ## Field Categories and Types
 
-The builder includes 27 field types across three categories. See the [Field Types Reference](field-types.md) for complete details on every field.
+The builder includes 28 element types across three categories. See the [Field Types Reference](field-types.md) for complete details on every field.
 
 ### Standard Input Fields (9 types)
 
@@ -106,22 +106,23 @@ Specialized inputs for richer data collection:
 
 | Type | Description |
 |---|---|
-| **Upload** | File attachment (images, PDFs, documents) |
+| **File Upload** | File attachment (images, PDFs, documents) |
 | **Image Select** | Choose from a grid of images |
 | **Grid Select** | Choose from a grid of option cards with descriptions |
 | **Color Picker** | Select a color using a visual picker |
 | **Calendar** | Date picker with calendar widget |
 | **Date** | Date input with format options |
-| **DateTime** | Combined date and time input |
+| **Date & Time** | Combined date and time input |
 | **Time** | Time picker (12-hour or 24-hour) |
 | **Date Range** | Start and end date pair |
 
-### Layout Elements (9 types)
+### Layout Elements (10 types)
 
 Structural and display elements that don't collect data:
 
 | Type | Purpose |
 |---|---|
+| **Product Table** | Product selector/table that can add products from checkout |
 | **Heading** | Section heading (H2, H3, or H4) |
 | **Section** | Container with 1–3 column layout |
 | **Paragraph** | Descriptive text block |
@@ -129,11 +130,11 @@ Structural and display elements that don't collect data:
 | **Billing Address** | WooCommerce billing address composite |
 | **Shipping Address** | WooCommerce shipping address composite |
 | **Order Notes** | WooCommerce order notes section |
-| **Coupon / Notices** | Coupon form and WooCommerce checkout notices |
-| **Order Info / Payment** | Order review table and payment method selector |
+| **Coupon and Notices** | Coupon form and WooCommerce checkout notices |
+| **Order Info and Payment** | Order review table and payment method selector |
 
 ```box class="warning-box"
-The **Order Info / Payment** element is required and can only appear once. It renders WooCommerce's order summary and payment buttons. The builder ensures this element is always present — if you remove it, it is automatically re-added at the end of your last step.
+The **Order Info and Payment** element is required and can only appear once. It renders WooCommerce's order summary and payment buttons. The builder ensures this element is always present — if you remove it, it is automatically re-added at the end of your last step.
 ```
 
 ---
@@ -247,27 +248,27 @@ A separate settings page at **ArraySubs → Checkout Builder → Settings** cont
 
 | Setting | Default | Effect |
 |---|---|---|
-| **Enabled** | Off | Turns the entire Checkout Builder on or off. When off, the default WooCommerce checkout renders normally. |
+| **Enable Checkout Builder** | Off | Turns the entire Checkout Builder on or off. When off, the default WooCommerce checkout renders normally. |
 
 ### Data Flow Settings
 
 | Setting | Default | Effect |
 |---|---|---|
-| **Copy to subscription** | Off | Copies all custom field values from the checkout order to the subscription record's meta data |
-| **Copy to renewal orders** | Off | Copies custom field values from the subscription to each renewal order created by the billing engine |
-| **Show on order admin** | Off | Displays custom field values in a meta box on the WooCommerce admin order edit screen |
-| **Show on order customer** | Off | Displays custom field values on the customer's order detail page (My Account → Orders → View order) |
-| **Show on subscription detail** | Off | Includes custom field values in the subscription detail REST API response and admin subscription detail view |
+| **Copy Custom Fields to Subscriptions** | Off | Copies all custom field values from the checkout order to the subscription record's meta data |
+| **Copy Custom Fields to Renewal Orders** | Off | Copies custom field values from the subscription to each renewal order created by the billing engine |
+| **Show on Admin Order Details** | Off | Displays custom field values in a meta box on the WooCommerce admin order edit screen |
+| **Show on Customer Order Details** | Off | Displays custom field values on the customer's order detail page (My Account -> Orders -> View order) |
+| **Show on Subscription Details** | Off | Includes custom field values in the subscription detail REST API response and admin subscription detail view |
 
-### Upload Settings
+### File Upload Settings
 
 | Setting | Default | Effect |
 |---|---|---|
-| **Uploads enabled** | Off | Master toggle for file upload fields. Upload fields will not render at checkout unless this is on. |
-| **Max file size** | 5 MB | Maximum file size per upload in megabytes |
+| **Allow File Uploads** | Off | Master toggle for file upload fields. Upload fields will not render at checkout unless this is on. |
+| **Default Max File Size (MB)** | 5 MB | Maximum file size per upload in megabytes |
 
 ```box class="info-box"
-The **Copy to subscription** setting is important for subscription stores. Without it, custom field data only lives on the original checkout order. Enable it to ensure subscription detail pages and renewal orders carry the captured data forward.
+The **Copy Custom Fields to Subscriptions** setting is important for subscription stores. Without it, custom field data only lives on the original checkout order. Enable it to ensure subscription detail pages and renewal orders carry the captured data forward.
 ```
 
 ---
@@ -284,14 +285,14 @@ Custom field data follows a clear path through your system:
 
 ### After Checkout
 
-4. If **Copy to subscription** is enabled, all `_arraysubs_cf_*` meta values are copied from the order to the subscription post meta
-5. On each future renewal, if **Copy to renewal orders** is enabled, values are copied from the subscription to the new renewal order
+4. If **Copy Custom Fields to Subscriptions** is enabled, all `_arraysubs_cf_*` meta values are copied from the order to the subscription post meta
+5. On each future renewal, if **Copy Custom Fields to Renewal Orders** is enabled, values are copied from the subscription to the new renewal order
 
 ### Display
 
-6. Admin order edit screen shows custom fields if **Show on order admin** is enabled
-7. Customer order detail page shows custom fields if **Show on order customer** is enabled
-8. Subscription detail REST response includes custom fields if **Show on subscription detail** is enabled
+6. Admin order edit screen shows custom fields if **Show on Admin Order Details** is enabled
+7. Customer order detail page shows custom fields if **Show on Customer Order Details** is enabled
+8. Subscription detail REST response includes custom fields if **Show on Subscription Details** is enabled
 
 ### File Uploads
 
@@ -310,20 +311,15 @@ The builder hooks into WooCommerce's `woocommerce_checkout_fields` filter at hig
 - Adds CSS step classes for multi-step navigation
 - Relocates the coupon form and notices according to builder config
 
-Non-standard field types (uploads, image selects, color pickers, etc.) are rendered through additional hooks after the billing and shipping address sections.
+Non-standard field types (File Upload, Image Select, Color Picker, etc.) are rendered through additional hooks after the billing and shipping address sections.
 
-### Block Checkout
+### WooCommerce Checkout Block
 
-The builder registers with WooCommerce's Store API extension points:
-
-- Custom fields are registered as Store API endpoint data
-- A `BlockIntegration` class manages the React component fills
-- Multi-step navigation renders via React components in the Block Checkout
-- Design settings are applied through the same CSS custom properties
+The current admin UI warns that the builder layout is intended for the classic checkout page or the `[woocommerce_checkout]` shortcode. Store API / block checkout integration can save supported custom field data, but the editor's layout, element order, and multi-step flow are not rendered the same way as the classic checkout builder layout. Use classic checkout when you need the visual arrangement shown in the builder.
 
 ### Assets
 
-Two CSS/JS bundles are loaded on the checkout page:
+These CSS/JS bundles are loaded on the checkout page as needed:
 
 - `arraysubspro-checkout-builder.css` — Layout and design styles
 - `arraysubspro-checkout-builder.js` — Step navigation, conditional visibility, and interactions
@@ -361,7 +357,7 @@ See [Checkout Builder Use Cases](use-cases.md) for 15+ detailed real-world examp
 ## Edge Cases and Important Notes
 
 - **Builder disabled:** When the Checkout Builder is turned off in settings, the standard WooCommerce checkout renders normally. All previously saved builder configuration is preserved and restored when you re-enable it.
-- **Missing Order Info / Payment:** If you delete the Order Info / Payment element, the builder automatically adds it back at the end of your last step on save. The checkout form cannot render without it.
+- **Missing Order Info and Payment:** If you delete the Order Info and Payment element, the builder automatically adds it back at the end of your last step on save. The checkout form cannot render without it.
 - **Conditional fields not submitted:** Fields hidden by conditional visibility rules are excluded from both validation and submission. The customer can never submit data for a hidden field, even if it was partially filled before being hidden.
 - **Renewal orders and upload fields:** File attachments referenced by attachment ID are copied as meta to renewal orders, but the physical file is not duplicated. The renewal order links to the same attachment.
 - **WooCommerce address fields:** The Billing Address and Shipping Address elements render WooCommerce's native address fields. You can configure which address fields are visible, their labels, and which countries are available — but the actual field rendering is WooCommerce's responsibility.
@@ -372,10 +368,10 @@ See [Checkout Builder Use Cases](use-cases.md) for 15+ detailed real-world examp
 
 | Problem | Likely Cause | Solution |
 |---|---|---|
-| Custom fields not appearing at checkout | Builder not enabled | Go to Checkout Builder → Settings and toggle **Enabled** on |
-| File upload field not showing | Uploads not enabled | Enable **Uploads enabled** in Checkout Builder Settings |
-| Custom data missing on subscription | Copy to subscription disabled | Enable **Copy to subscription** in Checkout Builder Settings |
-| Custom data missing on renewal orders | Copy to renewal disabled | Enable **Copy to renewal orders** in Checkout Builder Settings |
+| Custom fields not appearing at checkout | Builder not enabled | Go to Checkout Builder -> Settings and toggle **Enable Checkout Builder** on |
+| File upload field not showing | File uploads not enabled | Enable **Allow File Uploads** in Checkout Builder Settings |
+| Custom data missing on subscription | Subscription copy setting disabled | Enable **Copy Custom Fields to Subscriptions** in Checkout Builder Settings |
+| Custom data missing on renewal orders | Renewal-order copy setting disabled | Enable **Copy Custom Fields to Renewal Orders** in Checkout Builder Settings |
 | Multi-step navigation not showing | Only one step configured | Add a second step in the builder to activate multi-step mode |
 | Field key collision | Two fields with the same slug | Each field's key must be unique. The builder auto-deduplicates when generating keys from labels, but manually entered keys must be unique. |
 | Design changes not visible | CSS caching | Clear your browser cache and any server-side page cache |
@@ -385,7 +381,7 @@ See [Checkout Builder Use Cases](use-cases.md) for 15+ detailed real-world examp
 
 ## Related Docs
 
-- [Field Types Reference](field-types.md) — Complete reference for all 27 field types
+- [Field Types Reference](field-types.md) — Complete reference for all 28 element types
 - [Checkout Builder Use Cases](use-cases.md) — 15+ real-world examples
 - [Subscription Checkout](../subscription-checkout.md) — Core checkout rules and subscription creation
 - [Subscription Detail Cards](../../manage-subscriptions/subscription-detail-cards.md) — How custom fields appear on the admin subscription view
@@ -395,7 +391,7 @@ See [Checkout Builder Use Cases](use-cases.md) for 15+ detailed real-world examp
 ## FAQ
 
 **Does the Checkout Builder work with Block Checkout?**
-Yes. The builder supports both Classic Checkout (shortcode) and Block Checkout (Store API). Multi-step navigation, design settings, and custom fields render in both modes.
+Use classic checkout or the `[woocommerce_checkout]` shortcode when you need the builder layout, design settings, and multi-step flow to match the editor. Store API / block checkout paths can save supported custom field data, but the visual layout is not applied the same way.
 
 **Are custom fields included in WooCommerce order exports?**
 Custom fields are stored as order meta with the `_arraysubs_cf_` prefix. WooCommerce's built-in CSV export includes custom meta fields, so they appear in exports.

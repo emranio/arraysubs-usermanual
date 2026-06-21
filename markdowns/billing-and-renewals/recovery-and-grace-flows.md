@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free
-- Last updated: 2026-06-04
+- Last updated: 2026-06-21
 
 # Recovery and Grace Flows
 
@@ -110,15 +110,17 @@ If ArraySubs cannot resolve a valid future scheduled-cancellation date when the 
 
 ## Grace period configuration
 
-Configure the grace period at **ArraySubs → Settings → General Settings → Renewals**.
+Configure the grace period at **ArraySubs -> Settings -> General -> Grace Period**.
 
 | Setting | What it controls | Default | Recommended range |
 |---|---|---|---|
-| **Invoice Timing** (value + unit) | How far in advance the renewal invoice is created | 6 hours | 1–48 hours or 1–2 days |
-| **Active Grace Days** | Days the subscription stays Active after the due date with an unpaid invoice | 3 | 1–7 days |
-| **On-Hold Grace Days** | Days the subscription stays On-Hold before automatic cancellation | 7 | 3–14 days |
+| **Generate Invoice Before Due** + **Unit** | How far in advance the renewal invoice is created | 6 hours | 1-48 hours or 1-2 days |
+| **Days Active After Due** | Days the subscription stays Active after the due date with an unpaid invoice | 3 | 1-7 days |
+| **Days On-Hold Before Cancel** | Days the subscription stays On-Hold before automatic cancellation | 7 | 3-14 days |
 
-The total grace period before cancellation is the sum: **Active Grace Days + On-Hold Grace Days** (default: 3 + 7 = 10 days).
+The total grace period before cancellation is the sum: **Days Active After Due + Days On-Hold Before Cancel** (default: 3 + 7 = 10 days).
+
+Your store can use different values from the defaults. For example, a strict recovery setup may use **Days Active After Due = 1** and **Days On-Hold Before Cancel = 3** so overdue subscriptions progress faster.
 
 ```box class="warning-box"
 ## Choose grace periods carefully
@@ -162,8 +164,9 @@ New next payment date = Original next payment date + (billing interval × skippe
 
 | Setting | Default | What it controls |
 |---|---|---|
-| Max cycles | 3 | Maximum number of cycles a customer can skip at once |
-| Cutoff days | 2 | Cannot skip within this many days of the next renewal date |
+| Maximum Cycles to Skip | 3 | Maximum number of cycles a customer can skip at once |
+| Skip Cutoff (Days) | 2 | Cannot skip within this many days of the next renewal date |
+| Allow Customers to Skip | Enabled by setup | Shows or hides skip controls in the customer My Account portal |
 
 ### How pause affects renewals
 
@@ -191,9 +194,12 @@ When a subscription is paused, the subscription moves to **On-Hold** status and 
 
 | Setting | Default | What it controls |
 |---|---|---|
-| Max duration | 30 days | Maximum length of a single pause |
-| Max pauses per subscription | 2 | Total number of times a subscription can be paused |
-| Min days between pauses | 30 days | Cooldown period between consecutive pauses |
+| Maximum Pause Duration (Days) | 30 days | Maximum length of a single pause |
+| Maximum Pauses per Subscription | 2 | Total number of times a subscription can be paused |
+| Cooldown Between Pauses (Days) | 30 days | Cooldown period between consecutive pauses |
+| Allow Customers to Pause | Enabled by setup | Shows or hides pause controls in the customer My Account portal |
+| Require Pause Reason | Disabled | Requires customers to provide a reason when pausing |
+| Content Access | No access / Limited access / Full access | Controls what restricted content customers can access while paused, when Members Access is active |
 
 ### Skip vs pause — key differences
 
@@ -261,10 +267,10 @@ A gym membership subscriber wants to pause during summer vacation. They pause fo
 
 | Problem | Likely cause | What to do |
 |---|---|---|
-| Subscription cancelled earlier than expected | Grace period settings are shorter than intended | Check **Settings → General → Renewals** for Active Grace Days and On-Hold Grace Days values. |
+| Subscription cancelled earlier than expected | Grace period settings are shorter than intended | Check **Settings -> General -> Grace Period** for Days Active After Due and Days On-Hold Before Cancel values. |
 | Subscription stuck on On-Hold | Invoice is pending but grace period has not expired, or pause is active | Check the subscription detail for a pending renewal order or pause metadata. If paused, verify the auto-resume date. |
 | Customer still has access after moving to On-Hold | Member access rules do not restrict On-Hold status | Review your access rules at **ArraySubs → Member Access** to ensure On-Hold subscriptions are restricted appropriately. |
-| Skip not available to customer | Skip is disabled, cutoff period is too restrictive, or max cycles reached | Check skip settings in **Settings → General → Skip & Pause** for enabled state, max cycles, and cutoff days. |
+| Skip not available to customer | Skip is disabled, cutoff period is too restrictive, or max cycles reached | Check skip settings in **Settings -> Skip & Pause** for enabled state, Maximum Cycles to Skip, Skip Cutoff (Days), and Allow Customers to Skip. |
 | Pause not resuming automatically | Auto-resume job may not have executed yet | The auto-resume is scheduled via Action Scheduler for the exact pause end date. Check **Scheduled-Job Logs** (Pro) to verify the resume action is queued. |
 | Payment received but subscription still shows On-Hold | Order status has not been updated to Completed or Processing | Check the renewal order status in WooCommerce. The subscription restores to Active only when the linked order reaches a paid status (Completed or Processing). |
 
@@ -272,7 +278,7 @@ A gym membership subscriber wants to pause during summer vacation. They pause fo
 
 ## Related docs
 
-- [General Settings](../settings/general-settings.md) for configuring grace period and skip/pause settings
+- [General Settings](../settings/general-settings.md) for configuring the grace period, and **Settings -> Skip & Pause** for skip/pause controls
 - [Renewal Operations](renewal-operations.md) for how invoices are created and payment is routed
 - [Renewal Communication](renewal-communication.md) for emails sent during the grace period (On-Hold, Payment Failed)
 - [Self-Service Actions](../customer-portal/self-service-actions.md) for the customer experience of skip and pause

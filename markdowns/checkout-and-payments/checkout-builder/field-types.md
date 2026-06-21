@@ -1,11 +1,11 @@
 # Info
 - Module: Checkout Builder — Field Types Reference
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-06-21
 
 # Field Types Reference
 
-> Complete reference for all 27 field types available in the Checkout Builder — properties, type-specific settings, validation rules, and storage format.
+> Complete reference for all 28 element types available in the Checkout Builder — properties, type-specific settings, validation rules, and storage format.
 
 **Availability:** Pro
 
@@ -21,7 +21,7 @@
 
 ## Overview
 
-The Checkout Builder supports 27 field types across three categories. Every custom input field stores its data as order meta with the `_arraysubs_cf_` prefix. Layout elements do not store data — they only control the visual structure of the form.
+The Checkout Builder supports 28 element types across three categories. Every custom input field stores its data as order meta with the `_arraysubs_cf_` prefix. Layout elements do not store data — they only control the visual structure of the form.
 
 ## Current Field Palette
 
@@ -169,7 +169,7 @@ On/off switch — a visual variant of checkbox.
 
 ## Advanced Input Fields
 
-### Upload
+### File Upload
 
 File attachment with type and size validation.
 
@@ -182,7 +182,7 @@ File attachment with type and size validation.
 | Use cases | ID verification, logo upload, prescription documents |
 
 ```box class="warning-box"
-Upload fields only work when **Uploads enabled** is turned on in Checkout Builder Settings. The global **Max file size** setting applies as an upper bound, but individual upload fields can set a lower limit.
+File Upload fields only work when **Allow File Uploads** is turned on in Checkout Builder Settings. The global **Default Max File Size (MB)** setting applies as an upper bound, but individual upload fields can set a lower limit.
 ```
 
 ### Image Select
@@ -240,7 +240,7 @@ Standard date input with configurable format.
 | Storage | Date string |
 | Use cases | Date of birth, membership start date, anniversary date |
 
-### DateTime
+### Date & Time
 
 Combined date and time input.
 
@@ -317,6 +317,15 @@ Callout box with visual styling.
 | Type settings | `content` (message text), `alert_type` (info, success, warning, error), `dismissible` (boolean) |
 | Purpose | Important notices, warnings, or success messages |
 
+### Product Table
+
+Product selector/table that can display products directly inside checkout.
+
+| Setting | Details |
+|---|---|
+| Type settings | Product IDs, category IDs, and visible columns such as thumbnail, title, quantity, SKU, price, sale price, and short description |
+| Purpose | Lets customers add eligible products from checkout without leaving the checkout page |
+
 ### Billing Address
 
 WooCommerce's native billing address field group.
@@ -346,7 +355,7 @@ WooCommerce's order notes section.
 | Type settings | `fields_config` (show/hide per WC order notes field) |
 | Purpose | Customer notes and special instructions |
 
-### Coupon / Notices
+### Coupon and Notices
 
 WooCommerce coupon form and checkout notices area.
 
@@ -354,7 +363,7 @@ WooCommerce coupon form and checkout notices area.
 |---|---|
 | Purpose | Renders the coupon entry form and any WooCommerce checkout messages. Place this where you want coupons to appear in the form flow. |
 
-### Order Info / Payment
+### Order Info and Payment
 
 WooCommerce order review table and payment method selector.
 
@@ -395,11 +404,11 @@ Layout elements (headings, sections, paragraphs, alerts) do not have meta keys b
 | Select | Value must be in defined options |
 | Multi-Select | All values must be in defined options |
 | Checkbox, Toggle | If required, must be checked/on |
-| Upload | File type allowlist + size/count limits |
+| File Upload | File type allowlist + size/count limits |
 | Image Select, Grid Select | Selection required if field is required |
 | Color Picker | Valid hex color format |
 | Calendar, Date | Parseable date + min/max date range |
-| DateTime | Parseable datetime + min/max range |
+| Date & Time | Parseable datetime + min/max range |
 | Time | Valid time format |
 | Date Range | Both dates required, end > start, max span |
 
