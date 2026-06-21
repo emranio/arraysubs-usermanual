@@ -1,13 +1,13 @@
 # Info
 - Module: Customer Emails
-- Availability: Free
+- Availability: Free (gateway-specific trigger events require Pro gateway integrations)
 - Last updated: 2026-04-02
 
 # Customer Emails
 
 > Seventeen automated emails keep your customers informed throughout the entire subscription lifecycle — from activation and trials to renewals, payment issues, status changes, retention offers, saved-card expiry, and gateway verification.
 
-**Availability:** Free
+**Availability:** Free (gateway-specific trigger events require Pro gateway integrations)
 
 ## Page Navigation
 
@@ -615,9 +615,19 @@ Sent when a customer accepts a retention discount offer during the cancellation 
 
 ---
 
-## Card Expiring Notice *(Pro)*
+## Card Expiring Notice
 
-Notifies customers when Stripe reports that their saved payment card is about to expire, encouraging them to update their payment method before the next renewal attempt.
+Sent when the Stripe gateway reports that the saved payment card for a subscription is expiring soon.
+
+**WooCommerce email ID:** `arraysubs_card_expiring`
+
+**Default subject:** `[{site_title}] Update the card for subscription #{subscription_id}`
+
+**Default heading:** `Your card is expiring soon`
+
+**Trigger:** Fires on the `arraysubs_card_expiring` hook. The core email class is registered with WooCommerce, and the event is dispatched by the Pro Stripe gateway integration when Stripe reports an expiring saved card.
+
+Notifies customers that their saved card is about to expire, encouraging them to update their payment method before the next renewal attempt.
 
 **Template files:**
 - HTML: `customer-card-expiring.php`
@@ -627,9 +637,19 @@ Notifies customers when Stripe reports that their saved payment card is about to
 
 ---
 
-## Renewal Requires Verification *(Pro)*
+## Renewal Requires Verification
 
-Notifies customers when a Stripe renewal payment requires Strong Customer Authentication (SCA / 3D Secure), with a link to complete the verification step.
+Sent when an automatic renewal needs customer authentication such as Strong Customer Authentication (SCA / 3D Secure).
+
+**WooCommerce email ID:** `arraysubs_renewal_requires_verification`
+
+**Default subject:** `[{site_title}] Verify your subscription renewal #{subscription_id}`
+
+**Default heading:** `Your renewal needs verification`
+
+**Trigger:** Fires on the `arraysubs_renewal_requires_verification` hook. The core email class is registered with WooCommerce, and the event is dispatched by the Pro Stripe gateway integration when a renewal payment intent requires customer action.
+
+Notifies customers with a link to complete the verification step before the renewal grace period ends.
 
 **Template files:**
 - HTML: `customer-renewal-requires-verification.php`
@@ -699,4 +719,4 @@ The **Trial Converted** email. The **New Subscription** email is not sent for tr
 Not directly from the ArraySubs settings. However, WooCommerce email settings pages include a preview link that shows the HTML template with placeholder data.
 
 ### Are Card Expiring and SCA Authentication emails available now?
-Not yet. The templates exist but the sending triggers are not wired in the current release. These will be activated in a future update.
+Yes. Both email classes are registered in WooCommerce. They are sent when the Pro Stripe gateway dispatches the corresponding card-expiry or renewal-verification event.

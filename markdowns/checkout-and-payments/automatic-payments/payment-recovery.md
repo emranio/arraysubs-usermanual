@@ -22,7 +22,7 @@
 
 Automatic recurring billing fails sometimes. A card declines, a customer's bank flags the charge, a webhook is missed during a brief outage, a network hiccup interrupts a charge attempt. This page documents the four tools ArraySubs Pro provides to keep things on track:
 
-1. **Automatic retry** — Stripe failed renewals retry on a configurable schedule with pre-retry charge verification to avoid double-charging.
+1. **Automatic retry** — Stripe failed renewals retry on the built-in retry policy with pre-retry charge verification to avoid double-charging.
 2. **Manual retry button** — admin and customer can both trigger an immediate retry without waiting for the scheduled retry.
 3. **Sync from Gateway** — admin button on the subscription detail page that pulls authoritative state from Stripe/PayPal/Paddle and reconciles missed-webhook drift.
 4. **PayPal/Paddle pending-cancel handling** — when a customer schedules an end-of-period cancellation, the plugin tells PayPal/Paddle to stop charging on its own schedule so the customer is never charged for a period they cancelled.
@@ -31,16 +31,16 @@ Automatic recurring billing fails sometimes. A card declines, a customer's bank 
 
 - You see a customer was charged but the order is still marked failed → Sync from Gateway (case: missed webhook).
 - A renewal failed and you don't want to wait 24 hours for the auto-retry → Manual Retry.
-- Your retry schedule is too aggressive or too lenient → adjust in Stripe gateway settings.
+- Stripe retry timing is not site-configurable in the current UI. Stripe-backed ArraySubs renewals use the built-in retry policy: retries enabled, up to 3 attempts, 24 hours apart.
 - A customer reports duplicate charges after a manual retry → check the subscription notes; the pre-retry verification will say whether a real second charge happened (it shouldn't).
 
 ## How It Works
 
 ### Stripe automatic retry
 
-When a Stripe renewal charge fails, the plugin schedules another attempt based on the gateway's retry settings. Before each retry runs, the plugin queries Stripe to confirm the customer was not already charged via a missed webhook. If a successful PaymentIntent matching the renewal order is found, the local order is reconciled (marked paid) without a new charge. If no charge exists, the retry proceeds normally.
+When a Stripe renewal charge fails, the plugin schedules another attempt based on the built-in Stripe retry policy. Before each retry runs, the plugin queries Stripe to confirm the customer was not already charged via a missed webhook. If a successful PaymentIntent matching the renewal order is found, the local order is reconciled (marked paid) without a new charge. If no charge exists, the retry proceeds normally.
 
-The retry counter is tracked in `_payment_retry_attempts` meta and visible in the subscription's notes. After the configured maximum is reached, the subscription continues into the standard grace-period flow (Active → On-Hold → Cancelled) but no further automatic retries are scheduled.
+The retry counter is tracked in `_payment_retry_attempts` meta and visible in the subscription's notes. Stripe-backed ArraySubs renewals use the built-in retry policy: retries are enabled, the maximum is 3 attempts, and the interval is 24 hours. After the retry maximum is reached, the subscription continues into the standard grace-period flow (Active → On-Hold → Cancelled) but no further automatic retries are scheduled.
 
 PayPal and Paddle use their own gateway-side retry policies (PayPal Smart Retry, Paddle automatic retry); the plugin does not schedule local retries for those gateways. Their webhooks notify the plugin when they finish retrying.
 
@@ -113,15 +113,19 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 
 ## Steps / Configuration
 
-### Configure Stripe retry settings
+### Review Stripe recovery configuration
 
-1. Go to **WooCommerce → Settings → Payments → Stripe (ArraySubs)**.
-2. Scroll to the **Failed Payment Retry** section.
-3. Set the values:
-   - **Enable retries** — leave on unless you only want manual retries.
-   - **Max retry attempts** — total automatic retries after the initial failure. Default `3`.
-   - **Retry interval (hours)** — wait time between attempts. Default `24`.
-4. Click **Save changes**.
+1. Go to **WooCommerce → Settings → Payments → ArraySubs Stripe Configs**.
+2. Confirm the secondary webhook endpoint is healthy. The page shows:
+   - Endpoint URL used by ArraySubs for Stripe subscription events.
+   - Active Stripe mode (test or live).
+   - Last received Stripe event.
+   - Secondary webhook signing secret.
+   - Secondary webhook endpoint ID.
+3. If automatic endpoint creation is unavailable, create the endpoint in Stripe manually and paste the `whsec_` signing secret.
+4. Click **Save changes** only when you have changed the signing secret.
+
+The Stripe retry policy itself is code-level in this version: retries are enabled, up to 3 attempts, 24 hours apart. There is no visible admin field for max retry attempts or retry interval.
 
 ### Trigger a manual retry (admin)
 
@@ -151,14 +155,14 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 
 | Setting | What It Controls | Recommended Use | Example |
 |---|---|---|---|
-| **Enable retries** (Stripe) | Whether automatic retries run after a failed renewal | Leave on for production | `Yes` |
-| **Max retry attempts** (Stripe) | Number of automatic retries before falling back to grace period | 2-3 for most stores; 1 if Stripe Smart Retry is also enabled | `3` |
-| **Retry interval (hours)** (Stripe) | Hours between attempts | 24 hours is the standard; 6-12 for high-volume stores wanting faster recovery | `24` |
+| **Secondary webhook signing secret** | Verifies ArraySubs-specific Stripe webhook events | Auto-managed; edit only when manually repairing the endpoint | `whsec_...` |
+| **Secondary webhook endpoint ID** | Stores the Stripe endpoint created for ArraySubs events | Read-only; confirm it exists when troubleshooting missing webhooks | `we_...` |
+| **Stripe retry policy** | Built-in retry behavior for failed Stripe renewals | No UI field in this version; default policy is used automatically | 3 attempts, 24 hours apart |
 
 ## What Happens After Saving
 
-- New retry settings take effect immediately for any future failed renewals on Stripe.
-- In-progress retry schedules continue with their original interval — only the next failure picks up the new config.
+- New webhook secret changes take effect after saving the WooCommerce settings page.
+- Stripe retry timing is not changed from this page. In-progress retry schedules continue according to the built-in policy.
 - Existing subscription notes and order notes are unaffected.
 
 ## Edge Cases / Important Notes
@@ -166,7 +170,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 - **Pre-retry verification only runs when the retry counter is > 0.** Manual retries force the counter to at least 1 so the check always runs.
 - **The verification uses `metadata.subscription_id` and `metadata.order_id` on Stripe PaymentIntents** to find a match. These metadata keys are written by the plugin at PaymentIntent creation, so the match is exact. PaymentIntents created by other tools or older plugin versions will not be matched and will trigger a fresh charge.
 - **The retry counter resets to 0 on a successful charge.** If a customer's first retry fails but the second succeeds, the counter resets and they start fresh on the next renewal cycle.
-- **Manual retry is allowed even when automatic retries are disabled.** The "enable retries" setting only controls what the plugin schedules itself.
+- **Manual retry uses the same verification path as automatic retry.** Even when support staff starts the retry, the plugin checks Stripe first to avoid duplicate charges.
 - **Sync from Gateway does not modify amounts, plans, or products.** Those are deliberate merchant decisions. If the gateway's amount has drifted from local (rare; only if someone changed it directly at the dashboard), reconcile manually.
 - **Sync from Gateway is read-mostly.** It cannot create subscriptions or refund charges; it only updates fields the gateway is authoritative for and reconciles paid status on existing failed orders.
 - **Sync support is explicit.** Do not assume a gateway can sync just because it is attached to the subscription. The action appears only for gateways that opt in.

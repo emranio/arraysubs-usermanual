@@ -41,21 +41,22 @@ Custom input field values are stored with the `_arraysubs_cf_` meta prefix and c
 
 ---
 
-## Shared Properties
+## Common Field Settings
 
-Every field (input and layout) shares these base properties:
+The inline settings sidebar shows the fields that apply to the selected element type:
 
 | Property | Description | Required |
 |---|---|---|
 | **Label** | Display label shown above the field | Yes |
 | **Key** | Meta key slug (auto-generated from label, prefixed with `_arraysubs_cf_`). Must be unique. | Yes |
-| **Placeholder** | Hint text shown inside the empty field | No |
-| **Help text** | Descriptive text shown below the field | No |
-| **Required** | Whether the field must be filled before checkout submission | No |
-| **Default value** | Pre-filled value when the form loads | No |
-| **Column width** | Field width: `full`, `1/2`, or `1/3` (within a section) | No |
+| **Placeholder** | Hint text shown inside the empty input field | No |
+| **Help text** | Descriptive text shown below input fields | No |
+| **Required** | Whether an input field must be filled before checkout submission | No |
+| **Default value** | Pre-filled value when an input field loads | No |
 | **CSS class** | Custom CSS class names added to the field wrapper | No |
-| **Visibility rules** | Conditional show/hide logic (see [Checkout Builder Overview](README.md#conditional-visibility)) | No |
+| **Type settings** | Field-specific options such as select choices, file limits, product table filters, or layout content | No |
+| **Section columns** | Column count for Section layout elements: 1, 2, or 3 columns | No |
+| **Visibility rules** | Conditional **Show When** rules for input fields, shown when another non-layout field is available to reference (see [Checkout Builder Overview](README.md#conditional-visibility)) | No |
 
 ---
 

@@ -1,7 +1,7 @@
 # Info
 - Module: Coupons
 - Availability: Free
-- Last updated: 2026-04-01
+- Last updated: 2026-06-21
 
 # Coupons
 
@@ -20,7 +20,7 @@
 
 ## Overview
 
-ArraySubs extends WooCommerce coupons with subscription-specific settings. When a coupon is flagged to apply to subscriptions, it is captured at checkout and can automatically discount future renewal orders for a configurable number of cycles. All standard WooCommerce coupon types (percentage, fixed product, fixed cart) are supported.
+ArraySubs extends WooCommerce coupons with subscription-specific settings. When a coupon is flagged to apply to subscriptions, it can discount the initial subscription checkout and, when configured as recurring, future renewal orders for a configurable number of cycles. Standard WooCommerce coupon types (percentage, fixed product, fixed cart) are supported once the coupon is enabled for subscriptions.
 
 ## When to Use This
 
@@ -68,7 +68,7 @@ Scroll down to the **ArraySubs Subscription Settings** section on the coupon edi
 
 | Field | Type | Description |
 |---|---|---|
-| **Apply to subscriptions** | Checkbox | Enable this coupon for subscription products. When unchecked, the coupon works only as a standard WooCommerce coupon. |
+| **Apply to subscriptions** | Checkbox | Enable this coupon for subscription products. When unchecked, the coupon does not discount subscription items and subscription-only carts reject it. |
 | **Discount duration** | Select | **One-time** — discount applies to the initial checkout order only. **Recurring** — discount applies to future renewal orders. |
 | **Number of renewal cycles** | Number | How many renewal cycles the discount applies to. Only visible when duration is Recurring. Set to **0** for unlimited cycles. |
 | **Count initial checkout** | Checkbox | Include the initial checkout order as one of the cycles. Only visible when duration is Recurring and cycles > 0. |
@@ -83,7 +83,7 @@ Click **Update** (or **Publish** for new coupons). The coupon is now ready for s
 
 ### One-Time
 
-The coupon discount applies **only to the initial checkout order**. It works like a standard WooCommerce coupon — the customer gets the discount at checkout, and all future renewals are charged at full price.
+When **Apply to subscriptions** is enabled and the duration is **One-time**, the coupon discount applies **only to the initial checkout order**. The customer gets the discount at checkout, and all future renewals are charged at full price.
 
 **Use case:** A "WELCOME20" coupon that gives 20% off the first payment.
 
@@ -275,7 +275,7 @@ These fields appear on the WooCommerce coupon edit page under the **ArraySubs Su
 ## FAQ
 
 ### Can I use a regular WooCommerce coupon on a subscription product?
-Yes. Regular WooCommerce coupons work as a one-time checkout discount. To make a coupon carry forward to renewals, you need to enable "Apply to subscriptions" and set the discount duration to "Recurring."
+Only when the coupon is explicitly enabled for subscriptions. Coupons that do not have **Apply to subscriptions** enabled are filtered away from subscription items and are rejected on subscription-only carts. Enable **Apply to subscriptions** and choose **One-time** for an initial checkout discount, or **Recurring** to carry the discount into renewals.
 
 ### Can a customer apply a new coupon to an existing subscription?
 No. Coupons are captured only at the time of initial checkout. There is no self-service mechanism for customers to add a coupon to an already-active subscription. Admins can manage coupon data through the subscription detail page.

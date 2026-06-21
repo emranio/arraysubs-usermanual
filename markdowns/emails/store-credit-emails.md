@@ -36,7 +36,7 @@ Store Credit emails are registered by the **ArraySubs Pro** plugin. If the Pro p
 |-------|----|---------------|------|
 | **Store Credit Added** | `arraysubs_credit_added` | Credit is added to the customer's account (admin adjustment, refund, downgrade, promotion, or purchase) | Customer |
 | **Store Credit Used** | `arraysubs_credit_used` | Credit is applied to an order (renewal or checkout) | Customer |
-| **Store Credit Expiring** | `arraysubs_credit_expiring` | A credit entry is about to expire (7 days before) | Customer |
+| **Store Credit Expiring Soon** | `arraysubs_credit_expiring` | A credit entry is about to expire (7 days before) | Customer |
 | **Store Credit Expired** | `arraysubs_credit_expired` | A credit entry has expired and the balance was deducted | Customer |
 
 ---
@@ -121,7 +121,7 @@ Sent when credit is applied to an order — whether a subscription renewal or a 
 
 ---
 
-## Store Credit Expiring
+## Store Credit Expiring Soon
 
 Sent 7 days before a credit entry is scheduled to expire.
 

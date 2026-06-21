@@ -54,7 +54,7 @@ The builder has two main areas:
 | **Elements** | Draggable palette of all 28 element types, grouped by category (Standard, Advanced, Layout) |
 | **Design** | Visual design settings: colors, layout, spacing, and step navigation style |
 
-When you select a field in the editor, the left sidebar switches to show that field's settings (label, key, placeholder, required toggle, type-specific options, visibility rules). Click the back arrow to return to the Elements palette.
+When you select a field in the editor, the left sidebar switches to show that field's settings (label, key, placeholder, required toggle, CSS class, type-specific options, and **Show When** visibility rules when another input field can be referenced). Click the back arrow to return to the Elements palette.
 
 **Right panel (editor area)** — shows the step tabs at the top and the field grid below. Drag elements from the palette into this area to build your checkout form.
 
@@ -159,9 +159,9 @@ Any field can have visibility rules that show or hide it based on the value of a
 ### How to Add Rules
 
 1. Select a field in the editor
-2. In the left sidebar, scroll to the **Visibility Rules** section
-3. Click **Add Rule**
-4. Configure: reference field → operator → value
+2. In the left sidebar, scroll to **Visibility**
+3. Click **Add Condition** under **Show When**
+4. Configure: reference field → operator → value → logic
 
 ### Available Operators
 
@@ -175,7 +175,7 @@ Any field can have visibility rules that show or hide it based on the value of a
 
 ### Rule Behavior
 
-- Multiple rules on the same field are combined with **AND** — all rules must match for the field to be visible
+- Rules include a **Logic** selector. Use **AND** when all conditions must match, or **OR** when any condition should allow the field to show. Empty or omitted logic defaults to **AND**.
 - Rules are evaluated **in real time** as the customer fills in the form
 - Hidden fields are **not validated** and **not submitted** — they are as if they don't exist when hidden
 - You can reference any field within the same step or any previous step

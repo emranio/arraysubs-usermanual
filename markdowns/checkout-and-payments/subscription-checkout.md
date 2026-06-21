@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Checkout
 - Availability: Free
-- Last updated: 2026-05-01
+- Last updated: 2026-06-21
 
 # Subscription Checkout
 
@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Subscription Checkout
-- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Where to open it:** Storefront cart/checkout and WordPress Admin -> ArraySubs -> Settings -> General
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
 - **Next guide:** [payment-and-shipping](../customer-portal/payment-and-shipping.md)
