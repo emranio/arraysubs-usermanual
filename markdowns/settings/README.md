@@ -9,14 +9,18 @@
 
 ## Overview
 
-The **Settings** area in ArraySubs is split into two pages that control fundamentally different concerns:
+The **Settings** area in ArraySubs is organized into the main General and Toolkit pages plus module-specific settings tabs. Use General for shared subscription behavior, Toolkit for admin/security utilities, and the module tabs when a feature has its own dedicated settings screen.
 
 | Page | What it covers | Navigation path |
 |------|----------------|-----------------|
 | **General Settings** | Subscription cart rules, checkout and trial behavior, button text, grace periods, email reminder timing, customer portal, customer self-service actions, cancellation timing, and automatic-payment controls | **ArraySubs → Settings → General** |
 | **Toolkit Settings** | Field-by-field configuration for the dedicated Toolkit modules: admin bar visibility, wp-admin access restrictions, WordPress login page hiding, admin impersonation, and multi-login prevention | **ArraySubs → Settings → Toolkit** |
+| **Plan Switching** | Upgrade, downgrade, and switching behavior for subscription products | **ArraySubs → Settings → Plan Switching** |
+| **Refunds** | Refund policy, gateway refund routing, prorated refunds, and minimum refund settings | **ArraySubs → Settings → Refunds** |
+| **Skip & Pause** | Customer skip-renewal and pause behavior | **ArraySubs → Settings → Skip & Pause** |
+| **Feature Manager** | Feature entitlement and usage-limit configuration | **ArraySubs → Settings → Feature Manager** |
 
-Other settings pages (Plan Switching, Refunds, Skip & Pause, Feature Manager, and Gateway Health) are documented inside their owning module topics — they are not part of the General or Toolkit screens.
+The module-specific settings pages are documented in their owning feature topics. This section focuses on the General and Toolkit guides and links out to those feature guides when needed.
 
 ## Guides
 
@@ -36,4 +40,3 @@ Other settings pages (Plan Switching, Refunds, Skip & Pause, Feature Manager, an
 - **Previous guide:** [general-settings](./general-settings.md)
 - **Next guide:** [toolkit-settings](./toolkit-settings.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
-

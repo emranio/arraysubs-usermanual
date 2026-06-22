@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Emails
-- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Where to open it:** WordPress Admin → WooCommerce → Settings → Emails
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [credit-history](./credit-history.md)
 - **Next guide:** [purchase-product](./purchase-product.md)

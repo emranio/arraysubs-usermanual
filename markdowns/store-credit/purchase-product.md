@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Purchase Product
-- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Where to open it:** WordPress Admin → Products → Add New or Edit Product → Product data: Store Credit
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [emails](./emails.md)
 - **Next guide:** [README](./README.md)
@@ -52,7 +52,7 @@ The product is automatically treated as **virtual** (no shipping required) and *
 
 ### Create a Store Credit Product
 
-1. Go to **WooCommerce → Products → Add New**.
+1. Go to **Products → Add New**.
 2. In the **Product data** dropdown, select **Store Credit**.
 3. Several standard tabs are hidden automatically (Attributes, Linked Products, Shipping, Inventory) since they do not apply to credit products.
 
@@ -64,7 +64,7 @@ In the **General** tab, you will see the Store Credit fields:
 |-------|---------|-----------------|
 | **Credit Amount Type** | `Fixed` or `Custom` | Whether the credit amount is set by you or entered by the customer. |
 | **Credit Amount** | Number (currency) | The fixed amount of credit granted when purchased. Only visible when type is `Fixed`. |
-| **Bonus Percentage** | Number (0–100) | Optional extra credit percentage on top of the purchase amount. For example, `10` means buying $100 grants $110 in credit. |
+| **Bonus Credit (%)** | Number (0–100) | Optional extra credit percentage on top of the purchase amount. For example, `10` means buying $100 grants $110 in credit. |
 
 **Fixed amount products:** The customer pays the product's regular price and receives the configured credit amount. The price and credit amount can differ if you want to sell "$50 of credit for $45."
 

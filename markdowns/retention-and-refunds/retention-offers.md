@@ -38,7 +38,7 @@ Navigate to **ArraySubs → Retention Flow** and scroll to the **Retention Offer
 ## Prerequisites
 
 - ArraySubs core plugin installed and active
-- Customer cancellation enabled in General Settings
+- Customer cancellation enabled in **ArraySubs → Settings → General**
 - Cancellation reasons configured on the Retention Flow page (see [Cancellation Setup](cancellation-setup.md))
 - For the Downgrade offer: Plan Switching configured with downgrade paths on your subscription products
 

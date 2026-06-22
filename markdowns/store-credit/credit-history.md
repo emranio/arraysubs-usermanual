@@ -12,10 +12,10 @@
 ## Page Navigation
 
 - **Current guide:** Credit History
-- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Where to open it:** WordPress Admin → ArraySubs → Store Credit → Credit History
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/store-credit/history`
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [store-credit-shortcode](../shortcodes/store-credit-shortcode.md)
+- **Previous guide:** [Store Credit](./README.md)
 - **Next guide:** [emails](./emails.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 

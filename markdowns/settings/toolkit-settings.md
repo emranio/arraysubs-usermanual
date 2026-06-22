@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Toolkit Settings
-- **Where to open it:** WordPress Admin -> ArraySubs -> Settings
+- **Where to open it:** WordPress Admin → ArraySubs → Settings → Toolkit
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)

@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Refund to Credit
-- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Where to open it:** WordPress Admin → WooCommerce → Orders → Edit Order → Refund
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
 - **Next guide:** [store-credit-management](./store-credit-management.md)
@@ -42,8 +42,8 @@ This is a powerful retention tool. The customer receives their money back in a f
 
 When you open a WooCommerce order that is eligible for a refund, the standard refund interface now includes a **refund method** selector. You choose between:
 
-- **Via Gateway** — Standard WooCommerce refund through the original payment method.
-- **As Store Credit** — Converts the refund amount into customer account credit.
+- **Refund via Payment Gateway (or manual)** — Standard WooCommerce refund through the original payment method or manual refund handling.
+- **Refund as Store Credit** — Converts the refund amount into customer account credit.
 
 When you select "As Store Credit" and process the refund, the system:
 
@@ -63,9 +63,9 @@ The order's refundable amount decreases by the credited amount, preventing the s
 2. Scroll to the order items section.
 3. Click **Refund**.
 4. In the refund interface, you will see the **Refund Method** radio buttons:
-   - **Via Gateway** (default)
-   - **As Store Credit**
-5. Select **As Store Credit**.
+   - **Refund via Payment Gateway (or manual)** (default)
+   - **Refund as Store Credit**
+5. Select **Refund as Store Credit**.
 6. Enter the refund amount.
 7. Optionally enter a refund reason.
 8. Click the refund button to process.

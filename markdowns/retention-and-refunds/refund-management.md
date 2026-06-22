@@ -52,16 +52,16 @@ Navigate to **ArraySubs → Settings → Refunds** to configure your refund poli
 
 ### Refund on Cancellation
 
-This setting determines what happens when a subscription is cancelled and its most recent order is fully refunded.
+This setting controls the refund policy used by cancellation workflows. It does not control what happens after a WooCommerce order is fully refunded — full refunds of linked subscription orders are handled by the refund hooks and cancel the linked subscription immediately.
 
 | Option | Behavior |
 |---|---|
-| **Allow Immediate Refund** | When the subscription's latest paid order is fully refunded, the subscription is cancelled immediately. All future scheduled actions (renewals, reminders) are removed. |
-| **Refund at End of Period** | When the subscription's latest paid order is fully refunded, the subscription is scheduled for cancellation at the next payment date. The customer retains access until the period ends. |
-| **No Automatic Refund** | Refunding an order does not automatically affect the subscription status. The subscription continues as normal — you must handle status changes manually. |
+| **Allow Immediate Refund** | Selects the immediate refund policy for cancellation workflows. Admins can still issue manual or prorated refunds from the subscription or order screens when a refundable order exists. |
+| **Refund at End of Period** | Stores the policy with scheduled end-of-period cancellations. When the scheduled cancellation runs, ArraySubs attempts a prorated refund if prorated refunds are enabled and a refundable order exists. |
+| **No Automatic Refund** | Stores a no-refund policy for cancellation workflows. For scheduled end-of-period cancellations, ArraySubs records an audit note instead of issuing an automatic prorated refund. |
 
 ```box class="info-box"
-This setting controls the *subscription behavior* after a full refund, not the refund itself. You can always issue refunds from the WooCommerce order page regardless of this setting. The question is: what should happen to the subscription afterward?
+You can always issue refunds from the WooCommerce order page regardless of this setting. The setting is about ArraySubs cancellation-driven refund behavior, not whether WooCommerce is allowed to create a refund.
 ```
 
 ### Automatic Gateway Refund
@@ -94,10 +94,10 @@ Set to `0` to allow refunds of any amount.
 
 | Setting | Location | Default | What It Controls |
 |---|---|---|---|
-| **Refund on Cancellation** | Refunds Settings | Allow Immediate Refund | What happens to the subscription when its latest order is fully refunded |
-| **Automatic Gateway Refund** | Refunds Settings | Enabled | Whether refunds are sent through the payment gateway automatically |
-| **Allow Prorated Refunds** | Refunds Settings | Enabled | Whether admins can issue prorated refunds based on unused days |
-| **Minimum Refund Amount** | Refunds Settings | 0 | The minimum amount a refund must reach to be processed |
+| **Refund on Cancellation** | Settings → Refunds | Allow Immediate Refund | The refund policy used by cancellation workflows |
+| **Automatic Gateway Refund** | Settings → Refunds | Enabled | Whether refunds are sent through the payment gateway automatically |
+| **Allow Prorated Refunds** | Settings → Refunds | Enabled | Whether admins can issue prorated refunds based on unused days |
+| **Minimum Refund Amount** | Settings → Refunds | 0 | The minimum refund threshold shown in the Refunds settings |
 
 ---
 
@@ -125,13 +125,9 @@ A native WooCommerce refund object is created with the specified amount and reas
 
 ### Step 4: Check Full Refund Behavior
 
-If the refund fully covers the latest paid order's remaining balance, the system fires a "fully refunded" event. The subscription's behavior then follows your **Refund on Cancellation** setting:
+If the refund fully covers a linked subscription order's remaining balance, the system fires a "fully refunded" event. That full-refund event immediately cancels the linked subscription and removes future scheduled actions.
 
-| Setting | Result |
-|---|---|
-| Allow Immediate Refund | Subscription is cancelled immediately. All future actions are unscheduled. |
-| Refund at End of Period | Subscription is scheduled for cancellation at the next payment date. Customer retains access. |
-| No Automatic Refund | Nothing happens to the subscription. |
+The **Refund on Cancellation** setting is used for cancellation-driven refund behavior. It does not delay or suppress the immediate cancellation that follows a full WooCommerce order refund.
 
 ### Step 5: Gateway Synchronization (Pro)
 
@@ -168,7 +164,7 @@ Refunds the entire remaining balance of a specific order.
 
 **Available from:** The WooCommerce order edit page, or via the REST API endpoint `POST /arraysubs/v1/orders/{order_id}/full-refund`.
 
-When the refunded order is the subscription's latest paid order, the **Refund on Cancellation** setting determines the subscription outcome.
+When the refunded order is linked to a subscription and the refund covers the remaining order balance, ArraySubs cancels the linked subscription immediately.
 
 ### Partial Order Refund
 
@@ -212,10 +208,10 @@ With ArraySubs Pro and the Store Credit feature enabled, admins can issue refund
 
 When processing a refund on a WooCommerce order page, the refund method selector includes:
 
-- **Via Gateway** — standard refund to the customer's payment method
-- **As Store Credit** — converts the refund amount to store credit deposited in the customer's account
+- **Refund via Payment Gateway (or manual)** — standard WooCommerce refund handling
+- **Refund as Store Credit** — converts the refund amount to store credit deposited in the customer's account
 
-When "As Store Credit" is selected:
+When **Refund as Store Credit** is selected:
 
 1. The refund amount is added to the customer's store credit balance
 2. The refund is recorded in the order's `_arraysubs_credit_refunds` meta
@@ -235,32 +231,23 @@ For the full guide, see [Refund to Credit](../store-credit/refund-to-credit.md) 
 
 ## Subscription Behavior After Full Refund
 
-When the most recent paid order is fully refunded, the system performs different actions based on your **Refund on Cancellation** setting:
+When a linked subscription order is fully refunded, ArraySubs cancels the subscription immediately:
 
 ### Immediate Cancellation
 
 1. Subscription status changes to **Cancelled**
 2. `_end_date` is set to the current time
-3. `_cancellation_reason` is set to "Refund issued"
+3. `_cancellation_reason` is set to "Full refund processed"
 4. All scheduled Action Scheduler jobs are removed (renewals, reminders, status transitions)
 5. A subscription note records the cancellation and the triggering refund
 
-### End-of-Period Cancellation
-
-1. `_waiting_cancellation` flag is set to `yes`
-2. `ActionScheduler::HOOK_CANCEL_SUBSCRIPTION` is scheduled for the next payment date
-3. Customer retains access until the period ends
-4. A subscription note records the scheduled cancellation
-
-### No Automatic Action
-
-Nothing changes on the subscription. The order refund is processed in WooCommerce, but the subscription continues as normal. You must manually handle any status changes.
+End-of-period refund policy is separate: when a subscription is already scheduled for end-of-period cancellation, ArraySubs stores the selected **Refund on Cancellation** policy and applies it when the scheduled cancellation executes.
 
 ---
 
 ## Edge Cases and Important Notes
 
-- **Only full refunds of the latest paid order trigger subscription behavior changes.** Partial refunds, refunds of older orders, or refunds of non-renewal orders do not trigger automatic cancellation.
+- **Only full refunds of linked subscription orders trigger subscription behavior changes.** Partial refunds and refunds for orders that are not linked to the subscription do not trigger automatic cancellation.
 - **Prorated refund calculations use 30 days for monthly periods.** This is an approximation. Months with 28, 29, or 31 days will have slightly different daily rates in practice.
 - **Minimum refund amount applies to all refund types.** If the prorated calculation results in an amount below the minimum, the refund will not be processed.
 - **Gateway refunds require gateway support.** Not all WooCommerce payment gateways support the refund API. If the gateway doesn't support refunds, they must be processed manually through the gateway's dashboard.
@@ -274,7 +261,7 @@ Nothing changes on the subscription. The order refund is processed in WooCommerc
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| Refund was issued but subscription is still active | **Refund on Cancellation** is set to "No Automatic Refund" or the refund was partial | Check the Refunds Settings. If using "No Automatic Refund," cancel the subscription manually |
+| Refund was issued but subscription is still active | The refund was partial, the order was not linked to the subscription, or the refund did not cover the linked order's remaining balance | Confirm the order is linked to the subscription and fully refunded. Partial refunds do not trigger automatic cancellation |
 | Prorated refund option is not available | **Allow Prorated Refunds** is disabled in settings | Enable it in **ArraySubs → Settings → Refunds** |
 | Refund amount is below the minimum | The prorated calculation resulted in an amount below the **Minimum Refund Amount** threshold | Lower the minimum threshold or issue a full refund instead |
 | Gateway did not process the refund | The gateway does not support the WooCommerce refund API, or **Automatic Gateway Refund** is disabled | Check gateway compatibility and the auto-refund toggle. Process manually through the gateway dashboard if needed |
@@ -298,7 +285,7 @@ Nothing changes on the subscription. The order refund is processed in WooCommerc
 ## FAQ
 
 ### Does refunding an order always cancel the subscription?
-No. Only a **full refund** of the subscription's **most recent paid order** triggers automatic subscription behavior, and only if the **Refund on Cancellation** setting is set to "Allow Immediate Refund" or "Refund at End of Period." Partial refunds and refunds of older orders do not affect the subscription.
+No. Only a **full refund** of a linked subscription order triggers automatic subscription cancellation. Partial refunds do not affect the subscription status.
 
 ### Can customers request refunds from their portal?
 No. Refunds are admin-only operations. Customers can cancel their subscription from the portal, but refund processing is handled by the store admin from the WooCommerce order page or the subscription detail page.
@@ -310,7 +297,7 @@ The system divides the recurring amount by the number of days in the billing cyc
 If the gateway sends a refund webhook, ArraySubs will pick it up and process it locally (recording it in refund history and potentially triggering cancellation behavior). The Two-Way Sync Guard ensures refunds initiated locally don't get double-processed from webhooks.
 
 ### Can I issue a refund as store credit?
-Yes, with ArraySubs Pro and Store Credit enabled. On the WooCommerce order edit screen, choose "As Store Credit" as the refund method. The amount is deposited into the customer's store credit balance. See [Refund to Credit](../store-credit/refund-to-credit.md).
+Yes, with ArraySubs Pro and Store Credit enabled. On the WooCommerce order edit screen, choose **Refund as Store Credit** as the refund method. The amount is deposited into the customer's store credit balance. See [Refund to Credit](../store-credit/refund-to-credit.md).
 
 ### Does the minimum refund amount apply to store credit refunds?
 The minimum amount threshold applies to all refund types processed through ArraySubs, including store credit refunds.

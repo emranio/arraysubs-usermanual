@@ -8,7 +8,8 @@
 ## Page Navigation
 
 - **Current guide:** Shortcode Cross-Reference
-- **Where to open it:** WordPress Admin -> ArraySubs -> Profile Builder
+- **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/shortcodes`
 - **Full shortcode reference:** [Shortcodes](../shortcodes/README.md)
 - **Account form shortcodes:** [Account Shortcodes](../shortcodes/account-shortcodes.md)
 - **Content access shortcodes:** [Content Gating Shortcodes](../shortcodes/content-gating.md)

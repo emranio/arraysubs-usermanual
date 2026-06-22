@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Redirect Product Page
-- **Where to open it:** WordPress Admin -> Products -> Edit Product -> Product data -> Subscription
+- **Where to open it:** WordPress Admin -> Products -> Edit Product -> Product data -> ArraySubs Redirect
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [Subscription Products](../subscription-products/README.md)
 - **Next guide:** [Subscription Shipping](../subscription-shipping/README.md)

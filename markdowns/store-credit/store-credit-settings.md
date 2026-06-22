@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Store Credit Settings
-- **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
+- **Where to open it:** WordPress Admin → ArraySubs → Store Credit → Settings
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/store-credit/settings`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [store-credit-management](./store-credit-management.md)

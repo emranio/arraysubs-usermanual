@@ -34,7 +34,7 @@ Cancellation setup controls three things: **when** a subscription is cancelled (
 
 - ArraySubs core plugin installed and active
 - At least one subscription product created
-- Customer cancellation enabled in **ArraySubs → Settings → General Settings → Customer Actions → Allow Cancellation**
+- Customer cancellation enabled in **ArraySubs → Settings → General → Customer Actions → Allow Cancellation**
 
 ## How It Works
 
@@ -78,11 +78,11 @@ End-of-period cancellation is generally recommended for most subscription busine
 
 ### How to Configure
 
-1. Navigate to **ArraySubs → Settings → General Settings**.
+1. Navigate to **ArraySubs → Settings → General**.
 2. Scroll to the **Customer Actions** section.
 3. Find the **Cancel Immediately** toggle.
 4. **Enable** for immediate cancellation, or **disable** for end-of-period cancellation.
-5. Click **Save Changes**.
+5. Click **Save Settings**.
 
 ---
 
@@ -171,7 +171,7 @@ Below the list, an **Add Reason** button lets you add new rows.
 
 ### Saving Changes
 
-After making changes to reasons or retention offers, click the **Save Changes** button at the bottom of the page. A success toast message confirms the save.
+After making changes to reasons or retention offers, click the **Save Settings** button at the bottom of the page. A success toast message confirms the save.
 
 ```box class="warning-box"
 Changing reason keys after you have collected cancellation data can cause analytics discrepancies. The old key's data remains in the log under the old key, and new cancellations will use the new key. If you need to rename a reason, consider adding a new reason and deactivating the old one instead of editing the key.
@@ -236,8 +236,8 @@ The admin sees the same option in the **Cancellation Details** card on the admin
 
 | Setting | Location | Default | What It Controls |
 |---|---|---|---|
-| **Allow Cancellation** | General Settings → Customer Actions | Enabled | Whether customers see the Cancel button in the portal |
-| **Cancel Immediately** | General Settings → Customer Actions | Enabled | Whether cancellation is immediate or end-of-period |
+| **Allow Cancellation** | Settings → General → Customer Actions | Enabled | Whether customers see the Cancel button in the portal |
+| **Cancel Immediately** | Settings → General → Customer Actions | Enabled | Whether cancellation is immediate or end-of-period |
 | **Require Cancellation Reason** | Retention Flow page | Enabled | Whether a reason is required before cancellation can proceed |
 | **Cancellation Reasons** | Retention Flow page | 7 defaults | The list of reasons shown in the cancellation modal |
 | **Enable Retention Offers** | Retention Flow page | Enabled | Whether retention offers appear after reason selection |
@@ -258,7 +258,7 @@ The admin sees the same option in the **Cancellation Details** card on the admin
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| Customer does not see the Cancel button | Cancellation is disabled in settings, or the subscription status is already cancelled/expired | Check **General Settings → Customer Actions → Allow Cancellation** and the subscription status |
+| Customer does not see the Cancel button | Cancellation is disabled in settings, or the subscription status is already cancelled/expired | Check **Settings → General → Customer Actions → Allow Cancellation** and the subscription status |
 | Customer cancels without selecting a reason | **Require Cancellation Reason** is disabled | Enable it on the **Retention Flow** page |
 | Cancellation reason data is missing in analytics | Reasons were not configured or required before the cancellation occurred | Configure reasons and enable the require toggle — only future cancellations will capture reasons |
 | End-of-period cancellation still shows as Active | This is expected behavior — the subscription stays active until the period ends, with a pending cancellation flag | Check the subscription detail page for the Cancellation Details card |

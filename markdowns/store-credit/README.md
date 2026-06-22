@@ -14,8 +14,8 @@
 - **Current guide:** Store Credit
 - **Where to open it:** WordPress Admin -> ArraySubs -> Store Credit
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [purchase-product](./purchase-product.md)
-- **Next guide:** [refund-to-credit](./refund-to-credit.md)
+- **Previous guide:** [Store Credit Shortcode](../shortcodes/store-credit-shortcode.md)
+- **Next guide:** [Credit History](./credit-history.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ```box class="info-box"
