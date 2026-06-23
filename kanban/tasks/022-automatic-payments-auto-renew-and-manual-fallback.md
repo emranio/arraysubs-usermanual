@@ -1,14 +1,11 @@
 ---
 id: 22
 title: automatic-payments - auto-renew-and-manual-fallback.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.570015+06:00
-updated: 2026-06-21T23:21:42+06:00
+updated: 2026-06-23T16:34:38.800643+06:00
 started: 2026-06-21T23:20:24+06:00
-completed: 2026-06-21T23:21:42+06:00
-claimed_by: codex
-claimed_at: 2026-06-21T23:21:42+06:00
 class: standard
 ---
 

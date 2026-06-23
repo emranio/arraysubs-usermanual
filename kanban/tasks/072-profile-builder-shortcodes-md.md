@@ -1,14 +1,11 @@
 ---
 id: 72
 title: profile-builder - shortcodes.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.092041+06:00
-updated: 2026-06-22T18:14:57.919608+06:00
+updated: 2026-06-23T16:34:38.817313+06:00
 started: 2026-06-22T18:13:30.489554+06:00
-completed: 2026-06-22T18:14:57.923549+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T18:14:57.919608+06:00
 class: standard
 ---
 

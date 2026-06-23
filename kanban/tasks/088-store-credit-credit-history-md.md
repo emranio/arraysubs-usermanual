@@ -1,14 +1,11 @@
 ---
 id: 88
 title: store-credit - credit-history.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.287462+06:00
-updated: 2026-06-22T19:37:46.004255+06:00
+updated: 2026-06-23T16:34:38.822266+06:00
 started: 2026-06-22T19:34:55.167613+06:00
-completed: 2026-06-22T19:37:46.008166+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T19:37:46.004255+06:00
 class: standard
 ---
 

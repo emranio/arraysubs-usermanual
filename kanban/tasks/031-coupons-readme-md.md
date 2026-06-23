@@ -1,14 +1,11 @@
 ---
 id: 31
 title: coupons - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.652428+06:00
-updated: 2026-06-21T15:28:41.728718+06:00
-claimed_by: codex
-claimed_at: 2026-06-21T23:46:48+06:00
+updated: 2026-06-23T16:34:38.804785+06:00
 started: 2026-06-21T23:46:48+06:00
-completed: 2026-06-21T23:52:26+06:00
 class: standard
 ---
 

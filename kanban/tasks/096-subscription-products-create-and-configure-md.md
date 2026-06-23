@@ -1,14 +1,11 @@
 ---
 id: 96
 title: subscription-products - create-and-configure.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.379204+06:00
-updated: 2026-06-22T20:12:34.579978+06:00
+updated: 2026-06-23T16:34:38.824639+06:00
 started: 2026-06-22T20:08:26.418441+06:00
-completed: 2026-06-22T20:12:34.584141+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T20:12:34.579978+06:00
 class: standard
 ---
 

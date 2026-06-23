@@ -1,14 +1,11 @@
 ---
 id: 85
 title: shortcodes - content-gating.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.251641+06:00
-updated: 2026-06-22T19:24:46.087794+06:00
+updated: 2026-06-23T16:34:38.82154+06:00
 started: 2026-06-22T19:23:34.20343+06:00
-completed: 2026-06-22T19:24:46.09178+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T19:24:46.087794+06:00
 class: standard
 ---
 

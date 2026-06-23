@@ -1,14 +1,11 @@
 ---
 id: 27
 title: checkout-builder - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.612558+06:00
-updated: 2026-06-21T15:28:41.727895+06:00
-claimed_by: codex
-claimed_at: 2026-06-21T23:30:32+06:00
+updated: 2026-06-23T16:34:38.802268+06:00
 started: 2026-06-21T23:30:32+06:00
-completed: 2026-06-21T23:32:03+06:00
 class: standard
 ---
 

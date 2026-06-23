@@ -1,14 +1,11 @@
 ---
 id: 68
 title: multi-login-prevention - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.045617+06:00
-updated: 2026-06-22T02:20:38.739918+06:00
+updated: 2026-06-23T16:34:38.816338+06:00
 started: 2026-06-22T02:18:47.212586+06:00
-completed: 2026-06-22T02:20:38.744845+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T02:20:38.739918+06:00
 class: standard
 ---
 

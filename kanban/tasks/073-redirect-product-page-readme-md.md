@@ -1,14 +1,11 @@
 ---
 id: 73
 title: redirect-product-page - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.107631+06:00
-updated: 2026-06-22T18:21:06.467606+06:00
+updated: 2026-06-23T16:34:38.817578+06:00
 started: 2026-06-22T18:14:57.94414+06:00
-completed: 2026-06-22T18:21:06.471424+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T18:21:06.467606+06:00
 class: standard
 ---
 

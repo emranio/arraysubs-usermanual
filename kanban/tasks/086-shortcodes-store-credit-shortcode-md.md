@@ -1,14 +1,11 @@
 ---
 id: 86
 title: shortcodes - store-credit-shortcode.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.261681+06:00
-updated: 2026-06-22T19:29:15.743313+06:00
+updated: 2026-06-23T16:34:38.821781+06:00
 started: 2026-06-22T19:24:55.507668+06:00
-completed: 2026-06-22T19:29:15.746914+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T19:29:15.743313+06:00
 class: standard
 ---
 

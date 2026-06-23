@@ -1,14 +1,11 @@
 ---
 id: 3
 title: analytics - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.394907+06:00
-updated: 2026-06-21T17:10:02.197655+06:00
+updated: 2026-06-23T16:34:38.793983+06:00
 started: 2026-06-17T17:35:49.69654+06:00
-completed: 2026-06-21T16:59:25.907066+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T17:10:02.197654+06:00
 class: standard
 ---
 

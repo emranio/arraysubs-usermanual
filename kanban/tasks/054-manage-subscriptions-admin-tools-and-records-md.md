@@ -1,14 +1,11 @@
 ---
 id: 54
 title: manage-subscriptions - admin-tools-and-records.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.89742+06:00
-updated: 2026-06-22T01:36:30.863137+06:00
+updated: 2026-06-23T16:34:38.812342+06:00
 started: 2026-06-22T01:35:35.592079+06:00
-completed: 2026-06-22T01:36:30.867033+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T01:36:30.863137+06:00
 class: standard
 ---
 

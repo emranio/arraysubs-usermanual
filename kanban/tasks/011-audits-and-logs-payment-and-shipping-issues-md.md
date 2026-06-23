@@ -1,14 +1,11 @@
 ---
 id: 11
 title: audits-and-logs - payment-and-shipping-issues.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.466276+06:00
-updated: 2026-06-21T18:07:10.350115+06:00
+updated: 2026-06-23T16:34:38.796658+06:00
 started: 2026-06-21T17:57:22.663241+06:00
-completed: 2026-06-21T18:07:10.350114+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T18:07:10.350115+06:00
 class: standard
 ---
 

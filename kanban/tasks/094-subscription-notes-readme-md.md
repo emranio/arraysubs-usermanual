@@ -1,14 +1,11 @@
 ---
 id: 94
 title: subscription-notes - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.353349+06:00
-updated: 2026-06-22T20:06:23.81786+06:00
+updated: 2026-06-23T16:34:38.824138+06:00
 started: 2026-06-22T20:02:07.503649+06:00
-completed: 2026-06-22T20:06:23.821902+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T20:06:23.81786+06:00
 class: standard
 ---
 

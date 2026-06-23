@@ -1,14 +1,11 @@
 ---
 id: 99
 title: subscription-products - product-lifecycle.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.409499+06:00
-updated: 2026-06-22T20:33:36.065837+06:00
+updated: 2026-06-23T16:34:38.825445+06:00
 started: 2026-06-22T20:26:55.641044+06:00
-completed: 2026-06-22T20:33:36.069727+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T20:33:36.065837+06:00
 class: standard
 ---
 

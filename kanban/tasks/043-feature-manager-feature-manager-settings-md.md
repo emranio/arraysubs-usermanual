@@ -1,14 +1,11 @@
 ---
 id: 43
 title: feature-manager - feature-manager-settings.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.777143+06:00
-updated: 2026-06-22T01:35:00+06:00
+updated: 2026-06-23T16:34:38.809073+06:00
 started: 2026-06-22T01:16:42.651258+06:00
-claimed_by: codex
-claimed_at: 2026-06-22T01:16:42.647524+06:00
-completed: 2026-06-22T01:35:00+06:00
 class: standard
 ---
 

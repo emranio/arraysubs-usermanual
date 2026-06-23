@@ -1,14 +1,11 @@
 ---
 id: 47
 title: getting-started - cron-job-setup.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.823608+06:00
-updated: 2026-06-22T02:06:00+06:00
+updated: 2026-06-23T16:34:38.810109+06:00
 started: 2026-06-22T01:22:56.447366+06:00
-claimed_by: codex
-claimed_at: 2026-06-22T01:22:56.44168+06:00
-completed: 2026-06-22T02:06:00+06:00
 class: standard
 ---
 

@@ -1,14 +1,11 @@
 ---
 id: 66
 title: member-insight - member-lookup-and-profiles.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.020262+06:00
-updated: 2026-06-22T02:16:16.450532+06:00
+updated: 2026-06-23T16:34:38.815822+06:00
 started: 2026-06-22T02:14:41.583834+06:00
-completed: 2026-06-22T02:16:16.454392+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T02:16:16.450532+06:00
 class: standard
 ---
 

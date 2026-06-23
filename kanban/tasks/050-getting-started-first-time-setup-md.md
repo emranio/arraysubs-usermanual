@@ -1,14 +1,11 @@
 ---
 id: 50
 title: getting-started - first-time-setup.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.849931+06:00
-updated: 2026-06-22T02:35:00+06:00
+updated: 2026-06-23T16:34:38.810977+06:00
 started: 2026-06-22T01:28:22.248509+06:00
-claimed_by: codex
-claimed_at: 2026-06-22T01:28:22.244872+06:00
-completed: 2026-06-22T02:35:00+06:00
 class: standard
 ---
 

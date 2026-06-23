@@ -1,14 +1,11 @@
 ---
 id: 19
 title: billing-and-renewals - trial-management.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.538679+06:00
-updated: 2026-06-21T19:14:07.26332+06:00
+updated: 2026-06-23T16:34:38.799746+06:00
 started: 2026-06-21T18:56:56.686209+06:00
-completed: 2026-06-21T19:14:07.26332+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T19:14:07.26332+06:00
 class: standard
 ---
 

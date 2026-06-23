@@ -1,14 +1,11 @@
 ---
 id: 13
 title: audits-and-logs - renewal-failures.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.48243+06:00
-updated: 2026-06-21T18:15:18.466688+06:00
+updated: 2026-06-23T16:34:38.79731+06:00
 started: 2026-06-21T18:11:04.543173+06:00
-completed: 2026-06-21T18:15:18.466687+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T18:15:18.466688+06:00
 class: standard
 ---
 

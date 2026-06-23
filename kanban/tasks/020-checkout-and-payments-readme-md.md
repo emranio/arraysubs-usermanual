@@ -1,14 +1,11 @@
 ---
 id: 20
 title: checkout-and-payments - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.55327+06:00
-updated: 2026-06-21T19:25:48.848285+06:00
+updated: 2026-06-23T16:34:38.800121+06:00
 started: 2026-06-21T19:14:22.528913+06:00
-completed: 2026-06-21T19:25:48.848284+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T19:25:48.848285+06:00
 class: standard
 ---
 

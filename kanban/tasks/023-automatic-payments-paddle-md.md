@@ -1,14 +1,11 @@
 ---
 id: 23
 title: automatic-payments - paddle.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.578495+06:00
-updated: 2026-06-21T23:22:48+06:00
+updated: 2026-06-23T16:34:38.80091+06:00
 started: 2026-06-21T23:22:08+06:00
-completed: 2026-06-21T23:22:48+06:00
-claimed_by: codex
-claimed_at: 2026-06-21T23:22:48+06:00
 class: standard
 ---
 

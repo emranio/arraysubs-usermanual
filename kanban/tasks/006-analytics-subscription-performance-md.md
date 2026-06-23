@@ -1,14 +1,11 @@
 ---
 id: 6
 title: analytics - subscription-performance.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.419991+06:00
-updated: 2026-06-21T17:21:55.021806+06:00
+updated: 2026-06-23T16:34:38.794943+06:00
 started: 2026-06-17T17:39:07.100764+06:00
-completed: 2026-06-21T17:21:55.021806+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T17:21:55.021806+06:00
 class: standard
 ---
 

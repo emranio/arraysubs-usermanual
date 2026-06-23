@@ -1,14 +1,11 @@
 ---
 id: 46
 title: getting-started - before-you-launch.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.814766+06:00
-updated: 2026-06-22T02:03:00+06:00
+updated: 2026-06-23T16:34:38.809858+06:00
 started: 2026-06-22T01:22:16.682279+06:00
-claimed_by: codex
-claimed_at: 2026-06-22T01:22:16.675421+06:00
-completed: 2026-06-22T02:03:00+06:00
 class: standard
 ---
 

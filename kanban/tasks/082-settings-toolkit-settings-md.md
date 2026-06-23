@@ -1,14 +1,11 @@
 ---
 id: 82
 title: settings - toolkit-settings.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.215589+06:00
-updated: 2026-06-22T19:20:58.241676+06:00
+updated: 2026-06-23T16:34:38.820517+06:00
 started: 2026-06-22T19:18:32.63427+06:00
-completed: 2026-06-22T19:20:58.24579+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T19:20:58.241676+06:00
 class: standard
 ---
 

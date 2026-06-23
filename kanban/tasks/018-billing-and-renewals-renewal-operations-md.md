@@ -1,14 +1,11 @@
 ---
 id: 18
 title: billing-and-renewals - renewal-operations.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.53014+06:00
-updated: 2026-06-21T18:56:44.587863+06:00
+updated: 2026-06-23T16:34:38.799306+06:00
 started: 2026-06-21T18:46:52.518723+06:00
-completed: 2026-06-21T18:56:44.587863+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T18:56:44.587863+06:00
 class: standard
 ---
 

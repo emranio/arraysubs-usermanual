@@ -1,14 +1,11 @@
 ---
 id: 70
 title: profile-builder - my-account-editor.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.070119+06:00
-updated: 2026-06-22T02:26:04.666841+06:00
+updated: 2026-06-23T16:34:38.816851+06:00
 started: 2026-06-22T02:23:02.476751+06:00
-completed: 2026-06-22T02:26:04.671527+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T02:26:04.666841+06:00
 class: standard
 ---
 

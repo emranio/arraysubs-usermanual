@@ -1,14 +1,11 @@
 ---
 id: 89
 title: store-credit - emails.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.297337+06:00
-updated: 2026-06-22T19:42:52.836293+06:00
+updated: 2026-06-23T16:34:38.822572+06:00
 started: 2026-06-22T19:37:59.689753+06:00
-completed: 2026-06-22T19:42:52.840109+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T19:42:52.836293+06:00
 class: standard
 ---
 

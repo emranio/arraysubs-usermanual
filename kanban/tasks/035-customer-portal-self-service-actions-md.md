@@ -1,14 +1,11 @@
 ---
 id: 35
 title: customer-portal - self-service-actions.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.6939+06:00
-updated: 2026-06-22T00:08:10+06:00
-claimed_by: codex
-claimed_at: 2026-06-22T00:02:14+06:00
+updated: 2026-06-23T16:34:38.806355+06:00
 started: 2026-06-22T00:02:14+06:00
-completed: 2026-06-22T00:08:10+06:00
 class: standard
 ---
 

@@ -1,14 +1,11 @@
 ---
 id: 37
 title: emails - admin-emails.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.718027+06:00
-updated: 2026-06-22T00:18:00+06:00
-claimed_by: codex
-claimed_at: 2026-06-22T00:11:00+06:00
+updated: 2026-06-23T16:34:38.807073+06:00
 started: 2026-06-22T00:11:00+06:00
-completed: 2026-06-22T00:18:00+06:00
 class: standard
 ---
 

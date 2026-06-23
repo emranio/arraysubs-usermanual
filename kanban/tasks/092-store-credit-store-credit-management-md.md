@@ -1,14 +1,11 @@
 ---
 id: 92
 title: store-credit - store-credit-management.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.327527+06:00
-updated: 2026-06-22T20:00:57.619423+06:00
+updated: 2026-06-23T16:34:38.823445+06:00
 started: 2026-06-22T19:59:24.874056+06:00
-completed: 2026-06-22T20:00:57.623341+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T20:00:57.619423+06:00
 class: standard
 ---
 

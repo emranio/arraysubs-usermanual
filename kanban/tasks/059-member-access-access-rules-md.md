@@ -1,14 +1,11 @@
 ---
 id: 59
 title: member-access - access-rules.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.948944+06:00
-updated: 2026-06-22T01:43:24.732234+06:00
+updated: 2026-06-23T16:34:38.813793+06:00
 started: 2026-06-22T01:41:51.103802+06:00
-completed: 2026-06-22T01:43:24.736333+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T01:43:24.732234+06:00
 class: standard
 ---
 

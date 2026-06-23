@@ -1,14 +1,11 @@
 ---
 id: 2
 title: admin-dashboard-access - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.379391+06:00
-updated: 2026-06-21T17:10:39.849916+06:00
+updated: 2026-06-23T16:34:38.793658+06:00
 started: 2026-06-18T10:46:08.414290824+02:00
-completed: 2026-06-21T16:55:03.78129+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T17:10:39.849916+06:00
 class: standard
 ---
 

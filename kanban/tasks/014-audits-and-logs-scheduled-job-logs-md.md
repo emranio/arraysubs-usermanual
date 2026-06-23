@@ -1,14 +1,11 @@
 ---
 id: 14
 title: audits-and-logs - scheduled-job-logs.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.490626+06:00
-updated: 2026-06-21T18:32:31.030808+06:00
+updated: 2026-06-23T16:34:38.797557+06:00
 started: 2026-06-21T18:15:37.705298+06:00
-completed: 2026-06-21T18:24:02.16001+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T18:32:31.030808+06:00
 class: standard
 ---
 

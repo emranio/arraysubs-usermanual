@@ -1,14 +1,11 @@
 ---
 id: 98
 title: subscription-products - product-experience.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.399482+06:00
-updated: 2026-06-22T20:26:43.853015+06:00
+updated: 2026-06-23T16:34:38.825107+06:00
 started: 2026-06-22T20:19:59.549489+06:00
-completed: 2026-06-22T20:26:43.856882+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T20:26:43.853015+06:00
 class: standard
 ---
 

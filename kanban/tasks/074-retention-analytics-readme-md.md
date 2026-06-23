@@ -1,14 +1,11 @@
 ---
 id: 74
 title: retention-analytics - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.123038+06:00
-updated: 2026-06-22T18:26:30.46619+06:00
+updated: 2026-06-23T16:34:38.81782+06:00
 started: 2026-06-22T18:21:06.491766+06:00
-completed: 2026-06-22T18:26:30.470122+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T18:26:30.46619+06:00
 class: standard
 ---
 

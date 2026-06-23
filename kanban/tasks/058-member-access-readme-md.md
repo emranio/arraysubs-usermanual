@@ -1,14 +1,11 @@
 ---
 id: 58
 title: member-access - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.93994+06:00
-updated: 2026-06-22T01:41:40.874592+06:00
+updated: 2026-06-23T16:34:38.813552+06:00
 started: 2026-06-22T01:40:55.348271+06:00
-completed: 2026-06-22T01:41:40.87783+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T01:41:40.874592+06:00
 class: standard
 ---
 

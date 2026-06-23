@@ -1,14 +1,11 @@
 ---
 id: 25
 title: automatic-payments - paypal.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.595596+06:00
-updated: 2026-06-21T23:26:57+06:00
+updated: 2026-06-23T16:34:38.801647+06:00
 started: 2026-06-21T23:26:25+06:00
-completed: 2026-06-21T23:26:57+06:00
-claimed_by: codex
-claimed_at: 2026-06-21T23:26:57+06:00
 class: standard
 ---
 

@@ -1,14 +1,11 @@
 ---
 id: 62
 title: member-access - session-and-frontend-controls.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.977147+06:00
-updated: 2026-06-22T02:08:23.907926+06:00
+updated: 2026-06-23T16:34:38.814563+06:00
 started: 2026-06-22T02:05:58.5921+06:00
-completed: 2026-06-22T02:08:23.911989+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T02:08:23.907926+06:00
 class: standard
 ---
 

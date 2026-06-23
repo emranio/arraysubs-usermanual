@@ -1,14 +1,11 @@
 ---
 id: 44
 title: gateway-health - README.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.791567+06:00
-updated: 2026-06-22T01:48:00+06:00
+updated: 2026-06-23T16:34:38.809368+06:00
 started: 2026-06-22T01:17:29.347537+06:00
-claimed_by: codex
-claimed_at: 2026-06-22T01:17:29.343521+06:00
-completed: 2026-06-22T01:48:00+06:00
 class: standard
 ---
 

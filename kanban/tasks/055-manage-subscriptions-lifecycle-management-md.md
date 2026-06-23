@@ -1,14 +1,11 @@
 ---
 id: 55
 title: manage-subscriptions - lifecycle-management.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.906883+06:00
-updated: 2026-06-22T01:37:42.928124+06:00
+updated: 2026-06-23T16:34:38.812588+06:00
 started: 2026-06-22T01:36:37.440978+06:00
-completed: 2026-06-22T01:37:42.932434+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T01:37:42.928124+06:00
 class: standard
 ---
 

@@ -1,14 +1,11 @@
 ---
 id: 17
 title: billing-and-renewals - renewal-communication.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:34.521458+06:00
-updated: 2026-06-21T18:46:43.815587+06:00
+updated: 2026-06-23T16:34:38.798897+06:00
 started: 2026-06-21T18:37:58.737975+06:00
-completed: 2026-06-21T18:46:43.815586+06:00
-claimed_by: ureteric-rigidist
-claimed_at: 2026-06-21T18:46:43.815587+06:00
 class: standard
 ---
 

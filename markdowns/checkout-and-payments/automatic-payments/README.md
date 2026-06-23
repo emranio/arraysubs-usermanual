@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Gateway Overview and Architecture
-- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Where to open it:** Storefront checkout, WordPress Admin -> ArraySubs -> Audits [beta] -> Gateway Logs, and ArraySubs -> Subscriptions -> subscription detail
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [paypal](./paypal.md)
 - **Next guide:** [stripe](./stripe.md)

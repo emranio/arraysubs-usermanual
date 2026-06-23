@@ -1,14 +1,11 @@
 ---
 id: 77
 title: retention-and-refunds - refund-management.md
-status: done
+status: todo
 priority: medium
 created: 2026-06-09T18:08:35.158983+06:00
-updated: 2026-06-22T19:01:51.60431+06:00
+updated: 2026-06-23T16:34:38.818892+06:00
 started: 2026-06-22T18:39:47.74147+06:00
-completed: 2026-06-22T19:01:51.608085+06:00
-claimed_by: codex-screenshot
-claimed_at: 2026-06-22T19:01:51.60431+06:00
 class: standard
 ---
 
