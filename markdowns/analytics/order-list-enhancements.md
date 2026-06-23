@@ -29,6 +29,8 @@ The Order List Enhancements add four capabilities to the standard **WooCommerce 
 
 These enhancements work with both **HPOS** (Custom Orders Table) and **legacy post-type** order storage.
 
+![WooCommerce Orders list with subscription order enhancements](order-list-enhancements.ASSETS/01-order-list-overview-annotated.png)
+
 ## When to Use This
 
 - Quickly identify which orders on the list are renewals, upgrades, trials, or credit purchases.
@@ -86,6 +88,8 @@ A dropdown populated with every coupon code used across your orders. Select a co
 
 The coupon list is dynamically built from actual order data, so only coupons that have been applied to at least one order appear.
 
+![Coupon and subscription filters on the orders list](order-list-enhancements.ASSETS/02-coupon-subscription-filter-annotated.png)
+
 ### Subscription Products Only
 
 A checkbox or toggle that, when enabled, shows only orders containing at least one subscription product. This is useful for separating subscription-related orders from regular product orders when you don't need to filter by a specific type.
@@ -122,6 +126,8 @@ Orders created before the Pro plugin was activated do not have the computed type
 4. The system processes orders in batches of **200 per request**.
 5. A progress indicator shows how many orders have been processed.
 6. When all orders are classified, a completion message confirms the total count.
+
+![Order type backfill completion notice](order-list-enhancements.ASSETS/03-backfill-complete-notice-annotated.png)
 
 ### What the Backfill Does
 

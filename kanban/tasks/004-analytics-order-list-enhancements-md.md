@@ -1,13 +1,14 @@
 ---
 id: 4
 title: analytics - order-list-enhancements.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.403705+06:00
-updated: 2026-06-23T17:27:04.856694+06:00
+updated: 2026-06-23T18:08:39.130173+06:00
 started: 2026-06-17T17:36:53.256912+06:00
+completed: 2026-06-23T18:08:39.130173+06:00
 claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T17:27:04.856694+06:00
+claimed_at: 2026-06-23T18:08:39.130173+06:00
 class: standard
 ---
 
@@ -42,3 +43,11 @@ Markers:
 - `arrow pointing to the green success notice, label 'Backfill complete'`
 - `arrow pointing to the Compute Order Types area location above the filters, label 'Notice appears here when needed'`
 - `arrow pointing to the Type column below, label 'Classified orders'`
+
+
+
+Annotation notes (2026-06-23):
+- Reprocessed all three order-list enhancement screenshots as annotated variants with #873EFF, crop enabled, and steps=3.
+- Used essential labels only: two labels per image.
+- Generated order-list-enhancements.ASSETS/01-order-list-overview-annotated.png, 02-coupon-subscription-filter-annotated.png, and 03-backfill-complete-notice-annotated.png.
+- Verification: 6 labels resolved, 0 unresolved.

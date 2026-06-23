@@ -29,6 +29,8 @@ The Subscription Performance Dashboard adds three dedicated sections to the **Wo
 
 All sections respect the WooCommerce Admin date range selector and update automatically when you change the period.
 
+![Subscription Performance dashboard](subscription-performance.ASSETS/01-subscription-performance-full-dashboard-annotated.png)
+
 ## When to Use This
 
 - Review daily or weekly subscription health as part of your store management routine.

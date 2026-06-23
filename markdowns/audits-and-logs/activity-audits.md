@@ -78,6 +78,8 @@ The audit table displays entries in reverse chronological order (newest first) w
 | **Entity** | Clickable reference pills linking to the related subscription, product, order, or other entity |
 | **Activity** | The human-readable description of what happened, with a **changes →** link when structured field changes are available |
 
+![Filtered Activity Audits table](activity-audits.ASSETS/01-filtered-audit-table-annotated.png)
+
 ### Viewing Change Details
 
 When an audit entry includes structured field changes, click the **changes →** link in the Activity column. A modal opens showing:
@@ -91,6 +93,8 @@ For example, a subscription status change might show:
 | Field | Previous Value | Changed Value |
 |-------|---------------|---------------|
 | Status | active | on-hold |
+
+![Activity Audits change details modal](activity-audits.ASSETS/02-change-details-modal-annotated.png)
 
 ## Filtering Audit Entries
 
@@ -124,6 +128,8 @@ Type a keyword and press **Enter** to search note content. Use this to find entr
 ## Logging Settings
 
 Click the **gear icon** next to the filter bar to open the Logging Settings popover. This lets you toggle which entity types are recorded:
+
+![Activity Audits logging settings popover](activity-audits.ASSETS/03-logging-settings-popover-annotated.png)
 
 | Entity | Description | Default |
 |--------|-------------|---------|

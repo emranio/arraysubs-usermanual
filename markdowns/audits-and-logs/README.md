@@ -41,6 +41,8 @@ The troubleshooting guides cover common problems independent of whether you run 
 | [Access-Rule Conflicts](access-rule-conflicts.md) | Overlapping membership rules, condition evaluation, and content restriction debugging |
 | [Payment Method and Shipping Update Issues](payment-and-shipping-issues.md) | Auto-renew toggle errors, card update failures, shipping address cutoff problems |
 
+![Activity Audits overview](README.ASSETS/01-activity-audits-overview-annotated.png)
+
 ## Troubleshooting Entry Points
 
 Use this decision table when you know the symptom but not the root cause yet.
@@ -66,6 +68,8 @@ Use this decision table when you know the symptom but not the root cause yet.
 6. If a customer-facing button failed, open [Portal Action Failures](portal-action-failures.md) and verify the action's eligibility rules.
 7. Record the finding in the subscription notes or support ticket with the IDs you checked.
 
+![Scheduled-Job Logs screen](README.ASSETS/02-scheduled-job-logs-annotated.png)
+
 ## Common Evidence Sources
 
 | Evidence source | Use it for | Where to find it |
@@ -77,6 +81,8 @@ Use this decision table when you know the symptom but not the root cause yet.
 | Scheduled-Job Logs | Whether renewal, reminder, expiry, cancellation, or pause jobs executed | ArraySubs -> Audits [beta] |
 | Gateway Health Dashboard | Connection state, webhook URL, webhook event log, gateway capability matrix | ArraySubs -> Settings -> Gateway Health |
 | Customer portal state | Whether the customer saw the expected button, message, or disabled state | My Account -> Subscriptions |
+
+![Gateway Logs and health evidence](README.ASSETS/03-gateway-logs-health-annotated.png)
 
 ## Edge-Case Map
 

@@ -34,11 +34,19 @@ The analytics ecosystem has five major surfaces:
 | [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Pro | Type column, type filters, subscription revenue cards, subscription-only filters, member links |
 | [Order List Enhancements](order-list-enhancements.md) | WooCommerce → Orders | Pro | Type and coupon columns, filter dropdowns, embedded report panel, order type backfill |
 
+![Reports Hub overview](README.ASSETS/01-reports-hub-overview-annotated.png)
+
+![Subscription Performance overview](README.ASSETS/02-subscription-performance-overview-annotated.png)
+
+![Retention Analytics overview](README.ASSETS/03-retention-analytics-overview-annotated.png)
+
 All three surfaces share a unified **order type classification system** that automatically labels every WooCommerce order as one of six subscription-related types.
 
 ## Order Type Classification
 
 Every order that passes through the store is automatically classified into one of six types. This classification powers the filters, columns, and metrics across all analytics surfaces.
+
+![Order type classification on the orders screen](README.ASSETS/04-order-type-classification-annotated.png)
 
 ## Page Navigation
 

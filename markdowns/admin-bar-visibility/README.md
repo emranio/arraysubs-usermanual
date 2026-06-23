@@ -23,6 +23,8 @@
 
 **Hide admin bar for non-admin users** removes the WordPress toolbar from frontend pages for users who are not administrators. Customers get a cleaner storefront and portal experience, while administrators still see their normal WordPress toolbar.
 
+![Customer frontend with the WordPress toolbar hidden](README.ASSETS/02-customer-frontend-toolbar-hidden-annotated.png)
+
 This is a presentation control, not a permission system. A customer can still try to visit `/wp-admin` directly unless [Admin Dashboard Access](../admin-dashboard-access/README.md) is also configured.
 
 ## When to Use This
@@ -39,6 +41,8 @@ This is a presentation control, not a permission system. A customer can still tr
 4. Open the storefront as a customer and confirm the toolbar is gone.
 5. Open the storefront as an administrator and confirm the toolbar still appears.
 
+![Admin Bar toolkit setting](README.ASSETS/01-admin-bar-toolkit-setting-annotated.png)
+
 ## Settings Reference
 
 | Setting | Default | Type | Notes |
@@ -51,6 +55,8 @@ This is a presentation control, not a permission system. A customer can still tr
 - This does not block direct `/wp-admin` access.
 - This does not change user roles or capabilities.
 - Use it with [Admin Dashboard Access](../admin-dashboard-access/README.md) for a complete customer-facing cleanup.
+
+![Administrator frontend with the WordPress toolbar still visible](README.ASSETS/03-admin-frontend-toolbar-visible-annotated.png)
 
 ## Related Guides
 

@@ -82,6 +82,8 @@ Rules can also be nested into **groups**, where each group has its own AND/OR lo
 
 **Problem:** Two URL rules apply to the same page — one grants access and one denies it.
 
+![Overlapping URL rules in the conflict detector](access-rule-conflicts.ASSETS/02-url-rule-overlap-annotated.png)
+
 **Why it happens:** URL rules are evaluated in order. If a more restrictive rule matches first, it blocks access before a more permissive rule is evaluated.
 
 **Fix:** Review the URL Rules list in **ArraySubs → Member Access → URL Rules**. Reorder rules so the most specific rules come first. A more specific URL pattern should override a broader pattern.
@@ -150,6 +152,8 @@ Walk through each condition in the rule with the user's data:
 
 If the targeted content is protected by multiple rules (URL rules, post-type rules, per-post rules), check all of them. The most specific rule wins.
 
+![Disable rule confirmation from the conflict workflow](access-rule-conflicts.ASSETS/03-disable-rule-confirmation-annotated.png)
+
 ### Step 5: Check Caching
 
 If the site uses page caching, object caching, or a CDN, the access check result may be stale. Access rules set a `Cache Compatibility` mode in settings — verify it is configured appropriately:
@@ -168,6 +172,8 @@ When multiple rules could apply to the same content, this is the evaluation prio
 5. **Taxonomy rule** (applies to all posts in a taxonomy/term)
 
 The first matching rule wins. If no rule matches, content is unrestricted by default.
+
+![Access rule conflict detector overview](access-rule-conflicts.ASSETS/01-conflict-detector-overview-annotated.png)
 
 ## Settings That Affect Access Evaluation
 

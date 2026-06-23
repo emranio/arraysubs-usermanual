@@ -1,13 +1,14 @@
 ---
 id: 6
 title: analytics - subscription-performance.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.419991+06:00
-updated: 2026-06-23T17:27:04.857099+06:00
+updated: 2026-06-23T18:13:01.486291+06:00
 started: 2026-06-17T17:39:07.100764+06:00
+completed: 2026-06-23T18:13:01.486291+06:00
 claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T17:27:04.857099+06:00
+claimed_at: 2026-06-23T18:13:01.486291+06:00
 class: standard
 ---
 
@@ -24,3 +25,11 @@ Markers:
 - `arrow pointing to the Week interval control, label 'Interval selector'`
 - `arrow pointing to the lower leaderboard tables, label 'Product and customer rankings'`
 - `arrow pointing to Highest Churn Products, label 'Churn leaderboard'`
+
+
+
+Annotation notes (2026-06-23):
+- Reprocessed the subscription performance full-dashboard screenshot as an annotated variant with #873EFF, crop enabled, and steps=3.
+- Used essential labels only: MRR card and Churn leaderboard.
+- Generated subscription-performance.ASSETS/01-subscription-performance-full-dashboard-annotated.png.
+- Verification: 2 labels resolved, 0 unresolved.

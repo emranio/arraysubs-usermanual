@@ -27,6 +27,8 @@ Navigate to **ArraySubs → Reports** to open the page.
 
 The hub itself does not display data or charts. Instead it acts as a launch pad — showing you what reports exist, what each one measures, and where to find it. Reports that live inside WooCommerce Analytics open in the WooCommerce admin area; reports that live inside ArraySubs open within the ArraySubs admin panel.
 
+![Reports Hub full directory](reports-hub.ASSETS/01-reports-hub-full-directory-annotated.png)
+
 ## When to Use This
 
 - You want a quick overview of all the analytics features available with your current license.

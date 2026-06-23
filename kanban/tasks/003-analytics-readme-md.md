@@ -1,13 +1,14 @@
 ---
 id: 3
 title: analytics - README.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.394907+06:00
-updated: 2026-06-23T17:27:04.856474+06:00
+updated: 2026-06-23T18:04:09.983244+06:00
 started: 2026-06-17T17:35:49.69654+06:00
+completed: 2026-06-23T18:04:09.983243+06:00
 claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T17:27:04.856474+06:00
+claimed_at: 2026-06-23T18:04:09.983244+06:00
 class: standard
 ---
 
@@ -52,3 +53,11 @@ Markers:
 - `arrow pointing to the Subs Renew total in the summary panel, label 'Order type totals'`
 - `arrow pointing to the Type column header in the orders table, label 'Stored classification'`
 - `arrow pointing to a Subs Renew row badge, label 'Classified order'`
+
+
+
+Annotation notes (2026-06-23):
+- Reprocessed all four Analytics README screenshots as annotated variants with #873EFF, crop enabled, and steps=3.
+- Used essential labels only: two labels per image.
+- Generated README.ASSETS/01-reports-hub-overview-annotated.png, 02-subscription-performance-overview-annotated.png, 03-retention-analytics-overview-annotated.png, and 04-order-type-classification-annotated.png.
+- Verification: 8 labels resolved, 0 unresolved.

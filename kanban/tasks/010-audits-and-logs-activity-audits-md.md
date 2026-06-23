@@ -1,13 +1,14 @@
 ---
 id: 10
 title: audits-and-logs - activity-audits.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.457899+06:00
-updated: 2026-06-23T17:27:04.85822+06:00
+updated: 2026-06-23T18:37:02.585375+06:00
 started: 2026-06-18T11:07:13.611560085+02:00
+completed: 2026-06-23T18:37:02.585375+06:00
 claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T17:27:04.85822+06:00
+claimed_at: 2026-06-23T18:37:02.585375+06:00
 class: standard
 ---
 
@@ -39,3 +40,11 @@ Markers:
 - `arrow pointing to gear icon, label 'Logging settings'`
 - `arrow pointing to Product/Coupon/Email/Settings toggles, label 'Optional entity logging'`
 - `arrow pointing to always-recorded note, label 'Core entries always on'`
+
+
+
+Annotation notes (2026-06-23):
+- Reprocessed all three Activity Audits screenshots as annotated variants with #873EFF, crop enabled, and steps=3.
+- Used essential labels only: two labels per image.
+- Generated activity-audits.ASSETS/01-filtered-audit-table-annotated.png, 02-change-details-modal-annotated.png, and 03-logging-settings-popover-annotated.png.
+- Verification: 6 labels resolved, 0 unresolved.

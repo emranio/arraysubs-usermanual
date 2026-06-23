@@ -1,13 +1,14 @@
 ---
 id: 7
 title: analytics - woocommerce-analytics-extension.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.427931+06:00
-updated: 2026-06-23T17:27:04.857459+06:00
+updated: 2026-06-23T18:21:10.40671+06:00
 started: 2026-06-18T10:52:10.581536941+02:00
+completed: 2026-06-23T18:21:10.406709+06:00
 claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T17:27:04.857459+06:00
+claimed_at: 2026-06-23T18:21:10.406709+06:00
 class: standard
 ---
 
@@ -68,3 +69,11 @@ Markers:
 - `arrow pointing to the hovered customer row, label 'Customer row'`
 - `arrow pointing to Member details, label 'Member profile shortcut'`
 - `arrow pointing to the customer analytics table, label 'Native Customers report'`
+
+
+
+Annotation notes (2026-06-23):
+- Reprocessed all six WooCommerce Analytics extension screenshots as annotated variants with #873EFF, crop enabled, and steps=3.
+- Used essential labels only: two labels per image.
+- Generated woocommerce-analytics-extension.ASSETS/01-orders-type-filter-and-column-annotated.png through 06-customers-member-details-link-annotated.png.
+- Verification: 12 labels resolved, 0 unresolved.

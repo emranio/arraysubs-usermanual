@@ -43,6 +43,8 @@ Administrators are always allowed. You can also allow staff roles such as Shop M
 5. Click **Save Settings**.
 6. Test with a customer account in a separate browser session.
 
+![Dashboard access toolkit setting](README.ASSETS/01-dashboard-access-toolkit-setting-annotated.png)
+
 ## Settings Reference
 
 | Setting | Default | Type | Notes |

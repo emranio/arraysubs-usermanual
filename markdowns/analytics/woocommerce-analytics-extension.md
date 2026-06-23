@@ -67,6 +67,8 @@ A **Type** column appears after the Status column in the orders table. Each orde
 
 A single-select **Type** dropdown appears in the filters bar above the orders table. Select any type to show only orders of that classification.
 
+![Orders report type filter and type column](woocommerce-analytics-extension.ASSETS/01-orders-type-filter-and-column-annotated.png)
+
 Filter options:
 
 | Filter value | Shows |
@@ -90,6 +92,8 @@ This lets you build precise segments like "show renewal and upgrade orders but n
 
 When advanced type filters are active, a warning label appears in the filter bar to remind you that results are filtered.
 
+![Orders report advanced type filter](woocommerce-analytics-extension.ASSETS/02-orders-advanced-type-filter-annotated.png)
+
 ```box class="info-box"
 The quick filter and advanced filter serve different use cases. The quick filter is for fast single-type views. The advanced filter supports multi-type include/exclude logic. Only one mode is active at a time — setting an advanced filter overrides the quick filter.
 ```
@@ -112,6 +116,8 @@ Three additional summary cards appear alongside the standard WooCommerce revenue
 
 These cards help you understand how subscription-specific revenue breaks down without leaving the standard Revenue report.
 
+![Revenue report subscription summary cards](woocommerce-analytics-extension.ASSETS/03-revenue-subscription-cards-annotated.png)
+
 When you click a summary card, the report table updates to show the corresponding metric column for the selected interval, making it easy to see how that revenue type trends over time.
 
 ---
@@ -131,6 +137,8 @@ A **Product Type** dropdown appears in the filters bar with two options:
 
 This filter uses the `_is_subscription` product meta to include only subscription-type products in the report. One-time products, downloadable products, and other non-subscription product types are excluded.
 
+![Products report subscription product filter](woocommerce-analytics-extension.ASSETS/04-products-subscription-filter-annotated.png)
+
 ---
 
 ## Variations Report
@@ -148,6 +156,8 @@ A **Product Type** dropdown appears in the filters bar, identical to the Product
 
 The filter checks both the variation's own meta and the parent product's subscription flag to ensure complete coverage.
 
+![Variations report subscription variation filter](woocommerce-analytics-extension.ASSETS/05-variations-subscription-filter-annotated.png)
+
 ---
 
 ## Customers Report
@@ -159,6 +169,8 @@ Navigate to **WooCommerce → Analytics → Customers** to see the enhanced cust
 Below each customer's username in the report table, a **Member details** link appears. Clicking it navigates directly to the customer's full member profile in the ArraySubs admin panel, where you can view their subscription history, order history, store credit balance, and more.
 
 This quick link saves time when you spot interesting customer patterns in the analytics data and want to investigate further.
+
+![Customers report member details link](woocommerce-analytics-extension.ASSETS/06-customers-member-details-link-annotated.png)
 
 ---
 
