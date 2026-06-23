@@ -4,11 +4,11 @@ title: admin-bar-visibility - README.md
 status: done
 priority: medium
 created: 2026-06-09T18:08:34.362619+06:00
-updated: 2026-06-23T17:27:04.842961+06:00
+updated: 2026-06-23T17:46:33.92293+06:00
 started: 2026-06-18T10:42:49.399898807+02:00
-completed: 2026-06-23T17:27:04.842961+06:00
+completed: 2026-06-23T17:46:33.92293+06:00
 claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T17:27:04.842961+06:00
+claimed_at: 2026-06-23T17:46:33.92293+06:00
 class: standard
 ---
 
@@ -38,3 +38,11 @@ Markers:
 - `arrow pointing to the black WordPress toolbar at the top, label 'Admin toolbar remains'`
 - `arrow pointing to the Howdy, admin menu item, label 'Administrator session'`
 - `arrow pointing to the Edit Page toolbar link, label 'Admin shortcuts'`
+
+
+
+Annotation rerun notes (2026-06-23):
+- Reprocessed all three Admin Bar Visibility screenshots as annotated variants with #873EFF, crop enabled, and steps=3.
+- Used only essential labels to avoid crowding: two labels per image.
+- Generated README.ASSETS/01-admin-bar-toolkit-setting-annotated.png, README.ASSETS/02-customer-frontend-toolbar-hidden-annotated.png, and README.ASSETS/03-admin-frontend-toolbar-visible-annotated.png.
+- Verification: all 6 labels resolved, 0 unresolved; visual review passed.
