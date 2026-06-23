@@ -1,13 +1,14 @@
 ---
 id: 1
 title: admin-bar-visibility - README.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.362619+06:00
-updated: 2026-06-23T17:06:09.240967+06:00
+updated: 2026-06-23T17:27:04.842961+06:00
 started: 2026-06-18T10:42:49.399898807+02:00
+completed: 2026-06-23T17:27:04.842961+06:00
 claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T17:06:09.240967+06:00
+claimed_at: 2026-06-23T17:27:04.842961+06:00
 class: standard
 ---
 

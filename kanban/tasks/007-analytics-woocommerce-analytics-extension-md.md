@@ -1,11 +1,13 @@
 ---
 id: 7
 title: analytics - woocommerce-analytics-extension.md
-status: todo
+status: in-progress
 priority: medium
 created: 2026-06-09T18:08:34.427931+06:00
-updated: 2026-06-23T16:34:38.79546+06:00
+updated: 2026-06-23T17:27:04.857459+06:00
 started: 2026-06-18T10:52:10.581536941+02:00
+claimed_by: hobbler-beswitch
+claimed_at: 2026-06-23T17:27:04.857459+06:00
 class: standard
 ---
 

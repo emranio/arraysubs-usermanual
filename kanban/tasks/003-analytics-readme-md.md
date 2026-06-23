@@ -1,11 +1,13 @@
 ---
 id: 3
 title: analytics - README.md
-status: todo
+status: in-progress
 priority: medium
 created: 2026-06-09T18:08:34.394907+06:00
-updated: 2026-06-23T16:34:38.793983+06:00
+updated: 2026-06-23T17:27:04.856474+06:00
 started: 2026-06-17T17:35:49.69654+06:00
+claimed_by: hobbler-beswitch
+claimed_at: 2026-06-23T17:27:04.856474+06:00
 class: standard
 ---
 
