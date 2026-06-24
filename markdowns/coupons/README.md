@@ -52,11 +52,15 @@ ArraySubs extends WooCommerce coupons with subscription-specific settings. When 
 **Only one subscription coupon per order is captured.** If a customer applies multiple coupons at checkout and more than one has the "Apply to subscriptions" flag, only the first applicable coupon is stored on the subscription.
 ```
 
+![Checkout with the halfoff3 coupon applied to the subscription](README.ASSETS/02-checkout-coupon-applied-annotated.png)
+
 ---
 
 ## Setting Up a Subscription Coupon
 
 ### Step 1: Create or Edit a Coupon
+
+![WooCommerce Coupons list with QA recurring coupon rows](README.ASSETS/03-coupons-list-annotated.png)
 
 1. Go to **Marketing → Coupons** (or **WooCommerce → Coupons**).
 2. Click **Add coupon** or open an existing coupon.
@@ -235,6 +239,8 @@ These fields appear on the WooCommerce coupon edit page under the **ArraySubs Su
 | Discount duration | Select | One-time | One-time (initial order only) or Recurring (renewal orders) |
 | Number of renewal cycles | Number | 0 | How many renewals the discount applies to (0 = unlimited). Only visible when duration is Recurring. |
 | Count initial checkout | Checkbox | Off | Whether the initial checkout order counts as a cycle. Only visible when duration is Recurring with cycles > 0. |
+
+![Recurring subscription coupon edit settings](README.ASSETS/01-recurring-coupon-edit-settings-annotated.png)
 
 ---
 

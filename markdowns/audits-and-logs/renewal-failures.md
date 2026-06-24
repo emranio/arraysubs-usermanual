@@ -25,6 +25,8 @@ The renewal system is the core engine of ArraySubs. When a subscription's next p
 
 This guide walks through the most common renewal and billing failures, explains what causes them, and tells you exactly how to fix them.
 
+![Renewal Failures queue with classified reasons and admin actions](renewal-failures.ASSETS/01-renewal-failure-queue-annotated.png)
+
 ## How the Renewal Process Works
 
 Before diagnosing failures, it helps to understand the normal flow:
@@ -84,6 +86,8 @@ The grace period durations are configurable in **ArraySubs → Settings → Gene
 | `processing_error` | Transient gateway / network issue | Auto-retry usually resolves it |
 | `unknown` | Gateway returned an unrecognized code — only the raw message is in the notes | Read the raw gateway message in the order/subscription notes |
 
+![Subscription detail failure trail: timeline, note, and renewal order](renewal-failures.ASSETS/04-subscription-failure-timeline-annotated.png)
+
 Other possible causes:
 
 | Cause | How to Check | Fix |
@@ -91,6 +95,8 @@ Other possible causes:
 | Gateway API error | Check the order notes and scheduled-job logs for error details | Verify gateway API credentials are valid; check the gateway's status page for outages |
 | Gateway rate limit | Check server logs and gateway dashboard for rate limit responses | Wait for the rate limit to reset; the system retries failed payments on the next scheduled attempt |
 | Payment method was detached | Check the subscription detail for `_gateway_status = detached` | The customer needs to re-add a payment method. The subscription has been reverted to manual payments |
+
+![Retry Renewal confirmation dialog](renewal-failures.ASSETS/02-retry-renewal-confirmation-annotated.png)
 
 ### Payment Not Attempted (Manual Renewal)
 
@@ -166,6 +172,8 @@ When investigating a renewal problem, work through this checklist:
 5. **Is Action Scheduler running?** Check WooCommerce → Status → Scheduled Actions
 6. **What do the subscription notes say?** System notes record every status change and payment attempt
 7. **What do the Scheduled-Job Logs show?** (Pro) Check for failed Process Renewal or Check Overdue Renewals jobs
+
+![Mark Failure Resolved confirmation dialog](renewal-failures.ASSETS/03-mark-failure-resolved-confirmation-annotated.png)
 
 ## Related Guides
 

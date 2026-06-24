@@ -40,6 +40,8 @@ The checkout engine runs in three phases:
 
 Cart validation runs every time a customer adds a product to the cart and again when viewing the cart page. All rules are configured in **ArraySubs → Settings → General Settings** under the *Multiple Subscriptions* section.
 
+![ArraySubs General Settings governing cart and checkout behavior](subscription-checkout.ASSETS/02-general-checkout-settings-annotated.png)
+
 ### Mixed Cart Rule
 
 Controls whether subscription and non-subscription products can coexist in the same cart.
@@ -239,6 +241,8 @@ For more details on plan configuration, see [Plan Switching and Product Relation
 ## Checkout Subscription Summary
 
 Every checkout page that includes a subscription product displays a detailed summary inside the order review table. This summary updates via AJAX as the customer changes quantities, coupons, or shipping options.
+
+![Live subscription checkout with order summary and payment options](subscription-checkout.ASSETS/01-live-subscription-checkout-summary-annotated.png)
 
 ### What's Displayed
 

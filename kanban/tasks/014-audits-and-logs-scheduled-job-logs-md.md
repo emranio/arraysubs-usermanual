@@ -1,11 +1,14 @@
 ---
 id: 14
 title: audits-and-logs - scheduled-job-logs.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.490626+06:00
-updated: 2026-06-23T16:34:38.797557+06:00
+updated: 2026-06-24T15:39:14.304906+06:00
 started: 2026-06-21T18:15:37.705298+06:00
+completed: 2026-06-24T15:39:14.304906+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T15:39:14.304906+06:00
 class: standard
 ---
 
@@ -18,3 +21,9 @@ Markers:
 - `arrow pointing to Reset button, label "Clear filters"`
 - `arrow pointing to filtered rows, label "Filtered execution history"`
 - `arrow pointing to Page 1 of 2, label "Filtered pagination"`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 02-date-filtered-job-logs-annotated.png (3 labels)
+Source markdown updated: audits-and-logs/scheduled-job-logs.md (inserted after Filtering Job Logs)
+Single screenshot named in task; combined filtered-rows note into the date-filter target to keep it sparse.

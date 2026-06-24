@@ -1,11 +1,14 @@
 ---
 id: 34
 title: customer-portal - portal-pages.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.685193+06:00
-updated: 2026-06-23T16:34:38.806127+06:00
+updated: 2026-06-24T18:57:49.617597+06:00
 started: 2026-06-21T23:58:36+06:00
+completed: 2026-06-24T18:57:49.617596+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:57:49.617597+06:00
 class: standard
 ---
 
@@ -49,3 +52,7 @@ Markers:
 - `arrow pointing to the Your Store Credit Balance value, label 'Current balance'`
 - `arrow pointing to the Custom Credit amount input, label 'Buy credit'`
 - `arrow pointing to the Transaction History table, label 'Credit history'`
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-my-subscriptions-page (3), 02-view-subscription-page (3), 03-my-features-page (3), 04-store-credit-page (3).
+Source markdown updated: customer-portal/portal-pages.md. Parallel batch (31-35). Queries trimmed vs marker notes.

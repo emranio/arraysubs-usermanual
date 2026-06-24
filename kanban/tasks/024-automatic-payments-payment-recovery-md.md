@@ -1,11 +1,14 @@
 ---
 id: 24
 title: automatic-payments - payment-recovery.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.587141+06:00
-updated: 2026-06-23T16:34:38.801275+06:00
+updated: 2026-06-24T17:35:45.381261+06:00
 started: 2026-06-21T23:23:12+06:00
+completed: 2026-06-24T17:35:45.381261+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:35:45.381261+06:00
 class: standard
 ---
 
@@ -30,3 +33,10 @@ Markers:
 - `arrow pointing to the Payment Failed timeline item, label 'Failure history'`
 
 Doc update: revised `payment-recovery.md` to match the current live UI/code. The old visible Stripe retry settings were replaced with the current ArraySubs Stripe secondary-webhook configuration screen and the built-in Stripe retry defaults (enabled, 3 attempts, 24-hour interval).
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-stripe-array-subs-configs-annotated.png (3 labels)
+- 02-admin-payment-recovery-controls-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/automatic-payments/payment-recovery.md
+Query sets trimmed to essential targets vs. the listed marker notes.

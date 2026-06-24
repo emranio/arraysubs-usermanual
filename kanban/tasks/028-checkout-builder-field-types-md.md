@@ -1,11 +1,14 @@
 ---
 id: 28
 title: checkout-builder - field-types.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.620863+06:00
-updated: 2026-06-23T16:34:38.80252+06:00
+updated: 2026-06-24T18:03:20.686978+06:00
 started: 2026-06-21T23:32:22+06:00
+completed: 2026-06-24T18:03:20.686977+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:03:20.686978+06:00
 class: standard
 ---
 
@@ -36,3 +39,11 @@ class: standard
 
 - Updated `field-types.md` so the common settings section matches the active inline sidebar and no longer describes the stale modal-only column width control as a shared property.
 - Updated `README.md` conditional-visibility wording to match the current **Show When** / **Add Condition** UI and the `AND`/`OR` logic supported by the current implementation.
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-field-palette-standard-advanced-annotated.png (2 labels)
+- 02-field-palette-layout-annotated.png (2 labels)
+- 03-field-settings-text-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/checkout-builder/field-types.md
+Query sets trimmed to essential targets vs. the listed marker notes (combined the many palette items into group boxes; picked Label/Key/Required for the settings panel).

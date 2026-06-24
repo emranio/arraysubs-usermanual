@@ -54,6 +54,8 @@ The billing cycle sends emails at five key moments. Not every subscription hits 
                        │ │                          (after active grace)
 ```
 
+![Scheduled-Job Logs page 2 with renewal invoice and reminder email jobs](renewal-communication.ASSETS/04-renewal-reminder-job-logs-annotated.png)
+
 ### Email reference
 
 | Email | Trigger | Recipient | Purpose |
@@ -65,6 +67,8 @@ The billing cycle sends emails at five key moments. Not every subscription hits 
 | **Subscription On-Hold** | Subscription moves from Active to On-Hold (after active grace period) | Customer | Notifies the customer that their access is now restricted |
 | **Subscription Expired** | Subscription reaches its end date or payment count limit | Customer | Notifies the customer that the subscription has ended |
 | **Admin Payment Failed** | Same as Payment Failed | Admin only | Separate admin notification for failed payments |
+
+![WooCommerce Emails table with ArraySubs customer renewal templates](renewal-communication.ASSETS/02-renewal-email-templates-annotated.png)
 
 ---
 
@@ -84,6 +88,8 @@ The renewal reminder is the first notification in the billing cycle. It is sent 
 | Setting | Default | Range |
 |---|---|---|
 | Renewal reminder days before | 3 | 1–30 days |
+
+![Email Reminder Schedule settings](renewal-communication.ASSETS/01-email-reminder-schedule-annotated.png)
 
 **What the email includes:**
 - Days until renewal
@@ -203,6 +209,8 @@ All billing emails can be individually enabled or disabled in the settings. Each
 | Subscription Expired | `emails.subscription_expired.enabled` | Enabled |
 | Admin Payment Failed | `emails.admin_payment_failed` | Enabled |
 
+![WooCommerce Emails table with verification and admin lifecycle templates](renewal-communication.ASSETS/03-admin-failure-email-templates-annotated.png)
+
 All emails use the WooCommerce email system and support both HTML and plain-text templates.
 
 For the complete email reference including placeholders, template files, and customization options, see [Customer Emails](../emails/customer-emails.md) and [Admin Emails](../emails/admin-emails.md).
@@ -255,6 +263,8 @@ A 12-month subscription reaching its final payment:
 | Payment Failed email sent but subscription still Active | This is expected — the active grace period keeps the subscription Active for the configured number of days after the due date | No action needed unless the grace period is too long for your use case. |
 | Multiple Payment Failed emails | Some gateways retry payment automatically, generating multiple failure events | This is normal for gateways with retry logic. Each retry attempt that fails triggers a new notification. |
 | On-Hold email not sent | Email disabled, or overdue checker has not run yet | The overdue checker runs hourly. The email fires when the status transitions to On-Hold — not at the exact minute the grace period expires. |
+
+![Email delivery log with sent invoice and on-hold notices](renewal-communication.ASSETS/05-email-delivery-log-annotated.png)
 
 ---
 

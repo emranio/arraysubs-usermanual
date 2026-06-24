@@ -1,11 +1,14 @@
 ---
 id: 22
 title: automatic-payments - auto-renew-and-manual-fallback.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.570015+06:00
-updated: 2026-06-23T16:34:38.800643+06:00
+updated: 2026-06-24T17:28:19.876762+06:00
 started: 2026-06-21T23:20:24+06:00
+completed: 2026-06-24T17:28:19.876762+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:28:19.876762+06:00
 class: standard
 ---
 
@@ -27,3 +30,10 @@ Markers:
 - `arrow pointing to the Card on File row, label 'Stored payment method'`
 - `arrow pointing to the Auto-Renew switch below Subscription Actions, label 'Customer auto-renew'`
 - `arrow pointing to the Related Orders table, label 'Manual invoice destination'`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-auto-renew-general-setting-annotated.png (2 labels)
+- 02-auto-renew-customer-subscription-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md
+Query sets trimmed to essential targets vs. the listed marker notes.

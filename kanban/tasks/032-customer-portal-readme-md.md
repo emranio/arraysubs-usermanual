@@ -1,11 +1,14 @@
 ---
 id: 32
 title: customer-portal - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.667156+06:00
-updated: 2026-06-23T16:34:38.805589+06:00
+updated: 2026-06-24T18:57:49.562664+06:00
 started: 2026-06-21T23:52:55+06:00
+completed: 2026-06-24T18:57:49.562663+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:57:49.562664+06:00
 class: standard
 ---
 
@@ -28,3 +31,7 @@ Markers:
 - `arrow pointing to the Auto-Renew toggle, label 'Auto-renew control'`
 - `arrow pointing to the Manage Your Subscription card, label 'Skip and pause'`
 - `arrow pointing to the Subscription Notes section, label 'Customer-visible notes'`
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-my-subscriptions-list (3), 02-subscription-detail-overview (3).
+Source markdown updated: customer-portal/README.md. Parallel batch (31-35). Queries trimmed vs marker notes.

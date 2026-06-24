@@ -1,11 +1,14 @@
 ---
 id: 21
 title: automatic-payments - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.561683+06:00
-updated: 2026-06-23T16:35:30.11145+06:00
+updated: 2026-06-24T17:21:49.165988+06:00
 started: 2026-06-23T15:36:57.343002+06:00
+completed: 2026-06-24T17:21:49.165988+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:21:49.165988+06:00
 class: standard
 ---
 
@@ -43,3 +46,11 @@ Markers:
 
 Source doc update:
 - Updated `markdowns/checkout-and-payments/automatic-payments/README.md` Page Navigation so the "Where to open it" line matches the live Gateway Logs, checkout, and subscription detail surfaces.
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-payment-gateways-dashboard-annotated.png (3 labels)
+- 02-checkout-payment-methods-annotated.png (3 labels)
+- 03-subscription-payment-gateway-card-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/automatic-payments/README.md
+Query sets trimmed to essential targets vs. the listed marker notes.

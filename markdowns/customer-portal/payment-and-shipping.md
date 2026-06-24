@@ -42,6 +42,8 @@ Refer to this guide when:
 
 Every customer with a subscription can access their WooCommerce payment methods from the subscription detail page.
 
+![Subscription detail payment method, auto-renew, and shipping update](payment-and-shipping.ASSETS/01-payment-method-auto-renew-annotated.png)
+
 ### What the Customer Sees
 
 In the subscription overview table, the **Payment Method** row shows:
@@ -168,6 +170,8 @@ If no shipping address is on file, the section shows: **"No shipping address on 
 
 1. The customer clicks **Update Shipping Address**.
 2. A modal opens with a shipping address form.
+
+![Update Shipping Address modal with required fields](payment-and-shipping.ASSETS/02-shipping-address-modal-annotated.png)
 
 ```box class="info-box"
 ## Shipping Address Form

@@ -41,6 +41,8 @@ The auto-renew toggle lets customers switch between automatic and manual renewal
 | The subscription does not have an automatic gateway | The toggle only appears when a subscription has an active payment gateway with automatic payment capability |
 | The gateway does not support auto-renew | Check the [Gateway Health Dashboard](../gateway-health/README.md) for the gateway's capabilities |
 
+![Automatic Payments auto-renew toggle setting](payment-and-shipping-issues.ASSETS/01-auto-renew-setting-annotated.png)
+
 ### Turning Off Auto-Renew
 
 When a customer disables auto-renew:
@@ -68,6 +70,8 @@ When a customer's stored card has expired (past the `_payment_method_expiry_mont
 
 ## Payment Method Update Issues (Pro)
 
+![Customer portal payment and shipping actions](payment-and-shipping-issues.ASSETS/04-customer-payment-shipping-actions-annotated.png)
+
 ### Update Link Not Available
 
 **Symptoms:** The "Update Payment Method" option does not appear on the subscription detail page in the customer portal.
@@ -79,6 +83,8 @@ When a customer's stored card has expired (past the `_payment_method_expiry_mont
 | No gateway is configured on the subscription | The subscription uses manual payments and has no gateway to update |
 | The gateway does not support payment method updates | Check the [Gateway Health Dashboard](../gateway-health/README.md) for the `payment_method_update` capability |
 | Pro plugin is not active | Install and activate the Pro plugin |
+
+![Gateway Health showing Stripe capabilities and webhook failures](payment-and-shipping-issues.ASSETS/02-gateway-health-stripe-annotated.png)
 
 ### Update Request Fails
 
@@ -101,6 +107,8 @@ If any step fails, the old payment method remains unchanged.
 ## Gateway Detachment
 
 Admins can detach a gateway from a subscription through the **Detach Gateway** button inside the Payment Gateway card on the subscription detail page. This is a deliberate action, not an error, but it has important consequences.
+
+![Subscription detail gateway, detach, shipping, and failure trail](payment-and-shipping-issues.ASSETS/03-subscription-gateway-shipping-annotated.png)
 
 ```box class="info-box"
 The Detach Gateway button appears **only on automatic-gateway subscriptions** (Stripe, PayPal, Paddle). Manual gateways like BACS, Cheque, or COD do not show the Payment Gateway card at all — there is nothing to detach because no remote payment method is on file.
@@ -175,6 +183,8 @@ The following fields are required for a shipping address update:
 | Postcode | Country |
 
 Optional fields: Company, Address Line 2, State/Province, Phone.
+
+![Update Shipping Address modal with required fields](payment-and-shipping-issues.ASSETS/05-shipping-address-modal-annotated.png)
 
 ## Diagnostic Checklist
 

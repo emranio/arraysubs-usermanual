@@ -1,11 +1,14 @@
 ---
 id: 16
 title: billing-and-renewals - recovery-and-grace-flows.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.513059+06:00
-updated: 2026-06-23T16:34:38.798547+06:00
+updated: 2026-06-24T16:00:51.490758+06:00
 started: 2026-06-21T18:32:35.243293+06:00
+completed: 2026-06-24T16:00:51.490757+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T16:00:51.490758+06:00
 class: standard
 ---
 
@@ -58,3 +61,13 @@ Markers:
 - `arrow pointing to Skip Next Renewal button, label "Skip one cycle"`
 - `arrow pointing to Pause Subscription button, label "Pause billing"`
 - `arrow pointing to Next Payment, label "Billing date affected"`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-grace-period-settings-annotated.png (2 labels; grace fields grouped + timeline note)
+- 02-skip-pause-settings-annotated.png (3 labels)
+- 03-subscription-recovery-detail-annotated.png (3 labels)
+- 04-overdue-renewal-job-logs-annotated.png (2 labels)
+- 05-customer-skip-pause-controls-annotated.png (3 labels)
+Source markdown updated: billing-and-renewals/recovery-and-grace-flows.md
+Query sets trimmed to essential targets vs. the listed marker notes.

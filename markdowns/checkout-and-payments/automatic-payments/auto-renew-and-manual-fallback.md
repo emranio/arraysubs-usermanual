@@ -36,6 +36,8 @@ The auto-renew toggle appears on the **Customer Portal → View Subscription** p
 
 **To enable the toggle globally:** Go to **ArraySubs → Settings → General Settings → Automatic Payment Controls** and enable *Allow customers to toggle auto-renew*.
 
+![Automatic Payments setting with manual invoice fallback note](auto-renew-and-manual-fallback.ASSETS/01-auto-renew-general-setting-annotated.png)
+
 ### Toggle Requirements
 
 The toggle only appears when all of these are true:
@@ -76,6 +78,8 @@ Turning off auto-renew does **not** remove the stored payment method. The card o
 
 - **Toggle off:** A confirmation that future renewals will require manual payment
 - **Next renewal behavior:** An invoice email arrives before the due date, and the customer pays through the link in the email or from their order list in My Account
+
+![Customer subscription detail with payment method and auto-renew switch](auto-renew-and-manual-fallback.ASSETS/02-auto-renew-customer-subscription-annotated.png)
 
 ---
 

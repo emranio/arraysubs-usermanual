@@ -1,11 +1,14 @@
 ---
 id: 13
 title: audits-and-logs - renewal-failures.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.48243+06:00
-updated: 2026-06-23T16:34:38.79731+06:00
+updated: 2026-06-24T15:36:07.782077+06:00
 started: 2026-06-21T18:11:04.543173+06:00
+completed: 2026-06-24T15:36:07.782076+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T15:36:07.782077+06:00
 class: standard
 ---
 
@@ -46,3 +49,12 @@ Markers:
 - `arrow pointing to Related Orders table, label 'Renewal order context'`
 - `arrow pointing to Payment Failed timeline item, label 'Failure event'`
 - `arrow pointing to failed subscription note, label 'System note'`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-renewal-failure-queue-annotated.png (3 labels)
+- 02-retry-renewal-confirmation-annotated.png (2 labels)
+- 03-mark-failure-resolved-confirmation-annotated.png (2 labels)
+- 04-subscription-failure-timeline-annotated.png (3 labels)
+Source markdown updated: audits-and-logs/renewal-failures.md
+Query sets trimmed to essential targets vs. the listed marker notes.

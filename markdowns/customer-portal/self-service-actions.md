@@ -24,6 +24,8 @@ The subscription detail page in the customer portal shows action buttons and con
 
 This guide covers every self-service action, when it is available, what the customer experiences, and what happens to the subscription afterward.
 
+![Self-service actions on the subscription detail page](self-service-actions.ASSETS/01-self-service-actions-overview-annotated.png)
+
 ## When to Use This
 
 Refer to this guide when:
@@ -56,6 +58,8 @@ The **Cancel Subscription** button appears on the detail page when all of these 
 
 1. The customer clicks **Cancel Subscription**.
 2. A modal dialog opens.
+
+![Cancel Subscription modal requiring a reason](self-service-actions.ASSETS/02-cancel-subscription-modal-annotated.png)
 
 ```box class="info-box"
 ## Cancel Modal
@@ -126,6 +130,8 @@ All cancellation-related metadata is cleared: the cancellation reason, the sched
 
 Retention offers are a way to reduce cancellations by presenting customers with alternatives before they actually cancel. When enabled, the retention modal appears between the cancellation reason step and the final cancellation.
 
+![Before You Go retention offer modal](self-service-actions.ASSETS/03-retention-offer-step-annotated.png)
+
 ### When They Appear
 
 Retention offers appear when:
@@ -188,6 +194,8 @@ Retention offers are only shown once per cancellation attempt. If the customer d
 
 Plan switching lets customers upgrade, downgrade, or crossgrade to a different subscription product.
 
+![Change Your Plan modal with proration preview](self-service-actions.ASSETS/04-change-plan-preview-annotated.png)
+
 ### When It Appears
 
 The **Change Plan** button appears when:
@@ -237,6 +245,8 @@ The customer can cancel the pending switch before the renewal is paid. If they t
 
 Skipping lets customers delay their next renewal by one or more billing cycles without fully pausing the subscription.
 
+![Skip Renewal prompt with cycle count input](self-service-actions.ASSETS/05-skip-renewal-prompt-annotated.png)
+
 ### When It Appears
 
 The skip controls appear in the **Manage Your Subscription** section when:
@@ -271,6 +281,8 @@ Skipping does **not** change the subscription status. The subscription remains A
 ## Pause Subscription
 
 Pausing — also called **Vacation Mode** — lets customers temporarily suspend their subscription for a set number of days.
+
+![Pause Subscription prompt with pause-days input](self-service-actions.ASSETS/06-pause-subscription-prompt-annotated.png)
 
 ### When It Appears
 

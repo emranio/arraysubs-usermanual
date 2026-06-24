@@ -1,11 +1,14 @@
 ---
 id: 15
 title: billing-and-renewals - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.50463+06:00
-updated: 2026-06-23T16:34:38.798184+06:00
+updated: 2026-06-24T15:48:04.647975+06:00
 started: 2026-06-21T18:24:25.470625+06:00
+completed: 2026-06-24T15:48:04.647975+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T15:48:04.647975+06:00
 class: standard
 ---
 
@@ -38,3 +41,11 @@ Markers:
 - `arrow pointing to Billing Information, label 'Recurring amount'`
 - `arrow pointing to Payment Gateway card, label 'Automatic collection'`
 - `arrow pointing to Order History and Payment Timeline, label 'Invoice/payment trail'`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-renewal-grace-settings-annotated.png (2 labels; grace fields grouped into one box + timeline note)
+- 02-billing-engine-jobs-annotated.png (3 labels)
+- 03-subscription-billing-lifecycle-annotated.png (3 labels)
+Source markdown updated: billing-and-renewals/README.md
+Query sets trimmed to essential targets vs. the listed marker notes.

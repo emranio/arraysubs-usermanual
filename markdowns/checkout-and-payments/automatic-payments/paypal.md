@@ -171,6 +171,8 @@ PayPal gateway settings are configured in **WooCommerce → Settings → Payment
 | Webhook ID | PayPal webhook ID for signature verification |
 | Sandbox Mode | Enable to use PayPal's sandbox environment |
 
+![PayPal (ArraySubs) gateway settings with sandbox, credentials, and webhook ID](paypal.ASSETS/01-paypal-gateway-settings-annotated.png)
+
 ---
 
 ## Troubleshooting

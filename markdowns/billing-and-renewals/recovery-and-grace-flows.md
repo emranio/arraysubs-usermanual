@@ -95,6 +95,8 @@ Finds Active or Trial subscriptions with a scheduled cancellation date that has 
 
 If ArraySubs cannot resolve a valid future scheduled-cancellation date when the customer requests end-of-period cancellation, the request fails safely instead of cancelling immediately.
 
+![Scheduled-Job Logs with hourly overdue and upcoming renewal checks](recovery-and-grace-flows.ASSETS/04-overdue-renewal-job-logs-annotated.png)
+
 ### What happens when a subscription is cancelled for overdue payment
 
 - Status changes to **Cancelled**
@@ -122,6 +124,8 @@ The total grace period before cancellation is the sum: **Days Active After Due +
 
 Your store can use different values from the defaults. For example, a strict recovery setup may use **Days Active After Due = 1** and **Days On-Hold Before Cancel = 3** so overdue subscriptions progress faster.
 
+![Grace Period settings with the recovery timeline note](recovery-and-grace-flows.ASSETS/01-grace-period-settings-annotated.png)
+
 ```box class="warning-box"
 ## Choose grace periods carefully
 
@@ -133,6 +137,8 @@ Setting the active grace period too short may move subscriptions to On-Hold befo
 ## Skip and pause in the billing timeline
 
 The skip and pause features directly affect when renewal invoices are generated and how the billing cycle progresses. Understanding their interaction with the billing engine is important for accurate subscription management.
+
+![Skip & Pause settings page](recovery-and-grace-flows.ASSETS/02-skip-pause-settings-annotated.png)
 
 ### How skip affects renewals
 
@@ -167,6 +173,8 @@ New next payment date = Original next payment date + (billing interval × skippe
 | Maximum Cycles to Skip | 3 | Maximum number of cycles a customer can skip at once |
 | Skip Cutoff (Days) | 2 | Cannot skip within this many days of the next renewal date |
 | Allow Customers to Skip | Enabled by setup | Shows or hides skip controls in the customer My Account portal |
+
+![Customer Manage Your Subscription panel with skip and pause](recovery-and-grace-flows.ASSETS/05-customer-skip-pause-controls-annotated.png)
 
 ### How pause affects renewals
 
@@ -225,6 +233,8 @@ This ensures the gateway does not attempt to charge the customer during the paus
 ---
 
 ## Real-life use cases
+
+![Subscription detail with retry, skip/pause, and failed renewal trail](recovery-and-grace-flows.ASSETS/03-subscription-recovery-detail-annotated.png)
 
 ### Use case 1: Grace period saves a customer
 

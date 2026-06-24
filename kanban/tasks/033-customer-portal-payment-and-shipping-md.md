@@ -1,11 +1,14 @@
 ---
 id: 33
 title: customer-portal - payment-and-shipping.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.676238+06:00
-updated: 2026-06-23T16:34:38.80587+06:00
+updated: 2026-06-24T18:57:49.590274+06:00
 started: 2026-06-21T23:56:52+06:00
+completed: 2026-06-24T18:57:49.590274+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:57:49.590274+06:00
 class: standard
 ---
 
@@ -29,3 +32,7 @@ Markers:
 - `arrow pointing to the required First Name and Last Name fields, label 'Required identity fields'`
 - `arrow pointing to the Street Address field, label 'Delivery address'`
 - `arrow pointing to the Save Address button, label 'Save changes'`
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-payment-method-auto-renew (3), 02-shipping-address-modal (3).
+Source markdown updated: customer-portal/payment-and-shipping.md. Parallel batch (31-35). Queries trimmed vs marker notes.

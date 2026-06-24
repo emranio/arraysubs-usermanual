@@ -1,11 +1,14 @@
 ---
 id: 26
 title: automatic-payments - stripe.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.603953+06:00
-updated: 2026-06-23T16:34:38.80192+06:00
+updated: 2026-06-24T17:50:46.230142+06:00
 started: 2026-06-21T23:27:23+06:00
+completed: 2026-06-24T17:50:46.230142+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:50:46.230142+06:00
 class: standard
 ---
 
@@ -28,3 +31,10 @@ Markers:
 - `arrow pointing to the Endpoint URL line, label 'Secondary webhook'`
 - `arrow pointing to the Active mode line, label 'Mode-specific secret'`
 - `arrow pointing to the Secondary webhook endpoint ID field, label 'Endpoint ID'`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-official-stripe-settings-annotated.png (3 labels)
+- 02-array-subs-stripe-configs-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/automatic-payments/stripe.md
+Query sets trimmed to essential targets vs. the listed marker notes.

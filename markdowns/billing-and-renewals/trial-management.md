@@ -51,6 +51,8 @@ When a customer purchases a subscription product with a trial, the subscription 
 | No trial + signup fee | Subscription price + signup fee |
 | No trial, no signup fee | Subscription price |
 
+![Customer-facing Trial 14-Day product page](trial-management.ASSETS/08-customer-trial-product-page-annotated.png)
+
 When the subscription is created:
 
 - Status is set to `Trial`
@@ -63,9 +65,13 @@ When the subscription is created:
 During the trial period, the subscription's next payment date equals the trial end date. This is used by the trial conversion job to know when to convert the subscription.
 ```
 
+![Trial subscription detail with status, metadata, and conversion date](trial-management.ASSETS/05-trial-subscription-detail-annotated.png)
+
 ### Trial conversion
 
 A daily background job called **Process Trial Conversions** runs at **2:00 AM** and checks for trial subscriptions whose next payment date has passed.
+
+![Scheduled-Job Logs showing a successful Process Trial Conversions run](trial-management.ASSETS/03-trial-conversion-job-logs-annotated.png)
 
 For each qualifying subscription, the system:
 
@@ -85,6 +91,8 @@ The first paid renewal is calculated from the conversion date, not the trial end
 > - First paid renewal: February 15 (one billing cycle from conversion)
 
 After conversion, the subscription enters the normal billing cycle. The hourly Generate Upcoming Renewals job will create the first renewal invoice at the appropriate time before the first paid renewal date.
+
+![Subscriptions list filtered to Trial status](trial-management.ASSETS/04-trial-subscriptions-list-annotated.png)
 
 ### Trial auto-downgrade (Pro)
 
@@ -118,6 +126,8 @@ Set on each subscription product under the **Subscription** tab:
 
 Each product variation can have its own independent trial configuration.
 
+![Product Subscription tab Free Trial settings](trial-management.ASSETS/01-product-trial-settings-annotated.png)
+
 ### Global settings
 
 Configure at **ArraySubs → Settings → General Settings → Trials**:
@@ -126,6 +136,8 @@ Configure at **ArraySubs → Settings → General Settings → Trials**:
 |---|---|---|
 | **Require Payment Method** | Whether customers must enter a payment method during checkout even for $0 free trials | On |
 | **One Trial Per Customer** | Whether a customer can start only one trial per product | On |
+
+![Global Trials settings: payment method required and one trial per customer](trial-management.ASSETS/02-global-trial-settings-annotated.png)
 
 ```box class="warning-box"
 ## Payment method requirement
@@ -150,6 +162,8 @@ Two emails are associated with the trial lifecycle:
 | **Trial Converted** | When the trial converts to a paid Active subscription | Next payment date, subscription price, billing schedule |
 
 The **Trial Converted** email is suppressed when auto-downgrade handles the conversion — in that case, the **Auto Downgrade** email is sent instead.
+
+![WooCommerce Emails table with Trial Started and Trial Converted templates](trial-management.ASSETS/06-trial-email-templates-annotated.png)
 
 For complete email configuration and placeholders, see [Customer Emails](../emails/customer-emails.md).
 
@@ -205,6 +219,8 @@ A membership site offers a 30-day trial of the Premium tier ($99/month) with aut
 | Customer was charged at checkout during free trial | Signup fee is configured on the product | Check the product's signup fee field. A signup fee is charged even during free trials. |
 | Trial Started email not sent | Email is disabled in WooCommerce email settings | Go to **WooCommerce → Settings → Emails** and check the Trial Started email is enabled. |
 | One Trial Per Customer not enforced | This setting exists but enforcement depends on checkout validation | Verify the setting is enabled in **Settings → General → Trials**. |
+
+![QA Mail Log with a Trial Converted message sent to the customer](trial-management.ASSETS/07-trial-email-delivery-log-annotated.png)
 
 ---
 

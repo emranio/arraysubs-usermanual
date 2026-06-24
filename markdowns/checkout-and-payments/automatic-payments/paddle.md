@@ -47,6 +47,8 @@ Paddle uses the **gateway-managed billing** model and includes features that oth
 Paddle is the best fit when you want Merchant-of-Record handling for tax, invoices, and payment compliance. It is not the best fit when one checkout must contain subscriptions with unrelated billing cycles.
 ```
 
+![Paddle (ArraySubs) gateway settings with sandbox, credentials, and webhook](paddle.ASSETS/01-paddle-gateway-settings-annotated.png)
+
 ## How Paddle Payments Work
 
 ### Initial Checkout

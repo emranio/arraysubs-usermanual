@@ -1,11 +1,14 @@
 ---
 id: 27
 title: checkout-builder - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.612558+06:00
-updated: 2026-06-23T16:34:38.802268+06:00
+updated: 2026-06-24T17:57:56.341026+06:00
 started: 2026-06-21T23:30:32+06:00
+completed: 2026-06-24T17:57:56.341026+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:57:56.341026+06:00
 class: standard
 ---
 
@@ -35,3 +38,11 @@ class: standard
 
 - The README overview matched the live builder flow for the screenshots captured in this task.
 - Follow-up wording for inline field settings and conditional visibility was corrected while processing task 028, after comparing the active settings panel and renderer behavior.
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-checkout-builder-overview-annotated.png (2 labels)
+- 02-builder-workspace-annotated.png (3 labels)
+- 03-checkout-builder-settings-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/checkout-builder/README.md
+Query sets trimmed to essential targets vs. the listed marker notes.

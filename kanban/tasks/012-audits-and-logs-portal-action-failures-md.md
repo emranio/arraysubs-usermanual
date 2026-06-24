@@ -1,11 +1,14 @@
 ---
 id: 12
 title: audits-and-logs - portal-action-failures.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.474335+06:00
-updated: 2026-06-23T16:34:38.796964+06:00
+updated: 2026-06-24T15:26:32.134475+06:00
 started: 2026-06-21T18:07:24.453913+06:00
+completed: 2026-06-24T15:26:32.134475+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T15:26:32.134475+06:00
 class: standard
 ---
 
@@ -38,3 +41,11 @@ Markers:
 - `arrow pointing to dialog copy, label 'Dismisses row only'`
 - `arrow pointing to Cancel button, label 'Keep unresolved'`
 - `arrow pointing to Resolve button, label 'Mark resolved'`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-portal-failure-queue-annotated.png (3 labels)
+- 02-portal-failure-details-annotated.png (3 labels)
+- 03-resolve-failure-confirmation-annotated.png (2 labels)
+Source markdown updated: audits-and-logs/portal-action-failures.md
+Query sets trimmed to essential targets vs. the listed marker notes.

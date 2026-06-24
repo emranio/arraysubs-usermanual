@@ -42,6 +42,8 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅, Show on Admin Order Details ✅
 
+![Multi-step checkout with step tabs, Add Step, and field palette](use-cases.ASSETS/01-multi-step-use-case-annotated.png)
+
 * * *
 
 ## 2\. SaaS Onboarding — Company Profile Collection
@@ -372,6 +374,8 @@ Each step should cover one clear topic:
 -   **Step 3:** How they're paying
 
 Three steps is the sweet spot for most stores. Four steps work for complex onboarding flows. More than four risks losing the customer.
+
+![Design tab with navigation position and step indicator controls](use-cases.ASSETS/02-design-settings-use-case-annotated.png)
 
 ### Use Conditional Visibility Aggressively
 

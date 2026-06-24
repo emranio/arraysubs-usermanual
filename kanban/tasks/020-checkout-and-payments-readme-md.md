@@ -1,11 +1,14 @@
 ---
 id: 20
 title: checkout-and-payments - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.55327+06:00
-updated: 2026-06-23T16:34:38.800121+06:00
+updated: 2026-06-24T17:10:55.568426+06:00
 started: 2026-06-21T19:14:22.528913+06:00
+completed: 2026-06-24T17:10:55.568426+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:10:55.568426+06:00
 class: standard
 ---
 
@@ -79,3 +82,15 @@ Markers:
 - `arrow pointing to Retry Payment, label "Manual retry"`
 - `arrow pointing to Auto-Renew, label "Automatic renewal"`
 - `arrow pointing to Related Orders, label "Payment history"`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-subscription-checkout-summary-annotated.png (3 labels)
+- 02-checkout-general-settings-annotated.png (3 labels)
+- 03-gateway-health-dashboard-annotated.png (3 labels)
+- 04-checkout-builder-overview-annotated.png (2 labels)
+- 05-checkout-builder-editor-annotated.png (3 labels)
+- 06-checkout-builder-settings-annotated.png (3 labels)
+- 07-customer-payment-method-management-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/README.md (hub page; images placed under matching subsections)
+Query sets trimmed to essential targets vs. the listed marker notes.

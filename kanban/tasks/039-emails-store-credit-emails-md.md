@@ -1,11 +1,13 @@
 ---
 id: 39
 title: emails - store-credit-emails.md
-status: todo
+status: in-progress
 priority: medium
 created: 2026-06-09T18:08:34.736015+06:00
-updated: 2026-06-23T16:34:38.807609+06:00
+updated: 2026-06-24T18:57:57.294697+06:00
 started: 2026-06-22T00:36:00+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:57:57.294697+06:00
 class: standard
 ---
 

@@ -1,11 +1,14 @@
 ---
 id: 31
 title: coupons - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.652428+06:00
-updated: 2026-06-23T16:34:38.804785+06:00
+updated: 2026-06-24T18:57:49.53405+06:00
 started: 2026-06-21T23:46:48+06:00
+completed: 2026-06-24T18:57:49.534049+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:57:49.53405+06:00
 class: standard
 ---
 
@@ -39,3 +42,7 @@ class: standard
 
 - Updated `README.md` "Last updated" to `2026-06-21`.
 - Corrected coupon eligibility language: subscription products now require **Apply to subscriptions**; ordinary coupons without that flag are filtered from subscription items and rejected on subscription-only carts.
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-recurring-coupon-edit-settings (3), 02-checkout-coupon-applied (2), 03-coupons-list (2).
+Source markdown updated: coupons/README.md. Parallel batch (31-35). Queries trimmed vs marker notes.

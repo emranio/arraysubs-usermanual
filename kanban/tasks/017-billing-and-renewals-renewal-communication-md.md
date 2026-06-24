@@ -1,11 +1,14 @@
 ---
 id: 17
 title: billing-and-renewals - renewal-communication.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.521458+06:00
-updated: 2026-06-23T16:34:38.798897+06:00
+updated: 2026-06-24T16:14:09.509826+06:00
 started: 2026-06-21T18:37:58.737975+06:00
+completed: 2026-06-24T16:14:09.509826+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T16:14:09.509826+06:00
 class: standard
 ---
 
@@ -59,3 +62,13 @@ Markers:
 - `arrow pointing to Sent Status column, label "Delivery status"`
 - `arrow pointing to invoice email rows, label "Renewal invoice delivery"`
 - `arrow pointing to on-hold rows, label "Grace notice delivery"`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-email-reminder-schedule-annotated.png (3 labels)
+- 02-renewal-email-templates-annotated.png (3 labels)
+- 03-admin-failure-email-templates-annotated.png (3 labels; placed in Email enable/disable section to avoid two large email-table images stacked in Email reference)
+- 04-renewal-reminder-job-logs-annotated.png (2 labels)
+- 05-email-delivery-log-annotated.png (3 labels)
+Source markdown updated: billing-and-renewals/renewal-communication.md
+Query sets trimmed to essential targets vs. the listed marker notes.

@@ -171,6 +171,8 @@ Use the official WooCommerce Stripe Gateway webhook URL for normal Stripe paymen
 https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe
 ```
 
+![ArraySubs Stripe Configs secondary webhook endpoint](stripe.ASSETS/02-array-subs-stripe-configs-annotated.png)
+
 ---
 
 ## Stripe-Specific Settings
@@ -186,6 +188,8 @@ Stripe checkout and API credentials are configured in **WooCommerce → Settings
 | ArraySubs secondary webhook secret | Auto-managed by ArraySubsPro in WooCommerce → Settings → Payments → ArraySubs Stripe Configs |
 
 The secondary webhook secret is stored separately for test mode and live mode. In normal operation you do not paste a `whsec_` value manually; saving WooCommerce Stripe settings or visiting admin after credentials are available lets ArraySubsPro ensure the endpoint exists. Manual entry is only for repairing a known provisioning failure.
+
+![Official WooCommerce Stripe settings: test mode, webhook, saved methods](stripe.ASSETS/01-official-stripe-settings-annotated.png)
 
 ---
 

@@ -1,11 +1,14 @@
 ---
 id: 35
 title: customer-portal - self-service-actions.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.6939+06:00
-updated: 2026-06-23T16:34:38.806355+06:00
+updated: 2026-06-24T18:57:49.644906+06:00
 started: 2026-06-22T00:02:14+06:00
+completed: 2026-06-24T18:57:49.644906+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:57:49.644906+06:00
 class: standard
 ---
 
@@ -71,3 +74,7 @@ Markers:
 
 Notes:
 - All modal captures stopped before the final confirmation/action step. Subscription #4406 remained Active.
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-self-service-actions-overview (3), 02-cancel-subscription-modal (3), 03-retention-offer-step (3), 04-change-plan-preview (3), 05-skip-renewal-prompt (3), 06-pause-subscription-prompt (3).
+Source markdown updated: customer-portal/self-service-actions.md. Parallel batch (31-35). Queries trimmed vs marker notes.

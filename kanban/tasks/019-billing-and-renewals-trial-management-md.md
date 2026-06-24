@@ -1,11 +1,14 @@
 ---
 id: 19
 title: billing-and-renewals - trial-management.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.538679+06:00
-updated: 2026-06-23T16:34:38.799746+06:00
+updated: 2026-06-24T16:47:34.524911+06:00
 started: 2026-06-21T18:56:56.686209+06:00
+completed: 2026-06-24T16:47:34.524911+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T16:47:34.524911+06:00
 class: standard
 ---
 
@@ -83,3 +86,16 @@ Markers:
 - `arrow pointing to 14 days free trial, label "Trial offer"`
 - `arrow pointing to $29.99 / month, label "Post-trial recurring price"`
 - `arrow pointing to Subscribe Now, label "Starts trial checkout"`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-product-trial-settings-annotated.png (3 labels)
+- 02-global-trial-settings-annotated.png (2 labels)
+- 03-trial-conversion-job-logs-annotated.png (2 labels)
+- 04-trial-subscriptions-list-annotated.png (2 labels)
+- 05-trial-subscription-detail-annotated.png (3 labels)
+- 06-trial-email-templates-annotated.png (2 labels)
+- 07-trial-email-delivery-log-annotated.png (2 labels; placed in Troubleshooting for email delivery)
+- 08-customer-trial-product-page-annotated.png (2 labels)
+Source markdown updated: billing-and-renewals/trial-management.md
+Query sets trimmed to essential targets vs. the listed marker notes.

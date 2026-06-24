@@ -49,6 +49,8 @@ Example: a monthly `$30` subscription purchased on the 20th can charge a prorate
 Renewal Sync applies only to manual/offline checkout gateways and Stripe. Free trials and Lifetime Deal products keep their normal checkout and renewal timing.
 ```
 
+![Renewal Sync setting with cycle boundary help note](renewal-operations.ASSETS/01-renewal-sync-settings-annotated.png)
+
 ### Renewal invoice generation
 
 The billing engine schedules renewal invoice generation for each subscription using the configured invoice lead time. An hourly background job called **Generate Upcoming Renewals** remains active as a recovery safety net; it creates missing invoices if an exact scheduled invoice action was missed.
@@ -73,11 +75,15 @@ When a subscription qualifies, the engine creates a **pending WooCommerce order*
 
 After the order is created, the subscription's `pending renewal order` reference is updated, and the subscription status **stays Active** — no status change happens when an invoice is generated. In the admin timeline, invoice creation appears as a pending event, not as a successful payment.
 
+![Scheduled-Job Logs page 2 with exact renewal invoice actions and reminders](renewal-operations.ASSETS/04-invoice-generation-job-logs-annotated.png)
+
 ```box class="info-box"
 ## Invoice timing is configurable
 
 Go to **ArraySubs → Settings → General Settings → Renewals** to adjust the invoice advance window. You can set the value and unit (hours or days). For example, setting it to 1 day generates invoices 24 hours before payment is due.
 ```
+
+![Generate Invoice Before Due timing setting](renewal-operations.ASSETS/02-invoice-timing-settings-annotated.png)
 
 ### What the renewal invoice contains
 
@@ -121,6 +127,8 @@ After the renewal invoice is created, the billing engine decides how to collect 
 The payment route is determined by the subscription's payment method. If the customer is using a Pro gateway with automatic billing enabled, payment is automatic. Otherwise, it defaults to manual. Customers can toggle auto-renew on or off from the customer portal when the **Pro** auto-renew feature is enabled.
 ```
 
+![Subscription detail showing renewal operations and payment route](renewal-operations.ASSETS/05-subscription-renewal-operations-annotated.png)
+
 ### Renewal order status after successful payment
 
 A successful renewal payment does not always mean the WooCommerce order should be immediately marked **Completed**. ArraySubs separates payment success from fulfillment status:
@@ -133,6 +141,8 @@ A successful renewal payment does not always mean the WooCommerce order should b
 | Automatic gateway charge failed | **Failed** or remains unpaid depending on the gateway response | The renewal follows retry and grace-period rules |
 
 For Stripe renewals, ArraySubs creates the renewal order, charges the stored payment method off-session, and marks the order paid when Stripe succeeds. If the renewal has no shipping work, ArraySubs completes the order. If the renewal has shipping work, the order stays **Processing** so staff can fulfill it.
+
+![WooCommerce Orders with Subs Renew order type and counts](renewal-operations.ASSETS/06-renewal-order-classification-annotated.png)
 
 ```box class="info-box"
 ## Virtual products and renewal completion
@@ -151,6 +161,8 @@ When a renewal invoice is paid (either manually by the customer or automatically
 5. **Pending switch applied** — If this renewal paid an Apply at Renewal switch, the subscription now changes to the target plan and the pending switch is cleared
 6. **Next renewal scheduled** — The billing engine queues the next renewal action
 7. **Renewal reminder scheduled** — A reminder email is queued for the configured number of days before the next payment
+
+![Scheduled-Job Logs page 1 with the renewal engine jobs](renewal-operations.ASSETS/03-renewal-engine-job-logs-annotated.png)
 
 ---
 
@@ -216,6 +228,8 @@ Set different renewal prices on each subscription product:
 3. Enable **Different Renewal Price**
 4. Enter the **Renewal Price** amount
 5. Enter **Apply Renewal Price After** (number of payments before the new price takes effect)
+
+![Product Subscription tab with Different Renewal Price and shipping settings](renewal-operations.ASSETS/07-product-renewal-pricing-settings-annotated.png)
 
 ```box class="info-box"
 Each product variation can have its own different renewal price configuration, independent of other variations.

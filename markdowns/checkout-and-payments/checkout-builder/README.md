@@ -43,6 +43,8 @@ For the builder layout to apply on the frontend, use the classic WooCommerce che
 
 Go to **ArraySubs → Checkout Builder** and click **Open Builder**. The editor opens in full-screen mode with a toolbar at the top for Save, Discard, and Reset actions.
 
+![Checkout Builder overview with Open Builder and Settings link](README.ASSETS/01-checkout-builder-overview-annotated.png)
+
 ### Layout
 
 The builder has two main areas:
@@ -57,6 +59,8 @@ The builder has two main areas:
 When you select a field in the editor, the left sidebar switches to show that field's settings (label, key, placeholder, required toggle, CSS class, type-specific options, and **Show When** visibility rules when another input field can be referenced). Click the back arrow to return to the Elements palette.
 
 **Right panel (editor area)** — shows the step tabs at the top and the field grid below. Drag elements from the palette into this area to build your checkout form.
+
+![Checkout Builder workspace: elements palette, step tabs, and toolbar](README.ASSETS/02-builder-workspace-annotated.png)
 
 ### Steps and Multi-Step Checkout
 
@@ -270,6 +274,8 @@ A separate settings page at **ArraySubs → Checkout Builder → Settings** cont
 ```box class="info-box"
 The **Copy Custom Fields to Subscriptions** setting is important for subscription stores. Without it, custom field data only lives on the original checkout order. Enable it to ensure subscription detail pages and renewal orders carry the captured data forward.
 ```
+
+![Checkout Builder Settings: enable toggle, field copy, and upload settings](README.ASSETS/03-checkout-builder-settings-annotated.png)
 
 ---
 

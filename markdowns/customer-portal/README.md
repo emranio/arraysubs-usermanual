@@ -30,6 +30,8 @@ With the Pro plugin active, additional My Account tabs and inline features becom
 - **Payment method details** — displays the card on file with an update link
 - **Shipping address updates** — lets customers change their shipping address before the next renewal
 
+![My Account My Subscriptions list](README.ASSETS/01-my-subscriptions-list-annotated.png)
+
 ## In This Section
 
 ### [Customer Portal Pages](portal-pages.md)
@@ -44,6 +46,8 @@ Managing payment methods, the auto-renew toggle *(Pro)*, and updating the shippi
 ## How It Works
 
 The customer portal builds on the standard WooCommerce My Account page. When ArraySubs is active, it registers custom endpoints and adds menu items to the account navigation. Customers see a **Subscriptions** link that takes them to a list of their subscriptions. Clicking **View** on any subscription opens the detail page where all self-service actions are available.
+
+![Customer subscription detail overview](README.ASSETS/02-subscription-detail-overview-annotated.png)
 
 If you want to rename or reorder the **Subscriptions** tab itself, use **ArraySubs → Profile Builder → My Account**.
 

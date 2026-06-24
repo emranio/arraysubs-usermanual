@@ -39,6 +39,10 @@ Locked WooCommerce fields cannot be removed from the checkout layout: **Billing 
 Custom input field values are stored with the `_arraysubs_cf_` meta prefix and can be displayed later on subscription detail screens when the Checkout Builder display settings allow it.
 ```
 
+![Field palette: Standard and Advanced input groups](field-types.ASSETS/01-field-palette-standard-advanced-annotated.png)
+
+![Field palette: Layout and WooCommerce blocks](field-types.ASSETS/02-field-palette-layout-annotated.png)
+
 ---
 
 ## Common Field Settings
@@ -57,6 +61,8 @@ The inline settings sidebar shows the fields that apply to the selected element 
 | **Type settings** | Field-specific options such as select choices, file limits, product table filters, or layout content | No |
 | **Section columns** | Column count for Section layout elements: 1, 2, or 3 columns | No |
 | **Visibility rules** | Conditional **Show When** rules for input fields, shown when another non-layout field is available to reference (see [Checkout Builder Overview](README.md#conditional-visibility)) | No |
+
+![Inline field settings panel for a Text field](field-types.ASSETS/03-field-settings-text-annotated.png)
 
 ---
 

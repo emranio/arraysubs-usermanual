@@ -1,11 +1,14 @@
 ---
 id: 11
 title: audits-and-logs - payment-and-shipping-issues.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.466276+06:00
-updated: 2026-06-23T16:34:38.796658+06:00
+updated: 2026-06-24T15:18:12.652891+06:00
 started: 2026-06-21T17:57:22.663241+06:00
+completed: 2026-06-24T15:18:12.65289+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T15:18:12.652891+06:00
 class: standard
 ---
 
@@ -54,3 +57,13 @@ Markers:
 - `arrow pointing to required field labels, label 'Required address fields'`
 - `arrow pointing to Cancel button, label 'Close without saving'`
 - `arrow pointing to Save Address button, label 'Submit address update'`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-auto-renew-setting-annotated.png (2 labels)
+- 02-gateway-health-stripe-annotated.png (3 labels)
+- 03-subscription-gateway-shipping-annotated.png (3 labels)
+- 04-customer-payment-shipping-actions-annotated.png (3 labels)
+- 05-shipping-address-modal-annotated.png (2 labels)
+Source markdown updated: audits-and-logs/payment-and-shipping-issues.md
+Query sets trimmed to essential targets vs. the listed marker notes.

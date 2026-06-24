@@ -1,11 +1,13 @@
 ---
 id: 36
 title: emails - README.md
-status: todo
+status: in-progress
 priority: medium
 created: 2026-06-09T18:08:34.708567+06:00
-updated: 2026-06-23T16:34:38.806788+06:00
+updated: 2026-06-24T18:57:57.248887+06:00
 started: 2026-06-22T00:09:06+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:57:57.248887+06:00
 class: standard
 ---
 

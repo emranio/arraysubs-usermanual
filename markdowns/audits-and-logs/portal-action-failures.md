@@ -25,6 +25,8 @@ The customer portal lets subscribers manage their own subscriptions through self
 
 This guide covers the most common portal action failures, what causes them, and how to resolve them.
 
+![Portal Action Failures queue with error codes and HTTP status](portal-action-failures.ASSETS/01-portal-failure-queue-annotated.png)
+
 ## Permission and Ownership Errors
 
 These errors apply to **all** portal actions. The system always verifies the customer's identity and ownership before processing any action.
@@ -175,6 +177,8 @@ When a customer reports a portal action failure:
 6. **Check subscription notes** — system notes may show recent status changes that explain why the action is blocked
 7. **Check the [Activity Audit](activity-audits.md)** — (Pro) look for recent activity that may have changed the subscription state
 
+![Resolve Portal Failure confirmation dialog](portal-action-failures.ASSETS/03-resolve-failure-confirmation-annotated.png)
+
 ## Common Error Response Format
 
 All portal actions return structured error responses:
@@ -184,6 +188,8 @@ All portal actions return structured error responses:
 | **Error code** | A machine-readable identifier (e.g., `cancellation_disabled`, `invalid_subscription`, `permission_denied`) |
 | **Message** | A human-readable explanation |
 | **HTTP status** | `400` (bad request), `401` (not logged in), `403` (permission denied), `404` (not found), or `500` (server error) |
+
+![Portal Action Failure detail modal with error, resolution, and context JSON](portal-action-failures.ASSETS/02-portal-failure-details-annotated.png)
 
 ## Related Guides
 

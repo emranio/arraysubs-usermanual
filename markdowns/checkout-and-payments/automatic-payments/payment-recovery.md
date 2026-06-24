@@ -127,6 +127,8 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 
 The Stripe retry policy itself is code-level in this version: retries are enabled, up to 3 attempts, 24 hours apart. There is no visible admin field for max retry attempts or retry interval.
 
+![ArraySubs Stripe Configs secondary webhook recovery settings](payment-recovery.ASSETS/01-stripe-array-subs-configs-annotated.png)
+
 ### Trigger a manual retry (admin)
 
 1. Open the subscription detail page in the admin (Subscriptions → click any subscription).
@@ -150,6 +152,8 @@ The Stripe retry policy itself is code-level in this version: retries are enable
 5. Subscription notes record exactly what was changed.
 
 If the Payment Gateway card itself is missing, the subscription is on a manual gateway and there is nothing to resync.
+
+![Admin subscription recovery controls: retry, resync, and failure timeline](payment-recovery.ASSETS/02-admin-payment-recovery-controls-annotated.png)
 
 ## Settings Reference
 

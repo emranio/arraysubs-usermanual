@@ -105,6 +105,8 @@ The filter bar provides date range controls:
 | **Reset** | Clears both date fields |
 | **Refresh** | Reloads the current page with active filters |
 
+![Scheduled-Job Logs filtered to a single date with active filters and pagination](scheduled-job-logs.ASSETS/02-date-filtered-job-logs-annotated.png)
+
 ## Pagination
 
 The table displays 30 entries per page. The bottom shows **Page X of Y (Z total)** with **Previous** and **Next** navigation buttons.

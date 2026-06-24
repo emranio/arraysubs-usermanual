@@ -13,11 +13,17 @@ From the moment a customer clicks **Subscribe Now** to the day their card is aut
 
 The core checkout engine handles everything from cart validation to subscription creation. It enforces your store's rules about mixed carts, multiple subscriptions, billing cycle compatibility, and trial eligibility — then creates the subscription record once the order is paid.
 
+![Storefront subscription checkout with order summary and trial](README.ASSETS/01-subscription-checkout-summary-annotated.png)
+
 - [Subscription Checkout](subscription-checkout.md) — Cart validation rules, one-click checkout, trial behavior, auto-account creation, plan switching at checkout, and the subscription summary display.
+
+![ArraySubs General settings covering global checkout behavior](README.ASSETS/02-checkout-general-settings-annotated.png)
 
 ### Automatic Payments *(Pro)*
 
 Connect your store to Stripe, PayPal, or Paddle for hands-free recurring billing. Each gateway processes initial payments, stores payment methods, and handles renewals automatically — with webhook-based event routing, dispute tracking, and a live health dashboard.
+
+![Customer subscription page with Stripe payment method, retry, and auto-renew](README.ASSETS/07-customer-payment-method-management-annotated.png)
 
 - [Gateway Overview and Architecture](automatic-payments/README.md) — How ArraySubs-managed and gateway-managed billing work, gateway comparison matrix, and payment method lifecycle.
 - [Stripe Gateway](automatic-payments/stripe.md) — PaymentIntents, SetupIntents, Checkout Sessions, SCA/3D Secure, card auto-update, and dispute handling.
@@ -26,13 +32,21 @@ Connect your store to Stripe, PayPal, or Paddle for hands-free recurring billing
 - [Auto-Renew and Manual Fallback](automatic-payments/auto-renew-and-manual-fallback.md) — Customer-facing auto-renew toggle, what happens when auto-renew is turned off, and the manual invoice collection flow.
 - [Gateway Health Dashboard](../gateway-health/README.md) — Gateway status cards, subscription counts, webhook URL configuration, event log, and monitoring.
 
+![Gateway Logs dashboard with Stripe status and webhook event log](README.ASSETS/03-gateway-health-dashboard-annotated.png)
+
 ### Checkout Builder *(Pro)*
 
 Replace the default WooCommerce classic checkout form with a fully customizable, multi-step checkout experience. Drag and drop 28 element types, apply conditional visibility rules, style every element, and capture custom data that flows through to orders, subscriptions, and renewal invoices.
 
+![Checkout Form Builder overview with Open Builder and shortcode guidance](README.ASSETS/04-checkout-builder-overview-annotated.png)
+
 - [Checkout Builder Overview](checkout-builder/README.md) — Builder interface, multi-step navigation, field types, design panel, and settings.
 - [Field Types Reference](checkout-builder/field-types.md) — All 28 element types: 9 standard inputs, 9 advanced inputs, and 10 layout/WooCommerce elements.
 - [Checkout Builder Use Cases](checkout-builder/use-cases.md) — 15+ real-world examples for subscription stores of all types.
+
+![Checkout Builder fullscreen editor with elements palette and steps](README.ASSETS/05-checkout-builder-editor-annotated.png)
+
+![Checkout Builder settings with field-copy toggles and upload limit](README.ASSETS/06-checkout-builder-settings-annotated.png)
 
 ## Quick Reference
 

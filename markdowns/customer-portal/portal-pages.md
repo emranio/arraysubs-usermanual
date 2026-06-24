@@ -30,6 +30,8 @@ The **My Subscriptions** page is the main entry point. Customers reach it by cli
 
 **URL path:** `/my-account/subscriptions/`
 
+![My Subscriptions page with status and View action](portal-pages.ASSETS/01-my-subscriptions-page-annotated.png)
+
 ### What Customers See
 
 The page shows a table of all subscriptions belonging to the logged-in customer, sorted by newest first.
@@ -69,6 +71,8 @@ The list page includes subscriptions in all of these statuses:
 Clicking **View** on any subscription from the list page opens the detail page for that specific subscription.
 
 **URL path:** `/my-account/view-subscription/{id}/`
+
+![View Subscription detail page with actions, orders, and notes](portal-pages.ASSETS/02-view-subscription-page-annotated.png)
 
 This page contains the complete subscription overview, action buttons, skip and pause controls, shipping address, related orders, refund history, and subscription notes.
 
@@ -221,6 +225,8 @@ With the Pro plugin's **Feature Manager** active, eligible customers see a **My 
 
 **URL path:** `/my-account/features/`
 
+![My Features page with entitlements and usage tracking](portal-pages.ASSETS/03-my-features-page-annotated.png)
+
 ```box class="info-box"
 This page requires the Feature Manager to be enabled in settings: **Feature Manager → Enable Feature Manager** must be on, and **Show in My Account** must be on.
 ```
@@ -267,6 +273,8 @@ For the complete Feature Manager guide — including product setup, all settings
 With the Pro plugin's **Store Credit** feature active, customers see a **Store Credit** tab in their My Account navigation.
 
 **URL path:** `/my-account/store-credit/`
+
+![Store Credit page with balance, buy-credit, and history](portal-pages.ASSETS/04-store-credit-page-annotated.png)
 
 ```box class="info-box"
 This page requires Store Credit to be enabled in settings.

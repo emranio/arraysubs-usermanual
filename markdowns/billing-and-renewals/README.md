@@ -45,6 +45,8 @@ The billing engine runs on scheduled background jobs that execute automatically.
 
 These jobs work together to keep every subscription on schedule without manual intervention.
 
+![Scheduled-Job Logs showing the recurring billing engine jobs](README.ASSETS/02-billing-engine-jobs-annotated.png)
+
 ## Billing cycle at a glance
 
 ```
@@ -60,6 +62,8 @@ These jobs work together to keep every subscription on schedule without manual i
 3. **Next date scheduled** — After payment succeeds, the next payment date advances by one billing cycle and a renewal reminder is scheduled.
 4. **Grace period** — If payment is not received by the due date, the subscription enters a configurable grace period before status changes occur. See [Recovery and Grace Flows](recovery-and-grace-flows.md).
 
+![Subscription detail showing the billing lifecycle](README.ASSETS/03-subscription-billing-lifecycle-annotated.png)
+
 ## Key concepts
 
 **Renewal invoice** — A pending WooCommerce order created by the billing engine. It uses the subscription's stored prices, not the current product price. If the subscription has a retention discount or a different renewal price tier, the invoice reflects those amounts.
@@ -69,6 +73,8 @@ These jobs work together to keep every subscription on schedule without manual i
 **Completed payments** — A counter that tracks how many successful payments have been made on a subscription. This counter drives the different renewal price feature and subscription length expiration.
 
 **Grace period** — A configurable window after the due date where the subscription remains accessible (or partially accessible) while waiting for payment. The default is 3 days active + 7 days on-hold before cancellation.
+
+![Grace Period settings with the grace timeline note](README.ASSETS/01-renewal-grace-settings-annotated.png)
 
 ## Related docs
 

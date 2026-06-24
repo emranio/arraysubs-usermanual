@@ -1,11 +1,14 @@
 ---
 id: 30
 title: checkout-and-payments - subscription-checkout.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.637955+06:00
-updated: 2026-06-23T16:34:38.803824+06:00
+updated: 2026-06-24T18:14:43.929758+06:00
 started: 2026-06-21T23:43:05+06:00
+completed: 2026-06-24T18:14:43.929757+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:14:43.929758+06:00
 class: standard
 ---
 
@@ -34,3 +37,10 @@ class: standard
 
 - Updated `subscription-checkout.md` "Last updated" to `2026-06-21`.
 - Corrected the "Where to open it" line from Checkout Builder to `ArraySubs -> Settings -> General`, matching the live control surface for cart and checkout settings.
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-live-subscription-checkout-summary-annotated.png (2 labels)
+- 02-general-checkout-settings-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/subscription-checkout.md
+Query sets trimmed to essential targets vs. the listed marker notes.

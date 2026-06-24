@@ -26,6 +26,8 @@ The architecture supports two fundamentally different billing models, and unders
 
 ## Two Billing Models
 
+![Subscription checkout with automatic gateway and manual fallback](README.ASSETS/02-checkout-payment-methods-annotated.png)
+
 ### ArraySubs-Managed Billing
 
 ArraySubs controls the entire billing schedule. It decides when to charge, generates the renewal invoice, and sends a charge request to the gateway.
@@ -88,6 +90,8 @@ Not all gateways support the same features. Use this matrix to choose the right 
 PayPal does **not** support mixed carts, multiple subscriptions, or different billing cycles in a single checkout. If PayPal is enabled, these restrictions are enforced automatically — even if your General Settings allow them.
 ```
 
+![Gateway Logs dashboard with Stripe status, capabilities, and webhook log](README.ASSETS/01-payment-gateways-dashboard-annotated.png)
+
 ---
 
 ## Payment Method Lifecycle
@@ -127,6 +131,8 @@ Administrators can detach a gateway from a subscription through the admin subscr
 - Converts the subscription to manual payment mode — future renewals generate invoices that the customer must pay manually
 
 This is useful when migrating a subscription from one gateway to another or when a customer's payment method is permanently invalid.
+
+![Subscription detail Payment Gateway card with detach control](README.ASSETS/03-subscription-payment-gateway-card-annotated.png)
 
 ---
 

@@ -1,11 +1,14 @@
 ---
 id: 29
 title: checkout-builder - use-cases.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.629362+06:00
-updated: 2026-06-23T16:34:38.802763+06:00
+updated: 2026-06-24T18:09:54.558494+06:00
 started: 2026-06-21T23:39:02+06:00
+completed: 2026-06-24T18:09:54.558494+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T18:09:54.558494+06:00
 class: standard
 ---
 
@@ -34,3 +37,10 @@ class: standard
 ## Source Markdown Review
 
 - `use-cases.md` matched the current live builder behavior closely enough; no source markdown edit was needed for this task.
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-multi-step-use-case-annotated.png (3 labels)
+- 02-design-settings-use-case-annotated.png (3 labels)
+Source markdown updated: checkout-and-payments/checkout-builder/use-cases.md (use case 1 + Configuration Tips)
+Query sets trimmed to essential targets vs. the listed marker notes.

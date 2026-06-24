@@ -1,11 +1,14 @@
 ---
 id: 18
 title: billing-and-renewals - renewal-operations.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.53014+06:00
-updated: 2026-06-23T16:34:38.799306+06:00
+updated: 2026-06-24T16:29:11.902982+06:00
 started: 2026-06-21T18:46:52.518723+06:00
+completed: 2026-06-24T16:29:11.902982+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T16:29:11.902982+06:00
 class: standard
 ---
 
@@ -75,3 +78,15 @@ Markers:
 - `arrow pointing to Different Renewal Price, label "Enable alternate price"`
 - `arrow pointing to Subscription Shipping, label "Renewal shipping rules"`
 - `arrow pointing to Renewal Shipping Override, label "Renewal shipping amount"`
+
+--- Annotation complete ---
+Generated annotated images (settings: #873EFF, --crop, --steps=3):
+- 01-renewal-sync-settings-annotated.png (2 labels)
+- 02-invoice-timing-settings-annotated.png (2 labels)
+- 03-renewal-engine-job-logs-annotated.png (2 labels)
+- 04-invoice-generation-job-logs-annotated.png (2 labels)
+- 05-subscription-renewal-operations-annotated.png (3 labels)
+- 06-renewal-order-classification-annotated.png (2 labels)
+- 07-product-renewal-pricing-settings-annotated.png (2 labels)
+Source markdown updated: billing-and-renewals/renewal-operations.md
+Query sets trimmed to essential targets vs. the listed marker notes.
