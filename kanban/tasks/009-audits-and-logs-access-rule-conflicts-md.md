@@ -4,11 +4,11 @@ title: audits-and-logs - access-rule-conflicts.md
 status: done
 priority: medium
 created: 2026-06-09T18:08:34.449488+06:00
-updated: 2026-06-23T18:32:34.731608+06:00
+updated: 2026-06-24T13:29:39.208179+06:00
 started: 2026-06-18T10:58:42.845034027+02:00
-completed: 2026-06-23T18:32:34.731608+06:00
-claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T18:32:34.731608+06:00
+completed: 2026-06-24T13:29:39.208179+06:00
+claimed_by: codex
+claimed_at: 2026-06-24T13:29:39.208179+06:00
 class: standard
 ---
 
@@ -49,3 +49,15 @@ Annotation notes (2026-06-23):
 - Used essential labels only: two labels per image.
 - Generated access-rule-conflicts.ASSETS/01-conflict-detector-overview-annotated.png, 02-url-rule-overlap-annotated.png, and 03-disable-rule-confirmation-annotated.png.
 - Verification: 6 labels resolved, 0 unresolved.
+
+Annotation rerun notes (2026-06-24):
+- Deleted existing annotated outputs before regeneration and preserved the original screenshots.
+- Regenerated access-rule-conflicts.ASSETS/01-conflict-detector-overview-annotated.png, 02-url-rule-overlap-annotated.png, and 03-disable-rule-confirmation-annotated.png from clean originals.
+- Reused the existing source markdown links in markdowns/audits-and-logs/access-rule-conflicts.md without duplicates.
+- Annotation settings used: #873EFF, --crop, --steps=3.
+- Reduced the query set to two non-obvious labels per image; skipped the URL tab/UI chrome label.
+- Verification: 6 labels resolved, 0 unresolved.
+
+Audit guide follow-up (2026-06-24):
+- Removed the 02-url-rule-overlap screenshot from markdowns/audits-and-logs/access-rule-conflicts.md because it shows the Member Access URL Rules settings screen, not the Access-Rule Conflicts audit surface.
+- Updated the Scenario 3 copy to match the plugin implementation: the audit detects URL rules that overlap higher-priority per-post restrictions.

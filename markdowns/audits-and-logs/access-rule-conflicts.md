@@ -1,7 +1,7 @@
 # Info
 - Module: Audits and Logs
 - Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-06-24
 
 # Access-Rule Conflicts
 
@@ -78,15 +78,13 @@ Rules can also be nested into **groups**, where each group has its own AND/OR lo
 
 **Fix:** This is expected. If you want guests to see certain content, use the `[arraysubs_visibility]` shortcode with `logged_out="true"` instead of access rules, or create a separate rule that does not depend on subscription conditions.
 
-### Scenario 3: Overlapping URL Rules
+### Scenario 3: URL Rule Overlaps a Per-Post Restriction
 
-**Problem:** Two URL rules apply to the same page — one grants access and one denies it.
+**Problem:** A URL rule protects a path, but the target page or post also has its own per-post access restriction.
 
-![Overlapping URL rules in the conflict detector](access-rule-conflicts.ASSETS/02-url-rule-overlap-annotated.png)
+**Why it happens:** Per-post restrictions are more specific than URL pattern rules, so the per-post rule wins when both apply to the same content. The Access-Rule Conflicts audit highlights these overlaps so you can compare the broad URL rule with the higher-priority per-post restriction.
 
-**Why it happens:** URL rules are evaluated in order. If a more restrictive rule matches first, it blocks access before a more permissive rule is evaluated.
-
-**Fix:** Review the URL Rules list in **ArraySubs → Member Access → URL Rules**. Reorder rules so the most specific rules come first. A more specific URL pattern should override a broader pattern.
+**Fix:** Open **ArraySubs → Audits [beta] → Access-Rule Conflicts** and compare the URL Rule panel with the Per-post Rule panel. If the per-post restriction is intentional, leave it in place. If the URL rule should control the page instead, remove or adjust the per-post restriction, or disable the overlapping URL rule from the audit resolution action.
 
 ### Scenario 4: Post-Level Override vs. Global Rule
 
@@ -150,7 +148,7 @@ Walk through each condition in the rule with the user's data:
 
 ### Step 4: Check for Overlapping Rules
 
-If the targeted content is protected by multiple rules (URL rules, post-type rules, per-post rules), check all of them. The most specific rule wins.
+If the targeted content is protected by multiple rules (URL rules, post-type rules, per-post rules), check all of them. The most specific rule wins. The Access-Rule Conflicts audit currently focuses on URL rules that overlap per-post overrides.
 
 ![Disable rule confirmation from the conflict workflow](access-rule-conflicts.ASSETS/03-disable-rule-confirmation-annotated.png)
 
