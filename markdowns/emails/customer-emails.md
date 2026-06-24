@@ -24,6 +24,8 @@ ArraySubs sends customer emails automatically when key subscription events occur
 
 This page is a detailed per-email reference. For general email configuration, template overrides, and the full placeholder list, see the [Email Overview](README.md).
 
+![WooCommerce email registry with the ArraySubs customer email sequence](customer-emails.ASSETS/01-customer-email-registry-annotated.png)
+
 ---
 
 ## New Subscription
@@ -166,6 +168,8 @@ Configure the advance notice period in **ArraySubs → Settings → General Sett
 | Renewal Reminder (Days Before) | 3 | 1 – 30 |
 
 For example, if set to `5`, the Renewal Reminder email is sent 5 days before the next payment date.
+
+![Renewal Reminder email settings with days-before timing](customer-emails.ASSETS/02-renewal-reminder-settings-annotated.png)
 
 ### Specific Placeholders
 
@@ -640,6 +644,8 @@ Notifies customers that their saved card is about to expire, encouraging them to
 ## Renewal Requires Verification
 
 Sent when an automatic renewal needs customer authentication such as Strong Customer Authentication (SCA / 3D Secure).
+
+![Renewal Requires Verification email settings with SCA placeholders](customer-emails.ASSETS/03-renewal-requires-verification-settings-annotated.png)
 
 **WooCommerce email ID:** `arraysubs_renewal_requires_verification`
 

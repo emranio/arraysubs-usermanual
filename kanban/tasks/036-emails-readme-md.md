@@ -1,13 +1,14 @@
 ---
 id: 36
 title: emails - README.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.708567+06:00
-updated: 2026-06-24T18:57:57.248887+06:00
+updated: 2026-06-24T19:34:16.091512+06:00
 started: 2026-06-22T00:09:06+06:00
+completed: 2026-06-24T19:34:16.091511+06:00
 claimed_by: annotator
-claimed_at: 2026-06-24T18:57:57.248887+06:00
+claimed_at: 2026-06-24T19:34:16.091512+06:00
 class: standard
 ---
 
@@ -34,3 +35,7 @@ class: standard
 - Placement: After `### Email Reminder Schedule`
 - Context: Shows ArraySubs General Settings with the Email Reminder Schedule card and day inputs for Renewal Reminder, Trial Ending Reminder, and Expiring Soon Reminder.
 - Marker notes: Highlight the Email Reminder Schedule heading, Renewal Reminder input, Trial Ending input, Expiring Soon input, and Save Settings button.
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-woocommerce-email-registry (3), 02-array-subs-email-settings (3), 03-email-reminder-schedule (3).
+Source markdown updated: emails/README.md. Parallel batch (36-40). Queries trimmed vs marker notes.

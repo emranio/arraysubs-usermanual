@@ -1,13 +1,14 @@
 ---
 id: 40
 title: feature-manager - README.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.750577+06:00
-updated: 2026-06-24T18:57:57.307647+06:00
+updated: 2026-06-24T19:34:16.195269+06:00
 started: 2026-06-22T00:48:00+06:00
+completed: 2026-06-24T19:34:16.195269+06:00
 claimed_by: annotator
-claimed_at: 2026-06-24T18:57:57.307647+06:00
+claimed_at: 2026-06-24T19:34:16.195269+06:00
 class: standard
 ---
 
@@ -42,3 +43,7 @@ class: standard
 - Placement: After `## Overview`
 - Context: Shows the live `Basic Monthly` product page with the shopper-facing What's Included feature summary before the subscription button.
 - Marker notes: Highlight What's Included, the feature bullet list, price, quantity field, and Subscribe Now button.
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-feature-manager-settings (3), 02-product-feature-manager-tab (3), 03-customer-my-features (3), 04-storefront-product-features (3).
+Source markdown updated: feature-manager/README.md. Parallel batch (36-40). Queries trimmed vs marker notes.

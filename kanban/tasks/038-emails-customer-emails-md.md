@@ -1,13 +1,14 @@
 ---
 id: 38
 title: emails - customer-emails.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.726869+06:00
-updated: 2026-06-24T18:57:57.281357+06:00
+updated: 2026-06-24T19:34:16.14358+06:00
 started: 2026-06-22T00:23:00+06:00
+completed: 2026-06-24T19:34:16.143579+06:00
 claimed_by: annotator
-claimed_at: 2026-06-24T18:57:57.281357+06:00
+claimed_at: 2026-06-24T19:34:16.14358+06:00
 class: standard
 ---
 
@@ -38,3 +39,7 @@ class: standard
 - Placement: After `## Renewal Requires Verification`
 - Context: Shows the `[ArraySubs] Renewal Requires Verification` settings page with SCA-specific placeholders, default additional content, email preview, Complete verification CTA, and template override controls.
 - Marker notes: Highlight `{verification_url}`, `{auth_url}`, `{payment_amount}`, `{auth_deadline}`, Complete verification, and the HTML template path.
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-customer-email-registry (2), 02-renewal-reminder-settings (3), 03-renewal-requires-verification-settings (3).
+Source markdown updated: emails/customer-emails.md. Parallel batch (36-40). Queries trimmed vs marker notes.

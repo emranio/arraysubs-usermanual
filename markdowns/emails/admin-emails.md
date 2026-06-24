@@ -24,6 +24,8 @@ ArraySubs sends admin emails to keep the store owner (or a designated team) info
 
 All four admin emails appear in **WooCommerce → Settings → Emails** alongside customer emails. Each admin email supports a customizable **Recipient(s)** field so you can route notifications to specific team members.
 
+![WooCommerce email registry with the four ArraySubs admin emails](admin-emails.ASSETS/01-admin-email-registry-annotated.png)
+
 ---
 
 ## Admin New Subscription
@@ -63,6 +65,8 @@ Notifies the admin when a new subscription is activated.
 | **Email heading** | Heading inside the email body | See default above |
 | **Additional content** | Custom text appended after the main content | Empty |
 | **Email type** | HTML, Plain text, or Multipart | HTML |
+
+![Admin New Subscription email settings page](admin-emails.ASSETS/02-admin-new-subscription-settings-annotated.png)
 
 ### When It Is Sent
 

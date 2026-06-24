@@ -24,6 +24,8 @@ The Store Credit module *(Pro)* includes its own set of four customer-facing Woo
 
 All four emails are enabled by default when the Pro plugin is active.
 
+![WooCommerce email registry with the four Store Credit email rows](store-credit-emails.ASSETS/01-store-credit-email-registry-annotated.png)
+
 ```box class="info-box"
 Store Credit emails are registered by the **ArraySubs Pro** plugin. If the Pro plugin is deactivated, these emails will no longer appear in WooCommerce settings and will stop sending.
 ```
@@ -44,6 +46,8 @@ Store Credit emails are registered by the **ArraySubs Pro** plugin. If the Pro p
 ## Store Credit Added
 
 Sent when credit is added to a customer's account from any source except debit operations.
+
+![Store Credit Added email settings page](store-credit-emails.ASSETS/02-store-credit-added-settings-annotated.png)
 
 **WooCommerce email ID:** `arraysubs_credit_added`
 
@@ -124,6 +128,8 @@ Sent when credit is applied to an order — whether a subscription renewal or a 
 ## Store Credit Expiring Soon
 
 Sent 7 days before a credit entry is scheduled to expire.
+
+![Store Credit Expiring Soon email settings page](store-credit-emails.ASSETS/03-store-credit-expiring-settings-annotated.png)
 
 **WooCommerce email ID:** `arraysubs_credit_expiring`
 

@@ -15,6 +15,8 @@ Features are defined per product (or per variation), displayed on the storefront
 
 The module also supports **usage tracking** — showing customers how much of their entitlement they have consumed (e.g., "3 / 10 API calls used") — and **feature templates** for reusing the same feature sets across multiple products.
 
+![Storefront product page with the What's Included feature summary](README.ASSETS/04-storefront-product-features-annotated.png)
+
 ## When to Use This
 
 - You sell tiered subscription plans and want each tier to clearly list what's included.
@@ -30,11 +32,19 @@ The module also supports **usage tracking** — showing customers how much of th
 - At least one subscription product created.
 - Feature Manager enabled in settings (**ArraySubs → Settings → Feature Manager → Enable Feature Manager**).
 
+![Feature Manager settings tab](README.ASSETS/01-feature-manager-settings-annotated.png)
+
 ## How It Works
 
 1. **Define features on products.** In the WooCommerce product editor, open the **Feature Manager** tab and add named features with types and values.
+
+![Product editor Feature Manager tab with configured features](README.ASSETS/02-product-feature-manager-tab-annotated.png)
+
 2. **Features flow to subscribers.** When a customer purchases or subscribes to that product, they become entitled to those features.
 3. **Customers see their entitlements.** The **My Features** page in My Account shows all features from their active subscriptions — either grouped per subscription or combined into one table.
+
+![Customer My Features page with entitlements and usage](README.ASSETS/03-customer-my-features-annotated.png)
+
 4. **Admins review entitlements.** From any subscription's detail screen or the Manage Members profile, admins can open the Feature Log to review a customer's complete entitlement picture.
 5. **Optional: usage tracking.** For number-type features, your site's custom code or integrations can record consumption. Usage counts are displayed alongside entitlements in both the customer and admin views.
 

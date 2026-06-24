@@ -1,13 +1,14 @@
 ---
 id: 37
 title: emails - admin-emails.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.718027+06:00
-updated: 2026-06-24T18:57:57.265933+06:00
+updated: 2026-06-24T19:34:16.118407+06:00
 started: 2026-06-22T00:11:00+06:00
+completed: 2026-06-24T19:34:16.118407+06:00
 claimed_by: annotator
-claimed_at: 2026-06-24T18:57:57.265933+06:00
+claimed_at: 2026-06-24T19:34:16.118407+06:00
 class: standard
 ---
 
@@ -26,3 +27,7 @@ class: standard
 - Placement: After `### Configuration` in `## Admin New Subscription`
 - Context: Shows the `[ArraySubs] New Subscription (Admin)` settings screen with the recipient field, enable toggle, subject, heading, additional content, email type, placeholder helper, preview, and template override controls.
 - Marker notes: Highlight Recipient(s), Available Placeholders, Enable/Disable, Subject, Email preview, and the HTML template path.
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-admin-email-registry (3), 02-admin-new-subscription-settings (3).
+Source markdown updated: emails/admin-emails.md. Parallel batch (36-40). Queries trimmed vs marker notes.

@@ -49,6 +49,8 @@ ArraySubs emails are listed with the prefix **[ArraySubs]** so they are easy to 
 ArraySubs does not have its own standalone email settings page. All email customization — toggling, subject lines, headings, content, and email type — happens inside the standard WooCommerce email settings.
 ```
 
+![WooCommerce email registry with ArraySubs and Store Credit rows](README.ASSETS/01-woocommerce-email-registry-annotated.png)
+
 ### What You Can Customize Per Email
 
 Each ArraySubs email exposes the same options as any WooCommerce email:
@@ -62,6 +64,8 @@ Each ArraySubs email exposes the same options as any WooCommerce email:
 | **Email type** | Choose **HTML**, **Plain text**, or **Multipart** (sends both HTML and plain text). |
 
 Admin emails additionally show a **Recipient(s)** field — a comma-separated list of email addresses that will receive the notification. Defaults to the site admin email.
+
+![ArraySubs New Subscription email settings page](README.ASSETS/02-array-subs-email-settings-annotated.png)
 
 ### When Emails Are Sent
 
@@ -94,6 +98,8 @@ Emails are triggered automatically by subscription lifecycle events:
 ### Email Reminder Schedule
 
 Three emails use timed scheduling rather than immediate delivery. You configure the timing in **ArraySubs → Settings → General Settings** under the **Email Reminder Schedule** card:
+
+![Email Reminder Schedule settings with day inputs](README.ASSETS/03-email-reminder-schedule-annotated.png)
 
 | Setting | What It Controls | Default | Range |
 |---------|-----------------|---------|-------|

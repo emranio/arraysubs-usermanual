@@ -1,13 +1,14 @@
 ---
 id: 39
 title: emails - store-credit-emails.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.736015+06:00
-updated: 2026-06-24T18:57:57.294697+06:00
+updated: 2026-06-24T19:34:16.169515+06:00
 started: 2026-06-22T00:36:00+06:00
+completed: 2026-06-24T19:34:16.169514+06:00
 claimed_by: annotator
-claimed_at: 2026-06-24T18:57:57.294697+06:00
+claimed_at: 2026-06-24T19:34:16.169515+06:00
 class: standard
 ---
 
@@ -38,3 +39,7 @@ class: standard
 - Placement: After `## Store Credit Expiring Soon`
 - Context: Shows the `[ArraySubsPro] Store Credit Expiring Soon` settings page with expiration placeholders, warning copy, Shop Now CTA, store-credit balance link, and Pro template path.
 - Marker notes: Highlight `{expiring_amount}`, `{expires_at}`, `{days_remaining}`, `{shop_url}`, Shop Now, View your store credit balance, and the Pro template path.
+
+--- Annotation complete ---
+Annotated (settings #873EFF, --crop, --steps=3): 01-store-credit-email-registry (2), 02-store-credit-added-settings (3), 03-store-credit-expiring-settings (3).
+Source markdown updated: emails/store-credit-emails.md. Parallel batch (36-40). Queries trimmed vs marker notes.
