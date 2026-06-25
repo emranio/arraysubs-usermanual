@@ -75,6 +75,19 @@ async function copyStaticAssets(paths) {
       await copyFilePreservingTree(sourcePath, destinationPath);
     }),
   );
+
+  const accessibilityFontsDir = path.join(
+    paths.staticDir,
+    "accessibility-widget",
+    "fonts",
+  );
+
+  if (await pathExists(accessibilityFontsDir)) {
+    await copyDirectoryPreservingTree(
+      accessibilityFontsDir,
+      path.join(paths.distDir, "accessibility-widget", "fonts"),
+    );
+  }
 }
 
 module.exports = {

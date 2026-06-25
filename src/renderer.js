@@ -64,6 +64,20 @@ async function renderPageHtml(options) {
     ),
     assetVersion,
   );
+  const accessibilityWidgetConfigHref = appendCacheBust(
+    relativeAssetPath(
+      page.outputRelativePath,
+      "assets/accessibility-widget/arrayhash-config.js",
+    ),
+    assetVersion,
+  );
+  const accessibilityWidgetScriptHref = appendCacheBust(
+    relativeAssetPath(
+      page.outputRelativePath,
+      "assets/accessibility-widget/dist/accessibility-widget.global.js",
+    ),
+    assetVersion,
+  );
   const faviconHref = relativeAssetPath(
     page.outputRelativePath,
     `assets/${options.config.faviconFilename}`,
@@ -113,6 +127,8 @@ async function renderPageHtml(options) {
   });
 
   return applyTemplate(options.templates.layout, {
+    accessibilityWidgetConfigHref: escapeHtml(accessibilityWidgetConfigHref),
+    accessibilityWidgetScriptHref: escapeHtml(accessibilityWidgetScriptHref),
     bodyClass: page.isPro ? "docs-page docs-page--pro" : "docs-page",
     canonicalUrl: escapeHtml(canonicalUrl),
     contentHtml: page.contentHtml,

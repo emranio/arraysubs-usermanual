@@ -35,98 +35,100 @@
     <link rel="stylesheet" href="{{styleHref}}" />
   </head>
   <body class="{{bodyClass}}">
-    {{header}}
-    <div class="docs-shell container">
-      <aside
-        class="docs-shell__sidebar docs-sidebar"
-        id="docs-sidebar"
-        aria-label="Sidebar"
-      >
-        {{sidebar}}
-      </aside>
-      <button
-        class="docs-shell__overlay"
-        type="button"
-        hidden
-        aria-label="Close navigation"
-        data-sidebar-overlay
-      ></button>
-      <main class="docs-shell__main" id="main-content">
-        {{breadcrumb}}
-        <article class="docs-article" aria-labelledby="page-title">
-          <header class="docs-page-header">
-            <div class="docs-page-header__title-row">
-              <h1 class="docs-page-header__title" id="page-title">
-                {{pageTitle}}
-              </h1>
-              {{pageBadge}}
-            </div>
-          </header>
-          <div class="docs-content">{{contentHtml}}</div>
-          {{footer}}
-        </article>
-      </main>
-      <aside class="docs-shell__toc docs-toc-panel" aria-label="On this page">
-        {{toc}}
-      </aside>
-    </div>
-    <div
-      class="docs-cookie-preferences"
-      data-cookie-preferences-modal
-      hidden
-      role="presentation"
-    >
+    <div id="accessibility-widget-host">
+      {{header}}
+      <div class="docs-shell container">
+        <aside
+          class="docs-shell__sidebar docs-sidebar"
+          id="docs-sidebar"
+          aria-label="Sidebar"
+        >
+          {{sidebar}}
+        </aside>
+        <button
+          class="docs-shell__overlay"
+          type="button"
+          hidden
+          aria-label="Close navigation"
+          data-sidebar-overlay
+        ></button>
+        <main class="docs-shell__main" id="main-content">
+          {{breadcrumb}}
+          <article class="docs-article" aria-labelledby="page-title">
+            <header class="docs-page-header">
+              <div class="docs-page-header__title-row">
+                <h1 class="docs-page-header__title" id="page-title">
+                  {{pageTitle}}
+                </h1>
+                {{pageBadge}}
+              </div>
+            </header>
+            <div class="docs-content">{{contentHtml}}</div>
+            {{footer}}
+          </article>
+        </main>
+        <aside class="docs-shell__toc docs-toc-panel" aria-label="On this page">
+          {{toc}}
+        </aside>
+      </div>
       <div
-        class="docs-cookie-preferences__dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="docs-cookie-preferences-title"
-        tabindex="-1"
+        class="docs-cookie-preferences"
+        data-cookie-preferences-modal
+        hidden
+        role="presentation"
       >
-        <div class="docs-cookie-preferences__header">
-          <h2 id="docs-cookie-preferences-title">Privacy choices</h2>
-          <button
-            type="button"
-            class="docs-cookie-preferences__close"
-            data-cookie-preferences-close
-            aria-label="Close privacy choices"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <p class="docs-cookie-preferences__intro">
-          Analytics is optional. Advertising cookies are not used.
-          <a href="https://arrayhash.com/trust-center/privacy-policy/">Privacy policy</a>
-        </p>
-        <div class="docs-cookie-preferences__options">
-          <div class="docs-cookie-preferences__option">
-            <div>
-              <h3>Necessary</h3>
-              <p>Site basics and this consent record.</p>
-              <p class="docs-cookie-preferences__meta">
-                Always on &middot; cc_cookie
-              </p>
-            </div>
-            <span class="docs-cookie-preferences__status docs-cookie-preferences__status--on">On</span>
+        <div
+          class="docs-cookie-preferences__dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="docs-cookie-preferences-title"
+          tabindex="-1"
+        >
+          <div class="docs-cookie-preferences__header">
+            <h2 id="docs-cookie-preferences-title">Privacy choices</h2>
+            <button
+              type="button"
+              class="docs-cookie-preferences__close"
+              data-cookie-preferences-close
+              aria-label="Close privacy choices"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="docs-cookie-preferences__option">
-            <div>
-              <h3>Analytics</h3>
-              <p>Aggregate GA4/GTM measurement. No retargeting.</p>
-              <p class="docs-cookie-preferences__meta">
-                Optional &middot; _ga, _ga_*
-              </p>
+          <p class="docs-cookie-preferences__intro">
+            Analytics is optional. Advertising cookies are not used.
+            <a href="https://arrayhash.com/trust-center/privacy-policy/">Privacy policy</a>
+          </p>
+          <div class="docs-cookie-preferences__options">
+            <div class="docs-cookie-preferences__option">
+              <div>
+                <h3>Necessary</h3>
+                <p>Site basics and this consent record.</p>
+                <p class="docs-cookie-preferences__meta">
+                  Always on &middot; cc_cookie
+                </p>
+              </div>
+              <span class="docs-cookie-preferences__status docs-cookie-preferences__status--on">On</span>
             </div>
-            <span class="docs-cookie-preferences__status">Optional</span>
+            <div class="docs-cookie-preferences__option">
+              <div>
+                <h3>Analytics</h3>
+                <p>Aggregate GA4/GTM measurement. No retargeting.</p>
+                <p class="docs-cookie-preferences__meta">
+                  Optional &middot; _ga, _ga_*
+                </p>
+              </div>
+              <span class="docs-cookie-preferences__status">Optional</span>
+            </div>
           </div>
-        </div>
-        <div class="docs-cookie-preferences__actions">
-          <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--secondary" data-cookie-preferences-reject>
-            Reject
-          </button>
-          <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--primary" data-cookie-preferences-accept>
-            Accept
-          </button>
+          <div class="docs-cookie-preferences__actions">
+            <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--secondary" data-cookie-preferences-reject>
+              Reject
+            </button>
+            <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--primary" data-cookie-preferences-accept>
+              Accept
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -219,5 +221,7 @@
       })();
     </script>
     <!-- End Google Tag Manager -->
+    <script src="{{accessibilityWidgetConfigHref}}" defer></script>
+    <script src="{{accessibilityWidgetScriptHref}}" defer></script>
   </body>
 </html>
