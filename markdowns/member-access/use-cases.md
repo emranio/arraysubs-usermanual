@@ -32,6 +32,8 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ## 1. Online Course with Weekly Drip Content
 
+![Post Type rule builder — target, condition, and denial action](use-cases.ASSETS/01-post-type-rule-builder-annotated.png)
+
 **Industry:** Education / E-learning  
 **Rule types:** Post Type Rules with schedules
 
@@ -63,6 +65,8 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ## 2. VIP Discount for Long-Term Subscribers
 
+![Discount rule builder — target scope and discount value fields](use-cases.ASSETS/02-discount-rule-builder-annotated.png)
+
 **Industry:** Any subscription store  
 **Rule types:** Discount Rules
 
@@ -87,6 +91,8 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ## 3. Members-Only Wholesale Store
 
+![Ecommerce rule builder — target scope and restriction action](use-cases.ASSETS/03-ecommerce-rule-builder-annotated.png)
+
 **Industry:** B2B / Wholesale  
 **Rule types:** Ecommerce Rules
 
@@ -109,6 +115,8 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 ---
 
 ## 4. Tiered Role Mapping for a Learning Platform
+
+![Role mapping overview — tab bar and role mapping rule](use-cases.ASSETS/08-role-mapping-overview-annotated.png)
 
 **Industry:** Education / Membership  
 **Rule types:** Role Mapping Rules
@@ -137,6 +145,8 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 ---
 
 ## 5. Protecting a Private Members Area by URL
+
+![URL rules — pattern type, condition, and action](use-cases.ASSETS/04-url-rules-annotated.png)
 
 **Industry:** Community / Membership  
 **Rule types:** URL Rules
@@ -213,6 +223,8 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 ---
 
 ## 8. Subscription-Gated File Downloads
+
+![Download rule builder — Add File and access condition](use-cases.ASSETS/05-download-rule-builder-annotated.png)
 
 **Industry:** Digital products / Software  
 **Rule types:** Download Rules
@@ -317,6 +329,8 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 ---
 
 ## 12. Per-Session Limits for Streaming Tiers *(Pro)*
+
+![Login Limit rule builder — condition and session limit](use-cases.ASSETS/06-login-limit-rule-builder-annotated.png)
 
 **Industry:** Media streaming / SaaS  
 **Rule types:** Login Limit Rules

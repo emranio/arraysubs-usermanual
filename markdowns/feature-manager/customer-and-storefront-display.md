@@ -30,6 +30,8 @@ Each display has its own settings, layout, and behavior.
 
 ## Storefront Product Page
 
+![Storefront product features](README.ASSETS/04-storefront-product-features-annotated.png)
+
 When enabled, a **"What's Included"** section appears on the single product page below the product summary. It lists all enabled features for that product with their values.
 
 ### How to Enable
@@ -65,6 +67,8 @@ The storefront display currently renders on **simple subscription products only*
 ---
 
 ## My Features Page (Customer Portal)
+
+![Customer My Features page](README.ASSETS/03-customer-my-features-annotated.png)
 
 Customers see a **My Features** tab in their WooCommerce My Account navigation. This page shows all features from their active subscriptions.
 
@@ -146,6 +150,8 @@ A link to the shop page is provided.
 ---
 
 ## Admin Feature Log
+
+![Admin Feature Log](customer-and-storefront-display.ASSETS/01-admin-feature-log-annotated.png)
 
 The Feature Log is an admin-only view that shows a specific customer's complete feature entitlements across all their subscriptions.
 

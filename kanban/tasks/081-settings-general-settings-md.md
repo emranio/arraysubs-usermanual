@@ -1,11 +1,14 @@
 ---
 id: 81
 title: settings - general-settings.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.205539+06:00
-updated: 2026-06-23T16:34:38.820238+06:00
+updated: 2026-06-24T21:48:48.474726063+02:00
 started: 2026-06-22T19:14:09.566125+06:00
+completed: 2026-06-24T21:48:48.47472457+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:48:48.474725953+02:00
 class: standard
 ---
 
@@ -100,3 +103,18 @@ Markers:
 - `arrow pointing to the manual renewal invoice warning, label 'Manual invoice warning'`
 
 Verification: source md reviewed against `GeneralSettings.jsx`; no source md edits needed. Conditional screenshot states were not saved.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- ../README.ASSETS/01-settings-general-tabs-overview: REUSED from task 80. Link after '## Overview'.
+- 01-multiple-subscriptions-cart-rules: SUCCESS. Link after '## Multiple Subscriptions'.
+- 02-button-text-label: SUCCESS. Link after '## Button Text'.
+- 03-checkout-trials-conditional-controls: SUCCESS. Link after '## Checkout & Trials'.
+- 04-grace-period-timeline-controls: SUCCESS. Link after '## Grace Period'.
+- 05-renewal-sync-first-charge-controls: SUCCESS. Link after '## Renewal Sync'.
+- 06-email-reminder-schedule: SUCCESS. Link after '## Email Reminder Schedule'.
+- 07-customer-actions-portal-controls: SUCCESS. Link after '## Customer Actions'.
+- 08-cancellation-settings-timing: SUCCESS. Link after '## Cancellation Settings'.
+- 09-automatic-payments-pro-controls: SUCCESS. Link after '## Automatic Payments Pro'.
+Source: settings/general-settings.md (10 links added).

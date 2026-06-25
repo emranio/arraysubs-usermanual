@@ -9,6 +9,10 @@
 
 ## Overview
 
+![Settings — General tab active with Settings tab row and Multiple Subscriptions card](README.ASSETS/01-settings-general-tabs-overview-annotated.png)
+
+![Settings — Toolkit tab active with Admin Bar and Admin Dashboard Access cards](README.ASSETS/02-settings-toolkit-tabs-overview-annotated.png)
+
 The **Settings** area in ArraySubs is organized into the main General and Toolkit pages plus module-specific settings tabs. Use General for shared subscription behavior, Toolkit for admin/security utilities, and the module tabs when a feature has its own dedicated settings screen.
 
 | Page | What it covers | Navigation path |

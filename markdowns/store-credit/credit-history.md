@@ -21,6 +21,8 @@
 
 ## Overview
 
+![Credit History admin tab — filter controls and transaction table](../README.ASSETS/02-admin-store-credit-global-history-annotated.png)
+
 The Credit History page gives you a bird's-eye view of all store credit activity in your store. Every credit transaction — from admin adjustments and refund conversions to automated renewal applications and expirations — appears here in a single, filterable log.
 
 Use this page to audit credit activity, investigate unusual patterns, or verify that automated processes (like renewal auto-apply and credit expiration) are working as expected.
@@ -76,6 +78,8 @@ Two filter dropdowns sit above the table:
 Select your filters and the table refreshes automatically. A **Total: N transactions** counter above the table reflects the filtered count.
 
 ### Read the Transaction Table
+
+![Credit History pagination — 20 per page controls and read-only log note](credit-history.ASSETS/01-credit-history-pagination-readonly-note-annotated.png)
 
 | Column | What it shows |
 |--------|--------------|

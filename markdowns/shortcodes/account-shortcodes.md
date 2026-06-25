@@ -20,6 +20,8 @@
 
 ## Overview
 
+![Shortcodes catalog — Account group with user, login, and logout shortcode cards](../profile-builder/shortcodes.ASSETS/01-shortcodes-catalog-cross-reference-annotated.png)
+
 Three shortcodes handle authentication-related display on the frontend:
 
 | Shortcode | What It Does |

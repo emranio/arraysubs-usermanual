@@ -1,11 +1,14 @@
 ---
 id: 68
 title: multi-login-prevention - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.045617+06:00
-updated: 2026-06-23T16:34:38.816338+06:00
+updated: 2026-06-24T21:11:34.730989042+02:00
 started: 2026-06-22T02:18:47.212586+06:00
+completed: 2026-06-24T21:11:34.73098809+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:11:34.730988932+02:00
 class: standard
 ---
 
@@ -25,3 +28,10 @@ Screenshots captured / reused as local originals:
 Source updates:
 
 - Updated `Members Access -> Login Limit` to `Member Access -> Login Limit` in the global default vs rule override section.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-toolkit-multi-login-prevention: SUCCESS. Link added after '## How to Configure It'.
+- 02-login-limit-rule-builder: SUCCESS. Link added after '## Global Default vs Login Limit Rules'.
+Source: multi-login-prevention/README.md (2 links added).

@@ -20,6 +20,8 @@
 
 ## Overview
 
+![Settings — General tab active with Settings tabs row](../README.ASSETS/01-settings-general-tabs-overview-annotated.png)
+
 The General Settings page is the first place to visit after installing ArraySubs. It collects the store-wide rules that shape how subscriptions behave during checkout, renewal, and day-to-day management.
 
 Navigate to **ArraySubs → Settings → General** to open the page. Every change takes effect after you click **Save Settings**. You can click **Discard Changes** at any time to revert unsaved edits.
@@ -44,6 +46,8 @@ Settings apply **store-wide** — they affect all subscription products, all cus
 ---
 
 ## Multiple Subscriptions
+
+![Multiple Subscriptions settings — per-customer limit and mixed checkout switches](general-settings.ASSETS/01-multiple-subscriptions-cart-rules-annotated.png)
 
 This section controls how many subscriptions a single customer can hold and how subscription items interact with the rest of the cart during checkout.
 
@@ -118,6 +122,8 @@ Automatic payment gateways may impose additional checkout restrictions regardles
 
 ## Button Text
 
+![Button Text — Add to Cart Text input and default fallback notice](general-settings.ASSETS/02-button-text-label-annotated.png)
+
 ### Add to Cart Text
 
 | | |
@@ -129,6 +135,8 @@ Overrides the add-to-cart button label on subscription product pages. Leave empt
 ---
 
 ## Checkout & Trials
+
+![Checkout and Trials — One Click Checkout select and Require Payment Method for Trials switch](general-settings.ASSETS/03-checkout-trials-conditional-controls-annotated.png)
 
 This section combines checkout flow behavior and free trial rules.
 
@@ -198,6 +206,8 @@ Prevents customers from signing up for multiple free trials of the same product.
 
 ## Grace Period
 
+![Grace Period — Active After Due and On-Hold Before Cancel inputs](general-settings.ASSETS/04-grace-period-timeline-controls-annotated.png)
+
 The grace period system controls what happens when a renewal payment is not received by the due date. It uses a two-phase approach: the subscription stays active for a configurable number of days, then moves to on-hold, and is finally cancelled if payment is still not received.
 
 For a detailed walkthrough of the grace period lifecycle, see [Getting Started — Before You Launch](../getting-started/before-you-launch.md).
@@ -245,6 +255,8 @@ Customers retain access during the Active period but not during On-Hold. Paying 
 ---
 
 ## Renewal Sync
+
+![Renewal Sync — sync toggle and First Charge mode select](general-settings.ASSETS/05-renewal-sync-first-charge-controls-annotated.png)
 
 Renewal Sync aligns new non-trial subscriptions to predictable billing-cycle dates instead of renewing exactly one interval after checkout.
 
@@ -295,6 +307,8 @@ If Stripe is selected and the prorated first recurring charge would be below Str
 
 ## Email Reminder Schedule
 
+![Email Reminder Schedule — Renewal, Trial Ending, and Expiring Soon reminder inputs](general-settings.ASSETS/06-email-reminder-schedule-annotated.png)
+
 Controls how many days before an event the system sends reminder emails to customers. Each value sets the timing for one email type.
 
 | Setting | Default | Range | What it sends |
@@ -310,6 +324,8 @@ For example, setting Renewal Reminder to `3` will send the email 3 days before t
 ---
 
 ## Customer Actions
+
+![Customer Actions — Allow Cancellation, Suspension, and Reactivation switches](general-settings.ASSETS/07-customer-actions-portal-controls-annotated.png)
 
 Controls which self-service action buttons appear on the customer's subscription management page in their account area.
 
@@ -331,6 +347,8 @@ These settings control which action buttons appear on the customer's subscriptio
 
 ## Cancellation Settings
 
+![Cancellation Settings — Cancel Immediately switch and end-of-period notice](general-settings.ASSETS/08-cancellation-settings-timing-annotated.png)
+
 ### Cancel Immediately
 
 | | |
@@ -348,6 +366,8 @@ End-of-period cancellation is sometimes called "scheduled cancellation." Custome
 ---
 
 ## Automatic Payments **Pro**
+
+![Automatic Payments — Allow Customers to Turn Off Auto-Renew switch and manual invoice warning](general-settings.ASSETS/09-automatic-payments-pro-controls-annotated.png)
 
 This section is relevant when the **ArraySubs Pro** plugin is active and at least one automatic payment gateway (Stripe, PayPal, or Paddle) is configured.
 

@@ -46,6 +46,8 @@ Every shortcode is also documented inside your admin panel at **ArraySubs → Sh
 
 ## Shortcodes Catalog in Admin
 
+![Shortcodes catalog — summary cards and Account shortcode group](../profile-builder/shortcodes.ASSETS/01-shortcodes-catalog-cross-reference-annotated.png)
+
 ArraySubs includes a built-in shortcodes catalog at **ArraySubs → Shortcodes**. This page lists every registered shortcode grouped by category, with:
 
 - A **Free** or **Pro** badge on each card.

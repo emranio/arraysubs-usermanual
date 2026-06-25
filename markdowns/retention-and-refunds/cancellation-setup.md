@@ -78,6 +78,8 @@ End-of-period cancellation is generally recommended for most subscription busine
 
 ### How to Configure
 
+![Customer Actions — Allow Cancellation switch and End-of-period mode](cancellation-setup.ASSETS/01-customer-actions-cancellation-timing-annotated.png)
+
 1. Navigate to **ArraySubs → Settings → General**.
 2. Scroll to the **Customer Actions** section.
 3. Find the **Cancel Immediately** toggle.
@@ -127,6 +129,8 @@ You can add as many custom reasons as you need. Each reason has two fields:
 
 ### The "Other" Reason
 
+![Cancellation modal with Other selected — details textarea and enabled Continue link](cancellation-setup.ASSETS/04-customer-cancellation-other-reason-annotated.png)
+
 When the customer selects a reason with the key `other`, a free-text textarea appears in the cancellation modal. This lets customers provide custom feedback that doesn't fit the predefined options.
 
 ```box class="info-box"
@@ -160,6 +164,8 @@ The page has two main areas:
 
 ### Managing Cancellation Reasons
 
+![Cancellation reason editor — Reason Key, Display Label, and Delete button](cancellation-setup.ASSETS/02-cancellation-reason-editor-annotated.png)
+
 The reasons section shows a repeatable list of reason rows. Each row contains:
 
 - A **Reason Key** text field — the internal identifier
@@ -184,6 +190,8 @@ Changing reason keys after you have collected cancellation data can cause analyt
 When a customer clicks **Cancel Subscription** in the portal, this is what they see step by step.
 
 ### Step 1: Cancellation Reason
+
+![Cancellation modal — reason dropdown and Keep Subscription button](cancellation-setup.ASSETS/03-customer-cancellation-reason-modal-annotated.png)
 
 The first modal appears with:
 

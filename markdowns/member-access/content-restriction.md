@@ -32,6 +32,8 @@ Content Restriction covers the presentation and behavior layer of Member Access 
 
 ## Scheduled / Drip Access
 
+![URL rule — Schedule panel with drip delay controls](content-restriction.ASSETS/01-scheduled-url-rule-builder-annotated.png)
+
 Any Member Access rule that includes a **Schedule** section delays its effect until a configurable period after the subscriber's subscription starts. This is how you implement content dripping — gradually unlocking content as the subscriber's membership ages.
 
 ### How It Works
@@ -161,6 +163,8 @@ This means a per-post restriction can be more restrictive or less restrictive th
 ---
 
 ## Default Settings
+
+![Require Login redirect — visitor landing on wp-login.php](content-restriction.ASSETS/02-require-login-redirect-annotated.png)
 
 The following global settings are configured via the **ArraySubs → Member Access** settings endpoint and affect all restriction rule types:
 

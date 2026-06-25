@@ -24,6 +24,8 @@ If a customer sees **"Store credit is not available."**, confirm ArraySubs Pro i
 
 ## Overview
 
+![Store Credit admin — Manage Credits tab with customer balance and adjustment form](README.ASSETS/01-admin-store-credit-customer-management-annotated.png)
+
 Store Credit is a complete virtual-wallet system built into ArraySubs Pro. It lets you reward customers with reusable credit that automatically applies to subscription renewals or can be spent at checkout, reducing friction and increasing retention.
 
 Credit flows into customer accounts from several sources — plan downgrades, refund conversions, admin adjustments, promotional grants, and self-service credit purchases. Credit flows out when it is applied to renewal invoices, used at checkout, or when it expires after a configurable period.
@@ -52,6 +54,10 @@ When credit is applied to an order, the system uses **subscription-level credit 
 Credits appear as a negative fee line item on orders, reducing the payment total while keeping full auditability.
 
 ## What's Inside
+
+![Store Credit admin — Credit History tab with filter controls](README.ASSETS/02-admin-store-credit-global-history-annotated.png)
+
+![Store Credit admin — Settings tab with Enable switch and application controls](README.ASSETS/03-store-credit-settings-overview-annotated.png)
 
 | Topic | What it covers |
 |-------|---------------|
@@ -93,6 +99,8 @@ The reversal is **idempotent** — a second failure on the same order is a no-op
 This guarantees the customer never silently loses credit because of a transient payment failure.
 
 ## Customer Experience
+
+![Customer My Account — Store Credit portal with balance and purchase section](README.ASSETS/04-customer-store-credit-portal-annotated.png)
 
 Customers interact with store credit in the **My Account → Store Credit** page, where they can:
 

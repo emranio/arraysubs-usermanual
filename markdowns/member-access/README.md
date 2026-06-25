@@ -20,6 +20,8 @@
 
 ## Overview
 
+![Member Access — role mapping overview with tab bar and rule controls](README.ASSETS/01-member-access-role-mapping-overview-annotated.png)
+
 Member Access is the rule engine behind content gating, product restrictions, member discounts, download provisioning, automatic role assignment, and session controls in ArraySubs. Instead of locking content behind a single "members only" toggle, you build layered rules with conditions, targets, actions, and optional scheduling — giving you precise control over what each subscriber group can access, purchase, and download.
 
 Everything is managed from one admin screen at **ArraySubs → Member Access**, organized into eight tabs:

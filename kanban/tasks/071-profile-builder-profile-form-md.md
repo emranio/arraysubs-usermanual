@@ -1,11 +1,14 @@
 ---
 id: 71
 title: profile-builder - profile-form.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.080972+06:00
-updated: 2026-06-23T16:34:38.817081+06:00
+updated: 2026-06-24T21:19:21.202580965+02:00
 started: 2026-06-22T02:26:22.477275+06:00
+completed: 2026-06-24T21:19:21.202579933+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:19:21.202580864+02:00
 class: standard
 ---
 
@@ -58,3 +61,13 @@ Markers:
 Verification:
 - Source markdown reviewed against `arraysubs/src/resources/pages/Settings/ProfileFieldsSettings.jsx`; no source markdown changes were needed.
 - Temporary unsaved field was removed after capture, and both Profile Form toggles were returned to off without saving.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-profile-form-disabled: SUCCESS. Link after '### Opening the Profile Form Page'.
+- 02-avatar-settings-enabled: SUCCESS. Link after '### Configuring Avatar Upload'.
+- 03-custom-profile-field-editor: SUCCESS. Link after '### Field Properties'.
+- 04-select-field-options: SUCCESS. Link after '#### Select'.
+- 05-file-upload-field-settings: SUCCESS. Link after '#### File Upload'.
+Source: profile-builder/profile-form.md (5 links added).

@@ -1,11 +1,13 @@
 ---
 id: 97
 title: subscription-products - plan-switching-and-relationships.md
-status: todo
+status: review
 priority: medium
 created: 2026-06-09T18:08:35.389318+06:00
-updated: 2026-06-23T16:34:38.824876+06:00
+updated: 2026-06-25T09:27:17.423520779+02:00
 started: 2026-06-22T20:12:47.654004+06:00
+claimed_by: annotator
+claimed_at: 2026-06-25T09:27:17.423520679+02:00
 class: standard
 ---
 
@@ -64,3 +66,8 @@ Markers:
 - `arrow pointing to the "Enrollment opens" date field, label 'Enrollment opens'`
 - `arrow pointing to the "Enrollment closes" date field, label 'Enrollment closes'`
 - `arrow pointing to the "At period end" dropdown, label 'Period-end behavior'`
+
+
+--- Annotation SKIPPED — no original screenshots ---
+All 5 image originals missing from plan-switching.ASSETS/. Screenshots not yet captured.
+Moving to review for screenshot capture.

@@ -35,6 +35,8 @@ All three are configured from **ArraySubs → Member Access**, each on its own t
 
 ## Discount Rules
 
+![Discount tab — tab bar and Add New Rule entry point](commerce-and-benefit-rules.ASSETS/01-discount-rules-annotated.png)
+
 **Tab:** ArraySubs → Member Access → **Discount**
 
 Discount Rules let you offer automatic pricing benefits to qualifying subscribers. Discounts can be percentage-based or fixed-amount, applied per-item or per-cart, and scoped to specific products, categories, or tags.
@@ -49,6 +51,8 @@ When a qualifying subscriber views a product or adds items to their cart, the Di
 Discounts are evaluated in real-time, per request. They do not modify the product's stored price — the original pricing remains intact for non-qualifying visitors.
 
 ### Configuring a Discount Rule
+
+![Discount rule builder — target scope and discount type fields](commerce-and-benefit-rules.ASSETS/05-discount-rule-builder-annotated.png)
 
 1. Go to **ArraySubs → Member Access → Discount**.
 2. Click **Add New Rule**.
@@ -112,6 +116,8 @@ Discounts are evaluated in real-time, per request. They do not modify the produc
 
 ## Ecommerce Rules
 
+![Ecommerce tab — tab bar and Add New Rule entry point](commerce-and-benefit-rules.ASSETS/02-ecommerce-rules-annotated.png)
+
 **Tab:** ArraySubs → Member Access → **Ecommerce**
 
 Ecommerce Rules control product visibility and purchasing. Use them to hide products from non-members, block purchases, force login, or redirect visitors to a signup/pricing page.
@@ -127,6 +133,8 @@ Ecommerce restriction rules are deeply integrated with WooCommerce:
 - **SEO sitemaps** — Products hidden via 404 rules are excluded from WordPress native sitemaps, Yoast SEO sitemaps, and Rank Math sitemaps.
 
 ### Configuring an Ecommerce Rule
+
+![Ecommerce rule builder — target scope and restriction action fields](commerce-and-benefit-rules.ASSETS/06-ecommerce-rule-builder-annotated.png)
 
 1. Go to **ArraySubs → Member Access → Ecommerce**.
 2. Click **Add New Rule**.
@@ -192,6 +200,8 @@ Ecommerce restriction rules are deeply integrated with WooCommerce:
 
 ## Download Rules
 
+![Downloads tab — tab bar and Add New Rule entry point](commerce-and-benefit-rules.ASSETS/03-download-rules-annotated.png)
+
 **Tab:** ArraySubs → Member Access → **Downloads**
 
 Download Rules let you provision downloadable files to qualifying subscribers. Files defined here appear on the customer's **My Account → Downloads** page alongside any WooCommerce native downloadable product files.
@@ -206,6 +216,8 @@ Download Rules let you provision downloadable files to qualifying subscribers. F
 Download Rules are completely separate from WooCommerce's native downloadable product system — they do not interfere with product-level downloads. The two systems coexist on the same Downloads page.
 
 ### Configuring a Download Rule
+
+![Download rule builder — Add File and access condition fields](commerce-and-benefit-rules.ASSETS/04-download-rule-builder-annotated.png)
 
 1. Go to **ArraySubs → Member Access → Downloads**.
 2. Click **Add New Rule**.

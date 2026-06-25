@@ -42,9 +42,15 @@ On the single product page, subscription information appears below the product t
 | Subscription length | When length > 0 | **5 billing cycles** |
 | (no length note) | When length = 0 | Continues until cancelled (no text shown) |
 
+![Simple product page — recurring price, signup fee, and billing schedule display](product-experience.ASSETS/01-simple-product-page-subscription-pricing-annotated.png)
+
 For **variable products**, the subscription info area starts empty. When the customer selects a variation, the billing details populate dynamically via JavaScript with the selected variation's pricing and schedule.
 
+![Variable product page — variation Plan dropdown selected with dynamic first-payment and renewal terms](product-experience.ASSETS/03-variable-product-selected-plan-display-annotated.png)
+
 ### Cart
+
+![Cart subscription line item — Subscription Details metadata block and initial payment row](product-experience.ASSETS/04-cart-subscription-line-item-annotated.png)
 
 In the cart, subscription information is integrated into the standard WooCommerce cart display:
 
@@ -62,9 +68,13 @@ The signup fee is not part of the product price. It is added as a WooCommerce ca
 
 ### Mini-Cart
 
+![Mini-cart drawer — Subscription Details list and recurring totals](product-experience.ASSETS/05-mini-cart-subscription-details-annotated.png)
+
 The WooCommerce mini-cart (widget cart) also displays subscription information next to the item quantity. Each subscription item receives the CSS class `arraysubs-mini-cart-item` for styling purposes.
 
 ### Checkout
+
+![Checkout order summary — subscription metadata block and initial payment total](product-experience.ASSETS/06-checkout-subscription-summary-annotated.png)
 
 At checkout, subscription details appear in two places:
 
@@ -115,6 +125,8 @@ Feature Manager lets you define product entitlements — named features with spe
 
 ### Product Configuration
 
+![Feature Manager product data tab — Edit Features button and configured entitlements table](product-experience.ASSETS/07-feature-manager-product-configuration-annotated.png)
+
 The Feature Manager appears as a separate **Feature Manager** tab in the WooCommerce product data panel (next to General, Inventory, Shipping, etc.). The tab is available for simple products and variations.
 
 Inside the tab, you define features using a React-based interface. Each feature has:
@@ -147,6 +159,8 @@ Customers see their entitled features in the **My Features** page in My Account.
 Each feature shows the feature name, type, entitlement value, and optionally the usage (used / limit).
 
 ### Storefront Display
+
+![Product page Feature Manager — What's Included heading and feature list with plan limits](product-experience.ASSETS/02-product-page-feature-manager-display-annotated.png)
 
 When enabled in the Feature Manager settings, a "What's Included" section appears on the product page listing the product's enabled features. This displays as a styled feature list with type-specific formatting (checkmarks for toggles, values for numbers, text for text features).
 

@@ -1,11 +1,14 @@
 ---
 id: 51
 title: getting-started - import-export-settings.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.858814+06:00
-updated: 2026-06-23T16:34:38.811204+06:00
+updated: 2026-06-24T19:08:38.767908271+02:00
 started: 2026-06-22T01:30:17.049975+06:00
+completed: 2026-06-24T19:08:38.767907069+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:08:38.767908171+02:00
 class: standard
 ---
 
@@ -31,3 +34,9 @@ Markers:
 
 Source update:
 - Updated `user-manual/markdowns/getting-started/import-export-settings.md` page navigation to point directly to `ArraySubs -> Easy Setup` and `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-import-settings-entry (3).
+Reused: easy-setup-wizard.ASSETS/01-easy-setup-page-annotated.png (task 48).
+Source updated: getting-started/import-export-settings.md (2 image links).

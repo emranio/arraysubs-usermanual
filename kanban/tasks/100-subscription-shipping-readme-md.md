@@ -1,11 +1,14 @@
 ---
 id: 100
 title: subscription-shipping - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.425736+06:00
-updated: 2026-06-23T16:35:30.11206+06:00
+updated: 2026-06-25T09:32:53.106992873+02:00
 started: 2026-06-23T15:42:56.037063+06:00
+completed: 2026-06-25T09:32:53.106991881+02:00
+claimed_by: annotator
+claimed_at: 2026-06-25T09:32:53.106992743+02:00
 class: standard
 ---
 
@@ -58,3 +61,13 @@ Markers:
 - `arrow pointing to the Street Address required field, label 'Required address'`
 - `arrow pointing to the Country required field, label 'Destination country'`
 - `arrow pointing to the Save Address button, label 'Save changes'`
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-product-shipping-settings: SUCCESS. Link after '## Product Settings'.
+- 02-checkout-shipping-summary: SUCCESS. Link after '## Shipping Behavior'.
+- 03-admin-subscription-shipping-card: SUCCESS. Link after '## Subscription Detail Card'.
+- 04-customer-shipping-section: SUCCESS. Link after '## Customer Portal'.
+- 05-shipping-address-modal: SUCCESS. Link after '## Customer Portal' (paired with 04).
+Source: subscription-shipping/README.md (5 links added).

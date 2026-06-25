@@ -1,11 +1,13 @@
 ---
 id: 79
 title: retention-and-refunds - retention-use-cases.md
-status: todo
+status: review
 priority: medium
 created: 2026-06-09T18:08:35.179053+06:00
-updated: 2026-06-23T16:34:38.819374+06:00
+updated: 2026-06-24T21:38:55.395444401+02:00
 started: 2026-06-22T19:06:29.590942+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:38:55.39544428+02:00
 class: standard
 ---
 
@@ -62,3 +64,13 @@ Markers:
 Verification:
 - Source markdown reviewed against current Retention Flow and Analytics surfaces; no source markdown changes were needed.
 - This task is intentionally deduped to the screenshots captured for task 78 and task 74 because the use-case guide explains scenarios using the same UI surfaces rather than introducing new screens.
+
+
+--- Annotation complete (reuses only) ---
+All images are reuses — no new annotation runs needed.
+- 01 reuse (retention-offers.ASSETS/01-retention-offers-master-discount-annotated.png): SUCCESS. Link after '## Use Case 1'.
+- 04 reuse (retention-offers.ASSETS/04-customer-retention-offers-modal-annotated.png): SUCCESS. Link after 'What the customer sees' in Use Case 1.
+- 02 reuse (retention-offers.ASSETS/02-pause-downgrade-contact-offer-fields-annotated.png): SUCCESS. Link after '## Use Case 2'.
+- 03 reuse (retention-offers.ASSETS/03-contact-support-offer-fields-annotated.png): SKIPPED — source file does not exist (task 78 image 03 failed). Link omitted.
+- 05 reuse (../retention-analytics/README.ASSETS/01-retention-filters-summary-cards-annotated.png): SUCCESS. Link after '## The Retention Math'.
+Source: retention-and-refunds/retention-use-cases.md (4 links added). Moved to review due to missing 03.

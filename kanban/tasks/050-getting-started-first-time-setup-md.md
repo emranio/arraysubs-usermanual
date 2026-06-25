@@ -1,11 +1,14 @@
 ---
 id: 50
 title: getting-started - first-time-setup.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.849931+06:00
-updated: 2026-06-23T16:34:38.810977+06:00
+updated: 2026-06-24T19:06:13.143413566+02:00
 started: 2026-06-22T01:28:22.248509+06:00
+completed: 2026-06-24T19:06:13.143412424+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:06:13.143413466+02:00
 class: standard
 ---
 
@@ -51,3 +54,9 @@ Markers:
 - `arrow pointing to the subscription row, label 'Customer subscription'`
 - `arrow pointing to next payment, label 'Customer renewal date'`
 - `arrow pointing to View, label 'Open detail page'`
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-general-settings-setup (3), 02-product-subscription-tab (3).
+Reused: README.ASSETS/01-arraysubs-admin-overview-annotated.png (task 45), ../customer-portal/README.ASSETS/01-my-subscriptions-list-annotated.png (existing).
+Source updated: getting-started/first-time-setup.md (4 image links).

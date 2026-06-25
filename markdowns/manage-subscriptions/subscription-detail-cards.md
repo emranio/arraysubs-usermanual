@@ -20,6 +20,8 @@
 
 ## Overview
 
+![Subscription detail screen — cards overview](subscription-detail-cards.ASSETS/01-detail-cards-overview-annotated.png)
+
 The subscription detail screen displays a series of information cards. Some are always visible (covered in [Subscription Operations](subscription-operations.md#subscription-detail-screen)), but several cards only appear when specific conditions are met. This guide covers each conditional card in detail.
 
 The detail screen is intentionally read-heavy. Use it when support needs to understand the current state before taking action: status, renewal date, payment gateway, skip/pause state, customer, product, billing amount, cancellation history, and related order context.
@@ -111,6 +113,8 @@ This card is always present on the detail screen. If skip and pause features are
 
 ### Skip Section
 
+![Skip Renewal Cycles modal](subscription-detail-cards.ASSETS/02-skip-renewal-modal-annotated.png)
+
 The skip feature lets you (or the customer) skip one or more upcoming renewal cycles. During a skip, no payment is collected and the next payment date advances by the skipped number of cycles.
 
 #### When a Skip Is Active
@@ -132,6 +136,8 @@ The skip feature lets you (or the customer) skip one or more upcoming renewal cy
 | **Undo Skip** | Cancels the active skip and restores the original next payment date. Requires confirmation. |
 
 ### Pause Section
+
+![Pause Subscription modal](subscription-detail-cards.ASSETS/03-pause-subscription-modal-annotated.png)
 
 The pause feature temporarily suspends the subscription entirely. No renewals are processed during the pause. When resumed, the next payment date is extended by the duration of the pause.
 

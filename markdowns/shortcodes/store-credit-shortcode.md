@@ -20,6 +20,8 @@
 
 ## Overview
 
+![Shortcodes catalog — Store Credit group with Buy Store Credits Pro card](../profile-builder/shortcodes.ASSETS/01-shortcodes-catalog-cross-reference-annotated.png)
+
 The `[arraysubs_buy_credits]` shortcode renders a storefront purchase form for buying store credit. Place it on any page, post, or widget where you want customers to top up their credit balance.
 
 ## When to Use This
@@ -40,6 +42,8 @@ The `[arraysubs_buy_credits]` shortcode renders a storefront purchase form for b
 
 ## `[arraysubs_buy_credits]` — Buy Store Credits
 
+![Buy Store Credits shortcode — credit products grid with Buy Now links](store-credit-shortcode.ASSETS/01-shortcode-frontend-credit-products-grid-annotated.png)
+
 Renders a purchase interface for store credits. Only visible to logged-in users.
 
 ### Attributes
@@ -49,6 +53,8 @@ Renders a purchase interface for store credits. Only visible to logged-in users.
 | `product_id` | 0 | A specific store credit product ID. If provided and valid, renders that product's purchase view. If omitted, shows the default purchase form or a product grid. |
 
 ### How It Works
+
+![Shortcode logged-out state — login required message](store-credit-shortcode.ASSETS/02-shortcode-logged-out-login-required-annotated.png)
 
 1. **Login check.** If the visitor is not logged in, a message is shown: "Please log in to purchase store credits."
 2. **Specific product.** If `product_id` is provided and the ID belongs to a valid, published store credit product, the shortcode renders that product's single-product display.

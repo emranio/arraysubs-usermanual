@@ -21,6 +21,8 @@
 
 ## What This Tool Does
 
+![Impersonation bar while acting as a customer](README.ASSETS/07-impersonation-bar-annotated.png)
+
 **Enable Login as User** lets an administrator impersonate a non-admin customer account without knowing the customer's password. This is useful when a customer reports that they cannot see a subscription, update payment details, use member-only content, or access a feature.
 
 While impersonating, ArraySubs shows a visible frontend bar so the administrator knows they are acting as the customer and can return to the admin account.
@@ -35,6 +37,16 @@ When enabled, administrators can start impersonation from:
 - ArraySubs subscription detail pages.
 - Manage Members profile screens *(Pro)*.
 
+![WordPress Users list — Login as User column](README.ASSETS/02-users-list-login-action-annotated.png)
+
+![WordPress user profile — Login as Customer button](README.ASSETS/03-user-profile-login-action-annotated.png)
+
+![WooCommerce order detail — Login as Customer button](README.ASSETS/04-order-detail-login-action-annotated.png)
+
+![ArraySubs subscription detail — Login as Customer button](README.ASSETS/05-subscription-detail-login-action-annotated.png)
+
+![Manage Members profile — Login as Customer button](README.ASSETS/06-manage-members-login-action-annotated.png)
+
 ## When to Use This
 
 - A customer reports that their portal does not match your admin records.
@@ -43,6 +55,8 @@ When enabled, administrators can start impersonation from:
 - You want support staff to troubleshoot without asking for a customer password.
 
 ## How to Configure It
+
+![Login as User toolkit setting](README.ASSETS/01-toolkit-setting-annotated.png)
 
 1. Go to **ArraySubs -> Settings -> Toolkit**.
 2. Turn on **Enable Login as User**.

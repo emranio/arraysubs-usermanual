@@ -31,11 +31,15 @@ Beyond browsing and editing subscriptions, ArraySubs gives you a set of tools fo
 
 ## Subscription Notes
 
+![Subscription record tools — notes and order history](admin-tools-and-records.ASSETS/01-subscription-record-tools-annotated.png)
+
 Subscription Notes is now documented as its own root-level module because it is a core operational tool, not a small detail inside the subscription screen. Open [Subscription Notes](../subscription-notes/README.md) for note types, author badges, automatic events, manual note workflow, and troubleshooting examples.
 
 ---
 
 ## Feature Log / Entitlement Review **Pro**
+
+![Feature Log — customer entitlement table](admin-tools-and-records.ASSETS/02-feature-log-annotated.png)
 
 The Feature Log shows what product entitlements (features) a customer has access to across their subscriptions. This is part of the **Feature Manager** module.
 
@@ -116,6 +120,8 @@ Orders are displayed in chronological order. The full list is loaded with the su
 ---
 
 ## Export Subscriptions
+
+![All Subscriptions list — Export CSV button and status filters](README.ASSETS/01-subscriptions-list-overview-annotated.png)
 
 ArraySubs lets you download subscription data for reporting, migration, or backup purposes.
 

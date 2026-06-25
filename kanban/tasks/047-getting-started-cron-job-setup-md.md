@@ -1,11 +1,14 @@
 ---
 id: 47
 title: getting-started - cron-job-setup.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.823608+06:00
-updated: 2026-06-23T16:34:38.810109+06:00
+updated: 2026-06-24T17:35:06.331604014+02:00
 started: 2026-06-22T01:22:56.447366+06:00
+completed: 2026-06-24T17:35:06.331603182+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:35:06.331603914+02:00
 class: standard
 ---
 
@@ -29,3 +32,8 @@ Markers:
 - `arrow pointing to renewal job names, label 'Renewal engine jobs'`
 - `arrow pointing to successful job details, label 'Executed by cron'`
 - `arrow pointing to timestamps, label 'Recurring schedule'`
+
+
+--- Annotation complete ---
+Reused: ../audits-and-logs/README.ASSETS/02-scheduled-job-logs-annotated.png (existing), ../billing-and-renewals/renewal-operations.ASSETS/03-renewal-engine-job-logs-annotated.png (existing).
+Source updated: getting-started/cron-job-setup.md (2 image links — after ### Step 3: Verify, after ## Why ArraySubs Cares So Much).

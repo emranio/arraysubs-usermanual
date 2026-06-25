@@ -1,11 +1,14 @@
 ---
 id: 44
 title: gateway-health - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.791567+06:00
-updated: 2026-06-23T16:34:38.809368+06:00
+updated: 2026-06-24T17:30:35.138961695+02:00
 started: 2026-06-22T01:17:29.347537+06:00
+completed: 2026-06-24T17:30:35.138960723+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:30:35.138961594+02:00
 class: standard
 ---
 
@@ -35,3 +38,8 @@ Markers:
 
 Source update:
 - Updated `user-manual/markdowns/gateway-health/README.md` navigation from the stale Settings -> Payment Gateways path to the current `Audits [beta] -> Gateway Logs` route, with direct route `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/gateways`.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-gateway-health-dashboard (3), 02-stripe-gateway-expanded (3).
+Source updated: gateway-health/README.md (2 image links — after ## Overview, after ### Expanded Details).

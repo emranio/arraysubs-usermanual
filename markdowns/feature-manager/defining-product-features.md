@@ -35,7 +35,11 @@ The tab appears after **Attributes** and before **Advanced** in the product data
 The Feature Manager tab only appears when the module is enabled in **ArraySubs → Settings → Feature Manager**.
 ```
 
+![Product Feature Manager tab](README.ASSETS/02-product-feature-manager-tab-annotated.png)
+
 ## Adding Features (Simple Product)
+
+![Manage Features modal](defining-product-features.ASSETS/01-manage-features-modal-annotated.png)
 
 1. Click the **Feature Manager** tab in the product data panel.
 2. Click **Add Feature** (shown when no features exist yet) or **Edit Features** (shown when features already exist) to open the **Manage Features** modal.
@@ -51,6 +55,8 @@ The Feature Manager tab only appears when the module is enabled in **ArraySubs �
 8. Click **Update** on the product to save all changes.
 
 After saving, a preview table appears inside the Feature Manager tab showing all defined features at a glance. The table has four columns: **Title**, **Type**, **Value**, and **Enabled**.
+
+![Add Feature editing row](defining-product-features.ASSETS/02-add-feature-edit-row-annotated.png)
 
 ## Adding Features (Variable Product)
 
@@ -125,6 +131,8 @@ The order is saved when you click **Save** at the bottom of the modal.
 2. Click the **Delete** (trash) icon on the feature row.
 3. Confirm the deletion in the **Delete Feature** confirmation modal.
 4. Click **Save** at the bottom of the modal to finalize.
+
+![Delete Feature confirmation modal](defining-product-features.ASSETS/03-delete-feature-confirmation-annotated.png)
 
 Deleting a feature removes it from the product. Customers who already purchased this product will no longer see that feature in their My Features page once the product is updated.
 

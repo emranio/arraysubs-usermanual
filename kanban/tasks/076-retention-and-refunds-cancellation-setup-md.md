@@ -1,11 +1,14 @@
 ---
 id: 76
 title: retention-and-refunds - cancellation-setup.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.148843+06:00
-updated: 2026-06-23T16:34:38.818428+06:00
+updated: 2026-06-24T21:33:11.843107143+02:00
 started: 2026-06-22T18:28:50.053262+06:00
+completed: 2026-06-24T21:33:11.843106311+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:33:11.843107042+02:00
 class: standard
 ---
 
@@ -53,3 +56,12 @@ Markers:
 Verification:
 - Source markdown updated only where the real UI wording differed: `Settings -> General` replaces stale `General Settings` wording and `Save Settings` replaces `Save Changes`.
 - Customer modal screenshots were captured on a live customer subscription and dismissed with `Keep Subscription`; no cancellation was submitted.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-customer-actions-cancellation-timing: SUCCESS. Link after '### How to Configure'.
+- 02-cancellation-reason-editor: SUCCESS. Link after '### Managing Cancellation Reasons'.
+- 03-customer-cancellation-reason-modal: SUCCESS. Link after '### Step 1: Cancellation Reason'.
+- 04-customer-cancellation-other-reason: SUCCESS. Link after '### The Other Reason'.
+Source: retention-and-refunds/cancellation-setup.md (4 links added).

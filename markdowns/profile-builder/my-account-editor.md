@@ -68,6 +68,8 @@ Menu items added by other plugins that are not in your saved config are automati
 
 ### Opening the My Account Editor
 
+![My Account editor — disabled state with Enable toggle and explanatory panel](my-account-editor.ASSETS/01-my-account-editor-disabled-annotated.png)
+
 1. Go to **ArraySubs → Profile Builder → My Account**.
 2. The page shows a toggle at the top and a list of all current menu items below.
 
@@ -85,6 +87,8 @@ Turning this off does not delete your saved configuration. You can re-enable it 
 ---
 
 ## Managing Default Menu Items
+
+![Menu items editor — drag handles, visibility toggles, and Add Custom Item](my-account-editor.ASSETS/02-menu-items-enabled-annotated.png)
 
 Default items are the standard WooCommerce and ArraySubs menu entries. They cannot be deleted, only reordered, renamed, or hidden.
 
@@ -122,6 +126,8 @@ Hiding a menu item does not disable the underlying endpoint. A customer who know
 Custom endpoint pages let you place any WordPress page or post inside the My Account area. The content is rendered inside the My Account layout, so it inherits your theme's account page styling.
 
 ### Creating a Custom Endpoint
+
+![Custom endpoint fields — Menu Label, Endpoint Slug, Linked Content, and Prevent direct access](my-account-editor.ASSETS/03-custom-item-fields-annotated.png)
 
 1. Click **Add Custom Item** at the bottom of the item list.
 2. A new item appears at the end of the list. Click the expand arrow to open its settings.

@@ -31,6 +31,8 @@ Once you select a member on the Manage Members page, three collapsible data sect
 
 ## Subscriptions section
 
+![Member commerce — subscriptions table with stat cards](member-commerce-overview.ASSETS/01-member-commerce-subscriptions-annotated.png)
+
 The **Subscriptions** section is expanded by default and shows a count badge in the header (for example, *Subscriptions (3)*). It displays a table of every subscription associated with the customer, in any status.
 
 ### Table columns
@@ -109,6 +111,8 @@ For full store credit management — including adding or deducting credit, viewi
 ---
 
 ## Addresses
+
+![Addresses section — billing and shipping address cards](member-commerce-overview.ASSETS/03-addresses-expanded-annotated.png)
 
 The **Addresses** section is collapsed by default and displays the customer's billing and shipping addresses side by side.
 

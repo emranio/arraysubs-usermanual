@@ -46,6 +46,8 @@ Settings are organized into four sections: General, Credit Application, Credit E
 
 ## Settings Reference
 
+![Store Credit Settings tab — Enable switch, Auto-Apply, and Minimum Order Amount](../README.ASSETS/03-store-credit-settings-overview-annotated.png)
+
 ### General Settings
 
 | Setting | Type | Default | What it controls |
@@ -101,6 +103,8 @@ The expiration period applies only to **new credits** issued after the setting i
 | `365` | Credits expire after 1 year |
 
 ### Credit Purchase
+
+![Credit purchase settings — Enable Credit Purchases switch and amount controls](../purchase-product.ASSETS/01-store-credit-purchase-settings-annotated.png)
 
 These settings control whether customers can buy store credit directly.
 

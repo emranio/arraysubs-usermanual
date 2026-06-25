@@ -22,6 +22,8 @@
 
 This section walks you through the fundamentals: what ArraySubs is, what it requires, and how to get your first subscription product live and collecting payments. Whether you are setting up a simple monthly membership or a multi-tier product catalog, start here.
 
+![ArraySubs admin overview](README.ASSETS/01-arraysubs-admin-overview-annotated.png)
+
 ## In This Section
 
 ### [Before You Launch](before-you-launch.md)

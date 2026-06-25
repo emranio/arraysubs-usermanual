@@ -55,6 +55,8 @@ The retention offer flow inserts itself between the cancellation reason step and
 
 ### The Retention Modal
 
+![Customer retention modal — Before You Go with discount offer, Accept Offer, and Keep Subscription](retention-offers.ASSETS/04-customer-retention-offers-modal-annotated.png)
+
 The retention modal appears with the heading **"Before You Go..."** and the message: **"We'd hate to see you leave! Here are some options that might help:"**
 
 Below the message, offer cards are displayed — one for each offer the customer is eligible for. At the bottom, two buttons:
@@ -65,6 +67,8 @@ Below the message, offer cards are displayed — one for each offer the customer
 ---
 
 ## Enabling Retention Offers
+
+![Retention Offers — master toggle, enabled Discount Offer, and percentage and cycle fields](retention-offers.ASSETS/01-retention-offers-master-discount-annotated.png)
 
 On the **Retention Flow** admin page, toggle **Enable Retention Offers** to activate the system. When disabled, customers go directly from the reason step to the cancellation — no offers are shown.
 
@@ -125,6 +129,8 @@ A subscription can only have one active retention discount at a time. If the cus
 ---
 
 ### Pause Offer
+
+![Pause and Downgrade offer fields — enable switches, duration, and downgrade helper notice](retention-offers.ASSETS/02-pause-downgrade-contact-offer-fields-annotated.png)
 
 The pause offer lets the customer temporarily suspend their subscription instead of cancelling. The subscription moves to On-Hold status and automatically resumes after the configured pause duration.
 

@@ -1,11 +1,14 @@
 ---
 id: 52
 title: login-as-user - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.873153+06:00
-updated: 2026-06-23T16:34:38.811553+06:00
+updated: 2026-06-24T19:13:30.359555327+02:00
 started: 2026-06-21T16:06:21.318072+06:00
+completed: 2026-06-24T19:13:30.359554125+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:13:30.359555227+02:00
 class: standard
 ---
 
@@ -65,3 +68,8 @@ Markers:
 - `arrow pointing to the text You are logged in as Customer One (customer1), label 'Impersonated user'`
 - `arrow pointing to the Go back as admin button, label 'Return to admin'`
 - `arrow pointing to the Subscriptions account-menu item, label 'Customer view'`
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-toolkit-setting (2), 02-users-list-login-action (2), 03-user-profile-login-action (2), 04-order-detail-login-action (2), 05-subscription-detail-login-action (2), 06-manage-members-login-action (2), 07-impersonation-bar (3).
+Source updated: login-as-user/README.md (7 image links).

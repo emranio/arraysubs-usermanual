@@ -1,11 +1,14 @@
 ---
 id: 72
 title: profile-builder - shortcodes.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.092041+06:00
-updated: 2026-06-23T16:34:38.817313+06:00
+updated: 2026-06-24T21:22:26.026824865+02:00
 started: 2026-06-22T18:13:30.489554+06:00
+completed: 2026-06-24T21:22:26.026823904+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:22:26.026824765+02:00
 class: standard
 ---
 
@@ -22,3 +25,10 @@ Markers:
 
 Verification:
 - Source markdown updated: Page Navigation now points to `WordPress Admin -> ArraySubs -> Shortcodes` and includes `/wp-admin/admin.php?page=arraysubs-mainadmin#/shortcodes`.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-shortcodes-catalog-cross-reference: SUCCESS. Link added after '## Which Shortcode Guide Should I Use?'.
+Source: profile-builder/shortcodes.md (1 link added).
+Note: this annotated image is reused by tasks 83-86.

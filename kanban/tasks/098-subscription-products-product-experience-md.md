@@ -1,11 +1,14 @@
 ---
 id: 98
 title: subscription-products - product-experience.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.399482+06:00
-updated: 2026-06-23T16:34:38.825107+06:00
+updated: 2026-06-25T09:32:50.975441195+02:00
 started: 2026-06-22T20:19:59.549489+06:00
+completed: 2026-06-25T09:32:50.975440133+02:00
+claimed_by: annotator
+claimed_at: 2026-06-25T09:32:50.975441085+02:00
 class: standard
 ---
 
@@ -78,3 +81,15 @@ Markers:
 - `arrow pointing to the "Edit Features" button, label 'Manage features'`
 - `arrow pointing to the feature table, label 'Configured entitlements'`
 - `arrow pointing to the Enabled column, label 'Active features'`
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-simple-product-page-subscription-pricing: SUCCESS. Link after table in '### Product Page'.
+- 02-product-page-feature-manager-display: SUCCESS. Link after '### Storefront Display'.
+- 03-variable-product-selected-plan-display: SUCCESS. Link at end of '### Product Page' before '### Cart'.
+- 04-cart-subscription-line-item: SUCCESS. Link after '### Cart' heading.
+- 05-mini-cart-subscription-details: SUCCESS. Link after '### Mini-Cart' heading.
+- 06-checkout-subscription-summary: SUCCESS. Link after '### Checkout' heading.
+- 07-feature-manager-product-configuration: SUCCESS. Link after '### Product Configuration' heading.
+Source: subscription-products/product-experience.md (7 links added).

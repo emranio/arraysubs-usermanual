@@ -9,6 +9,8 @@
 
 ## Overview
 
+![Subscription product editor — Subscription checkbox and product data tabs overview](README.ASSETS/01-subscription-product-editor-overview-annotated.png)
+
 Subscription products are the foundation of your recurring-revenue store. ArraySubs extends WooCommerce products with subscription billing fields, trial periods, signup fees, plan-switching paths, coupon support, and more. This section covers the complete product setup experience — from basic billing configuration to advanced Pro features like fixed-period memberships and product entitlements.
 
 ## In This Section

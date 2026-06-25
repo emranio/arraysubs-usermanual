@@ -1,11 +1,14 @@
 ---
 id: 48
 title: getting-started - easy-setup-wizard.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.832299+06:00
-updated: 2026-06-23T16:34:38.810366+06:00
+updated: 2026-06-24T19:02:40.437135193+02:00
 started: 2026-06-22T01:23:40.780171+06:00
+completed: 2026-06-24T19:02:40.437134271+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:02:40.437135093+02:00
 class: standard
 ---
 
@@ -52,3 +55,8 @@ Markers:
 - `arrow pointing to the answer count notice, label 'Ready to apply'`
 - `arrow pointing to the supported-settings note, label 'Manual work remains'`
 - `arrow pointing to an Edit button, label 'Revise a step'`
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-easy-setup-page (3), 02-wizard-business-step (2, rerun — Next button not visible, dropped to 2 queries), 03-wizard-additional-features (3), 04-wizard-review (3).
+Source updated: getting-started/easy-setup-wizard.md (4 image links).

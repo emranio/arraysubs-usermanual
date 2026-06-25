@@ -1,11 +1,14 @@
 ---
 id: 77
 title: retention-and-refunds - refund-management.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.158983+06:00
-updated: 2026-06-23T16:34:38.818892+06:00
+updated: 2026-06-24T21:36:43.537112723+02:00
 started: 2026-06-22T18:39:47.74147+06:00
+completed: 2026-06-24T21:36:43.537111901+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:36:43.537112623+02:00
 class: standard
 ---
 
@@ -48,3 +51,11 @@ Verification:
 - Source markdown updated only where it was stale against the current code/UI: full linked-order refunds now document immediate subscription cancellation, cancellation refund policy is separated from full WooCommerce refund behavior, Settings -> Refunds labels are used, and the Pro refund method labels match the live WooCommerce order UI.
 - Live subscription/order data was inspected through the admin UI and REST detail endpoint. Current active/pending records reported `No refundable order found`, so the prorated-refund modal was not captured to avoid changing live financial data.
 - Customer refund history for subscription #2591 was verified in the browser text, but screenshot capture repeatedly timed out on that customer page; the admin subscription history shot captures the same refund record and notes.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-refund-settings-policy-controls: SUCCESS. Link after '## Refund Settings'.
+- 02-subscription-refund-order-history: SUCCESS. Link after '### Subscription Detail Page (Admin)'.
+- 03-woocommerce-refund-method-store-credit: SUCCESS. Link after '## Refund-to-Store-Credit Integration (Pro)'.
+Source: retention-and-refunds/refund-management.md (3 links added).

@@ -73,6 +73,8 @@ The backfill runs automatically — no manual action is required. For stores wit
 
 ## Summary Cards
 
+![Retention report — date range filters and KPI cards](README.ASSETS/01-retention-filters-summary-cards-annotated.png)
+
 The top section shows **8 KPI cards** that summarize retention performance for the selected date range.
 
 | Card | Format | What it measures |
@@ -97,6 +99,8 @@ Retained revenue sums the `recurring_amount` from all `offer_accepted` log entri
 ---
 
 ## Churn Reasons Chart
+
+![Retention charts — Cancellation Reasons pie chart and Offer Outcomes panel](README.ASSETS/02-retention-charts-annotated.png)
 
 A **pie chart** visualizes the breakdown of cancellation reasons for the selected period.
 
@@ -151,6 +155,8 @@ The inclusion of the New Subscriptions line alongside cancellation data lets you
 
 ## Activity Logs
 
+![Activity Log — event filter, event badges, and cancellation reason column](README.ASSETS/03-retention-activity-log-annotated.png)
+
 A **paginated table** showing every individual retention-related event.
 
 ### Columns
@@ -185,6 +191,8 @@ The activity log also respects the date range and product filters set in the top
 
 ### Pagination
 
+![Activity Log pagination — page count footer and Previous/Next controls](README.ASSETS/05-retention-activity-pagination-annotated.png)
+
 The log displays 15 events per page with Previous/Next navigation. The footer shows your current page number, total pages, and total events.
 
 ---
@@ -200,6 +208,8 @@ Two date pickers set the start and end of the analysis period. The default range
 The start date cannot be after the end date, and the end date cannot be before the start date.
 
 ### Product Filter
+
+![Products filter — searchable dropdown with product options](README.ASSETS/04-retention-product-filter-search-annotated.png)
 
 A searchable multi-select dropdown lets you narrow all analytics to one or more specific subscription products.
 

@@ -27,6 +27,8 @@ The page is available at **ArraySubs → Manage Members** in your WordPress admi
 
 ## What you can do from this page
 
+![Member profile card — role chips, actions, and metric tiles](README.ASSETS/02-member-profile-overview-annotated.png)
+
 | Task | Where to look |
 |------|---------------|
 | Find a customer by name, username, or email | Search bar at the top of the page |

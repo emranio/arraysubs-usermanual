@@ -68,6 +68,8 @@ A community platform picks **Membership / Community** and immediately gets multi
 
 ### Launching the Wizard
 
+![Easy Setup page](easy-setup-wizard.ASSETS/01-easy-setup-page-annotated.png)
+
 1. Go to **ArraySubs → Easy Setup**.
 2. Find the **Setup Wizard** card on the page.
 3. Click **Launch Setup Wizard**.
@@ -93,6 +95,8 @@ You can choose **Keep working** to stay in the wizard or **Discard wizard** to c
 ---
 
 ### Step 1 — Your Business
+
+![Wizard Step 1 — Your Business](easy-setup-wizard.ASSETS/02-wizard-business-step-annotated.png)
 
 Defines the shape of your subscription business. Your choice here sets smart defaults for every later step.
 
@@ -234,6 +238,8 @@ The wizard only toggles the enabled/disabled state of each email. Subject lines,
 
 ### Step 8 — Additional Features & Tools
 
+![Wizard Step 8 — Additional Features](easy-setup-wizard.ASSETS/03-wizard-additional-features-annotated.png)
+
 Enables optional modules and operational preferences.
 
 | Question | Type | Options |
@@ -261,6 +267,8 @@ Enables optional modules and operational preferences.
 ---
 
 ### Step 9 — Review & Apply
+
+![Wizard Step 9 — Review & Apply](easy-setup-wizard.ASSETS/04-wizard-review-annotated.png)
 
 The final step shows a complete summary of every answer you provided, organized by step. Each step section is collapsible and includes an **Edit** button that jumps you back to that step to make changes.
 

@@ -1,11 +1,14 @@
 ---
 id: 41
 title: feature-manager - customer-and-storefront-display.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.759479+06:00
-updated: 2026-06-23T16:34:38.80848+06:00
+updated: 2026-06-24T17:20:26.834472899+02:00
 started: 2026-06-22T01:10:54.185991+06:00
+completed: 2026-06-24T17:20:26.834471987+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:20:26.834472809+02:00
 class: standard
 ---
 
@@ -38,3 +41,9 @@ Markers:
 - `arrow pointing to the Back to Member link, label 'Member shortcut'`
 - `arrow pointing to the Basic Monthly Subscription #4406 table header, label 'Subscription source'`
 - `arrow pointing to the Usage column, label 'Admin usage view'`
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-admin-feature-log (3 queries).
+Reused from README.ASSETS (task 40): 03-customer-my-features-annotated.png, 04-storefront-product-features-annotated.png.
+Source updated: feature-manager/customer-and-storefront-display.md (3 image links added).

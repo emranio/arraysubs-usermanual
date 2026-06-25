@@ -1,11 +1,14 @@
 ---
 id: 91
 title: store-credit - refund-to-credit.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.317538+06:00
-updated: 2026-06-23T16:34:38.823132+06:00
+updated: 2026-06-24T21:55:07.324532833+02:00
 started: 2026-06-22T19:54:58.097538+06:00
+completed: 2026-06-24T21:55:07.324531962+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:55:07.324532723+02:00
 class: standard
 ---
 
@@ -41,3 +44,10 @@ Markers:
 - `arrow pointing to the green Amount values, label 'Credit added'`
 
 Source md update: corrected the opening location to WooCommerce order refunds and aligned the refund method labels with the live UI.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-refund-method-store-credit-preview: SUCCESS. Link after '### Process a Refund as Store Credit'.
+- 02-refund-as-credit-confirmation-modal: SUCCESS. Link after '### Process a Refund as Store Credit'.
+Source: store-credit/refund-to-credit.md (2 links added).

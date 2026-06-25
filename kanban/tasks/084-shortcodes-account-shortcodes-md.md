@@ -1,11 +1,14 @@
 ---
 id: 84
 title: shortcodes - account-shortcodes.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.241553+06:00
-updated: 2026-06-23T16:34:38.821275+06:00
+updated: 2026-06-24T21:45:03.245282354+02:00
 started: 2026-06-22T19:22:24.654672+06:00
+completed: 2026-06-24T21:45:03.245278547+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:45:03.245279398+02:00
 class: standard
 ---
 
@@ -21,3 +24,8 @@ Markers:
 - `arrow pointing to the attributes list in the Login Link card, label 'Link attributes'`
 
 Verification: source md reviewed against `MemberShortcodes\\Services\\Hooks`; no source md edits needed.
+
+
+--- Annotation complete (reuse) ---
+Reused: profile-builder/shortcodes.ASSETS/01-shortcodes-catalog-cross-reference-annotated.png
+Link added after '## Overview' in shortcodes/account-shortcodes.md.

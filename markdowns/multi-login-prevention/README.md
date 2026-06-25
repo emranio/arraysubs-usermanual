@@ -34,6 +34,8 @@ This discourages credential sharing without blocking legitimate login attempts.
 
 ## How to Configure It
 
+![Toolkit — Enable Multi-Login Prevention toggle and default session limit](README.ASSETS/01-toolkit-multi-login-prevention-annotated.png)
+
 1. Go to **ArraySubs -> Settings -> Toolkit**.
 2. Turn on **Enable Multi-Login Prevention**.
 3. Set **Default max sessions per user**.
@@ -50,6 +52,8 @@ This discourages credential sharing without blocking legitimate login attempts.
 | Apply to administrators | Off | Toggle | Appears when the feature is enabled; use carefully |
 
 ## Global Default vs Login Limit Rules
+
+![Login Limit rule builder — condition and per-plan session limit](README.ASSETS/02-login-limit-rule-builder-annotated.png)
 
 The Toolkit setting is the global fallback. If a user matches a **Login Limit** rule in **Member Access -> Login Limit**, the rule's session limit overrides the global Toolkit value.
 

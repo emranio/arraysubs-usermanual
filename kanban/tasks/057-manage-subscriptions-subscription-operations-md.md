@@ -1,11 +1,14 @@
 ---
 id: 57
 title: manage-subscriptions - subscription-operations.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.925273+06:00
-updated: 2026-06-23T16:34:38.813213+06:00
+updated: 2026-06-24T19:32:18.845702306+02:00
 started: 2026-06-22T01:39:19.07418+06:00
+completed: 2026-06-24T19:32:18.845700473+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:32:18.845702176+02:00
 class: standard
 ---
 
@@ -39,3 +42,9 @@ Source updates:
 - Removed stale "click the search icon" wording because the current list search uses the search field and Enter.
 - Updated header actions to include current conditional **Retry Payment** and **Feature Log** buttons.
 - Updated the cancel-modal description to match the current reason dropdown and additional details field.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-create-subscription-form (3), 02-edit-subscription-form (2).
+Reused: README.ASSETS/01-subscriptions-list-overview-annotated.png (task 53), README.ASSETS/02-subscription-detail-overview-annotated.png (task 53), lifecycle-management.ASSETS/01-cancel-subscription-modal-annotated.png (task 55).
+Source updated: manage-subscriptions/subscription-operations.md (5 image links).

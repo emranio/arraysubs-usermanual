@@ -1,11 +1,14 @@
 ---
 id: 74
 title: retention-analytics - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.123038+06:00
-updated: 2026-06-23T16:34:38.81782+06:00
+updated: 2026-06-24T21:28:09.243650086+02:00
 started: 2026-06-22T18:21:06.491766+06:00
+completed: 2026-06-24T21:28:09.243648944+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:28:09.243649976+02:00
 class: standard
 ---
 
@@ -57,3 +60,14 @@ Markers:
 
 Verification:
 - Source markdown reviewed against `RetentionAnalyticsPage.jsx`, `RetentionFilters.jsx`, and the live WooCommerce Analytics Retention route; no source markdown changes were needed.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-retention-filters-summary-cards: SUCCESS. Link after '## Summary Cards'.
+- 02-retention-charts: SUCCESS. Link after '## Churn Reasons Chart'.
+- 03-retention-activity-log: SUCCESS. Link after '## Activity Logs'.
+- 04-retention-product-filter-search: SUCCESS. Link after '### Product Filter'.
+- 05-retention-activity-pagination: SUCCESS. Link after '### Pagination'.
+Source: retention-analytics/README.md (5 links added).
+Note: images 01 and 02 are reused by tasks 75 and 79.

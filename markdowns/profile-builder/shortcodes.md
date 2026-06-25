@@ -25,6 +25,8 @@ Shortcodes now live in their own manual section because they are used across Pro
 
 ## Which Shortcode Guide Should I Use?
 
+![Shortcodes catalog — summary cards and Account shortcode group](shortcodes.ASSETS/01-shortcodes-catalog-cross-reference-annotated.png)
+
 | Goal | Open this guide | Shortcodes covered |
 |---|---|---|
 | Show login, logout, or current-user information in a page built outside My Account | [Account Shortcodes](../shortcodes/account-shortcodes.md) | `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]` |

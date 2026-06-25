@@ -1,11 +1,14 @@
 ---
 id: 46
 title: getting-started - before-you-launch.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.814766+06:00
-updated: 2026-06-23T16:34:38.809858+06:00
+updated: 2026-06-24T17:35:05.199854037+02:00
 started: 2026-06-22T01:22:16.682279+06:00
+completed: 2026-06-24T17:35:05.199852143+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:35:05.199853906+02:00
 class: standard
 ---
 
@@ -29,3 +32,8 @@ Markers:
 - `arrow pointing to Days Active After Due, label 'Active grace'`
 - `arrow pointing to Days On-Hold Before Cancel, label 'On-hold grace'`
 - `arrow pointing to the timeline note, label 'Status transition summary'`
+
+
+--- Annotation complete ---
+Reused: README.ASSETS/01-arraysubs-admin-overview-annotated.png (task 45), ../billing-and-renewals/README.ASSETS/01-renewal-grace-settings-annotated.png (existing).
+Source updated: getting-started/before-you-launch.md (2 image links — after ## Overview, after ## Grace Period System).

@@ -24,6 +24,8 @@ The Manage Members page is not just a data viewer — it is a navigation hub. Th
 
 ## Quick links
 
+![Quick-link cards and subscriptions table with View links](member-operations.ASSETS/01-member-operations-quick-links-annotated.png)
+
 Below the stats grid, three quick-link cards provide one-click access to related screens:
 
 | Quick link | Where it goes | What you can do there |
@@ -35,6 +37,10 @@ Below the stats grid, three quick-link cards provide one-click access to related
 ```box class="info-box"
 **View Orders** opens in a new browser tab because it links to the native WooCommerce orders screen. **Manage Store Credit** and **Show Features** navigate within the ArraySubs admin SPA, so you stay in the same tab.
 ```
+
+![Store Credit page scoped to selected customer — balance and adjustment form](member-operations.ASSETS/02-store-credit-quick-link-destination-annotated.png)
+
+![Feature entitlements page — Feature, Type, Entitlement, Usage columns](member-operations.ASSETS/03-show-features-destination-annotated.png)
 
 ### Opening a subscription detail
 

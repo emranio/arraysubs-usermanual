@@ -1,11 +1,14 @@
 ---
 id: 92
 title: store-credit - store-credit-management.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.327527+06:00
-updated: 2026-06-23T16:34:38.823445+06:00
+updated: 2026-06-24T21:55:07.616333929+02:00
 started: 2026-06-22T19:59:24.874056+06:00
+completed: 2026-06-24T21:55:07.616332918+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:55:07.616333819+02:00
 class: standard
 ---
 
@@ -31,3 +34,10 @@ Markers:
 - `arrow pointing to the Clear button, label 'Clear selection'`
 
 Source md update: clarified the Page Navigation location as Store Credit → Manage Credits.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-customer-search-results-dropdown: SUCCESS. Link after '### Find a Customer'.
+- ../README.ASSETS/01-admin-store-credit-customer-management: REUSED from task 87. Link after '### View Balance and History'.
+Source: store-credit/store-credit-management.md (2 links added).

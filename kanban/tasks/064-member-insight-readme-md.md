@@ -1,11 +1,13 @@
 ---
 id: 64
 title: member-insight - README.md
-status: todo
+status: review
 priority: medium
 created: 2026-06-09T18:08:35.001773+06:00
-updated: 2026-06-23T16:34:38.815068+06:00
+updated: 2026-06-24T21:02:54.929193783+02:00
 started: 2026-06-22T02:11:16.434633+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:02:54.929193672+02:00
 class: standard
 ---
 
@@ -25,3 +27,10 @@ Screenshots captured:
 Source updates:
 
 - None needed; the README already used the current `#/manage-members` route and current sidebar location.
+
+
+--- Annotation partial (moved to review) ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-manage-members-lookup: FAILED (0/1 resolved — Find a Member search field not visible in cropped screenshot). Link omitted.
+- 02-member-profile-overview: SUCCESS. Link added after '## What you can do from this page'.
+Source: member-insight/README.md (1 of 2 links added).

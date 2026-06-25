@@ -46,12 +46,16 @@ The page is divided into two sections: a **customer lookup panel** on the left a
 
 ### Find a Customer
 
+![Store Credit management — customer search results dropdown with balance badges](store-credit-management.ASSETS/01-customer-search-results-dropdown-annotated.png)
+
 1. Go to **ArraySubs → Store Credit → Manage Credits**.
 2. Type at least 2 characters into the search field. The search checks the customer's display name, username, and email address.
 3. Results appear as a dropdown showing each matching customer's name, email, and current credit balance.
 4. Click a customer to load their full profile.
 
 ### View Balance and History
+
+![Store Credit management — selected customer with live balance and adjustment form](../README.ASSETS/01-admin-store-credit-customer-management-annotated.png)
 
 Once a customer is selected, the right panel shows:
 

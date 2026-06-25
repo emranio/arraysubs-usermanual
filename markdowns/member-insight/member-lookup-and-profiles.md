@@ -33,6 +33,8 @@ The top of the Manage Members page is built around a fast member search and a ri
 
 ### Searching for a member
 
+![Find a Member search — results dropdown with subscription count badges](member-lookup-and-profiles.ASSETS/01-member-search-dropdown-annotated.png)
+
 1. Open **ArraySubs → Manage Members**.
 2. Click the search field labeled **Find a Member**.
 3. Type at least 2 characters of the customer's name, username, or email address.
@@ -53,6 +55,8 @@ The search returns up to **20 results**, ordered by display name. If you don't f
 ```
 
 ### Reading the profile card
+
+![Profile card — role badges, action buttons, and commerce stat cards](member-lookup-and-profiles.ASSETS/02-profile-card-and-stats-annotated.png)
 
 Once you select a member, a profile card appears with four areas:
 

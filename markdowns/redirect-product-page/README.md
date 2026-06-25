@@ -26,6 +26,8 @@ Use it when the product is sold through a custom landing page, sales funnel, mem
 
 ## What It Controls
 
+![ArraySubs Redirect tab — Enable redirect and 301 redirect action](README.ASSETS/01-product-redirect-301-settings-annotated.png)
+
 | Setting | Purpose |
 |---|---|
 | Enable redirect | Turns product-page handling on for this product |
@@ -40,9 +42,13 @@ A visitor who opens the product URL is sent to the selected page with a permanen
 
 ### 404 Not Found
 
+![Redirect panel — Show 404 action selected](README.ASSETS/02-product-redirect-404-action-annotated.png)
+
 A visitor who opens the product URL receives a not-found response. This is useful when the product exists only for checkout and should not be discoverable as a product page.
 
 ## What Is Not Affected
+
+![Redirect panel — How it works notes](README.ASSETS/03-product-redirect-how-it-works-annotated.png)
 
 Redirect Product Page does not block:
 

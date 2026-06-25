@@ -55,6 +55,8 @@ Avatar upload works independently from custom fields. When enabled, a photo uplo
 
 ### Opening the Profile Form Page
 
+![Profile Form page — Avatar toggle and Custom profile fields toggle](profile-form.ASSETS/01-profile-form-disabled-annotated.png)
+
 1. Go to **ArraySubs → Profile Builder → Profile Form**.
 2. The page has two sections: **Avatar Settings** and **Custom Profile Fields**.
 
@@ -65,6 +67,8 @@ Avatar upload works independently from custom fields. When enabled, a photo uplo
 The avatar section controls whether customers can upload a profile photo from their account page.
 
 ### Configuring Avatar Upload
+
+![Avatar Settings — file size limit and allowed image types](profile-form.ASSETS/02-avatar-settings-enabled-annotated.png)
 
 1. Toggle **Enable avatar upload** to on.
 2. Set the **Max File Size (MB)** — the maximum file size customers can upload. Accepts values from 1 to 20 MB. Default is `2` MB.
@@ -126,6 +130,8 @@ The custom fields section lets you define extra form fields that appear on both 
 
 ### Field Properties
 
+![Custom profile field editor — Label, Meta key, and Field type](profile-form.ASSETS/03-custom-profile-field-editor-annotated.png)
+
 Every field has these common properties:
 
 | Property | Description | Required |
@@ -159,6 +165,8 @@ A multi-line text area. Best for longer entries like bios, notes, or description
 
 #### Select
 
+![Select field — Options inputs and Add Option button](profile-form.ASSETS/04-select-field-options-annotated.png)
+
 A dropdown menu with predefined options. Best for controlled choices like departments, industries, or plan reasons.
 
 - Requires at least one option.
@@ -184,6 +192,8 @@ A single on/off toggle. Best for consent flags, preferences, or yes/no questions
 - Cannot be marked as required (submissions without the checkbox checked are valid).
 
 #### File Upload
+
+![File Upload field — Allowed files and upload size limit](profile-form.ASSETS/05-file-upload-field-settings-annotated.png)
 
 A file input for document or image uploads. Best for ID verification, signed agreements, certificates, or portfolios.
 

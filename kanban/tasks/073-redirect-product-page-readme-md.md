@@ -1,11 +1,14 @@
 ---
 id: 73
 title: redirect-product-page - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.107631+06:00
-updated: 2026-06-23T16:34:38.817578+06:00
+updated: 2026-06-24T21:24:01.842539655+02:00
 started: 2026-06-22T18:14:57.94414+06:00
+completed: 2026-06-24T21:24:01.842538764+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:24:01.842539555+02:00
 class: standard
 ---
 
@@ -39,3 +42,11 @@ Markers:
 Verification:
 - Source markdown updated: Page Navigation now points to Product data -> ArraySubs Redirect.
 - Captures used the live product editor for `Smoke Plan Plus` (product ID 2571) and all redirect changes were left unsaved; Enable redirect was reset to off afterward.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-product-redirect-301-settings: SUCCESS. Link added after '## What It Controls'.
+- 02-product-redirect-404-action: SUCCESS. Link added after '### 404 Not Found'.
+- 03-product-redirect-how-it-works: SUCCESS. Link added after '## What Is Not Affected'.
+Source: redirect-product-page/README.md (3 links added).

@@ -42,6 +42,8 @@ Confirm these are already working:
 
 ## How to Configure It
 
+![ArraySubs Toolkit settings — WordPress Login Page section with redirect toggle](README.ASSETS/01-toolkit-wordpress-login-settings-annotated.png)
+
 1. Go to **ArraySubs -> Settings -> Toolkit**.
 2. Turn on **Hide WordPress login page**.
 3. Choose **Redirect login page to**:
@@ -59,6 +61,8 @@ Confirm these are already working:
 | Redirect login page to | WooCommerce My Account page | Dropdown | Appears when the login redirect is on |
 
 ## Important Notes
+
+![Redirected login page — WooCommerce Login and Register forms after visiting /wp-login.php](README.ASSETS/02-wp-login-redirect-my-account-annotated.png)
 
 - Password reset links continue to work.
 - Email verification callbacks continue to work.

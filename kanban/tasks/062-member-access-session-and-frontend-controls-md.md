@@ -1,11 +1,13 @@
 ---
 id: 62
 title: member-access - session-and-frontend-controls.md
-status: todo
+status: review
 priority: medium
 created: 2026-06-09T18:08:34.977147+06:00
-updated: 2026-06-23T16:34:38.814563+06:00
+updated: 2026-06-24T20:55:00.41153316+02:00
 started: 2026-06-22T02:05:58.5921+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T20:55:00.41153305+02:00
 class: standard
 ---
 
@@ -34,3 +36,12 @@ Source updates:
 - Updated Login Limit terminology from `Max Sessions` to **Max Allowed Sessions** where referring to the visible rule field.
 - Updated the Toolkit admin toggle label from **Include administrators** to **Apply to administrators**.
 - Updated the Post Type archive behavior wording to mention the current `show normally / restrict content only` label.
+
+
+--- Annotation partial (moved to review) ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-login-limit-rules: PARTIAL (1/2 resolved — Login Limit tab not found; Add New Rule found). File written, link added.
+- 02-login-limit-rule-builder (2): SUCCESS.
+- 03-toolkit-multi-login-prevention (3): SUCCESS.
+- 04-shortcodes-membership-reference: FAILED (0/2 resolved — Content Restriction and Visibility Wrapper cards not visible). Link omitted.
+Source updated: member-access/session-and-frontend-controls.md (3 image links; 04 skipped).

@@ -46,6 +46,8 @@ The Profile Builder menu lives in the main ArraySubs admin panel:
 
 4. **Use shortcodes** — Visit the Shortcodes catalog page for ready-to-copy examples. Paste `[arraysubs_visibility show="logged_in"]Welcome back![/arraysubs_visibility]` into any page or post.
 
+![My Account editor — menu customization toggle](README.ASSETS/02-my-account-editor-overview-annotated.png)
+
 ## Guides in This Section
 
 - [Profile Form](profile-form.md) — Custom fields, avatar settings, field types, and where data appears

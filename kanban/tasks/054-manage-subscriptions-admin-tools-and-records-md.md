@@ -1,11 +1,14 @@
 ---
 id: 54
 title: manage-subscriptions - admin-tools-and-records.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.89742+06:00
-updated: 2026-06-23T16:34:38.812342+06:00
+updated: 2026-06-24T19:20:54.680229046+02:00
 started: 2026-06-22T01:35:35.592079+06:00
+completed: 2026-06-24T19:20:54.680228054+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:20:54.680228946+02:00
 class: standard
 ---
 
@@ -31,3 +34,9 @@ Screenshots reused:
 Source updates:
 
 - Updated the Feature Log access note to match the current UI: open it from the subscription detail header or a Manage Members profile, using the `/subscriptions/feature-log?user_id=...` route.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-subscription-record-tools (2), 02-feature-log (2).
+Reused: README.ASSETS/01-subscriptions-list-overview-annotated.png (task 53).
+Source updated: manage-subscriptions/admin-tools-and-records.md (3 image links).

@@ -21,6 +21,8 @@
 
 ## Overview
 
+![Settings — Toolkit tab active with Admin Bar and Admin Dashboard Access cards](../README.ASSETS/02-settings-toolkit-tabs-overview-annotated.png)
+
 The Toolkit Settings page is the shared control surface for five dedicated site-access modules. These modules sit outside the subscription engine itself, but they are part of the ArraySubs feature set: they hide backend entry points from customers, restrict dashboard access to authorized roles, route customer login traffic through My Account, let administrators impersonate users for support, and limit concurrent sessions with Pro.
 
 Navigate to **ArraySubs → Settings → Toolkit** to open the page. Every change takes effect after you click **Save Settings**.
@@ -55,6 +57,8 @@ Toolkit settings operate at the WordPress level — they intercept page loads, l
 
 ## Admin Bar
 
+![Admin Bar — Hide admin bar switch and frontend-only notice](toolkit-settings.ASSETS/01-admin-bar-visibility-toggle-annotated.png)
+
 ### Hide Admin Bar for Non-Admin Users
 
 | | |
@@ -72,6 +76,8 @@ Members and customers browse the frontend without the WordPress toolbar, while a
 ---
 
 ## Admin Dashboard Access
+
+![Admin Dashboard Access — Restrict wp-admin switch, redirect target dropdown, and allowed roles](toolkit-settings.ASSETS/02-admin-dashboard-access-controls-annotated.png)
 
 ### Restrict wp-admin Access
 
@@ -112,6 +118,8 @@ After saving, members who try to open `/wp-admin` will be redirected to the chos
 
 ## WordPress Login Page
 
+![WordPress Login Page — Hide wp-login switch and login redirect dropdown](toolkit-settings.ASSETS/03-wordpress-login-page-redirect-controls-annotated.png)
+
 ### Hide WordPress Login Page
 
 | | |
@@ -148,6 +156,8 @@ Before enabling this on a live site, confirm that WooCommerce account registrati
 
 ## Login as User
 
+![Login as User — Enable impersonation switch and admin-only info notice](toolkit-settings.ASSETS/04-login-as-user-impersonation-toggle-annotated.png)
+
 ### Enable Login as User
 
 | | |
@@ -170,6 +180,8 @@ Only administrators can use this feature. Non-admin users cannot impersonate oth
 ---
 
 ## Multi-Login Prevention **Pro**
+
+![Multi-Login Prevention — session limit toggle, global max sessions, and apply to admins switch](toolkit-settings.ASSETS/05-multi-login-prevention-pro-controls-annotated.png)
 
 This section only appears when **ArraySubs Pro** is installed and the Multi-Login Prevention feature is loaded.
 

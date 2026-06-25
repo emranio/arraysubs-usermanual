@@ -33,6 +33,8 @@ You can set up products with a fixed credit amount or let customers enter their 
 
 ## Prerequisites
 
+![Store Credit purchase settings — Enable Credit Purchases switch and purchase amount controls](purchase-product.ASSETS/01-store-credit-purchase-settings-annotated.png)
+
 - ArraySubs Pro active
 - Store Credit enabled in **ArraySubs → Store Credit → Settings**
 - **Enable Credit Purchases** toggled on in Store Credit Settings
@@ -57,6 +59,8 @@ The product is automatically treated as **virtual** (no shipping required) and *
 3. Several standard tabs are hidden automatically (Attributes, Linked Products, Shipping, Inventory) since they do not apply to credit products.
 
 ### Configure Credit Options
+
+![WooCommerce product editor — Store Credit product type and Fixed Amount mode](purchase-product.ASSETS/02-fixed-store-credit-product-editor-annotated.png)
 
 In the **General** tab, you will see the Store Credit fields:
 

@@ -1,11 +1,14 @@
 ---
 id: 82
 title: settings - toolkit-settings.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.215589+06:00
-updated: 2026-06-23T16:34:38.820517+06:00
+updated: 2026-06-24T21:48:51.39792001+02:00
 started: 2026-06-22T19:18:32.63427+06:00
+completed: 2026-06-24T21:48:51.397919138+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:48:51.397919919+02:00
 class: standard
 ---
 
@@ -63,3 +66,14 @@ Markers:
 - `arrow pointing to the Login Limit Rules notice, label 'Rule override'`
 
 Source md update: corrected Page Navigation to point to `ArraySubs → Settings → Toolkit`.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- ../README.ASSETS/02-settings-toolkit-tabs-overview: REUSED from task 80. Link after '## Overview'.
+- 01-admin-bar-visibility-toggle: SUCCESS. Link after '## Admin Bar'.
+- 02-admin-dashboard-access-controls: SUCCESS. Link after '## Admin Dashboard Access'.
+- 03-wordpress-login-page-redirect-controls: SUCCESS. Link after '## WordPress Login Page'.
+- 04-login-as-user-impersonation-toggle: SUCCESS. Link after '## Login as User'.
+- 05-multi-login-prevention-pro-controls: SUCCESS. Link after '## Multi-Login Prevention Pro'.
+Source: settings/toolkit-settings.md (6 links added).

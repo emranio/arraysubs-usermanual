@@ -1,11 +1,13 @@
 ---
 id: 94
 title: subscription-notes - README.md
-status: todo
+status: review
 priority: medium
 created: 2026-06-09T18:08:35.353349+06:00
-updated: 2026-06-23T16:34:38.824138+06:00
+updated: 2026-06-25T09:30:31.745861493+02:00
 started: 2026-06-22T20:02:07.503649+06:00
+claimed_by: annotator
+claimed_at: 2026-06-25T09:30:31.745861393+02:00
 class: standard
 ---
 
@@ -36,3 +38,10 @@ Markers:
 - `arrow pointing to the "Delete Note" modal title, label 'Delete confirmation'`
 - `arrow pointing to the red "Delete" button, label 'Permanent delete'`
 - `arrow pointing to the "Cancel" button, label 'Keep note'`
+
+
+--- Annotation partial — task moved to review ---
+- 01-subscription-notes-panel-timeline: FAILED (unresolved query: 'Private note badge'). Link omitted.
+- 02-add-note-rich-text-editor: SUCCESS (#873EFF, --crop, --steps=3). Link after '## Manual Notes'.
+- 03-delete-note-confirmation: SUCCESS (#873EFF, --crop, --steps=3). Link after '## Deleting Notes'.
+Source: subscription-notes/README.md (2 links added).

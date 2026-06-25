@@ -20,6 +20,8 @@
 
 ## Overview
 
+![All Subscriptions list overview](README.ASSETS/01-subscriptions-list-overview-annotated.png)
+
 The **Manage Subscriptions** area is where you spend most of your day-to-day time as a subscription merchant. From here you can browse all subscriptions, create new ones manually, edit billing details, review order history, track lifecycle changes, and take action on individual subscriptions.
 
 This section covers four main areas:
@@ -40,6 +42,8 @@ This section covers four main areas:
 - You need to understand what happens at each stage of a subscription's life.
 
 ## How to Get Here
+
+![Subscription detail screen overview](README.ASSETS/02-subscription-detail-overview-annotated.png)
 
 Navigate to **ArraySubs → Subscriptions** in the WordPress admin sidebar. This opens the All Subscriptions list. From there, every subscription operation is one or two clicks away.
 

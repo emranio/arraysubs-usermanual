@@ -33,6 +33,8 @@ This matters because physical subscription stores often have different fulfillme
 
 ## Product Settings
 
+![Subscription Shipping product settings — Shipping Type dropdown and shipping override fields](README.ASSETS/01-product-shipping-settings-annotated.png)
+
 The settings appear in the product editor when the product is a subscription and is not virtual/downloadable.
 
 | Field | Options | What It Controls |
@@ -43,6 +45,8 @@ The settings appear in the product editor when the product is a subscription and
 
 ## Shipping Behavior
 
+![Checkout order summary — renewal shipping note and recurring charge](README.ASSETS/02-checkout-shipping-summary-annotated.png)
+
 | Shipping Type | Initial Order | Renewal Orders |
 |---|---|---|
 | Recurring | Shipping is charged | Shipping is charged again |
@@ -51,6 +55,8 @@ The settings appear in the product editor when the product is a subscription and
 If an override is blank, WooCommerce shipping calculation is used. If an override is set, ArraySubs stores that amount with the subscription and uses it during renewal order creation.
 
 ## Subscription Detail Card
+
+![Admin subscription detail — Subscription Shipping card and Shipping Address card](README.ASSETS/03-admin-subscription-shipping-card-annotated.png)
 
 When a subscription requires shipping, the subscription detail screen can show:
 
@@ -64,6 +70,10 @@ When a subscription requires shipping, the subscription detail screen can show:
 This gives support teams a quick answer when a customer asks why a renewal did or did not include shipping.
 
 ## Customer Portal
+
+![Customer portal shipping section — recurring delivery note and Update Shipping Address button](README.ASSETS/04-customer-shipping-section-annotated.png)
+
+![Update Shipping Address modal — address form with required fields](README.ASSETS/05-shipping-address-modal-annotated.png)
 
 When shipping updates are enabled, customers can update the shipping address from their subscription detail page. Renewal orders use the current subscription shipping address, not an old address copied from the original checkout order.
 

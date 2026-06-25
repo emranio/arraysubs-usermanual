@@ -1,11 +1,14 @@
 ---
 id: 66
 title: member-insight - member-lookup-and-profiles.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.020262+06:00
-updated: 2026-06-23T16:34:38.815822+06:00
+updated: 2026-06-24T21:08:18.800771791+02:00
 started: 2026-06-22T02:14:41.583834+06:00
+completed: 2026-06-24T21:08:18.800770809+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:08:18.800771681+02:00
 class: standard
 ---
 
@@ -25,3 +28,10 @@ Screenshots captured:
 Source updates:
 
 - None needed; the guide already used the current `#/manage-members/{user_id}` URL pattern and current visible labels.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-member-search-dropdown: SUCCESS. Link added after '### Searching for a member'.
+- 02-profile-card-and-stats: SUCCESS. Link added after '### Reading the profile card'.
+Source: member-insight/member-lookup-and-profiles.md (2 links added).

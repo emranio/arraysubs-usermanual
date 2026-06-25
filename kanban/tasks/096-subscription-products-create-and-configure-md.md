@@ -1,11 +1,14 @@
 ---
 id: 96
 title: subscription-products - create-and-configure.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.379204+06:00
-updated: 2026-06-23T16:34:38.824639+06:00
+updated: 2026-06-25T09:30:38.091725711+02:00
 started: 2026-06-22T20:08:26.418441+06:00
+completed: 2026-06-25T09:30:38.091724428+02:00
+claimed_by: annotator
+claimed_at: 2026-06-25T09:30:38.0917256+02:00
 class: standard
 ---
 
@@ -57,3 +60,13 @@ Markers:
 - `arrow pointing to the "Trial Length" field set to 30, label 'Variation trial'`
 - `arrow pointing to the "Sign-up Fee" field set to 500, label 'Variation signup fee'`
 - `arrow pointing to the checked "Different Renewal Price" checkbox, label 'Variation renewal price'`
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-simple-recurring-price-billing-fields: SUCCESS. Link after '### Subscription Tab Fields'.
+- 02-simple-length-trial-signup-fields: SUCCESS. Link after '### Free Trial'.
+- 03-simple-different-renewal-price-fields: SUCCESS. Link after '### Different Renewal Price'.
+- 04-variable-variation-editor-overview: SUCCESS. Link after '## Variable Subscription Products'.
+- 05-variable-variation-subscription-fields: SUCCESS. Link after '### How Variation Subscription Fields Work'.
+Source: subscription-products/create-and-configure.md (5 links added).

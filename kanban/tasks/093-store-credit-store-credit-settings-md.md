@@ -1,11 +1,14 @@
 ---
 id: 93
 title: store-credit - store-credit-settings.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.33777+06:00
-updated: 2026-06-23T16:34:38.823892+06:00
+updated: 2026-06-24T21:55:07.842256412+02:00
 started: 2026-06-22T20:00:57.645097+06:00
+completed: 2026-06-24T21:55:07.842255511+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:55:07.842256302+02:00
 class: standard
 ---
 
@@ -32,3 +35,9 @@ Markers:
 - `arrow pointing to the Save Settings button, label 'Save changes'`
 
 Source md update: clarified the Page Navigation location as Store Credit → Settings.
+
+
+--- Annotation complete (reuses only) ---
+- ../README.ASSETS/03-store-credit-settings-overview: REUSED from task 87. Link after '## Settings Reference'.
+- ../purchase-product.ASSETS/01-store-credit-purchase-settings: REUSED from task 90. Link after '### Credit Purchase'.
+Source: store-credit/store-credit-settings.md (2 links added).

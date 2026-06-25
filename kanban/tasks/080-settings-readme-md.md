@@ -1,11 +1,14 @@
 ---
 id: 80
 title: settings - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.194998+06:00
-updated: 2026-06-23T16:34:38.819825+06:00
+updated: 2026-06-24T21:41:41.642015831+02:00
 started: 2026-06-22T19:07:55.106747+06:00
+completed: 2026-06-24T21:41:41.642014799+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:41:41.64201573+02:00
 class: standard
 ---
 
@@ -28,3 +31,10 @@ Markers:
 - `arrow pointing to the Admin Dashboard Access card heading, label 'Dashboard access'`
 
 Source md update: corrected the Settings overview to describe General, Toolkit, and module-specific settings tabs instead of only two settings pages.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-settings-general-tabs-overview: SUCCESS. Link after '## Overview'.
+- 02-settings-toolkit-tabs-overview: SUCCESS. Link after '## Overview'.
+Source: settings/README.md (2 links added).

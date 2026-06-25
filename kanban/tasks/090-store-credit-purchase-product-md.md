@@ -1,11 +1,14 @@
 ---
 id: 90
 title: store-credit - purchase-product.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.307341+06:00
-updated: 2026-06-23T16:34:38.82284+06:00
+updated: 2026-06-24T21:55:01.486616123+02:00
 started: 2026-06-22T19:42:52.860198+06:00
+completed: 2026-06-24T21:55:01.486615282+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:55:01.486616033+02:00
 class: standard
 ---
 
@@ -81,3 +84,10 @@ Markers:
 - `arrow pointing to the Estimated total, label 'Cart total'`
 
 Source md update: corrected the Page Navigation opening path, changed the product creation step to the Products menu, and aligned the bonus field label with the live `Bonus Credit (%)` field.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-store-credit-purchase-settings: SUCCESS. Link after '## Prerequisites'.
+- 02-fixed-store-credit-product-editor: SUCCESS. Link after '### Configure Credit Options'.
+Source: store-credit/purchase-product.md (2 links added).

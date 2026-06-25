@@ -1,11 +1,14 @@
 ---
 id: 61
 title: member-access - content-restriction.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.967569+06:00
-updated: 2026-06-23T16:34:38.814326+06:00
+updated: 2026-06-24T19:51:18.24987991+02:00
 started: 2026-06-22T02:00:48.504132+06:00
+completed: 2026-06-24T19:51:18.249878918+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:51:18.24987979+02:00
 class: standard
 ---
 
@@ -27,3 +30,8 @@ Source updates:
 - Updated the Post Type Rule target label from `Taxonomy` to `By Taxonomy/Category`.
 - Updated the default redirect action wording from `redirect` to **Redirect to URL**.
 - Updated the archive behavior label from `Show normally` to `Show normally (restrict content only)`.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-scheduled-url-rule-builder (2), 02-require-login-redirect (1).
+Source updated: member-access/content-restriction.md (2 image links).

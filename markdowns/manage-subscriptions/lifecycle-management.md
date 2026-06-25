@@ -235,6 +235,8 @@ If the customer pays their invoice at **any point** during the grace period — 
 
 ## Cancellation
 
+![Cancel Subscription modal — timing and reason options](lifecycle-management.ASSETS/01-cancel-subscription-modal-annotated.png)
+
 ArraySubs supports two cancellation modes.
 
 ### Immediate Cancellation
@@ -347,6 +349,8 @@ If a trial subscription passes its conversion date but something prevents conver
 ---
 
 ## Manual Status Changes
+
+![Edit subscription — status dropdown and Change Status button](lifecycle-management.ASSETS/02-edit-status-control-annotated.png)
 
 Admins can change a subscription's status from the [edit page](subscription-operations.md#changing-status). The same six statuses are available targets, with specific confirmation messages for Critical transitions (Cancel, On Hold, Activate).
 

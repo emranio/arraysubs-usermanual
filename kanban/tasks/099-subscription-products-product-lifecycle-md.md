@@ -1,11 +1,13 @@
 ---
 id: 99
 title: subscription-products - product-lifecycle.md
-status: todo
+status: review
 priority: medium
 created: 2026-06-09T18:08:35.409499+06:00
-updated: 2026-06-23T16:34:38.825445+06:00
+updated: 2026-06-25T09:27:18.07003733+02:00
 started: 2026-06-22T20:26:55.641044+06:00
+claimed_by: annotator
+claimed_at: 2026-06-25T09:27:18.070037219+02:00
 class: standard
 ---
 
@@ -40,3 +42,8 @@ Markers:
 - `arrow pointing to the customer column, label 'Affected customers'`
 
 Not captured: the post-deletion transient notice, because generating it on the live test site would require trashing or permanently deleting a product that has active subscriptions.
+
+
+--- Annotation SKIPPED — no original screenshots ---
+All 3 image originals missing from helper-links.ASSETS/. Screenshots not yet captured.
+Moving to review for screenshot capture.

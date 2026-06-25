@@ -1,11 +1,14 @@
 ---
 id: 70
 title: profile-builder - my-account-editor.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.070119+06:00
-updated: 2026-06-23T16:34:38.816851+06:00
+updated: 2026-06-24T21:15:55.370786146+02:00
 started: 2026-06-22T02:23:02.476751+06:00
+completed: 2026-06-24T21:15:55.370776899+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:15:55.370786036+02:00
 class: standard
 ---
 
@@ -32,3 +35,11 @@ Source updates:
 Cleanup:
 
 - The temporary custom item and enabled toggle were not saved; the page was returned to the disabled view after capture.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-my-account-editor-disabled: SUCCESS. Link added after '### Opening the My Account Editor'.
+- 02-menu-items-enabled: SUCCESS. Link added after '## Managing Default Menu Items'.
+- 03-custom-item-fields: SUCCESS. Link added after '### Creating a Custom Endpoint'.
+Source: profile-builder/my-account-editor.md (3 links added).

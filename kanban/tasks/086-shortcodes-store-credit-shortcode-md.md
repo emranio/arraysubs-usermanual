@@ -1,11 +1,14 @@
 ---
 id: 86
 title: shortcodes - store-credit-shortcode.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.261681+06:00
-updated: 2026-06-23T16:34:38.821781+06:00
+updated: 2026-06-24T21:48:53.417018108+02:00
 started: 2026-06-22T19:24:55.507668+06:00
+completed: 2026-06-24T21:48:53.417017116+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:48:53.417017987+02:00
 class: standard
 ---
 
@@ -38,3 +41,11 @@ Markers:
 - `arrow pointing to the page title, label 'Same shortcode page'`
 
 Source md update: corrected Page Navigation previous guide to `content-gating.md`.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- ../profile-builder/shortcodes.ASSETS/01-shortcodes-catalog-cross-reference: REUSED from task 72. Link after '## Overview'.
+- 01-shortcode-frontend-credit-products-grid: SUCCESS. Link after '## [arraysubs_buy_credits] — Buy Store Credits'.
+- 02-shortcode-logged-out-login-required: SUCCESS. Link after '### How It Works'.
+Source: shortcodes/store-credit-shortcode.md (3 links added).

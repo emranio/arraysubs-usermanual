@@ -1,11 +1,14 @@
 ---
 id: 75
 title: retention-and-refunds - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.138802+06:00
-updated: 2026-06-23T16:34:38.818181+06:00
+updated: 2026-06-24T21:33:07.548201175+02:00
 started: 2026-06-22T18:26:30.490804+06:00
+completed: 2026-06-24T21:33:07.548200173+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:33:07.548201065+02:00
 class: standard
 ---
 
@@ -42,3 +45,11 @@ Markers:
 
 Verification:
 - Source markdown reviewed against Retention Flow, Refunds settings, and Retention Analytics source/routes; no source markdown changes were needed.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-retention-flow-overview: SUCCESS. Link after '## What this section covers'.
+- 02-refunds-settings-overview: SUCCESS. Link after '**Refund policy**' in Key concepts.
+- Reused: retention-analytics/README.ASSETS/01-retention-filters-summary-cards-annotated.png. Link after '**Retention analytics**' in Key concepts.
+Source: retention-and-refunds/README.md (3 links added).

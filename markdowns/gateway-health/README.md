@@ -25,6 +25,8 @@ The Gateway Health Dashboard gives you a single view of every payment gateway's 
 
 **Navigation:** **ArraySubs → Audits [beta] → Gateway Logs**. The admin page title is **Payment Gateways**.
 
+![Gateway Health Dashboard](README.ASSETS/01-gateway-health-dashboard-annotated.png)
+
 ## Gateway Status Cards
 
 The top section displays a card for each registered gateway (Stripe, PayPal, Paddle) in a responsive grid.
@@ -42,6 +44,8 @@ Each card shows three key metrics at a glance:
 A **Test Mode** badge appears next to the gateway title when the gateway is running in sandbox/test mode.
 
 ### Expanded Details
+
+![Stripe gateway expanded details](README.ASSETS/02-stripe-gateway-expanded-annotated.png)
 
 Click the expand button on any card to reveal:
 

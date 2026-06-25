@@ -20,6 +20,8 @@
 
 ## Overview
 
+![Shortcodes catalog — Membership group with Content Restriction and Visibility Wrapper cards](../profile-builder/shortcodes.ASSETS/01-shortcodes-catalog-cross-reference-annotated.png)
+
 Two shortcodes handle content gating on the frontend:
 
 | Shortcode | Scope | Best For |

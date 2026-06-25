@@ -1,11 +1,14 @@
 ---
 id: 87
 title: store-credit - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.277199+06:00
-updated: 2026-06-23T16:34:38.822031+06:00
+updated: 2026-06-24T21:54:58.321511094+02:00
 started: 2026-06-22T19:29:26.046732+06:00
+completed: 2026-06-24T21:54:58.321510152+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:54:58.321510994+02:00
 class: standard
 ---
 
@@ -50,3 +53,12 @@ Markers:
 - `arrow pointing to the Transaction History heading, label 'Customer history'`
 
 Source md update: corrected Page Navigation previous/next guide links to the Store Credit Shortcode and Credit History guides.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-admin-store-credit-customer-management: SUCCESS. Link after '## Overview'.
+- 02-admin-store-credit-global-history: SUCCESS. Link after '## What's Inside'.
+- 03-store-credit-settings-overview: SUCCESS. Link after '## What's Inside'.
+- 04-customer-store-credit-portal: SUCCESS. Link after '## Customer Experience'.
+Source: store-credit/README.md (4 links added).

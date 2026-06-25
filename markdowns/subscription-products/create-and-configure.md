@@ -57,6 +57,8 @@ Once a customer subscribes, the **price is locked in** at the time of purchase. 
 
 ### Subscription Tab Fields
 
+![Simple subscription product — Subscription checkbox, Billing Period, Interval, and Length fields](create-and-configure.ASSETS/01-simple-recurring-price-billing-fields-annotated.png)
+
 #### Recurring Price per Billing Cycle
 
 This read-only section displays the product's current regular price and sale price (if applicable), along with any scheduled sale dates. It confirms what customers will be charged each billing cycle.
@@ -111,6 +113,8 @@ The total number of billing cycles before the subscription ends automatically. S
 
 ### Free Trial
 
+![Free Trial and Sign-up Fee fields — Trial Length, Trial Period, and Sign-up Fee](create-and-configure.ASSETS/02-simple-length-trial-signup-fields-annotated.png)
+
 A trial gives customers access before their first payment. During the trial, no recurring charge is collected. When the trial ends, normal billing begins.
 
 | Field | Description | Default |
@@ -145,6 +149,8 @@ The signup fee is added to the first order as a separate WooCommerce fee line it
 
 ### Different Renewal Price
 
+![Different Renewal Price — enable checkbox, Renewal Price, and Apply Renewal Price After fields](create-and-configure.ASSETS/03-simple-different-renewal-price-fields-annotated.png)
+
 Enable this to charge a different price after a specified number of billing cycles. Useful for introductory pricing, promotional periods, or graduated pricing models.
 
 | Field | Description | Default |
@@ -170,6 +176,8 @@ When the different renewal price is enabled, both the **Renewal Price** (must be
 
 ## Variable Subscription Products
 
+![Variable product editor — parent Subscription checkbox, Variations tab, and expanded variation](create-and-configure.ASSETS/04-variable-variation-editor-overview-annotated.png)
+
 Variable products let you offer multiple plans under a single product page. Each variation gets its own independent subscription configuration — different prices, billing periods, trial lengths, and more.
 
 ### Step-by-Step Setup
@@ -186,6 +194,8 @@ Variable products let you offer multiple plans under a single product page. Each
 8. Click **Save changes** on the variations, then **Update** the product.
 
 ### How Variation Subscription Fields Work
+
+![Variable variation subscription fields — Billing Period and recurring price inside a variation](create-and-configure.ASSETS/05-variable-variation-subscription-fields-annotated.png)
 
 When you check the **Subscription** checkbox on the parent product, **all variations** are automatically marked as subscriptions. The per-variation subscription checkbox is disabled and shows "(controlled by product-level setting)" — you cannot make individual variations non-subscription while the parent is a subscription product.
 

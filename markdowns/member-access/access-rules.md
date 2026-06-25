@@ -33,6 +33,8 @@ All three rule types are managed from the **ArraySubs → Member Access** admin 
 
 ## Role Mapping
 
+![Member Access overview — tab bar and rule controls](README.ASSETS/01-member-access-role-mapping-overview-annotated.png)
+
 **Tab:** ArraySubs → Member Access → **Role Mapping**
 
 Role Mapping rules automatically assign WordPress roles to subscribers based on their subscription status and conditions. This is how you bridge ArraySubs subscriptions to WordPress' native role system — making subscriber tiers work with any plugin that checks user roles (LMS plugins, forums, content restriction by role, etc.).
@@ -92,6 +94,8 @@ When a subscription status changes, the Role Manager evaluates all enabled Role 
 ---
 
 ## URL Rules
+
+![URL rules — pattern type, conditions, and action columns](access-rules.ASSETS/01-url-rules-annotated.png)
 
 **Tab:** ArraySubs → Member Access → **URL**
 
@@ -159,6 +163,8 @@ Pattern matching supports four modes:
 
 ## Post Type / CPT Rules
 
+![Post Types tab — CPT Rules screen with Add New Rule](access-rules.ASSETS/02-cpt-rules-annotated.png)
+
 **Tab:** ArraySubs → Member Access → **Post Types** (the screen heading is **CPT Rules**)
 
 Post Type Rules restrict access to WordPress posts, pages, and custom post types. You can gate an entire post type, specific taxonomy terms, or hand-picked individual posts.
@@ -176,6 +182,8 @@ The system supports three targeting modes:
 | **Specific Posts/Pages** | Individual posts or pages by ID | Post #142 and Post #305 only |
 
 ### Configuring a Post Type Rule
+
+![CPT rule builder — target, condition, and action fields](access-rules.ASSETS/03-cpt-rule-builder-annotated.png)
 
 1. Go to **ArraySubs → Member Access → Post Types**.
 2. Click **Add New Rule**.

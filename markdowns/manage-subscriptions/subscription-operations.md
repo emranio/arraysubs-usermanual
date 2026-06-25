@@ -36,6 +36,8 @@ ArraySubs gives you four main screens for working with subscriptions:
 
 ## All Subscriptions List
 
+![All Subscriptions list — status filters, search, and row actions](README.ASSETS/01-subscriptions-list-overview-annotated.png)
+
 Open **ArraySubs → Subscriptions** to see every subscription in your store.
 
 Use this screen as the daily support desk for active customers. It is the fastest place to answer "Who owns this subscription?", "When is the next payment?", "Which product is it for?", and "Should I view details or edit the record?"
@@ -113,6 +115,8 @@ The list shows 20 subscriptions per page. Use the page controls at the bottom to
 
 ## Create a Subscription
 
+![Create subscription form — customer, product, and billing fields](subscription-operations.ASSETS/01-create-subscription-form-annotated.png)
+
 Navigate to **ArraySubs → Subscriptions** and click **Add New** at the top of the list. This opens a blank subscription form.
 
 ### When to Use This
@@ -185,6 +189,8 @@ Manually created subscriptions start as **Pending**. To activate the subscriptio
 
 ## Edit a Subscription
 
+![Edit subscription form — status control and address fields](subscription-operations.ASSETS/02-edit-subscription-form-annotated.png)
+
 From the subscriptions list, click the **Edit** action on any row (or click **Edit Subscription** from the detail screen). The edit page loads a focused form with a read-only summary at the top.
 
 ### Subscription Summary (Read-Only)
@@ -241,6 +247,8 @@ Clicking **Update Subscription** saves the edited contact and address fields and
 
 ## Subscription Detail Screen
 
+![Subscription detail screen — action buttons, info cards, and order history](README.ASSETS/02-subscription-detail-overview-annotated.png)
+
 From the subscriptions list, click the **View Details** action on any row. This opens the full read-only dashboard for a single subscription.
 
 ### Header
@@ -266,6 +274,8 @@ The header actions change depending on the subscription's state and available mo
 | **Login as Customer** | When the subscription has a valid customer | Opens the store frontend logged in as that customer (requires the Login as User module). Includes a back-URL so you can return to the admin. |
 
 ### Cancel Subscription Modal
+
+![Cancel Subscription modal — timing options and reason fields](lifecycle-management.ASSETS/01-cancel-subscription-modal-annotated.png)
 
 When you click **Cancel Subscription**, a modal appears with:
 

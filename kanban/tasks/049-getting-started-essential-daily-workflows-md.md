@@ -1,11 +1,14 @@
 ---
 id: 49
 title: getting-started - essential-daily-workflows.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.841117+06:00
-updated: 2026-06-23T16:34:38.810734+06:00
+updated: 2026-06-24T19:03:38.479673082+02:00
 started: 2026-06-22T01:27:44.39248+06:00
+completed: 2026-06-24T19:03:38.47967214+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:03:38.479672972+02:00
 class: standard
 ---
 
@@ -49,3 +52,8 @@ Markers:
 - `arrow pointing to Last Webhook, label 'Webhook freshness'`
 - `arrow pointing to the event table, label 'Webhook proof'`
 - `arrow pointing to Refresh, label 'Manual refresh'`
+
+
+--- Annotation complete ---
+All images reused: README.ASSETS/01-arraysubs-admin-overview-annotated.png (task 45), ../audits-and-logs/README.ASSETS/02-scheduled-job-logs-annotated.png (existing), ../customer-portal/README.ASSETS/01-my-subscriptions-list-annotated.png (existing), ../gateway-health/README.ASSETS/01-gateway-health-dashboard-annotated.png (task 44).
+Source updated: getting-started/essential-daily-workflows.md (4 image links).

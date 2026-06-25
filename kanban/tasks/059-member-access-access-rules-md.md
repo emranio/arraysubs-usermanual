@@ -1,11 +1,14 @@
 ---
 id: 59
 title: member-access - access-rules.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.948944+06:00
-updated: 2026-06-23T16:34:38.813793+06:00
+updated: 2026-06-24T19:39:11.661264907+02:00
 started: 2026-06-22T01:41:51.103802+06:00
+completed: 2026-06-24T19:39:11.661264005+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:39:11.661264807+02:00
 class: standard
 ---
 
@@ -36,3 +39,9 @@ Source updates:
 - Updated configuration steps from **Add Rule** to **Add New Rule**.
 - Updated the Post Type section heading to clarify that the current screen heading is **CPT Rules** under the **Post Types** tab.
 - Updated URL and CPT settings labels to match current dropdown text: **Starts with**, **Exact match**, **Regular expression**, **Redirect to URL**, **Show message**, **Show 403 forbidden**, **By Taxonomy/Category**, **Specific Posts/Pages**, and the archive behavior labels.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-url-rules (2), 02-cpt-rules (2), 03-cpt-rule-builder (2).
+Reused: README.ASSETS/01-member-access-role-mapping-overview-annotated.png (task 58).
+Source updated: member-access/access-rules.md (4 image links).

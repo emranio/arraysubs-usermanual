@@ -1,11 +1,13 @@
 ---
 id: 78
 title: retention-and-refunds - retention-offers.md
-status: todo
+status: review
 priority: medium
 created: 2026-06-09T18:08:35.168943+06:00
-updated: 2026-06-23T16:34:38.819132+06:00
+updated: 2026-06-24T21:37:43.848882258+02:00
 started: 2026-06-22T19:02:08.676489+06:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:37:43.848882148+02:00
 class: standard
 ---
 
@@ -60,3 +62,12 @@ Verification:
 - Source markdown updated only for the stale prerequisite path: customer cancellation is enabled under `ArraySubs -> Settings -> General`.
 - Pause and Contact Support fields were revealed in the admin form without saving; the page was reloaded afterward, so no setting changes were persisted.
 - Customer modal was opened on subscription #648, captured after selecting `Too expensive`, then closed with `Keep Subscription`; no offer was accepted and no cancellation was submitted.
+
+
+--- Annotation partial ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-retention-offers-master-discount: SUCCESS. Link after '## Enabling Retention Offers'.
+- 02-pause-downgrade-contact-offer-fields: SUCCESS. Link after '### Pause Offer'.
+- 03-contact-support-offer-fields: FAILED (RuntimeError: Agents SDK Codex path returned an empty response). Link omitted.
+- 04-customer-retention-offers-modal: SUCCESS. Link after '### The Retention Modal'.
+Source: retention-and-refunds/retention-offers.md (3 links added). Task moved to review due to 03 failure.

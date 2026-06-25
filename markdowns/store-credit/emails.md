@@ -26,6 +26,8 @@ All four emails are **customer-facing** (sent to the customer, not the admin) an
 
 ## Email Summary
 
+![WooCommerce Emails table — Store Credit Added, Used, Expiring Soon, and Expired rows](emails.ASSETS/01-woocommerce-store-credit-email-rows-annotated.png)
+
 | Email | ID | Triggered when | Default state |
 |-------|----|---------------|---------------|
 | **Store Credit Added** | `arraysubs_credit_added` | Credit is added to the customer's account (from any source except renewal application, order application, or expiration) | Enabled |
@@ -34,6 +36,8 @@ All four emails are **customer-facing** (sent to the customer, not the admin) an
 | **Store Credit Expired** | `arraysubs_credit_expired` | A credit entry passes its expiration date and the balance is deducted | Enabled |
 
 ## How to Configure
+
+![Store Credit Added email settings — Enable checkbox and Subject field](emails.ASSETS/02-store-credit-added-email-manage-settings-annotated.png)
 
 1. Go to **WooCommerce → Settings → Emails**.
 2. Find the ArraySubsPro Store Credit emails in the list.

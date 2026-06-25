@@ -104,6 +104,8 @@ Some managed hosts already run a system cron internally. Check your host's docum
 3. Look at any event with a "Next Run" timestamp under 1 minute from now. After that minute passes, refresh — the timestamp should update.
 4. If timestamps stay frozen for more than 2 minutes, the system cron isn't reaching `wp-cron.php`. Check your cron log on the server.
 
+![Scheduled Job Logs](../audits-and-logs/README.ASSETS/02-scheduled-job-logs-annotated.png)
+
 You can also test manually:
 
 ```bash
@@ -149,6 +151,8 @@ A healthy response is HTTP 200 with no body. If you see a redirect or an error, 
 | Cron stopped working after host migration | New host blocks outbound HTTP to itself, or `wp-cron.php` is now firewalled | Use `wp cron event run --due-now` via WP-CLI as the cron command instead, or whitelist your own IP |
 
 ## Why ArraySubs Cares So Much
+
+![Renewal engine job logs](../billing-and-renewals/renewal-operations.ASSETS/03-renewal-engine-job-logs-annotated.png)
 
 Because ArraySubs (free + pro) is built on a **plugin-controlled renewal model for Stripe and manual gateways**, the plugin's own cron is the only thing that triggers a renewal charge. If the cron doesn't fire, **the renewal doesn't happen**. PayPal and Paddle are gateway-controlled, so they will charge on their own — but the plugin still needs the cron to flip statuses, send emails, run grace-period transitions, and process scheduled cancellations.
 

@@ -24,6 +24,8 @@ ArraySubs is a WooCommerce subscription engine that adds recurring billing, a se
 
 This guide covers everything you need to know before installing: system requirements, core concepts, subscription statuses, and the full feature map.
 
+![ArraySubs admin area](README.ASSETS/01-arraysubs-admin-overview-annotated.png)
+
 ## Requirements
 
 Before installing, make sure your hosting environment and WordPress setup meet these minimums:
@@ -195,6 +197,8 @@ The subscription reached its subscription length limit and ended naturally. This
 ---
 
 ## Grace Period System
+
+![Grace period settings](../billing-and-renewals/README.ASSETS/01-renewal-grace-settings-annotated.png)
 
 When a renewal payment is due and not received, ArraySubs does not cancel the subscription immediately. Instead, it follows a two-phase grace period:
 

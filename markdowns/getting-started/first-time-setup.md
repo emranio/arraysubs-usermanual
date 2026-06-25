@@ -55,6 +55,8 @@ After activation, you will see a new **ArraySubs** menu item in the WordPress ad
 
 ## Step 2 — Review General Settings
 
+![ArraySubs General Settings](first-time-setup.ASSETS/01-general-settings-setup-annotated.png)
+
 1. Go to **ArraySubs → Settings → General**.
 2. Walk through each section and adjust based on your store's needs. For a first-time setup, the defaults work well for most stores. Here is what to pay attention to:
 
@@ -116,6 +118,8 @@ You can always come back to these settings later. Nothing here is permanent — 
 
 ## Step 3 — Create Your First Subscription Product
 
+![Subscription product data tab](first-time-setup.ASSETS/02-product-subscription-tab-annotated.png)
+
 1. Go to **Products → Add New** in WooCommerce.
 2. Enter a product name (e.g., "Monthly Membership").
 3. Set a regular price (e.g., $29.99).
@@ -173,6 +177,8 @@ When the order is paid, ArraySubs automatically creates a subscription linked to
 
 ## Step 5 — Verify the Subscription
 
+![ArraySubs All Subscriptions list](README.ASSETS/01-arraysubs-admin-overview-annotated.png)
+
 1. Go to **ArraySubs → Subscriptions** (or click **All Subscriptions** in the ArraySubs menu).
 2. You should see your new subscription in the list with status **Active** (or **Trial** if you added a trial).
 3. Click on the subscription to open the detail page.
@@ -191,6 +197,8 @@ When the order is paid, ArraySubs automatically creates a subscription linked to
 ---
 
 ## Step 6 — Review the Customer Portal
+
+![Customer My Account subscriptions list](../customer-portal/README.ASSETS/01-my-subscriptions-list-annotated.png)
 
 1. Log in as the test customer (or use **Login as User** from the customer's WordPress profile if available).
 2. Go to **My Account → Subscriptions**.

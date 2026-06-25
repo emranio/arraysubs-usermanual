@@ -21,6 +21,8 @@
 
 ## Overview
 
+![Easy Setup page — Export and Import](easy-setup-wizard.ASSETS/01-easy-setup-page-annotated.png)
+
 The Import / Export tools let you back up your ArraySubs configuration and restore it on the same site or a different one. Export produces a single JSON file containing all plugin settings, email templates, profile fields, My Account menu layout, and more. Import reads that file back and lets you choose exactly which sections to apply — unchecked sections remain untouched.
 
 Both tools live on the **ArraySubs → Easy Setup** page alongside the Setup Wizard.
@@ -130,6 +132,8 @@ The `meta` block records the source site URL, export date, and version numbers s
 ## Importing Settings
 
 ### Step 1 — Provide the JSON Data
+
+![Import Settings entry form](import-export-settings.ASSETS/01-import-settings-entry-annotated.png)
 
 1. Go to **ArraySubs → Easy Setup**.
 2. Click **Import Settings** on the Import card.

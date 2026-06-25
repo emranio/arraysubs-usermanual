@@ -44,6 +44,8 @@ System notes include enough context to reconstruct the change. For edited fields
 
 ## Manual Notes
 
+![Subscription Notes add-note editor — formatting toolbar, visibility selector, and Add button](README.ASSETS/02-add-note-rich-text-editor-annotated.png)
+
 Admins can add manual notes from the notes panel.
 
 | Note Type | Visibility | Use It For |
@@ -65,6 +67,8 @@ Each note identifies who created it:
 | Gateway | Generated from payment gateway activity |
 
 ## Deleting Notes
+
+![Delete Note confirmation modal — modal title, Delete button, and Cancel button](README.ASSETS/03-delete-note-confirmation-annotated.png)
 
 Admins can delete notes from the panel. Deleting a note is permanent.
 

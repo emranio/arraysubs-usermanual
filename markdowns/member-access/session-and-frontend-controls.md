@@ -32,6 +32,8 @@ Session and Frontend Controls cover the parts of Member Access that go beyond se
 
 ## Login Limit Rules *(Pro)*
 
+![Login Limit tab — Add New Rule entry point](session-and-frontend-controls.ASSETS/01-login-limit-rules-annotated.png)
+
 **Tab:** ArraySubs → Member Access → **Login Limit**
 
 ```box class="info-box"
@@ -50,6 +52,8 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 6. Evicted sessions are detected via the WordPress heartbeat API, and the evicted browser tabs are redirected to the login page.
 
 ### Configuring a Login Limit Rule
+
+![Login Limit rule builder — condition and session limit fields](session-and-frontend-controls.ASSETS/02-login-limit-rule-builder-annotated.png)
 
 1. Ensure **Multi-Login Prevention** is enabled at **ArraySubs → Settings → Toolkit**.
 2. Go to **ArraySubs → Member Access → Login Limit**.
@@ -79,6 +83,8 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 | Rule has `Max Allowed Sessions = 3`, global default is `1` | `3` (rule overrides global default) |
 
 ### Admin Exemption
+
+![Toolkit — Multi-Login Prevention settings](session-and-frontend-controls.ASSETS/03-toolkit-multi-login-prevention-annotated.png)
 
 By default, administrators (`manage_options` capability) are exempt from session limits. To include admins, enable the **Apply to administrators** toggle in **ArraySubs → Settings → Toolkit → Multi-Login Prevention**.
 

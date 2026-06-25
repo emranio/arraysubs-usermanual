@@ -1,11 +1,14 @@
 ---
 id: 89
 title: store-credit - emails.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.297337+06:00
-updated: 2026-06-23T16:34:38.822572+06:00
+updated: 2026-06-24T21:55:01.15651763+02:00
 started: 2026-06-22T19:37:59.689753+06:00
+completed: 2026-06-24T21:55:01.156516638+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:55:01.15651753+02:00
 class: standard
 ---
 
@@ -31,3 +34,10 @@ Markers:
 - `arrow pointing to the Save changes button, label 'Save email settings'`
 
 Source md update: corrected Page Navigation location to WooCommerce Settings Emails.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3):
+- 01-woocommerce-store-credit-email-rows: SUCCESS. Link after '## Email Summary'.
+- 02-store-credit-added-email-manage-settings: SUCCESS. Link after '## How to Configure'.
+Source: store-credit/emails.md (2 links added).

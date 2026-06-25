@@ -1,11 +1,14 @@
 ---
 id: 58
 title: member-access - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.93994+06:00
-updated: 2026-06-23T16:34:38.813552+06:00
+updated: 2026-06-24T19:35:28.368379352+02:00
 started: 2026-06-22T01:40:55.348271+06:00
+completed: 2026-06-24T19:35:28.3683783+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T19:35:28.368379252+02:00
 class: standard
 ---
 
@@ -23,3 +26,8 @@ Source updates:
 
 - Updated the tab count from seven to eight and added the **Conflicts** tab to the overview table.
 - Updated Quick Start button wording from **Add Rule** to the current **Add New Rule** label.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-member-access-role-mapping-overview (2).
+Source updated: member-access/README.md (1 image link).

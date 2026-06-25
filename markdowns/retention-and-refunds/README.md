@@ -26,6 +26,8 @@ This section covers the full lifecycle of a cancellation — from the moment a c
 
 ## What this section covers
 
+![Retention Flow admin page — reason capture and retention offers](README.ASSETS/01-retention-flow-overview-annotated.png)
+
 | Topic | What you will learn |
 |---|---|
 | [Cancellation Setup](cancellation-setup.md) | How to configure cancellation timing (immediate vs end-of-period), manage cancellation reasons, and set up the Retention Flow admin page |
@@ -62,6 +64,10 @@ The retention system activates when a customer initiates a cancellation from the
 
 **Retention analytics** — A dedicated dashboard under WooCommerce Analytics that tracks cancellations, offer performance, churn rate, and retained revenue over time.
 
+![Retention Analytics — date range filters and KPI cards](../retention-analytics/README.ASSETS/01-retention-filters-summary-cards-annotated.png)
+
 **Refund policy** — Configurable rules that control what happens when a subscription is cancelled — whether refunds are processed automatically, after the billing period ends, or only when an admin manually issues them.
+
+![Refunds settings — cancellation refund policy and gateway refunds](README.ASSETS/02-refunds-settings-overview-annotated.png)
 
 **Prorated refunds** — An optional refund type that calculates the unused portion of a billing cycle and refunds only that amount, rather than refunding the full payment.

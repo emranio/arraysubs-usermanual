@@ -26,6 +26,8 @@ Feature Manager settings control the entire module: whether it's active, how fea
 
 All settings are located at **ArraySubs → Settings → Feature Manager**.
 
+![Feature Manager settings](README.ASSETS/01-feature-manager-settings-annotated.png)
+
 ## Settings Reference
 
 ### Enable Feature Manager

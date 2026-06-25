@@ -1,11 +1,14 @@
 ---
 id: 88
 title: store-credit - credit-history.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.287462+06:00
-updated: 2026-06-23T16:34:38.822266+06:00
+updated: 2026-06-24T21:54:58.615091186+02:00
 started: 2026-06-22T19:34:55.167613+06:00
+completed: 2026-06-24T21:54:58.615090244+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T21:54:58.615091086+02:00
 class: standard
 ---
 
@@ -49,3 +52,9 @@ Markers:
 - `arrow pointing to the Cancel button, label 'Go back'`
 
 Source md update: corrected Page Navigation location and previous guide link.
+
+
+--- Annotation complete ---
+- ../README.ASSETS/02-admin-store-credit-global-history: REUSED from task 87. Link after '## Overview'.
+- 01-credit-history-pagination-readonly-note: SUCCESS. Link after '### Read the Transaction Table'.
+Source: store-credit/credit-history.md (2 links added).

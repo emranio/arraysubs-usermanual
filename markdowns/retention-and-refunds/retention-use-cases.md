@@ -28,6 +28,8 @@ This guide presents real-life scenarios across different industries, business mo
 
 ## Use Case 1: The Price-Sensitive Monthly Subscriber
 
+![Retention Offers — master toggle, enabled Discount Offer, trigger reasons, and percentage fields](retention-offers.ASSETS/01-retention-offers-master-discount-annotated.png)
+
 **Business:** A SaaS tool charging $29/month
 **Customer situation:** A subscriber of 4 months selects "Too expensive" as their cancellation reason.
 
@@ -39,6 +41,8 @@ This guide presents real-life scenarios across different industries, business mo
 
 **What the customer sees:** After selecting "Too expensive" and clicking Continue, the retention modal shows a discount card: *"We'll reduce your subscription to $23.20/month for the next 3 months."*
 
+![Customer retention modal — Before You Go with Stay and Save offer, Accept Offer, and Keep Subscription](retention-offers.ASSETS/04-customer-retention-offers-modal-annotated.png)
+
 **Customer accepts.** The subscription stays active. Renewal invoices for the next 3 cycles are created at $23.20 instead of $29.00. After 3 cycles, billing returns to $29.00.
 
 **Business benefit:** Instead of losing $29/month immediately, the store retains the customer at $23.20/month for 3 months ($69.60 retained revenue) and has a chance to demonstrate enough value that the customer stays at full price afterward. The total retained revenue over 3 months is $69.60 vs $0 from cancellation.
@@ -46,6 +50,8 @@ This guide presents real-life scenarios across different industries, business mo
 ---
 
 ## Use Case 2: The Seasonal Fitness Member
+
+![Pause and Downgrade offer fields — enable switches, pause duration, and downgrade helper notice](retention-offers.ASSETS/02-pause-downgrade-contact-offer-fields-annotated.png)
 
 **Business:** An online fitness membership charging $19.99/month
 **Customer situation:** A member of 8 months selects "Just need a temporary break" because they're travelling for the summer.
@@ -363,6 +369,8 @@ This guide presents real-life scenarios across different industries, business mo
 ---
 
 ## The Retention Math: Why It Matters
+
+![Retention Analytics — date range filters and KPI summary cards](../retention-analytics/README.ASSETS/01-retention-filters-summary-cards-annotated.png)
 
 The financial impact of retention is dramatic. Consider these numbers:
 

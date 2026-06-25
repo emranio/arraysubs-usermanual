@@ -1,11 +1,14 @@
 ---
 id: 95
 title: subscription-products - README.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.369029+06:00
-updated: 2026-06-23T16:34:38.824387+06:00
+updated: 2026-06-25T09:30:35.89453942+02:00
 started: 2026-06-22T20:06:39.160572+06:00
+completed: 2026-06-25T09:30:35.894538458+02:00
+claimed_by: annotator
+claimed_at: 2026-06-25T09:30:35.894539319+02:00
 class: standard
 ---
 
@@ -18,3 +21,8 @@ Markers:
 - `arrow pointing to the "Subscription" tab in Product data, label 'Billing setup'`
 - `arrow pointing to the "Linked Products" tab, label 'Plan relationships'`
 - `arrow pointing to the Direct add to cart helper link field, label 'Test links'`
+
+
+--- Annotation complete ---
+- 01-subscription-product-editor-overview: SUCCESS (#873EFF, --crop, --steps=3). Link after '## Overview'.
+Source: subscription-products/README.md (1 link added).

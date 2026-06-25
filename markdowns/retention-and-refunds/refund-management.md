@@ -48,6 +48,8 @@ For stores running ArraySubs Pro, refunds can also be issued as **store credit**
 
 ## Refund Settings
 
+![Refunds settings — Refund on Cancellation policy, Automatic Gateway Refund, and Prorated Refunds](refund-management.ASSETS/01-refund-settings-policy-controls-annotated.png)
+
 Navigate to **ArraySubs → Settings → Refunds** to configure your refund policies.
 
 ### Refund on Cancellation
@@ -182,6 +184,8 @@ Every refund associated with a subscription is tracked and visible in two places
 
 ### Subscription Detail Page (Admin)
 
+![Subscription detail — Total Refunded badge and refunded order row](refund-management.ASSETS/02-subscription-refund-order-history-annotated.png)
+
 The **Related Orders** section on the subscription detail page shows all orders linked to the subscription, including refund information:
 
 - **Refunded column** — shows the refund amount with a negative prefix (e.g., `-$20.00`)
@@ -201,6 +205,8 @@ The customer's subscription detail page shows a **Refund History** section listi
 ---
 
 ## Refund-to-Store-Credit Integration **(Pro)**
+
+![WooCommerce refund form — Refund Method radios with Store Credit selected](refund-management.ASSETS/03-woocommerce-refund-method-store-credit-annotated.png)
 
 With ArraySubs Pro and the Store Credit feature enabled, admins can issue refunds as **store credit** instead of gateway refunds. This keeps the revenue within your store ecosystem while making the customer whole.
 

@@ -59,6 +59,10 @@ The order's refundable amount decreases by the credited amount, preventing the s
 
 ### Process a Refund as Store Credit
 
+![WooCommerce refund panel — Store Credit method selected with balance preview](refund-to-credit.ASSETS/01-refund-method-store-credit-preview-annotated.png)
+
+![Refund confirmation modal — Refund as Store Credit dialog](refund-to-credit.ASSETS/02-refund-as-credit-confirmation-modal-annotated.png)
+
 1. Go to **WooCommerce → Orders** and open the order you want to refund.
 2. Scroll to the order items section.
 3. Click **Refund**.

@@ -1,11 +1,14 @@
 ---
 id: 42
 title: feature-manager - defining-product-features.md
-status: todo
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.768401+06:00
-updated: 2026-06-23T16:34:38.808808+06:00
+updated: 2026-06-24T17:27:05.236861077+02:00
 started: 2026-06-22T01:12:39.21155+06:00
+completed: 2026-06-24T17:27:05.236860055+02:00
+claimed_by: annotator
+claimed_at: 2026-06-24T17:27:05.236860967+02:00
 class: standard
 ---
 
@@ -54,3 +57,9 @@ Markers:
 Source update:
 - Updated `user-manual/markdowns/feature-manager/defining-product-features.md` so deletion references the current Delete Feature confirmation modal instead of a browser prompt.
 - Clarified that feature templates are currently API-level and the product editor does not expose a template picker.
+
+
+--- Annotation complete ---
+Annotated (#873EFF, --crop, --steps=3): 01-manage-features-modal (3), 02-add-feature-edit-row (3), 03-delete-feature-confirmation (2).
+Reused from README.ASSETS (task 40): 02-product-feature-manager-tab-annotated.png.
+Source updated: feature-manager/defining-product-features.md (4 image links added).

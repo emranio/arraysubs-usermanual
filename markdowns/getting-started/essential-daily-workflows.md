@@ -103,6 +103,8 @@ When a subscription is cancelled, all future scheduled actions (renewals, remind
 
 ## Automated Background Jobs
 
+![Scheduled Job Logs](../audits-and-logs/README.ASSETS/02-scheduled-job-logs-annotated.png)
+
 ArraySubs runs several scheduled jobs automatically using the Action Scheduler system. You do not need to configure these — they run on their own after activation.
 
 | Job | Schedule | What it does |
@@ -122,6 +124,8 @@ All scheduled jobs use execution locks to prevent concurrent processing. If a jo
 ## Where Merchants Manage Everything
 
 ### Admin Dashboard — ArraySubs Menu
+
+![ArraySubs All Subscriptions admin screen](README.ASSETS/01-arraysubs-admin-overview-annotated.png)
 
 The main ArraySubs admin interface is a single-page application (SPA) accessible from the WordPress sidebar. Here is a map of every page and what it is for:
 
@@ -191,6 +195,8 @@ Subscription configuration lives inside the WooCommerce product editor:
 
 ### Customer Portal (Frontend)
 
+![Customer My Account subscriptions list](../customer-portal/README.ASSETS/01-my-subscriptions-list-annotated.png)
+
 Customers manage their subscriptions at **My Account → Subscriptions**. The portal is read-only for viewing and provides action buttons for self-service operations based on your settings.
 
 ---
@@ -232,6 +238,8 @@ Run through this checklist before opening your store to real customers:
 - [ ] Cancellation flow and retention offers are configured if needed.
 
 ### Payment (for automatic renewals — Pro)
+
+![Gateway Health dashboard](../gateway-health/README.ASSETS/01-gateway-health-dashboard-annotated.png)
 
 - [ ] Your payment gateway is configured and connected.
 - [ ] Gateway health shows a healthy status in **Audits → Gateway Logs** *(Pro)*. For Stripe, confirm the official WooCommerce Stripe connection is active and the ArraySubs secondary webhook shows as auto-provisioned for the current test/live mode.
