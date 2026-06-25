@@ -223,6 +223,7 @@ If you turn off Cache Compatibility while running a page caching plugin, cached 
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Restriction shortcodes for inline content gating.
 - [Shortcodes](../shortcodes/README.md) — Full shortcode attribute reference.
+- [Elementor Content Restrictions](../shortcodes/elementor-content-restrictions.md) — Gate Elementor Containers from the builder, no shortcode required.
 - [Access-Rule Conflicts (Troubleshooting)](../audits-and-logs/access-rule-conflicts.md) — Resolve overlapping restriction issues.
 - [Use Cases](use-cases.md) — Content dripping and gating examples.
 
@@ -232,6 +233,9 @@ If you turn off Cache Compatibility while running a page caching plugin, cached 
 
 ### Can I restrict content and show a teaser at the same time?
 Post Type Rules with `Show normally (restrict content only)` archive behavior show the post in listings, but gate the actual content. Visitors see the title and excerpt in archives but must subscribe to read the full content. For more control over the teaser experience, use the `[arraysubs_restrict]` shortcode to wrap only the premium portion of a post — see [Session and Frontend Controls](session-and-frontend-controls.md).
+
+### Can I gate content in Elementor without shortcodes?
+Yes. ArraySubs adds an **ArraySubs Content Restrictions** section to the Elementor Container's Advanced tab, so you can gate a section by subscription, role, purchase, or feature from the builder. It uses the same engine as `[arraysubs_restrict]` — see [Elementor Content Restrictions](../shortcodes/elementor-content-restrictions.md).
 
 ### Does the schedule work with paused subscriptions?
 Paused subscriptions are not `active` or `trial`, so they do not qualify for schedule evaluation. The timer effectively pauses when the subscription is paused and resumes when it becomes active again — because the check compares the current time to the subscription start date, not a running clock.

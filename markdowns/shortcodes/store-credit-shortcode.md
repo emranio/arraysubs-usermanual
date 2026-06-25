@@ -14,7 +14,7 @@
 - **Current guide:** Store Credit Shortcode *(Pro)*
 - **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [content-gating](./content-gating.md)
+- **Previous guide:** [elementor-content-restrictions](./elementor-content-restrictions.md)
 - **Next guide:** [credit-history](../store-credit/credit-history.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 

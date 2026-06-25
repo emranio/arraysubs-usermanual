@@ -31,6 +31,7 @@ Every shortcode is also documented inside your admin panel at **ArraySubs → Sh
 - You want personalized greetings like "Welcome back, Sarah!" on any page.
 - You need to show different content to logged-in vs logged-out visitors.
 - You want to lock premium content behind subscription status, product ownership, a user role, a spending threshold, or a feature entitlement.
+- You build with **Elementor** and want to gate a section from the builder panel instead of typing a shortcode.
 - You want to embed a store credit purchase form on a landing page *(Pro)*.
 
 ## Quick Reference
@@ -69,6 +70,7 @@ Each shortcode category has its own guide:
 
 - [Account Shortcodes](account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
 - [Content Gating Shortcodes](content-gating.md) — `[arraysubs_visibility]` and `[arraysubs_restrict]`
+- [Elementor Content Restrictions](elementor-content-restrictions.md) — gate Elementor Containers from the builder, no shortcode required
 - [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]` *(Pro)*
 
 ## General Notes
@@ -94,6 +96,9 @@ Each shortcode category has its own guide:
 
 ### Can I use these shortcodes in Gutenberg?
 Yes. Use the **Shortcode** block in the Gutenberg editor, paste the shortcode, and it renders on the frontend. Shortcodes also work in Classic Editor, text widgets, and most page builders.
+
+### Do I have to type shortcodes in Elementor?
+No. ArraySubs adds an **ArraySubs Content Restrictions** section to the Elementor Container's Advanced tab, so you can gate a section by subscription, role, purchase, or feature without typing a shortcode. See [Elementor Content Restrictions](elementor-content-restrictions.md).
 
 ### Is restricted content visible in the page source?
 No. When a visitor does not meet the conditions, the server omits the content entirely. It is not hidden with CSS — it is never rendered.

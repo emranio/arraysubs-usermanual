@@ -1,0 +1,16 @@
+Save the two attached editor screenshots into this folder with these exact names
+(referenced by ../elementor-content-restrictions.md):
+
+  01-restriction-controls.png
+      = the first screenshot — "ArraySubs Content Restrictions" section showing
+        Enable Restriction, Restriction Type, Subscription Status, Active
+        Subscription To Products / Variations, Purchased Products, User Roles,
+        Minimum Lifetime Spend, Match Logic.
+
+  02-feature-and-denial-controls.png
+      = the second screenshot — the "Plan Feature (Pro)" group (Feature, How To
+        Check It, Required Amount, Comparison, Combine Multiple Plans By) and the
+        "When Access Is Denied" group (Restricted Message, Require Login, Always
+        Show To Admins).
+
+Use the screenshots as-is. Delete this file once the two PNGs are in place.

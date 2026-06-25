@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [account-shortcodes](./account-shortcodes.md)
-- **Next guide:** [store-credit-shortcode](./store-credit-shortcode.md)
+- **Next guide:** [elementor-content-restrictions](./elementor-content-restrictions.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -436,6 +436,7 @@ Show a section to anyone who is either an active subscriber OR has purchased a s
 ## Related Guides
 
 - [Account Shortcodes](account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
+- [Elementor Content Restrictions](elementor-content-restrictions.md) — the same gating from the Elementor builder, no shortcode required
 - [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]` *(Pro)*
 - [Member Access — Access Rules](../member-access/access-rules.md) — Rule-based restrictions for URLs, post types, and roles
 - [Member Access — Content Restriction](../member-access/content-restriction.md) — Global restriction messages, redirect URLs, and drip content
