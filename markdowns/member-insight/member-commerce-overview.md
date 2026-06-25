@@ -72,6 +72,8 @@ Click the subscription **ID** link (e.g., `#142`) or the **View** action link in
 
 ## Purchased Products (Non-Subscription)
 
+![Purchased Products accordion — expanded product table with Product, Type, Qty, and Total columns](member-commerce-overview.ASSETS/02-purchased-products-expanded-annotated.png)
+
 The **Purchased Products (Non-Subscription)** section is collapsed by default and shows a count badge. It lists WooCommerce products the customer has bought that are **not** subscription products — physical goods, digital downloads, one-time services, and so on.
 
 ### How products are collected

@@ -1,13 +1,14 @@
 ---
 id: 97
 title: subscription-products - plan-switching-and-relationships.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.389318+06:00
-updated: 2026-06-25T09:27:17.423520779+02:00
+updated: 2026-06-25T11:32:54.045131572+02:00
 started: 2026-06-22T20:12:47.654004+06:00
+completed: 2026-06-25T11:32:54.0451303+02:00
 claimed_by: annotator
-claimed_at: 2026-06-25T09:27:17.423520679+02:00
+claimed_at: 2026-06-25T11:32:54.045131442+02:00
 class: standard
 ---
 
@@ -71,3 +72,14 @@ Markers:
 --- Annotation SKIPPED — no original screenshots ---
 All 5 image originals missing from plan-switching.ASSETS/. Screenshots not yet captured.
 Moving to review for screenshot capture.
+
+
+--- Screenshots captured and annotated ---
+All 6 originals captured (2026-06-25) and annotated (#873EFF, --crop, --steps=3):
+- 01-simple-linked-products-plan-switching: SUCCESS. Link added after '### Simple Products'.
+- 02-variable-linked-products-variation-notice: SUCCESS. Link added after '### Variable Products'.
+- 03-variable-variation-plan-switching-fields: SUCCESS. Link added after '### Variable Products' (below 02).
+- 04-fixed-period-membership-fields: SUCCESS. Link added after '### Product Configuration'.
+- 05-plan-switching-settings: SUCCESS (2nd attempt - file was at root). Link added after '## Plan Switching Settings'.
+- 06-fixed-period-enrollment-window: SUCCESS. Link added after '### Enrollment Window'.
+Source: subscription-products/plan-switching-and-relationships.md (6 links added). Images in plan-switching.ASSETS/.

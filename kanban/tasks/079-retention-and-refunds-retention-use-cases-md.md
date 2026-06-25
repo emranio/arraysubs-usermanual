@@ -1,13 +1,14 @@
 ---
 id: 79
 title: retention-and-refunds - retention-use-cases.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.179053+06:00
-updated: 2026-06-24T21:38:55.395444401+02:00
+updated: 2026-06-25T11:30:50.490616656+02:00
 started: 2026-06-22T19:06:29.590942+06:00
+completed: 2026-06-25T11:30:50.490615755+02:00
 claimed_by: annotator
-claimed_at: 2026-06-24T21:38:55.39544428+02:00
+claimed_at: 2026-06-25T11:30:50.490616546+02:00
 class: standard
 ---
 
@@ -74,3 +75,8 @@ All images are reuses — no new annotation runs needed.
 - 03 reuse (retention-offers.ASSETS/03-contact-support-offer-fields-annotated.png): SKIPPED — source file does not exist (task 78 image 03 failed). Link omitted.
 - 05 reuse (../retention-analytics/README.ASSETS/01-retention-filters-summary-cards-annotated.png): SUCCESS. Link after '## The Retention Math'.
 Source: retention-and-refunds/retention-use-cases.md (4 links added). Moved to review due to missing 03.
+
+
+--- Re-completion (03 image now available) ---
+- 03 reuse (retention-offers.ASSETS/03-contact-support-offer-fields-annotated.png): NOW AVAILABLE. Link added after '## Use Case 4'.
+Source: retention-and-refunds/retention-use-cases.md (5 links total).

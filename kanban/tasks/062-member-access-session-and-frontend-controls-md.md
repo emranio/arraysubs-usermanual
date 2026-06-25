@@ -1,13 +1,14 @@
 ---
 id: 62
 title: member-access - session-and-frontend-controls.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.977147+06:00
-updated: 2026-06-24T20:55:00.41153316+02:00
+updated: 2026-06-25T11:29:49.939453584+02:00
 started: 2026-06-22T02:05:58.5921+06:00
+completed: 2026-06-25T11:29:49.939452452+02:00
 claimed_by: annotator
-claimed_at: 2026-06-24T20:55:00.41153305+02:00
+claimed_at: 2026-06-25T11:29:49.939453474+02:00
 class: standard
 ---
 
@@ -45,3 +46,8 @@ Annotated (#873EFF, --crop, --steps=3):
 - 03-toolkit-multi-login-prevention (3): SUCCESS.
 - 04-shortcodes-membership-reference: FAILED (0/2 resolved — Content Restriction and Visibility Wrapper cards not visible). Link omitted.
 Source updated: member-access/session-and-frontend-controls.md (3 image links; 04 skipped).
+
+
+--- Re-annotation complete ---
+- 04-shortcodes-membership-reference: Re-annotated with new screenshot (full-page Shortcodes admin view). SUCCESS. Link added after '## Restriction Shortcode' heading.
+Source: member-access/session-and-frontend-controls.md (link added, total 4 links).

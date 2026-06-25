@@ -1,13 +1,14 @@
 ---
 id: 99
 title: subscription-products - product-lifecycle.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.409499+06:00
-updated: 2026-06-25T09:27:18.07003733+02:00
+updated: 2026-06-25T11:33:02.567810324+02:00
 started: 2026-06-22T20:26:55.641044+06:00
+completed: 2026-06-25T11:33:02.567809312+02:00
 claimed_by: annotator
-claimed_at: 2026-06-25T09:27:18.070037219+02:00
+claimed_at: 2026-06-25T11:33:02.567810203+02:00
 class: standard
 ---
 
@@ -47,3 +48,11 @@ Not captured: the post-deletion transient notice, because generating it on the l
 --- Annotation SKIPPED — no original screenshots ---
 All 3 image originals missing from helper-links.ASSETS/. Screenshots not yet captured.
 Moving to review for screenshot capture.
+
+
+--- Screenshots captured and annotated ---
+All 3 originals captured (2026-06-25) and annotated (#873EFF, --crop, --steps=3):
+- 01-product-editor-helper-links-and-active-warning: SUCCESS. Link added after '### Product Edit Screen Warning'.
+- 02-variable-variation-helper-links: SUCCESS (2nd annotation attempt - original moved to correct path). Link added after '### Where to Find Them'.
+- 03-active-subscriptions-product-usage: SUCCESS. Link added after '### What Happens to Active Subscriptions'.
+Source: subscription-products/product-lifecycle.md (3 links added). Images in product-lifecycle.ASSETS/.

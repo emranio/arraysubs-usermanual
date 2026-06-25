@@ -1,13 +1,14 @@
 ---
 id: 65
 title: member-insight - member-commerce-overview.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.010989+06:00
-updated: 2026-06-24T21:08:16.428117691+02:00
+updated: 2026-06-25T11:05:43.089006558+02:00
 started: 2026-06-22T02:12:52.950004+06:00
+completed: 2026-06-25T11:05:43.089005586+02:00
 claimed_by: annotator
-claimed_at: 2026-06-24T21:08:16.428117591+02:00
+claimed_at: 2026-06-25T11:05:43.089006457+02:00
 class: standard
 ---
 
@@ -38,3 +39,8 @@ Annotated (#873EFF, --crop, --steps=3):
 - 02-purchased-products-expanded: FAILED (RuntimeError: Event loop is closed). Link omitted.
 - 03-addresses-expanded: SUCCESS. Link added after '## Addresses'.
 Source: member-insight/member-commerce-overview.md (2 of 3 links added).
+
+
+--- Re-annotation complete (2nd pass) ---
+- 02-purchased-products-expanded: Re-annotated (1st attempt was RuntimeError). SUCCESS. Link added after '## Purchased Products (Non-Subscription)'.
+Source: member-insight/member-commerce-overview.md (1 additional link added).

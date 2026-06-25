@@ -111,6 +111,8 @@ This means there is a brief window (up to the heartbeat interval) where an evict
 
 ## Restriction Shortcode — `[arraysubs_restrict]`
 
+![Shortcodes catalog — Membership group with Content Restriction and Visibility Wrapper tools](session-and-frontend-controls.ASSETS/04-shortcodes-membership-reference-annotated.png)
+
 The `[arraysubs_restrict]` shortcode gates specific portions of content inline — within a post, page, or widget — without restricting the entire page. Visitors who do not meet the conditions see a configurable denial message (or nothing) while qualifying subscribers see the wrapped content.
 
 ### Basic Usage

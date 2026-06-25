@@ -21,6 +21,8 @@
 
 ## Overview
 
+![Manage Members dashboard — Find a Member search bar and empty lookup state](README.ASSETS/01-manage-members-lookup-annotated.png)
+
 The **Manage Members** page is a centralized member insight dashboard that brings together everything you need to know about a subscriber in one place. Instead of clicking between the WordPress user list, WooCommerce orders, subscription records, and store credit screens, you search for a customer and see the full picture immediately.
 
 The page is available at **ArraySubs → Manage Members** in your WordPress admin sidebar when the Pro plugin is active.

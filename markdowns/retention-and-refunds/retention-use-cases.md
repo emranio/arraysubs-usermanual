@@ -92,6 +92,8 @@ This guide presents real-life scenarios across different industries, business mo
 
 ## Use Case 4: The Customer with a Solvable Problem
 
+![Contact Support offer settings — enable toggle and support URL field](retention-offers.ASSETS/03-contact-support-offer-fields-annotated.png)
+
 **Business:** A website builder platform charging $24.99/month
 **Customer situation:** A subscriber of 2 months selects "Technical issues" because they can't get a specific integration to work.
 

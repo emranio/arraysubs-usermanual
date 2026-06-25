@@ -21,6 +21,8 @@
 
 ## Overview
 
+![Subscription Notes panel — Notes timeline and System author badge](README.ASSETS/01-subscription-notes-panel-timeline-annotated.png)
+
 Subscription Notes is a dedicated record-keeping module in the free core plugin. Every subscription detail screen includes a notes panel that combines system-generated lifecycle events with manual notes from administrators and, when enabled, customer-visible notes.
 
 Use this module when you need to answer "what happened to this subscription?" without checking orders, emails, gateways, and customer messages one by one.

@@ -1,13 +1,14 @@
 ---
 id: 69
 title: profile-builder - README.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.060566+06:00
-updated: 2026-06-24T21:12:41.225345302+02:00
+updated: 2026-06-25T11:30:04.14011739+02:00
 started: 2026-06-22T02:20:51.526676+06:00
+completed: 2026-06-25T11:30:04.140116518+02:00
 claimed_by: annotator
-claimed_at: 2026-06-24T21:12:41.225345191+02:00
+claimed_at: 2026-06-25T11:30:04.14011728+02:00
 class: standard
 ---
 
@@ -38,3 +39,9 @@ Annotated (#873EFF, --crop, --steps=3):
 - 02-my-account-editor-overview: SUCCESS. Link added before '## Guides in This Section'.
 - 03-shortcodes-catalog: FAILED (0/1 resolved — only Account group visible, Membership and Store Credit not in screenshot). Link omitted.
 Source: profile-builder/README.md (1 of 3 links added).
+
+
+--- Re-annotation complete ---
+- 01-profile-form-overview: Re-annotated with new screenshot (Avatar Settings + Custom Profile Fields visible). SUCCESS. Link added after '## What's Inside' heading.
+- 03-shortcodes-catalog: Re-annotated with new full-page screenshot (Account + Membership groups visible). SUCCESS. Link added after Quick Start step 4.
+Source: profile-builder/README.md (3 links total).

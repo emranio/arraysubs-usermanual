@@ -1,13 +1,14 @@
 ---
 id: 78
 title: retention-and-refunds - retention-offers.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.168943+06:00
-updated: 2026-06-24T21:37:43.848882258+02:00
+updated: 2026-06-25T11:30:12.195397248+02:00
 started: 2026-06-22T19:02:08.676489+06:00
+completed: 2026-06-25T11:30:12.195396396+02:00
 claimed_by: annotator
-claimed_at: 2026-06-24T21:37:43.848882148+02:00
+claimed_at: 2026-06-25T11:30:12.195397138+02:00
 class: standard
 ---
 
@@ -71,3 +72,8 @@ Annotated (#873EFF, --crop, --steps=3):
 - 03-contact-support-offer-fields: FAILED (RuntimeError: Agents SDK Codex path returned an empty response). Link omitted.
 - 04-customer-retention-offers-modal: SUCCESS. Link after '### The Retention Modal'.
 Source: retention-and-refunds/retention-offers.md (3 links added). Task moved to review due to 03 failure.
+
+
+--- Re-annotation complete ---
+- 03-contact-support-offer-fields: Re-annotated (2nd attempt, simplified to 1 query). SUCCESS. Link added after '### Contact Support Offer'.
+Source: retention-and-refunds/retention-offers.md (link added).

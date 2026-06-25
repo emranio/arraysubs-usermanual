@@ -1,13 +1,14 @@
 ---
 id: 94
 title: subscription-notes - README.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:35.353349+06:00
-updated: 2026-06-25T09:30:31.745861493+02:00
+updated: 2026-06-25T11:04:58.731857498+02:00
 started: 2026-06-22T20:02:07.503649+06:00
+completed: 2026-06-25T11:04:58.731856516+02:00
 claimed_by: annotator
-claimed_at: 2026-06-25T09:30:31.745861393+02:00
+claimed_at: 2026-06-25T11:04:58.731857388+02:00
 class: standard
 ---
 
@@ -45,3 +46,8 @@ Markers:
 - 02-add-note-rich-text-editor: SUCCESS (#873EFF, --crop, --steps=3). Link after '## Manual Notes'.
 - 03-delete-note-confirmation: SUCCESS (#873EFF, --crop, --steps=3). Link after '## Deleting Notes'.
 Source: subscription-notes/README.md (2 links added).
+
+
+--- Re-annotation complete (2nd pass) ---
+- 01-subscription-notes-panel-timeline: Re-annotated with simplified queries (removed unresolvable 'Private note badge'). Used 'Notes timeline' + 'Author badge'. SUCCESS. Link added after '## Overview'.
+Source: subscription-notes/README.md (1 additional link added).

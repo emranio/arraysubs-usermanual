@@ -45,6 +45,8 @@ Plan switching paths are configured on the **Linked Products** tab in the WooCom
 
 ### Simple Products
 
+![Basic Monthly Linked Products tab — Subscription Plan Switching fields with Upgrade, Downgrade, Crossgrade, and Auto-downgrade](plan-switching.ASSETS/01-simple-linked-products-plan-switching-annotated.png)
+
 Open the Linked Products tab and scroll to the **Subscription Plan Switching** section. You will see four searchable select fields:
 
 | Field | Type | Description |
@@ -57,6 +59,10 @@ Open the Linked Products tab and scroll to the **Subscription Plan Switching** s
 All fields use AJAX product search — type to search for subscription products by name or SKU.
 
 ### Variable Products
+
+![Variable product Linked Products tab — notice directing plan switching setup to the Variations tab](plan-switching.ASSETS/02-variable-linked-products-variation-notice-annotated.png)
+
+![Yearly variation Plan Switching fields — Upgrade, Downgrade, Crossgrade, and Auto-downgrade product search controls](plan-switching.ASSETS/03-variable-variation-plan-switching-fields-annotated.png)
 
 For variable products, the Linked Products tab shows a notice directing you to configure plan switching options in the **Variations tab** instead. Each variation gets its own set of upgrade, downgrade, crossgrade, and auto-downgrade fields.
 
@@ -178,6 +184,8 @@ Auto-downgrade does not create a proration order. The subscription simply switch
 
 ## Plan Switching Settings
 
+![ArraySubs Plan Switching settings — Enable Plan Switching toggle and Allowed Switch Types section](plan-switching.ASSETS/05-plan-switching-settings-annotated.png)
+
 These settings control plan switching behavior globally. They can be found in **ArraySubs → Settings** under the plan switching section.
 
 | Setting | Default | Options | What It Controls |
@@ -206,6 +214,8 @@ When enabled on a product, the standard subscription length field is overridden.
 
 ### Product Configuration
 
+![Subscription tab Fixed Period Membership fields — Use fixed end date checkbox, End date type dropdown, and Annual cutoff selectors](plan-switching.ASSETS/04-fixed-period-membership-fields-annotated.png)
+
 The Fixed Period Membership fields appear in the **Subscription** tab of the product editor, below the standard billing fields. Check **Use fixed end date** to enable the feature.
 
 #### End Date Type
@@ -231,6 +241,8 @@ The Fixed Period Membership fields appear in the **Subscription** tab of the pro
 **Example:** Setting month to June and day to 30 means all subscriptions end on June 30 each year. A customer who subscribes on March 15 gets access until June 30 of the same year. A customer who subscribes on July 1 gets access until June 30 of the following year.
 
 ### Enrollment Window
+
+![Fixed Period Membership enrollment window — Enrollment opens and closes date fields and At period end dropdown](plan-switching.ASSETS/06-fixed-period-enrollment-window-annotated.png)
 
 Restrict when the product can be purchased using the enrollment window fields:
 

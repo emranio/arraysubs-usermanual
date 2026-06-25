@@ -203,6 +203,8 @@ The Downgrade offer only works if you have configured **downgrade paths** in the
 
 ### Contact Support Offer
 
+![Contact Support offer settings — enable toggle and support URL field](retention-offers.ASSETS/03-contact-support-offer-fields-annotated.png)
+
 The contact support offer encourages the customer to reach out to your support team before cancelling. It provides a direct link to your support page, help desk, or contact form.
 
 **How it appears to the customer:** A card with a custom message and a button linking to your support URL.

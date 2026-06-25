@@ -20,6 +20,8 @@
 
 ## What's Inside
 
+![Profile Builder Profile Form — Avatar Settings and Custom Profile Fields sections](README.ASSETS/01-profile-form-overview-annotated.png)
+
 The Profile Builder area in ArraySubs gives you three sets of tools under one menu:
 
 | Tool | What It Does |
@@ -45,6 +47,8 @@ The Profile Builder menu lives in the main ArraySubs admin panel:
 3. **Customize the My Account menu** — Open the My Account editor, drag menu items into your preferred order, rename any label, or add a custom page linked to an existing WordPress page.
 
 4. **Use shortcodes** — Visit the Shortcodes catalog page for ready-to-copy examples. Paste `[arraysubs_visibility show="logged_in"]Welcome back![/arraysubs_visibility]` into any page or post.
+
+![Shortcodes catalog — Account group and Membership group with shortcode reference cards](README.ASSETS/03-shortcodes-catalog-annotated.png)
 
 ![My Account editor — menu customization toggle](README.ASSETS/02-my-account-editor-overview-annotated.png)
 

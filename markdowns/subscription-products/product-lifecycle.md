@@ -28,6 +28,8 @@ Subscription products may outlive the product listing that created them. ArraySu
 
 ### What Happens to Active Subscriptions
 
+![ArraySubs subscriptions list — active subscriptions using Basic Monthly product with status badges](product-lifecycle.ASSETS/03-active-subscriptions-product-usage-annotated.png)
+
 When a subscription product is trashed or permanently deleted, **active subscriptions are not affected**. They continue to operate normally — renewals are processed, the billing schedule continues, and the customer portal still displays the subscription. This is possible because ArraySubs caches product data on every subscription at the time of creation.
 
 ### Cached Product Data
@@ -70,6 +72,8 @@ ArraySubs provides clear warnings to prevent accidental product deletion when ac
 
 ### Product Edit Screen Warning
 
+![Basic Monthly General tab — Helper Links section and Active Subscriptions warning](product-lifecycle.ASSETS/01-product-editor-helper-links-and-active-warning-annotated.png)
+
 When editing a subscription product that has active subscriptions, a yellow warning box appears in the product editor:
 
 > ⚠️ **Active Subscriptions** — This product has N active subscription(s). Deleting this product will NOT affect subscriptions — they will continue using cached product data.
@@ -91,6 +95,8 @@ The "View Subscriptions" link takes you to the subscriptions list filtered to th
 Every subscription product includes **test links** in the WooCommerce product editor. These links let you quickly test the checkout flow without navigating through the storefront.
 
 ### Where to Find Them
+
+![Yearly variation helper links — Direct add to cart and One-click checkout variation-specific URLs](product-lifecycle.ASSETS/02-variable-variation-helper-links-annotated.png)
 
 Test links appear in the **General** tab of the product editor, in a section labeled **Helper Links**. For variable products, each variation has its own set of test links within the variation panel.
 
