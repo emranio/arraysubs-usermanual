@@ -6,36 +6,13 @@
         "getting-started/cron-job-setup.md",
         "getting-started/first-time-setup.md",
         "getting-started/import-export-settings.md",
-        "getting-started/essential-daily-workflows.md"
+        "getting-started/essential-daily-workflows.md",
+        "getting-started/easy-setup-wizard.md"
     ],
     [
         "settings/README.md",
         "settings/general-settings.md",
         "settings/toolkit-settings.md"
-    ],
-    [
-        "getting-started/easy-setup-wizard.md"
-    ],
-    [
-        "admin-bar-visibility/README.md"
-    ],
-    [
-        "admin-dashboard-access/README.md"
-    ],
-    [
-        "wordpress-login-page/README.md"
-    ],
-    [
-        "login-as-user/README.md"
-    ],
-    [
-        "coupons/README.md"
-    ],
-    [
-        "redirect-product-page/README.md"
-    ],
-    [
-        "subscription-shipping/README.md"
     ],
     [
         "subscription-products/README.md",
@@ -50,6 +27,24 @@
         "manage-subscriptions/admin-tools-and-records.md",
         "manage-subscriptions/subscription-detail-cards.md",
         "manage-subscriptions/lifecycle-management.md"
+    ],
+    [
+        "member-access/README.md",
+        "member-access/role-mapping.md",
+        "member-access/content-gate.md",
+        "member-access/discount.md",
+        "member-access/ecommerce.md",
+        "member-access/url.md",
+        "member-access/post-types.md",
+        "member-access/downloads.md",
+        "member-access/conflicts.md",
+        "member-access/login-limit.md"
+    ],
+    [
+        "coupons/README.md"
+    ],
+    [
+        "subscription-shipping/README.md"
     ],
     [
         "subscription-notes/README.md"
@@ -76,22 +71,6 @@
         "store-credit/refund-to-credit.md"
     ],
     [
-        "analytics/README.md",
-        "analytics/reports-hub.md",
-        "analytics/subscription-performance.md",
-        "analytics/woocommerce-analytics-extension.md",
-        "analytics/order-list-enhancements.md"
-    ],
-    [
-        "retention-analytics/README.md"
-    ],
-    [
-        "emails/README.md",
-        "emails/customer-emails.md",
-        "emails/admin-emails.md",
-        "emails/store-credit-emails.md"
-    ],
-    [
         "shortcodes/README.md",
         "shortcodes/account-shortcodes.md",
         "shortcodes/content-gating.md",
@@ -107,17 +86,6 @@
         "feature-manager/defining-product-features.md",
         "feature-manager/customer-and-storefront-display.md",
         "feature-manager/feature-manager-settings.md"
-    ],
-    [
-        "member-access/README.md",
-        "member-access/access-rules.md",
-        "member-access/commerce-and-benefit-rules.md",
-        "member-access/scheduled-drip-access.md",
-        "member-access/elementor-content-restrictions.md",
-        "member-access/gutenberg-content-restrictions.md",
-        "member-access/session-and-frontend-controls.md",
-        "member-access/multi-login-prevention.md",
-        "member-access/use-cases.md"
     ],
     [
         "checkout-and-payments/README.md",
@@ -149,6 +117,37 @@
         "retention-and-refunds/retention-offers.md",
         "retention-and-refunds/retention-use-cases.md",
         "retention-and-refunds/refund-management.md"
+    ],
+    [
+        "analytics/README.md",
+        "analytics/reports-hub.md",
+        "analytics/subscription-performance.md",
+        "analytics/woocommerce-analytics-extension.md",
+        "analytics/order-list-enhancements.md"
+    ],
+    [
+        "retention-analytics/README.md"
+    ],
+    [
+        "emails/README.md",
+        "emails/customer-emails.md",
+        "emails/admin-emails.md",
+        "emails/store-credit-emails.md"
+    ],
+    [
+        "admin-bar-visibility/README.md"
+    ],
+    [
+        "admin-dashboard-access/README.md"
+    ],
+    [
+        "wordpress-login-page/README.md"
+    ],
+    [
+        "login-as-user/README.md"
+    ],
+    [
+        "redirect-product-page/README.md"
     ],
     [
         "gateway-health/README.md"

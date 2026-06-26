@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
 - **Section overview:** [Manual Home](../README.md)
 - **Previous guide:** [WordPress Login Page](../wordpress-login-page/README.md)
-- **Next guide:** [Multi-Login Prevention](../member-access/multi-login-prevention.md)
+- **Next guide:** [Login Limit](../member-access/login-limit.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## What This Tool Does

@@ -262,7 +262,7 @@ See [Scheduled / Drip Access](scheduled-drip-access.md) for details on per-post 
 ## Related Guides
 
 - [Scheduled / Drip Access](scheduled-drip-access.md) — Per-post restrictions, default messages, redirect URL, and cache compatibility.
-- [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, ecommerce, and download rules.
+- [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, shop access, and download rules.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses affect role mapping.
 - [Toolkit Settings](../settings/toolkit-settings.md) — Admin bar visibility, wp-admin restriction, and login page hiding.
 - [Use Cases](use-cases.md) — Real-world examples of access rules in action.
@@ -278,7 +278,7 @@ Yes. Both **Add Roles** and **Remove Roles** support multi-select. A single rule
 No. URL rules only apply to frontend page navigations. REST API requests and wp-admin pages are not affected.
 
 ### Can I restrict WooCommerce shop pages with URL rules?
-URL rules match against any frontend URL, including `/shop/`, `/product-category/premium/`, or any other WooCommerce page path. However, for restricting individual products, use **Ecommerce Rules** instead — they have deeper WooCommerce integration for purchase blocking, cart validation, and Store API support.
+URL rules match against any frontend URL, including `/shop/`, `/product-category/premium/`, or any other WooCommerce page path. However, for restricting individual products, use **Shop Access Rules** instead — they have deeper WooCommerce integration for purchase blocking, cart validation, and Store API support.
 
 ### What is the fallback role, and when does it apply?
 The fallback role is a safety net. It is only assigned when the subscriber's last qualifying subscription ends **and** the user has no WordPress roles remaining after all rule-based removals. If the user still has other roles (from other rules or manual assignment), the fallback is not applied.

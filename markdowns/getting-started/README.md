@@ -50,7 +50,7 @@ Route customer login and registration traffic through WooCommerce My Account.
 ### [Login as User](../login-as-user/README.md)
 Impersonate non-admin customers for support and customer-portal troubleshooting.
 
-### [Multi-Login Prevention](../member-access/multi-login-prevention.md)
+### [Login Limit](../member-access/login-limit.md)
 Limit concurrent sessions per account to reduce credential sharing *(Pro)*.
 
 ### [Coupons](../coupons/README.md)

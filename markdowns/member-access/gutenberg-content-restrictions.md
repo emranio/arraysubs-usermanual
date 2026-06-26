@@ -171,5 +171,6 @@ The block is for partial-page gating. It does not redirect the whole page when a
 - [Elementor Content Restrictions](elementor-content-restrictions.md) — Gate Elementor Containers with the same rule engine.
 - [Content Gating Shortcodes](../shortcodes/content-gating.md) — Manual shortcode wrappers for inline content.
 - [Scheduled / Drip Access](scheduled-drip-access.md) — Global restricted messages, redirects, drip schedules, and cache compatibility.
-- [Access Rules](access-rules.md) — Full-page restrictions for URLs, post types, and roles.
+- [Content Gate](content-gate.md) — the main Member Access guide tab for choosing Gutenberg, Elementor, shortcode, or PHP gating.
+- [Post Types](post-types.md) — Full-page restrictions when the whole post or page should be gated.
 - [Feature Manager](../feature-manager/README.md) — Define plan features used by feature-gated content.

@@ -363,7 +363,7 @@ Understanding how paused and on-hold subscriptions interact with Member Access r
 | **Role Mapping** | Roles added | Configurable: `Keep roles` or `Remove roles` | Roles remain — no explicit change |
 | **Post Type Rules** | Access granted (if conditions match) | Depends on rule conditions — `on-hold` is not `active` | Depends on rule conditions — `paused` is not `active` |
 | **URL Rules** | Access granted | Denied unless conditions explicitly include `on-hold` | Denied unless conditions explicitly include `paused` |
-| **Ecommerce Rules** | Restrictions applied per rule | Denied unless conditions include `on-hold` | Denied unless conditions include `paused` |
+| **Shop Access Rules** | Restrictions applied per rule | Denied unless conditions include `on-hold` | Denied unless conditions include `paused` |
 | **Discount Rules** | Discounts applied | No discounts (not an active subscription) | No discounts (not an active subscription) |
 | **Download Rules** | Files available | Files unavailable | Files unavailable |
 | **Login Limit** | Session limits enforced | Session limits still enforced | Session limits still enforced |
@@ -401,12 +401,18 @@ If your business model allows customers to pause their subscription while retain
 
 ## Related Guides
 
-- [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
-- [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules.
+- [Content Gate](content-gate.md) — The Member Access tab that points merchants to shortcode and PHP gating.
+- [Role Mapping](role-mapping.md) — Shared condition-builder concepts used across Member Access.
+- [URL](url.md) — Full-page restrictions for path-based access.
+- [Post Types](post-types.md) — Full-page restrictions for posts, pages, and CPT content.
+- [Discount](discount.md) — Pricing rules that use the same condition system.
+- [Shop Access](ecommerce.md) — Product restriction rules that use the same condition system.
+- [Downloads](downloads.md) — Download rules that use the same condition system.
 - [Scheduled / Drip Access](scheduled-drip-access.md) — Global restriction settings, messages, and per-post meta.
 - [Elementor Content Restrictions](elementor-content-restrictions.md) — Gate Elementor Containers with no shortcode required.
 - [Gutenberg Content Restrictions](gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block.
-- [Multi-Login Prevention](multi-login-prevention.md) — Dedicated setup guide for global session limits and Login Limit rule overrides.
+- [Login Limit](login-limit.md) — The actual Member Access tab for global session limits and rule-based overrides.
+- [Multi-Login Prevention](multi-login-prevention.md) — Dedicated setup guide for the top settings card inside the Login Limit tab.
 - [Shortcodes](../shortcodes/README.md) — Full reference for all shortcodes including login, logout, user, and buy-credits.
 - [Use Cases](use-cases.md) — Session control and shortcode examples.
 

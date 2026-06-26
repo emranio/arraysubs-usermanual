@@ -26,7 +26,7 @@ Commerce and Benefit Rules extend Member Access into WooCommerce's product catal
 | Rule Type | What It Controls |
 |-----------|-----------------|
 | **Discount Rules** | Member-exclusive pricing — percentage or fixed discounts applied per-item or per-cart |
-| **Ecommerce Rules** | Product visibility and purchase restrictions for non-qualifying visitors |
+| **Shop Access Rules** | Product visibility and purchase restrictions for non-qualifying visitors |
 | **Download Rules** | Subscription-gated downloadable files shown on the customer's My Account → Downloads page |
 
 All three are configured from **ArraySubs → Member Access**, each on its own tab.
@@ -114,17 +114,17 @@ Discounts are evaluated in real-time, per request. They do not modify the produc
 
 ---
 
-## Ecommerce Rules
+## Shop Access Rules
 
-![Ecommerce tab — tab bar and Add New Rule entry point](commerce-and-benefit-rules.ASSETS/02-ecommerce-rules-annotated.png)
+![Shop Access tab — tab bar and Add New Rule entry point](commerce-and-benefit-rules.ASSETS/02-ecommerce-rules-annotated.png)
 
-**Tab:** ArraySubs → Member Access → **Ecommerce**
+**Tab:** ArraySubs → Member Access → **Shop Access**
 
-Ecommerce Rules control product visibility and purchasing. Use them to hide products from non-members, block purchases, force login, or redirect visitors to a signup/pricing page.
+Shop Access Rules control product visibility and purchasing. Use them to hide products from non-members, block purchases, force login, or redirect visitors to a signup/pricing page.
 
 ### How It Works
 
-Ecommerce restriction rules are deeply integrated with WooCommerce:
+Shop Access restriction rules are deeply integrated with WooCommerce:
 
 - **Product queries** — Rules filter WooCommerce product queries, shop pages, shortcode outputs, related products, upsells, cross-sells, widget product lists, and sitemap entries.
 - **Single product pages** — Rules can return a 404, display a blocked-purchase message, or redirect visitors.
@@ -132,11 +132,11 @@ Ecommerce restriction rules are deeply integrated with WooCommerce:
 - **Store API** — Rules integrate with WooCommerce's Block Checkout and Store API for full compatibility with modern checkout flows.
 - **SEO sitemaps** — Products hidden via 404 rules are excluded from WordPress native sitemaps, Yoast SEO sitemaps, and Rank Math sitemaps.
 
-### Configuring an Ecommerce Rule
+### Configuring a Shop Access Rule
 
-![Ecommerce rule builder — target scope and restriction action fields](commerce-and-benefit-rules.ASSETS/06-ecommerce-rule-builder-annotated.png)
+![Shop Access rule builder — target scope and restriction action fields](commerce-and-benefit-rules.ASSETS/06-ecommerce-rule-builder-annotated.png)
 
-1. Go to **ArraySubs → Member Access → Ecommerce**.
+1. Go to **ArraySubs → Member Access → Shop Access**.
 2. Click **Add New Rule**.
 3. Set the **IF conditions** (e.g., Has Active Subscription).
 4. Configure the **TARGET** section:
@@ -192,7 +192,7 @@ Ecommerce restriction rules are deeply integrated with WooCommerce:
 
 ### Edge Cases
 
-- **Plan switching** — The ecommerce restriction system also filters the plan switch available products list, ensuring customers can only see upgrade/downgrade options they qualify for.
+- **Plan switching** — The shop access restriction system also filters the plan switch available products list, ensuring customers can only see upgrade/downgrade options they qualify for.
 - **REST API** — Product responses from the WooCommerce REST API include an `arraysubs_restricted` flag and stripped purchase data when the requesting user does not qualify.
 - **Variation-level restrictions** — Rules currently apply at the product level, not individual variations. If a variable product is restricted, all its variations are restricted.
 
@@ -274,10 +274,10 @@ For rules that have download limits configured in the backend, the system tracks
 |---------|-------------|------------|
 | Member discount is not showing on product page | Subscriber is not logged in, or conditions don't match | Verify the customer is logged in and has an active subscription matching the rule conditions |
 | Two discounts seem to apply to the same product | Both per-item and per-cart rules match | This is by design. Per-cart discounts offset per-item savings to prevent double-discounting. Check the cart fee line for the net cart discount |
-| Product is still visible despite 404 ecommerce rule | Page cache is serving a stale version | Clear your page cache. Enable **Cache Compatibility** in Member Access settings. See [Scheduled / Drip Access — Cache Compatibility](scheduled-drip-access.md#cache-compatibility) |
+| Product is still visible despite 404 shop access rule | Page cache is serving a stale version | Clear your page cache. Enable **Cache Compatibility** in Member Access settings. See [Scheduled / Drip Access — Cache Compatibility](scheduled-drip-access.md#cache-compatibility) |
 | Customer cannot see their subscription downloads | Conditions or schedule not met | Verify the subscription status is active, the rule conditions match, and any schedule delay has elapsed since the subscription start date |
 | Download link returns an error | Nonce expired or conditions changed | Have the customer refresh the Downloads page to get a fresh download link |
-| Ecommerce rule blocks admin from viewing product | Admin does not meet the rule conditions | Core ecommerce restrictions apply to all frontend visitors. Admin users can still see the product in wp-admin |
+| Shop Access rule blocks admin from viewing product | Admin does not meet the rule conditions | Core shop access restrictions apply to all frontend visitors. Admin users can still see the product in wp-admin |
 
 ---
 
@@ -288,7 +288,7 @@ For rules that have download limits configured in the backend, the system tracks
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limit rules and content restriction shortcodes.
 - [Coupon Integration](../coupons/README.md) — How coupons interact with member discounts.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — Where customers access their downloads.
-- [Use Cases](use-cases.md) — Real-world discount, ecommerce, and download rule examples.
+- [Use Cases](use-cases.md) — Real-world discount, shop access, and download rule examples.
 
 ---
 
@@ -301,7 +301,7 @@ No. If multiple discount rules match the same product, only the best discount (l
 Yes, by default. A subscriber can receive a member discount and apply a coupon to the same order. Merchants who want to prevent this can use the `arraysubs_member_discount_stack_with_coupons` filter.
 
 ### Can I restrict specific product variations?
-Currently, Ecommerce Rules apply at the product level. If you restrict a variable product, all its variations are restricted. To differentiate access by variation, use the **Has Subscription Variation** condition type so that only subscribers to a specific variation meet the rule conditions.
+Currently, Shop Access Rules apply at the product level. If you restrict a variable product, all its variations are restricted. To differentiate access by variation, use the **Has Subscription Variation** condition type so that only subscribers to a specific variation meet the rule conditions.
 
 ### Are download files protected from direct URL access?
 Yes. Download files are served through nonce-signed URLs. The original file URLs in the Media Library are not exposed to customers. However, for maximum security with sensitive files, consider storing files outside the public web root or using a cloud storage solution with signed URLs.

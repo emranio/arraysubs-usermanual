@@ -1,3 +1,11 @@
 menu.json
 index-plan.md
 writing-format.md
+access-rules.md
+commerce-and-benefit-rules.md
+scheduled-drip-access.md
+elementor-content-restrictions.md
+gutenberg-content-restrictions.md
+session-and-frontend-controls.md
+multi-login-prevention.md
+use-cases.md

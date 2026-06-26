@@ -147,7 +147,8 @@ There may be a short delay before the older browser visibly redirects because Wo
 
 ## Related Guides
 
+- [Login Limit](login-limit.md) — The actual Member Access tab this guide documents.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Shortcodes, frontend visibility, and pause-state access behavior.
-- [Access Rules](access-rules.md) — Condition builder concepts used by Login Limit rules.
+- [Role Mapping](role-mapping.md) — Condition builder concepts used by Login Limit rules.
 - [Login as User](../login-as-user/README.md) — Impersonation sessions are excluded from session limits.
 - [Use Cases](use-cases.md) — Real examples of plan-specific session limits.

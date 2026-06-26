@@ -66,7 +66,7 @@ Schedules are available on these rule types:
 | **URL Rules** | Delays URL access until the period elapses |
 | **Post Type Rules** | Delays content access until the period elapses |
 | **Download Rules** | Delays file availability until the period elapses |
-| **Ecommerce Rules** | Delays product visibility/purchase access until the period elapses |
+| **Shop Access Rules** | Delays product visibility/purchase access until the period elapses |
 | **Discount Rules** | Delays discount eligibility until the period elapses |
 
 Role Mapping rules and Login Limit rules do **not** have a schedule option.
@@ -187,7 +187,7 @@ When **Cache Compatibility** is enabled (the default), Member Access adds signal
 
 - Pages gated by URL Rules
 - Single posts gated by Post Type Rules or per-post restrictions
-- Product pages affected by Ecommerce Rules
+- Product pages affected by Shop Access Rules
 
 ### When to Disable
 
@@ -219,8 +219,12 @@ If you turn off Cache Compatibility while running a page caching plugin, cached 
 
 ## Related Guides
 
-- [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
-- [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules.
+- [Role Mapping](role-mapping.md) — Shared condition-builder concepts used across Member Access tabs.
+- [URL](url.md) — URL rules that can also use schedule-based delayed access.
+- [Post Types](post-types.md) — The tab most commonly combined with drip access.
+- [Discount](discount.md) — Pricing rules that can unlock later in a subscription lifecycle.
+- [Shop Access](ecommerce.md) — Product restrictions with delayed access windows.
+- [Downloads](downloads.md) — Download availability that can unlock on a schedule.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Restriction shortcodes for inline content gating.
 - [Shortcodes](../shortcodes/README.md) — Full shortcode attribute reference.
 - [Elementor Content Restrictions](elementor-content-restrictions.md) — Gate Elementor Containers from the builder, no shortcode required.

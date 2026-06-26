@@ -322,7 +322,7 @@ Click **Apply Settings** to save. The wizard maps your answers to the correspond
 - [First-Time Setup](first-time-setup.md) — A manual step-by-step checklist if you prefer configuring settings one by one.
 - [General Settings](../settings/general-settings.md) — Detailed reference for every individual setting the wizard configures.
 - [Retention Offers](../retention-and-refunds/retention-offers.md) — Set up the retention flow the wizard enabled.
-- [Member Access Rules](../member-access/access-rules.md) — Configure detailed access rules after the wizard enables access control.
+- [Member Access](../member-access/README.md) — Configure detailed access rules after the wizard enables access control.
 
 ---
 

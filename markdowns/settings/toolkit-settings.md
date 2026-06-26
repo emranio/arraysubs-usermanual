@@ -33,7 +33,7 @@ For task-focused guidance, use the dedicated root-level module pages:
 - [Admin Dashboard Access](../admin-dashboard-access/README.md)
 - [WordPress Login Page](../wordpress-login-page/README.md)
 - [Login as User](../login-as-user/README.md)
-- [Member Access — Multi-Login Prevention](../member-access/multi-login-prevention.md) *(Pro)*
+- [Member Access — Login Limit](../member-access/login-limit.md) *(Pro)*
 
 ## When to Use This
 
@@ -47,7 +47,7 @@ For task-focused guidance, use the dedicated root-level module pages:
 
 - ArraySubs installed and activated.
 - WooCommerce activated with a **My Account** page configured (required for redirect destinations).
-- For session limits and credential-sharing controls: **ArraySubs Pro** and [Member Access -> Login Limit](../member-access/multi-login-prevention.md).
+- For session limits and credential-sharing controls: **ArraySubs Pro** and [Member Access -> Login Limit](../member-access/login-limit.md).
 
 ## How It Works
 
@@ -236,7 +236,7 @@ A SaaS company receives support tickets about subscription issues. The support t
 - [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect customers away from `/wp-admin`.
 - [WordPress Login Page](../wordpress-login-page/README.md) — Route login traffic through WooCommerce My Account.
 - [Login as User](../login-as-user/README.md) — Impersonate customers for support.
-- [Member Access — Multi-Login Prevention](../member-access/multi-login-prevention.md) *(Pro)* — Limit concurrent sessions per account.
+- [Member Access — Login Limit](../member-access/login-limit.md) *(Pro)* — Limit concurrent sessions per account.
 - [Getting Started — Essential Daily Workflows](../getting-started/essential-daily-workflows.md) — Admin menu reference and settings overview.
 - [Manage Members](../member-insight/README.md) — The member insight dashboard where Login as Customer is used most often *(Pro)*.
 

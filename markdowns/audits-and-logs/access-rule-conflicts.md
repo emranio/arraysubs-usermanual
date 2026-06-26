@@ -185,8 +185,10 @@ The first matching rule wins. If no rule matches, content is unrestricted by def
 ## Related Guides
 
 - [Member Access Overview](../member-access/README.md) — how the access rule system works, condition types, and rule configuration
-- [Access Rules](../member-access/access-rules.md) — Role Mapping, URL, and Post Type rule details
-- [Commerce and Benefit Rules](../member-access/commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download rule details
+- [Member Access](../member-access/README.md) — Overview of the actual Member Access tabs and shared condition system
+- [URL](../member-access/url.md) — URL rule details and priority behavior
+- [Post Types](../member-access/post-types.md) — Post/page/CPT restriction details and per-post overrides
+- [Shop Access](../member-access/ecommerce.md) — Product restriction details when the overlap is storefront-related
 - [Self-Service Actions](../customer-portal/self-service-actions.md) — customer actions that change subscription status and affect access
 - [Activity Audits](activity-audits.md) — trace status changes that may have affected access
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — how subscription status transitions work
@@ -209,7 +211,7 @@ Yes. Use a group with AND/OR logic to combine different condition types. For exa
 
 ### Do access rules work with WooCommerce Store API and Block themes?
 
-Access rules apply to front-end page rendering. WooCommerce Store API responses for products, cart, and checkout are not filtered by content access rules. Product purchase restrictions use separate Ecommerce Rules.
+Access rules apply to front-end page rendering. WooCommerce Store API responses for products, cart, and checkout are not filtered by content access rules. Product purchase restrictions use separate Shop Access Rules.
 
 ### How do scheduled/drip access rules interact with regular access rules?
 

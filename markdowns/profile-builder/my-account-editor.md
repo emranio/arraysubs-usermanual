@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Profile Builder
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/profile-builder/my-account`
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [use-cases](../member-access/use-cases.md)
+- **Previous guide:** [login-limit](../member-access/login-limit.md)
 - **Next guide:** [profile-form](./profile-form.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 

@@ -437,11 +437,9 @@ Show a section to anyone who is either an active subscriber OR has purchased a s
 
 - [Account Shortcodes](account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
 - [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]` *(Pro)*
-- [Elementor Content Restrictions](../member-access/elementor-content-restrictions.md) — the same gating from the Elementor builder, no shortcode required
-- [Gutenberg Content Restrictions](../member-access/gutenberg-content-restrictions.md) — block-editor content gating with no shortcode required
-- [Member Access — Access Rules](../member-access/access-rules.md) — Rule-based restrictions for URLs, post types, and roles
-- [Member Access — Scheduled / Drip Access](../member-access/scheduled-drip-access.md) — Global restriction messages, redirect URLs, and drip content
-- [Session and Frontend Controls](../member-access/session-and-frontend-controls.md) — Login limits and restriction shortcode usage in Member Access context
+- [Content Gate](../member-access/content-gate.md) — The Member Access tab that maps shortcode, Elementor, Gutenberg, and PHP gating.
+- [Post Types](../member-access/post-types.md) — Full-page restrictions for posts, pages, and custom post types
+- [URL](../member-access/url.md) — Path-based restrictions for entire protected sections
 
 ---
 

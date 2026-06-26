@@ -34,7 +34,7 @@ The module-specific settings pages are documented in their owning feature topics
 - [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect unauthorized users away from `/wp-admin`.
 - [WordPress Login Page](../wordpress-login-page/README.md) — Route customer login traffic through WooCommerce My Account.
 - [Login as User](../login-as-user/README.md) — Impersonate customers for support and verification.
-- [Member Access — Multi-Login Prevention](../member-access/multi-login-prevention.md) *(Pro)* — Limit concurrent sessions per account from Member Access -> Login Limit.
+- [Member Access — Login Limit](../member-access/login-limit.md) *(Pro)* — Limit concurrent sessions per account from Member Access -> Login Limit.
 
 ## Page Navigation
 

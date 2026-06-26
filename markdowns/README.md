@@ -27,7 +27,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Dedicated operations modules:** [Coupons](coupons/README.md) → [Subscription Notes](subscription-notes/README.md) → [Member Insight](member-insight/README.md) *(Pro)*
 - **Dedicated product modules:** [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Subscription Shipping](subscription-shipping/README.md) *(Pro)*
 - **Dedicated reporting modules:** [Retention Analytics](retention-analytics/README.md) → [Gateway Health](gateway-health/README.md) *(Pro)*
-- **Access and memberships:** [Member Access Overview](member-access/README.md) → [Access Rules](member-access/access-rules.md) → [Multi-Login Prevention](member-access/multi-login-prevention.md) *(Pro)*
+- **Access and memberships:** [Member Access](member-access/README.md) → [Role Mapping](member-access/role-mapping.md) → [Login Limit](member-access/login-limit.md) *(Pro)*
 - **Site access toolkit modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
@@ -58,7 +58,7 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | **ArraySubs → Subscriptions → Detail → Subscription Notes** | Review system notes, admin notes, customer-visible notes, gateway notes, and lifecycle history | [Subscription Notes](subscription-notes/README.md) |
 | **ArraySubs → Store Credit** *(Pro)* | Manage balances, adjustments, and transaction history | [Store Credit Management](store-credit/store-credit-management.md) |
 | **ArraySubs → Retention Flow** | Configure cancellation reasons and save-the-sale offers | [Cancellation Setup](retention-and-refunds/cancellation-setup.md) |
-| **ArraySubs → Member Access** | Build role, URL, post type, discount, ecommerce, download, content-gate, and login-limit rules | [Member Access Overview](member-access/README.md) |
+| **ArraySubs → Member Access** | Build role, URL, post type, discount, shop access, download, content-gate, and login-limit rules | [Member Access Overview](member-access/README.md) |
 | **ArraySubs → Checkout Builder** *(Pro)* | Design custom subscription checkout fields and steps | [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) |
 | **ArraySubs → Profile Builder** | Configure custom profile fields and My Account navigation | [Profile Builder](profile-builder/README.md) |
 | **ArraySubs → Manage Members** *(Pro)* | Search customers and open the Member Insight profile | [Member Insight](member-insight/README.md) |
@@ -230,15 +230,16 @@ Define named product entitlements — features, limits, and capabilities — so 
 
 Control who can access what across your site — gate content, restrict products, assign roles, offer member discounts, manage downloads, and enforce session limits.
 
-- [Overview](member-access/README.md) — How Member Access works, rule types, condition system, and section navigation.
-- [Access Rules](member-access/access-rules.md) — Role Mapping, URL Rules, and Post Type (CPT) Rules for controlling page, post, and role access.
-- [Commerce and Benefit Rules](member-access/commerce-and-benefit-rules.md) — Discount Rules, Ecommerce Rules, and Download Rules for member pricing, product restrictions, and file access.
-- [Scheduled / Drip Access](member-access/scheduled-drip-access.md) — Drip-schedule access, content gating messages, per-post restrictions, defaults, and cache compatibility.
-- [Elementor Content Restrictions](member-access/elementor-content-restrictions.md) — Gate Elementor Containers with Member Access conditions, no shortcode required.
-- [Gutenberg Content Restrictions](member-access/gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block.
-- [Session and Frontend Controls](member-access/session-and-frontend-controls.md) — Login Limit *(Pro)*, content-gating shortcodes, programmatic PHP gates, and pause-state behavior.
-- [Multi-Login Prevention](member-access/multi-login-prevention.md) *(Pro)* — Global concurrent-session limits and Login Limit rule overrides.
-- [Real-World Use Cases](member-access/use-cases.md) — 17 practical examples: course dripping, VIP discounts, wholesale stores, tiered roles, URL gating, streaming limits, and more.
+- [Member Access](member-access/README.md) — Overview of the real Member Access UI tabs, shared condition system, and section navigation.
+- [Role Mapping](member-access/role-mapping.md) — Automatically assign or remove WordPress roles from subscription conditions.
+- [Content Gate](member-access/content-gate.md) — Choose Elementor, Gutenberg, shortcode, or PHP gating for protected content.
+- [Discount](member-access/discount.md) — Member pricing rules for products, categories, and tags.
+- [Shop Access](member-access/ecommerce.md) — Product visibility, purchase blocking, login redirects, and 404 restrictions.
+- [URL](member-access/url.md) — Protect frontend paths and URL patterns with priority and exclusions.
+- [Post Types](member-access/post-types.md) — Gate posts, pages, and custom post types with archive behavior controls.
+- [Downloads](member-access/downloads.md) — Provision gated files through My Account -> Downloads.
+- [Conflicts](member-access/conflicts.md) — Review URL-rule overlaps with higher-priority per-post overrides.
+- [Login Limit](member-access/login-limit.md) *(Pro)* — Global concurrent-session limits and rule-based session overrides.
 
 ## Checkout and Payments
 

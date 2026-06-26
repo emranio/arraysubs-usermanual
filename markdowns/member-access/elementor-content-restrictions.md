@@ -169,7 +169,8 @@ Non-subscribers see the intro, the closing text, and the subscribe button, with 
 - [Content Gating Shortcodes](../shortcodes/content-gating.md) — the `[arraysubs_restrict]` / `[arraysubs_visibility]` shortcodes this feature is built on.
 - [Account Shortcodes](../shortcodes/account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`.
 - [Scheduled / Drip Access](scheduled-drip-access.md) — global restriction messages and defaults.
-- [Access Rules](access-rules.md) — full-page restrictions for URLs, post types, and roles.
+- [Content Gate](content-gate.md) — the main Member Access guide tab for choosing Elementor, Gutenberg, shortcode, or PHP gating.
+- [Post Types](post-types.md) — full-page restrictions when the entire post or page should be gated.
 
 ---
 

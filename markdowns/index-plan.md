@@ -170,7 +170,7 @@
 		- Post Type Rules (restrict by post type, taxonomy, or specific posts; per-post restrictions via post meta)
 	- Commerce and Benefit Rules
 		- Discount Rules (member-based discount conditions)
-		- Ecommerce Rules (purchase restrictions for members/non-members)
+		- Shop Access Rules (purchase restrictions for members/non-members)
 		- Download Rules (download rate limits and access control, download usage tracking)
 	- Content Restriction
 		- Scheduled/drip access (delayed content availability based on subscription age) 

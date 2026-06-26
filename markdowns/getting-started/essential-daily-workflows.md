@@ -151,7 +151,7 @@ The main ArraySubs admin interface is a single-page application (SPA) accessible
 | Role Mapping | **ArraySubs → Member Access** | Assign WordPress roles based on subscription plans |
 | Content Gate | **Member Access → Content Gate** | Step-by-step guides for Elementor, Gutenberg, shortcode, and PHP content gates |
 | Discount Rules | **Member Access → Discount Rules** | Member-based pricing discounts |
-| Ecommerce Rules | **Member Access → Ecommerce Rules** | Purchase restrictions for members / non-members |
+| Shop Access Rules | **Member Access → Shop Access Rules** | Purchase restrictions for members / non-members |
 | URL Rules | **Member Access → URL Rules** | Restrict specific URLs or URL patterns |
 | Post Types | **Member Access → Post Types** | Restrict by post type, taxonomy, or specific posts |
 | Downloads | **Member Access → Downloads** | Download access control and rate limiting |

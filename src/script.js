@@ -46,6 +46,42 @@
     });
   }
 
+  function initActiveNavScroll() {
+    const sidebarBody = document.querySelector(".docs-sidebar__body");
+
+    if (!sidebarBody) {
+      return;
+    }
+
+    const currentLink = sidebarBody.querySelector(
+      ".docs-nav__link.is-current, .docs-nav__section-link.is-current",
+    );
+
+    if (!currentLink) {
+      return;
+    }
+
+    const topSection =
+      currentLink.closest(".docs-nav__section--top") ||
+      currentLink.closest("[data-nav-section]");
+
+    if (!topSection) {
+      return;
+    }
+
+    const sectionHead =
+      topSection.querySelector(".docs-nav__section-head") || topSection;
+
+    window.requestAnimationFrame(function () {
+      const bodyRect = sidebarBody.getBoundingClientRect();
+      const sectionRect = sectionHead.getBoundingClientRect();
+      const targetScrollTop =
+        sidebarBody.scrollTop + sectionRect.top - bodyRect.top;
+
+      sidebarBody.scrollTop = Math.max(0, targetScrollTop);
+    });
+  }
+
   function initCopyButtons() {
     document.querySelectorAll(".docs-content pre").forEach(function (pre) {
       if (pre.querySelector(".docs-copy-button") || pre.classList.contains("mermaid")) {
@@ -400,6 +436,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     initSidebarToggle();
     initNavToggles();
+    initActiveNavScroll();
     initCopyButtons();
     initTocHighlight();
     initSmoothScroll();

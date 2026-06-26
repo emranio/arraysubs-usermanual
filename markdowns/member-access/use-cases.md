@@ -91,15 +91,15 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ## 3. Members-Only Wholesale Store
 
-![Ecommerce rule builder — target scope and restriction action](use-cases.ASSETS/03-ecommerce-rule-builder-annotated.png)
+![Shop Access rule builder — target scope and restriction action](use-cases.ASSETS/03-ecommerce-rule-builder-annotated.png)
 
 **Industry:** B2B / Wholesale  
-**Rule types:** Ecommerce Rules
+**Rule types:** Shop Access Rules
 
 **The problem:** Your entire product catalog should only be browsable and purchasable by subscribers with an active "Wholesale Membership" subscription. Non-members should see a pricing page.
 
 **The setup:**
-1. Go to **ArraySubs → Member Access → Ecommerce**.
+1. Go to **ArraySubs → Member Access → Shop Access**.
 2. Click **Add New Rule** and name it "Wholesale Members Only".
 3. **IF conditions:** Has Active Subscription to "Wholesale Membership".
 4. **TARGET:** Full store (all products).
@@ -202,12 +202,12 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 ## 7. Restricting WooCommerce Product Purchases for Non-Members
 
 **Industry:** Membership commerce  
-**Rule types:** Ecommerce Rules
+**Rule types:** Shop Access Rules
 
 **The problem:** You sell physical products alongside your membership subscription. Certain premium products should only be purchasable by active subscribers with at least $200 in lifetime spend.
 
 **The setup:**
-1. Go to **ArraySubs → Member Access → Ecommerce**.
+1. Go to **ArraySubs → Member Access → Shop Access**.
 2. Click **Add New Rule** and name it "Premium Products — Members Only".
 3. **IF conditions:** Has Active Subscription (any product) **AND** Lifetime Purchase Amount >= $200.
 4. **TARGET:** Specific categories → select "Premium Products" category.
@@ -361,7 +361,7 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 ## 13. Supplier-Only Product Catalog
 
 **Industry:** B2B marketplace  
-**Rule types:** Ecommerce Rules + Role Mapping
+**Rule types:** Shop Access Rules + Role Mapping
 
 **The problem:** Your store has a "Supplier Catalog" category that should only be visible to customers who (a) have an active "Supplier Partnership" subscription and (b) have been a member for 30 days.
 
@@ -372,8 +372,8 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 2. Go to **ArraySubs → Member Access → Role Mapping**.
 3. Create a rule: IF "Has Active Subscription to Supplier Partnership" → Add role `verified_supplier`. On Hold = Remove roles. Fallback = `customer`.
 
-**Step 2 — Ecommerce Rule:**
-1. Go to **ArraySubs → Member Access → Ecommerce**.
+**Step 2 — Shop Access Rule:**
+1. Go to **ArraySubs → Member Access → Shop Access**.
 2. Create a rule: IF "Has Active Subscription to Supplier Partnership". Schedule = 30 days.
 3. TARGET: Specific categories → "Supplier Catalog".
 4. THEN: Action = `Return 404 (product not found)`.
@@ -514,17 +514,17 @@ Monitor who's doing what across your organization...
 |---|----------|----------|-------------|
 | 1 | Online course drip content | Post Type + Schedule | Weekly content unlock |
 | 2 | VIP loyalty discount | Discount + Schedule | Time-delayed member pricing |
-| 3 | Members-only wholesale store | Ecommerce | Full catalog restriction |
+| 3 | Members-only wholesale store | Shop Access | Full catalog restriction |
 | 4 | Tiered role mapping for LMS | Role Mapping | Multi-tier role assignment |
 | 5 | Private community URL area | URL | Starts with matching + exclusions |
 | 6 | Magazine premium articles | Post Type | Category-based gating |
-| 7 | Purchase-restricted products | Ecommerce | Lifetime spend + subscription condition |
+| 7 | Purchase-restricted products | Shop Access | Lifetime spend + subscription condition |
 | 8 | Subscription file downloads | Downloads | Member-gated file library |
 | 9 | Drip-access training materials | Downloads + Schedule | Timed download unlock |
 | 10 | Per-cart flat discount | Discount | Cart-level fee discount |
 | 11 | Regular expression forum restriction | URL | Regular expression + login redirect |
 | 12 | Streaming session limits *(Pro)* | Login Limit | Per-tier concurrent sessions |
-| 13 | Supplier catalog with waiting period | Ecommerce + Role + Schedule | 30-day access delay |
+| 13 | Supplier catalog with waiting period | Shop Access + Role + Schedule | 30-day access delay |
 | 14 | Inline content gating on sales page | `[arraysubs_restrict]` | Partial page restriction |
 | 15 | Purchase-history page access | Post Type | Non-subscription purchase gating |
 | 16 | Multi-tier research reports | Post Type + Condition groups | OR conditions across tiers |
@@ -535,7 +535,12 @@ Monitor who's doing what across your organization...
 ## Related Guides
 
 - [Member Access Overview](README.md) — Introduction, condition types, and section navigation.
-- [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules configuration.
-- [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules configuration.
+- [Role Mapping](role-mapping.md) — Role assignment and WordPress-permission scenarios.
+- [Discount](discount.md) — Member pricing scenarios.
+- [Shop Access](ecommerce.md) — Storefront restriction scenarios.
+- [URL](url.md) — URL gating scenarios.
+- [Post Types](post-types.md) — Post and page restriction scenarios.
+- [Downloads](downloads.md) — Download provisioning scenarios.
 - [Scheduled / Drip Access](scheduled-drip-access.md) — Drip scheduling, messages, and per-post restrictions.
-- [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limits, shortcodes, and pause behavior.
+- [Login Limit](login-limit.md) — Concurrent-session scenarios and session-limit overrides.
+- [Session and Frontend Controls](session-and-frontend-controls.md) — Shortcodes, PHP gates, and pause behavior.

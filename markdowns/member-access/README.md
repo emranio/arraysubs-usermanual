@@ -1,9 +1,9 @@
 # Info
-- Module: Member Access and Restriction Rules
+- Module: Member Access and Restrictions
 - Availability: Shared (Login Limit requires Pro)
 - Last updated: 2026-06-27
 
-# Member Access and Restriction Rules
+# Member Access and Restrictions
 
 > Control who can see, download, and purchase content on your site — using flexible rules tied to subscription status, purchase history, roles, spending thresholds, and feature entitlements.
 
@@ -11,11 +11,11 @@
 
 ## Page Navigation
 
-- **Current guide:** Member Access and Restriction Rules
+- **Current guide:** Member Access and Restrictions
 - **Where to open it:** WordPress Admin -> ArraySubs -> Member Access
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [Scheduled / Drip Access](./scheduled-drip-access.md)
-- **Next guide:** [session-and-frontend-controls](./session-and-frontend-controls.md)
+- **Previous guide:** [Feature Manager Settings](../feature-manager/feature-manager-settings.md)
+- **Next guide:** [Role Mapping](./role-mapping.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -31,7 +31,7 @@ Everything is managed from one admin screen at **ArraySubs → Member Access**, 
 | **Role Mapping** | Automatically assign or remove WordPress roles when a subscription starts, pauses, or ends |
 | **Content Gate** | Step-by-step guides for Elementor, Gutenberg, shortcode, and PHP content gates |
 | **Discount** | Offer per-item or per-cart member pricing based on subscription conditions |
-| **Ecommerce** | Restrict product visibility and purchasing for non-qualifying users |
+| **Shop Access** | Restrict product visibility and purchasing for non-qualifying users |
 | **URL** | Block access to specific pages or URL patterns on your site |
 | **Post Types** | Gate posts, pages, and custom post types behind subscription conditions |
 | **Downloads** | Provision downloadable files to qualifying subscribers via My Account |
@@ -81,7 +81,7 @@ For example, a Post Type rule with a 30-day schedule means a new subscriber must
 ## Quick Start
 
 1. Go to **ArraySubs → Member Access**.
-2. Choose the tab for the rule type or guide you need (Role Mapping, Content Gate, Discount, Ecommerce, URL, Post Types, Downloads, or Login Limit).
+2. Choose the tab for the rule type or guide you need (Role Mapping, Content Gate, Discount, Shop Access, URL, Post Types, Downloads, or Login Limit).
 3. Click **Add New Rule**.
 4. Name your rule.
 5. Set the IF conditions (e.g., Has Active Subscription to "Gold Membership").
@@ -90,20 +90,19 @@ For example, a Post Type rule with a 30-day schedule means a new subscriber must
 8. Optionally enable a schedule for drip content.
 9. Click **Save**.
 
-## Section Guides
+## Tab Guides
 
-Each rule type has its own guide with detailed configuration steps, settings reference, and examples:
+These pages mirror the actual tabs in the plugin UI:
 
-- [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
-- [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount Rules, Ecommerce Rules, and Download Rules.
-- [Scheduled / Drip Access](scheduled-drip-access.md) — Scheduled/drip access, content gating messages, per-post restrictions, default redirect URL, default messages, and cache compatibility.
-- [Elementor Content Restrictions](elementor-content-restrictions.md) — Gate Elementor Containers from the builder with the same restriction engine used by shortcodes.
-- [Gutenberg Content Restrictions](gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block.
-- [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limit rules *(Pro)*, `[arraysubs_restrict]`, `[arraysubs_visibility]`, programmatic PHP gates, and access behavior during pause states.
-- [Multi-Login Prevention](multi-login-prevention.md) — Configure the global concurrent-session limit and targeted Login Limit rule overrides *(Pro)*.
-- [Use Cases](use-cases.md) — 17 real-world examples of Member Access rules in action.
-
----
+- [Role Mapping](role-mapping.md) — Automatically assign or remove WordPress roles from subscription conditions.
+- [Content Gate](content-gate.md) — Choose the right gating surface for Elementor, Gutenberg, shortcodes, and PHP.
+- [Discount](discount.md) — Configure subscriber-only product pricing and discount behavior.
+- [Shop Access](ecommerce.md) — Restrict product visibility, direct access, and purchasing.
+- [URL](url.md) — Protect page paths and URL patterns with priority-based rules.
+- [Post Types](post-types.md) — Gate posts, pages, and custom post types with archive behavior controls.
+- [Downloads](downloads.md) — Provision gated files to qualifying customers through My Account.
+- [Conflicts](conflicts.md) — Review URL-rule overlaps with higher-priority per-post overrides.
+- [Login Limit](login-limit.md) *(Pro)* — Set global session caps and rule-based session overrides.
 
 ## Related Guides
 
@@ -126,7 +125,7 @@ Yes. Every rule supports multiple conditions with AND or OR logic and nested con
 Rules are evaluated in order. For most rule types, the first matching rule wins. For discounts, the best (lowest) price wins. For Login Limit rules, the highest session limit wins. See [Access-Rule Conflicts](../audits-and-logs/access-rule-conflicts.md) for detailed resolution guidance.
 
 ### Does Member Access work with WooCommerce Block Checkout / Store API?
-Yes. Ecommerce restriction rules are fully compatible with the WooCommerce Store API, including add-to-cart validation, quantity restrictions, and cart item validation for block-based checkout flows.
+Yes. Shop Access restriction rules are fully compatible with the WooCommerce Store API, including add-to-cart validation, quantity restrictions, and cart item validation for block-based checkout flows.
 
 ### When I deactivate the Pro plugin, what happens to Login Limit rules?
-Login Limit rules stop being enforced. The rules remain saved in your settings, so reactivating Pro restores them. All other rule types (Role Mapping, Discount, Ecommerce, URL, Post Types, Downloads) continue working because they are part of the core plugin.
+Login Limit rules stop being enforced. The rules remain saved in your settings, so reactivating Pro restores them. All other rule types (Role Mapping, Discount, Shop Access, URL, Post Types, Downloads) continue working because they are part of the core plugin.

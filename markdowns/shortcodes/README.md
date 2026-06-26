@@ -83,9 +83,8 @@ Each shortcode category has its own guide:
 ## Related Guides
 
 - [Member Access and Restriction Rules](../member-access/README.md) — Rule-based restrictions for entire pages, URLs, post types, and commerce behavior
-- [Scheduled / Drip Access](../member-access/scheduled-drip-access.md) — Global restriction messages, redirect URLs, and drip content
-- [Elementor Content Restrictions](../member-access/elementor-content-restrictions.md) — Gate Elementor Containers from the builder, no shortcode required
-- [Gutenberg Content Restrictions](../member-access/gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block
+- [Content Gate](../member-access/content-gate.md) — Choose the right Member Access gating surface for Elementor, Gutenberg, shortcodes, and PHP.
+- [Post Types](../member-access/post-types.md) — Full-page restrictions for posts, pages, and custom post types
 - [Store Credit — Purchase Product](../store-credit/purchase-product.md) — Configuring store credit products for `[arraysubs_buy_credits]`
 - [Profile Builder](../profile-builder/README.md) — Custom profile fields and My Account customization
 - [Customer Portal](../customer-portal/README.md) — What customers see in their account area
@@ -98,10 +97,10 @@ Each shortcode category has its own guide:
 Yes. Use the **Shortcode** block in the Gutenberg editor, paste the shortcode, and it renders on the frontend. Shortcodes also work in Classic Editor, text widgets, and most page builders.
 
 ### Do I have to type shortcodes in Elementor?
-No. ArraySubs adds an **ArraySubs Content Restrictions** section to the Elementor Container's Advanced tab, so you can gate a section by subscription, role, purchase, or feature without typing a shortcode. See [Elementor Content Restrictions](../member-access/elementor-content-restrictions.md).
+No. ArraySubs adds an **ArraySubs Content Restrictions** section to the Elementor Container's Advanced tab, so you can gate a section by subscription, role, purchase, or feature without typing a shortcode. See [Content Gate](../member-access/content-gate.md).
 
 ### Do I have to type shortcodes in Gutenberg?
-No. Use the **Restricted Content** block when you want to gate nested blocks from the block sidebar. See [Gutenberg Content Restrictions](../member-access/gutenberg-content-restrictions.md).
+No. Use the **Restricted Content** block when you want to gate nested blocks from the block sidebar. See [Content Gate](../member-access/content-gate.md).
 
 ### Is restricted content visible in the page source?
 No. When a visitor does not meet the conditions, the server omits the content entirely. It is not hidden with CSS — it is never rendered.
