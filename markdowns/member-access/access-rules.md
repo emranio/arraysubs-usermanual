@@ -171,7 +171,7 @@ Post Type Rules restrict access to WordPress posts, pages, and custom post types
 
 ### How It Works
 
-When a visitor loads a single post or browses an archive, the Content Gating system checks all enabled Post Type rules. It also checks per-post restriction meta (see [Content Restriction — Per-Post Restrictions](content-restriction.md#per-post-restrictions)). If a rule matches the content and the visitor does not meet the conditions, access is denied.
+When a visitor loads a single post or browses an archive, the Content Gating system checks all enabled Post Type rules. It also checks per-post restriction meta (see [Scheduled / Drip Access — Per-Post Restrictions](scheduled-drip-access.md#per-post-restrictions)). If a rule matches the content and the visitor does not meet the conditions, access is denied.
 
 The system supports three targeting modes:
 
@@ -236,12 +236,12 @@ The system supports three targeting modes:
 
 Post Type rules work alongside per-post restrictions (set directly on individual posts via their meta fields `_arraysubs_restrict_enabled`, `_arraysubs_restrict_conditions`, `_arraysubs_restrict_message`). Per-post restrictions have **higher priority** than general Post Type rules — if a post has its own restriction enabled, that takes precedence regardless of any matching Post Type rule.
 
-See [Content Restriction](content-restriction.md) for details on per-post restrictions and global default messages.
+See [Scheduled / Drip Access](scheduled-drip-access.md) for details on per-post restrictions and global default messages.
 
 ### Edge Cases
 
 - **Multiple rules matching the same post** — All matching rules are checked. The post is accessible only if the visitor passes at least one matching rule's conditions.
-- **Cached pages** — If you use a page caching plugin, enable the **Cache Compatibility** setting in Member Access to prevent restricted content from being served from cache to non-qualifying visitors. See [Content Restriction](content-restriction.md#cache-compatibility).
+- **Cached pages** — If you use a page caching plugin, enable the **Cache Compatibility** setting in Member Access to prevent restricted content from being served from cache to non-qualifying visitors. See [Scheduled / Drip Access](scheduled-drip-access.md#cache-compatibility).
 - **REST API** — Post Type rules affect frontend rendering only. Posts remain accessible through the WordPress REST API for authorized users.
 - **Archives with all posts hidden** — If every post in an archive is restricted with `Hide` behavior, the archive page will appear empty. Consider using a `Show normally` or `Show with lock` behavior for at least some content to avoid confusion.
 
@@ -261,7 +261,7 @@ See [Content Restriction](content-restriction.md) for details on per-post restri
 
 ## Related Guides
 
-- [Content Restriction](content-restriction.md) — Per-post restrictions, default messages, redirect URL, and cache compatibility.
+- [Scheduled / Drip Access](scheduled-drip-access.md) — Per-post restrictions, default messages, redirect URL, and cache compatibility.
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, ecommerce, and download rules.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses affect role mapping.
 - [Toolkit Settings](../settings/toolkit-settings.md) — Admin bar visibility, wp-admin restriction, and login page hiding.

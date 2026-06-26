@@ -1,7 +1,7 @@
 # Info
 - Module: Content Gating Shortcodes
 - Availability: Free (Feature Manager conditions require Pro)
-- Last updated: 2026-04-04
+- Last updated: 2026-06-27
 
 # Content Gating Shortcodes
 
@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [account-shortcodes](./account-shortcodes.md)
-- **Next guide:** [elementor-content-restrictions](./elementor-content-restrictions.md)
+- **Next guide:** [store-credit-shortcode](./store-credit-shortcode.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -436,10 +436,11 @@ Show a section to anyone who is either an active subscriber OR has purchased a s
 ## Related Guides
 
 - [Account Shortcodes](account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
-- [Elementor Content Restrictions](elementor-content-restrictions.md) — the same gating from the Elementor builder, no shortcode required
 - [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]` *(Pro)*
+- [Elementor Content Restrictions](../member-access/elementor-content-restrictions.md) — the same gating from the Elementor builder, no shortcode required
+- [Gutenberg Content Restrictions](../member-access/gutenberg-content-restrictions.md) — block-editor content gating with no shortcode required
 - [Member Access — Access Rules](../member-access/access-rules.md) — Rule-based restrictions for URLs, post types, and roles
-- [Member Access — Content Restriction](../member-access/content-restriction.md) — Global restriction messages, redirect URLs, and drip content
+- [Member Access — Scheduled / Drip Access](../member-access/scheduled-drip-access.md) — Global restriction messages, redirect URLs, and drip content
 - [Session and Frontend Controls](../member-access/session-and-frontend-controls.md) — Login limits and restriction shortcode usage in Member Access context
 
 ---

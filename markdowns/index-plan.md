@@ -15,7 +15,7 @@
 
 > Based on a thorough codebase review of both `arraysubs` (27 feature modules, including four free Toolkit modules) and `arraysubspro` (13 feature modules, including Multi-Login Prevention).
 >
-> Rule applied to this hub plan: only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Toolkit Settings remains the shared control surface, but **Admin Bar Visibility**, **Admin Dashboard Access**, **WordPress Login Page**, **Login as User**, and **Multi-Login Prevention** are dedicated modules with standalone manual pages.
+> Rule applied to this hub plan: only **General Settings** and **Toolkit Settings** stay under a shared **Settings** topic. Toolkit Settings remains the shared control surface for **Admin Bar Visibility**, **Admin Dashboard Access**, **WordPress Login Page**, and **Login as User**. **Multi-Login Prevention** is documented under **Member Access and Restriction Rules** because its controls live on **Member Access -> Login Limit**.
 
 ## Proposed Hub Structure
 

@@ -338,8 +338,8 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 **The problem:** You offer a video streaming subscription with three tiers. Basic subscribers should be limited to 1 screen (session) at a time, Standard to 3 screens, and Premium to 5 screens.
 
 **The setup:**
-1. Enable **Multi-Login Prevention** at **ArraySubs → Settings → Toolkit**.
-2. Go to **ArraySubs → Member Access → Login Limit**.
+1. Go to **ArraySubs → Member Access → Login Limit**.
+2. Enable **Multi-Login Prevention** and set the default max sessions.
 3. Create three rules:
 
 | Rule | IF Condition | Max Allowed Sessions |
@@ -537,5 +537,5 @@ Monitor who's doing what across your organization...
 - [Member Access Overview](README.md) — Introduction, condition types, and section navigation.
 - [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules configuration.
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules configuration.
-- [Content Restriction](content-restriction.md) — Drip scheduling, messages, and per-post restrictions.
+- [Scheduled / Drip Access](scheduled-drip-access.md) — Drip scheduling, messages, and per-post restrictions.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limits, shortcodes, and pause behavior.

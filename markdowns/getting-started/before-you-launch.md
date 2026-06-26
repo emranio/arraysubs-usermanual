@@ -284,7 +284,7 @@ The manual tracks **27 dedicated product modules**. Documentation-only sections 
 
 | Module | What It Adds |
 |---|---|
-| [Multi-Login Prevention](../multi-login-prevention/README.md) | Concurrent session limits and plan-level session overrides |
+| [Multi-Login Prevention](../member-access/multi-login-prevention.md) | Concurrent session limits and plan-level session overrides |
 | [Redirect Product Page](../redirect-product-page/README.md) | Product URL redirects or 404 handling |
 | [Subscription Shipping](../subscription-shipping/README.md) | One-time or recurring shipping charges for physical subscriptions |
 | [Member Insight](../member-insight/README.md) | Unified member profile, commerce history, shortcuts, and support actions |

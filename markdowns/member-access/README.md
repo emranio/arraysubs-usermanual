@@ -1,7 +1,7 @@
 # Info
 - Module: Member Access and Restriction Rules
 - Availability: Shared (Login Limit requires Pro)
-- Last updated: 2026-04-02
+- Last updated: 2026-06-27
 
 # Member Access and Restriction Rules
 
@@ -14,7 +14,7 @@
 - **Current guide:** Member Access and Restriction Rules
 - **Where to open it:** WordPress Admin -> ArraySubs -> Member Access
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [content-restriction](./content-restriction.md)
+- **Previous guide:** [Scheduled / Drip Access](./scheduled-drip-access.md)
 - **Next guide:** [session-and-frontend-controls](./session-and-frontend-controls.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
@@ -24,11 +24,12 @@
 
 Member Access is the rule engine behind content gating, product restrictions, member discounts, download provisioning, automatic role assignment, and session controls in ArraySubs. Instead of locking content behind a single "members only" toggle, you build layered rules with conditions, targets, actions, and optional scheduling — giving you precise control over what each subscriber group can access, purchase, and download.
 
-Everything is managed from one admin screen at **ArraySubs → Member Access**, organized into eight tabs:
+Everything is managed from one admin screen at **ArraySubs → Member Access**, organized into these tabs:
 
 | Tab | What It Controls |
 |-----|-----------------|
 | **Role Mapping** | Automatically assign or remove WordPress roles when a subscription starts, pauses, or ends |
+| **Content Gate** | Step-by-step guides for Elementor, Gutenberg, shortcode, and PHP content gates |
 | **Discount** | Offer per-item or per-cart member pricing based on subscription conditions |
 | **Ecommerce** | Restrict product visibility and purchasing for non-qualifying users |
 | **URL** | Block access to specific pages or URL patterns on your site |
@@ -80,7 +81,7 @@ For example, a Post Type rule with a 30-day schedule means a new subscriber must
 ## Quick Start
 
 1. Go to **ArraySubs → Member Access**.
-2. Choose the tab for the rule type you need (Role Mapping, Discount, Ecommerce, URL, Post Types, Downloads, or Login Limit).
+2. Choose the tab for the rule type or guide you need (Role Mapping, Content Gate, Discount, Ecommerce, URL, Post Types, Downloads, or Login Limit).
 3. Click **Add New Rule**.
 4. Name your rule.
 5. Set the IF conditions (e.g., Has Active Subscription to "Gold Membership").
@@ -95,15 +96,17 @@ Each rule type has its own guide with detailed configuration steps, settings ref
 
 - [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount Rules, Ecommerce Rules, and Download Rules.
-- [Content Restriction](content-restriction.md) — Scheduled/drip access, content gating messages, per-post restrictions, default redirect URL, default messages, and cache compatibility.
-- [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limit rules *(Pro)*, the `[arraysubs_restrict]` shortcode, the `[arraysubs_visibility]` shortcode, and access behavior during pause states.
+- [Scheduled / Drip Access](scheduled-drip-access.md) — Scheduled/drip access, content gating messages, per-post restrictions, default redirect URL, default messages, and cache compatibility.
+- [Elementor Content Restrictions](elementor-content-restrictions.md) — Gate Elementor Containers from the builder with the same restriction engine used by shortcodes.
+- [Gutenberg Content Restrictions](gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block.
+- [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limit rules *(Pro)*, `[arraysubs_restrict]`, `[arraysubs_visibility]`, programmatic PHP gates, and access behavior during pause states.
+- [Multi-Login Prevention](multi-login-prevention.md) — Configure the global concurrent-session limit and targeted Login Limit rule overrides *(Pro)*.
 - [Use Cases](use-cases.md) — 17 real-world examples of Member Access rules in action.
 
 ---
 
 ## Related Guides
 
-- [Toolkit Settings — Multi-Login Prevention](../settings/toolkit-settings.md) — The global session-limit toggle and default max sessions, required before Login Limit rules take effect.
 - [Shortcodes](../shortcodes/README.md) — Full shortcode reference including `[arraysubs_restrict]` and `[arraysubs_visibility]`.
 - [Access-Rule Conflicts (Troubleshooting)](../audits-and-logs/access-rule-conflicts.md) — Diagnose overlapping or conflicting Member Access rules.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses (active, on-hold, cancelled, expired, trial) interact with access rules.

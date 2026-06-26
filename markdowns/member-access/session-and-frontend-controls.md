@@ -1,7 +1,7 @@
 # Info
 - Module: Session and Frontend Controls
 - Availability: Shared (Login Limit requires Pro)
-- Last updated: 2026-04-02
+- Last updated: 2026-06-27
 
 # Session and Frontend Controls
 
@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/members-access/login-limit`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
-- **Next guide:** [use-cases](./use-cases.md)
+- **Next guide:** [multi-login-prevention](./multi-login-prevention.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -37,7 +37,7 @@ Session and Frontend Controls cover the parts of Member Access that go beyond se
 **Tab:** ArraySubs → Member Access → **Login Limit**
 
 ```box class="info-box"
-This tab only appears when the **ArraySubs Pro** plugin is active **and** the **Multi-Login Prevention** toolkit setting is enabled at **ArraySubs → Settings → Toolkit**.
+This tab appears when the **ArraySubs Pro** plugin is active and the Multi-Login Prevention module is available. The same page contains the global **Enable Multi-Login Prevention** switch, default session limit, administrator toggle, and Login Limit rule builder.
 ```
 
 Login Limit rules let you control how many concurrent browser sessions a subscriber can maintain at the same time. Different subscriber tiers can have different limits — for example, a Basic plan might allow 1 session while an Enterprise plan allows 5.
@@ -47,7 +47,7 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 1. When a subscriber logs in, the Multi-Login Prevention system evaluates all enabled Login Limit rules.
 2. For each rule where the subscriber meets the IF conditions, the `Max Allowed Sessions` value is extracted.
 3. If multiple rules match, the **highest** `Max Allowed Sessions` value wins (most permissive).
-4. If no rules match, the system falls back to the **global default** set in Toolkit Settings.
+4. If no rules match, the system falls back to the **Default max sessions per user** value set at the top of the Login Limit tab.
 5. If the subscriber's active session count exceeds the limit, the **oldest sessions are destroyed** automatically. The newest login always survives.
 6. Evicted sessions are detected via the WordPress heartbeat API, and the evicted browser tabs are redirected to the login page.
 
@@ -55,38 +55,40 @@ Login Limit rules let you control how many concurrent browser sessions a subscri
 
 ![Login Limit rule builder — condition and session limit fields](session-and-frontend-controls.ASSETS/02-login-limit-rule-builder-annotated.png)
 
-1. Ensure **Multi-Login Prevention** is enabled at **ArraySubs → Settings → Toolkit**.
-2. Go to **ArraySubs → Member Access → Login Limit**.
-3. Click **Add New Rule**.
-4. Set the **IF conditions** — for example, "Has Active Subscription" to your Basic plan product.
-5. Set the **THEN** field:
+1. Go to **ArraySubs → Member Access → Login Limit**.
+2. Turn on **Enable Multi-Login Prevention** at the top of the page.
+3. Set **Default max sessions per user**.
+4. Click **Add New Rule**.
+5. Set the **IF conditions** — for example, "Has Active Subscription" to your Basic plan product.
+6. Set the **THEN** field:
 
 | Field | What It Does |
 |-------|-------------|
 | **Max Allowed Sessions** | Maximum number of concurrent login sessions for subscribers matching this rule. Minimum value is 1. |
 
-6. Click **Save Rules**.
+7. Click **Save Login Limits**.
 
 ### Settings Reference
 
 | Setting | Values | Default | Effect |
 |---------|--------|---------|--------|
+| **Enable Multi-Login Prevention** | On / Off | Off | Turns concurrent-session enforcement on or off. |
+| **Default max sessions per user** | Number (minimum 1) | `1` | Fallback maximum for users who do not match a Login Limit rule. |
+| **Apply to administrators** | On / Off | Off | Includes administrator accounts in session enforcement. |
 | **Max Allowed Sessions** | Number (minimum 1) | `1` | Maximum concurrent sessions. When exceeded, oldest sessions are logged out. |
 
 ### Session Resolution Logic
 
 | Scenario | Effective Limit |
 |----------|----------------|
-| No Login Limit rules match the subscriber | Global default from Toolkit Settings (`multi_login_max_sessions`) |
+| No Login Limit rules match the subscriber | **Default max sessions per user** from the top of the Login Limit tab |
 | One rule matches | That rule's `Max Allowed Sessions` value |
 | Multiple rules match | The **highest** `Max Allowed Sessions` value from any matching rule |
 | Rule has `Max Allowed Sessions = 3`, global default is `1` | `3` (rule overrides global default) |
 
 ### Admin Exemption
 
-![Toolkit — Multi-Login Prevention settings](session-and-frontend-controls.ASSETS/03-toolkit-multi-login-prevention-annotated.png)
-
-By default, administrators (`manage_options` capability) are exempt from session limits. To include admins, enable the **Apply to administrators** toggle in **ArraySubs → Settings → Toolkit → Multi-Login Prevention**.
+By default, administrators (`manage_options` capability) are exempt from session limits. To include admins, enable **Apply to administrators** at the top of **ArraySubs -> Member Access -> Login Limit**.
 
 ### Impersonation Sessions
 
@@ -270,6 +272,79 @@ For the full shortcode reference (including `[arraysubs_login]`, `[arraysubs_log
 
 ---
 
+## Programmatic PHP Content Gates
+
+Developers can use the same Member Access engine directly in PHP templates, custom plugin views, or theme partials. Use this when the protected content is generated by PHP instead of the block editor, Elementor, or shortcode-enabled content.
+
+### Option 1: Use the Shortcode Contract in PHP
+
+This is the simplest option when your access rule can be expressed with `[arraysubs_restrict]` attributes.
+
+```php
+<?php
+$premium_html = '<section class="premium-resource">Premium resource content.</section>';
+
+echo do_shortcode(
+    '[arraysubs_restrict status="active,trial" message="Please subscribe to view this resource."]' .
+    wp_kses_post($premium_html) .
+    '[/arraysubs_restrict]'
+);
+```
+
+Use this approach when you want PHP-rendered content to behave exactly like editor content wrapped in `[arraysubs_restrict]`.
+
+### Option 2: Check a Custom Condition Array
+
+Use `arraysubs_user_meets_conditions()` when your template needs to decide before rendering protected markup.
+
+```php
+<?php
+if (!function_exists('arraysubs_user_meets_conditions')) {
+    return;
+}
+
+$conditions = [
+    'logic' => 'and',
+    'rules' => [
+        [
+            'type' => 'subscription_status',
+            'statuses' => ['active', 'trial'],
+        ],
+        [
+            'type' => 'has_active_subscription',
+            'product_ids' => [123],
+        ],
+    ],
+];
+
+if (is_user_logged_in() && arraysubs_user_meets_conditions(get_current_user_id(), $conditions)) {
+    echo '<section class="premium-resource">Premium resource content.</section>';
+} else {
+    echo '<div class="arraysubs-restricted-content"><p>' .
+        esc_html__('This content is restricted. Please subscribe to access.', 'arraysubs') .
+        '</p></div>';
+}
+```
+
+### Option 3: Check the Current Post's Member Access Rules
+
+Use this when a post already has Member Access post rules and your template needs to respect them before outputting content.
+
+```php
+<?php
+if (function_exists('arraysubs_current_user_can_access') && arraysubs_current_user_can_access(get_the_ID())) {
+    the_content();
+} elseif (function_exists('arraysubs_get_restricted_message')) {
+    echo wp_kses_post(arraysubs_get_restricted_message(get_the_ID()));
+}
+```
+
+```box class="warning-box"
+Never output protected HTML before checking access. Server-side gates should decide first, then render either the protected content or the denied message.
+```
+
+---
+
 ## Access Behavior During Pause States
 
 Understanding how paused and on-hold subscriptions interact with Member Access rules is important for setting correct expectations for both merchants and customers.
@@ -315,7 +390,8 @@ If your business model allows customers to pause their subscription while retain
 
 | Problem | Likely Cause | What to Do |
 |---------|-------------|------------|
-| Login Limit tab does not appear | Pro plugin not active, or Multi-Login Prevention not enabled in Toolkit | Install/activate Pro, then enable the setting at **ArraySubs → Settings → Toolkit** |
+| Login Limit tab does not appear | Pro plugin not active, or the Multi-Login Prevention module is unavailable | Install and activate ArraySubs Pro |
+| Session limits are not enforced | **Enable Multi-Login Prevention** is off | Open **Member Access -> Login Limit**, turn it on, and click **Save Login Limits** |
 | Oldest session is not immediately logged out | Heartbeat delay | Sessions are evicted on the next heartbeat tick (15–120 seconds). The brief overlap is expected |
 | `[arraysubs_restrict]` shows nothing to anyone | Shortcode attributes don't match any user | Check that status values, product IDs, or roles are correct and that at least some users qualify |
 | Paused subscriber still has access | Rule conditions include `paused` as a qualifying status, or Role Mapping on-hold behavior is `Keep roles` | Review the rule conditions. If paused access is not intended, ensure conditions only include `active` and `trial` |
@@ -327,8 +403,10 @@ If your business model allows customers to pause their subscription while retain
 
 - [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules.
-- [Content Restriction](content-restriction.md) — Global restriction settings, messages, and per-post meta.
-- [Toolkit Settings](../settings/toolkit-settings.md) — Multi-Login Prevention global toggle, default session limit, and admin inclusion.
+- [Scheduled / Drip Access](scheduled-drip-access.md) — Global restriction settings, messages, and per-post meta.
+- [Elementor Content Restrictions](elementor-content-restrictions.md) — Gate Elementor Containers with no shortcode required.
+- [Gutenberg Content Restrictions](gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block.
+- [Multi-Login Prevention](multi-login-prevention.md) — Dedicated setup guide for global session limits and Login Limit rule overrides.
 - [Shortcodes](../shortcodes/README.md) — Full reference for all shortcodes including login, logout, user, and buy-credits.
 - [Use Cases](use-cases.md) — Session control and shortcode examples.
 
@@ -346,7 +424,7 @@ Yes — that is the primary purpose of Login Limit rules. Create one rule per pl
 No. The shortcode evaluates conditions in real-time. For scheduled access (content dripping), use Post Type Rules with a schedule configured in the admin UI. You can combine both: use Post Type Rules for drip timing and the shortcode for partial-page gating within the dripped content.
 
 ### What happens if a paused subscriber's sessions are counted by Login Limit?
-Login Limit rules use the same condition engine as all other rule types. If the subscriber's paused subscription no longer matches any Login Limit rule conditions, they fall back to the global default session limit rather than the rule-specific limit.
+Login Limit rules use the same condition engine as all other rule types. If the subscriber's paused subscription no longer matches any Login Limit rule conditions, they fall back to the global default session limit set at the top of the Login Limit tab rather than the rule-specific limit.
 
 ### Does `[arraysubs_visibility]` check subscription status?
 No. The `[arraysubs_visibility]` shortcode only checks whether the visitor is logged in or logged out. For subscription-based gating, use `[arraysubs_restrict]` instead.

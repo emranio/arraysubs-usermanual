@@ -1,7 +1,7 @@
 # Info
 - Module: Login as User
 - Availability: Free
-- Last updated: 2026-06-07
+- Last updated: 2026-06-27
 
 # Login as User
 
@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/toolkit`
 - **Section overview:** [Manual Home](../README.md)
 - **Previous guide:** [WordPress Login Page](../wordpress-login-page/README.md)
-- **Next guide:** [Multi-Login Prevention](../multi-login-prevention/README.md)
+- **Next guide:** [Multi-Login Prevention](../member-access/multi-login-prevention.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## What This Tool Does

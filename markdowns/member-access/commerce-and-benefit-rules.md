@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/members-access/discount-rules`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [access-rules](./access-rules.md)
-- **Next guide:** [content-restriction](./content-restriction.md)
+- **Next guide:** [Scheduled / Drip Access](./scheduled-drip-access.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -274,7 +274,7 @@ For rules that have download limits configured in the backend, the system tracks
 |---------|-------------|------------|
 | Member discount is not showing on product page | Subscriber is not logged in, or conditions don't match | Verify the customer is logged in and has an active subscription matching the rule conditions |
 | Two discounts seem to apply to the same product | Both per-item and per-cart rules match | This is by design. Per-cart discounts offset per-item savings to prevent double-discounting. Check the cart fee line for the net cart discount |
-| Product is still visible despite 404 ecommerce rule | Page cache is serving a stale version | Clear your page cache. Enable **Cache Compatibility** in Member Access settings. See [Content Restriction — Cache Compatibility](content-restriction.md#cache-compatibility) |
+| Product is still visible despite 404 ecommerce rule | Page cache is serving a stale version | Clear your page cache. Enable **Cache Compatibility** in Member Access settings. See [Scheduled / Drip Access — Cache Compatibility](scheduled-drip-access.md#cache-compatibility) |
 | Customer cannot see their subscription downloads | Conditions or schedule not met | Verify the subscription status is active, the rule conditions match, and any schedule delay has elapsed since the subscription start date |
 | Download link returns an error | Nonce expired or conditions changed | Have the customer refresh the Downloads page to get a fresh download link |
 | Ecommerce rule blocks admin from viewing product | Admin does not meet the rule conditions | Core ecommerce restrictions apply to all frontend visitors. Admin users can still see the product in wp-admin |
@@ -284,7 +284,7 @@ For rules that have download limits configured in the backend, the system tracks
 ## Related Guides
 
 - [Access Rules](access-rules.md) — Role Mapping, URL Rules, and Post Type Rules.
-- [Content Restriction](content-restriction.md) — Content gating messages, per-post restrictions, and cache compatibility.
+- [Scheduled / Drip Access](scheduled-drip-access.md) — Content gating messages, per-post restrictions, and cache compatibility.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Login Limit rules and content restriction shortcodes.
 - [Coupon Integration](../coupons/README.md) — How coupons interact with member discounts.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — Where customers access their downloads.

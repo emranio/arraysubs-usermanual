@@ -1,9 +1,9 @@
 # Info
-- Module: Content Restriction
+- Module: Scheduled / Drip Access
 - Availability: Free
 - Last updated: 2026-04-02
 
-# Content Restriction
+# Scheduled / Drip Access
 
 > Configure how restricted content is blocked, what messages visitors see, how per-post restrictions work, and how to handle page caching for gated content.
 
@@ -11,7 +11,7 @@
 
 ## Page Navigation
 
-- **Current guide:** Content Restriction
+- **Current guide:** Scheduled / Drip Access
 - **Where to open it:** WordPress Admin -> ArraySubs -> Member Access
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [commerce-and-benefit-rules](./commerce-and-benefit-rules.md)
@@ -20,7 +20,7 @@
 
 ## Overview
 
-Content Restriction covers the presentation and behavior layer of Member Access — the part visitors actually see when they hit a wall. While the rule types (Post Type Rules, URL Rules, etc.) define *who* can access *what*, this guide covers:
+This guide covers the presentation and behavior layer of Member Access — the part visitors actually see when they hit a wall. While the rule types (Post Type Rules, URL Rules, etc.) define *who* can access *what*, this guide covers:
 
 - **Scheduled/drip access** — How delayed content unlocking works across all rule types.
 - **Content gating messages** — What non-qualifying visitors see and how to customize it.
@@ -30,9 +30,9 @@ Content Restriction covers the presentation and behavior layer of Member Access 
 
 ---
 
-## Scheduled / Drip Access
+## How Scheduled / Drip Access Works
 
-![URL rule — Schedule panel with drip delay controls](content-restriction.ASSETS/01-scheduled-url-rule-builder-annotated.png)
+![URL rule — Schedule panel with drip delay controls](scheduled-drip-access.ASSETS/01-scheduled-url-rule-builder-annotated.png)
 
 Any Member Access rule that includes a **Schedule** section delays its effect until a configurable period after the subscriber's subscription starts. This is how you implement content dripping — gradually unlocking content as the subscriber's membership ages.
 
@@ -164,7 +164,7 @@ This means a per-post restriction can be more restrictive or less restrictive th
 
 ## Default Settings
 
-![Require Login redirect — visitor landing on wp-login.php](content-restriction.ASSETS/02-require-login-redirect-annotated.png)
+![Require Login redirect — visitor landing on wp-login.php](scheduled-drip-access.ASSETS/02-require-login-redirect-annotated.png)
 
 The following global settings are configured via the **ArraySubs → Member Access** settings endpoint and affect all restriction rule types:
 
@@ -223,7 +223,8 @@ If you turn off Cache Compatibility while running a page caching plugin, cached 
 - [Commerce and Benefit Rules](commerce-and-benefit-rules.md) — Discount, Ecommerce, and Download Rules.
 - [Session and Frontend Controls](session-and-frontend-controls.md) — Restriction shortcodes for inline content gating.
 - [Shortcodes](../shortcodes/README.md) — Full shortcode attribute reference.
-- [Elementor Content Restrictions](../shortcodes/elementor-content-restrictions.md) — Gate Elementor Containers from the builder, no shortcode required.
+- [Elementor Content Restrictions](elementor-content-restrictions.md) — Gate Elementor Containers from the builder, no shortcode required.
+- [Gutenberg Content Restrictions](gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block.
 - [Access-Rule Conflicts (Troubleshooting)](../audits-and-logs/access-rule-conflicts.md) — Resolve overlapping restriction issues.
 - [Use Cases](use-cases.md) — Content dripping and gating examples.
 
@@ -235,7 +236,10 @@ If you turn off Cache Compatibility while running a page caching plugin, cached 
 Post Type Rules with `Show normally (restrict content only)` archive behavior show the post in listings, but gate the actual content. Visitors see the title and excerpt in archives but must subscribe to read the full content. For more control over the teaser experience, use the `[arraysubs_restrict]` shortcode to wrap only the premium portion of a post — see [Session and Frontend Controls](session-and-frontend-controls.md).
 
 ### Can I gate content in Elementor without shortcodes?
-Yes. ArraySubs adds an **ArraySubs Content Restrictions** section to the Elementor Container's Advanced tab, so you can gate a section by subscription, role, purchase, or feature from the builder. It uses the same engine as `[arraysubs_restrict]` — see [Elementor Content Restrictions](../shortcodes/elementor-content-restrictions.md).
+Yes. ArraySubs adds an **ArraySubs Content Restrictions** section to the Elementor Container's Advanced tab, so you can gate a section by subscription, role, purchase, or feature from the builder. It uses the same engine as `[arraysubs_restrict]` — see [Elementor Content Restrictions](elementor-content-restrictions.md).
+
+### Can I gate Gutenberg blocks without shortcodes?
+Yes. Add the **Restricted Content** block, place protected blocks inside it, and configure access rules in the block sidebar. See [Gutenberg Content Restrictions](gutenberg-content-restrictions.md).
 
 ### Does the schedule work with paused subscriptions?
 Paused subscriptions are not `active` or `trial`, so they do not qualify for schedule evaluation. The timer effectively pauses when the subscription is paused and resumes when it becomes active again — because the check compares the current time to the subscription start date, not a running clock.

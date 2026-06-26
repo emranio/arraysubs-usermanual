@@ -1,7 +1,7 @@
 # Info
 - Module: User Manual Hub
 - Availability: Shared
-- Last updated: 2026-04-02
+- Last updated: 2026-06-27
 
 # ArraySubs User Manual
 
@@ -27,8 +27,8 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Dedicated operations modules:** [Coupons](coupons/README.md) → [Subscription Notes](subscription-notes/README.md) → [Member Insight](member-insight/README.md) *(Pro)*
 - **Dedicated product modules:** [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Subscription Shipping](subscription-shipping/README.md) *(Pro)*
 - **Dedicated reporting modules:** [Retention Analytics](retention-analytics/README.md) → [Gateway Health](gateway-health/README.md) *(Pro)*
-- **Access and memberships:** [Member Access Overview](member-access/README.md) → [Access Rules](member-access/access-rules.md) → [Feature Manager](feature-manager/README.md) *(Pro)*
-- **Site access toolkit modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Multi-Login Prevention](multi-login-prevention/README.md) *(Pro)*
+- **Access and memberships:** [Member Access Overview](member-access/README.md) → [Access Rules](member-access/access-rules.md) → [Multi-Login Prevention](member-access/multi-login-prevention.md) *(Pro)*
+- **Site access toolkit modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
 ## Dedicated Module Count
@@ -58,13 +58,13 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | **ArraySubs → Subscriptions → Detail → Subscription Notes** | Review system notes, admin notes, customer-visible notes, gateway notes, and lifecycle history | [Subscription Notes](subscription-notes/README.md) |
 | **ArraySubs → Store Credit** *(Pro)* | Manage balances, adjustments, and transaction history | [Store Credit Management](store-credit/store-credit-management.md) |
 | **ArraySubs → Retention Flow** | Configure cancellation reasons and save-the-sale offers | [Cancellation Setup](retention-and-refunds/cancellation-setup.md) |
-| **ArraySubs → Member Access** | Build role, URL, post type, discount, ecommerce, and download access rules | [Member Access Overview](member-access/README.md) |
+| **ArraySubs → Member Access** | Build role, URL, post type, discount, ecommerce, download, content-gate, and login-limit rules | [Member Access Overview](member-access/README.md) |
 | **ArraySubs → Checkout Builder** *(Pro)* | Design custom subscription checkout fields and steps | [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) |
 | **ArraySubs → Profile Builder** | Configure custom profile fields and My Account navigation | [Profile Builder](profile-builder/README.md) |
 | **ArraySubs → Manage Members** *(Pro)* | Search customers and open the Member Insight profile | [Member Insight](member-insight/README.md) |
 | **ArraySubs → Reports** | Review subscription reporting entry points and open Retention Analytics | [Reports Hub](analytics/reports-hub.md) |
 | **ArraySubs → Settings** | Configure global subscription, toolkit, plan switching, refund, skip/pause, and feature settings | [General Settings](settings/general-settings.md) |
-| **ArraySubs → Settings → Toolkit** | Hide customer-facing WordPress clutter, restrict dashboard access, route login pages, impersonate customers, and limit account sharing | [Toolkit Settings](settings/toolkit-settings.md) |
+| **ArraySubs → Settings → Toolkit** | Hide customer-facing WordPress clutter, restrict dashboard access, route login pages, and impersonate customers | [Toolkit Settings](settings/toolkit-settings.md) |
 | **ArraySubs → Settings → Payment Gateways** *(Pro)* | Monitor gateway status, webhook URLs, and webhook event logs | [Gateway Health](gateway-health/README.md) |
 | **Products → Edit Product → Subscription** *(Pro)* | Configure Redirect Product Page and Subscription Shipping controls | [Redirect Product Page](redirect-product-page/README.md), [Subscription Shipping](subscription-shipping/README.md) |
 | **Marketing → Coupons** | Configure subscription-aware coupon discounts and renewal cycle limits | [Coupons](coupons/README.md) |
@@ -94,7 +94,7 @@ Configure store-wide subscription behavior and administration tools.
 
 ## Site Access Toolkit Modules
 
-These are dedicated ArraySubs modules, even though their controls live together on **ArraySubs → Settings → Toolkit**. Four are available in the free core; **Multi-Login Prevention** requires Pro.
+These are dedicated ArraySubs modules whose controls live together on **ArraySubs → Settings → Toolkit**. All four are available in the free core.
 
 ## Admin Bar Visibility
 
@@ -111,10 +111,6 @@ These are dedicated ArraySubs modules, even though their controls live together 
 ## Login as User
 
 [Login as User](login-as-user/README.md) lets administrators impersonate non-admin customers for support, verification, and customer-portal troubleshooting.
-
-## Multi-Login Prevention *(Pro)*
-
-[Multi-Login Prevention](multi-login-prevention/README.md) limits concurrent sessions per account to reduce casual credential sharing.
 
 ## Coupons
 
@@ -237,8 +233,11 @@ Control who can access what across your site — gate content, restrict products
 - [Overview](member-access/README.md) — How Member Access works, rule types, condition system, and section navigation.
 - [Access Rules](member-access/access-rules.md) — Role Mapping, URL Rules, and Post Type (CPT) Rules for controlling page, post, and role access.
 - [Commerce and Benefit Rules](member-access/commerce-and-benefit-rules.md) — Discount Rules, Ecommerce Rules, and Download Rules for member pricing, product restrictions, and file access.
-- [Content Restriction](member-access/content-restriction.md) — Drip-schedule access, content gating messages, per-post restrictions, defaults, and cache compatibility.
-- [Session and Frontend Controls](member-access/session-and-frontend-controls.md) — Login Limit *(Pro)*, `[arraysubs_restrict]` shortcode, `[arraysubs_visibility]` shortcode, and pause-state behavior.
+- [Scheduled / Drip Access](member-access/scheduled-drip-access.md) — Drip-schedule access, content gating messages, per-post restrictions, defaults, and cache compatibility.
+- [Elementor Content Restrictions](member-access/elementor-content-restrictions.md) — Gate Elementor Containers with Member Access conditions, no shortcode required.
+- [Gutenberg Content Restrictions](member-access/gutenberg-content-restrictions.md) — Gate nested blocks with the Restricted Content block.
+- [Session and Frontend Controls](member-access/session-and-frontend-controls.md) — Login Limit *(Pro)*, content-gating shortcodes, programmatic PHP gates, and pause-state behavior.
+- [Multi-Login Prevention](member-access/multi-login-prevention.md) *(Pro)* — Global concurrent-session limits and Login Limit rule overrides.
 - [Real-World Use Cases](member-access/use-cases.md) — 17 practical examples: course dripping, VIP discounts, wholesale stores, tiered roles, URL gating, streaming limits, and more.
 
 ## Checkout and Payments

@@ -1,7 +1,7 @@
 # Info
 - Module: Store Credit Shortcode
 - Availability: Pro
-- Last updated: 2026-04-04
+- Last updated: 2026-06-27
 
 # Store Credit Shortcode *(Pro)*
 
@@ -14,7 +14,7 @@
 - **Current guide:** Store Credit Shortcode *(Pro)*
 - **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [elementor-content-restrictions](./elementor-content-restrictions.md)
+- **Previous guide:** [content-gating](./content-gating.md)
 - **Next guide:** [credit-history](../store-credit/credit-history.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 

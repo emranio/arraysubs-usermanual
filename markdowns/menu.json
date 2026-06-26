@@ -29,9 +29,6 @@
         "login-as-user/README.md"
     ],
     [
-        "multi-login-prevention/README.md"
-    ],
-    [
         "coupons/README.md"
     ],
     [
@@ -98,7 +95,6 @@
         "shortcodes/README.md",
         "shortcodes/account-shortcodes.md",
         "shortcodes/content-gating.md",
-        "shortcodes/elementor-content-restrictions.md",
         "shortcodes/store-credit-shortcode.md"
     ],
     [
@@ -116,8 +112,11 @@
         "member-access/README.md",
         "member-access/access-rules.md",
         "member-access/commerce-and-benefit-rules.md",
-        "member-access/content-restriction.md",
+        "member-access/scheduled-drip-access.md",
+        "member-access/elementor-content-restrictions.md",
+        "member-access/gutenberg-content-restrictions.md",
         "member-access/session-and-frontend-controls.md",
+        "member-access/multi-login-prevention.md",
         "member-access/use-cases.md"
     ],
     [

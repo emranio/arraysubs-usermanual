@@ -1,7 +1,7 @@
 # Info
 - Module: Settings
 - Availability: Shared
-- Last updated: 2026-04-01
+- Last updated: 2026-06-27
 
 # Settings
 
@@ -18,7 +18,7 @@ The **Settings** area in ArraySubs is organized into the main General and Toolki
 | Page | What it covers | Navigation path |
 |------|----------------|-----------------|
 | **General Settings** | Subscription cart rules, checkout and trial behavior, button text, grace periods, email reminder timing, customer portal, customer self-service actions, cancellation timing, and automatic-payment controls | **ArraySubs → Settings → General** |
-| **Toolkit Settings** | Field-by-field configuration for the dedicated Toolkit modules: admin bar visibility, wp-admin access restrictions, WordPress login page hiding, admin impersonation, and multi-login prevention | **ArraySubs → Settings → Toolkit** |
+| **Toolkit Settings** | Field-by-field configuration for the dedicated Toolkit modules: admin bar visibility, wp-admin access restrictions, WordPress login page hiding, and admin impersonation | **ArraySubs → Settings → Toolkit** |
 | **Plan Switching** | Upgrade, downgrade, and switching behavior for subscription products | **ArraySubs → Settings → Plan Switching** |
 | **Refunds** | Refund policy, gateway refund routing, prorated refunds, and minimum refund settings | **ArraySubs → Settings → Refunds** |
 | **Skip & Pause** | Customer skip-renewal and pause behavior | **ArraySubs → Settings → Skip & Pause** |
@@ -34,7 +34,7 @@ The module-specific settings pages are documented in their owning feature topics
 - [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect unauthorized users away from `/wp-admin`.
 - [WordPress Login Page](../wordpress-login-page/README.md) — Route customer login traffic through WooCommerce My Account.
 - [Login as User](../login-as-user/README.md) — Impersonate customers for support and verification.
-- [Multi-Login Prevention](../multi-login-prevention/README.md) *(Pro)* — Limit concurrent sessions per account.
+- [Member Access — Multi-Login Prevention](../member-access/multi-login-prevention.md) *(Pro)* — Limit concurrent sessions per account from Member Access -> Login Limit.
 
 ## Page Navigation
 

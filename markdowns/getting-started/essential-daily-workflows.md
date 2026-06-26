@@ -149,6 +149,7 @@ The main ArraySubs admin interface is a single-page application (SPA) accessible
 | Page | Path | Purpose |
 |---|---|---|
 | Role Mapping | **ArraySubs → Member Access** | Assign WordPress roles based on subscription plans |
+| Content Gate | **Member Access → Content Gate** | Step-by-step guides for Elementor, Gutenberg, shortcode, and PHP content gates |
 | Discount Rules | **Member Access → Discount Rules** | Member-based pricing discounts |
 | Ecommerce Rules | **Member Access → Ecommerce Rules** | Purchase restrictions for members / non-members |
 | URL Rules | **Member Access → URL Rules** | Restrict specific URLs or URL patterns |
@@ -168,7 +169,7 @@ The main ArraySubs admin interface is a single-page application (SPA) accessible
 | Page | Path | Purpose |
 |---|---|---|
 | General | **ArraySubs → Settings → General** | Core configuration: billing, checkout, trials, grace period, emails, customer portal |
-| Toolkit | **Settings → Toolkit** | Configuration screen for [Admin Bar Visibility](../admin-bar-visibility/README.md), [Admin Dashboard Access](../admin-dashboard-access/README.md), [WordPress Login Page](../wordpress-login-page/README.md), [Login as User](../login-as-user/README.md), and [Multi-Login Prevention](../multi-login-prevention/README.md) *(Pro)*. |
+| Toolkit | **Settings → Toolkit** | Configuration screen for [Admin Bar Visibility](../admin-bar-visibility/README.md), [Admin Dashboard Access](../admin-dashboard-access/README.md), [WordPress Login Page](../wordpress-login-page/README.md), and [Login as User](../login-as-user/README.md). |
 | Plan Switching | **Settings → Plan Switching** | Upgrade, downgrade, crossgrade rules and proration settings |
 | Refunds | **Settings → Refunds** | Refund behavior, proration, auto gateway refund |
 | Skip & Pause | **Settings → Skip & Pause** | Skip renewal and pause subscription settings *(Pro)* |

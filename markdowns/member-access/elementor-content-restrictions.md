@@ -14,13 +14,15 @@
 - **Current guide:** Elementor Content Restrictions
 - **Where to open it:** Edit any page with Elementor -> select a Container -> **Advanced** tab -> **ArraySubs Content Restrictions**
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [content-gating](./content-gating.md)
-- **Next guide:** [store-credit-shortcode](./store-credit-shortcode.md)
+- **Previous guide:** [Scheduled / Drip Access](./scheduled-drip-access.md)
+- **Next guide:** [gutenberg-content-restrictions](./gutenberg-content-restrictions.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 
-ArraySubs adds an **ArraySubs Content Restrictions** controls section to Elementor's **Container** widget (both the Flexbox and Grid layout presets). It is the visual equivalent of the [`[arraysubs_restrict]`](./content-gating.md) and `[arraysubs_visibility]` shortcodes: instead of wrapping content in a shortcode, you enable restriction on the container and pick your conditions from dropdowns. Everything inside the container is gated; everything outside it stays public.
+ArraySubs adds an **ArraySubs Content Restrictions** controls section to Elementor's **Container** widget (both the Flexbox and Grid layout presets). It is the visual equivalent of the [`[arraysubs_restrict]`](../shortcodes/content-gating.md) and `[arraysubs_visibility]` shortcodes: instead of wrapping content in a shortcode, you enable restriction on the container and pick your conditions from dropdowns. Everything inside the container is gated; everything outside it stays public.
+
+You can also find the high-level setup guide inside the ArraySubs admin at **Member Access -> Content Gate**.
 
 ![ArraySubs Content Restrictions — restrict controls on an Elementor Container](elementor-content-restrictions.ASSETS/01-restriction-controls.png)
 
@@ -42,6 +44,7 @@ The controls only appear on the **Container** element. To gate a single widget (
 - ArraySubs installed and active, with **Member Access** enabled.
 - Elementor installed and active.
 - For feature conditions: ArraySubs Pro with Feature Manager.
+- Optional: Review **ArraySubs -> Member Access -> Content Gate** for the in-admin quick guide before configuring the Elementor page.
 
 ---
 
@@ -162,10 +165,11 @@ Non-subscribers see the intro, the closing text, and the subscribe button, with 
 
 ## Related Guides
 
-- [Content Gating Shortcodes](content-gating.md) — the `[arraysubs_restrict]` / `[arraysubs_visibility]` shortcodes this feature is built on
-- [Account Shortcodes](account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
-- [Member Access — Content Restriction](../member-access/content-restriction.md) — global restriction messages and defaults
-- [Member Access — Access Rules](../member-access/access-rules.md) — full-page restrictions for URLs, post types, and roles
+- [Gutenberg Content Restrictions](gutenberg-content-restrictions.md) — gate nested blocks with the Restricted Content block.
+- [Content Gating Shortcodes](../shortcodes/content-gating.md) — the `[arraysubs_restrict]` / `[arraysubs_visibility]` shortcodes this feature is built on.
+- [Account Shortcodes](../shortcodes/account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`.
+- [Scheduled / Drip Access](scheduled-drip-access.md) — global restriction messages and defaults.
+- [Access Rules](access-rules.md) — full-page restrictions for URLs, post types, and roles.
 
 ---
 
