@@ -74,7 +74,7 @@ async function renderPageHtml(options) {
   const accessibilityWidgetScriptHref = appendCacheBust(
     relativeAssetPath(
       page.outputRelativePath,
-      "assets/accessibility-widget/dist/accessibility-widget.global.js",
+      "assets/accessibility-widget/accessibility-widget.global.js",
     ),
     assetVersion,
   );
