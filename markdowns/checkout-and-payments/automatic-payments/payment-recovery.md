@@ -1,7 +1,7 @@
 # Info
 - Module: Checkout and Payments
 - Availability: Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-06-29
 
 # Payment Recovery Tools
 
@@ -117,13 +117,16 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 
 1. Go to **WooCommerce → Settings → Payments → ArraySubs Stripe Configs**.
 2. Confirm the secondary webhook endpoint is healthy. The page shows:
+   - Webhook status (`Enabled` or `Disabled`) from a live Stripe-side check.
+   - **Refresh** link for checking and repairing the endpoint.
    - Endpoint URL used by ArraySubs for Stripe subscription events.
    - Active Stripe mode (test or live).
    - Last received Stripe event.
    - Secondary webhook signing secret.
    - Secondary webhook endpoint ID.
-3. If automatic endpoint creation is unavailable, create the endpoint in Stripe manually and paste the `whsec_` signing secret.
-4. Click **Save changes** only when you have changed the signing secret.
+3. If the Webhook status is not `Enabled`, click **Refresh**. ArraySubs verifies the endpoint in Stripe and recreates it if it was deleted, disabled, pointed at the wrong URL, missing required events, or missing a locally stored signing secret.
+4. If automatic endpoint creation is unavailable, create the endpoint in Stripe manually and paste the `whsec_` signing secret.
+5. Click **Save changes** only when you have changed the signing secret.
 
 The Stripe retry policy itself is code-level in this version: retries are enabled, up to 3 attempts, 24 hours apart. There is no visible admin field for max retry attempts or retry interval.
 
@@ -161,11 +164,13 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 |---|---|---|---|
 | **Secondary webhook signing secret** | Verifies ArraySubs-specific Stripe webhook events | Auto-managed; edit only when manually repairing the endpoint | `whsec_...` |
 | **Secondary webhook endpoint ID** | Stores the Stripe endpoint created for ArraySubs events | Read-only; confirm it exists when troubleshooting missing webhooks | `we_...` |
+| **Webhook status and Refresh** | Checks whether the Stripe-side ArraySubs endpoint is enabled and listening for required events | Use Refresh when customers/admins deleted or disabled the auto-created endpoint | `Enabled` |
 | **Stripe retry policy** | Built-in retry behavior for failed Stripe renewals | No UI field in this version; default policy is used automatically | 3 attempts, 24 hours apart |
 
 ## What Happens After Saving
 
 - New webhook secret changes take effect after saving the WooCommerce settings page.
+- The **Refresh** link does not require Save changes. It runs a protected endpoint check/repair action and returns to the same settings page with updated status.
 - Stripe retry timing is not changed from this page. In-progress retry schedules continue according to the built-in policy.
 - Existing subscription notes and order notes are unaffected.
 
@@ -178,6 +183,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 - **Sync from Gateway does not modify amounts, plans, or products.** Those are deliberate merchant decisions. If the gateway's amount has drifted from local (rare; only if someone changed it directly at the dashboard), reconcile manually.
 - **Sync from Gateway is read-mostly.** It cannot create subscriptions or refund charges; it only updates fields the gateway is authoritative for and reconciles paid status on existing failed orders.
 - **Sync support is explicit.** Do not assume a gateway can sync just because it is attached to the subscription. The action appears only for gateways that opt in.
+- **Stripe webhook Refresh repairs configuration, not billing history.** It can recreate the secondary Stripe endpoint and save a new signing secret, but it does not replay old webhook events or change existing subscription/order payment state. Use **Sync from Gateway** for one-subscription payment reconciliation.
 - **Pending-cancel gateway handling for PayPal is destructive on undo.** The customer must re-authorize automatic payments — the original PayPal agreement is gone. This is unavoidable because PayPal billing agreements are terminal.
 - **Pending-cancel gateway handling for Paddle is reversible.** If the customer undoes the scheduled cancellation, the plugin tells Paddle to clear the scheduled change, and billing continues normally.
 
@@ -191,6 +197,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 | Sync from Gateway shows "no remote subscription linked" | The subscription was created without a gateway, was detached, or the gateway IDs are missing | Check `_payment_gateway` meta; if empty, sync isn't applicable |
 | Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and Pro gateway capabilities |
 | Sync changes look wrong | Gateway's webhook had not yet landed; you synced too quickly | Wait a few minutes and re-sync, or check the gateway dashboard directly |
+| Stripe secondary webhook shows Disabled | The auto-created endpoint was deleted/disabled in Stripe, points to the wrong URL, is missing required events, or ArraySubs no longer has the signing secret | Open **WooCommerce → Settings → Payments → ArraySubs Stripe Configs** and click **Refresh**. Then send or wait for a Stripe test event and confirm Gateway Health updates |
 | PayPal undo cancellation log shows "must re-authorize" but customer says they didn't cancel | Multiple admins/agents may have acted on the same subscription; check the subscription's notes for who scheduled the cancel | Confirm with the customer whether a fresh authorization is needed |
 | Paddle pending-cancel didn't roll back on undo | Paddle's `update` call failed (network error, API change) | Check the subscription notes for the error; if needed, manually reverse via the Paddle dashboard |
 

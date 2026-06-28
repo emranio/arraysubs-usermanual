@@ -1,7 +1,7 @@
 # Info
 - Module: Stripe Gateway
 - Availability: Pro
-- Last updated: 2026-05-31
+- Last updated: 2026-06-29
 
 # Stripe Gateway
 
@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Stripe Gateway
-- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Where to open it:** Storefront checkout, WooCommerce -> Settings -> Payments -> Stripe, and WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [README](./README.md)
 - **Next guide:** [field-types](../checkout-builder/field-types.md)
@@ -171,6 +171,10 @@ Use the official WooCommerce Stripe Gateway webhook URL for normal Stripe paymen
 https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe
 ```
 
+Open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs** to check the live secondary webhook status. The page verifies the Stripe-side endpoint on load and shows whether the ArraySubs webhook is enabled for the active test/live mode. If someone deletes or disables the auto-created endpoint in Stripe, or if required events are missing, click **Refresh** on that page. ArraySubs checks the current Stripe connection, recreates the endpoint when needed, saves the new signing secret and endpoint ID, and updates the status text.
+
+Use **Refresh** for endpoint repair. Use **Save changes** only when you manually paste or change the secondary webhook signing secret.
+
 ![ArraySubs Stripe Configs secondary webhook endpoint](stripe.ASSETS/02-array-subs-stripe-configs-annotated.png)
 
 ---
@@ -186,8 +190,11 @@ Stripe checkout and API credentials are configured in **WooCommerce → Settings
 | API keys and test mode | WooCommerce Stripe Gateway settings |
 | Official webhook secret | WooCommerce Stripe Gateway settings |
 | ArraySubs secondary webhook secret | Auto-managed by ArraySubsPro in WooCommerce → Settings → Payments → ArraySubs Stripe Configs |
+| ArraySubs secondary webhook status and Refresh | WooCommerce → Settings → Payments → ArraySubs Stripe Configs |
 
 The secondary webhook secret is stored separately for test mode and live mode. In normal operation you do not paste a `whsec_` value manually; saving WooCommerce Stripe settings or visiting admin after credentials are available lets ArraySubsPro ensure the endpoint exists. Manual entry is only for repairing a known provisioning failure.
+
+The **Webhook** status line on the ArraySubs Stripe Configs page is a live check against Stripe, not just a local saved-option check. A healthy setup shows **Enabled**. If it shows **Disabled** or a repair message, use **Refresh** to recreate the secondary endpoint from the active WooCommerce Stripe API connection.
 
 ![Official WooCommerce Stripe settings: test mode, webhook, saved methods](stripe.ASSETS/01-official-stripe-settings-annotated.png)
 
@@ -203,7 +210,7 @@ The secondary webhook secret is stored separately for test mode and live mode. I
 | Subscription is Active but the order is `Processing` | Payment and subscription activation succeeded, but WooCommerce is keeping the order open for fulfillment | Treat the subscription as paid. Only manually complete the WooCommerce order when there is no remaining fulfillment work. |
 | Stripe checkout fails with `No such PaymentMethod` | A saved Stripe payment method belongs to an old/disconnected Stripe account or test/live mode context | Ask the customer to use a new payment method. ArraySubs removes stale saved Stripe tokens during subscription checkout when Stripe reports they no longer exist. |
 | Card auto-update not working | Card network doesn't participate in updater program | Not all card issuers support auto-update. Customer needs to manually update their card. |
-| Webhook events not arriving | Official webhook URL/secret is misconfigured, or the ArraySubs secondary endpoint could not be provisioned | Check the WooCommerce Stripe Gateway webhook settings first, then open **ArraySubs Stripe Configs** or **Gateway Health** to confirm the secondary webhook is configured with no last-error value |
+| Webhook events not arriving | Official webhook URL/secret is misconfigured, or the ArraySubs secondary endpoint was deleted, disabled, missing required events, or could not be provisioned | Check the WooCommerce Stripe Gateway webhook settings first, then open **ArraySubs Stripe Configs**. If the Webhook status is not Enabled, click **Refresh** to recreate the secondary endpoint and save a new signing secret. Then confirm **Gateway Health** shows recent webhook activity after a test event |
 | Payment method details missing on a subscription | Checkout completed before Stripe order meta was available or webhook was delayed | Open the subscription and run **Resync from Gateway** |
 
 ---

@@ -1,7 +1,7 @@
 # Info
 - Module: Gateway Health
 - Availability: Pro
-- Last updated: 2026-05-31
+- Last updated: 2026-06-29
 
 # Gateway Health
 
@@ -109,7 +109,7 @@ After configuring a new gateway, visit this dashboard to verify the status shows
 
 Expand the gateway card and review the webhook configuration:
 
-- **Stripe:** the official WooCommerce Stripe webhook URL should be configured by WooCommerce Stripe, and the ArraySubs secondary webhook should show as configured automatically. No manual Stripe Dashboard endpoint is normally required for the ArraySubs URL.
+- **Stripe:** the official WooCommerce Stripe webhook URL should be configured by WooCommerce Stripe, and the ArraySubs secondary webhook should show as configured automatically. No manual Stripe Dashboard endpoint is normally required for the ArraySubs URL. If the secondary webhook is missing or was deleted in Stripe, open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs** and click **Refresh** to check and recreate it.
 - **PayPal:** Developer Dashboard → My Apps & Credentials → REST API apps → Webhooks
 - **Paddle:** Vendor Dashboard → Developer Tools → Notifications → New destination
 
@@ -136,7 +136,7 @@ Periodically check:
 
 ### Post-Setup Verification
 
-After connecting Stripe for the first time, the merchant visits the dashboard, verifies the status shows `Connected (Test Mode)`, confirms the official Woo Stripe webhook and ArraySubs secondary webhook both show configured, sends a test webhook, and confirms it appears in the event log before switching to live mode.
+After connecting Stripe for the first time, the merchant visits the dashboard, verifies the status shows `Connected (Test Mode)`, confirms the official Woo Stripe webhook and ArraySubs secondary webhook both show configured, sends a test webhook, and confirms it appears in the event log before switching to live mode. If the ArraySubs secondary webhook was deleted from the Stripe Dashboard, the merchant opens **ArraySubs Stripe Configs** and clicks **Refresh** so ArraySubs recreates the endpoint and saves the new signing secret.
 
 ### Debugging Missing Renewals
 
@@ -175,4 +175,4 @@ The gateway has not sent any webhooks that ArraySubs has processed. Either no tr
 Events older than 30 days are automatically cleaned. There is no manual clear button — the log is designed as an audit trail.
 
 **The dashboard shows "Needs Setup" but I've configured the gateway — what's wrong?**
-The gateway may be enabled in WooCommerce but missing a required field like an API key. For Stripe, confirm the official WooCommerce Stripe gateway is connected in the active test/live mode, then check the Stripe details for any secondary webhook last-error message.
+The gateway may be enabled in WooCommerce but missing a required field like an API key. For Stripe, confirm the official WooCommerce Stripe gateway is connected in the active test/live mode, then open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs**. If the Webhook status is not `Enabled`, click **Refresh** to check and recreate the ArraySubs secondary endpoint.
