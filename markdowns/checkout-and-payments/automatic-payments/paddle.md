@@ -1,7 +1,7 @@
 # Info
 - Module: Paddle Gateway
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-06-29
 
 # Paddle Gateway
 
@@ -33,6 +33,7 @@ Paddle uses the **gateway-managed billing** model and includes features that oth
 | Required credentials | API Key, Client-Side Token, Seller ID, and Webhook Secret. |
 | Webhook URL | `wp-json/arraysubs/v1/webhooks/arraysubs_paddle` |
 | Sandbox mode | Supported through the gateway settings. |
+| Default Payment Link | Required in Paddle Dashboard before transactions can open. Set it to your WooCommerce checkout page. |
 | Product sync | Required before checkout. ArraySubs creates or updates Paddle product/price records. |
 | Mixed carts | Supported. |
 | Multiple subscriptions in one checkout | Supported only when billing cycles are compatible. |
@@ -48,6 +49,33 @@ Paddle is the best fit when you want Merchant-of-Record handling for tax, invoic
 ```
 
 ![Paddle (ArraySubs) gateway settings with sandbox, credentials, and webhook](paddle.ASSETS/01-paddle-gateway-settings-annotated.png)
+
+## Required Paddle Dashboard Setup
+
+Paddle needs a few dashboard settings before ArraySubs can create checkout transactions.
+
+### Default Payment Link
+
+Paddle requires a **Default Payment Link** before transaction checkout URLs can be created. Configure it separately in the Paddle sandbox dashboard and live dashboard.
+
+1. Open **WooCommerce -> Settings -> Payments -> ArraySubs Paddle**
+2. Copy the checkout URL shown in the **Default Payment Link** settings guide, usually:
+
+```text
+https://yoursite.com/checkout/
+```
+
+3. In Paddle Dashboard, open **Checkout -> Checkout settings -> Default payment link**
+4. Paste the WooCommerce checkout URL and save
+5. For live mode, make sure the checkout domain is approved in Paddle before using it
+
+```box class="info-box"
+The Default Payment Link is configured in Paddle, not saved inside WordPress. ArraySubs shows the recommended URL so you can copy it into the matching Paddle environment.
+```
+
+Paddle appends `_ptxn=<transaction_id>` to this URL when it creates a transaction checkout link. The checkout page must load WooCommerce checkout and Paddle.js. When Paddle returns a transaction URL, ArraySubs opens the Paddle.js checkout as an overlay on the current checkout page.
+
+The same Paddle setting may also be used by Paddle for payment-method update links and customer-facing payment links. If it is missing, Paddle returns the API error `transaction_default_checkout_url_not_set`, and checkout setup cannot continue.
 
 ## How Paddle Payments Work
 
@@ -197,6 +225,7 @@ Paddle gateway settings are configured in **WooCommerce → Settings → Payment
 | Description | Text shown below the payment method |
 | API Key | Paddle API authentication key |
 | Webhook Secret | Secret for verifying webhook signatures |
+| Default Payment Link | Setup guide showing which WooCommerce checkout URL to paste into Paddle Dashboard -> Checkout -> Checkout settings. This value is stored in Paddle, not WordPress. |
 | Sandbox Mode | Enable to use Paddle's sandbox environment |
 
 ---
@@ -206,6 +235,7 @@ Paddle gateway settings are configured in **WooCommerce → Settings → Payment
 | Problem | Likely Cause | Solution |
 |---|---|---|
 | Paddle overlay not appearing | Paddle.js script blocked | Check for script-blocking plugins or Content Security Policy restrictions |
+| `transaction_default_checkout_url_not_set` or checkout setup fails before the overlay opens | Paddle Default Payment Link is not configured in the active Paddle environment | Set Paddle Dashboard -> Checkout -> Checkout settings -> Default payment link to your WooCommerce checkout URL, then retry checkout |
 | Product sync fails | API key invalid or permissions missing | Verify your Paddle API key has catalog write permissions |
 | Customer charged but renewal order missing | `transaction.completed` webhook not arriving | Check webhook configuration in Paddle Dashboard and verify the URL |
 | Pause request fails | Paddle API error | Check Gateway Health Dashboard for the specific error; verify subscription is active on Paddle's side |
