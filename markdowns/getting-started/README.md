@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-07-01
 
 # Getting Started
 
@@ -34,6 +34,9 @@ Requirements, installation, WooCommerce prerequisites, core concepts (products, 
 
 ### [First-Time Setup](first-time-setup.md)
 A step-by-step checklist: configure your store, create your first subscription product, place a test order, and review the customer portal.
+
+### [License Activation](license-activation.md)
+Activate ArraySubs Pro with your license key, store the local activation details, remove a local license, and understand how Pro update downloads are gated *(Pro)*.
 
 ### [Easy Setup Wizard](easy-setup-wizard.md)
 A 9-step guided interview that configures the most important subscription settings for you — choose your business type and let the wizard do the rest.
