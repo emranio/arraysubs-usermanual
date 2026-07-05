@@ -2,3 +2,4 @@ dist/
 node_modules/
 .design-cache/
 kanban/activity.jsonl
+.DS_Store
