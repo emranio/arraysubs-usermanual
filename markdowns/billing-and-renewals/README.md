@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free, with Pro extensions for automatic gateway payments
-- Last updated: 2026-06-04
+- Last updated: 2026-07-08
 
 # Billing and Renewals
 
@@ -15,20 +15,21 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [scheduled-job-logs](../audits-and-logs/scheduled-job-logs.md)
-- **Next guide:** [recovery-and-grace-flows](./recovery-and-grace-flows.md)
+- **Next guide:** [renewal-operations](./renewal-operations.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
 
 Billing and renewals form the heart of the ArraySubs subscription engine. Every active subscription follows a repeating cycle: an invoice is created before the due date, payment is collected (manually or automatically), and the next renewal date is scheduled. When payment doesn't arrive on time, a configurable grace period activates before the subscription is placed on hold or cancelled.
 
-This section covers the complete billing lifecycle — how renewal invoices are generated, how trials convert to paid subscriptions, how the grace period protects subscribers from immediate cancellation, and how the system communicates with customers throughout.
+This section covers the complete billing lifecycle — how renewal invoices are generated, how first renewals can sync to predictable billing dates, how trials convert to paid subscriptions, how the grace period protects subscribers from immediate cancellation, and how the system communicates with customers throughout.
 
 ## What this section covers
 
 | Topic | What you will learn |
 |---|---|
 | [Renewal Operations](renewal-operations.md) | How renewal invoices are created, how payment is routed (manual vs automatic), and how the different renewal price feature changes pricing after N payments |
+| [Renewal Sync](renewal-sync.md) | How to align first renewals to cycle boundaries, choose prorated or full first charges globally, and configure Pro Flexible Renewal Sync segments per product |
 | [Trial Management](trial-management.md) | How free trials start, what happens when a trial ends, how trial-to-paid conversion works, and what auto-downgrade does when a customer does not convert |
 | [Recovery and Grace Flows](recovery-and-grace-flows.md) | The two-phase grace period timeline, how overdue renewals are detected, how skip and pause interact with the billing cycle, and how payment at any point during grace restores the subscription |
 | [Renewal Communication](renewal-communication.md) | What emails are sent during the billing cycle — renewal reminders, invoice notifications, payment confirmations, failure alerts, and on-hold notices |
@@ -70,6 +71,8 @@ These jobs work together to keep every subscription on schedule without manual i
 
 **Billing cycle** — The combination of billing interval and billing period that defines how often a subscription renews. For example, "every 2 months" means a billing interval of 2 and a billing period of month.
 
+**Renewal sync** — A first-renewal alignment feature that moves eligible new subscriptions to a shared billing-cycle boundary while keeping future renewals on that schedule. See [Renewal Sync](renewal-sync.md).
+
 **Completed payments** — A counter that tracks how many successful payments have been made on a subscription. This counter drives the different renewal price feature and subscription length expiration.
 
 **Grace period** — A configurable window after the due date where the subscription remains accessible (or partially accessible) while waiting for payment. The default is 3 days active + 7 days on-hold before cancellation.
@@ -79,6 +82,7 @@ These jobs work together to keep every subscription on schedule without manual i
 ## Related docs
 
 - [General Settings — Renewal and Grace Configuration](../settings/general-settings.md) for configuring invoice timing, grace periods, and reminders
+- [Renewal Sync](renewal-sync.md) for prorated or full first-charge alignment and Pro Flexible Renewal Sync product segments
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) for the complete status transition reference
 - [Customer Emails](../emails/customer-emails.md) for all billing-related email templates and placeholders
 - [Self-Service Actions](../customer-portal/self-service-actions.md) for how skip and pause affect the billing timeline from the customer's perspective

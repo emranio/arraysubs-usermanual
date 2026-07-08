@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free, with Pro extensions for automatic gateway payments
-- Last updated: 2026-06-04
+- Last updated: 2026-07-08
 
 # Renewal Operations
 
@@ -14,11 +14,11 @@
 - **Current guide:** Renewal Operations
 - **Where to open it:** WordPress Admin -> ArraySubs -> Subscriptions
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [renewal-communication](./renewal-communication.md)
-- **Next guide:** [trial-management](./trial-management.md)
+- **Previous guide:** [Billing and Renewals](./README.md)
+- **Next guide:** [renewal-sync](./renewal-sync.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-**Last updated:** 2026-06-03
+**Last updated:** 2026-07-08
 
 ## Overview
 
@@ -29,27 +29,15 @@ Every active subscription eventually reaches its next payment date. When that ha
 - You want to understand how renewal invoices are created and when they appear
 - You need to configure how far in advance invoices are generated
 - You want to offer introductory pricing that changes after a set number of payments
+- You want to understand where renewal sync fits into the renewal lifecycle
 
 ## How it works
 
-### Synced first renewal dates
+### Renewal Sync and first billing alignment
 
-When **Renewal Sync** is enabled in **ArraySubs → Settings → General**, eligible new subscriptions can start with a partial first cycle and then renew on a predictable billing-cycle boundary.
+Renewal Sync changes the first renewal date for eligible new subscriptions so future invoices land on a predictable cycle boundary. The billing engine still uses the subscription's stored `next payment date`; renewal invoice generation, reminders, payment collection, and grace-period checks continue to follow that date.
 
-For non-trial recurring subscriptions:
-
-- The first checkout order can charge a prorated amount for the remaining part of the current cycle, or the full recurring amount, depending on the **First Charge** setting.
-- The subscription's stored recurring amount remains the full product price.
-- The subscription's first **Next Payment Date** is set to the synced boundary.
-- Renewal invoice generation, renewal reminders, and payment processing all use that stored next payment date.
-
-Example: a monthly `$30` subscription purchased on the 20th can charge a prorated first amount at checkout and set the first full renewal to the 1st of the next month. The renewal on the 1st charges the full `$30`, then the next renewal date advances to the 1st of the following month.
-
-```box class="warning-box"
-Renewal Sync applies only to manual/offline checkout gateways and Stripe. Free trials and Lifetime Deal products keep their normal checkout and renewal timing.
-```
-
-![Renewal Sync setting with cycle boundary help note](renewal-operations.ASSETS/01-renewal-sync-settings-annotated.png)
+Renewal Sync now has a dedicated guide covering the global **First Charge** modes and the Pro product-level **Flexible Renewal Sync** segment picker: [Renewal Sync](./renewal-sync.md).
 
 ### Renewal invoice generation
 
