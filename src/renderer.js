@@ -139,6 +139,7 @@ async function renderPageHtml(options) {
     footer,
     headingFontHref: escapeHtml(headingFontHref),
     header,
+    includeBdVisits: options.config.includeBdVisits ? "true" : "false",
     mermaidHref: escapeHtml(mermaidHref),
     ogImageUrl: escapeHtml(ogImageUrl),
     ogType: page.isIndexPage ? "website" : "article",

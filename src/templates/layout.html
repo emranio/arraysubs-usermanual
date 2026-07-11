@@ -204,19 +204,24 @@
     <script>
       (function () {
         var gtmLoaded = false;
+        var includeBdVisits = {{includeBdVisits}};
+
+        function isBrowserUtcPlusSix() {
+          return new Date().getTimezoneOffset() === -360;
+        }
 
         window.docsLoadGTM = function () {
-        if (gtmLoaded) return;
-        gtmLoaded = true;
+          if (gtmLoaded || (!includeBdVisits && isBrowserUtcPlusSix())) return;
+          gtmLoaded = true;
 
-        (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-          var j = d.createElement(s);
-          j.async = true;
-          j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + "&l=" + l;
-          d.body.appendChild(j);
-        })(window, document, "script", "dataLayer", "GTM-WJJLFRQ4");
+          (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+            var j = d.createElement(s);
+            j.async = true;
+            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + "&l=" + l;
+            d.body.appendChild(j);
+          })(window, document, "script", "dataLayer", "GTM-WJJLFRQ4");
         };
       })();
     </script>

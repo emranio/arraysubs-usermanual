@@ -38,6 +38,7 @@ function loadProjectConfig(rootDir) {
 
   return {
     faviconFilename: process.env.FAVICON_FILENAME || "arrayhash-favicon.webp",
+    includeBdVisits: process.env.INCLUDE_BD_VISITS === "true",
     port: Number(process.env.PORT || 3000),
     siteBaseUrl: normalizeBaseUrl(process.env.SITE_BASE_URL || "/"),
     siteTagline:
