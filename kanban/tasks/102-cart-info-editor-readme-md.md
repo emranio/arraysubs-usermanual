@@ -1,13 +1,14 @@
 ---
 id: 102
 title: Cart Info Editor README.md
-status: in-progress
+status: done
 priority: medium
 created: 2026-07-16T00:29:31.390443+06:00
-updated: 2026-07-16T00:34:09.985939+06:00
+updated: 2026-07-16T01:10:20.110087+06:00
 started: 2026-07-16T00:34:01.033198+06:00
+completed: 2026-07-16T01:10:20.114432+06:00
 claimed_by: quillaic-borstall
-claimed_at: 2026-07-16T00:34:09.985939+06:00
+claimed_at: 2026-07-16T01:10:20.110087+06:00
 class: standard
 ---
 
@@ -28,3 +29,9 @@ Capture completed:
 - Saved and twice verified `markdowns/cart-info-editor/README.ASSETS/01-cart-info-editor-settings-original.png`.
 - Captured from the user-specified local WordPress site at 1440×900 with all three toggles enabled.
 - The live UI matched the implemented feature; no stale-document mismatch was found.
+
+Annotation completed:
+- Generated `markdowns/cart-info-editor/README.ASSETS/01-cart-info-editor-settings-annotated.png` from the clean original; no pre-existing annotated output was present.
+- Updated `markdowns/cart-info-editor/README.md` with the annotated image in the requested configuration section.
+- Used `#873EFF`, `--crop`, and `--steps=3` with three essential marker queries; all 3 resolved and 0 were unresolved.
+- Retried with native ChatGPT authentication using `--provider codex --auth auth` after user approval.
