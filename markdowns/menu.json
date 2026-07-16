@@ -18,6 +18,7 @@
     [
         "subscription-products/README.md",
         "subscription-products/create-and-configure.md",
+        "subscription-products/flexible-subscription-duration.md",
         "subscription-products/plan-switching-and-relationships.md",
         "subscription-products/product-experience.md",
         "subscription-products/product-lifecycle.md"

@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> Products -> Add/Edit Product
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [Coupons](../coupons/README.md)
-- **Next guide:** [plan-switching-and-relationships](./plan-switching-and-relationships.md)
+- **Next guide:** [Flexible Subscription Duration](./flexible-subscription-duration.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview

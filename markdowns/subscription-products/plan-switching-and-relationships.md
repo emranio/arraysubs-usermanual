@@ -14,7 +14,7 @@
 - **Current guide:** Plan Switching and Product Relationships
 - **Where to open it:** WordPress Admin -> Products -> Add/Edit Product
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [create-and-configure](./create-and-configure.md)
+- **Previous guide:** [Flexible Subscription Duration](./flexible-subscription-duration.md)
 - **Next guide:** [product-experience](./product-experience.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
