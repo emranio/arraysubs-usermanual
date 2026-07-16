@@ -23,6 +23,7 @@ jobs:
       SERVER_HOST: "${{ secrets.SERVER_HOST }}"
       SERVER_PORT: "${{ secrets.SERVER_PORT }}"
       SERVER_USER: "${{ secrets.SERVER_USER }}"
+      KEEP_RELEASES: "2"
 
     steps:
       - name: Check out repository
@@ -41,6 +42,9 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Verify build output
+        run: test -s dist/index.html
+
       - name: Start SSH agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -51,13 +55,65 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p "$SERVER_PORT" "$SERVER_HOST" >> ~/.ssh/known_hosts
 
-      - name: Ensure remote deploy path exists
+      # Zero-downtime: upload into a fresh release directory next to the live
+      # path, then atomically repoint the live path (a symlink) at it. The
+      # site is never served from a half-synced directory.
+      - name: Upload release
         run: |
-          ssh -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" "mkdir -p '$DEPLOY_PATH'"
+          RELEASE_NAME="$(date -u +%Y%m%d%H%M%S)-${GITHUB_SHA::12}"
+          RELEASES_PATH="${DEPLOY_PATH}-releases"
+          echo "RELEASE_NAME=$RELEASE_NAME" >> "$GITHUB_ENV"
+          echo "RELEASES_PATH=$RELEASES_PATH" >> "$GITHUB_ENV"
 
-      - name: Sync built files to server
-        run: |
-          rsync -az --delete \
+          ssh -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" "mkdir -p '$RELEASES_PATH/$RELEASE_NAME'"
+
+          rsync -az \
             -e "ssh -p $SERVER_PORT" \
             dist/ \
-            "$SERVER_USER@$SERVER_HOST:$DEPLOY_PATH/"
+            "$SERVER_USER@$SERVER_HOST:$RELEASES_PATH/$RELEASE_NAME/"
+
+      - name: Activate release (atomic symlink switch)
+        run: |
+          ssh -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" bash -s -- \
+            "$DEPLOY_PATH" "$RELEASES_PATH" "$RELEASE_NAME" "$KEEP_RELEASES" "$SITE_BASE_URL" <<'REMOTE'
+          set -euo pipefail
+          DEPLOY_PATH="$1"
+          RELEASES_PATH="$2"
+          RELEASE_NAME="$3"
+          KEEP_RELEASES="$4"
+          SITE_BASE_URL="$5"
+          NEW_RELEASE="$RELEASES_PATH/$RELEASE_NAME"
+
+          test -s "$NEW_RELEASE/index.html"
+
+          # Stage the new symlink first so the switch below is a single rename.
+          ln -sfn "$NEW_RELEASE" "$DEPLOY_PATH.tmp-link"
+
+          # One-time migration: the live directory becomes an archived release.
+          if [ -d "$DEPLOY_PATH" ] && [ ! -L "$DEPLOY_PATH" ]; then
+            mv "$DEPLOY_PATH" "$RELEASES_PATH/legacy-$(date -u +%Y%m%d%H%M%S)"
+          fi
+
+          PREVIOUS_TARGET="$(readlink "$DEPLOY_PATH" 2>/dev/null || true)"
+
+          mv -Tf "$DEPLOY_PATH.tmp-link" "$DEPLOY_PATH"
+
+          if ! curl -fsS --max-time 15 "${SITE_BASE_URL}?deploycheck=$RELEASE_NAME" >/dev/null; then
+            echo "Health check failed for $SITE_BASE_URL" >&2
+            if [ -n "$PREVIOUS_TARGET" ] && [ -e "$PREVIOUS_TARGET" ]; then
+              ln -sfn "$PREVIOUS_TARGET" "$DEPLOY_PATH.tmp-link"
+              mv -Tf "$DEPLOY_PATH.tmp-link" "$DEPLOY_PATH"
+              echo "Rolled back to $PREVIOUS_TARGET" >&2
+            fi
+            exit 1
+          fi
+
+          cd "$RELEASES_PATH"
+          CURRENT_TARGET="$(readlink "$DEPLOY_PATH")"
+          ls -1dt -- */ 2>/dev/null | sed 's:/$::' | tail -n +"$((KEEP_RELEASES + 1))" | while read -r dir; do
+            [ "$RELEASES_PATH/$dir" = "$CURRENT_TARGET" ] && continue
+            rm -rf -- "$RELEASES_PATH/${dir:?}"
+          done
+
+          echo "Live: $(readlink "$DEPLOY_PATH")"
+          REMOTE
