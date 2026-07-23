@@ -1,11 +1,11 @@
 # Info
 - Module: Subscription Self-Service Actions
 - Availability: Shared
-- Last updated: 2026-04-28
+- Last updated: 2026-07-23
 
 # Subscription Self-Service Actions
 
-> Everything a customer can do from the subscription detail page — cancel, undo a scheduled cancellation, accept retention offers, skip renewals, pause, resume, change plan, and reactivate.
+> Everything a customer can do from the subscription detail page — cancel, undo a scheduled cancellation, accept retention offers, skip renewals, pause, resume, change plan, renew early, and reactivate.
 
 **Availability:** Free + Pro
 
@@ -322,6 +322,64 @@ During a pause, renewal processing is suspended. No invoices are created and no 
 
 ---
 
+## Renew Early
+
+Early Renew lets customers pay their next renewal **before** its scheduled due date, straight from the subscription detail page. It suits prepaid access, expiring budgets, account cleanup, or customers who simply want to keep a subscription current ahead of time.
+
+**Availability:** Pro
+
+![Renew Early button and helper text in the Subscription Actions section](self-service-actions.ASSETS/07-early-renew-action-annotated.png)
+
+### When It Appears
+
+The **Renew Early** button appears in the **Subscription Actions** section when all of these are true:
+
+- Early renew is enabled: **General Settings → Customer Actions → Allow Early Renew**
+- The subscription status is **Active** (trials are excluded — the customer has not been billed a first full cycle yet)
+- The subscription is **not** lifetime, and is not scheduled for cancellation
+- The next payment date is still in the future (a renewal that is already due is handled by the normal renewal run instead)
+- There is no unpaid renewal invoice already waiting, and no skipped renewal scheduled
+- The subscription's gateway supports early renewal — see **Gateway support** below
+
+The helper text next to the button spells out the current due date and where the next payment moves to, so the customer knows exactly what will happen before they click.
+
+### Gateway Support
+
+Early renewal only works when ArraySubs can pull the next charge forward safely:
+
+| Gateway | Early Renew | How it is paid |
+|---|---|---|
+| **Manual** (bank transfer, cheque, and any other WooCommerce gateway) | ✓ | A renewal invoice is created and the customer is taken to the payment page |
+| **Stripe** (automatic) | ✓ | The saved card is charged off-session, immediately |
+| **PayPal** | — | Hidden. PayPal owns the billing schedule on its side |
+| **Paddle** | — | Hidden. Paddle owns the billing schedule on its side |
+
+PayPal and Paddle manage the recurring billing date on their own systems and give ArraySubs no way to bring a charge forward without double-billing, so the button stays hidden for subscriptions paid through them — even while the **Allow Early Renew** setting is on.
+
+### Flow
+
+1. The customer clicks **Renew Early**.
+2. A confirmation dialog opens, showing the amount, the original due date, and the new next-payment date.
+
+![Renew Early confirmation dialog showing amount and dates](self-service-actions.ASSETS/08-early-renew-confirm-annotated.png)
+
+3. The customer clicks **Renew Now**:
+   - **Stripe (automatic):** the saved card is charged right away. On success the customer sees a confirmation and the page reloads with the new next-payment date.
+   - **Manual gateway:** a renewal invoice is created and the customer is redirected to the WooCommerce payment page to pay it.
+4. If the customer clicks **Not Now**, nothing happens — no invoice is created and no charge is made.
+
+### The Billing Period Is Never Shortened
+
+The renewal period is measured from the **original due date**, not from the day the customer pays. So an early payment moves the following renewal one full cycle past the original due date — it never cuts the paid-through period short.
+
+```box class="info-box"
+Example: a monthly subscription due on **1 August** is renewed early on **23 July**. The next payment date becomes **1 September** — one full month after the original due date, not one month after 23 July.
+```
+
+If a Stripe charge fails, the early renewal invoice is cancelled and the subscription keeps its original renewal date, so the normal renewal still runs as scheduled. Every early renewal is recorded on the order and in the subscription notes so support can see why a payment happened before the due date.
+
+---
+
 ## Reactivate Subscription
 
 Reactivation allows customers to restart a subscription that was cancelled or put on hold.
@@ -351,6 +409,7 @@ This table summarizes which actions are available based on subscription status:
 | Skip renewal | ✓ | ✓ | — | — | — | — |
 | Pause | ✓ | ✓ | — | — | — | — |
 | Resume | — | — | ✓ (if paused) | — | — | — |
+| Renew early | ✓ | — | — | — | — | — |
 | Update shipping | ✓ | ✓ | ✓ | — | — | — |
 
 ---
@@ -371,6 +430,7 @@ This table summarizes which actions are available based on subscription status:
 | Skip or Pause section is missing | Skip or pause features are disabled in settings, or the subscription is not in Active/Trial status | Check **General Settings → Skip & Renewal** and **Pause Subscription** settings |
 | Retention offers are not appearing | The Retention Flow feature is disabled, or no offers are configured, or the subscription does not meet offer eligibility conditions | Check the **Retention Flow** admin page for enabled offers and their eligibility rules |
 | Customer cancelled but subscription is still Active | End-of-period cancellation is configured (not immediate cancellation) | The subscription is scheduled to cancel at the end of the billing period. The customer will see a pending cancellation flag |
+| Renew Early button is missing | Early renew is disabled, the subscription is on PayPal/Paddle, it is a trial/lifetime/pending-cancel subscription, the renewal is already due, or an unpaid invoice is already waiting | Check **General Settings → Customer Actions → Allow Early Renew**, confirm the subscription is Active on Stripe or a manual gateway, and confirm the next payment date is still in the future |
 
 ## Related Guides
 
@@ -402,3 +462,9 @@ Nothing happens. The cancellation is only processed when the customer explicitly
 
 ### Can an admin override a customer's cancellation?
 Yes. Store admins can change any subscription's status from the admin panel, including reactivating a cancelled subscription. See [Subscription Operations](../manage-subscriptions/subscription-operations.md) for details on admin status changes.
+
+### Does renewing early make the subscription end sooner?
+No. The next payment date is measured from the original due date, so an early payment pushes the following renewal one full cycle past that original date. The customer never loses paid-through time.
+
+### Why do some subscriptions not show the Renew Early button?
+Early renewal is only offered on Active subscriptions paid by Stripe or a manual gateway. PayPal and Paddle keep the billing schedule on their own systems, so ArraySubs cannot pull a charge forward without risking a double charge — the button is hidden for them even when the setting is enabled.

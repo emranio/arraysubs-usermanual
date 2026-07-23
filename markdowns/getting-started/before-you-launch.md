@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-07-22
 
 # Before You Launch
 
@@ -247,13 +247,13 @@ ArraySubs ships as two plugins. The core plugin is free and covers all essential
 
 ### Dedicated Manual Module Count
 
-The manual tracks **27 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **20 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **7 modules** require ArraySubs Pro.
+The manual tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **8 modules** require ArraySubs Pro.
 
 | Count | Module Group |
 |---|---|
-| 20 | Free/core-accessible modules |
-| 7 | Pro-only modules |
-| 27 | Total dedicated modules |
+| 21 | Free/core-accessible modules |
+| 8 | Pro-only modules |
+| 29 | Total dedicated modules |
 
 ### Free/Core-Accessible Dedicated Modules
 
@@ -275,6 +275,7 @@ The manual tracks **27 dedicated product modules**. Documentation-only sections 
 | [Shortcodes](../shortcodes/README.md) | Free shortcodes with one Pro store-credit shortcode |
 | [Profile Builder](../profile-builder/README.md) | Free core with Pro menu integrations |
 | [Member Access](../member-access/README.md) | Free core with Pro login-limit extension |
+| [Member Styling](../member-styling/README.md) | Free conditional body classes and CSS; Feature Value conditions require Pro |
 | [Checkout and Payments](../checkout-and-payments/README.md) | Free checkout flow with Pro automatic payments |
 | [Billing and Renewals](../billing-and-renewals/README.md) | Free renewal engine with Pro automatic collection |
 | [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) | Free core with Pro store-credit refund extension |
@@ -291,6 +292,7 @@ The manual tracks **27 dedicated product modules**. Documentation-only sections 
 | [Store Credit](../store-credit/README.md) | Credit wallet, purchase products, credit history, and credit refunds |
 | [Feature Manager](../feature-manager/README.md) | Product entitlements, feature display, and feature logs |
 | [Gateway Health](../gateway-health/README.md) | Gateway status cards, webhook URLs, capabilities, and webhook event log |
+| [Cart Info Editor](../cart-info-editor/README.md) | Hide selected billing-cycle, shipping, and duration explanations without changing charges |
 
 ### Subscription Fundamentals
 
@@ -352,10 +354,25 @@ The manual tracks **27 dedicated product modules**. Documentation-only sections 
 | URL restriction rules | ✅ | ✅ |
 | Post type / taxonomy restriction rules | ✅ | ✅ |
 | Discount rules for members | ✅ | ✅ |
+| Member-only free shipping on paid methods | ✅ | ✅ |
 | Shop access purchase restrictions | ✅ | ✅ |
 | Download access and rate limiting | ✅ | ✅ |
+| Comment reading and posting restrictions | ✅ | ✅ |
+| Per-product and per-order purchase limits | ✅ | ✅ |
+| Login-status and negative-subscription conditions | ✅ | ✅ |
 | Scheduled / drip content access | ✅ | ✅ |
 | Content restriction shortcodes | ✅ | ✅ |
+
+### Conditional Member Styling
+
+| Feature | Free | Pro |
+|---|---|---|
+| Conditional body classes | ✅ | ✅ |
+| Matching-user custom CSS | ✅ | ✅ |
+| Optional wp-admin styling | ✅ | ✅ |
+| Multiple matching rules stack in order | ✅ | ✅ |
+| Subscription-based schedule delay | ✅ | ✅ |
+| Feature Manager value conditions | — | ✅ |
 
 ### Admin and Analytics
 

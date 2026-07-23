@@ -39,8 +39,13 @@
         "member-access/url.md",
         "member-access/post-types.md",
         "member-access/downloads.md",
+        "member-access/comments.md",
+        "member-access/purchase-limit.md",
         "member-access/conflicts.md",
         "member-access/login-limit.md"
+    ],
+    [
+        "member-styling/README.md"
     ],
     [
         "coupons/README.md"

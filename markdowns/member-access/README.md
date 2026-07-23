@@ -1,7 +1,7 @@
 # Info
 - Module: Member Access and Restrictions
 - Availability: Shared (Login Limit requires Pro)
-- Last updated: 2026-06-27
+- Last updated: 2026-07-22
 
 # Member Access and Restrictions
 
@@ -20,25 +20,26 @@
 
 ## Overview
 
-![Member Access — role mapping overview with tab bar and rule controls](README.ASSETS/01-member-access-role-mapping-overview-annotated.png)
+![Member Access overview showing the complete ten-tab navigation and a role mapping rule](README.ASSETS/02-member-access-ten-tab-overview-annotated.png)
 
-Member Access is the rule engine behind content gating, product restrictions, member discounts, download provisioning, automatic role assignment, and session controls in ArraySubs. Instead of locking content behind a single "members only" toggle, you build layered rules with conditions, targets, actions, and optional scheduling — giving you precise control over what each subscriber group can access, purchase, and download.
+Member Access is the rule engine behind content gating, product restrictions, member discounts, free shipping, comment controls, purchase limits, download provisioning, and automatic role assignment in ArraySubs. Instead of locking content behind a single "members only" toggle, you build layered rules with conditions, targets, actions, and optional scheduling — giving you precise control over what each subscriber group can access, purchase, discuss, and download.
 
-Everything is managed from one admin screen at **ArraySubs → Member Access**, organized into these tabs:
+Everything is managed from one admin screen at **ArraySubs → Member Access**, organized into ten tabs:
 
 | Tab | What It Controls |
 |-----|-----------------|
 | **Role Mapping** | Automatically assign or remove WordPress roles when a subscription starts, pauses, or ends |
 | **Content Gate** | Step-by-step guides for Elementor, Gutenberg, shortcode, and PHP content gates |
-| **Discount** | Offer per-item or per-cart member pricing based on subscription conditions |
+| **Discount** | Offer per-item or per-cart member pricing and make paid shipping methods free for qualifying carts |
 | **Shop Access** | Restrict product visibility and purchasing for non-qualifying users |
 | **URL** | Block access to specific pages or URL patterns on your site |
 | **Post Types** | Gate posts, pages, and custom post types behind subscription conditions |
 | **Downloads** | Provision downloadable files to qualifying subscribers via My Account |
+| **Comments** | Control who can read existing comments and who can post on targeted content |
+| **Purchase Limit** | Set per-product or per-order quantity caps for matching or non-matching audiences |
 | **Conflicts** | Review overlapping or competing rules before they affect customers |
-| **Login Limit** *(Pro)* | Cap concurrent login sessions per subscriber tier |
 
-Every tab uses the same rule builder interface: define **who qualifies** (IF conditions), **what is affected** (TARGET), **what happens** (THEN action), and optionally **when it unlocks** (SCHEDULE for drip content).
+Rule-creation tabs reuse the same builder: define **who qualifies** (IF conditions), **what is affected** (TARGET), **what happens** (THEN action), and optionally **when it unlocks** (SCHEDULE for drip content). **Content Gate** is a guide to the available gating surfaces, while **Conflicts** is a diagnostic view rather than an Add New Rule screen.
 
 ## How All Rules Share a Common Structure
 
@@ -59,6 +60,9 @@ Every rule type uses the same set of conditions. You can mix and match these acr
 |-----------|---------------|
 | **Has Active Subscription** | User has an active (or trial) subscription — optionally to specific products |
 | **Has Subscription Variation** | User has an active subscription to a specific product variation |
+| **User Login Status** | Visitor is logged in or is not logged in |
+| **Has NOT Subscription** | Visitor does not have an active or trial subscription, optionally checked against selected products |
+| **Has NOT Subscription Variation** | Visitor does not have an active or trial subscription to selected variations |
 | **Purchased Product** | User has purchased a specific product (any order, not necessarily a subscription) |
 | **Purchased Variation** | User has purchased a specific product variation |
 | **Purchased from Category/Tag** | User has purchased from a given product category or tag |
@@ -81,8 +85,8 @@ For example, a Post Type rule with a 30-day schedule means a new subscriber must
 ## Quick Start
 
 1. Go to **ArraySubs → Member Access**.
-2. Choose the tab for the rule type or guide you need (Role Mapping, Content Gate, Discount, Shop Access, URL, Post Types, Downloads, or Login Limit).
-3. Click **Add New Rule**.
+2. Choose the tab for the rule type or guide you need (Role Mapping, Content Gate, Discount, Shop Access, URL, Post Types, Downloads, Comments, Purchase Limit, or Conflicts).
+3. On a rule-creation tab, click **Add New Rule**.
 4. Name your rule.
 5. Set the IF conditions (e.g., Has Active Subscription to "Gold Membership").
 6. Set the TARGET if the rule type requires one (e.g., specific product categories for a discount).
@@ -101,8 +105,10 @@ These pages mirror the actual tabs in the plugin UI:
 - [URL](url.md) — Protect page paths and URL patterns with priority-based rules.
 - [Post Types](post-types.md) — Gate posts, pages, and custom post types with archive behavior controls.
 - [Downloads](downloads.md) — Provision gated files to qualifying customers through My Account.
+- [Comments](comments.md) — Hide comments, block posting, or separate reading from reply access.
+- [Purchase Limit](purchase-limit.md) — Cap product or order quantities for matching or non-matching audiences.
 - [Conflicts](conflicts.md) — Review URL-rule overlaps with higher-priority per-post overrides.
-- [Login Limit](login-limit.md) *(Pro)* — Set global session caps and rule-based session overrides.
+- [Login Limit](login-limit.md) *(Pro)* — Related concurrent-session controls managed by the Pro extension.
 
 ## Related Guides
 
@@ -122,10 +128,10 @@ The Member Access system is enabled by default. Go to **ArraySubs → Member Acc
 Yes. Every rule supports multiple conditions with AND or OR logic and nested condition groups. For example, you can require an active subscription **and** a minimum lifetime spend in the same rule.
 
 ### What happens if multiple rules conflict?
-Rules are evaluated in order. For most rule types, the first matching rule wins. For discounts, the best (lowest) price wins. For Login Limit rules, the highest session limit wins. See [Access-Rule Conflicts](../audits-and-logs/access-rule-conflicts.md) for detailed resolution guidance.
+Resolution depends on the rule type. Comment restrictions use the first targeted rule the visitor fails; per-item discounts use the best (lowest) final price; overlapping per-product limits use the strictest (lowest) maximum; and Login Limit rules use the highest session limit. See [Access-Rule Conflicts](../audits-and-logs/access-rule-conflicts.md) for detailed resolution guidance.
 
 ### Does Member Access work with WooCommerce Block Checkout / Store API?
-Yes. Shop Access restriction rules are fully compatible with the WooCommerce Store API, including add-to-cart validation, quantity restrictions, and cart item validation for block-based checkout flows.
+Yes. Shop Access and Purchase Limit rules validate WooCommerce Store API requests, including add-to-cart and cart-item quantity changes in block-based flows.
 
 ### When I deactivate the Pro plugin, what happens to Login Limit rules?
-Login Limit rules stop being enforced. The rules remain saved in your settings, so reactivating Pro restores them. All other rule types (Role Mapping, Discount, Shop Access, URL, Post Types, Downloads) continue working because they are part of the core plugin.
+Login Limit rules stop being enforced. The rules remain saved in your settings, so reactivating Pro restores them. All ten Member Access tabs, including Comments and Purchase Limit, continue working because they are part of the core plugin.

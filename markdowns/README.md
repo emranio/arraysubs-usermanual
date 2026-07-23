@@ -1,7 +1,7 @@
 # Info
 - Module: User Manual Hub
 - Availability: Shared
-- Last updated: 2026-07-16
+- Last updated: 2026-07-22
 
 # ArraySubs User Manual
 
@@ -22,7 +22,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 
 - **New store setup:** [Before You Launch](getting-started/before-you-launch.md) → [Cron Job Setup](getting-started/cron-job-setup.md) → [First-Time Setup](getting-started/first-time-setup.md) → [Import and Export Settings](getting-started/import-export-settings.md) → [Essential Daily Workflows](getting-started/essential-daily-workflows.md) → [Easy Setup Wizard](getting-started/easy-setup-wizard.md)
 - **Subscription foundation:** [Settings](settings/README.md) → [Subscription Products](subscription-products/README.md) → [Manage Subscriptions](manage-subscriptions/README.md)
-- **Access and memberships:** [Member Access](member-access/README.md) → [Role Mapping](member-access/role-mapping.md) → [Login Limit](member-access/login-limit.md) *(Pro)*
+- **Access and memberships:** [Member Access](member-access/README.md) → [Comments](member-access/comments.md) → [Purchase Limit](member-access/purchase-limit.md) → [Member Styling](member-styling/README.md) → [Login Limit](member-access/login-limit.md) *(Pro)*
 - **Dedicated operations modules:** [Coupons](coupons/README.md) → [Subscription Shipping](subscription-shipping/README.md) *(Pro)* → [Subscription Notes](subscription-notes/README.md)
 - **Customer and account experience:** [Customer Portal](customer-portal/README.md) → [Member Insight](member-insight/README.md) *(Pro)* → [Store Credit](store-credit/README.md) *(Pro)* → [Shortcodes](shortcodes/README.md) → [Profile Builder](profile-builder/README.md) → [Feature Manager](feature-manager/README.md) *(Pro)*
 - **Checkout and lifecycle:** [Checkout and Payments](checkout-and-payments/README.md) → [Cart Info Editor](cart-info-editor/README.md) *(Pro)* → [Billing and Renewals](billing-and-renewals/README.md) → [Retention, Cancellation, and Refunds](retention-and-refunds/README.md)
@@ -32,13 +32,13 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 
 ## Dedicated Module Count
 
-The manual now tracks **28 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **20 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **8 modules** require ArraySubs Pro.
+The manual now tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **8 modules** require ArraySubs Pro.
 
 | Count | Module Group |
 |---|---|
-| 20 | Free/core-accessible modules |
+| 21 | Free/core-accessible modules |
 | 8 | Pro-only modules |
-| 28 | Total dedicated modules |
+| 29 | Total dedicated modules |
 
 ## Admin Screen Map
 
@@ -59,7 +59,8 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | **Products → Edit Product → Subscription** *(Pro)* | Configure subscription products, Redirect Product Page, and Subscription Shipping controls | [Subscription Products](subscription-products/README.md), [Redirect Product Page](redirect-product-page/README.md), [Subscription Shipping](subscription-shipping/README.md) |
 | **ArraySubs → Subscriptions** | Search, filter, create, export, edit, and open subscription records | [Subscription Operations](manage-subscriptions/subscription-operations.md) |
 | **ArraySubs → Subscriptions → Detail → Subscription Notes** | Review system notes, admin notes, customer-visible notes, gateway notes, and lifecycle history | [Subscription Notes](subscription-notes/README.md) |
-| **ArraySubs → Member Access** | Build role, URL, post type, discount, shop access, download, content-gate, and login-limit rules | [Member Access Overview](member-access/README.md) |
+| **ArraySubs → Member Access** | Build role, URL, post type, discount/free-shipping, shop, download, comment, purchase-limit, and content-gate rules | [Member Access Overview](member-access/README.md) |
+| **ArraySubs → Member Styling** | Add conditional body classes and CSS on the frontend or in wp-admin | [Member Styling](member-styling/README.md) |
 | **Marketing → Coupons** | Configure subscription-aware coupon discounts and renewal cycle limits | [Coupons](coupons/README.md) |
 | **ArraySubs → Manage Members** *(Pro)* | Search customers and open the Member Insight profile | [Member Insight](member-insight/README.md) |
 | **ArraySubs → Store Credit** *(Pro)* | Manage balances, adjustments, and transaction history | [Store Credit Management](store-credit/store-credit-management.md) |
@@ -115,18 +116,24 @@ View, create, edit, and manage every subscription in your store.
 
 ## Member Access and Restriction Rules
 
-Control who can access what across your site — gate content, restrict products, assign roles, offer member discounts, manage downloads, and enforce session limits.
+Control who can access what across your site — gate content, restrict comments and quantities, assign roles, offer discounts or free shipping, manage downloads, and enforce session limits.
 
 - [Member Access](member-access/README.md) — Overview of the real Member Access UI tabs, shared condition system, and section navigation.
 - [Role Mapping](member-access/role-mapping.md) — Automatically assign or remove WordPress roles from subscription conditions.
 - [Content Gate](member-access/content-gate.md) — Choose Elementor, Gutenberg, shortcode, or PHP gating for protected content.
-- [Discount](member-access/discount.md) — Member pricing rules for products, categories, and tags.
+- [Discount](member-access/discount.md) — Member pricing and free-shipping rules for products, categories, and tags.
 - [Shop Access](member-access/ecommerce.md) — Product visibility, purchase blocking, login redirects, and 404 restrictions.
 - [URL](member-access/url.md) — Protect frontend paths and URL patterns with priority and exclusions.
 - [Post Types](member-access/post-types.md) — Gate posts, pages, and custom post types with archive behavior controls.
 - [Downloads](member-access/downloads.md) — Provision gated files through My Account -> Downloads.
+- [Comments](member-access/comments.md) — Control reading and posting on post types, taxonomy terms, or specific entries.
+- [Purchase Limit](member-access/purchase-limit.md) — Enforce per-product or per-order quantity caps for either side of an audience condition.
 - [Conflicts](member-access/conflicts.md) — Review URL-rule overlaps with higher-priority per-post overrides.
 - [Login Limit](member-access/login-limit.md) *(Pro)* — Global concurrent-session limits and rule-based session overrides.
+
+## Member Styling
+
+[Member Styling](member-styling/README.md) conditionally adds sanitized body classes and custom CSS for subscribers, purchase segments, roles, logged-in visitors, or guests, with optional wp-admin styling and delayed activation.
 
 ## Coupons
 
