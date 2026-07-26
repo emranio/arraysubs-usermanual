@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Shared
-- Last updated: 2026-04-01
+- Last updated: 2026-07-26
 
 # Manage Subscription Products
 
@@ -9,7 +9,7 @@
 
 ## Overview
 
-![Subscription product editor — Subscription checkbox and product data tabs overview](README.ASSETS/01-subscription-product-editor-overview-annotated.png)
+![Subscription product editor — Subscription [ArraySubs] checkbox and product data tabs overview](README.ASSETS/01-subscription-product-editor-overview-annotated.png)
 
 Subscription products are the foundation of your recurring-revenue store. ArraySubs extends WooCommerce products with subscription billing fields, trial periods, signup fees, plan-switching paths, coupon support, and more. This section covers the complete product setup experience — from basic billing configuration to advanced Pro features like fixed-period memberships and product entitlements.
 
@@ -34,16 +34,16 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 
 | Concept | Where to configure |
 |---|---|
-| Billing period, interval, length | Product editor → Subscription tab |
-| Free trial | Product editor → Subscription tab → Free Trial |
-| Signup fee | Product editor → Subscription tab → Sign-up Fee |
-| Different renewal price | Product editor → Subscription tab → Different Renewal Price |
+| Billing period, interval, length | Product editor → Subscription [ArraySubs] tab |
+| Free trial | Product editor → Subscription [ArraySubs] tab → Free Trial |
+| Signup fee | Product editor → Subscription [ArraySubs] tab → Sign-up Fee |
+| Different renewal price | Product editor → Subscription [ArraySubs] tab → Different Renewal Price |
 | Upgrade / downgrade / crossgrade paths | Product editor → Linked Products tab |
 | Auto-downgrade target | Product editor → Linked Products tab |
-| Fixed period end date *(Pro)* | Product editor → Subscription tab → Fixed Period Membership |
-| Product page redirect *(Pro)* | Product editor → Redirect Product Page panel |
-| Feature entitlements *(Pro)* | Product editor → Feature Manager tab |
-| Subscription shipping *(Pro)* | Product editor → Subscription tab → Subscription Shipping |
+| Fixed period end date *(Pro)* | Product editor → Subscription [ArraySubs] tab → Fixed Period Membership |
+| Product page redirect *(Pro)* | Product editor → Product Redirect [AS] tab |
+| Feature entitlements *(Pro)* | Product editor → Feature Manager [AS] tab |
+| Subscription shipping *(Pro)* | Product editor → Subscription [ArraySubs] tab → Subscription Shipping |
 | Coupon settings | WooCommerce → Coupons → coupon edit → ArraySubs Subscription Settings |
 | Test links | Product editor → General tab → Helper Links |
 

@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free global Renewal Sync; Pro Flexible Renewal Sync and automatic gateway extensions
-- Last updated: 2026-07-08
+- Last updated: 2026-07-26
 
 # Renewal Sync
 
@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Renewal Sync
-- **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> General, and Products -> Edit Product -> Product data -> Subscription
+- **Where to open it:** WordPress Admin -> ArraySubs -> Settings -> General, and Products -> Edit Product -> Product data -> Subscription [ArraySubs]
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [renewal-operations](./renewal-operations.md)
 - **Next guide:** [trial-management](./trial-management.md)
@@ -75,9 +75,9 @@ Renewal Sync checkout is supported for manual/offline payment gateways and Strip
 
 Flexible Renewal Sync is the Pro product-level configuration for stores that need more control than one global first-charge mode. It lets each product split the billing cycle into active segments. The segment a customer signs up in decides how the first charge works.
 
-Open **Products -> Edit Product -> Product data -> Subscription**.
+Open **Products -> Edit Product -> Product data -> Subscription [ArraySubs]**.
 
-![Product Subscription tab with Flexible Renewal Sync segment picker](renewal-sync.ASSETS/02-flexible-renewal-sync-product-settings-annotated.png)
+![Product Subscription [ArraySubs] tab with Flexible Renewal Sync segment picker](renewal-sync.ASSETS/02-flexible-renewal-sync-product-settings-annotated.png)
 
 ### Segment behavior
 
@@ -110,8 +110,8 @@ Flexible Renewal Sync is not available together with Different Renewal Price, fr
 ### How to configure a product
 
 1. Go to **Products -> All Products** and edit the subscription product.
-2. In **Product data**, make sure **Subscription** is enabled.
-3. Open the **Subscription** tab.
+2. In **Product data**, make sure **Subscription [ArraySubs]** is enabled.
+3. Open the **Subscription [ArraySubs]** tab.
 4. Confirm the product is not using a trial, not using a lifetime billing period, and does not have **Different Renewal Price** enabled.
 5. Enable **Flexible Renewal Sync to Next Billing Cycle**.
 6. Move the boundary handles to split the cycle.

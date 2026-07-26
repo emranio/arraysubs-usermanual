@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Pro
-- Last updated: 2026-07-14
+- Last updated: 2026-07-26
 
 # Flexible Subscription Duration
 
@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Flexible Subscription Duration
-- **Where to open it:** WordPress Admin -> Products -> Add/Edit Product -> Subscription tab
+- **Where to open it:** WordPress Admin -> Products -> Add/Edit Product -> Subscription [ArraySubs] tab
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [Create and Configure Subscription Products](./create-and-configure.md)
 - **Next guide:** [Plan Switching and Product Relationships](./plan-switching-and-relationships.md)
@@ -20,7 +20,7 @@
 
 ## Overview
 
-Flexible Subscription Duration adds a **Subscription Type** selector to the Subscription tab of the WooCommerce product editor. It has three modes:
+Flexible Subscription Duration adds a **Subscription Type** selector to the **Subscription [ArraySubs]** tab of the WooCommerce product editor. It has three modes:
 
 | Mode | Who sets the length? | Who sets the billing period? |
 |---|---|---|
@@ -49,7 +49,7 @@ This is a **Pro** feature. Without the Pro add-on, every subscription product be
 
 ## How It Works
 
-The Subscription Type selector sits **above** the Billing Schedule section in the Subscription tab. The mode you choose changes what the customer is allowed to decide at purchase time:
+The Subscription Type selector sits **above** the Billing Schedule section in the **Subscription [ArraySubs]** tab. The mode you choose changes what the customer is allowed to decide at purchase time:
 
 - **Fixed** keeps the classic behavior. The Billing Period, Billing Interval, and Subscription Length you enter are exactly what every buyer gets.
 - **Flexible Length** keeps your Billing Period and Interval fixed, but turns **Subscription Length** into a **Maximum Length**. The customer chooses any number of billing cycles from 1 up to that maximum.
@@ -63,9 +63,9 @@ Whatever the customer selects is re-checked on the server when they add to the c
 
 ### The Subscription Type Toggle
 
-![Subscription tab — Subscription Type toggle with Fixed, Flexible Length, and Full Flexible buttons above the Billing Schedule](flexible-subscription-duration.ASSETS/01-subscription-type-toggle-simple-annotated.png)
+![Subscription [ArraySubs] tab — Subscription Type toggle with Fixed, Flexible Length, and Full Flexible buttons above the Billing Schedule](flexible-subscription-duration.ASSETS/01-subscription-type-toggle-simple-annotated.png)
 
-1. Open a subscription product and go to the **Subscription** tab in the Product data panel.
+1. Open a subscription product and go to the **Subscription [ArraySubs]** tab in the Product data panel.
 2. Find the **Subscription Type** section (above Billing Period).
 3. Click one of the three buttons: **Fixed**, **Flexible Length**, or **Full Flexible**.
 4. A short description under the buttons explains the selected mode.
@@ -91,7 +91,7 @@ A **Maximum Length of 0** means you are not setting an upper cap. The customer c
 
 ### Full Flexible Mode
 
-![Subscription tab — Full Flexible selected showing the Available Billing Periods checkboxes and the Maximum Length field](flexible-subscription-duration.ASSETS/02-full-flexible-available-periods-annotated.png)
+![Subscription [ArraySubs] tab — Full Flexible selected showing the Available Billing Periods checkboxes and the Maximum Length field](flexible-subscription-duration.ASSETS/02-full-flexible-available-periods-annotated.png)
 
 When you select **Full Flexible**:
 
@@ -151,7 +151,7 @@ The customer's choice is reflected everywhere the subscription terms are shown:
 
 ## Settings Reference
 
-These controls appear in the **Subscription** tab (or per variation) when the Pro add-on is active.
+These controls appear in the **Subscription [ArraySubs]** tab (or per variation) when the Pro add-on is active.
 
 | Setting | Type | Default | What It Controls |
 |---|---|---|---|

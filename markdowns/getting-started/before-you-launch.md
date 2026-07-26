@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-07-22
+- Last updated: 2026-07-26
 
 # Before You Launch
 
@@ -71,7 +71,7 @@ Understanding these concepts makes everything else in the manual easier to follo
 
 ### Subscription Products
 
-A subscription product is a standard WooCommerce product with the **Subscription** checkbox enabled. When a customer purchases it, the system creates a recurring subscription instead of a one-time order.
+A subscription product is a standard WooCommerce product with the **Subscription [ArraySubs]** checkbox enabled. When a customer purchases it, the system creates a recurring subscription instead of a one-time order.
 
 ArraySubs supports two WooCommerce product types:
 

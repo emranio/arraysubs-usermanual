@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Shipping
 - Availability: Pro
-- Last updated: 2026-06-08
+- Last updated: 2026-07-26
 
 # Subscription Shipping
 
@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Subscription Shipping
-- **Where to open it:** WordPress Admin -> Products -> Edit Product -> Product data -> Subscription
+- **Where to open it:** WordPress Admin -> Products -> Edit Product -> Product data -> Subscription [ArraySubs]
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [Redirect Product Page](../redirect-product-page/README.md)
 - **Next guide:** [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md)

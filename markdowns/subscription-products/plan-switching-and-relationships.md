@@ -1,7 +1,7 @@
 # Info
 - Module: Plan Switching / Fixed Period Membership
 - Availability: Shared (plan switching: Free, fixed-period membership: Pro)
-- Last updated: 2026-04-28
+- Last updated: 2026-07-26
 
 # Plan Switching and Product Relationships
 
@@ -41,7 +41,7 @@ This guide also covers **auto-downgrade** (automatic plan fallback when a subscr
 
 ## Linked Products Configuration
 
-Plan switching paths are configured on the **Linked Products** tab in the WooCommerce product editor. When a product has the Subscription checkbox enabled, a **Subscription Plan Switching** section appears in this tab.
+Plan switching paths are configured on the **Linked Products** tab in the WooCommerce product editor. When a product has the **Subscription [ArraySubs]** checkbox enabled, a **Subscription Plan Switching** section appears in this tab.
 
 ### Simple Products
 
@@ -214,9 +214,9 @@ When enabled on a product, the standard subscription length field is overridden.
 
 ### Product Configuration
 
-![Subscription tab Fixed Period Membership fields — Use fixed end date checkbox, End date type dropdown, and Annual cutoff selectors](plan-switching.ASSETS/04-fixed-period-membership-fields-annotated.png)
+![Subscription [ArraySubs] tab Fixed Period Membership fields — Use fixed end date checkbox, End date type dropdown, and Annual cutoff selectors](plan-switching.ASSETS/04-fixed-period-membership-fields-annotated.png)
 
-The Fixed Period Membership fields appear in the **Subscription** tab of the product editor, below the standard billing fields. Check **Use fixed end date** to enable the feature.
+The Fixed Period Membership fields appear in the **Subscription [ArraySubs]** tab of the product editor, below the standard billing fields. Check **Use fixed end date** to enable the feature.
 
 #### End Date Type
 
@@ -334,7 +334,7 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| Plan switching fields not visible on Linked Products tab | Product is not marked as a subscription | Check the Subscription checkbox on the product |
+| Plan switching fields not visible on Linked Products tab | Product is not marked as a subscription | Check the Subscription [ArraySubs] checkbox on the product |
 | Auto-downgrade not firing | Auto-downgrade timing does not match the event | Check Settings → Plan Switching → Auto-downgrade timing |
 | Customer cannot see switch options in portal | "Allow customer switch" is off or plan switching is disabled | Enable both in Settings → Plan Switching |
 | Customer sees a pending-switch replacement prompt | The subscription already has a future switch scheduled | Confirm replacement only if the customer wants the new target plan to replace the existing pending change |

@@ -1,7 +1,7 @@
 # Info
 - Module: Feature Manager — Product Features
 - Availability: Pro
-- Last updated: 2026-04-27
+- Last updated: 2026-07-26
 
 # Defining Product Features
 
@@ -20,28 +20,28 @@
 
 ## Overview
 
-Features are defined inside the WooCommerce product editor on a dedicated **Feature Manager** tab. Each feature has a name, a type, a value, and an enabled state. You can add as many features as needed, reorder them, and save feature sets as reusable templates.
+Features are defined inside the WooCommerce product editor on a dedicated **Feature Manager [AS]** tab. Each feature has a name, a type, a value, and an enabled state. You can add as many features as needed, reorder them, and save feature sets as reusable templates.
 
 Simple products have a single feature set. Variable products support per-variation features, so each pricing tier can define its own entitlements independently.
 
-## Opening the Feature Manager Tab
+## Opening the Feature Manager [AS] Tab
 
 1. Go to **Products → Edit Product** for any subscription product.
-2. In the product data panel (below the price fields), click the **Feature Manager** tab.
+2. In the product data panel (below the price fields), click the **Feature Manager [AS]** tab.
 
-The tab appears after **Attributes** and before **Advanced** in the product data panel. For variable products, the tab does not appear at the product level — feature fields appear inside each variation's options panel instead.
+The tab appears near the bottom of the product data menu, before **Product Redirect [AS]** and **Advanced**. If Product Redirect is unavailable, **Feature Manager [AS]** still appears immediately before **Advanced**. For variable products, the tab does not appear at the product level — feature fields appear inside each variation's options panel instead.
 
 ```box class="info-box"
-The Feature Manager tab only appears when the module is enabled in **ArraySubs → Settings → Feature Manager**.
+The **Feature Manager [AS]** tab only appears when the module is enabled in **ArraySubs → Settings → Feature Manager**.
 ```
 
-![Product Feature Manager tab](README.ASSETS/02-product-feature-manager-tab-annotated.png)
+![Product Feature Manager [AS] tab](README.ASSETS/02-product-feature-manager-tab-annotated.png)
 
 ## Adding Features (Simple Product)
 
 ![Manage Features modal](defining-product-features.ASSETS/01-manage-features-modal-annotated.png)
 
-1. Click the **Feature Manager** tab in the product data panel.
+1. Click the **Feature Manager [AS]** tab in the product data panel.
 2. Click **Add Feature** (shown when no features exist yet) or **Edit Features** (shown when features already exist) to open the **Manage Features** modal.
 3. Click **Add Feature** inside the modal. A new blank row appears in editing mode.
 4. Fill in the feature details:
@@ -54,7 +54,7 @@ The Feature Manager tab only appears when the module is enabled in **ArraySubs �
 7. When finished, click **Save** at the bottom of the modal.
 8. Click **Update** on the product to save all changes.
 
-After saving, a preview table appears inside the Feature Manager tab showing all defined features at a glance. The table has four columns: **Title**, **Type**, **Value**, and **Enabled**.
+After saving, a preview table appears inside the **Feature Manager [AS]** tab showing all defined features at a glance. The table has four columns: **Title**, **Type**, **Value**, and **Enabled**.
 
 ![Add Feature editing row](defining-product-features.ASSETS/02-add-feature-edit-row-annotated.png)
 
@@ -120,14 +120,14 @@ The order is saved when you click **Save** at the bottom of the modal.
 
 ### Editing
 
-1. Open the modal by clicking **Edit Features** on the Feature Manager tab.
+1. Open the modal by clicking **Edit Features** on the **Feature Manager [AS]** tab.
 2. Click the **Edit** (pencil) icon on the feature you want to change.
 3. The row switches to edit mode — modify the name, type, value, or enabled state.
 4. Click the **✓** (check) icon on the row to confirm, then click **Save** at the bottom of the modal.
 
 ### Deleting
 
-1. Open the modal by clicking **Edit Features** on the Feature Manager tab.
+1. Open the modal by clicking **Edit Features** on the **Feature Manager [AS]** tab.
 2. Click the **Delete** (trash) icon on the feature row.
 3. Confirm the deletion in the **Delete Feature** confirmation modal.
 4. Click **Save** at the bottom of the modal to finalize.
@@ -216,7 +216,7 @@ An online learning platform uses features to differentiate access:
 ## FAQ
 
 **Can I add features to non-subscription products?**
-No. The Feature Manager tab only appears on subscription products (simple or variable with the subscription product type).
+No. The **Feature Manager [AS]** tab only appears on supported subscription products. Simple products use the product-level tab; variable products use the **Feature Manager** section inside each variation.
 
 **Do feature changes affect existing subscribers immediately?**
 Yes. Features are always read from the current product meta. When you change a feature's value or remove a feature, the change is reflected the next time the customer views their My Features page.

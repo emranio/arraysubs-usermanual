@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Admin
 - Availability: Free; Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-07-26
 
 # Admin Tools and Records
 
@@ -198,7 +198,7 @@ Before making a manual change to a subscription (like updating the invoice email
 | Problem | Likely Cause | What to Do |
 |---------|--------------|------------|
 | Notes panel is empty on a subscription | The subscription is newly created with no events yet | System notes are created as events occur (status changes, payments, etc.). Add a manual note if needed. |
-| Feature Log page shows "No features found" | The customer has no active subscriptions with Feature Manager products, or the feature is not configured | Verify the subscription product has features defined in the Feature Manager tab |
+| Feature Log page shows "No features found" | The customer has no active subscriptions with Feature Manager products, or the feature is not configured | Verify the simple subscription product has features defined in the Feature Manager [AS] tab, or check the Feature Manager section inside the relevant variation |
 | Export CSV file is empty | No subscriptions match the current status filter | Switch to the **All** tab and export again |
 | Refund amounts do not appear in Order History | The refund was processed outside WooCommerce (e.g., directly in the payment gateway dashboard) | Process refunds through WooCommerce so they are recorded on the order and reflected in the subscription |
 

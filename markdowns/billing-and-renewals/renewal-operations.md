@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free, with Pro extensions for automatic gateway payments
-- Last updated: 2026-07-08
+- Last updated: 2026-07-26
 
 # Renewal Operations
 
@@ -212,12 +212,12 @@ The billing engine uses this priority when setting the renewal invoice amount:
 Set different renewal prices on each subscription product:
 
 1. Go to **Products → Edit Product**
-2. Open the **Subscription** tab (or the variation's subscription fields for variable products)
+2. Open the **Subscription [ArraySubs]** tab (or the variation's subscription fields for variable products)
 3. Enable **Different Renewal Price**
 4. Enter the **Renewal Price** amount
 5. Enter **Apply Renewal Price After** (number of payments before the new price takes effect)
 
-![Product Subscription tab with Different Renewal Price and shipping settings](renewal-operations.ASSETS/07-product-renewal-pricing-settings-annotated.png)
+![Product Subscription [ArraySubs] tab with Different Renewal Price and shipping settings](renewal-operations.ASSETS/07-product-renewal-pricing-settings-annotated.png)
 
 ```box class="info-box"
 Each product variation can have its own different renewal price configuration, independent of other variations.

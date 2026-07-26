@@ -1,7 +1,7 @@
 # Info
 - Module: Feature Manager
 - Availability: Pro
-- Last updated: 2026-04-04
+- Last updated: 2026-07-26
 
 # Feature Manager *(Pro)*
 
@@ -36,9 +36,9 @@ The module also supports **usage tracking** — showing customers how much of th
 
 ## How It Works
 
-1. **Define features on products.** In the WooCommerce product editor, open the **Feature Manager** tab and add named features with types and values.
+1. **Define features on products.** In the WooCommerce product editor, open the **Feature Manager [AS]** tab and add named features with types and values.
 
-![Product editor Feature Manager tab with configured features](README.ASSETS/02-product-feature-manager-tab-annotated.png)
+![Product editor Feature Manager [AS] tab with configured features](README.ASSETS/02-product-feature-manager-tab-annotated.png)
 
 2. **Features flow to subscribers.** When a customer purchases or subscribes to that product, they become entitled to those features.
 3. **Customers see their entitlements.** The **My Features** page in My Account shows all features from their active subscriptions — either grouped per subscription or combined into one table.
@@ -61,7 +61,7 @@ The module also supports **usage tracking** — showing customers how much of th
 ## FAQ
 
 **Is Feature Manager a free feature?**
-No. Feature Manager requires ArraySubs Pro. The settings page appears in the core admin area, but the product editor tab, storefront display, My Account page, and REST endpoints are all provided by the Pro plugin.
+No. Feature Manager requires ArraySubs Pro. The settings page appears in the core admin area, but the **Feature Manager [AS]** product editor tab, storefront display, My Account page, and REST endpoints are all provided by the Pro plugin.
 
 **Can I define different features for each variation of a variable product?**
 Yes. Variable products have Feature Manager fields in each variation row. Each variation can have its own independent feature set.
@@ -92,4 +92,3 @@ Features are only shown for subscriptions with an `active` or `trial` status. On
 - **Previous guide:** [feature-manager-settings](./feature-manager-settings.md)
 - **Next guide:** [before-you-launch](../getting-started/before-you-launch.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
-

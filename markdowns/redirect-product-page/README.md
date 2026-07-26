@@ -1,7 +1,7 @@
 # Info
 - Module: Redirect Product Page
 - Availability: Pro
-- Last updated: 2026-06-08
+- Last updated: 2026-07-26
 
 # Redirect Product Page
 
@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Redirect Product Page
-- **Where to open it:** WordPress Admin -> Products -> Edit Product -> Product data -> ArraySubs Redirect
+- **Where to open it:** WordPress Admin -> Products -> Edit Product -> Product data -> Product Redirect [AS]
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [Subscription Products](../subscription-products/README.md)
 - **Next guide:** [Subscription Shipping](../subscription-shipping/README.md)
@@ -24,9 +24,11 @@ Redirect Product Page is a Pro product-experience module. It controls what happe
 
 Use it when the product is sold through a custom landing page, sales funnel, membership page, or direct checkout button, and the default WooCommerce product page should not be public.
 
+Open the **Product Redirect [AS]** tab near the bottom of the product data menu. It appears immediately before **Advanced**, after **Feature Manager [AS]** when both Pro tabs are available.
+
 ## What It Controls
 
-![ArraySubs Redirect tab — Enable redirect and 301 redirect action](README.ASSETS/01-product-redirect-301-settings-annotated.png)
+![Product Redirect [AS] tab — Enable redirect and 301 redirect action](README.ASSETS/01-product-redirect-301-settings-annotated.png)
 
 | Setting | Purpose |
 |---|---|

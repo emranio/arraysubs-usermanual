@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products / Product Experience
 - Availability: Shared (pricing display: Free, redirect/features/shipping: Pro)
-- Last updated: 2026-04-01
+- Last updated: 2026-07-26
 
 # Product Experience and Display
 
@@ -125,9 +125,9 @@ Feature Manager lets you define product entitlements — named features with spe
 
 ### Product Configuration
 
-![Feature Manager product data tab — Edit Features button and configured entitlements table](product-experience.ASSETS/07-feature-manager-product-configuration-annotated.png)
+![Feature Manager [AS] product data tab — Edit Features button and configured entitlements table](product-experience.ASSETS/07-feature-manager-product-configuration-annotated.png)
 
-The Feature Manager appears as a separate **Feature Manager** tab in the WooCommerce product data panel (next to General, Inventory, Shipping, etc.). The tab is available for simple products and variations.
+For simple products, Feature Manager appears as a separate **Feature Manager [AS]** tab in the WooCommerce product data panel. It sits before **Product Redirect [AS]** and **Advanced**. For variable products, the fields appear in a **Feature Manager** section inside each variation.
 
 Inside the tab, you define features using a React-based interface. Each feature has:
 
@@ -227,11 +227,11 @@ Alternatively, for a supplement subscription where shipping is only charged once
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| Subscription info not showing on product page | Product is not marked as a subscription | Check the Subscription checkbox in the product editor |
+| Subscription info not showing on product page | Product is not marked as a subscription | Check the Subscription [ArraySubs] checkbox in the product editor |
 | Variable product shows no subscription info | No variation is selected yet | Subscription info appears after selecting a variation — this is expected behavior |
 | Redirect not working | Caching is serving the old page | Clear your site cache and CDN cache after saving redirect changes |
 | Admin sees the product page instead of redirect | Expected behavior — admins are not redirected | Admin users with `manage_options` capability always see the product page |
-| Feature Manager tab not visible | Pro plugin is not active or product type is unsupported | Ensure ArraySubs Pro is active. Feature Manager is available for simple products and variations only (not grouped or external). |
+| Feature Manager [AS] tab not visible | Pro plugin is not active or product type is unsupported | Ensure ArraySubs Pro is active. Simple products use the Feature Manager [AS] tab; variable products use the Feature Manager section inside each variation. |
 | Subscription Shipping section not visible | Product is virtual/downloadable or Pro module inactive | Uncheck Virtual/Downloadable on the product, and verify the Pro Subscription Shipping module is active |
 | Signup fee not showing in cart | Signup fee is 0 or empty | Enter a value greater than 0 in the Sign-up Fee field |
 
