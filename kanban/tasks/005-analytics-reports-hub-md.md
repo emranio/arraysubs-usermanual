@@ -31,3 +31,10 @@ Annotation notes (2026-06-23):
 - Used essential labels only: Reports Hub and Category totals.
 - Generated reports-hub.ASSETS/01-reports-hub-full-directory-annotated.png.
 - Verification: 2 labels resolved, 0 unresolved.
+
+Recapture notes (2026-07-27):
+- The hub gained a 13th category, "AI Reports" (6 free cards for the two AiInsights reports), so the frame now reads 13 categories / 49 total reports / 15 free / 34 pro.
+- Recaptured the clean original full-page at 1600px viewport from a fresh tab, so the SPA "Go Back" button stays out of the frame.
+- Re-annotated with #873EFF and steps=3, crop OFF so the lower categories the context note calls for stay in frame.
+- Labels: Reports Hub, Category totals, AI reports. Category totals was pinned to the whitespace right of the summary bar so it stops covering "15 free" and "34 pro".
+- Verification: 3 labels resolved, 0 unresolved.

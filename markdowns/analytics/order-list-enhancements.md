@@ -1,7 +1,7 @@
 # Info
 - Module: Order List Enhancements
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-07-27
 
 # Order List Enhancements *(Pro)*
 
@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> WooCommerce -> Orders
 - **Direct route:** `/wp-admin/admin.php?page=wc-orders`
 - **Section overview:** [Open overview](./README.md)
-- **Next guide:** [README](./README.md)
+- **Next guide:** [AI Churn Analysis](./ai-churn-analysis.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -70,7 +70,9 @@ Three filter dropdowns appear above the orders table.
 
 ### Type Filter
 
-A dropdown that filters orders by their computed type. Selecting a type shows only orders matching that classification.
+A dropdown that filters orders by their computed type. Selecting a type and clicking **Filter** shows only orders matching that classification.
+
+![The orders list filtered to Subs Renew orders](order-list-enhancements.ASSETS/04-order-list-type-filter-applied-annotated.png)
 
 | Option | Shows |
 |--------|-------|
@@ -110,7 +112,7 @@ A summary panel appears above the orders table showing aggregate counts for the 
 | **Per-type counts** | Individual count for each order type (Subs Purchase, Subs Renew, Subs Trial, Subs Upgrade, Credit Purchase, Other) |
 | **Orders with Coupon** | Number of orders in the current view that have at least one coupon applied |
 
-The panel updates dynamically as you apply or remove filters, change the order status tab, or adjust the date range.
+The panel updates dynamically as you apply or remove filters, change the order status tab, or adjust the date range. The screenshot under [Coupon Filter](#coupon-filter) shows it recalculated for a coupon-filtered view.
 
 ---
 
@@ -121,13 +123,14 @@ Orders created before the Pro plugin was activated do not have the computed type
 ### How to Run the Backfill
 
 1. Navigate to **WooCommerce → Orders**.
-2. If unclassified orders exist, an **admin notice** appears at the top of the page explaining that some orders need type classification.
+2. If unclassified orders exist, an **admin notice** appears at the top of the page stating how many orders need type classification.
+
+   ![The admin notice prompting the order type backfill](order-list-enhancements.ASSETS/03-backfill-notice-annotated.png)
+
 3. Click the **Compute Order Types** button in the notice.
 4. The system processes orders in batches of **200 per request**.
 5. A progress indicator shows how many orders have been processed.
-6. When all orders are classified, a completion message confirms the total count.
-
-![Order type backfill completion notice](order-list-enhancements.ASSETS/03-backfill-complete-notice-annotated.png)
+6. When all orders are classified, the notice is replaced by a completion message confirming the total count, and it stops appearing on future visits.
 
 ### What the Backfill Does
 
@@ -183,6 +186,8 @@ A store owner wants a daily snapshot of their order mix. They open the Orders pa
 - [Reports Hub](reports-hub.md) — Central directory of all analytics and data screens.
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards on the Analytics Overview page.
 - [Retention Analytics](../retention-analytics/README.md) — Churn reasons, retention offer effectiveness, and trend charts.
+- [AI Churn Analysis](ai-churn-analysis.md) — Which live subscribers are at risk right now.
+- [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement with a forward projection.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Type filters and subscription metrics in WC Analytics reports.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription export and related orders.
 - [Coupon Integration](../coupons/README.md) — Configuring subscription-applicable coupons.

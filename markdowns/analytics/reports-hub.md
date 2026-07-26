@@ -1,7 +1,7 @@
 # Info
 - Module: Reports Hub
 - Availability: Free
-- Last updated: 2026-04-02
+- Last updated: 2026-07-27
 
 # Reports Hub
 
@@ -15,8 +15,8 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/reports`
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [README](./README.md)
-- **Next guide:** [Retention Analytics](../retention-analytics/README.md)
+- **Previous guide:** [Analytics & Reports](./README.md)
+- **Next guide:** [Subscription Performance Dashboard](./subscription-performance.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -38,7 +38,7 @@ The hub itself does not display data or charts. Instead it acts as a launch pad 
 
 ## How It Works
 
-The Reports page organizes every report into **12 categories**. Each category shows a header with its name, description, and a Free or Pro label. Inside each category, individual report cards appear in a responsive grid.
+The Reports page organizes every report into **13 categories**. Each category shows a header with its name, description, and a Free or Pro label. Inside each category, individual report cards appear in a responsive grid.
 
 Every report card includes:
 
@@ -107,6 +107,27 @@ Cancellation and retention flow analytics under WooCommerce Analytics.
 All 6 reports link to **WooCommerce → Analytics → Retention**.
 
 For full documentation see [Retention Analytics](../retention-analytics/README.md).
+
+---
+
+### AI Reports *(Free)*
+
+AI-scored churn risk and forward revenue projection under WooCommerce Analytics.
+
+| Report | What it shows |
+|--------|--------------|
+| Churn Risk Scoring | Every live subscription scored from its own billing history, with High, Medium, and Low risk bands, monthly revenue at risk, and the signals behind each score |
+| AI Churn Narrative & Actions | Written explanation of what is driving churn, plus a recommended next step for each at-risk subscriber |
+| MRR & ARR Outlook | Recurring revenue projected 6, 12, or 24 months ahead with a conservative-to-optimistic range, key assumptions, risks, and opportunities |
+| Collected Revenue History | Completed subscription orders per month, split into renewals and new business — cash collected, not run-rate |
+| Subscriber Movement | New versus cancelled subscriptions per month, with the net change behind the revenue trend |
+| Billing Mix | How today's MRR splits across billing cadences, with subscriber count and share of MRR per cadence |
+
+The first 2 reports link to **WooCommerce → Analytics → Churn Analysis**; the remaining 4 link to **WooCommerce → Analytics → Revenue Forecast**.
+
+![The AI Reports category in the Reports Hub](reports-hub.ASSETS/02-reports-hub-ai-reports-category-annotated.png)
+
+For full documentation see [AI Churn Analysis](ai-churn-analysis.md) and [AI Revenue Forecast](ai-revenue-forecast.md).
 
 ---
 
@@ -264,7 +285,7 @@ A merchant remembers seeing "churn rate" somewhere but cannot recall whether it 
 
 ### Evaluating a Pro Upgrade
 
-A store owner on the free plan opens the Reports page and sees 9 free reports alongside 30+ Pro reports. They click through the Pro badges to understand exactly what additional data insights they would gain by upgrading.
+A store owner on the free plan opens the Reports page and sees 15 free reports alongside 34 Pro reports. They click through the Pro badges to understand exactly what additional data insights they would gain by upgrading.
 
 ---
 
@@ -274,6 +295,7 @@ A store owner on the free plan opens the Reports page and sees 9 free reports al
 - Pro-labeled reports still appear on the page when the Pro plugin is not active. This lets free users see what is available with an upgrade.
 - Some report links open WooCommerce Analytics pages (the `wc-admin` interface). Others stay within the ArraySubs admin panel.
 - The report count in the summary bar reflects all registered report sections, regardless of Pro availability.
+- The AI Reports category lists 6 cards but they open only 2 report pages — each card points at the part of [AI Churn Analysis](ai-churn-analysis.md) or [AI Revenue Forecast](ai-revenue-forecast.md) it describes. Both reports can also be opened directly from **WooCommerce → Analytics**.
 
 ---
 
@@ -281,6 +303,8 @@ A store owner on the free plan opens the Reports page and sees 9 free reports al
 
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards.
 - [Retention Analytics](../retention-analytics/README.md) — Cancellation and retention flow analytics.
+- [AI Churn Analysis](ai-churn-analysis.md) — Per-subscriber churn risk scoring and recommended actions.
+- [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement with a forward projection.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics.
 - [Order List Enhancements](order-list-enhancements.md) — Type and coupon columns on the Orders page.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription export and related orders.

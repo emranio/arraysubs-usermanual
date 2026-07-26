@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Performance Dashboard
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-07-27
 
 # Subscription Performance Dashboard *(Pro)*
 
@@ -15,8 +15,8 @@
 - **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Overview
 - **Direct route:** `/wp-admin/admin.php?page=wc-admin&path=/analytics/overview`
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [Retention Analytics](../retention-analytics/README.md)
-- **Next guide:** [woocommerce-analytics-extension](./woocommerce-analytics-extension.md)
+- **Previous guide:** [Reports Hub](./reports-hub.md)
+- **Next guide:** [WooCommerce Analytics Extension](./woocommerce-analytics-extension.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -235,6 +235,8 @@ A SaaS store running a 14-day free trial checks the **Trial Conversions** card w
 
 - [Reports Hub](reports-hub.md) — Central directory of all analytics and data screens.
 - [Retention Analytics](../retention-analytics/README.md) — Churn reasons, retention offer effectiveness, and trend charts.
+- [AI Churn Analysis](ai-churn-analysis.md) — Which live subscribers are driving the churn rate on this dashboard.
+- [AI Revenue Forecast](ai-revenue-forecast.md) — Where the MRR on this dashboard lands over the next 6 to 24 months.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics reports.
 - [Order List Enhancements](order-list-enhancements.md) — Type columns and filters on the WooCommerce Orders page.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Status transitions that drive churn and renewal metrics.

@@ -19,6 +19,8 @@
         "subscription-products/README.md",
         "subscription-products/create-and-configure.md",
         "subscription-products/flexible-subscription-duration.md",
+        "subscription-products/subscription-box.md",
+        "subscription-products/subscription-box-customer-experience.md",
         "subscription-products/plan-switching-and-relationships.md",
         "subscription-products/product-experience.md",
         "subscription-products/product-lifecycle.md"
@@ -134,7 +136,9 @@
         "analytics/reports-hub.md",
         "analytics/subscription-performance.md",
         "analytics/woocommerce-analytics-extension.md",
-        "analytics/order-list-enhancements.md"
+        "analytics/order-list-enhancements.md",
+        "analytics/ai-churn-analysis.md",
+        "analytics/ai-revenue-forecast.md"
     ],
     [
         "retention-analytics/README.md"

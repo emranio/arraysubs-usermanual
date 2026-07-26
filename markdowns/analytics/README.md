@@ -1,18 +1,19 @@
 # Info
 - Module: Analytics & Reports
 - Availability: Shared (Free + Pro)
-- Last updated: 2025-07-27
+- Last updated: 2026-07-27
 
 # Analytics & Reports
 
-> Track subscription revenue, growth, churn, retention, and customer behavior across a central Reports hub and extended WooCommerce Analytics screens.
+> Track subscription revenue, growth, churn, retention, and customer behavior across a central Reports hub, two AI-assisted reports, and extended WooCommerce Analytics screens.
 
 ## Overview
 
-ArraySubs gives you analytics at two levels:
+ArraySubs gives you analytics at three levels:
 
-1. **Reports Hub** (Free) — A central directory page inside the ArraySubs admin that links to every report and data screen in the ecosystem, organized by category.
-2. **Advanced Analytics** (Pro) — A full subscription performance dashboard, retention analytics, and extended WooCommerce Analytics reports with subscription-specific filters, columns, and metrics.
+1. **Reports Hub** (Free) — A central directory page inside the ArraySubs admin that links to the reports and data screens in the ecosystem, organized by category.
+2. **AI Reports** (Free) — Two reports under WooCommerce Analytics that score churn risk per subscriber and project recurring revenue forward, each with an optional AI-written analysis layer.
+3. **Advanced Analytics** (Pro) — A full subscription performance dashboard and extended WooCommerce Analytics reports with subscription-specific filters, columns, and metrics.
 
 Together they answer the questions every subscription merchant asks daily:
 
@@ -20,17 +21,20 @@ Together they answer the questions every subscription merchant asks daily:
 - Are subscriptions growing or shrinking?
 - Which products drive the most renewals?
 - How many trials convert to paid?
-- Where is revenue at risk?
+- Where is revenue at risk — and *which* subscribers is it sitting in?
 - Why are customers cancelling?
 - Are retention offers working?
+- Where will recurring revenue be in six, twelve, or twenty-four months?
 
-The analytics ecosystem has five major surfaces:
+The analytics ecosystem has seven major surfaces:
 
 | Surface | Where it appears | Availability | What it shows |
 |---------|-----------------|-------------|---------------|
-| [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 12 categories |
+| [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 13 categories |
 | [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | Pro | 10 KPI cards, 6 time-series charts, 5 leaderboards |
 | [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Free | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
+| [AI Churn Analysis](ai-churn-analysis.md) | WooCommerce → Analytics → Churn Analysis | Free | Per-subscriber churn risk scores and bands, revenue at risk, AI reasons and recommended actions |
+| [AI Revenue Forecast](ai-revenue-forecast.md) | WooCommerce → Analytics → Revenue Forecast | Free | MRR/ARR snapshot, 12 months of collected revenue, subscriber movement, billing mix, AI projection |
 | [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Pro | Type column, type filters, subscription revenue cards, subscription-only filters, member links |
 | [Order List Enhancements](order-list-enhancements.md) | WooCommerce → Orders | Pro | Type and coupon columns, filter dropdowns, embedded report panel, order type backfill |
 
@@ -40,7 +44,21 @@ The analytics ecosystem has five major surfaces:
 
 ![Retention Analytics overview](README.ASSETS/03-retention-analytics-overview-annotated.png)
 
-All three surfaces share a unified **order type classification system** that automatically labels every WooCommerce order as one of six subscription-related types.
+### Looking Back vs Looking Forward
+
+The three free reports under WooCommerce Analytics are designed to be read together:
+
+| Report | Time frame | Question it answers |
+|--------|-----------|--------------------|
+| [Retention Analytics](../retention-analytics/README.md) | Past | Who already left, why, and did the save offer work? |
+| [AI Churn Analysis](ai-churn-analysis.md) | Present | Who is about to leave, and what should I do about each one? |
+| [AI Revenue Forecast](ai-revenue-forecast.md) | Future | Where does recurring revenue land if nothing changes? |
+
+```box class="info-box"
+Both AI reports run on the **AI connector built into WordPress** — configure a provider once under **Settings → Connectors** and there is no separate API key setting inside ArraySubs to manage. Every figure on both reports is calculated from your own store data and stays available with no AI provider configured at all; only the written analysis needs one.
+```
+
+The Pro analytics surfaces share a unified **order type classification system** that automatically labels every WooCommerce order as one of six subscription-related types.
 
 ## Order Type Classification
 
@@ -53,8 +71,8 @@ Every order that passes through the store is automatically classified into one o
 - **Current guide:** Analytics & Reports
 - **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [order-list-enhancements](./order-list-enhancements.md)
-- **Next guide:** [reports-hub](./reports-hub.md)
+- **Previous guide:** [AI Revenue Forecast](./ai-revenue-forecast.md)
+- **Next guide:** [Reports Hub](./reports-hub.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 | Type | Label | When assigned |
@@ -76,16 +94,19 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 ## Prerequisites
 
-- **ArraySubs** (free) for the Reports Hub and Retention Analytics
+- **ArraySubs** (free) for the Reports Hub, Retention Analytics, AI Churn Analysis, and AI Revenue Forecast
 - **ArraySubs Pro** for the Subscription Performance Dashboard, WooCommerce Analytics Extension, and Order List Enhancements
 - **WooCommerce** 8.0+ with WooCommerce Admin (included by default)
 - At least one subscription product and a few orders to populate metrics
+- **Optional, for the AI layer on the two AI reports:** an AI provider connector configured under **Settings → Connectors**
 
 ## What's in This Section
 
-- [Reports Hub](reports-hub.md) — The central directory page that links to every report in the ArraySubs ecosystem.
+- [Reports Hub](reports-hub.md) — The central directory page that links to the reports in the ArraySubs ecosystem.
 - [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — The overview page with KPI cards, charts, and leaderboards.
 - [Retention Analytics](../retention-analytics/README.md) — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
+- [AI Churn Analysis](ai-churn-analysis.md) — Per-subscriber churn risk scoring, revenue at risk, and AI-written reasons and next steps.
+- [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement, revenue and subscriber history, and an AI projection with a conservative-to-optimistic range.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) *(Pro)* — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data.
 - [Order List Enhancements](order-list-enhancements.md) *(Pro)* — Columns, filters, and the summary panel on the WooCommerce Orders page.
 
@@ -93,6 +114,8 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 ## Related Guides
 
+- [AI Churn Analysis](ai-churn-analysis.md) — Which subscribers are at risk right now and what to do about each one.
+- [AI Revenue Forecast](ai-revenue-forecast.md) — Where recurring revenue lands over the next 6, 12, or 24 months.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Status transitions that drive churn and renewal metrics.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription export and related orders.
 - [Store Credit Management](../store-credit/store-credit-management.md) — Credit purchase orders that appear in analytics.
@@ -105,7 +128,16 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 ## FAQ
 
 ### Do I need to do anything to start seeing analytics data?
-The **Reports Hub** and **Retention Analytics** are available immediately with the free plugin — no extra setup required. For the Pro analytics surfaces (Performance Dashboard, WC Analytics Extension, Order List Enhancements), the module begins classifying orders as soon as the Pro plugin is activated. For orders that existed before activation, use the **Compute Order Types** backfill tool on the WooCommerce Orders page — see [Order List Enhancements](order-list-enhancements.md).
+The **Reports Hub**, **Retention Analytics**, **AI Churn Analysis**, and **AI Revenue Forecast** are available immediately with the free plugin — no extra setup required. For the Pro analytics surfaces (Performance Dashboard, WC Analytics Extension, Order List Enhancements), the module begins classifying orders as soon as the Pro plugin is activated. For orders that existed before activation, use the **Compute Order Types** backfill tool on the WooCommerce Orders page — see [Order List Enhancements](order-list-enhancements.md).
+
+### Do the AI reports require a paid AI subscription?
+No. Every score, tile, chart, and table on both AI reports is calculated from your own store data and works with no AI provider configured. A provider only adds the written analysis — the churn narrative and per-subscriber recommendations, and the forward revenue projection. If no provider is set up, each report explains exactly which step is missing and links to the screen that fixes it.
+
+### Which AI providers are supported?
+Any provider with a WordPress connector plugin, including the Anthropic, OpenAI, and Google connectors. Configuration happens once under **Settings → Connectors**; ArraySubs has no separate API key field of its own.
+
+### Is customer data sent to the AI provider?
+No. Only anonymised, aggregated figures are sent — statuses, scores, tenure in days, payment counts, normalised monthly values, billing cadences, and monthly totals. Customer names, email addresses, billing addresses, and payment details never leave your store.
 
 ### Where is the Reports Hub?
 Navigate to **ArraySubs → Reports** in your WordPress admin sidebar. It is a free feature and available without the Pro plugin.

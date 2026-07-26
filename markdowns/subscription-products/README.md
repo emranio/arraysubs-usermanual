@@ -17,6 +17,8 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up simple and variable subscription products with billing periods, trials, signup fees, and different renewal pricing.
 - [Flexible Subscription Duration](flexible-subscription-duration.md) — Let customers choose the subscription length, and optionally the billing period, within merchant-set limits *(Pro)*.
+- [Subscription Boxes](subscription-box.md) — Create a build-your-own box product where customers assemble a box from steps you define, with product and category pickers, tiered discounts, freebies, and its own renewal-sync plan *(Pro)*.
+- [Subscription Box Customer Experience](subscription-box-customer-experience.md) — How shoppers build a box on the storefront, how it appears in the cart and at checkout, and how the box and its included subscriptions behave through renewals *(Pro)*.
 - [Plan Switching and Product Relationships](plan-switching-and-relationships.md) — Configure upgrade, downgrade, and crossgrade paths, auto-downgrade fallback plans, and fixed-period memberships *(Pro)*.
 - [Product Experience and Display](product-experience.md) — How subscription pricing appears on the product page, cart, checkout, and order screens. Includes Redirect Product Page *(Pro)*, Feature Manager *(Pro)*, and Subscription Shipping *(Pro)*.
 - [Coupon Integration](../coupons/README.md) — Apply WooCommerce coupons to subscriptions with recurring discounts, cycle limits, and initial-checkout counting.
@@ -38,6 +40,11 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 | Free trial | Product editor → Subscription [ArraySubs] tab → Free Trial |
 | Signup fee | Product editor → Subscription [ArraySubs] tab → Sign-up Fee |
 | Different renewal price | Product editor → Subscription [ArraySubs] tab → Different Renewal Price |
+| Subscription box product type *(Pro)* | Product editor → Product data → Subscription Box [ArraySubs] |
+| Box configuration wizard *(Pro)* | Product editor → General tab → Edit Box Configuration |
+| Box billing schedule, steps, and elements *(Pro)* | Product editor → General tab → Edit Box Configuration → Box Steps |
+| Box discounts and freebies *(Pro)* | Product editor → General tab → Edit Box Configuration → Discounts & Freebies |
+| Box renewal sync segment plan *(Pro)* | Product editor → General tab → Edit Box Configuration → Flexible Renewal Sync |
 | Upgrade / downgrade / crossgrade paths | Product editor → Linked Products tab |
 | Auto-downgrade target | Product editor → Linked Products tab |
 | Fixed period end date *(Pro)* | Product editor → Subscription [ArraySubs] tab → Fixed Period Membership |

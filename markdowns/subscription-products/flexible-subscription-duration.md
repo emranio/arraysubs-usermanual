@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> Products -> Add/Edit Product -> Subscription [ArraySubs] tab
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [Create and Configure Subscription Products](./create-and-configure.md)
-- **Next guide:** [Plan Switching and Product Relationships](./plan-switching-and-relationships.md)
+- **Next guide:** [Subscription Boxes](./subscription-box.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview

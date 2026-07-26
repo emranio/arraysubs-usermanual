@@ -1,7 +1,7 @@
 # Info
 - Module: WooCommerce Analytics Extension
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-07-27
 
 # WooCommerce Analytics Extension *(Pro)*
 
@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Orders, Revenue, Products, Variations, and Customers
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [subscription-performance](./subscription-performance.md)
-- **Next guide:** [access-rule-conflicts](../audits-and-logs/access-rule-conflicts.md)
+- **Next guide:** [Order List Enhancements](./order-list-enhancements.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -81,21 +81,25 @@ Filter options:
 | Subs Trial | Trial subscription orders only |
 | Other | Regular WooCommerce orders only |
 
+With a type filter applied, every standard WooCommerce metric above the table recalculates for that segment alone:
+
+![The Orders report filtered to Subs Renew orders](woocommerce-analytics-extension.ASSETS/07-orders-filtered-by-type-annotated.png)
+
 ### Advanced Type Filter
 
-For more complex analysis, the advanced filters panel includes a multi-select **Type** filter with two modes:
+For more complex analysis, switch the **Show** dropdown from *All orders* to **Advanced filters**, then click **Add a filter** and choose **Type**. The rule row that appears has two parts:
 
-- **Type Is** — Include only the selected types (show orders matching any of the checked types).
-- **Type Is Not** — Exclude the selected types (show all orders except the checked types).
+- **Is** — Include only orders of the selected type.
+- **Is Not** — Exclude orders of the selected type, showing everything else.
 
-This lets you build precise segments like "show renewal and upgrade orders but not trials" using the **Type Is** rule with `Subs Renew` and `Subs Upgrade` selected.
+![Orders report advanced type filter with an Is rule](woocommerce-analytics-extension.ASSETS/02-orders-advanced-type-filter-annotated.png)
 
-When advanced type filters are active, a warning label appears in the filter bar to remind you that results are filtered.
+Add the Type rule more than once to build precise segments. For example, two **Type Is Not** rules with `Subs Trial` and `Other` selected, combined with **Orders match All filters**, gives you every subscription order that is neither a trial nor a regular purchase.
 
-![Orders report advanced type filter](woocommerce-analytics-extension.ASSETS/02-orders-advanced-type-filter-annotated.png)
+The **Orders match** dropdown at the top of the panel switches between `All` (every rule must match) and `Any` (any rule may match). Click **Filter** to apply, or **Clear all filters** to reset.
 
 ```box class="info-box"
-The quick filter and advanced filter serve different use cases. The quick filter is for fast single-type views. The advanced filter supports multi-type include/exclude logic. Only one mode is active at a time — setting an advanced filter overrides the quick filter.
+The quick filter and advanced filter serve different use cases. The quick **Type** dropdown is for fast single-type views. The advanced panel supports include/exclude rules that can be combined with the other advanced filters, such as Coupon code, Order status, and Product.
 ```
 
 ---
@@ -133,11 +137,15 @@ A **Product Type** dropdown appears in the filters bar with two options:
 | Option | Behavior |
 |--------|----------|
 | All Products | Show all products (default) |
-| Subscription Only | Show only products flagged as subscription products |
+| Subscription Products Only | Show only products flagged as subscription products |
 
 This filter uses the `_is_subscription` product meta to include only subscription-type products in the report. One-time products, downloadable products, and other non-subscription product types are excluded.
 
 ![Products report subscription product filter](woocommerce-analytics-extension.ASSETS/04-products-subscription-filter-annotated.png)
+
+With the filter applied, the items-sold, net-sales, and orders totals all narrow to subscription products only:
+
+![The Products report filtered to subscription products](woocommerce-analytics-extension.ASSETS/08-products-filtered-subscription-only-annotated.png)
 
 ---
 
@@ -152,7 +160,7 @@ A **Product Type** dropdown appears in the filters bar, identical to the Product
 | Option | Behavior |
 |--------|----------|
 | All Variations | Show all variations (default) |
-| Subscription Only | Show only variations belonging to subscription products |
+| Subscription Variations Only | Show only variations belonging to subscription products |
 
 The filter checks both the variation's own meta and the parent product's subscription flag to ensure complete coverage.
 
@@ -186,7 +194,7 @@ A product manager launches new pricing tiers and wants to track how many custome
 
 ### Analyzing Subscription Product Performance
 
-A merchant with 50 products (20 subscription, 30 one-time) wants to see how their subscription products are performing relative to each other. They navigate to **Analytics → Products**, select **Subscription Only** from the Product Type filter, and compare items sold, net revenue, and orders across subscription products only.
+A merchant with 50 products (20 subscription, 30 one-time) wants to see how their subscription products are performing relative to each other. They navigate to **Analytics → Products**, select **Subscription Products Only** from the Product Type filter, and compare items sold, net revenue, and orders across subscription products only.
 
 ### Deep-Diving into a Customer
 
@@ -209,6 +217,8 @@ While reviewing the Customers report, a store owner notices a high-value custome
 - [Reports Hub](reports-hub.md) — Central directory of all analytics and data screens.
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards on the Analytics Overview page.
 - [Retention Analytics](../retention-analytics/README.md) — Churn reasons, retention offer effectiveness, and trend charts.
+- [AI Churn Analysis](ai-churn-analysis.md) — Per-subscriber churn risk scoring and recommended actions.
+- [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement with a forward projection.
 - [Order List Enhancements](order-list-enhancements.md) — Type column and filters on the WooCommerce Orders list page.
 - [Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — The member profile page linked from the Customers report.
 - [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md) — Subscription data export.

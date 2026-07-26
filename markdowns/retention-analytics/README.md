@@ -1,7 +1,7 @@
 # Info
 - Module: Retention Analytics
 - Availability: Free
-- Last updated: 2026-04-02
+- Last updated: 2026-07-27
 
 # Retention Analytics
 
@@ -15,8 +15,8 @@
 - **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Retention
 - **Direct route:** `/wp-admin/admin.php?page=wc-admin&path=/analytics/arraysubs-retention`
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [Reports Hub](../analytics/reports-hub.md)
-- **Next guide:** [Subscription Performance Dashboard](../analytics/subscription-performance.md)
+- **Previous guide:** [AI Revenue Forecast](../analytics/ai-revenue-forecast.md)
+- **Next guide:** [Emails](../emails/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -40,6 +40,10 @@ The page helps you answer questions like:
 - Compare churn rate and offer acceptance rate across different date ranges.
 - Drill into a specific product to see its individual retention performance.
 - Investigate specific cancellation events in the activity log.
+
+```box class="info-box"
+This report looks **backwards** — at customers who already cancelled. To see which subscribers are at risk of cancelling *next*, open [AI Churn Analysis](../analytics/ai-churn-analysis.md), which scores every live subscription and recommends a next step for each at-risk account.
+```
 
 ## Prerequisites
 
@@ -130,6 +134,8 @@ If no offers were shown in the selected period, the chart shows an empty state.
 
 ## Trend Chart
 
+![Cancellation Trends chart with four data series](README.ASSETS/06-retention-trend-chart-annotated.png)
+
 A **line chart** with four data series plotted over time.
 
 | Line | Color | What it tracks |
@@ -186,6 +192,10 @@ A **paginated table** showing every individual retention-related event.
 ### Filtering
 
 A dropdown above the table lets you filter by event type. Select any single event type or "All Events" to see everything.
+
+![The activity log filtered to Offer Accepted events](README.ASSETS/07-retention-event-filter-annotated.png)
+
+Filtering to a single offer event is the quickest way to audit which offer type customers actually took, since the **Offer** column is only populated on offer events.
 
 The activity log also respects the date range and product filters set in the top filter bar.
 
@@ -256,6 +266,8 @@ A support agent investigates a customer complaint about unwanted auto-renewal. T
 
 ## Related Guides
 
+- [AI Churn Analysis](../analytics/ai-churn-analysis.md) — Who is *about* to cancel, scored per subscriber, with a recommended next step for each one.
+- [AI Revenue Forecast](../analytics/ai-revenue-forecast.md) — What the churn in this report means for recurring revenue over the next 6 to 24 months.
 - [Reports Hub](../analytics/reports-hub.md) — Central directory of all analytics and reports.
 - [Subscription Performance Dashboard](../analytics/subscription-performance.md) — KPI cards, charts, and leaderboards on the WC Analytics Overview.
 - [WooCommerce Analytics Extension](../analytics/woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics reports.
