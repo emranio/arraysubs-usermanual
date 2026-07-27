@@ -1139,3 +1139,6 @@
 {"timestamp":"2026-07-22T16:25:07.707897406+02:00","action":"move","task_id":108,"detail":"in-progress -\u003e done"}
 {"timestamp":"2026-07-22T16:25:08.099670007+02:00","action":"move","task_id":108,"detail":"done -\u003e in-progress"}
 {"timestamp":"2026-07-22T16:27:50.618020941+02:00","action":"move","task_id":108,"detail":"in-progress -\u003e done"}
+{"timestamp":"2026-07-27T16:00:47.80748+06:00","action":"create","task_id":109,"detail":"subscription-products - subscription-box.md reshoot 11"}
+{"timestamp":"2026-07-27T16:00:52.447559+06:00","action":"move","task_id":109,"detail":"todo -\u003e in-progress"}
+{"timestamp":"2026-07-27T16:13:14.346875+06:00","action":"move","task_id":109,"detail":"in-progress -\u003e done"}
