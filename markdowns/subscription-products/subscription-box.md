@@ -292,9 +292,9 @@ Uploaded files are content-sniffed (not trusted by extension), given a random fi
 
 ### Step 2: Discounts & Freebies
 
-This screen turns the box into a tiered offer.
+This screen turns the box into a tiered offer. An information panel at the top restates the four rules that catch people out — how ranges are matched, that the last range is open-ended, that ranges never stack, and that the maximum is a drawing scale rather than a limit.
 
-![Discounts and Freebies screen with the basis select and the multi-point range slider](subscription-box.ASSETS/11-discounts-basis-and-tiers-annotated.png)
+![Discounts and Freebies screen with the basis select, the maximum field, and the multi-point range slider](subscription-box.ASSETS/11-discounts-basis-and-tiers-annotated.png)
 
 **Ranges Based On** decides what the tiers measure:
 
@@ -303,9 +303,27 @@ This screen turns the box into a tiered offer.
 | **Total Value** | The box subtotal before discount | "Ranges apply to the box subtotal before discount." |
 | **Total Count** | The number of items in the box | "Ranges apply to the number of items in the box." |
 
-Click **Add Range Point** to split the scale. Each new point is placed in the middle of the largest gap, and you can drag it on the multi-point slider or type an exact value in the range card's **From** field. You can add up to **10** points, which gives up to 11 ranges. Removing a point merges its range into the one before it.
+### Max Amount / Max Items to Configure
+
+Next to the basis is a required number field. Its label follows the basis: **Max amount to configure** for Total Value, **Max items to configure** for Total Count.
+
+This is **the scale the range picker is drawn on** — the right-hand end of the slider. Nothing else. Set it to the largest box you actually want to design tiers for.
+
+- Until you enter a value above 0, the slider, the range cards, and the summary stay hidden, and the wizard will not let you continue to **Flexible Renewal Sync**. The notice reads *"Enter a maximum value before configuring ranges."*
+- **It is not a cap.** A customer can build a box worth far more than this figure. Nothing on the storefront reads it.
+- Lowering it **pulls any range point above it back to the edge**, keeping that point's discount and freebies. If two points end up on the same value, the later one is dropped along with its rules. Raising it again does not move points back, so lower it deliberately.
+
+```box class="info-box"
+Need to stop customers taking too much? Use the per-element limits on the **Box Steps** screen — **Max Items** on a Product Categories element, **Max Quantity** on a Product element. Those are the real caps.
+```
+
+### Range Points
+
+Click **Add Range Point** to split the scale. Each new point is placed in the middle of the largest gap, and you can drag it on the multi-point slider or type an exact value in the range card's **From** field. You can add up to **10** points, which gives up to 11 ranges — the button's helper text counts them down for you. Removing a point merges its range into the one above it and drops that range's discount and freebies.
 
 Ranges are half-open and always start at 0: with points at 40 and 60 you get `0 – 40`, `40 – 60`, and `60 and above`. A box lands in a range when its basis value is greater than or equal to that range's start.
+
+The **last range has no upper bound**, whatever the maximum is set to. With the picker drawn to 100 and the last point at 60, a box worth 300 still lands in the `60 and above` range and gets its discount and freebies.
 
 ### Range List and Summary
 
@@ -315,8 +333,8 @@ Under the slider, every range gets its own card with a colour swatch:
 
 | Field | Options | Notes |
 |---|---|---|
-| **Freebies** | Searchable multi select of products | Added to the order at no charge when the box lands in this range |
-| **Discount** | **No discount**, **Fixed amount**, **Percentage** | |
+| **Freebies** | Searchable multi select of products | Added to the order at no charge when the box lands in this range. Not tied to the box billing cycle, so any purchasable product works |
+| **Discount** | **No discount**, **Fixed amount**, **Percentage** | Taken off the box subtotal for this range only |
 | **Amount Off (currency)** | Number | Shown for a fixed discount; never reduces the box below zero |
 | **Percent Off** | Number, capped at 100 | Shown for a percentage discount |
 
@@ -402,7 +420,8 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 | **Max File Size (MB)** | Box Steps | Number 1–site limit | 5 (or the site limit) | Per-file upload cap |
 | **Allowed File Types** | Box Steps | Checkboxes (Images, PDF, CSV) | Images | Accepted upload kinds |
 | **Ranges Based On** | Discounts & Freebies | Select (Total Value / Total Count) | Total Value | What the discount tiers measure |
-| Range points | Discounts & Freebies | Slider, up to 10 points | none | Where the tiers start |
+| **Max amount / Max items to configure** | Discounts & Freebies | Number, required, above 0 | (empty) | How far the range picker is drawn. Not a customer limit; lowering it pulls points above it back to the edge |
+| Range points | Discounts & Freebies | Slider, up to 10 points | none | Where the tiers start. The last range is always open-ended |
 | **Freebies** | Discounts & Freebies | Searchable multi select | (empty) | Free products added inside that range |
 | **Discount** | Discounts & Freebies | Select (No discount / Fixed amount / Percentage) | No discount | Discount kind for that range |
 | **Amount Off** / **Percent Off** | Discounts & Freebies | Number (percent capped at 100) | 0 | Discount size |
@@ -436,6 +455,8 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 - **Category elements resolve at most 100 products.** A product outside that cap that a customer legitimately chose is still accepted on revalidation, as long as it still belongs to one of the element's categories and is still eligible.
 - **Category pickers hide empty categories.** A category with no eligible products is not offered, though an already-saved category always resolves so you can see and remove it.
 - **Freebies are not schedule-scoped.** They are added at zero cost, so any purchasable product can be a freebie — the freebie picker deliberately searches the whole catalogue, unlike the pickers on the box steps. A freebie that is itself a subscription product still receives a zero-value child subscription.
+- **The discount maximum never limits a customer.** It only decides how far the range picker is drawn. Boxes above it fall into the last range, which has no upper bound.
+- **Lowering the maximum rewrites your range points.** Points above the new maximum are pulled back onto it, keeping their discount and freebies; points that then collide are dropped with their rules. Raising the maximum afterwards does not restore them. Boxes configured before this field existed keep their points untouched until you set a maximum.
 - **Switching the product type away** from Subscription Box drops the box marker but keeps the configuration, so switching back restores your work.
 - **Boxes never use Lifetime Deal.** A box always renews, so only Day, Week, Month, and Year are offered.
 - **Renewal-sync gateway support.** Segment plans work with manual payment gateways and Stripe.
@@ -454,7 +475,12 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 | The picker shows nothing while typing | Fewer than 3 characters typed | Type at least 3 characters; searching starts after that |
 | A category is missing from the category picker | It currently holds no eligible products for this cycle | Add eligible products, or change the box schedule |
 | The wizard jumps back to Box Steps with a red notice | A step, element, or option list is incomplete | Fix the item named in the notice, then continue |
+| "Enter a maximum value before configuring ranges." | The **Max amount / Max items to configure** field is empty or 0 | Enter a figure above 0; the slider and range cards appear once you do |
+| The range slider and range cards are not shown | Same cause — no maximum is set yet | Fill in the maximum field |
+| A range point moved on its own | The maximum was lowered below it, so it was pulled back to the edge | Raise the maximum first, then place the point where you want it |
+| A range disappeared after changing the maximum | Two points collapsed onto the same value; the later one was dropped with its discount and freebies | Raise the maximum and re-add the point |
 | Discount never applies | The basis value never reaches the range start, or the amount is 0 | Check **Ranges Based On**, the range points, and the amount |
+| A very large box gets the same discount as a medium one | Expected — the last range is open-ended, so everything above the final point shares it | Add another range point if you want a separate tier higher up |
 | The segment slider is replaced by a warning | The billing cycle is shorter than 3 days | Use a longer cycle, or leave the segment plan off |
 | Renewal sync seems to be off although the box checkbox is unchecked | Unchecked means "follow the store-wide setting" | Check **ArraySubs → Settings → General → Sync Renewals to Next Billing Cycle** |
 | Customers report the box vanished from their cart | The configuration or a child product changed after they built it | This is intentional; the cart notice explains the reason, and the customer can rebuild the box |
@@ -495,6 +521,18 @@ No. Trials are forced off for a box and for everything inside it.
 
 ### Do the discount ranges stack?
 No. Exactly one range applies — the one the box's total value or item count falls into. Its discount and its freebies apply together.
+
+### Does "Max amount to configure" stop customers spending more than that?
+No. It only sets how far the range picker is drawn, so you can place your tiers. Customers can build a box of any size. If you want a real limit, use **Max Items** on a Product Categories element or **Max Quantity** on a Product element, on the **Box Steps** screen.
+
+### What happens to a box worth more than the maximum?
+It falls into the last range, which has no upper bound. With the picker drawn to 100 and the last point at 60, a box worth 300 gets the `60 and above` discount and freebies.
+
+### Why did my range points change when I lowered the maximum?
+Because a point above the maximum can no longer be drawn or dragged. It is pulled back onto the new edge, keeping its discount and freebies, so nothing silently keeps discounting from a position you cannot see. If two points land on the same value, the later one is removed with its rules — raise the maximum before lowering it if you want to keep them.
+
+### I have an older box that shows an empty maximum. Is it broken?
+No. Boxes configured before this field existed keep their range points exactly as they were. Enter a maximum at or above your highest point and everything reappears unchanged.
 
 ### What does leaving the Flexible Renewal Sync checkbox unchecked do?
 It makes the box follow your store-wide renewal sync setting (**ArraySubs → Settings → General → Sync Renewals to Next Billing Cycle**), exactly like any other subscription product. It does not disable syncing.
