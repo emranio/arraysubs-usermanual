@@ -15,7 +15,7 @@
 - **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [Gateway Health](../../gateway-health/README.md)
-- **Next guide:** [payment-recovery](./payment-recovery.md)
+- **Next guide:** [mollie](./mollie.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
 ## Overview

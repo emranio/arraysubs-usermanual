@@ -14,7 +14,7 @@
 - **Current guide:** Payment Recovery Tools
 - **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [paddle](./paddle.md)
+- **Previous guide:** [braintree](./braintree.md)
 - **Next guide:** [paypal](./paypal.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
