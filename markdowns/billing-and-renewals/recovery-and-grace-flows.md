@@ -224,7 +224,7 @@ When a subscription is paused, the subscription moves to **On-Hold** status and 
 
 When a subscription is paused and it uses automatic gateway billing:
 
-- The pause state is synced to the remote gateway (Stripe, PayPal, or Paddle)
+- The pause state is synced to the remote gateway (Stripe, PayPal, or Paddle). Mollie has no remote billing object to pause — ArraySubs owns the schedule, so simply not charging is the pause
 - The gateway marks the subscription as paused on its side
 - On resume, the gateway resumes the remote billing context
 
@@ -241,7 +241,7 @@ This ensures the gateway does not attempt to charge the customer during the paus
 A customer's credit card expired and the automatic renewal payment fails. The subscription enters the active grace period (3 days). The customer receives a **Renewal Payment Failed** email — the email body now says explicitly *"Reason: the card has expired."* so the customer immediately knows what to fix. They update their card, click the **Pay Now** link, and pay the pending invoice on day 2. The subscription never leaves Active status and continues normally.
 
 ```box class="info-box"
-**Failure reason in customer notifications.** When a renewal fails on an automatic gateway, the plugin classifies the gateway error code (Stripe `decline_code`, PayPal/Paddle equivalents) into a stable category and surfaces it in two places:
+**Failure reason in customer notifications.** When a renewal fails on an automatic gateway, the plugin classifies the gateway error code (Stripe `decline_code`, PayPal/Paddle/Mollie equivalents) into a stable category and surfaces it in two places:
 
 - the **Renewal Payment Failed** email shows a one-line reason callout above the order details (e.g. *"Reason: insufficient funds on the card."*)
 - the **subscription notes** include both the human reason and the raw gateway message

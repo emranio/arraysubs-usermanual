@@ -430,7 +430,7 @@ This table summarizes which actions are available based on subscription status:
 | Skip or Pause section is missing | Skip or pause features are disabled in settings, or the subscription is not in Active/Trial status | Check **General Settings → Skip & Renewal** and **Pause Subscription** settings |
 | Retention offers are not appearing | The Retention Flow feature is disabled, or no offers are configured, or the subscription does not meet offer eligibility conditions | Check the **Retention Flow** admin page for enabled offers and their eligibility rules |
 | Customer cancelled but subscription is still Active | End-of-period cancellation is configured (not immediate cancellation) | The subscription is scheduled to cancel at the end of the billing period. The customer will see a pending cancellation flag |
-| Renew Early button is missing | Early renew is disabled, the subscription is on PayPal/Paddle, it is a trial/lifetime/pending-cancel subscription, the renewal is already due, or an unpaid invoice is already waiting | Check **General Settings → Customer Actions → Allow Early Renew**, confirm the subscription is Active on Stripe or a manual gateway, and confirm the next payment date is still in the future |
+| Renew Early button is missing | Early renew is disabled, the subscription is on PayPal/Paddle, it is a trial/lifetime/pending-cancel subscription, the renewal is already due, or an unpaid invoice is already waiting | Check **General Settings → Customer Actions → Allow Early Renew**, confirm the subscription is Active on Stripe, Mollie or a manual gateway, and confirm the next payment date is still in the future |
 
 ## Related Guides
 
@@ -467,4 +467,4 @@ Yes. Store admins can change any subscription's status from the admin panel, inc
 No. The next payment date is measured from the original due date, so an early payment pushes the following renewal one full cycle past that original date. The customer never loses paid-through time.
 
 ### Why do some subscriptions not show the Renew Early button?
-Early renewal is only offered on Active subscriptions paid by Stripe or a manual gateway. PayPal and Paddle keep the billing schedule on their own systems, so ArraySubs cannot pull a charge forward without risking a double charge — the button is hidden for them even when the setting is enabled.
+Early renewal is only offered on Active subscriptions paid by Stripe, Mollie or a manual gateway. PayPal and Paddle keep the billing schedule on their own systems, so ArraySubs cannot pull a charge forward without risking a double charge — the button is hidden for them even when the setting is enabled.

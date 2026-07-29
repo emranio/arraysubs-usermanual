@@ -20,7 +20,7 @@
 
 ## Overview
 
-Subscriptions created through an automatic payment gateway (Stripe, PayPal, or Paddle) are configured for automatic renewal by default — the gateway charges the stored payment method on each billing date without any customer action.
+Subscriptions created through an automatic payment gateway (Stripe, PayPal, Paddle, or Mollie) are configured for automatic renewal by default — the gateway charges the stored payment method on each billing date without any customer action.
 
 ArraySubs Pro adds an **auto-renew toggle** that lets customers switch between automatic and manual billing. When a customer turns off auto-renew, their subscription continues but future renewals generate invoices that the customer must pay manually.
 

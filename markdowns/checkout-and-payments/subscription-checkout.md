@@ -325,7 +325,7 @@ Example:
 With **Charge the full recurring amount**, checkout charges the full `$30` on the 20th, but the first full renewal still lands on the 1st.
 
 ```box class="info-box"
-Renewal Sync is supported for manual/offline gateways and Stripe checkout. PayPal and Paddle automatic checkout options are hidden while a synced subscription is in the cart. Free trials and Lifetime Deal products are not synced.
+Renewal Sync is supported for manual/offline gateways, Stripe, and Mollie checkout. PayPal and Paddle automatic checkout options are hidden while a synced subscription is in the cart, because they bill from their own schedules. Free trials and Lifetime Deal products are not synced.
 ```
 
 ```box class="info-box"

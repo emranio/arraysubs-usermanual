@@ -14,7 +14,7 @@
 - **Current guide:** Payment Recovery Tools
 - **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [braintree](./braintree.md)
+- **Previous guide:** [mollie](./mollie.md)
 - **Next guide:** [paypal](./paypal.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
@@ -24,7 +24,7 @@ Automatic recurring billing fails sometimes. A card declines, a customer's bank 
 
 1. **Automatic retry** — Stripe failed renewals retry on the built-in retry policy with pre-retry charge verification to avoid double-charging.
 2. **Manual retry button** — admin and customer can both trigger an immediate retry without waiting for the scheduled retry.
-3. **Sync from Gateway** — admin button on the subscription detail page that pulls authoritative state from Stripe/PayPal/Paddle and reconciles missed-webhook drift.
+3. **Sync from Gateway** — admin button on the subscription detail page that pulls authoritative state from Stripe/PayPal/Paddle/Mollie and reconciles missed-webhook drift.
 4. **PayPal/Paddle pending-cancel handling** — when a customer schedules an end-of-period cancellation, the plugin tells PayPal/Paddle to stop charging on its own schedule so the customer is never charged for a period they cancelled.
 
 ## When to Use This
@@ -80,7 +80,7 @@ The category is stored in the `_last_payment_failure_category` subscription meta
 The admin subscription detail page has a **Resync from Gateway** button **inside the Payment Gateway card** (next to Detach Gateway), shown only when the attached gateway is automatic and explicitly supports gateway sync. The card itself only renders for automatic gateways — manual gateways like BACS / Cheque / COD do not show the card or any of its actions, since there is no remote state to pull. Clicking Resync asks the gateway "what is the current state of this subscription?" and applies safe corrections to local data:
 
 - `_gateway_status` (active/paused/inactive) — overwritten if the gateway differs.
-- `_next_payment_date` — overwritten when the gateway reports it (PayPal/Paddle; Stripe is plugin-scheduled so no value is reported).
+- `_next_payment_date` — overwritten when the gateway reports it (PayPal/Paddle; Stripe and Mollie are plugin-scheduled so no value is reported).
 - Card brand / last 4 / expiry — refreshed from the gateway so portal display is accurate after card auto-updates.
 - Recent successful charges that don't have a corresponding paid order locally — marked paid via `WC_Order::payment_complete()` with a clear "missed webhook" note.
 
@@ -220,7 +220,7 @@ Before each retry, the plugin asks Stripe: "Did this customer's PaymentIntent fo
 Yes. The same Retry Payment button appears in the customer portal when a renewal has failed. The customer's retry uses the same verification, so they can click safely without worrying about being charged twice.
 
 ### Does this work for PayPal and Paddle?
-The retry counter and pre-retry verification are Stripe-specific. PayPal and Paddle use their own gateway-side retry policies. The manual Retry Payment button is available for all gateways but only really triggers a fresh charge attempt for plugin-controlled gateways (Stripe). For gateway-controlled gateways, it tells the plugin to look at the existing renewal flow.
+The retry counter is Stripe-specific. Pre-retry verification runs for every ArraySubs-scheduled gateway, so a Mollie renewal is also checked for an already-succeeded charge before a retry goes out. PayPal and Paddle use their own gateway-side retry policies. The manual Retry Payment button is available for all gateways but only really triggers a fresh charge attempt for plugin-controlled gateways (Stripe and Mollie). For gateway-controlled gateways, it tells the plugin to look at the existing renewal flow.
 
 ### What's the difference between Sync from Gateway and the Gateway Health Dashboard?
 The Gateway Health Dashboard shows webhook delivery health across all subscriptions. Sync from Gateway is a per-subscription action that pulls authoritative state for that one subscription and reconciles drift. Use the dashboard to spot systemic webhook problems; use sync to fix one customer's data.

@@ -204,7 +204,7 @@ The card shows when the coupon was captured (applied) to this subscription.
 
 ## Payment Gateway Card **Pro**
 
-This card appears **only when an automatic payment gateway (Stripe, PayPal, Paddle) is attached to the subscription**. It is part of the **Automatic Payments** Pro module.
+This card appears **only when an automatic payment gateway (Stripe, PayPal, Paddle, Mollie) is attached to the subscription**. It is part of the **Automatic Payments** Pro module.
 
 ```box class="info-box"
 **Manual gateways do not show this card.** If the subscription was paid through Bank Transfer (BACS), Cheque, Cash on Delivery, or any other manual gateway, there is no remote state to surface — the gateway slug is already shown in the Order Summary card. The Payment Gateway card, its status badge, and the Detach / Resync actions all stay hidden.
@@ -223,7 +223,7 @@ This card appears **only when an automatic payment gateway (Stripe, PayPal, Padd
 
 ### Resync from Gateway
 
-When the gateway supports state sync (Stripe, PayPal, Paddle all do), a **Resync from Gateway** button appears in the card. Click it to pull the latest subscription state from the gateway and reconcile any missed webhook events — useful when you suspect the local data has drifted from the gateway (e.g. site was down for a long stretch, signing-secret changed, network blip).
+When the gateway supports state sync (Stripe, PayPal, Paddle and Mollie all do), a **Resync from Gateway** button appears in the card. Click it to pull the latest subscription state from the gateway and reconcile any missed webhook events — useful when you suspect the local data has drifted from the gateway (e.g. site was down for a long stretch, signing-secret changed, network blip).
 
 The reconciler updates `_gateway_status`, `_next_payment_date`, payment method card fields, and matches recent successful charges to local orders that are still marked unpaid. Product / plan / amount changes are deliberately not synced — those are merchant decisions, not gateway state.
 
@@ -309,7 +309,7 @@ A customer claims their discount is not being applied. Open the subscription det
 
 ### Use Case 3: Checking Gateway Health Before a Renewal
 
-Before a large customer's renewal date, open their subscription detail and check the **Payment Gateway card**. Verify the connection status is "Connected", the card on file is not expired, and note the last transaction ID for reference. If anything looks stale, click **Resync from Gateway** to pull the latest state from Stripe / PayPal / Paddle.
+Before a large customer's renewal date, open their subscription detail and check the **Payment Gateway card**. Verify the connection status is "Connected", the card on file is not expired, and note the last transaction ID for reference. If anything looks stale, click **Resync from Gateway** to pull the latest state from Stripe / PayPal / Paddle / Mollie.
 
 ### Use Case 4: Reviewing Custom Checkout Data
 

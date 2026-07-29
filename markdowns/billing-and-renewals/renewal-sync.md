@@ -68,7 +68,7 @@ The subscription stores the synced next payment date. Renewal invoice generation
 5. Click **Save Settings**.
 
 ```box class="warning-box"
-Renewal Sync checkout is supported for manual/offline payment gateways and Stripe. Unsupported ArraySubs automatic gateways are hidden while a synced subscription is in the cart. Free trials and lifetime deals keep their normal schedule.
+Renewal Sync checkout is supported for manual/offline payment gateways, Stripe, and Mollie — ArraySubs owns the renewal schedule for all three, so it can prorate the first charge and move the first renewal. PayPal and Paddle bill from their own schedules and are hidden while a synced subscription is in the cart. Free trials and lifetime deals keep their normal schedule.
 ```
 
 ## Flexible Renewal Sync

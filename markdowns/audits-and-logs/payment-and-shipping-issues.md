@@ -111,7 +111,7 @@ Admins can detach a gateway from a subscription through the **Detach Gateway** b
 ![Subscription detail gateway, detach, shipping, and failure trail](payment-and-shipping-issues.ASSETS/03-subscription-gateway-shipping-annotated.png)
 
 ```box class="info-box"
-The Detach Gateway button appears **only on automatic-gateway subscriptions** (Stripe, PayPal, Paddle). Manual gateways like BACS, Cheque, or COD do not show the Payment Gateway card at all — there is nothing to detach because no remote payment method is on file.
+The Detach Gateway button appears **only on automatic-gateway subscriptions** (Stripe, PayPal, Paddle, Mollie). Manual gateways like BACS, Cheque, or COD do not show the Payment Gateway card at all — there is nothing to detach because no remote payment method is on file.
 ```
 
 **What happens on detach:**

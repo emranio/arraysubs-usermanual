@@ -106,7 +106,7 @@ After the renewal invoice is created, the billing engine decides how to collect 
 - The subscription stays active during the configurable grace period while waiting for payment
 
 **Automatic payment (Pro)**
-- The billing engine checks whether the subscription is configured for automatic payment via the gateway (Stripe, PayPal, or Paddle)
+- The billing engine checks whether the subscription is configured for automatic payment via the gateway (Stripe, PayPal, Paddle, or Mollie)
 - If yes, the system charges the customer's saved payment method
 - On success, the order moves to **Completed** for non-shipping subscription renewals, or **Processing** when fulfillment/shipping is still required, and the subscription advances to the next cycle
 - On failure, the system fires payment failure hooks and may schedule a retry

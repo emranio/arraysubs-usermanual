@@ -1,14 +1,14 @@
 ---
 id: 111
 title: automatic-payments - braintree.md
-status: done
+status: archived
 priority: medium
 created: 2026-07-28T19:03:07.616304+06:00
-updated: 2026-07-28T19:09:49.010505+06:00
+updated: 2026-07-29T12:15:09.913231+06:00
 started: 2026-07-28T19:09:49.010504+06:00
-completed: 2026-07-28T19:09:49.010504+06:00
+completed: 2026-07-29T12:15:09.898414+06:00
 claimed_by: screenshotter
-claimed_at: 2026-07-28T19:09:49.010505+06:00
+claimed_at: 2026-07-29T12:15:09.913231+06:00
 class: standard
 ---
 
@@ -36,3 +36,17 @@ Both screenshots taken from the live app after installing WooCommerce Braintree 
 Doc fixes applied during capture (permission granted):
 - Gateway name corrected throughout from "Braintree (Credit Card)" to "PayPal Enterprise Payments (Credit Card)" — the plugin was renamed upstream; its internal WooCommerce ID is still braintree_credit_card. Noted both in the doc.
 - Settings table expanded to match the real page: added "Enable this gateway", "Credentials source" (confirms the inherited-credentials path the delegate handles), and "Tokenization".
+
+
+--- Update 2026-07-29 ---
+Re-captured `02-braintree-gateway-health-capability-notes` after a naming/disambiguation change:
+- Gateway title is now "Braintree (PayPal Enterprise Payments)".
+- Card description states it is credit-card only and distinct from the ArraySubs PayPal gateway.
+- New "Other Payment Methods" note appears when the extension's PayPal/Venmo/ACH/local methods are enabled (PayPal is on by default) warning that those cannot renew automatically.
+Additional marker suggestion for this shot:
+- `arrow pointing to the Other Payment Methods note, label 'Unsupported methods warning'`
+
+
+
+--- Superseded 2026-07-29 ---
+Braintree support was removed from ArraySubsPro entirely (naming collision with the ArraySubs PayPal gateway after the upstream rename to PayPal Enterprise Payments). braintree.md and its ASSETS have been deleted. This task is archived; no screenshots are needed.

@@ -312,7 +312,7 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 ## FAQ
 
 ### Do I need to configure payment gateways before testing?
-Not necessarily. For a basic test, you can use WooCommerce manual payment methods like "Check Payments." For testing automatic recurring charges, you need a supported gateway *(Pro)* like Stripe (test mode), PayPal (sandbox), or Paddle.
+Not necessarily. For a basic test, you can use WooCommerce manual payment methods like "Check Payments." For testing automatic recurring charges, you need a supported gateway *(Pro)* like Stripe (test mode), PayPal (sandbox), Paddle, or Mollie (test mode).
 
 ### Will the subscription start immediately after checkout?
 The subscription is created at checkout, but its status depends on the order. Once the order is marked as paid (Processing or Completed), the subscription becomes Active (or Trial, if a trial is configured).

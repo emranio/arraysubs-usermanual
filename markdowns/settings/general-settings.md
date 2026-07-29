@@ -296,7 +296,7 @@ Example: a customer buys a $30/month subscription on the 20th of a 30-day cycle.
 Signup fees are still charged normally. The recurring amount stored on the subscription remains the full product price so renewal orders are not prorated.
 
 ```box class="warning-box"
-Renewal Sync applies to new non-trial recurring subscription checkouts paid by manual/offline payment gateways or Stripe. Unsupported ArraySubs automatic gateways such as PayPal and Paddle are hidden while a synced subscription is in the cart. Free trials and Lifetime Deal products keep their normal schedule.
+Renewal Sync applies to new non-trial recurring subscription checkouts paid by manual/offline payment gateways, Stripe, or Mollie — the gateways whose renewal schedule ArraySubs owns. PayPal and Paddle bill from their own schedules and are hidden while a synced subscription is in the cart. Free trials and Lifetime Deal products keep their normal schedule.
 ```
 
 ```box class="info-box"
@@ -369,7 +369,7 @@ End-of-period cancellation is sometimes called "scheduled cancellation." Custome
 
 ![Automatic Payments — Allow Customers to Turn Off Auto-Renew switch and manual invoice warning](general-settings.ASSETS/09-automatic-payments-pro-controls-annotated.png)
 
-This section is relevant when the **ArraySubs Pro** plugin is active and at least one automatic payment gateway (Stripe, PayPal, or Paddle) is configured.
+This section is relevant when the **ArraySubs Pro** plugin is active and at least one automatic payment gateway (Stripe, PayPal, Paddle, or Mollie) is configured.
 
 ### Allow Customers to Turn Off Auto-Renew
 

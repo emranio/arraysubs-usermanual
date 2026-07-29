@@ -207,4 +207,4 @@
 - Treat **Retention Flow**, **Plan Switching**, **Skip & Pause**, **Refunds**, **Checkout Builder**, **Feature Manager**, **Store Credit**, and **Automatic Payments** as module-owned documentation areas, not shared settings chapters.
 - Use *(Pro)* badges anywhere the topic depends on `arraysubspro`.
 - The **Checkout Builder** section is significantly expanded because the codebase supports 27 field types, multistep navigation, a full design panel, conditional visibility rules, and per-address field customization.
-- The **Gateway** documentation should include a capability comparison matrix across Stripe, PayPal, and Paddle.
+- The **Gateway** documentation should include a capability comparison matrix across Stripe, PayPal, Paddle, and Mollie.

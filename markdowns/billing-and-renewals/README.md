@@ -105,4 +105,4 @@ Renewal invoices are generated automatically by the billing engine. To create an
 No. Subscription prices are locked at checkout. Product price changes only affect new subscriptions purchased after the change. Existing subscriptions continue to renew at their original stored price (or the configured different renewal price, if set).
 
 ### What is the difference between manual and automatic renewals?
-Manual renewals create a pending invoice and email the customer a payment link. The customer must log in and pay. Automatic renewals **(Pro)** charge the customer's saved payment method through the configured gateway (Stripe, PayPal, or Paddle) without requiring customer action.
+Manual renewals create a pending invoice and email the customer a payment link. The customer must log in and pay. Automatic renewals **(Pro)** charge the customer's saved payment method through the configured gateway (Stripe, PayPal, Paddle, or Mollie) without requiring customer action.

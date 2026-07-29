@@ -20,9 +20,10 @@
 
 ## Overview
 
-ArraySubs Pro integrates with five payment gateways — **Stripe**, **PayPal**, **Paddle**, **Mollie**, and **Braintree** — to process subscription payments automatically. Each gateway handles initial checkout payments, stores customer payment methods, and charges renewal invoices without merchant or customer intervention.
+ArraySubs Pro integrates with four payment gateways — **Stripe**, **PayPal**, **Paddle**, and **Mollie** — to process subscription payments automatically. Each gateway handles initial checkout payments, stores customer payment methods, and charges renewal invoices without merchant or customer intervention.
 
-Stripe, Mollie, and Braintree ride the gateway plugin you already use for checkout: ArraySubs adds the recurring half rather than replacing your payment provider. PayPal and Paddle are ArraySubs' own checkout gateways.
+Stripe and Mollie ride the gateway plugin you already use for checkout: ArraySubs adds the recurring half rather than replacing your payment provider. PayPal and Paddle are ArraySubs' own checkout gateways.
+
 
 The architecture supports two fundamentally different billing models, and understanding which model your gateway uses is essential for configuring your store correctly.
 
@@ -40,7 +41,7 @@ ArraySubs controls the entire billing schedule. It decides when to charge, gener
 3. The gateway processes the charge off-session (no customer action needed)
 4. The result (success or failure) comes back to ArraySubs via webhook
 
-**Used by:** Stripe, Mollie, Braintree
+**Used by:** Stripe, Mollie
 
 **Advantages:** Full control over billing timing, grace periods, retry logic, and renewal dates. The billing schedule in ArraySubs is always the single source of truth.
 
@@ -68,27 +69,27 @@ With gateway-managed billing, the gateway is the source of truth for payment tim
 
 Not all gateways support the same features. Use this matrix to choose the right gateway for your store's needs.
 
-| Capability | Stripe | PayPal | Paddle | Mollie | Braintree |
-|---|---|---|---|---|---|
-| **Automatic payments** | Yes | Yes | Yes | Yes | Yes |
-| **Billing model** | ArraySubs-managed | Gateway-managed | Gateway-managed | ArraySubs-managed | ArraySubs-managed |
-| **Requires another plugin** | Yes (WooCommerce Stripe) | No | No | Yes (Mollie for WooCommerce) | Yes (WooCommerce Braintree) |
-| **Trials** | Yes (via SetupIntent) | No | Yes (native) | No | No |
-| **Pause / Resume** | No | No | Yes (native) | No | No |
-| **Payment method update** | Yes (SetupIntent) | Yes (new agreement) | Yes (new transaction) | Yes (new mandate) | Yes (My Account) |
-| **Card auto-update** | Yes (scheme update) | No | Yes | No | No |
-| **Card expiry notices** | Yes (webhook) | No | No | No | No |
-| **SCA / 3D Secure** | Yes (automatic) | N/A (handled by PayPal) | N/A (handled by Paddle) | Yes (on first payment) | No off-session step |
-| **Dispute handling** | Yes (webhook events) | Yes (webhook events) | No (Paddle handles as MoR) | Yes (chargebacks) | Yes (webhook events) |
-| **Refunds** | Yes | Yes | Yes | Yes | Yes |
-| **Hosted payment page** | Yes (Checkout Sessions) | No | Yes (Paddle.js overlay) | Yes (Mollie hosted) | No |
-| **Customer portal** | Yes (Stripe hosted) | No | Yes (Paddle hosted) | No | No |
-| **Mixed cart** | Yes | No | Yes | Yes | Yes |
-| **Multiple subscriptions** | Yes | No | Yes | Yes | Yes |
-| **Different billing cycles** | Yes | No | No | Yes | Yes |
-| **Retention amount update** | Yes | No | No | Yes | Yes |
-| **Product sync required** | No | No | Yes | No | No |
-| **Delayed settlement** | No | No | No | Yes (SEPA, up to 21 days) | No |
+| Capability | Stripe | PayPal | Paddle | Mollie |
+|---|---|---|---|---|
+| **Automatic payments** | Yes | Yes | Yes | Yes |
+| **Billing model** | ArraySubs-managed | Gateway-managed | Gateway-managed | ArraySubs-managed |
+| **Requires another plugin** | Yes (WooCommerce Stripe) | No | No | Yes (Mollie for WooCommerce) |
+| **Trials** | Yes (via SetupIntent) | No | Yes (native) | No |
+| **Pause / Resume** | No | No | Yes (native) | No |
+| **Payment method update** | Yes (SetupIntent) | Yes (new agreement) | Yes (new transaction) | Yes (new mandate) |
+| **Card auto-update** | Yes (scheme update) | No | Yes | No |
+| **Card expiry notices** | Yes (webhook) | No | No | No |
+| **SCA / 3D Secure** | Yes (automatic) | N/A (handled by PayPal) | N/A (handled by Paddle) | Yes (on first payment) |
+| **Dispute handling** | Yes (webhook events) | Yes (webhook events) | No (Paddle handles as MoR) | Yes (chargebacks) |
+| **Refunds** | Yes | Yes | Yes | Yes |
+| **Hosted payment page** | Yes (Checkout Sessions) | No | Yes (Paddle.js overlay) | Yes (Mollie hosted) |
+| **Customer portal** | Yes (Stripe hosted) | No | Yes (Paddle hosted) | No |
+| **Mixed cart** | Yes | No | Yes | Yes |
+| **Multiple subscriptions** | Yes | No | Yes | Yes |
+| **Different billing cycles** | Yes | No | No | Yes |
+| **Retention amount update** | Yes | No | No | Yes |
+| **Product sync required** | No | No | Yes | No |
+| **Delayed settlement** | No | No | No | Yes (SEPA, up to 21 days) |
 
 ```box class="warning-box"
 PayPal does **not** support mixed carts, multiple subscriptions, or different billing cycles in a single checkout. If PayPal is enabled, these restrictions are enforced automatically — even if your General Settings allow them.
@@ -142,7 +143,7 @@ This is useful when migrating a subscription from one gateway to another or when
 
 ## Webhook Architecture
 
-All three gateways communicate with ArraySubs through webhooks — HTTP POST requests sent when events occur on the gateway side.
+All four gateways communicate with ArraySubs through webhooks — HTTP POST requests sent when events occur on the gateway side.
 
 ### Webhook URL
 
@@ -157,7 +158,6 @@ For example:
 - PayPal: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal`
 - Paddle: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle`
 - Mollie: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/mollie` — set automatically on every renewal payment ArraySubs creates, so there is nothing to configure at Mollie
-- Braintree: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/braintree` — add this in the Braintree Control Panel; the endpoint answers Braintree's signed URL-verification challenge automatically
 
 You can find the exact URL for each gateway on the [Gateway Health Dashboard](../../gateway-health/README.md).
 
@@ -165,7 +165,7 @@ You can find the exact URL for each gateway on the [Gateway Health Dashboard](..
 
 Every incoming webhook goes through a standardized pipeline:
 
-1. **Signature verification** — cryptographic check using the gateway's webhook secret (HMAC-SHA256 for Stripe/Paddle, API verification for PayPal)
+1. **Signature verification** — cryptographic check using the gateway's webhook secret (HMAC-SHA256 for Stripe/Paddle, API verification for PayPal, and re-fetch-by-ID for Mollie, whose classic webhook carries no signature)
 2. **Payload parsing** — gateway-specific parsing into a normalized event structure
 3. **Idempotency check** — duplicate detection using the event ID (stored in `wp_arraysubs_webhook_events` table)
 4. **Entity resolution** — maps the webhook data to the correct subscription, order, and customer
@@ -212,7 +212,6 @@ A digital course seller uses Paddle as Merchant of Record. Paddle handles all ta
 - [PayPal Gateway](paypal.md) — Detailed PayPal integration guide
 - [Paddle Gateway](paddle.md) — Detailed Paddle integration guide
 - [Mollie Gateway](mollie.md) — Detailed Mollie integration guide
-- [Braintree Gateway](braintree.md) — Detailed Braintree integration guide
 - [Payment Recovery Tools](payment-recovery.md) — Automatic retries, manual retry, sync from gateway, pending-cancel handling
 - [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) — Customer toggle and manual payment flow
 - [Gateway Health Dashboard](../../gateway-health/README.md) — Monitoring and webhook event log
@@ -223,7 +222,7 @@ A digital course seller uses Paddle as Merchant of Record. Paddle handles all ta
 ## FAQ
 
 **Can I use multiple gateways at the same time?**
-Yes. All three gateways can be enabled simultaneously. Customers choose their preferred gateway at checkout. Each subscription is tied to the gateway used for its initial purchase.
+Yes. All four gateways can be enabled simultaneously. Customers choose their preferred gateway at checkout. Each subscription is tied to the gateway used for its initial purchase.
 
 **What happens if a webhook fails to arrive?**
 The renewal engine has a fallback: if no webhook confirms payment within the grace period, the subscription follows the standard overdue flow (Active → On-Hold → Cancelled). For ArraySubs-managed gateways like Stripe, the system also has retry logic.
@@ -232,7 +231,7 @@ The renewal engine has a fallback: if no webhook confirms payment within the gra
 Not directly. You would need to detach the current gateway (converting to manual payments) and then have the customer pay a renewal invoice with the new gateway. The new gateway's payment method is then stored for future renewals.
 
 **Do I need to configure webhooks manually?**
-For Stripe, normally no. Configure and connect the official WooCommerce Stripe Gateway first; ArraySubsPro uses that official connection to create or repair its secondary ArraySubs Stripe webhook automatically for the active test/live mode. PayPal and Paddle still require their webhook details to be configured in their provider dashboards. Paddle also requires a Default Payment Link in Paddle Dashboard -> Checkout -> Checkout settings before transaction checkout can open.
+For Stripe, normally no. Configure and connect the official WooCommerce Stripe Gateway first; ArraySubsPro uses that official connection to create or repair its secondary ArraySubs Stripe webhook automatically for the active test/live mode. PayPal and Paddle still require their webhook details to be configured in their provider dashboards. Mollie needs no dashboard webhook at all — ArraySubs sends the webhook URL with every renewal payment it creates. Paddle also requires a Default Payment Link in Paddle Dashboard -> Checkout -> Checkout settings before transaction checkout can open.
 
 **What if a customer's card expires?**
-For Stripe: the card network may automatically update the card details (card auto-update). If not, Stripe sends a `card_expiring` webhook and ArraySubs notifies the customer. For PayPal/Paddle: account-level payment method management is handled by the gateway's own customer portal.
+For Stripe: the card network may automatically update the card details (card auto-update). If not, Stripe sends a `card_expiring` webhook and ArraySubs notifies the customer. For PayPal/Paddle: account-level payment method management is handled by the gateway's own customer portal. For Mollie: no card-expiry notice is sent — the mandate is re-authorised through a payment-method update when charges start failing.

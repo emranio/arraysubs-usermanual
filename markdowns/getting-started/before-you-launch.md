@@ -316,7 +316,7 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | Renewal invoice generation | ✅ | ✅ |
 | Grace period system (active + on-hold) | ✅ | ✅ |
 | Manual renewal payments | ✅ | ✅ |
-| Automatic gateway payments (Stripe, PayPal, Paddle) | — | ✅ |
+| Automatic gateway payments (Stripe, PayPal, Paddle, Mollie) | — | ✅ |
 | Auto-renew customer toggle | — | ✅ |
 | Gateway health dashboard | — | ✅ |
 

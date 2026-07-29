@@ -68,7 +68,7 @@ You can always issue refunds from the WooCommerce order page regardless of this 
 
 ### Automatic Gateway Refund
 
-When enabled, refunds processed through ArraySubs will be sent through the WooCommerce payment gateway's refund API. If the gateway supports automatic refunds (Stripe, PayPal, Paddle), the money is returned to the customer's original payment method.
+When enabled, refunds processed through ArraySubs will be sent through the WooCommerce payment gateway's refund API. If the gateway supports automatic refunds (Stripe, PayPal, Paddle, Mollie), the money is returned to the customer's original payment method.
 
 When disabled, refunds are recorded in WooCommerce as "manual refunds" — the financial record is created, but you must manually transfer the money back to the customer through your payment processor's dashboard.
 
@@ -133,7 +133,7 @@ The **Refund on Cancellation** setting is used for cancellation-driven refund be
 
 ### Step 5: Gateway Synchronization (Pro)
 
-For subscriptions on automatic payment gateways (Stripe, PayPal, Paddle), a **Two-Way Sync Guard** prevents infinite loops between local refunds and gateway webhooks. When you issue a refund locally, the guard marks it so that when the gateway sends back a refund webhook, the system knows to skip it (already handled). This ensures each refund is processed exactly once.
+For subscriptions on automatic payment gateways (Stripe, PayPal, Paddle, Mollie), a **Two-Way Sync Guard** prevents infinite loops between local refunds and gateway webhooks. When you issue a refund locally, the guard marks it so that when the gateway sends back a refund webhook, the system knows to skip it (already handled). This ensures each refund is processed exactly once.
 
 ---
 
@@ -259,7 +259,7 @@ End-of-period refund policy is separate: when a subscription is already schedule
 - **Gateway refunds require gateway support.** Not all WooCommerce payment gateways support the refund API. If the gateway doesn't support refunds, they must be processed manually through the gateway's dashboard.
 - **Refund history is stored on the subscription.** Even if the associated WooCommerce order is deleted, the refund record remains in the subscription's `_refund_history` meta.
 - **Store credit refunds and gateway refunds can be mixed.** On the same order, you could issue part as a gateway refund and part as store credit, as long as the total doesn't exceed the order's refundable balance.
-- **The Two-Way Sync Guard prevents double-processing.** When you refund locally on a gateway-managed subscription, the webhook from the gateway will not create a duplicate refund. This works for Stripe, PayPal, and Paddle.
+- **The Two-Way Sync Guard prevents double-processing.** When you refund locally on a gateway-managed subscription, the webhook from the gateway will not create a duplicate refund. This works for Stripe, PayPal, Paddle, and Mollie.
 
 ---
 

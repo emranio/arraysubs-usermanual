@@ -176,7 +176,7 @@ These controls appear in the **Subscription [ArraySubs]** tab (or per variation)
 - **Fixed Period Membership products are always Fixed.** If a product uses the Pro **Fixed-Date Subscriptions** feature (a fixed calendar end date), it cannot also be flexible — the fixed end date would contradict a customer-chosen length. The toggle forces Fixed.
 - **Server-side validation.** The chosen length and period are re-validated against the current product configuration on add-to-cart. Out-of-range lengths and disallowed periods are rejected with a notice, so stale carts or tampered form values cannot bypass your limits.
 - **The choice is locked at purchase.** Later edits to the product's allowed periods or maximum length never rewrite an existing order or subscription.
-- **Automatic-payment gateways.** Gateways that bill renewals from a pre-synced, per-product schedule (for example, Paddle) cannot honor a customer-selected schedule. When such a gateway is selected with a customer-chosen schedule in the cart, checkout shows a notice asking the buyer to choose a different payment method. Manual/offline gateways and Stripe are unaffected.
+- **Automatic-payment gateways.** Gateways that bill renewals from a pre-synced, per-product schedule (for example, Paddle) cannot honor a customer-selected schedule. When such a gateway is selected with a customer-chosen schedule in the cart, checkout shows a notice asking the buyer to choose a different payment method. Manual/offline gateways, Stripe and Mollie are unaffected.
 
 ---
 
@@ -220,7 +220,7 @@ It means you are not enforcing a merchant cap. The customer can still pick a fin
 Yes. Every variation has its own Subscription Type selector, so different variations can use different modes independently.
 
 ### Does it work with all payment gateways?
-Manual/offline gateways and Stripe support customer-chosen schedules. Gateways that pre-sync a fixed per-product schedule (such as Paddle) cannot, and checkout will prompt the customer to choose a different method when a custom schedule is in the cart.
+Manual/offline gateways, Stripe and Mollie support customer-chosen schedules. Gateways that pre-sync a fixed per-product schedule (such as Paddle) cannot, and checkout will prompt the customer to choose a different method when a custom schedule is in the cart.
 
 ### What happens to the subscription length during a free trial?
 The trial is separate from the billing-cycle count, exactly as with fixed subscriptions. The customer's chosen number of cycles begins after the trial ends.

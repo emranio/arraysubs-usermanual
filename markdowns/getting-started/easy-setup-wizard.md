@@ -291,7 +291,7 @@ Click **Apply Settings** to save. The wizard maps your answers to the correspond
 
 - The wizard maps your answers into the `arraysubs_settings` option and saves them immediately.
 - Settings take effect for **future** subscription actions. Existing subscriptions keep their current state.
-- If Renewal Sync is enabled, it applies only to future non-trial, non-lifetime subscriptions paid through manual/offline gateways or Stripe.
+- If Renewal Sync is enabled, it applies only to future non-trial, non-lifetime subscriptions paid through manual/offline gateways, Stripe, or Mollie.
 - The wizard merges with existing settings — any setting you did not configure in the wizard stays unchanged.
 - You can run the wizard again at any time. Re-running it overwrites the settings it touches, leaving manual-only settings intact.
 - The wizard does **not** create, edit, or delete products, subscriptions, access rules, email templates, or cancellation reasons.

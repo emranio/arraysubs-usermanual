@@ -119,7 +119,7 @@ If you leave the headline and description blank, the system uses sensible defaul
 - **Description:** "We'll give you [percent]% off for the next [cycles] billing cycles."
 
 ```box class="warning-box"
-**Gateway compatibility note:** Discount-offer renewal amount updates are fully supported on manual payments and Stripe automatic renewals. PayPal and Paddle do not support the same direct automatic retention amount update flow. Customers on these gateways may need to pay the full amount, with the discount handled as a credit or manual adjustment.
+**Gateway compatibility note:** Discount-offer renewal amount updates are fully supported on manual payments and on Stripe and Mollie automatic renewals — ArraySubs owns the schedule for both, so each renewal is charged at whatever amount the offer sets. PayPal and Paddle do not support the same direct automatic retention amount update flow. Customers on these gateways may need to pay the full amount, with the discount handled as a credit or manual adjustment.
 ```
 
 #### One Discount Per Subscription
@@ -329,7 +329,7 @@ The subscription status changes to **On-Hold** with a note about the scheduled r
 - **Pause duration is fixed.** The customer accepts or declines the configured pause duration — they cannot choose a custom number of days.
 - **Downgrade requires plan switching configuration.** If no downgrade products are configured for the subscription's product, the downgrade offer will not appear even if enabled.
 - **Retention offers are only shown in the customer portal.** Admin-initiated cancellations, system cancellations, and API cancellations bypass the retention flow entirely.
-- **Gateway limitations for discount offers.** While discount metadata is stored correctly for all payment methods, the actual renewal amount adjustment on the gateway side is only automatically supported for manual payments and Stripe. PayPal and Paddle may require manual handling.
+- **Gateway limitations for discount offers.** While discount metadata is stored correctly for all payment methods, the actual renewal amount adjustment on the gateway side is only automatically supported for manual payments, Stripe and Mollie. PayPal and Paddle may require manual handling.
 
 ---
 
@@ -368,7 +368,7 @@ No. Accepting one offer closes the modal and applies that offer. The customer ca
 Closing the modal (clicking the X or pressing Escape during the retention step) does **not** cancel the subscription. The customer must explicitly click "No thanks, continue to cancel" to proceed with cancellation.
 
 ### Do retention offers work with automatic payment gateways?
-Yes, but with limitations. Discount offers fully work with manual payments and Stripe. PayPal and Paddle may not automatically adjust the recurring charge amount. Pause and Contact Support offers work with all gateways.
+Yes, but with limitations. Discount offers fully work with manual payments, Stripe and Mollie. PayPal and Paddle may not automatically adjust the recurring charge amount. Pause and Contact Support offers work with all gateways.
 
 ### Can I customize the "Before You Go..." heading?
 The modal heading and intro message are not currently customizable. Individual offer cards support custom headlines and descriptions.

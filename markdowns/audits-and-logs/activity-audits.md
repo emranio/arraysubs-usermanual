@@ -50,7 +50,7 @@ Entries are classified by two dimensions:
 | System | Automated actions triggered by scheduled jobs, lifecycle rules, or internal processes | Bot |
 | Admin | Actions taken by a user with `manage_woocommerce` or `manage_options` capability | Shield |
 | Customer | Actions taken by the subscription owner from the customer portal | User |
-| Gateway | Actions triggered by a payment gateway webhook (Stripe, PayPal, Paddle) | Credit card |
+| Gateway | Actions triggered by a payment gateway webhook (Stripe, PayPal, Paddle, Mollie) | Credit card |
 
 **Entity type** — what the action relates to:
 

@@ -64,7 +64,7 @@ If no payment method is set and the subscription is in a non-active status (such
 
 ## Card on File Details **Pro**
 
-With the Pro plugin active and an automatic payment gateway (such as Stripe, PayPal, or Paddle) configured, the subscription detail page displays additional card-on-file information directly below the payment method row.
+With the Pro plugin active and an automatic payment gateway (such as Stripe, PayPal, Paddle, or Mollie) configured, the subscription detail page displays additional card-on-file information directly below the payment method row.
 
 ### What the Customer Sees
 
@@ -218,7 +218,7 @@ When a customer changes plans, Pro Subscription Shipping follows the target plan
 
 ## Edge Cases and Important Notes
 
-- **Payment method update requires a redirect.** Unlike other portal actions that complete in-page, updating a payment method may redirect the customer to a third-party gateway portal (Stripe, PayPal, or Paddle). The customer is returned to the subscription detail page after completing the update.
+- **Payment method update requires a redirect.** Unlike other portal actions that complete in-page, updating a payment method may redirect the customer to a third-party gateway portal (Stripe, PayPal, Paddle, or Mollie). The customer is returned to the subscription detail page after completing the update.
 - **Auto-renew off does not delay renewals.** When auto-renew is turned off, renewal invoices are still generated on the normal schedule. The only difference is that the payment is not automatically collected — the customer must pay manually.
 - **Shipping updates only affect future orders.** Changing the shipping address does not modify orders that have already been placed. The new address applies starting with the next renewal order.
 - **Country changes may affect tax and shipping costs.** If the customer changes their shipping country, future renewal orders may have different tax and shipping amounts applied by WooCommerce.

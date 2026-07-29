@@ -296,7 +296,7 @@ The Payment Failed email uses strong urgency styling — a red warning box and a
 
 ### Failure reason categories
 
-The plugin classifies the gateway error code (Stripe `decline_code` / `error.code`, equivalents on PayPal and Paddle) into a stable category and renders the customer-friendly description in the callout. Recognized categories:
+The plugin classifies the gateway error code (Stripe `decline_code` / `error.code`, equivalents on PayPal, Paddle and Mollie) into a stable category and renders the customer-friendly description in the callout. Recognized categories:
 
 | Category | Reason text shown to the customer |
 |---|---|

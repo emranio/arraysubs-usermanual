@@ -29,7 +29,7 @@ The Gateway Health Dashboard gives you a single view of every payment gateway's 
 
 ## Gateway Status Cards
 
-The top section displays a card for each registered gateway (Stripe, PayPal, Paddle) in a responsive grid.
+The top section displays a card for each registered gateway (Stripe, PayPal, Paddle, Mollie) in a responsive grid.
 
 ### Card Summary
 
@@ -77,7 +77,7 @@ Below the gateway cards, the **Webhook Event Log** shows a paginated table of ev
 
 | Filter | Options |
 |---|---|
-| **Gateway** | All Gateways, or a specific gateway (Stripe, PayPal, Paddle) |
+| **Gateway** | All Gateways, or a specific gateway (Stripe, PayPal, Paddle, Mollie) |
 | **Refresh** | Manual refresh button with loading spinner |
 
 ### Table Columns
@@ -110,6 +110,7 @@ After configuring a new gateway, visit this dashboard to verify the status shows
 Expand the gateway card and review the webhook configuration:
 
 - **Stripe:** the official WooCommerce Stripe webhook URL should be configured by WooCommerce Stripe, and the ArraySubs secondary webhook should show as configured automatically. No manual Stripe Dashboard endpoint is normally required for the ArraySubs URL. If the secondary webhook is missing or was deleted in Stripe, open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs** and click **Refresh** to check and recreate it.
+- **Mollie:** nothing to configure. ArraySubs sets its own webhook URL on every renewal payment it creates, and your first-payment webhooks keep going to the Mollie plugin as before.
 - **PayPal:** Developer Dashboard → My Apps & Credentials → REST API apps → Webhooks
 - **Paddle:** Vendor Dashboard → Developer Tools → Notifications → New destination
 
@@ -140,7 +141,7 @@ After connecting Stripe for the first time, the merchant visits the dashboard, v
 
 ### Debugging Missing Renewals
 
-Customers report their subscriptions cancelled unexpectedly. The merchant checks the event log, finds no `payment_succeeded` events for the last 3 days, and realizes the provider webhook URL changed during a site migration. For Stripe, saving WooCommerce Stripe settings or revisiting admin after credentials are available lets ArraySubsPro repair the secondary endpoint; for PayPal/Paddle, update the provider dashboard URL manually.
+Customers report their subscriptions cancelled unexpectedly. The merchant checks the event log, finds no `payment_succeeded` events for the last 3 days, and realizes the provider webhook URL changed during a site migration. For Stripe, saving WooCommerce Stripe settings or revisiting admin after credentials are available lets ArraySubsPro repair the secondary endpoint; for PayPal/Paddle, update the provider dashboard URL manually. Mollie needs no fix — ArraySubs attaches the current webhook URL to every renewal payment it creates, so new charges self-heal after a migration.
 
 ---
 

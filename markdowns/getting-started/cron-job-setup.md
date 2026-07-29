@@ -154,7 +154,7 @@ A healthy response is HTTP 200 with no body. If you see a redirect or an error, 
 
 ![Renewal engine job logs](../billing-and-renewals/renewal-operations.ASSETS/03-renewal-engine-job-logs-annotated.png)
 
-Because ArraySubs (free + pro) is built on a **plugin-controlled renewal model for Stripe and manual gateways**, the plugin's own cron is the only thing that triggers a renewal charge. If the cron doesn't fire, **the renewal doesn't happen**. PayPal and Paddle are gateway-controlled, so they will charge on their own — but the plugin still needs the cron to flip statuses, send emails, run grace-period transitions, and process scheduled cancellations.
+Because ArraySubs (free + pro) is built on a **plugin-controlled renewal model for Stripe, Mollie, and manual gateways**, the plugin's own cron is the only thing that triggers a renewal charge. If the cron doesn't fire, **the renewal doesn't happen**. PayPal and Paddle are gateway-controlled, so they will charge on their own — but the plugin still needs the cron to flip statuses, send emails, run grace-period transitions, and process scheduled cancellations.
 
 Skipping the system cron is the single most common cause of "my renewals stopped working" support tickets. Setting it up correctly takes 5 minutes and prevents an entire category of problem.
 
@@ -184,7 +184,7 @@ Install WP Crontrol, look at any pending event, wait for its "Next Run" time to 
 The hourly `arraysubs_generate_upcoming_renewals` batch is a soft safety net for missed precise invoice generation, but it still depends on cron firing at least once an hour. There's no fallback for "no cron at all."
 
 ### What about Stripe — won't it charge customers anyway if my cron is down?
-Not in this plugin's design. ArraySubs uses Stripe in plugin-controlled mode (off-session PaymentIntent at our scheduled time, not Stripe Subscriptions). If our cron doesn't fire, **Stripe doesn't charge**. Customers simply don't get charged until the cron resumes. PayPal and Paddle, by contrast, charge on their own schedule — so for those gateways your data falls behind, but charges still happen.
+Not in this plugin's design. ArraySubs uses Stripe in plugin-controlled mode (off-session PaymentIntent at our scheduled time, not Stripe Subscriptions), and Mollie the same way (a `sequenceType=recurring` payment against the stored mandate, not Mollie Subscriptions). If our cron doesn't fire, **neither Stripe nor Mollie charges**. Customers simply don't get charged until the cron resumes. PayPal and Paddle, by contrast, charge on their own schedule — so for those gateways your data falls behind, but charges still happen.
 
 ### Should I test this before using it on a live store?
 Yes. Test on staging: enable the cron, place a test subscription with a 1-day renewal interval (or use the admin's "Force renewal" tool), and confirm the renewal fires within a minute of the scheduled time without any page load.

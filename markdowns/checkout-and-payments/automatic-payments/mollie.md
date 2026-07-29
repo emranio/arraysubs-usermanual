@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> WooCommerce -> Settings -> Mollie Settings
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [paddle](./paddle.md)
-- **Next guide:** [braintree](./braintree.md)
+- **Next guide:** [payment-recovery](./payment-recovery.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
 ## Requirements
@@ -57,6 +57,13 @@ ArraySubs never creates a Mollie Subscription object. Everything about the cycle
 | Card expiry notices | Not supported — Mollie sends no expiry event. |
 | Free trials | Not enabled. Use a paid first billing period. |
 | Refunds and chargebacks | Refunds go through the Mollie plugin; chargebacks put the order on hold for review. |
+| Renewal Sync | Supported. ArraySubs owns the schedule, so it can prorate the signup charge and move the first renewal to the synced date. |
+| Early renew | Supported. The mandate is charged off-session ahead of the due date. |
+| Retention discount amounts | Supported. Each renewal is charged at whatever amount the offer sets. |
+
+```box class="info-box"
+**Renewal Sync and small prorated charges.** Mollie enforces a per-method minimum charge. When a prorated signup amount falls under it, ArraySubs raises the charge to Mollie's own minimum for that method and currency — read live from Mollie's Methods API and cached for 12 hours — instead of letting checkout fail. If the minimum can't be read (no API key yet, or Mollie is unreachable), the prorated amount is left untouched.
+```
 
 ## Which Mollie Methods Can Renew
 
@@ -219,7 +226,6 @@ Until a valid API key is saved, the Mollie plugin registers **no payment gateway
 ## Related Docs
 
 - [Gateway Overview](README.md) — Architecture and capability comparison
-- [Braintree Gateway](braintree.md) — The other vault-based gateway
 - [Payment Recovery](payment-recovery.md) — Dunning and retry behaviour
 - [Gateway Health Dashboard](../../gateway-health/README.md) — Webhook status and capability notes
 

@@ -21,7 +21,7 @@ The core checkout engine handles everything from cart validation to subscription
 
 ### Automatic Payments *(Pro)*
 
-Connect your store to Stripe, PayPal, or Paddle for hands-free recurring billing. Each gateway processes initial payments, stores payment methods, and handles renewals automatically — with webhook-based event routing, dispute tracking, and a live health dashboard.
+Connect your store to Stripe, PayPal, Paddle, or Mollie for hands-free recurring billing. Each gateway processes initial payments, stores payment methods, and handles renewals automatically — with webhook-based event routing, dispute tracking, and a live health dashboard.
 
 ![Customer subscription page with Stripe payment method, retry, and auto-renew](README.ASSETS/07-customer-payment-method-management-annotated.png)
 
@@ -29,6 +29,7 @@ Connect your store to Stripe, PayPal, or Paddle for hands-free recurring billing
 - [Stripe Gateway](automatic-payments/stripe.md) — PaymentIntents, SetupIntents, Checkout Sessions, SCA/3D Secure, card auto-update, and dispute handling.
 - [PayPal Gateway](automatic-payments/paypal.md) — Billing Agreements, PayPal-managed renewal schedule, and Smart Payment Buttons.
 - [Paddle Gateway](automatic-payments/paddle.md) — Merchant of Record model, Paddle.js overlay, automatic tax/VAT handling, and native pause/resume.
+- [Mollie Gateway](automatic-payments/mollie.md) — Mandate-based renewals for card and SEPA Direct Debit, with delayed-settlement tracking for bank debits.
 - [Auto-Renew and Manual Fallback](automatic-payments/auto-renew-and-manual-fallback.md) — Customer-facing auto-renew toggle, what happens when auto-renew is turned off, and the manual invoice collection flow.
 - [Gateway Health Dashboard](../gateway-health/README.md) — Gateway status cards, subscription counts, webhook URL configuration, event log, and monitoring.
 
@@ -53,7 +54,7 @@ Replace the default WooCommerce classic checkout form with a fully customizable,
 | Topic | Availability | What It Controls |
 |---|---|---|
 | Subscription Checkout | Free | Cart rules, one-click checkout, trial validation, plan switching at checkout, subscription creation |
-| Automatic Payments | **Pro** | Stripe, PayPal, Paddle gateways, auto-renewal charging, webhook routing, payment method storage |
+| Automatic Payments | **Pro** | Stripe, PayPal, Paddle, Mollie gateways, auto-renewal charging, webhook routing, payment method storage |
 | Checkout Builder | **Pro** | Custom classic checkout forms, multi-step navigation, 28 element types, conditional logic, design customization |
 
 ## Prerequisites
