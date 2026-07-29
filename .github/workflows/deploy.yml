@@ -50,25 +50,35 @@ jobs:
         with:
           ssh-private-key: "${{ secrets.SERVER_SSH_KEY }}"
 
+      # Pinned rather than scanned. ssh-keyscan opens one connection per host
+      # key type, and the two it makes for sk-* keys the server does not have
+      # are logged as preauth failures. The host runs fail2ban's sshd jail in
+      # aggressive mode with maxretry=4, so a single keyscan burst was enough
+      # to get the runner's IP banned a second before the deploy's real SSH ran.
+      # Pinning is also stricter: we verify a known key instead of trusting
+      # whatever the host offers on the day.
       - name: Add server to known hosts
+        env:
+          SERVER_KNOWN_HOSTS: "${{ secrets.SERVER_KNOWN_HOSTS }}"
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -T 10 -p "$SERVER_PORT" "$SERVER_HOST" >> ~/.ssh/known_hosts
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SERVER_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
           test -s ~/.ssh/known_hosts
 
-      # The deploy host is shared with other projects' pipelines. A concurrent
-      # deploy can starve it long enough that sshd drops our session mid-login,
-      # which surfaces as "Connection closed by <host>" and exit 255. Retry the
-      # remote steps rather than failing the whole deploy on a transient stall.
+      # Retry the remote steps rather than failing the whole deploy on a
+      # transient stall. Attempts stay below the host's fail2ban maxretry so a
+      # bad run cannot ban the runner partway through.
       - name: Set up SSH retry helper
         run: |
           cat > "$RUNNER_TEMP/ssh-retry.sh" <<'HELPER'
           SSH_OPTS="-o BatchMode=yes -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
 
           retry() {
-            local attempt=1 delay=10
+            local attempt=1 delay=15
             until "$@"; do
-              if [ "$attempt" -ge 4 ]; then
+              if [ "$attempt" -ge 3 ]; then
                 echo "Giving up after $attempt attempts: $*" >&2
                 return 1
               fi
