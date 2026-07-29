@@ -53,29 +53,58 @@ jobs:
       - name: Add server to known hosts
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -p "$SERVER_PORT" "$SERVER_HOST" >> ~/.ssh/known_hosts
+          ssh-keyscan -T 10 -p "$SERVER_PORT" "$SERVER_HOST" >> ~/.ssh/known_hosts
+          test -s ~/.ssh/known_hosts
+
+      # The deploy host is shared with other projects' pipelines. A concurrent
+      # deploy can starve it long enough that sshd drops our session mid-login,
+      # which surfaces as "Connection closed by <host>" and exit 255. Retry the
+      # remote steps rather than failing the whole deploy on a transient stall.
+      - name: Set up SSH retry helper
+        run: |
+          cat > "$RUNNER_TEMP/ssh-retry.sh" <<'HELPER'
+          SSH_OPTS="-o BatchMode=yes -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=4"
+
+          retry() {
+            local attempt=1 delay=10
+            until "$@"; do
+              if [ "$attempt" -ge 4 ]; then
+                echo "Giving up after $attempt attempts: $*" >&2
+                return 1
+              fi
+              echo "Attempt $attempt failed, retrying in ${delay}s: $*" >&2
+              sleep "$delay"
+              attempt=$((attempt + 1))
+              delay=$((delay * 2))
+            done
+          }
+          HELPER
 
       # Zero-downtime: upload into a fresh release directory next to the live
       # path, then atomically repoint the live path (a symlink) at it. The
       # site is never served from a half-synced directory.
       - name: Upload release
         run: |
+          . "$RUNNER_TEMP/ssh-retry.sh"
+
           RELEASE_NAME="$(date -u +%Y%m%d%H%M%S)-${GITHUB_SHA::12}"
           RELEASES_PATH="${DEPLOY_PATH}-releases"
           echo "RELEASE_NAME=$RELEASE_NAME" >> "$GITHUB_ENV"
           echo "RELEASES_PATH=$RELEASES_PATH" >> "$GITHUB_ENV"
 
-          ssh -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" "mkdir -p '$RELEASES_PATH/$RELEASE_NAME'"
+          retry ssh $SSH_OPTS -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" \
+            "mkdir -p '$RELEASES_PATH/$RELEASE_NAME'"
 
-          rsync -az \
-            -e "ssh -p $SERVER_PORT" \
+          retry rsync -az \
+            -e "ssh $SSH_OPTS -p $SERVER_PORT" \
             dist/ \
             "$SERVER_USER@$SERVER_HOST:$RELEASES_PATH/$RELEASE_NAME/"
 
       - name: Activate release (atomic symlink switch)
         run: |
-          ssh -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" bash -s -- \
-            "$DEPLOY_PATH" "$RELEASES_PATH" "$RELEASE_NAME" "$KEEP_RELEASES" "$SITE_BASE_URL" <<'REMOTE'
+          . "$RUNNER_TEMP/ssh-retry.sh"
+
+          cat > "$RUNNER_TEMP/activate.sh" <<'REMOTE'
           set -euo pipefail
           DEPLOY_PATH="$1"
           RELEASES_PATH="$2"
@@ -117,3 +146,7 @@ jobs:
 
           echo "Live: $(readlink "$DEPLOY_PATH")"
           REMOTE
+
+          retry ssh $SSH_OPTS -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" bash -s -- \
+            "$DEPLOY_PATH" "$RELEASES_PATH" "$RELEASE_NAME" "$KEEP_RELEASES" "$SITE_BASE_URL" \
+            < "$RUNNER_TEMP/activate.sh"
