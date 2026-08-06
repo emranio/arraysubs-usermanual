@@ -14,7 +14,7 @@
 - **Current guide:** License Activation
 - **Where to open it in WordPress:** WordPress Admin -> ArraySubs -> License
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/license`
-- **ArrayHash pricing:** [https://arrayhash.com/deals/arraysubs/pricing/](https://arrayhash.com/deals/arraysubs/pricing/)
+- **ArrayHash pricing:** [https://arrayhash.com/product/arraysubs/pricing/](https://arrayhash.com/product/arraysubs/pricing/)
 - **ArrayHash user portal:** [https://user-portal.arrayhash.com/](https://user-portal.arrayhash.com/)
 - **Portal products and licenses:** [https://user-portal.arrayhash.com/products/](https://user-portal.arrayhash.com/products/)
 - **Portal downloads:** [https://user-portal.arrayhash.com/downloads/](https://user-portal.arrayhash.com/downloads/)
@@ -46,7 +46,7 @@ Local development domains are allowed. If your local WordPress URL includes a po
 
 ## Step 1: Get ArraySubs Pro
 
-Open the [ArraySubs pricing page](https://arrayhash.com/deals/arraysubs/pricing/) and choose the Pro plan or trial that fits your site.
+Open the [ArraySubs pricing page](https://arrayhash.com/product/arraysubs/pricing/) and choose the Pro plan or trial that fits your site.
 
 After purchase, sign in to the [ArrayHash user portal](https://user-portal.arrayhash.com/).
 

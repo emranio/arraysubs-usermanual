@@ -11,10 +11,10 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
   <h2 id="homepage-support-title">Bugs And Feature Requests</h2>
   <p>If you find a bug or need a feature added, contact me directly at <a href="mailto:emran@arrayhash.com">emran@arrayhash.com</a>. Include the manual page URL and what you expected to happen.</p>
   <div class="docs-support-card__links" aria-label="ArraySubs product pages">
-    <a href="https://arrayhash.com/deals/arraysubs">Product Page</a>
-    <a href="https://arrayhash.com/deals/arraysubs/use-cases">Use Cases</a>
-    <a href="https://arrayhash.com/deals/arraysubs/features">Features</a>
-    <a href="https://arrayhash.com/deals/arraysubs/alternatives">Alternatives</a>
+    <a href="https://arrayhash.com/product/arraysubs">Product Page</a>
+    <a href="https://arrayhash.com/product/arraysubs/use-cases">Use Cases</a>
+    <a href="https://arrayhash.com/product/arraysubs/features">Features</a>
+    <a href="https://arrayhash.com/product/arraysubs/alternatives">Alternatives</a>
   </div>
 </section>
 
