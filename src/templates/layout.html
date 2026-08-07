@@ -71,66 +71,6 @@
           {{toc}}
         </aside>
       </div>
-      <div
-        class="docs-cookie-preferences"
-        data-cookie-preferences-modal
-        hidden
-        role="presentation"
-      >
-        <div
-          class="docs-cookie-preferences__dialog"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="docs-cookie-preferences-title"
-          tabindex="-1"
-        >
-          <div class="docs-cookie-preferences__header">
-            <h2 id="docs-cookie-preferences-title">Privacy choices</h2>
-            <button
-              type="button"
-              class="docs-cookie-preferences__close"
-              data-cookie-preferences-close
-              aria-label="Close privacy choices"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <p class="docs-cookie-preferences__intro">
-            Analytics is optional. Advertising cookies are not used.
-            <a href="https://arrayhash.com/trust-center/privacy-policy/">Privacy policy</a>
-          </p>
-          <div class="docs-cookie-preferences__options">
-            <div class="docs-cookie-preferences__option">
-              <div>
-                <h3>Necessary</h3>
-                <p>Site basics and this consent record.</p>
-                <p class="docs-cookie-preferences__meta">
-                  Always on &middot; cc_cookie
-                </p>
-              </div>
-              <span class="docs-cookie-preferences__status docs-cookie-preferences__status--on">On</span>
-            </div>
-            <div class="docs-cookie-preferences__option">
-              <div>
-                <h3>Analytics</h3>
-                <p>Aggregate GA4/GTM measurement. No retargeting.</p>
-                <p class="docs-cookie-preferences__meta">
-                  Optional &middot; _ga, _ga_*
-                </p>
-              </div>
-              <span class="docs-cookie-preferences__status">Optional</span>
-            </div>
-          </div>
-          <div class="docs-cookie-preferences__actions">
-            <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--secondary" data-cookie-preferences-reject>
-              Reject
-            </button>
-            <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--primary" data-cookie-preferences-accept>
-              Accept
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
     <script src="{{scriptHref}}" defer></script>
     <script type="module">
@@ -200,29 +140,93 @@
       mermaid.initialize(getMermaidOptions());
       rerenderMermaid();
     </script>
-    <!-- Google Tag Manager: loaded after cookie consent -->
+    <!-- Google Tag Manager: loaded after qualified page engagement -->
     <script>
       (function () {
         var gtmLoaded = false;
         var includeBdVisits = {{includeBdVisits}};
+        var engagementDelayMs = 5000;
 
         function isBrowserUtcPlusSix() {
           return new Date().getTimezoneOffset() === -360;
         }
 
-        window.docsLoadGTM = function () {
-          if (gtmLoaded || (!includeBdVisits && isBrowserUtcPlusSix())) return;
+        function loadGTM() {
+          if (gtmLoaded) return;
           gtmLoaded = true;
 
           (function (w, d, s, l, i) {
             w[l] = w[l] || [];
-            w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+            w[l].push({
+              "gtm.start": new Date().getTime(),
+              event: "gtm.js",
+              page_location: window.location.href,
+              page_path: window.location.pathname + window.location.search,
+              page_title: document.title,
+            });
             var j = d.createElement(s);
             j.async = true;
             j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + "&l=" + l;
             d.body.appendChild(j);
           })(window, document, "script", "dataLayer", "GTM-WJJLFRQ4");
-        };
+        }
+
+        function startEngagementGate() {
+          if (!includeBdVisits && isBrowserUtcPlusSix()) return;
+
+          var hasScrolled = false;
+          var hasMovedMouse = false;
+          var hasWaited = false;
+          var hasTriggered = false;
+          var delayTimer;
+
+          function cleanup() {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.clearTimeout(delayTimer);
+          }
+
+          function maybeLoadGTM() {
+            if (
+              hasTriggered ||
+              !hasScrolled ||
+              !hasMovedMouse ||
+              !hasWaited
+            ) {
+              return;
+            }
+
+            hasTriggered = true;
+            cleanup();
+            loadGTM();
+          }
+
+          function handleScroll() {
+            hasScrolled = true;
+            maybeLoadGTM();
+          }
+
+          function handleMouseMove() {
+            hasMovedMouse = true;
+            maybeLoadGTM();
+          }
+
+          window.addEventListener("scroll", handleScroll, { passive: true });
+          window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+          delayTimer = window.setTimeout(function () {
+            hasWaited = true;
+            maybeLoadGTM();
+          }, engagementDelayMs);
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", startEngagementGate, {
+            once: true,
+          });
+        } else {
+          startEngagementGate();
+        }
       })();
     </script>
     <!-- End Google Tag Manager -->
