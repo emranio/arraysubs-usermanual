@@ -71,6 +71,81 @@
           {{toc}}
         </aside>
       </div>
+      <div
+        class="docs-cookie-preferences"
+        data-cookie-preferences-modal
+        hidden
+        role="presentation"
+      >
+        <div
+          class="docs-cookie-preferences__dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="docs-cookie-preferences-title"
+          tabindex="-1"
+        >
+          <div class="docs-cookie-preferences__header">
+            <h2 id="docs-cookie-preferences-title">Privacy choices</h2>
+            <button
+              type="button"
+              class="docs-cookie-preferences__close"
+              data-cookie-preferences-close
+              aria-label="Close privacy choices"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <p class="docs-cookie-preferences__intro">
+            Analytics is required to run the site. Retargeting is optional.
+          </p>
+          <div class="docs-cookie-preferences__gpc" data-cookie-preferences-gpc hidden>
+            GPC detected. Retargeting stays off.
+          </div>
+          <div class="docs-cookie-preferences__options">
+            <div class="docs-cookie-preferences__option">
+              <div>
+                <h3>Necessary</h3>
+                <p>Site basics and this consent record.</p>
+                <p class="docs-cookie-preferences__meta">
+                  Always on &middot; cc_cookie
+                </p>
+              </div>
+              <span class="docs-cookie-preferences__status docs-cookie-preferences__status--on">On</span>
+            </div>
+            <div class="docs-cookie-preferences__option">
+              <div>
+                <h3>Analytics</h3>
+                <p>Required aggregate GA4/GTM measurement.</p>
+                <p class="docs-cookie-preferences__meta">
+                  Always on &middot; _ga, _ga_*
+                </p>
+              </div>
+              <span class="docs-cookie-preferences__status docs-cookie-preferences__status--on">On</span>
+            </div>
+            <div class="docs-cookie-preferences__option">
+              <div>
+                <h3>Retargeting</h3>
+                <p>Lets us measure ad campaigns and show relevant ads.</p>
+                <p class="docs-cookie-preferences__meta">
+                  Optional &middot; array_hash_re_ok
+                </p>
+              </div>
+              <span class="docs-cookie-preferences__status">Optional</span>
+            </div>
+          </div>
+          <div class="docs-cookie-preferences__actions">
+            <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--secondary" data-cookie-preferences-reject>
+              Reject
+            </button>
+            <button type="button" class="docs-cookie-preferences__button docs-cookie-preferences__button--primary" data-cookie-preferences-accept>
+              Accept
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="{{scriptHref}}" defer></script>
     <script type="module">
@@ -144,8 +219,45 @@
     <script>
       (function () {
         var gtmLoaded = false;
+        var gtagExecuted = false;
         var includeBdVisits = {{includeBdVisits}};
         var engagementDelayMs = 5000;
+        var consentUpdateDelayMs = 3000;
+        var consentUpdateTimer;
+
+        window.consent_interacted = window.consent_interacted === true;
+
+        function scheduleGrantedConsentUpdate() {
+          if (
+            !window.consent_interacted ||
+            !gtagExecuted ||
+            typeof window.gtag !== "function" ||
+            consentUpdateTimer
+          ) {
+            return;
+          }
+
+          consentUpdateTimer = window.setTimeout(function () {
+            consentUpdateTimer = null;
+            window.gtag("consent", "update", {
+              ad_user_data: "granted",
+              ad_personalization: "granted",
+              ad_storage: "granted",
+              analytics_storage: "granted",
+            });
+          }, consentUpdateDelayMs);
+        }
+
+        window.addEventListener("arraysubs:cookie-consent-updated", function () {
+          window.consent_interacted = true;
+
+          if (consentUpdateTimer) {
+            window.clearTimeout(consentUpdateTimer);
+            consentUpdateTimer = null;
+          }
+
+          scheduleGrantedConsentUpdate();
+        });
 
         function isBrowserUtcPlusSix() {
           return new Date().getTimezoneOffset() === -360;
@@ -157,6 +269,9 @@
 
           (function (w, d, s, l, i) {
             w[l] = w[l] || [];
+            w.gtag = w.gtag || function () {
+              w[l].push(arguments);
+            };
             w[l].push({
               "gtm.start": new Date().getTime(),
               event: "gtm.js",
@@ -169,6 +284,9 @@
             j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + "&l=" + l;
             d.body.appendChild(j);
           })(window, document, "script", "dataLayer", "GTM-WJJLFRQ4");
+
+          gtagExecuted = true;
+          scheduleGrantedConsentUpdate();
         }
 
         function startEngagementGate() {

@@ -214,6 +214,293 @@
     });
   }
 
+  function initCookieConsent() {
+    var preferenceButtons = document.querySelectorAll("[data-cookie-preferences]");
+    var preferenceModal = document.querySelector("[data-cookie-preferences-modal]");
+    var preferenceDialog = document.querySelector(".docs-cookie-preferences__dialog");
+    var preferenceAcceptButton = document.querySelector("[data-cookie-preferences-accept]");
+    var preferenceRejectButton = document.querySelector("[data-cookie-preferences-reject]");
+    var preferenceCloseButton = document.querySelector("[data-cookie-preferences-close]");
+    var gpcNotice = document.querySelector("[data-cookie-preferences-gpc]");
+    var cookieName = "cc_cookie";
+    var cookieMaxAge = 60 * 60 * 24 * 180;
+    var consentVersion = 2;
+    var retargetingCookieName = "array_hash_re_ok";
+    var retargetingIdLength = 12;
+    var retargetingAlphabet =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var consent = null;
+    var previousFocus = null;
+    var gpcEnabled = Boolean(window.navigator.globalPrivacyControl);
+
+    if (
+      !preferenceModal ||
+      !preferenceDialog ||
+      !preferenceAcceptButton ||
+      !preferenceRejectButton ||
+      !preferenceCloseButton ||
+      !gpcNotice
+    ) {
+      return;
+    }
+
+    function readCookie(name) {
+      var cookies = document.cookie ? document.cookie.split("; ") : [];
+
+      for (var i = 0; i < cookies.length; i++) {
+        if (cookies[i].indexOf(name + "=") === 0) {
+          return cookies[i].slice(name.length + 1);
+        }
+      }
+
+      return null;
+    }
+
+    function decodeConsent() {
+      var value = readCookie(cookieName);
+
+      if (!value) {
+        return null;
+      }
+
+      try {
+        var parsed = JSON.parse(decodeURIComponent(value));
+
+        if (
+          parsed.version !== consentVersion ||
+          parsed.necessary !== true ||
+          typeof parsed.retargeting !== "boolean"
+        ) {
+          return null;
+        }
+
+        return {
+          version: consentVersion,
+          necessary: true,
+          analytics: true,
+          retargeting: parsed.retargeting,
+          updatedAt:
+            typeof parsed.updatedAt === "string"
+              ? parsed.updatedAt
+              : new Date().toISOString(),
+          source:
+            parsed.source === "banner" ||
+            parsed.source === "preferences" ||
+            parsed.source === "privacy-choices"
+              ? parsed.source
+              : "preferences",
+        };
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function writeConsent(nextConsent) {
+      var attributes = [
+        "Path=/",
+        "Max-Age=" + cookieMaxAge,
+        "SameSite=Lax",
+      ];
+
+      if (window.location.protocol === "https:") {
+        attributes.push("Secure");
+      }
+
+      try {
+        document.cookie =
+          cookieName +
+          "=" +
+          encodeURIComponent(JSON.stringify(nextConsent)) +
+          "; " +
+          attributes.join("; ");
+      } catch (error) {
+        // Cookie storage can be unavailable in strict privacy contexts.
+      }
+    }
+
+    function generateRetargetingId() {
+      var bytes = new Uint8Array(retargetingIdLength);
+      window.crypto.getRandomValues(bytes);
+      var id = "";
+
+      for (var i = 0; i < retargetingIdLength; i++) {
+        id += retargetingAlphabet[bytes[i] % retargetingAlphabet.length];
+      }
+
+      return id;
+    }
+
+    function writeRetargetingCookie() {
+      var id = readCookie(retargetingCookieName) || generateRetargetingId();
+      var attributes = [
+        "Path=/",
+        "Max-Age=" + cookieMaxAge,
+        "SameSite=Lax",
+      ];
+
+      if (window.location.protocol === "https:") {
+        attributes.push("Secure");
+      }
+
+      document.cookie =
+        retargetingCookieName + "=" + id + "; " + attributes.join("; ");
+    }
+
+    function expireCookie(name, domain) {
+      var domainPart = domain ? "; Domain=" + domain : "";
+      document.cookie =
+        name + "=; Path=/; Max-Age=0; SameSite=Lax" + domainPart;
+    }
+
+    function deleteRetargetingCookie() {
+      var host = window.location.hostname;
+      var domains = [null, host];
+
+      if (host.indexOf(".") !== -1) {
+        domains.push("." + host);
+      }
+
+      domains.forEach(function (domain) {
+        expireCookie(retargetingCookieName, domain);
+      });
+    }
+
+    function saveConsent(retargeting, source) {
+      var allowRetargeting = retargeting && !gpcEnabled;
+      var nextConsent = {
+        version: consentVersion,
+        necessary: true,
+        analytics: true,
+        retargeting: allowRetargeting,
+        updatedAt: new Date().toISOString(),
+        source: source,
+      };
+
+      writeConsent(nextConsent);
+
+      if (allowRetargeting) {
+        writeRetargetingCookie();
+      } else {
+        deleteRetargetingCookie();
+      }
+
+      consent = nextConsent;
+      hidePreferences();
+
+      window.consent_interacted = true;
+      window.dispatchEvent(
+        new CustomEvent("arraysubs:cookie-consent-updated", {
+          detail: nextConsent,
+        }),
+      );
+
+      if (previousFocus) {
+        previousFocus.focus();
+      }
+    }
+
+    function hidePreferences() {
+      preferenceModal.hidden = true;
+      document.body.classList.remove("docs-cookie-preferences-visible");
+    }
+
+    function showPreferences() {
+      previousFocus =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
+      preferenceModal.hidden = false;
+      gpcNotice.hidden = !gpcEnabled;
+      document.body.classList.add("docs-cookie-preferences-visible");
+      window.setTimeout(function () {
+        var focusable = preferenceDialog.querySelectorAll(
+          "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])",
+        );
+
+        if (focusable.length) {
+          focusable[0].focus();
+        }
+      }, 0);
+    }
+
+    function openPreferences() {
+      showPreferences();
+    }
+
+    function closePreferences() {
+      if (!consent) {
+        saveConsent(false, "preferences");
+        return;
+      }
+
+      hidePreferences();
+
+      if (previousFocus) {
+        previousFocus.focus();
+      }
+    }
+
+    function handlePreferencesKeydown(event) {
+      if (event.key === "Escape") {
+        closePreferences();
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      var focusable = preferenceDialog.querySelectorAll(
+        "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])",
+      );
+
+      if (!focusable.length) {
+        return;
+      }
+
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    consent = decodeConsent();
+
+    preferenceAcceptButton.addEventListener("click", function () {
+      saveConsent(true, "preferences");
+    });
+    preferenceRejectButton.addEventListener("click", function () {
+      saveConsent(false, "preferences");
+    });
+    preferenceCloseButton.addEventListener("click", closePreferences);
+    preferenceDialog.addEventListener("keydown", handlePreferencesKeydown);
+    preferenceButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        window.dispatchEvent(new Event("arraysubs:open-cookie-consent"));
+      });
+    });
+    window.addEventListener("arraysubs:open-cookie-consent", openPreferences);
+
+    if (consent) {
+      if (consent.retargeting) {
+        writeRetargetingCookie();
+      } else {
+        deleteRetargetingCookie();
+      }
+
+      hidePreferences();
+      return;
+    }
+
+    showPreferences();
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initSidebarToggle();
     initNavToggles();
@@ -221,5 +508,6 @@
     initCopyButtons();
     initTocHighlight();
     initSmoothScroll();
+    initCookieConsent();
   });
 })();
