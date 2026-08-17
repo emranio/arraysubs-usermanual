@@ -1,7 +1,7 @@
 # Info
 - Module: Mollie Gateway
 - Availability: Pro
-- Last updated: 2026-07-28
+- Last updated: 2026-08-17
 
 # Mollie Gateway
 
@@ -51,12 +51,13 @@ ArraySubs never creates a Mollie Subscription object. Everything about the cycle
 | Mixed carts | Supported. |
 | Multiple subscriptions in one checkout | Supported. |
 | Different billing cycles in one checkout | Supported. |
-| Native pause/resume | Not supported — Mollie holds no billing agreement to pause. |
-| Payment method update | Supported by authorizing a new mandate. |
-| Card auto-update | Not supported by Mollie. |
-| Card expiry notices | Not supported — Mollie sends no expiry event. |
-| Free trials | Not enabled. Use a paid first billing period. |
-| Refunds and chargebacks | Refunds go through the Mollie plugin; chargebacks put the order on hold for review. |
+| Native pause/resume | Not needed — Mollie holds no billing agreement to pause, so pausing is a purely local decision. |
+| Cancel at end of period | Supported, and reversible. It is a local scheduling decision. |
+| Payment method update | Supported. The subscription is **rebound** to the customer's new mandate. |
+| Card auto-update | Not supported — Mollie publishes no account-updater service. |
+| Card expiry notices | **Supported** for card mandates, from the expiry Mollie already reports. |
+| Free trials | **Supported on card and PayPal.** Other Mollie methods cannot start a trial and are hidden while one is in the cart. |
+| Refunds and chargebacks | Refunds go through the Mollie plugin, including partial refunds; chargebacks are recorded for review. |
 | Renewal Sync | Supported. ArraySubs owns the schedule, so it can prorate the signup charge and move the first renewal to the synced date. |
 | Early renew | Supported. The mandate is charged off-session ahead of the due date. |
 | Retention discount amounts | Supported. Each renewal is charged at whatever amount the offer sets. |
@@ -80,6 +81,26 @@ A Mollie method can only carry a subscription if it can hold a **mandate**.
 ```box class="info-box"
 When a customer pays with iDEAL or Bancontact, Mollie issues a **new SEPA mandate** with a different ID. ArraySubs follows the change automatically and writes a note on the subscription recording the switch, so renewals continue on the new instrument.
 ```
+
+## Free Trials on Mollie
+
+A trial needs a payment method that can authorise future charges **without taking money now**. Mollie supports that through a zero-amount first payment, but only on some methods.
+
+| Method | Can start a trial | Why |
+|---|---|---|
+| Credit Card | Yes | Accepts Mollie's zero-amount first payment |
+| PayPal (via Mollie) | Yes | Same |
+| iDEAL | No | Needs a real first payment to create the mandate |
+| Bancontact | No | Same |
+| SEPA Direct Debit | No | Same |
+
+When a trial product is in the cart, ArraySubs **removes the Mollie methods that cannot start it** from the checkout, so the shopper sees a correct list instead of picking iDEAL and hitting a failure at the end.
+
+```box class="info-box"
+Being on the list is not enough on its own. The method must also be live, enabled, and mandate-capable on your Mollie profile — several methods only become mandate-capable once SEPA Direct Debit is enabled there. ArraySubs asks your actual gateway objects, not a hardcoded list, so what the shopper sees matches your account. The Gateway Health screen shows both your mandate-capable and trial-capable methods.
+```
+
+If a trial setup produces no mandate, the subscription is refused rather than reported as set up — the failure surfaces at checkout, not weeks later at the first renewal.
 
 ---
 
@@ -116,11 +137,28 @@ Your grace-period settings should allow for this. With the default 3-day on-hold
 
 ## Payment Method Updates
 
-Mollie has no customer portal to send people to. A payment-method update is a **new mandate**:
+Mollie has no customer portal to send people to. A payment-method update is a **new mandate**, and ArraySubs then **rebinds** the subscription to it:
 
-1. The customer opens Payment methods from their account
-2. They authorize a new payment through Mollie
-3. ArraySubs captures the new mandate and points the subscription at it
+1. The customer adds a payment method through their WooCommerce account, or through the ArraySubs portal
+2. Mollie authorises it and issues a mandate
+3. ArraySubs points the subscription at the new mandate, refreshes the stored card details, resets the dunning attempt counter, and clears any card-expiry warning that belonged to the old card
+
+ArraySubs never mints a mandate of its own here — it rebinds to one Mollie created, resolved through the same mandate lookup the renewal path uses.
+
+```box class="info-box"
+If Mollie is unreachable during the rebind, that is treated as "unknown", never as "this customer has no mandate". A working mandate is left exactly where it is — the opposite behaviour would stop renewals on a perfectly healthy subscription.
+```
+
+### Revoking a Mandate (Admin)
+
+Cancelling a subscription does **not** revoke the customer's Mollie mandate, and that is deliberate — one mandate often backs several subscriptions, and revoking it would break the others.
+
+For the cases where you do want it gone, there is an admin-only, two-step action:
+
+1. The first step names **every other subscription** that mandate is currently backing
+2. Only after you confirm is the mandate revoked at Mollie, and the binding cleared on all of them
+
+Those subscriptions then report "needs a payment method" at their next renewal, which is the honest outcome — rather than a payment failure nobody can explain.
 
 ---
 
@@ -143,9 +181,14 @@ A SEPA renewal that has not settled yet **cannot** be refunded — Mollie only r
 
 Mollie reports a chargeback on the payment webhook rather than as a separate event. When one arrives:
 
-- The renewal order is set to **on hold**
-- A warning note is written on the subscription
+- The chargeback is recorded as a note and as meta on the order and subscription
+- The order's **status is deliberately left unchanged**
 - The subscription is **not** cancelled — that decision stays yours
+- A chargeback that does not clearly belong to the order it names is ignored rather than acted on
+
+```box class="warning-box"
+The order status is left alone on purpose. Moving an already-paid renewal order out of its paid status makes the renewal engine treat it as an unpaid invoice for the next cycle — and billing stops. Chargebacks are recorded for review; they never re-open a settled order.
+```
 
 Mollie has no "you lost the dispute" event. A chargeback that is never reversed is a chargeback you lost.
 
@@ -155,11 +198,11 @@ Mollie has no "you lost the dispute" event. A chargeback that is never reversed 
 
 | Feature | Status | Why |
 |---|---|---|
-| Free trials | Not enabled | Zero-amount mandate creation is not verified for every Mollie method. Use a paid first billing period. |
-| Pause / Resume | Not supported | Mollie holds no billing agreement to pause; pausing is handled entirely by ArraySubs. |
-| Cancel at period end | Not supported | Mollie cannot schedule a cancellation; ArraySubs stops billing at the end of the paid period. |
-| Card auto-update | Not supported | Mollie offers no account-updater service. |
-| Card expiry notice | Not supported | Mollie sends no card-expiry event. |
+| Free trials | Card and PayPal only | Those two accept Mollie's zero-amount first payment. Other methods are hidden while a trial is in the cart. |
+| Pause / Resume at Mollie | Not applicable | Mollie holds no billing agreement to pause. ArraySubs owns the schedule, so pausing works and is purely local. |
+| Cancel at period end | Supported | A purely local scheduling decision, and reversible — there is no Mollie object holding a scheduled cancellation. |
+| Card auto-update | Not supported | Mollie publishes nothing about running a card-updater service. Claiming otherwise would tell you a reissued card keeps working when it may not. |
+| Card expiry notice | Supported | Computed locally from the card details Mollie reports on the mandate, warned at 30 and 7 days. |
 | Customer portal | Not supported | Mollie has no self-service portal; updates go through your store. |
 | Product sync | Not applicable | Mollie has no product or plan catalogue. |
 | SEPA in non-EUR | Not supported | Mollie SEPA Direct Debit is EUR-only, so a non-EUR renewal on a SEPA mandate is refused before it is attempted. |
@@ -242,8 +285,14 @@ They keep working as manual renewals — the customer gets an invoice email each
 **Can a customer pay a renewal invoice by hand?**
 Yes, and it does not disturb the subscription. ArraySubs deliberately does not create a second mandate from a manually paid renewal.
 
-**Why is there no free trial option on Mollie?**
-Zero-amount mandate creation has not been verified across Mollie's methods, so it is switched off rather than shipped as a maybe. Use a paid first billing period instead.
+**Can I offer a free trial on Mollie?**
+Yes, on **credit card and PayPal** — the two Mollie methods that accept a zero-amount first payment. The others need a real first payment to create a mandate, so they are hidden at checkout while a trial is in the cart rather than failing at the end of it. They must also be enabled and mandate-capable on your Mollie profile; the Gateway Health screen lists which of your methods qualify.
+
+**Does ArraySubs warn customers before their card expires on Mollie?**
+Yes. Mollie sends no expiry event, so ArraySubs computes it from the card details Mollie already reports on the mandate and emails the customer 30 days and 7 days before the card stops working, once each. A SEPA mandate has no card and produces no warning.
+
+**Does cancelling a subscription revoke the customer's Mollie mandate?**
+No, and deliberately so — one mandate often backs several subscriptions. An administrator can revoke it explicitly through a two-step action that first names every other subscription that mandate is holding up.
 
 **Which currency can SEPA renewals use?**
 EUR only. A non-EUR renewal against a SEPA mandate is refused before it reaches Mollie, and the subscription is flagged for a new payment method.

@@ -1,7 +1,7 @@
 # Info
 - Module: Stripe Gateway
 - Availability: Pro
-- Last updated: 2026-06-29
+- Last updated: 2026-08-17
 
 # Stripe Gateway
 
@@ -118,7 +118,11 @@ This means many expired-card scenarios resolve silently without any customer act
 
 ## Card Expiry Notices
 
-When a stored card is approaching expiration and auto-update has not occurred, Stripe sends a `customer.source.expiring` webhook. ArraySubs logs the event and can trigger a card expiry notification to the customer, prompting them to update their payment method.
+ArraySubs does not wait for a Stripe event to warn a customer. A daily sweep reads the card expiry already stored on each subscription and emails the customer **30 days** and **7 days** before the card stops working, once each.
+
+- The warning is marked against that specific expiry date, so replacing the card re-arms it for the new one and a redeploy cannot re-send an old warning.
+- Stripe's own `customer.source.expiring` event only fires for legacy card sources and never for modern PaymentMethods — which is why the warning is computed locally instead.
+- If the card network auto-updates the card first, there is nothing to warn about.
 
 ---
 
@@ -127,23 +131,51 @@ When a stored card is approaching expiration and auto-update has not occurred, S
 When a customer opens a chargeback with their bank:
 
 1. Stripe sends a `charge.dispute.created` webhook
-2. ArraySubs logs the dispute details as a subscription note (dispute ID, reason, amount)
+2. ArraySubs records the dispute as a subscription note and as meta (dispute ID, reason, amount)
 3. When the dispute is resolved (won, lost, or withdrawn), Stripe sends `charge.dispute.closed`
-4. ArraySubs logs the resolution
+4. ArraySubs records the resolution
 
 ```box class="warning-box"
-ArraySubs does not automatically cancel subscriptions when a dispute is opened. Merchants should review disputes promptly in the Stripe Dashboard and decide whether to contest or accept. Consider your store's chargeback policy when managing disputed subscriptions.
+A dispute **never** changes the status of an order that has already been paid. Moving a paid renewal order out of its paid status would make the renewal engine treat it as the next cycle's unpaid invoice, and billing would stop. The order keeps its status; the dispute is recorded for you to act on.
 ```
+
+ArraySubs does not automatically cancel subscriptions when a dispute is opened. Review disputes promptly in the Stripe Dashboard and decide whether to contest or accept.
 
 ---
 
 ## Payment Method Updates
 
-Customers can update their card on file through the **Customer Portal → View Subscription → Update Payment Method** link.
+Customers can update their card on file through the **Customer Portal → View Subscription → Update Payment Method** link, through WooCommerce's own add-payment-method flow, or through the Stripe Billing Portal.
 
-1. Customers update their saved Stripe payment method through WooCommerce/Stripe payment-method flows.
-2. The official Stripe gateway stores the new payment method.
-3. ArraySubs mirrors the new customer/payment-method details to the subscription when the order or webhook context is available.
+1. The customer adds or updates a payment method through any of those routes.
+2. Stripe reports it — as `payment_method.attached`, `customer.updated`, or through WooCommerce's own token flow.
+3. ArraySubs matches it to the right subscription and rebinds.
+
+```box class="info-box"
+A newly added card is not attached to any subscription yet, so ArraySubs resolves it through the **Stripe customer ID**. That was the missing link that used to make a return from the Stripe Billing Portal dead-end with the old card still on file.
+```
+
+Before any rebind, the payment method is verified with Stripe using the same check the renewal path runs before charging. A webhook payload is never trusted on its own to name the card that will be charged.
+
+---
+
+## Failed Renewals and Retries
+
+ArraySubs runs the retry ladder for Stripe, not Stripe Billing — there is no Stripe Invoice object involved, so Stripe Smart Retries do not apply here.
+
+The ladder is configurable: how many retries, how long to wait before each one, and whether to stop early. See [Payment Recovery](payment-recovery.md#configuring-the-retry-ladder) for the settings.
+
+One behaviour worth knowing here: a card that is **expired, invalid, or hard-declined** schedules no retry at all, and the reason is recorded. Retrying a card the issuer has permanently refused does not make it work — it only delays the email the customer needs in order to fix it.
+
+---
+
+## Resync from Gateway: What It Will and Will Not Claim
+
+**Resync from Gateway** pulls the Stripe customer, the saved payment method, and recent charges for the subscription, then applies safe corrections.
+
+What it deliberately does **not** do is invent a status. Stripe holds no subscription object in this integration, so there is no Stripe-side status or billing date to report. The reconciler is told outright that those two values are not authoritative and leaves your local state alone rather than overwriting real data with a guess.
+
+What it does prove: a successful charge whose webhook was missed is found and reconciled.
 
 ---
 
@@ -159,9 +191,13 @@ Configure and connect the official WooCommerce Stripe Gateway first. It owns nor
 | `charge.refunded` | Official Stripe refund flow plus ArraySubs logging |
 | `charge.dispute.created` / `charge.dispute.closed` | Official Stripe webhook plus ArraySubs logging |
 | `payment_method.updated` | Auto-provisioned ArraySubs secondary endpoint |
+| `payment_method.attached` | Auto-provisioned ArraySubs secondary endpoint — a newly added card |
+| `customer.updated` | Auto-provisioned ArraySubs secondary endpoint — a changed default payment method |
 | `payment_method.automatically_updated` | Auto-provisioned ArraySubs secondary endpoint |
 | `payment_method.card_automatically_updated` | Auto-provisioned ArraySubs secondary endpoint |
-| `customer.source.expiring` | Auto-provisioned ArraySubs secondary endpoint |
+| `customer.source.expiring` | Auto-provisioned ArraySubs secondary endpoint (legacy card sources only) |
+
+`payment_method.attached` and `customer.updated` are what close the payment-method-change loop for a card added at Stripe rather than at your checkout. They are both in the event list ArraySubs provisions on the endpoint, so an existing endpoint that predates them is repaired by the **Refresh** button described below.
 
 ### Webhook URL
 
@@ -229,7 +265,7 @@ The **Webhook** status line on the ArraySubs Stripe Configs page is a live check
 No. Stripe's Checkout Sessions and Elements handle all card input on Stripe's servers. ArraySubs only stores the payment method ID, card brand, last4, and expiry — never the full card number or CVV.
 
 **What happens if a renewal charge fails?**
-The plugin records the failure with a classified reason (insufficient funds, expired card, authentication required, etc.) and the customer receives a **Renewal Payment Failed** email that includes the reason in plain language. ArraySubs then schedules the next automatic retry using your gateway settings (max attempts and interval); before each retry the plugin queries Stripe to confirm the customer was not already charged via a missed webhook. If all retries fail, the subscription enters the standard grace-period flow (Active → On-Hold → Cancelled). An admin or the customer can also click **Retry Payment** at any time to trigger an immediate verification + retry — see [Payment Recovery Tools](payment-recovery.md).
+The plugin records the failure with a classified reason (insufficient funds, expired card, authentication required, etc.) and the customer receives a **Renewal Payment Failed** email that includes the reason in plain language. ArraySubs then schedules the next automatic retry from your retry ladder — unless the decline was a hard one (expired, invalid, or permanently refused card), in which case no retry is scheduled and the reason is recorded instead. Before each retry the plugin queries Stripe to confirm the customer was not already charged via a missed webhook. If all retries fail, the subscription enters the standard grace-period flow (Active → On-Hold → Cancelled). An admin or the customer can also click **Retry Payment** at any time to trigger an immediate verification + retry — see [Payment Recovery Tools](payment-recovery.md).
 
 **How do I know the local subscription state matches Stripe?**
 Open the subscription detail page and click **Resync from Gateway** in the Payment Gateway card (next to Detach Gateway). The reconciler pulls the customer record, the saved payment method, and recent PaymentIntents matching this subscription, then applies safe corrections to local meta and reconciles any successful charge whose webhook was missed. The card itself only appears for automatic gateways — manual gateways have nothing to resync.

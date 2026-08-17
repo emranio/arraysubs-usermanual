@@ -22,7 +22,7 @@
 
 Automatic recurring billing fails sometimes. A card declines, a customer's bank flags the charge, a webhook is missed during a brief outage, a network hiccup interrupts a charge attempt. This page documents the four tools ArraySubs Pro provides to keep things on track:
 
-1. **Automatic retry** — Stripe failed renewals retry on the built-in retry policy with pre-retry charge verification to avoid double-charging.
+1. **Automatic retry** — failed renewals retry on a configurable ladder, with pre-retry charge verification to avoid double-charging.
 2. **Manual retry button** — admin and customer can both trigger an immediate retry without waiting for the scheduled retry.
 3. **Sync from Gateway** — admin button on the subscription detail page that pulls authoritative state from Stripe/PayPal/Paddle/Mollie and reconciles missed-webhook drift.
 4. **PayPal/Paddle pending-cancel handling** — when a customer schedules an end-of-period cancellation, the plugin tells PayPal/Paddle to stop charging on its own schedule so the customer is never charged for a period they cancelled.
@@ -30,19 +30,51 @@ Automatic recurring billing fails sometimes. A card declines, a customer's bank 
 ## When to Use This
 
 - You see a customer was charged but the order is still marked failed → Sync from Gateway (case: missed webhook).
-- A renewal failed and you don't want to wait 24 hours for the auto-retry → Manual Retry.
-- Stripe retry timing is not site-configurable in the current UI. Stripe-backed ArraySubs renewals use the built-in retry policy: retries enabled, up to 3 attempts, 24 hours apart.
+- A renewal failed and you don't want to wait for the scheduled auto-retry → Manual Retry.
+- You want retries to widen out (a day, then two, then a week) instead of hammering the same card three times → change the retry ladder.
 - A customer reports duplicate charges after a manual retry → check the subscription notes; the pre-retry verification will say whether a real second charge happened (it shouldn't).
 
 ## How It Works
 
-### Stripe automatic retry
+### Automatic retry
 
-When a Stripe renewal charge fails, the plugin schedules another attempt based on the built-in Stripe retry policy. Before each retry runs, the plugin queries Stripe to confirm the customer was not already charged via a missed webhook. If a successful PaymentIntent matching the renewal order is found, the local order is reconciled (marked paid) without a new charge. If no charge exists, the retry proceeds normally.
+When an ArraySubs-charged renewal fails (Stripe or Mollie), the plugin schedules another attempt from the retry ladder. Before each retry runs, the plugin queries the gateway to confirm the customer was not already charged via a missed webhook. If a successful charge matching the renewal order is found, the local order is reconciled (marked paid) without a new charge. If no charge exists, the retry proceeds normally.
 
-The retry counter is tracked in `_payment_retry_attempts` meta and visible in the subscription's notes. Stripe-backed ArraySubs renewals use the built-in retry policy: retries are enabled, the maximum is 3 attempts, and the interval is 24 hours. After the retry maximum is reached, the subscription continues into the standard grace-period flow (Active → On-Hold → Cancelled) but no further automatic retries are scheduled.
+The retry counter is tracked in `_payment_retry_attempts` meta and visible in the subscription's notes. After the last rung of the ladder is used, the subscription continues into the standard grace-period flow (Active → On-Hold → Cancelled) but no further automatic retries are scheduled.
 
-PayPal and Paddle use their own gateway-side retry policies (PayPal Smart Retry, Paddle automatic retry); the plugin does not schedule local retries for those gateways. Their webhooks notify the plugin when they finish retrying.
+### Configuring the retry ladder
+
+The ladder is a store-level setting rather than a per-gateway one, because ArraySubs is the thing doing the retrying:
+
+| Setting | What it controls | Default |
+|---|---|---|
+| `enabled` | Whether failed renewals are retried at all | On |
+| `interval_hours` | **One entry per retry**, in hours. The number of entries *is* the number of retries | `[24, 24, 24]` — three retries, a day apart |
+| `stop_on_hard_decline` | Skip retrying a failure that cannot resolve itself | On |
+
+Because the interval list is per attempt, a widening ladder is just a longer list — `[6, 48, 168]` retries after 6 hours, then 2 days, then a week.
+
+```box class="info-box"
+These values live in the ArraySubs settings store and travel with **Import/Export Settings**. Gateways can also publish their own policy on the `arraysubs_payment_retry_config` filter, which is how PayPal and Paddle switch local retries off entirely.
+```
+
+### Hard declines are not retried
+
+With `stop_on_hard_decline` on (the default), a failure in one of these categories schedules **no** retry:
+
+- `expired_card`
+- `invalid_card`
+- `incorrect_cvc`
+- `card_declined`
+- `authentication_required`
+
+A subscription note records why. The reasoning is simple: an expired card does not start working because you asked again tomorrow. Retrying burns the ladder and delays the dunning email that actually tells the customer to fix their payment method. `insufficient_funds` is deliberately **not** in this list — that one genuinely can resolve itself by the next attempt.
+
+The list can be changed with the `arraysubs_hard_payment_decline_categories` filter.
+
+### PayPal and Paddle: no local retries
+
+PayPal and Paddle run their own dunning on their own schedule, so they publish a retry config that switches local retries **off**. The plugin does not schedule its own attempts for those gateways — a customer would otherwise be chased twice for one failed charge. Their webhooks notify the plugin when they finish retrying.
 
 ### Manual retry button
 
@@ -105,8 +137,11 @@ A customer's renewal fails because of a fraud flag on their card. They call thei
 ### Use Case 2: Missed Webhook During Maintenance
 The site is down for two hours during a weekly maintenance window. During that time, a Paddle subscription was charged successfully but the webhook delivery failed. After the site comes back, the renewal order is still marked failed. An admin opens the subscription detail page, clicks **Sync from Gateway**, and the order is automatically reconciled — Paddle confirms the charge went through, the order is marked paid, and the subscription continues normally.
 
-### Use Case 3: Stripe Smart Retry vs Plugin Retry
-A merchant noticed that Stripe was already retrying failed cards on its own schedule. They check the plugin's retry settings and reduce the plugin's max retries from 3 to 1, leaving Stripe's Smart Retry as the primary recovery path. The plugin retry now acts as a final safety net.
+### Use Case 3: A Widening Retry Ladder
+A merchant finds that three attempts a day apart annoy customers without recovering much. They change the ladder to `[6, 48, 168]` — six hours, two days, then a week. Cards with a temporary hold recover on the first rung; the rest get a genuine gap before the final attempt, which lands in a new pay cycle.
+
+### Use Case 5: Expired Card, No Wasted Retries
+A customer's card expires. The failure is classified as `expired_card`, which is a hard decline, so no retry is scheduled at all and a note records why. The customer gets the "update your payment method" email immediately instead of three days later — and if they had a card-expiry warning 30 days earlier, most of these never fail in the first place.
 
 ### Use Case 4: PayPal Customer Schedules End-of-Period Cancel
 A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the month, with their next billing date on the 20th. Without gateway-side handling, PayPal would charge on the 20th regardless. With this feature enabled, the PayPal billing agreement is cancelled immediately, no charge happens on the 20th, and the customer keeps access until the 20th. They never see a charge for a month they cancelled.
@@ -128,7 +163,7 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 4. If automatic endpoint creation is unavailable, create the endpoint in Stripe manually and paste the `whsec_` signing secret.
 5. Click **Save changes** only when you have changed the signing secret.
 
-The Stripe retry policy itself is code-level in this version: retries are enabled, up to 3 attempts, 24 hours apart. There is no visible admin field for max retry attempts or retry interval.
+The retry ladder itself is a store-level ArraySubs setting (`payment_retry`), not a Stripe one — see [Configuring the retry ladder](#configuring-the-retry-ladder) above. Out of the box it is three retries, 24 hours apart, with hard declines skipped.
 
 ![ArraySubs Stripe Configs secondary webhook recovery settings](payment-recovery.ASSETS/01-stripe-array-subs-configs-annotated.png)
 
@@ -165,7 +200,9 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 | **Secondary webhook signing secret** | Verifies ArraySubs-specific Stripe webhook events | Auto-managed; edit only when manually repairing the endpoint | `whsec_...` |
 | **Secondary webhook endpoint ID** | Stores the Stripe endpoint created for ArraySubs events | Read-only; confirm it exists when troubleshooting missing webhooks | `we_...` |
 | **Webhook status and Refresh** | Checks whether the Stripe-side ArraySubs endpoint is enabled and listening for required events | Use Refresh when customers/admins deleted or disabled the auto-created endpoint | `Enabled` |
-| **Stripe retry policy** | Built-in retry behavior for failed Stripe renewals | No UI field in this version; default policy is used automatically | 3 attempts, 24 hours apart |
+| **Retry enabled** | Whether failed renewals are retried at all | Leave on unless your gateway runs its own dunning | On |
+| **Retry intervals (hours)** | One entry per retry attempt. The number of entries is the number of retries | Widen the gaps rather than repeating one interval | `[24, 24, 24]`, or `[6, 48, 168]` |
+| **Stop on hard decline** | Skips retrying a failure that cannot resolve itself (expired, invalid, or refused card) | Leave on — it gets the customer the fix-your-card email sooner | On |
 
 ## What Happens After Saving
 

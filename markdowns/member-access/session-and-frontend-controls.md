@@ -129,7 +129,7 @@ This paragraph is only visible to subscribers with an active subscription.
 
 | Attribute | Type | Default | What It Controls |
 |-----------|------|---------|-----------------|
-| `status` | Comma-separated | _(none)_ | Required subscription statuses: `active`, `trial`, `on-hold`, `cancelled`, `expired`, `pending` |
+| `status` | Comma-separated | _(none)_ | Required subscription statuses: `active`, `trial`, `paused`, `on-hold`, `cancelled`, `expired`, `pending`. `paused` and `on-hold` are distinct — a paused subscriber does not match `on-hold` |
 | `products` | Comma-separated IDs | _(none)_ | Require an active subscription to one of these product IDs |
 | `variations` | Comma-separated IDs | _(none)_ | Require an active subscription to one of these variation IDs |
 | `purchased` | Comma-separated IDs | _(none)_ | Require a completed purchase (any order) of one of these product IDs |
@@ -351,37 +351,60 @@ Understanding how paused and on-hold subscriptions interact with Member Access r
 
 ### Status Definitions
 
+**Paused** and **On Hold** are two distinct statuses with different causes, and Member Access treats them differently:
+
 | Status | Meaning | Typical Trigger |
 |--------|---------|----------------|
-| `on-hold` | Subscription is suspended (usually due to payment failure) | Grace period expires, admin action |
-| `paused` | Customer voluntarily paused the subscription | Customer action from portal |
+| `paused` | A deliberate break with an end date | Customer pauses from the portal, or an admin pauses for them |
+| `on-hold` | Something is wrong and needs resolving | Grace period expired on an unpaid invoice, or an admin hold |
+
+```box class="warning-box"
+Earlier versions reused On Hold for pauses. If you wrote access rules on the assumption that "on-hold" meant "on vacation", they now behave differently — a paused member is `paused`, not `on-hold`. Review any rule whose conditions include `on-hold`.
+```
+
+### Access During a Pause
+
+You do not have to build rules for this. One setting decides what a paused member keeps:
+
+**ArraySubs → Settings → Skip & Pause → Content Access**
+
+| Choice | What a paused member gets |
+|---|---|
+| **No access (fully restricted)** *(default)* | Nothing. The pause suspends benefits along with billing |
+| **Limited access (view-only)** | Can still **view** gated content. Downloads, member discounts, shop rules, and other non-view benefits stay closed |
+| **Full access (same as active)** | Everything, exactly as if the subscription were active |
+
+The setting applies across the whole module — content gating, roles, downloads, discounts, ecommerce rules, sessions, and third-party integrations all read the same policy, so a paused member cannot keep a benefit through one rule type after losing it in another.
+
+```box class="info-box"
+**Limited** is the one worth understanding. It splits on what the member is trying to do, not on which rule type is being evaluated: viewing is allowed, everything else is not. A paused member can read the course, but cannot download the workbook or claim the member discount.
+```
+
+An explicit `subscription_status = paused` condition on a rule is **independent** of this policy — write one when you want a rule that targets paused members specifically, whatever the store-wide setting says.
 
 ### Access Behavior by Rule Type
 
-| Rule Type | Active / Trial | On-Hold | Paused |
-|-----------|---------------|---------|--------|
-| **Role Mapping** | Roles added | Configurable: `Keep roles` or `Remove roles` | Roles remain — no explicit change |
-| **Post Type Rules** | Access granted (if conditions match) | Depends on rule conditions — `on-hold` is not `active` | Depends on rule conditions — `paused` is not `active` |
-| **URL Rules** | Access granted | Denied unless conditions explicitly include `on-hold` | Denied unless conditions explicitly include `paused` |
-| **Shop Access Rules** | Restrictions applied per rule | Denied unless conditions include `on-hold` | Denied unless conditions include `paused` |
-| **Discount Rules** | Discounts applied | No discounts (not an active subscription) | No discounts (not an active subscription) |
-| **Download Rules** | Files available | Files unavailable | Files unavailable |
+| Rule Type | Active / Trial | Paused | On-Hold |
+|-----------|---------------|--------|---------|
+| **Role Mapping** | Roles added | Follows **Content Access** | Configurable: `Keep roles` or `Remove roles` |
+| **Post Type Rules** | Access granted (if conditions match) | Follows **Content Access** — granted on Limited or Full | Depends on rule conditions — `on-hold` is not `active` |
+| **URL Rules** | Access granted | Follows **Content Access** | Denied unless conditions explicitly include `on-hold` |
+| **Shop Access Rules** | Restrictions applied per rule | Granted on **Full** only — not a view action | Denied unless conditions include `on-hold` |
+| **Discount Rules** | Discounts applied | Granted on **Full** only | No discounts (not an active subscription) |
+| **Download Rules** | Files available | Granted on **Full** only | Files unavailable |
 | **Login Limit** | Session limits enforced | Session limits still enforced | Session limits still enforced |
 
 ### Key Takeaway
 
-Most conditions default to checking `active` and `trial` status. If you want paused or on-hold subscribers to retain some level of access:
+Set **Content Access** first — it covers the ordinary cases without a single rule. Reach for conditions when you want something the three modes cannot express:
 
-- For **Role Mapping**, set the `On Hold Behavior` to `Keep roles`.
-- For **other rule types**, add a `Subscription Status` condition that includes `on-hold` or `paused` alongside `active`.
+- For **On Hold**, set Role Mapping's `On Hold Behavior` to `Keep roles`, or add a `Subscription Status` condition including `on-hold`.
+- For a **paused-members-only** area, add a rule whose condition is `paused` alone. That rule fires regardless of the Content Access mode.
 
 ```box class="info-box"
 ## Designing Pause Access
 
-If your business model allows customers to pause their subscription while retaining limited access (e.g., read-only content but no downloads or discounts), create separate rules:
-
-1. A main rule with `active` and `trial` conditions for full access.
-2. A secondary rule with `paused` conditions for limited access (e.g., access to a "paused members" content area but not premium downloads).
+A common shape: set **Content Access** to *Limited* so paused members keep reading, then add one rule with a `paused` condition pointing at a "your subscription is paused" landing page that explains how to resume. Billing stays off, the relationship stays warm, and the customer knows exactly what to click.
 ```
 
 ---
@@ -394,7 +417,8 @@ If your business model allows customers to pause their subscription while retain
 | Session limits are not enforced | **Enable Multi-Login Prevention** is off | Open **Member Access -> Login Limit**, turn it on, and click **Save Login Limits** |
 | Oldest session is not immediately logged out | Heartbeat delay | Sessions are evicted on the next heartbeat tick (15–120 seconds). The brief overlap is expected |
 | `[arraysubs_restrict]` shows nothing to anyone | Shortcode attributes don't match any user | Check that status values, product IDs, or roles are correct and that at least some users qualify |
-| Paused subscriber still has access | Rule conditions include `paused` as a qualifying status, or Role Mapping on-hold behavior is `Keep roles` | Review the rule conditions. If paused access is not intended, ensure conditions only include `active` and `trial` |
+| Paused subscriber still has access | **Content Access** on the Skip & Pause page is set to Limited or Full, or a rule has an explicit `paused` condition | Set Content Access to **No access** first. If access persists, look for a rule that names `paused` directly — those ignore the store-wide policy |
+| Paused subscriber lost access you expected them to keep | **Content Access** is *No access*, or it is *Limited* and the member is trying to download or claim a discount rather than view | Raise it to Limited or Full. Limited covers viewing only |
 | Admin cannot see restricted shortcode content | `show_to_admins` is set to `false` | Change to `true` or remove the attribute (default is `true`) |
 
 ---

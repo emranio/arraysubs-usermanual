@@ -176,6 +176,38 @@ Refunds a specified amount from a specific order, up to the remaining refundable
 
 Partial refunds do not trigger automatic subscription cancellation — only full refunds of the latest order do.
 
+**All four automatic gateways accept partial refunds.** How each one handles them differs, and the differences matter when you issue two refunds close together:
+
+| Gateway | Partial refund behaviour |
+|---|---|
+| Stripe | Refunds the charge for the requested amount |
+| Mollie | Refunds the payment. A SEPA renewal that has not settled yet cannot be refunded — wait for settlement or cancel it at Mollie |
+| PayPal | Each attempt carries its own key derived from the WooCommerce refund ID. Without that, two identical partial refunds would look like one repeated request and PayPal would return the first result twice while your store recorded two |
+| Paddle | Allocated across the transaction's own line items in proportion to each item's settled total, with the rounding remainder placed on the largest item so the parts add up exactly |
+
+---
+
+## Refunds Issued in the Gateway Dashboard
+
+A refund you issue directly in the **PayPal or Paddle dashboard** is turned into a real WooCommerce refund on the matching order, so your store's totals and the provider's agree without any manual reconciliation.
+
+- Recorded once, keyed on the provider's own refund ID, no matter how often the provider reports it
+- A cumulative report only adds the difference — a report of 70 after 30 was already recorded adds 40, not 70
+- An overshoot is capped at the order total
+- Once the order is fully refunded, nothing further is added
+
+---
+
+## Disputes and Chargebacks Never Re-Open a Paid Order
+
+When a dispute or chargeback arrives on any gateway, it is recorded as notes and meta on the order and subscription — and the **order's status is deliberately left unchanged**.
+
+```box class="warning-box"
+Moving an already-paid renewal order out of its paid status makes the renewal engine treat it as the next cycle's unpaid invoice, and billing quietly stops. Disputes are recorded for you to act on; they never re-open a settled order, and they never cancel a subscription on their own.
+```
+
+Independently, a settled order can never be picked up as the next cycle's invoice: any order carrying a transaction ID or a paid date is refused as a renewal target, even if something else moves its status.
+
 ---
 
 ## Refund History

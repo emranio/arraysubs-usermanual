@@ -94,8 +94,11 @@ Want to rename or move the **Subscriptions** tab itself? Do that later in **Arra
 | Setting | Default | What it does |
 |---|---|---|
 | Allow cancellation | On | Customers can cancel their own subscriptions |
-| Allow suspension | Off | Customers can pause their subscriptions (when skip/pause is configured) |
-| Allow reactivation | On | Customers can reactivate cancelled subscriptions |
+| Allow early renew | Off | Customers can pay a renewal before it is due (requires the Early Renew module) |
+
+```box class="info-box"
+**Pause and resume are configured elsewhere.** Their permissions live with the rest of the pause rules under **ArraySubs → Settings → Skip & Pause** — **Allow Customers to Pause** and **Allow Resume**, both visible once **Enable Pause Subscription** is on. General Settings shows a link through to them. If you are upgrading, your old **Allow Suspension** and **Allow Reactivation** values were carried across automatically.
+```
 
 ```box class="info-box"
 Payment-method updates for automatic subscriptions are handled by compatible gateways and are not toggled from General Settings.

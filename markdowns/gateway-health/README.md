@@ -1,7 +1,7 @@
 # Info
 - Module: Gateway Health
 - Availability: Pro
-- Last updated: 2026-06-29
+- Last updated: 2026-08-17
 
 # Gateway Health
 
@@ -25,7 +25,7 @@ The Gateway Health Dashboard gives you a single view of every payment gateway's 
 
 **Navigation:** **ArraySubs → Audits [beta] → Gateway Logs**. The admin page title is **Payment Gateways**.
 
-![Gateway Health Dashboard](README.ASSETS/01-gateway-health-dashboard-annotated.png)
+![Gateway Health Dashboard](README.ASSETS/01-gateway-health-dashboard-original.png)
 
 ## Gateway Status Cards
 
@@ -45,17 +45,54 @@ A **Test Mode** badge appears next to the gateway title when the gateway is runn
 
 ### Expanded Details
 
-![Stripe gateway expanded details](README.ASSETS/02-stripe-gateway-expanded-annotated.png)
+![PayPal gateway card expanded, showing the blocking-issues notice, the Webhook ID status, the required events, and the capability tags](README.ASSETS/02-gateway-expanded-details-original.png)
 
 Click the expand button on any card to reveal:
 
+- **Blocking issues** — anything actively stopping this gateway from taking payments, shown as a *"Needs attention before this gateway can take payments"* notice. See below.
 - **Description** — Brief text explaining what the gateway does
 - **Webhook URL** — The provider webhook URL displayed in a monospace code block for easy copying. For Stripe, regular payment/refund/dispute events use the official WooCommerce Stripe Gateway webhook, and the expanded Stripe details also show the auto-provisioned ArraySubs secondary endpoint:
   ```
   https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe
   ```
-- **Capabilities** — Tag badges showing what features the gateway supports: `subscription`, `trial`, `pause`, `refunds`, `card_auto_update`, `sca`, `mixed_cart`, `multiple_subscriptions`, `different_billing_cycles`, etc.
+- **Provider facts** — a short list of the settings that most often go wrong for that specific provider. See below.
+- **Capabilities** — Tag badges showing what the gateway supports, in plain language: `trial`, `pause`, `refunds`, `partial refunds`, `plan switching`, `quantity above one`, `signup fee`, `recurring shipping`, `coupons`, `recurring coupons`, `mid-cycle price change`, `skip and date changes`, `charge reconciliation`, `card expiry notice`, and the rest.
+- **Why a capability is off** — where a gateway can explain a missing capability, the reason is printed next to it instead of the tag silently being absent.
 - **WooCommerce Settings** — A button that links directly to the gateway's WooCommerce payment settings page for quick access to API keys and configuration
+
+### Blocking Issues
+
+A gateway can be enabled, have valid API keys, and still be incapable of recognising a single payment. The classic case is a missing PayPal Webhook ID or Paddle webhook secret: every notification arrives and is rejected, while the gateway itself looks perfectly healthy.
+
+Those are now reported as **blocking issues**, and the underlying status reflects them:
+
+- PayPal without a **Webhook ID** reports **Needs Setup** and stays hidden at checkout.
+- Paddle without a **Webhook Secret** does the same.
+
+Both are treated as credentials, because functionally that is what they are.
+
+### Provider Facts
+
+Each provider surfaces the handful of facts that actually determine whether it works:
+
+| Gateway | Facts shown |
+|---|---|
+| **PayPal** | Whether the Webhook ID is configured, and the twelve events to subscribe in the PayPal Developer Dashboard |
+| **Paddle** | Whether the webhook secret is configured, the pinned API version, the active tax mode, and whether early renewal is enabled |
+| **Mollie** | Whether the API key is configured, whether customer storage is enabled, which of your methods are **mandate-capable**, and which are **trial-capable** |
+| **Stripe** | Secondary webhook endpoint status, checked live against Stripe |
+
+![Paddle gateway card expanded, showing webhook secret status, API version, tax mode, and early-renewal state](README.ASSETS/03-paddle-provider-facts-original.png)
+
+```box class="info-box"
+The Mollie method lists are read from your **live** gateway objects, not a hardcoded table — several Mollie methods only become mandate-capable once SEPA Direct Debit is enabled on your profile. If a trial-capable list is empty, trials will not sell on Mollie, and this is where you find out before a customer does.
+```
+
+### Why a Capability Is Off
+
+Where a gateway can give a reason, it does. For example, Mollie's `card auto update` tag is absent with the note that Mollie publishes nothing about running a card-updater service — so ArraySubs will not claim a reissued card keeps working when it might not.
+
+An honest "no, and here is why" is more useful than a missing badge, and it stops you from designing a store around a capability the provider does not have.
 
 ### Status Values
 
@@ -63,7 +100,7 @@ Click the expand button on any card to reveal:
 |---|---|---|
 | `Connected` | Gateway is enabled, configured, and receiving webhooks | None |
 | `Connected (Test Mode)` | Gateway is working but using sandbox credentials | Switch to live keys before going live |
-| `Needs Setup` | Gateway is enabled but missing required configuration | Enter API keys in WooCommerce payment settings. For Stripe, connect WooCommerce Stripe first so ArraySubsPro can create/repair its secondary webhook automatically |
+| `Needs Setup` | Gateway is enabled but missing required configuration | Enter API keys in WooCommerce payment settings. For PayPal, also the Webhook ID; for Paddle, also the webhook secret. For Stripe, connect WooCommerce Stripe first so ArraySubsPro can create/repair its secondary webhook automatically |
 | `Disabled` | Gateway is not enabled in WooCommerce | Enable in WooCommerce → Settings → Payments if you want to use it |
 | `Unavailable` | Gateway extension or class is missing | Ensure ArraySubs Pro is active and the gateway class is loaded |
 
@@ -101,9 +138,11 @@ Webhook events are stored in the `wp_arraysubs_webhook_events` database table. E
 
 ## How to Use This Dashboard
 
-### Step 1: Check Gateway Status
+### Step 1: Check Gateway Status and Blocking Issues
 
-After configuring a new gateway, visit this dashboard to verify the status shows `Connected`. If it shows `Needs Setup`, click the WooCommerce Settings link and complete the configuration.
+After configuring a new gateway, visit this dashboard to verify the status shows `Connected`. If it shows `Needs Setup`, expand the card and read the **blocking issues** list first — it names exactly what is missing. Then click the WooCommerce Settings link and complete the configuration.
+
+A gateway with blocking issues is deliberately hidden at checkout. That is the safe outcome: taking a payment you cannot then recognise is worse than not offering the method.
 
 ### Step 2: Confirm Webhook Setup
 
@@ -176,4 +215,10 @@ The gateway has not sent any webhooks that ArraySubs has processed. Either no tr
 Events older than 30 days are automatically cleaned. There is no manual clear button — the log is designed as an audit trail.
 
 **The dashboard shows "Needs Setup" but I've configured the gateway — what's wrong?**
-The gateway may be enabled in WooCommerce but missing a required field like an API key. For Stripe, confirm the official WooCommerce Stripe gateway is connected in the active test/live mode, then open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs**. If the Webhook status is not `Enabled`, click **Refresh** to check and recreate the ArraySubs secondary endpoint.
+Expand the card and read the blocking issues list. The two most common are a missing **PayPal Webhook ID** and a missing **Paddle webhook secret** — both are credentials, because without them every incoming notification is rejected. For Stripe, confirm the official WooCommerce Stripe gateway is connected in the active test/live mode, then open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs**. If the Webhook status is not `Enabled`, click **Refresh** to check and recreate the ArraySubs secondary endpoint.
+
+**A gateway is missing from my checkout even though it says Connected — why?**
+It was hidden for that specific cart. A gateway is hidden when it cannot take what is in the cart — a mixed cart on PayPal, mixed billing cycles on Paddle, a coupon that must recur. Expand the gateway card here to see which capabilities it has; the checkout message names the gateway and the reason. ArraySubs never hides the last remaining payment option.
+
+**Why does a capability tag have a note next to it instead of just being missing?**
+Because "not supported" and "not supported, and here is why" are very different pieces of information. Where a gateway can explain itself — for example Mollie having no documented card-updater service — the reason is shown so you can plan around a real limit rather than guessing at a bug.

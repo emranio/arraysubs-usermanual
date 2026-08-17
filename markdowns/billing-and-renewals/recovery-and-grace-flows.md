@@ -178,18 +178,22 @@ New next payment date = Original next payment date + (billing interval × skippe
 
 ### How pause affects renewals
 
-When a subscription is paused, the subscription moves to **On-Hold** status and all renewal processing is suspended. No invoices are generated during the pause. When the subscription resumes (manually or by auto-resume), the next payment date is extended by the number of days the subscription was paused.
+When a subscription is paused it moves to its own **Paused** status and all renewal processing is suspended. No invoices are generated during the pause. When it resumes — manually or by auto-resume — the billing dates shift forward by the time actually spent paused.
+
+```box class="warning-box"
+**Paused is not On-Hold.** They are two distinct statuses with two different meanings: **Paused** is a deliberate choice by the customer or an admin, with an end date; **On Hold** means a payment failed or an administrator held the subscription. Earlier versions reused On-Hold for pauses, which made them impossible to tell apart in status filters, reports, member-access rules, and the overdue checker. If you built rules or reports around "on-hold means paused", revisit them.
+```
 
 **During pause:**
-- Subscription status changes to On-Hold
+- Subscription status changes to **Paused**
 - All pending renewal actions are unscheduled
 - No new renewal invoices are generated
 - The next payment date is preserved (not changed during pause)
 
 **On resume:**
 - The subscription status returns to its pre-pause status (usually Active)
-- The next payment date is extended forward by the actual number of days paused
-- If the subscription has an end date, it is also extended by the same number of days
+- The next payment date shifts forward by the **actual elapsed pause time**, not the duration originally requested — resume early and you get back only the days you actually used
+- If the subscription has an end date, it shifts by the same amount
 - Renewal actions are rescheduled
 
 **Example:** A monthly subscription paused for 7 days.
@@ -202,23 +206,33 @@ When a subscription is paused, the subscription moves to **On-Hold** status and 
 
 | Setting | Default | What it controls |
 |---|---|---|
+| **Enable Pause Subscription** | On | The master switch. Every setting below is hidden until this is on |
 | Maximum Pause Duration (Days) | 30 days | Maximum length of a single pause |
 | Maximum Pauses per Subscription | 2 | Total number of times a subscription can be paused |
 | Cooldown Between Pauses (Days) | 30 days | Cooldown period between consecutive pauses |
-| Allow Customers to Pause | Enabled by setup | Shows or hides pause controls in the customer My Account portal |
-| Require Pause Reason | Disabled | Requires customers to provide a reason when pausing |
-| Content Access | No access / Limited access / Full access | Controls what restricted content customers can access while paused, when Members Access is active |
+| **Allow Customers to Pause** | Off | Shows or hides pause controls in the customer My Account portal |
+| **Allow Resume** | On | Shows or hides the **Resume Now** control for a paused subscription |
+| Require Pause Reason | Off | Requires customers to provide a reason when pausing |
+| Content Access | No access / Limited access / Full access | What a paused member can still reach while Member Access is active |
+
+```box class="info-box"
+**Allow Customers to Pause** and **Allow Resume** used to live in General Settings → Customer Actions as **Allow Suspension** and **Allow Reactivation**. They moved here so every pause rule sits together, and they are now conditional on **Enable Pause Subscription** — a permission to pause is meaningless when pause is switched off. Existing values were migrated automatically; see [General Settings](../settings/general-settings.md#pause-and-resume-moved).
+```
+
+```box class="info-box"
+Turning **Allow Resume** off does not trap anyone. Auto-resume still fires on the scheduled date, and an admin can resume from the subscription screen at any time. It only removes the customer's own button — useful when a pause is meant to run its full agreed term.
+```
 
 ### Skip vs pause — key differences
 
 | Aspect | Skip | Pause |
 |---|---|---|
-| Status during | Stays **Active** | Changes to **On-Hold** |
-| Customer access | Full access continues | Restricted (based on access rules) |
+| Status during | Stays **Active** | Changes to **Paused** |
+| Customer access | Full access continues | Set by **Content Access** — none, view-only, or full |
 | How date shifts | Forward by skipped billing cycles | Forward by actual days paused |
-| Invoice generation | Blocked by filter | Blocked by status (On-Hold) |
+| Invoice generation | Blocked by filter | Blocked by status (Paused) |
 | Automatic resumption | Cycles decrement automatically | Resumes on pause end date |
-| Undo available | Yes (restores original date) | Yes (manual resume at any time) |
+| Undo available | Yes (restores original date) | Yes (manual resume at any time, if Allow Resume is on) |
 
 ### Interaction with automatic payments (Pro)
 
@@ -259,15 +273,16 @@ A customer on a monthly box subscription knows they will be away next month. The
 
 ### Use case 4: Pause for seasonal use
 
-A gym membership subscriber wants to pause during summer vacation. They pause for 30 days. During the pause, the subscription is On-Hold and no charges occur. After 30 days, the subscription auto-resumes, the next payment date shifts forward by 30 days, and billing continues normally.
+A gym membership subscriber wants to pause during summer vacation. They pause for 30 days. During the pause the subscription shows **Paused** and no charges occur. After 30 days it auto-resumes, the next payment date shifts forward by 30 days, and billing continues normally. Because Paused is its own status, the merchant can filter the subscription list for genuine payment problems without vacationing members cluttering the view.
 
 ---
 
 ## Edge cases and important notes
 
 - **Grace period only starts when an invoice exists.** If no renewal invoice was generated (e.g., because the subscription was skipped or paused), the grace period does not activate.
-- **On-Hold from pause vs On-Hold from grace period.** Both result in an On-Hold status, but they are tracked differently. A paused subscription has pause metadata (`_pause_start_date`, `_pause_end_date`), while an overdue subscription has grace metadata (`_on_hold_date`, `_pending_renewal_order_id`). The overdue checker only processes subscriptions with grace metadata.
-- **Pausing during the grace period.** If a subscription is already On-Hold due to an unpaid invoice and the customer (or admin) initiates a pause, the pause takes precedence. The on-hold timer resets when the subscription resumes.
+- **Paused and On-Hold are separate statuses.** A paused subscription is **Paused** and carries pause metadata (`_pause_start_date`, `_pause_end_date`); an overdue one is **On Hold** and carries grace metadata (`_on_hold_date`, `_pending_renewal_order_id`). The overdue checker only processes the latter, so a paused member is never swept into the cancel-for-non-payment path.
+- **Pausing during the grace period.** If a subscription is On Hold for an unpaid invoice and a pause is initiated, the pause takes precedence and the status becomes Paused. The on-hold timer resets when the subscription resumes.
+- **Resume is pause-only.** Resume acts on a Paused subscription. It will not clear an On-Hold caused by a failed payment — that needs the payment resolved, not a resume — and the API refuses the attempt rather than silently reactivating an unpaid subscription.
 - **Active grace for trial subscriptions.** Trial subscriptions are included in the overdue checker. If a trial's next payment date passes without conversion or payment, the same grace period rules apply.
 - **Background job timing.** The overdue checker runs hourly, not in real-time. Status transitions may occur up to an hour after the exact grace period boundary.
 
@@ -278,8 +293,10 @@ A gym membership subscriber wants to pause during summer vacation. They pause fo
 | Problem | Likely cause | What to do |
 |---|---|---|
 | Subscription cancelled earlier than expected | Grace period settings are shorter than intended | Check **Settings -> General -> Grace Period** for Days Active After Due and Days On-Hold Before Cancel values. |
-| Subscription stuck on On-Hold | Invoice is pending but grace period has not expired, or pause is active | Check the subscription detail for a pending renewal order or pause metadata. If paused, verify the auto-resume date. |
-| Customer still has access after moving to On-Hold | Member access rules do not restrict On-Hold status | Review your access rules at **ArraySubs → Member Access** to ensure On-Hold subscriptions are restricted appropriately. |
+| Subscription stuck on On-Hold | Invoice is pending but the grace period has not expired | Check the subscription detail for a pending renewal order. A paused subscription is **not** On Hold — it shows Paused |
+| Subscription shows Paused and is not resuming | Auto-resume has not fired, or Allow Resume is off so the customer has no button | Verify the auto-resume date, then check **Scheduled-Job Logs** (Pro). An admin can resume from the subscription screen regardless of the customer setting |
+| Customer still has access after moving to On-Hold | Member access rules do not restrict On-Hold status | Review your access rules at **ArraySubs → Member Access** to ensure On-Hold subscriptions are restricted appropriately |
+| Paused customer still has access | **Content Access** on the Skip & Pause page is set to Limited or Full | Set it to **No access** if a pause should suspend benefits too |
 | Skip not available to customer | Skip is disabled, cutoff period is too restrictive, or max cycles reached | Check skip settings in **Settings -> Skip & Pause** for enabled state, Maximum Cycles to Skip, Skip Cutoff (Days), and Allow Customers to Skip. |
 | Pause not resuming automatically | Auto-resume job may not have executed yet | The auto-resume is scheduled via Action Scheduler for the exact pause end date. Check **Scheduled-Job Logs** (Pro) to verify the resume action is queued. |
 | Payment received but subscription still shows On-Hold | Order status has not been updated to Completed or Processing | Check the renewal order status in WooCommerce. The subscription restores to Active only when the linked order reaches a paid status (Completed or Processing). |
@@ -309,7 +326,7 @@ You can set both grace period values to 0, which means the subscription moves to
 Yes. The grace period applies regardless of payment method. For automatic payments, the system attempts to charge the gateway. If the charge fails, the grace period starts. Payment retries (if configured) happen within the grace window.
 
 ### What happens if a customer skips and then pauses?
-If a skip is active and the customer initiates a pause, the skip is deactivated and the pause takes over. The subscription moves to On-Hold and billing is fully suspended until the pause ends.
+If a skip is active and the customer initiates a pause, the skip is deactivated and the pause takes over. The subscription moves to **Paused** and billing is fully suspended until the pause ends.
 
 ### Can a subscription be paused more than once?
 Yes, up to the configured limit (default: 2 pauses per subscription). There is also a minimum cooldown period between pauses (default: 30 days).

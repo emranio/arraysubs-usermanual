@@ -1,7 +1,7 @@
 # Info
 - Module: Automatic Payments
 - Availability: Pro
-- Last updated: 2026-04-03
+- Last updated: 2026-08-17
 
 # Gateway Overview and Architecture
 
@@ -29,7 +29,7 @@ The architecture supports two fundamentally different billing models, and unders
 
 ## Two Billing Models
 
-![Subscription checkout with automatic gateway and manual fallback](README.ASSETS/02-checkout-payment-methods-annotated.png)
+![Subscription checkout with automatic gateway and manual fallback](README.ASSETS/02-checkout-payment-methods-original.png)
 
 ### ArraySubs-Managed Billing
 
@@ -65,37 +65,112 @@ With gateway-managed billing, the gateway is the source of truth for payment tim
 
 ---
 
+## Who Owns the Billing Clock
+
+Before the capability matrix, one distinction explains most of the differences in it: **who decides when the next charge happens.**
+
+| Gateway | Owns the billing clock | What that means |
+|---|---|---|
+| Stripe | ArraySubs | ArraySubs stores the next payment date and charges on it. Skip, pause, manual date changes, and early renewal are local decisions with nothing remote to keep in step. |
+| Mollie | ArraySubs | Same as Stripe. Mollie holds a mandate, not a schedule. |
+| PayPal | PayPal | PayPal's Subscriptions API holds `next_billing_time` and charges on its own cadence. ArraySubs records what PayPal reports. |
+| Paddle | Paddle | Paddle holds `next_billed_at`. ArraySubs can *move* that date through the API, so skip and manual date changes work — but the provider is still the authority. |
+
+When a provider owns the clock, ArraySubs will not quietly change a local date that the provider is going to ignore. Any action that moves a payment date — **Skip**, **Pause**, a manual date change, **Record Payment** — is propagated to the provider first and only committed locally once the provider accepts it. If the provider has no call for it, the action is refused with a reason rather than silently drifting out of step.
+
+```box class="warning-box"
+On PayPal, **Skip** and manual next-payment-date changes are refused. PayPal's Subscriptions API exposes no call that moves the next billing date, so a local change would put your store and PayPal on two different schedules. Pause and resume *are* supported, because PayPal has real suspend and activate calls.
+```
+
+---
+
 ## Gateway Capability Matrix
 
-Not all gateways support the same features. Use this matrix to choose the right gateway for your store's needs.
+Not all gateways support the same features, because their APIs do not. Every gateway declares exactly what it can do; the matrix below is that declaration in plain language. The same information, live for your own store, is on the **Gateway Health** screen — expand any gateway card to see its capability tags and the reason behind anything unavailable.
+
+### Billing and checkout
 
 | Capability | Stripe | PayPal | Paddle | Mollie |
 |---|---|---|---|---|
 | **Automatic payments** | Yes | Yes | Yes | Yes |
 | **Billing model** | ArraySubs-managed | Gateway-managed | Gateway-managed | ArraySubs-managed |
 | **Requires another plugin** | Yes (WooCommerce Stripe) | No | No | Yes (Mollie for WooCommerce) |
-| **Trials** | Yes (via SetupIntent) | No | Yes (native) | No |
-| **Pause / Resume** | No | No | Yes (native) | No |
-| **Payment method update** | Yes (SetupIntent) | Yes (new agreement) | Yes (new transaction) | Yes (new mandate) |
-| **Card auto-update** | Yes (scheme update) | No | Yes | No |
-| **Card expiry notices** | Yes (webhook) | No | No | No |
-| **SCA / 3D Secure** | Yes (automatic) | N/A (handled by PayPal) | N/A (handled by Paddle) | Yes (on first payment) |
-| **Dispute handling** | Yes (webhook events) | Yes (webhook events) | No (Paddle handles as MoR) | Yes (chargebacks) |
+| **Free trials** | Yes | Yes | Yes | Card and PayPal methods only |
+| **Mixed cart** (subscription + normal products) | Yes | No | Yes | Yes |
+| **Several subscriptions in one checkout** | Yes | No | Yes | Yes |
+| **Different billing cycles in one checkout** | Yes | No | No | Yes |
+| **Customer-chosen schedule** (flexible duration) | Yes | Yes | No | Yes |
+| **Quantity above one** | Yes | Yes | Yes | Yes |
+| **Signup fee** | Yes | Yes | Yes | Yes |
+| **Recurring shipping** | Yes | Yes | Yes | Yes |
+| **Coupons at checkout** | Yes | First payment only | Yes | Yes |
+| **Recurring coupons** (discount that keeps applying) | Yes | No | Yes | Yes |
+| **Hosted payment page** | Yes | No | Yes (Paddle.js overlay) | Yes (Mollie hosted) |
+| **Product sync required** | No | Plans created automatically | Yes | No |
+
+### Lifecycle and money movement
+
+| Capability | Stripe | PayPal | Paddle | Mollie |
+|---|---|---|---|---|
+| **Pause / Resume at the provider** | Not needed (local) | Yes | Yes | Not needed (local) |
+| **Cancel at end of period** | Yes | Yes (local) | Yes (provider-scheduled) | Yes |
+| **Reverse a scheduled cancellation** | Yes | No | Yes | Yes |
+| **Plan switching** | Yes | Next cycle only | Yes | Yes |
+| **Retention discount** | Yes | Yes, from next renewal | Yes, immediately | Yes |
+| **Mid-cycle price change** | Yes | No | Yes | Yes |
+| **Skip a renewal / change the date** | Yes | No | Yes | Yes |
+| **Early renewal** | Yes | No | Off by default (setting) | Yes |
 | **Refunds** | Yes | Yes | Yes | Yes |
-| **Hosted payment page** | Yes (Checkout Sessions) | No | Yes (Paddle.js overlay) | Yes (Mollie hosted) |
-| **Customer portal** | Yes (Stripe hosted) | No | Yes (Paddle hosted) | No |
-| **Mixed cart** | Yes | No | Yes | Yes |
-| **Multiple subscriptions** | Yes | No | Yes | Yes |
-| **Different billing cycles** | Yes | No | No | Yes |
-| **Retention amount update** | Yes | No | No | Yes |
-| **Product sync required** | No | No | Yes | No |
+| **Partial refunds** | Yes | Yes | Yes | Yes |
+| **Disputes / chargebacks recorded** | Yes | Yes | Yes | Yes |
+| **Charge reconciliation** (missed webhook) | Yes | Yes | Yes | Yes |
+
+### Payment method
+
+| Capability | Stripe | PayPal | Paddle | Mollie |
+|---|---|---|---|---|
+| **Payment method update** | Yes | Yes (new agreement) | Yes (Paddle billing flow) | Yes (rebind the mandate) |
+| **Card auto-update** (reissued cards) | Yes | No | Yes | No |
+| **Card expiry warning email** | Yes | Card-funded subscriptions | Yes | Card mandates |
+| **SCA / 3D Secure** | Yes | Handled by PayPal | Handled by Paddle | Yes (on first payment) |
+| **Customer portal at the provider** | Yes | No | Yes | No |
 | **Delayed settlement** | No | No | No | Yes (SEPA, up to 21 days) |
 
 ```box class="warning-box"
-PayPal does **not** support mixed carts, multiple subscriptions, or different billing cycles in a single checkout. If PayPal is enabled, these restrictions are enforced automatically — even if your General Settings allow them.
+PayPal covers **one subscription plan per checkout**. Mixed carts, several plans in one order, and different billing cycles are limits of PayPal's Billing Subscriptions API, not choices ArraySubs made — and they are enforced automatically even if your General Settings allow them.
 ```
 
-![Gateway Logs dashboard with Stripe status, capabilities, and webhook log](README.ASSETS/01-payment-gateways-dashboard-annotated.png)
+![Gateway Logs dashboard with Stripe status, capabilities, and webhook log](README.ASSETS/01-payment-gateways-dashboard-original.png)
+
+---
+
+## How Capabilities Change Checkout
+
+Capabilities are not a reference table only — they decide what the shopper sees.
+
+### In the cart
+
+If a cart needs something no enabled gateway can do — a mixed cart, several subscriptions, a coupon that must recur — the cart itself blocks with an explanation. A cart is only blocked when **every** enabled gateway refuses it. One capable gateway is enough to let it through.
+
+### At checkout
+
+Once the shopper reaches checkout, ArraySubs knows which cart is in front of it and hides the payment methods that cannot take it. A PayPal button does not appear for a mixed cart, and Paddle does not appear for a cart mixing weekly and monthly plans. The last remaining payment option is never hidden — if nothing qualifies, the full list stays and checkout explains the problem instead of dead-ending on an empty payment section.
+
+The refusal message names the gateway and the reason, for example:
+
+```text
+Paddle cannot charge a signup fee alongside a subscription. Choose another payment method.
+```
+
+### Turning a restriction off
+
+Every capability is also a switch. A snippet can override any one of them per gateway:
+
+```text
+arraysubs_<gateway_slug>_allow_<capability>
+```
+
+Hiding incapable gateways at checkout can be switched off entirely with `arraysubs_hide_incapable_gateways`. Both are escape hatches for a store that knows its provider's behaviour better than the default — turning one on does not make the underlying API limit go away.
 
 ---
 
@@ -172,6 +247,18 @@ Every incoming webhook goes through a standardized pipeline:
 5. **Event dispatch** — routes to the appropriate handler based on the normalized event type
 6. **Logging** — records the event in the webhook events table
 
+An event ArraySubs does not handle is **accepted** with a success response and logged as ignored, rather than rejected. Providers disable an endpoint that keeps returning errors, so refusing an event you do not care about eventually takes down every event you do.
+
+### When a Webhook Never Arrives
+
+A webhook can be lost to a firewall, an outage, or a misconfigured endpoint. Every renewal order that is waiting on a provider carries a deadline, and a sweep every six hours asks the provider directly what happened to it:
+
+- **Stripe and Mollie** — the charge is looked up and the order completed or failed accordingly.
+- **PayPal** — the subscription's own transaction list is read, and a transaction is only matched when its amount **and** currency match exactly and no other order has already claimed it.
+- **Paddle** — the subscription's transactions are read the same way.
+
+If the provider cannot be reached, the answer is *inconclusive* — never a false "not charged". A subscription is never failed on the strength of a lookup that did not complete.
+
 ### Normalized Event Types
 
 Regardless of which gateway sends the webhook, events are mapped to these standardized types:
@@ -234,4 +321,10 @@ Not directly. You would need to detach the current gateway (converting to manual
 For Stripe, normally no. Configure and connect the official WooCommerce Stripe Gateway first; ArraySubsPro uses that official connection to create or repair its secondary ArraySubs Stripe webhook automatically for the active test/live mode. PayPal and Paddle still require their webhook details to be configured in their provider dashboards. Mollie needs no dashboard webhook at all — ArraySubs sends the webhook URL with every renewal payment it creates. Paddle also requires a Default Payment Link in Paddle Dashboard -> Checkout -> Checkout settings before transaction checkout can open.
 
 **What if a customer's card expires?**
-For Stripe: the card network may automatically update the card details (card auto-update). If not, Stripe sends a `card_expiring` webhook and ArraySubs notifies the customer. For PayPal/Paddle: account-level payment method management is handled by the gateway's own customer portal. For Mollie: no card-expiry notice is sent — the mandate is re-authorised through a payment-method update when charges start failing.
+ArraySubs now warns the customer itself, on every gateway that stores a card expiry — Stripe, Mollie, Paddle, and card-funded PayPal subscriptions. A daily sweep checks the expiry date already stored on each subscription and emails the customer **30 days** and **7 days** before the card stops working, once each. Replacing the card re-arms the warning for the new expiry date. On Stripe and Paddle the card network may also update a reissued card automatically, in which case no warning is needed. A subscription paid from a PayPal wallet balance or a SEPA mandate has no card to expire and produces no warning.
+
+**Why is a payment method missing at checkout?**
+It was hidden because it cannot take the cart in front of it — a mixed cart on PayPal, or mixed billing cycles on Paddle, for example. Remove the offending item, or use a gateway that supports it. ArraySubs never hides the last remaining option; if nothing qualifies, checkout keeps the full list and explains the problem.
+
+**Can a discount keep applying to renewals on any gateway?**
+On Stripe, Mollie, and Paddle, yes — including a discount limited to a set number of renewals. PayPal has no coupon object, so a discount there applies to the first payment only, and a coupon limited to N renewals is declined at checkout rather than being silently dropped.

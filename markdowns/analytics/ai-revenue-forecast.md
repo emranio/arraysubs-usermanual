@@ -57,7 +57,7 @@ The tiles summarise where recurring revenue stands right now. They are recalcula
 |------|-----------------|
 | **Current MRR** | Monthly recurring revenue, with every billing cadence normalised to a monthly figure |
 | **Current ARR** | Annual recurring revenue — current MRR multiplied by twelve |
-| **Billing Subscriptions** | Subscriptions currently generating recurring revenue, with a note when lifetime plans are excluded |
+| **Billing Subscriptions** | Subscriptions currently generating recurring revenue — **Active and Trial only** — with a note when lifetime plans are excluded |
 | **Avg. Revenue Per Subscriber** | Current MRR divided by billing subscriptions |
 | **New (30 days)** | Subscriptions started in the last 30 days |
 | **Cancelled (30 days)** | Subscriptions cancelled in the last 30 days |
@@ -66,6 +66,10 @@ The tiles summarise where recurring revenue stands right now. They are recalcula
 
 ```box class="info-box"
 **Lifetime plans are excluded from MRR by design.** A one-off lifetime purchase is real revenue, but it is not *recurring* revenue — counting it would inflate MRR permanently and break every projection built on top of it. The Billing Subscriptions card tells you how many lifetime subscribers were left out.
+```
+
+```box class="info-box"
+**Paused and On Hold subscriptions are excluded from MRR too.** Neither is billing this month, so neither contributes to monthly recurring revenue. They are still counted as live subscribers elsewhere — in the churn denominator and the subscriber movement history — because they have not left. A month with a lot of pausing shows falling MRR without falling subscriber counts, which is exactly the signal you want.
 ```
 
 ### Metric and Horizon

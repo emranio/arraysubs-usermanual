@@ -240,7 +240,7 @@ Run through this checklist before opening your store to real customers:
 
 ### Payment (for automatic renewals — Pro)
 
-![Gateway Health dashboard](../gateway-health/README.ASSETS/01-gateway-health-dashboard-annotated.png)
+![Gateway Health dashboard](../gateway-health/README.ASSETS/01-gateway-health-dashboard-original.png)
 
 - [ ] Your payment gateway is configured and connected.
 - [ ] Gateway health shows a healthy status in **Audits → Gateway Logs** *(Pro)*. For Stripe, confirm the official WooCommerce Stripe connection is active and the ArraySubs secondary webhook shows as auto-provisioned for the current test/live mode.

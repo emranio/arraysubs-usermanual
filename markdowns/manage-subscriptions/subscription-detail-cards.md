@@ -111,6 +111,16 @@ The Pending Plan Switch card only appears for Apply at Renewal switches. Immedia
 
 This card is always present on the detail screen. If skip and pause features are not enabled in your settings, the card displays a message indicating the features are disabled.
 
+```box class="warning-box"
+**Skip and pause also depend on the gateway.** When the payment provider owns the billing schedule, ArraySubs propagates the date change to the provider before committing it locally — and refuses the action, with a reason, when the provider has no way to accept it.
+
+- **Stripe, Mollie** — ArraySubs owns the schedule. Skip and pause are local decisions and always available.
+- **Paddle** — owns the schedule but allows its next billing date to be moved, so skip, pause, and manual date changes all work.
+- **PayPal** — owns the schedule and exposes **no** call to move the next billing date, so **Skip is refused**. Pause and resume do work, because PayPal has real suspend and activate calls.
+
+A refusal names the gateway and the reason, and the subscription's next payment date is left untouched. See [Gateway Overview](../checkout-and-payments/automatic-payments/README.md#who-owns-the-billing-clock).
+```
+
 ### Skip Section
 
 ![Skip Renewal Cycles modal](subscription-detail-cards.ASSETS/02-skip-renewal-modal-annotated.png)

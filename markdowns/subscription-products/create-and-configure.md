@@ -172,6 +172,30 @@ Customers see this pricing breakdown on the product page, cart, and checkout.
 When the different renewal price is enabled, both the **Renewal Price** (must be greater than 0) and **Apply Renewal Price After** (must be at least 1) fields are required. Saving with invalid values will show a validation error.
 ```
 
+### Paddle Tax Category
+
+This field appears on the product's **General** tab only while the **Paddle** gateway is enabled, and it exists on variations as well as simple products.
+
+![Paddle tax category field on the product General tab, set to Use store default](create-and-configure.ASSETS/06-paddle-tax-category-field-original.png)
+
+| Field | Description | Default |
+|---|---|---|
+| Paddle tax category | Which category Paddle uses when it remits tax on your behalf | Use store default |
+
+Paddle is a Merchant of Record: it files and pays the tax for you, using exactly this value. A wrong category is a tax problem rather than a cosmetic one, which is why ArraySubs asks instead of sending everything as Standard.
+
+Available choices: **Standard**, **Digital goods**, **Ebooks**, **SaaS**, **Website hosting**, **Implementation services**, **Professional services**, **Software programming services**, **Training services** — or **Use store default**, which falls back to **WooCommerce → Settings → Payments → Paddle (ArraySubs) → Default tax category** (itself defaulting to Standard).
+
+```box class="info-box"
+Set the store-wide default to whatever you sell most of, then use this field only for the exceptions. Leaving every product on **Use store default** is fine — as long as that default is actually right for your catalogue.
+```
+
+```box class="warning-box"
+Pick the category that describes what the product **is**, not the one with the lowest rate. If you sell anything other than physical goods on Paddle, leaving every product on Standard is almost certainly wrong.
+```
+
+Selling on Stripe, PayPal, or Mollie? This field does nothing — WooCommerce's own tax settings apply as usual. See the [Paddle Gateway guide](../checkout-and-payments/automatic-payments/paddle.md#tax-category-required) for how the amount reaches Paddle.
+
 ---
 
 ## Variable Subscription Products

@@ -325,22 +325,44 @@ For example, setting Renewal Reminder to `3` will send the email 3 days before t
 
 ## Customer Actions
 
-![Customer Actions — Allow Cancellation, Suspension, and Reactivation switches](general-settings.ASSETS/07-customer-actions-portal-controls-annotated.png)
+![Customer Actions — Allow Cancellation switch and the Skip & Pause link](general-settings.ASSETS/07-customer-actions-portal-controls-original.png)
 
 Controls which self-service action buttons appear on the customer's subscription management page in their account area.
 
 ```box class="info-box"
-Need to rename or reorder the **Subscriptions** tab in WooCommerce My Account? Use **ArraySubs → Profile Builder → My Account**. General Settings now controls the cancellation, pause, and reactivation buttons inside the portal, not the navigation label or menu order. Payment-method update links are handled by compatible automatic payment gateways instead of a toggle on this page.
+Need to rename or reorder the **Subscriptions** tab in WooCommerce My Account? Use **ArraySubs → Profile Builder → My Account**. This section controls the action buttons inside the portal, not the navigation label or menu order. Payment-method update links are handled by compatible automatic payment gateways instead of a toggle on this page.
 ```
 
 | Setting | Default | What it controls |
 |---------|---------|------------------|
 | **Allow Cancellation** | On | Shows or hides the **Cancel Subscription** button |
-| **Allow Suspension (Pause)** | Off | Shows or hides the **Pause** button |
-| **Allow Reactivation** | On | Shows or hides the **Reactivate** button for cancelled subscriptions |
+| **Allow Early Renew** | Off | Shows or hides the **Renew Early** button (requires the Early Renew module) |
+
+```box class="warning-box"
+**Early Renew is not supported by every gateway.** It works for manual payment methods and for Stripe, where ArraySubs owns the billing schedule. PayPal and Paddle keep the schedule on their own side and give no way to pull the next charge forward, so the Renew Early button stays hidden for subscriptions paid through them even while this toggle is on. See [Who Owns the Billing Clock](../checkout-and-payments/automatic-payments/README.md#who-owns-the-billing-clock).
+```
+
+### Pause and Resume Moved
+
+**Allow Suspension** and **Allow Reactivation** are no longer on this page. Pause is one feature with its own rules — duration limits, pause counts, cooldowns, and what a paused member can still access — so its permissions now live with the rest of them:
+
+**ArraySubs → Settings → Skip & Pause**
+
+The page shows a link to take you there. The two settings became:
+
+| Old name (General Settings) | New name (Skip & Pause) |
+|---|---|
+| Allow Suspension (Pause) | **Allow Customers to Pause** |
+| Allow Reactivation | **Allow Resume** |
+
+Both are now **conditional**: they only appear once **Enable Pause Subscription** is on, because a permission to pause means nothing when the feature itself is off.
 
 ```box class="info-box"
-These settings control which action buttons appear on the customer's subscription management page. Disabling an action here hides the button for all customers on all subscriptions. Payment-method update links, when available, come from the active automatic gateway flow rather than a General Settings switch.
+**Nothing to redo.** Whatever you had saved under the old names is migrated to the new location automatically the first time settings load, and the obsolete keys are removed. Check **Skip & Pause** once to confirm the values look right, then carry on.
+```
+
+```box class="info-box"
+Disabling an action hides the button for all customers on all subscriptions, and the matching API request is refused too — a hidden button is not the only thing standing in the way. Payment-method update links, when available, come from the active automatic gateway flow rather than a switch on this page.
 ```
 
 ---
@@ -409,8 +431,9 @@ Customers who turn off auto-renew will receive manual renewal invoices by email.
 | Trial Ending Reminder (Days Before) | 3 | Number | Email Reminder Schedule |
 | Expiring Soon Reminder (Days Before) | 7 | Number | Email Reminder Schedule |
 | Allow Cancellation | On | Toggle | Customer Actions |
-| Allow Suspension (Pause) | Off | Toggle | Customer Actions |
-| Allow Reactivation | On | Toggle | Customer Actions |
+| Allow Early Renew | Off | Toggle | Customer Actions *(module)* |
+| Allow Customers to Pause | Off | Toggle | **Skip & Pause** (moved from Customer Actions) |
+| Allow Resume | On | Toggle | **Skip & Pause** (moved from Customer Actions, was "Allow Reactivation") |
 | Cancel Immediately | On | Toggle | Cancellation Settings |
 | Allow Customers to Turn Off Auto-Renew | Off | Toggle | Automatic Payments *(Pro)* |
 

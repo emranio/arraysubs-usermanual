@@ -118,8 +118,18 @@ If you leave the headline and description blank, the system uses sensible defaul
 - **Headline:** "Stay and Save!"
 - **Description:** "We'll give you [percent]% off for the next [cycles] billing cycles."
 
+**Gateway compatibility note:** Discount-offer renewal amount updates now work on **all four** automatic gateways as well as manual payments — but *when* the discount takes effect differs, and the retention screen tells the customer which one applies to them.
+
+| Gateway | When the discount applies | Why |
+|---|---|---|
+| Manual payments | Immediately | ArraySubs raises the invoice |
+| Stripe | Immediately (mid-cycle) | ArraySubs owns the schedule and builds the renewal order at the discounted amount |
+| Mollie | Immediately (mid-cycle) | Same |
+| Paddle | Immediately (mid-cycle) | Paddle accepts an effective-from-now price change, verified against its own state afterwards |
+| PayPal | **From the next renewal** | PayPal cannot prorate. The discount is a revision onto a cheaper plan, which takes effect at the next cycle |
+
 ```box class="warning-box"
-**Gateway compatibility note:** Discount-offer renewal amount updates are fully supported on manual payments and on Stripe and Mollie automatic renewals — ArraySubs owns the schedule for both, so each renewal is charged at whatever amount the offer sets. PayPal and Paddle do not support the same direct automatic retention amount update flow. Customers on these gateways may need to pay the full amount, with the discount handled as a credit or manual adjustment.
+The offer is only recorded as accepted once the **gateway has agreed to it**. If the provider refuses the new amount, the offer is refused too, with the reason — a customer is never told they received a discount that the payment provider never applied.
 ```
 
 #### One Discount Per Subscription
@@ -138,7 +148,7 @@ The pause offer lets the customer temporarily suspend their subscription instead
 
 **What happens when accepted:**
 
-1. The subscription status changes to **On-Hold**
+1. The subscription status changes to **Paused**
 2. Pause metadata is stored: pause date, duration, scheduled resume date, and a `retention_offer` pause reason
 3. The `_next_payment_date` is shifted forward by the pause duration
 4. An automatic resume is scheduled using Action Scheduler
@@ -316,7 +326,7 @@ The discount information updates after each renewal. When the discounted cycles 
 
 ### After Pause Acceptance
 
-The subscription status changes to **On-Hold** with a note about the scheduled resume date. The customer does not have a manual resume button for retention pauses — the resume happens automatically on the scheduled date.
+The subscription status changes to **Paused** with a note about the scheduled resume date. The customer does not have a manual resume button for retention pauses — the resume happens automatically on the scheduled date. (A retention pause is a real pause: it is verified against the provider's own state before the offer is recorded as accepted, and it is never left as an On Hold.)
 
 ---
 
@@ -329,7 +339,7 @@ The subscription status changes to **On-Hold** with a note about the scheduled r
 - **Pause duration is fixed.** The customer accepts or declines the configured pause duration — they cannot choose a custom number of days.
 - **Downgrade requires plan switching configuration.** If no downgrade products are configured for the subscription's product, the downgrade offer will not appear even if enabled.
 - **Retention offers are only shown in the customer portal.** Admin-initiated cancellations, system cancellations, and API cancellations bypass the retention flow entirely.
-- **Gateway limitations for discount offers.** While discount metadata is stored correctly for all payment methods, the actual renewal amount adjustment on the gateway side is only automatically supported for manual payments, Stripe and Mollie. PayPal and Paddle may require manual handling.
+- **Gateway timing for discount offers.** All four automatic gateways accept a retention amount change. On Stripe, Mollie, and Paddle it applies mid-cycle; on PayPal it applies from the next renewal, and the offer wording says so. If the gateway refuses the change, the offer is not recorded as accepted.
 
 ---
 
@@ -368,7 +378,7 @@ No. Accepting one offer closes the modal and applies that offer. The customer ca
 Closing the modal (clicking the X or pressing Escape during the retention step) does **not** cancel the subscription. The customer must explicitly click "No thanks, continue to cancel" to proceed with cancellation.
 
 ### Do retention offers work with automatic payment gateways?
-Yes, but with limitations. Discount offers fully work with manual payments, Stripe and Mollie. PayPal and Paddle may not automatically adjust the recurring charge amount. Pause and Contact Support offers work with all gateways.
+Yes, on all four. Discount offers reach Stripe, Mollie, Paddle, and PayPal — the only difference is timing: Stripe, Mollie, and Paddle apply the discount mid-cycle, while PayPal applies it from the next renewal because it cannot prorate. The customer-facing offer text states which applies. Contact Support offers work everywhere. Pause works everywhere too, except where the provider owns the billing schedule and has no pause of its own — see the [Gateway Overview](../checkout-and-payments/automatic-payments/README.md) for who owns the clock.
 
 ### Can I customize the "Before You Go..." heading?
 The modal heading and intro message are not currently customizable. Individual offer cards support custom headlines and descriptions.

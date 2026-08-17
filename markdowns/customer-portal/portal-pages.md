@@ -60,9 +60,10 @@ The list page includes subscriptions in all of these statuses:
 
 | | |
 |---|---|
-| **Active** — subscription is live and renewing | **On-Hold** — subscription is paused or held |
-| **Trial** — subscription is in a trial period | **Pending** — subscription is scheduled to start |
-| **Cancelled** — subscription has been cancelled | **Expired** — subscription has reached its end date |
+| **Active** — subscription is live and renewing | **Paused** — deliberately paused, resuming on a set date |
+| **On-Hold** — held for an unpaid renewal or by an admin | **Trial** — subscription is in a trial period |
+| **Pending** — subscription is scheduled to start | **Cancelled** — subscription has been cancelled |
+| **Expired** — subscription has reached its end date | |
 
 ---
 

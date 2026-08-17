@@ -70,7 +70,7 @@ Each control maps directly to an `[arraysubs_restrict]` attribute. Leave a contr
 
 | Control | Attribute | Description |
 |---------|-----------|-------------|
-| **Subscription Status** | `status` | One or more of: Active, Trial, On Hold, Cancelled, Expired, Pending. The visitor must have a subscription in one of the selected states. |
+| **Subscription Status** | `status` | One or more of: Active, Trial, **Paused**, On Hold, Cancelled, Expired, Pending. The visitor must have a subscription in one of the selected states. **Paused** and **On Hold** are separate choices — Paused is a deliberate break, On Hold is an unpaid or held subscription. |
 | **Active Subscription To Products** | `products` | Searchable list of subscription products. The visitor must have an active/trial subscription to one of them. |
 | **Active Subscription To Variations** | `variations` | Searchable list of subscription variations (for variable products). |
 | **Purchased Products (any purchase)** | `purchased` | Searchable list of any products. The visitor must have purchased one of them (any completed order, not only subscriptions). |

@@ -621,7 +621,7 @@ Sent when a customer accepts a retention discount offer during the cancellation 
 
 ## Card Expiring Notice
 
-Sent when the Stripe gateway reports that the saved payment card for a subscription is expiring soon.
+Sent when the saved card for a subscription is approaching its expiry date, on **any** gateway that stores one — Stripe, Mollie, Paddle, and card-funded PayPal subscriptions.
 
 **WooCommerce email ID:** `arraysubs_card_expiring`
 
@@ -629,9 +629,26 @@ Sent when the Stripe gateway reports that the saved payment card for a subscript
 
 **Default heading:** `Your card is expiring soon`
 
-**Trigger:** Fires on the `arraysubs_card_expiring` hook. The core email class is registered with WooCommerce, and the event is dispatched by the Pro Stripe gateway integration when Stripe reports an expiring saved card.
+**Trigger:** Fires on the `arraysubs_card_expiring` hook. A **daily sweep** reads the card expiry already stored on each subscription and sends the email at two stages:
 
-Notifies customers that their saved card is about to expire, encouraging them to update their payment method before the next renewal attempt.
+| Stage | When |
+|---|---|
+| 30-day warning | 30 days before the card stops working |
+| 7-day warning | 7 days before |
+
+Each stage sends **once**, and the marker is tied to that specific expiry date — so replacing the card re-arms both warnings for the new date, and a redeploy or a repeated sweep cannot re-send an old one.
+
+```box class="info-box"
+The warning is computed locally rather than waiting for a gateway event, because most gateways send none. Stripe's own `customer.source.expiring` event only fires for legacy card sources and never for modern PaymentMethods; Mollie sends nothing at all. Reading the expiry ArraySubs already stores works on every gateway the same way.
+```
+
+**When no email is sent:**
+
+- The subscription is funded by something with no expiry date — a PayPal wallet balance, a SEPA Direct Debit mandate
+- The card was already auto-updated by the card network (Stripe and Paddle)
+- A warning for that same expiry date has already gone out
+
+Notifies customers that their saved card is about to expire, encouraging them to update their payment method before the next renewal attempt. This pairs with the retry ladder: an expired card is a **hard decline** and gets no automatic retries, so warning early is what actually prevents the failure.
 
 **Template files:**
 - HTML: `customer-card-expiring.php`

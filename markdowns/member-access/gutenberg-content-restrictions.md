@@ -65,7 +65,7 @@ When you choose **Subscription / Role / Purchase (restrict)**, the sidebar can e
 
 | Control | What It Checks |
 |---|---|
-| **Subscription Status** | One or more subscription statuses, such as Active or Trial. |
+| **Subscription Status** | One or more subscription statuses: Active, Trial, **Paused**, On Hold, Cancelled, Expired, Pending. Paused and On Hold are separate choices — pick Paused for customers on a deliberate break, On Hold for unpaid or held subscriptions. |
 | **Active Subscription To Products** | The visitor has an active/trial subscription to one of the selected subscription products. |
 | **Active Subscription To Variations** | The visitor has an active/trial subscription to one of the selected subscription variations. |
 | **Purchased Products (any purchase)** | The visitor has purchased one of the selected products in any completed order. |

@@ -83,7 +83,11 @@ When a subscription status changes, the Role Manager evaluates all enabled Role 
 | `pending` | Treated like on-hold — follows the same configurable behavior |
 | `cancelled` | Removes subscription roles if no other active subscriptions use them; applies fallback role if user has no roles left |
 | `expired` | Same as cancelled |
-| `paused` | No explicit role changes — roles assigned during the active period remain in place |
+| `paused` | Follows **Content Access** on the Skip & Pause settings page: on **Full access** the roles are kept as if active; on **Limited** or **No access** they are removed the same way a cancelled subscription's are |
+
+```box class="info-box"
+Roles are an all-or-nothing benefit — a role is either held or not — so the middle setting cannot apply. **Limited access** grants viewing without granting the role, which is why a paused member on Limited can still read gated content but loses any role the subscription gave them. If your gating depends on the role rather than the subscription, use **Full access**.
+```
 
 ### Edge Cases
 

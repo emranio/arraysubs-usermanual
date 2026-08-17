@@ -48,7 +48,7 @@ The list displays five columns:
 
 | Column | What It Shows |
 |--------|---------------|
-| **Status** | Color-coded badge — Active (green), Pending (orange), On Hold (yellow), Cancelled (red), Expired (red), Trial (cyan) |
+| **Status** | Color-coded badge — Active (green), Pending (orange), Paused (blue), On Hold (yellow), Cancelled (red), Expired (red), Trial (cyan) |
 | **Date** | When the subscription was created |
 | **Customer** | Customer name and email, stacked |
 | **Product** | Product name and variation, stacked |
@@ -61,10 +61,15 @@ Use the status tabs at the top of the list to narrow results:
 - **All** — every subscription regardless of status
 - **Active** — currently billing
 - **Pending** — created but not yet activated
-- **On Hold** — paused due to unpaid renewal or manual hold
+- **Paused** — deliberately paused for a set period, awaiting resume
+- **On Hold** — stopped by an unpaid renewal or a manual hold
 - **Cancelled** — permanently cancelled
 - **Expired** — reached their billing cycle limit or end date
 - **Trial** — in a free trial period
+
+```box class="info-box"
+**Paused** and **On Hold** are separate tabs because they are separate problems — or rather, one of them is not a problem at all. Filter On Hold to find subscriptions that need chasing, without vacationing customers in the way.
+```
 
 ### Searching
 
@@ -237,6 +242,10 @@ The status change control sits in the summary card. Select a new status from the
 
 ```box class="warning-box"
 Changing status to **Cancelled** from this screen performs an immediate cancellation. All future scheduled renewals are removed. This cannot be undone from the same control — you would need to reactivate the subscription manually.
+```
+
+```box class="warning-box"
+**Do not use this dropdown to pause a subscription.** Setting the status by hand changes the label without creating the pause: no resume date is scheduled, no auto-resume fires, and the billing dates are not shifted when it ends. Use **Pause Subscription** in the [Skip & Pause card](subscription-detail-cards.md#skip-and-pause-card) instead, which runs the real lifecycle. The same applies in reverse — resume a Paused subscription with **Resume Now**, not by switching the status to Active.
 ```
 
 ### What Happens When You Save

@@ -71,7 +71,11 @@ Role Mapping is the bridge between ArraySubs subscriptions and the rest of WordP
 | `pending` | Follows the same hold-style behavior as on-hold |
 | `cancelled` | Removes subscription roles if no other active/trial subscription still qualifies |
 | `expired` | Same as cancelled |
-| `paused` | No dedicated role-removal flow; previously granted roles remain unless another rule removes them |
+| `paused` | Follows **Content Access** on **Settings → Skip & Pause**: **Full access** keeps the roles; **Limited** or **No access** removes them like a cancelled subscription |
+
+```box class="info-box"
+A role cannot be granted "partially", so **Limited access** does not keep it. A paused member on Limited retains view access to gated content but loses the subscription role. Choose **Full access** when your gating is keyed to the role itself.
+```
 
 ## Practical Notes
 

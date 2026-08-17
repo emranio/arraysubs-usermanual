@@ -1153,3 +1153,12 @@
 {"timestamp":"2026-07-29T12:06:38.344679+06:00","action":"edit","task_id":111,"detail":"automatic-payments - braintree.md"}
 {"timestamp":"2026-07-29T12:15:09.898725+06:00","action":"move","task_id":111,"detail":"done -\u003e archived"}
 {"timestamp":"2026-07-29T12:15:09.913343+06:00","action":"edit","task_id":111,"detail":"automatic-payments - braintree.md"}
+{"timestamp":"2026-08-17T16:46:29.40803+06:00","action":"create","task_id":112,"detail":"gateway-health - README.md (blocking issues + provider facts)"}
+{"timestamp":"2026-08-17T16:46:40.195045+06:00","action":"create","task_id":113,"detail":"automatic-payments - paypal.md (webhook ID credential + capabilities)"}
+{"timestamp":"2026-08-17T16:46:53.228977+06:00","action":"create","task_id":114,"detail":"automatic-payments - paddle.md (early renewal, webhook secret, tax category)"}
+{"timestamp":"2026-08-17T16:47:05.033874+06:00","action":"create","task_id":115,"detail":"automatic-payments - mollie.md + README.md (capability notes, dashboard, checkout)"}
+{"timestamp":"2026-08-17T16:47:12.331536+06:00","action":"create","task_id":116,"detail":"subscription-products - create-and-configure.md (Paddle tax category)"}
+{"timestamp":"2026-08-17T16:47:40.435047+06:00","action":"move","task_id":112,"detail":"todo -\u003e in-progress"}
+{"timestamp":"2026-08-17T16:48:49.930008+06:00","action":"edit","task_id":112,"detail":"gateway-health - README.md (blocking issues + provider facts)"}
+{"timestamp":"2026-08-17T16:48:49.948804+06:00","action":"move","task_id":112,"detail":"in-progress -\u003e todo"}
+{"timestamp":"2026-08-17T17:27:01.385184+06:00","action":"edit","task_id":114,"detail":"automatic-payments - paddle.md (early renewal, webhook secret, tax category)"}

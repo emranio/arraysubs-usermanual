@@ -25,7 +25,7 @@ AI Churn Analysis answers a question that raw cancellation counts cannot: **whic
 
 The report works in two layers:
 
-1. **Risk scoring (always on).** Every live subscription — active, trial, and on-hold — is scored from 0 to 100 using signals drawn from its own billing history: scheduled cancellations, overdue renewals, failed payments, declined save offers, tenure, payment count, and monthly value. This layer needs no AI at all and is calculated entirely from your store's data.
+1. **Risk scoring (always on).** Every live subscription — active, trial, paused, and on-hold — is scored from 0 to 100 using signals drawn from its own billing history: scheduled cancellations, overdue renewals, failed payments, declined save offers, tenure, payment count, and monthly value. This layer needs no AI at all and is calculated entirely from your store's data.
 2. **AI explanation (on demand).** When you click **Analyse with AI**, the highest-risk subscriptions are sent to your configured AI provider as anonymised figures. The AI returns a written summary of what is driving churn, the recurring themes it sees, a plain-English reason for each subscriber, and one concrete next step per account.
 
 ![AI Churn Analysis report header, filters, and risk summary cards](ai-churn-analysis.ASSETS/01-churn-overview-annotated.png)
@@ -118,7 +118,8 @@ The tiles across the top summarise the whole selected segment. They are recalcul
 | **Medium Risk** | Count scoring 40–69 |
 | **Monthly Revenue At Risk** | Combined monthly value of the High-risk subscriptions |
 | **Cancellations Scheduled** | Subscribers who have already asked to cancel at period end |
-| **On Hold** | Subscriptions currently in the on-hold status |
+| **Paused** | Subscriptions currently in the paused status — a deliberate break, counted separately from payment problems |
+| **On Hold** | Subscriptions currently in the on-hold status — an unpaid renewal or an admin hold |
 | **Churn Rate (30 days)** | Cancellations in the last 30 days as a share of the subscriber base, with the raw cancellation count underneath |
 | **Average Risk Score** | Mean score across the segment, with average tenure underneath |
 

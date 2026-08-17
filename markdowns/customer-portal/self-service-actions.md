@@ -160,7 +160,7 @@ Offers the customer the option to pause the subscription instead of cancelling.
 
 - The customer sees the proposed pause duration
 - Accepting the offer pauses the subscription and schedules an automatic resume
-- The subscription moves to On-Hold status
+- The subscription moves to **Paused** status
 
 ### Downgrade Offer
 
@@ -287,16 +287,20 @@ Pausing — also called **Vacation Mode** — lets customers temporarily suspend
 ### When It Appears
 
 The pause controls appear in the **Manage Your Subscription** section when:
-- **Pause Subscription** is enabled: **General Settings → Pause Subscription → Enable Pause**
-- Customer pause is allowed: **General Settings → Pause Subscription → Customer Can Pause**
-- The subscription status is **Active** or **Trial** (to pause), or **On-Hold** with an active pause (to resume)
+- **Enable Pause Subscription** is on: **ArraySubs → Settings → Skip & Pause**
+- **Allow Customers to Pause** is on, in the same place
+- The subscription status is **Active** or **Trial** (to pause), or **Paused** (to resume)
+
+```box class="info-box"
+Both permissions live on the **Skip & Pause** page and are only visible while **Enable Pause Subscription** is on. They were previously **Allow Suspension** and **Allow Reactivation** under General Settings → Customer Actions.
+```
 
 ### Pause Flow
 
 1. The customer clicks **Pause Subscription**.
 2. A prompt asks for a pause duration in days (up to the maximum configured in settings).
 3. If a reason is required by settings, the customer enters a reason.
-4. After confirming, the subscription status changes to **On-Hold** and a resume date is scheduled.
+4. After confirming, the subscription status changes to **Paused** and a resume date is scheduled.
 5. The customer sees: **"Subscription paused. Will auto-resume on [date]."**
 
 ### While Paused
@@ -312,12 +316,12 @@ When the subscription is paused, the detail page shows:
 There are two ways a paused subscription resumes:
 
 1. **Auto-resume:** When the scheduled resume date arrives, the subscription automatically returns to Active status.
-2. **Manual resume:** The customer clicks **Resume Now** to end the pause early.
+2. **Manual resume:** The customer clicks **Resume Now** to end the pause early — available only while **Allow Resume** is on.
 
-When a subscription resumes, the next payment date is recalculated to account for the pause duration. The billing timeline is extended by the number of days the subscription was paused.
+When a subscription resumes, the next payment date is recalculated from the **actual elapsed pause time**, not the duration originally requested. A customer who asks for 30 days and resumes on day 9 has their billing shifted by 9 days, not 30.
 
 ```box class="warning-box"
-During a pause, renewal processing is suspended. No invoices are created and no payments are collected. Whether the customer retains access to subscription benefits during a pause depends on your **Member Access** configuration.
+During a pause, renewal processing is suspended. No invoices are created and no payments are collected. Whether the customer retains access to subscription benefits during a pause is set by **Content Access** on the Skip & Pause page — see [Member Access](../member-access/session-and-frontend-controls.md#access-during-a-pause).
 ```
 
 ---
@@ -380,19 +384,25 @@ If a Stripe charge fails, the early renewal invoice is cancelled and the subscri
 
 ---
 
-## Reactivate Subscription
+## Resume a Paused Subscription
 
-Reactivation allows customers to restart a subscription that was cancelled or put on hold.
+**Resume** returns a **Paused** subscription to Active. It is the counterpart to Pause, and it is deliberately scoped to pause only.
 
 ### When It Is Available
 
-The reactivation capability is controlled by: **General Settings → Customer Actions → Allow Reactivation**
+The capability is controlled by **ArraySubs → Settings → Skip & Pause → Allow Resume**, which appears only while **Enable Pause Subscription** is on.
 
 ```box class="info-box"
-In the current version, the reactivation setting exists and the backend supports it, but there is no dedicated **Reactivate** button in the customer portal template. Customers who wish to reactivate a cancelled or expired subscription should contact the store admin, who can change the subscription status from the admin panel.
-
-Admins can reactivate any subscription by changing its status back to Active on the subscription edit screen. See [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) for details.
+This setting used to be called **Allow Reactivation** and lived under General Settings → Customer Actions. It moved so that every pause rule sits in one place, and your saved value came with it — see [General Settings](../settings/general-settings.md#pause-and-resume-moved).
 ```
+
+Resume appears only on a subscription whose status is **Paused**. A subscription that is On Hold for a failed payment or an administrative hold has no Resume button, and the API refuses a resume request for one — it is not a paused subscription, and clearing a payment hold is a different operation with different consequences.
+
+When Resume is turned off, customers can still pause (if permitted) but cannot bring the subscription back themselves; an admin resumes it from the subscription screen.
+
+### Restarting a Cancelled or Expired Subscription
+
+That is a different thing, and there is no customer-facing button for it. A customer who wants a cancelled or expired subscription back should contact the store; an admin can set the status back to Active on the subscription edit screen. See [Lifecycle Management](../manage-subscriptions/lifecycle-management.md).
 
 ---
 
@@ -400,17 +410,21 @@ Admins can reactivate any subscription by changing its status back to Active on 
 
 This table summarizes which actions are available based on subscription status:
 
-| Action | Active | Trial | On-Hold | Pending | Cancelled | Expired |
-|---|---|---|---|---|---|---|
-| Cancel | ✓ | ✓ | — | ✓ | — | — |
-| Undo scheduled cancel | ✓ (if pending) | — | — | — | — | — |
-| Retention offers | ✓ | ✓ | — | — | — | — |
-| Change plan | ✓ | — | — | — | — | — |
-| Skip renewal | ✓ | ✓ | — | — | — | — |
-| Pause | ✓ | ✓ | — | — | — | — |
-| Resume | — | — | ✓ (if paused) | — | — | — |
-| Renew early | ✓ | — | — | — | — | — |
-| Update shipping | ✓ | ✓ | ✓ | — | — | — |
+| Action | Active | Trial | **Paused** | On-Hold | Pending | Cancelled | Expired |
+|---|---|---|---|---|---|---|---|
+| Cancel | ✓ | ✓ | — | — | ✓ | — | — |
+| Undo scheduled cancel | ✓ (if pending) | — | — | — | — | — | — |
+| Retention offers | ✓ | ✓ | — | — | — | — | — |
+| Change plan | ✓ | — | — | — | — | — | — |
+| Skip renewal | ✓ | ✓ | — | — | — | — | — |
+| Pause | ✓ | ✓ | — | — | — | — | — |
+| **Resume** | — | — | **✓** | — | — | — | — |
+| Renew early | ✓ | — | — | — | — | — | — |
+| Update shipping | ✓ | ✓ | ✓ | ✓ | — | — | — |
+
+```box class="warning-box"
+**Paused and On-Hold are different statuses.** Pause is a customer or admin choice with an end date; On Hold means a payment failed or an admin held the subscription. Resume works on Paused only. Earlier versions reused On Hold for pauses, which made the two impossible to tell apart in filters, reports, and access rules — that is fixed.
+```
 
 ---
 

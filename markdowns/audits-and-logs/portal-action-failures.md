@@ -91,17 +91,21 @@ ArraySubs supports two cancellation modes, configured in settings:
 
 **Cause:** The **Allow Customers to Pause** setting is disabled.
 
-**Fix:** Enable pause in **ArraySubs → Settings → General Settings** under Customer Action Toggles.
+**Fix:** Enable **Allow Customers to Pause** in **ArraySubs → Settings → Skip & Pause**. It only appears once **Enable Pause Subscription** is on. (This setting was previously **Allow Suspension** under General Settings → Customer Actions.)
 
 ### Invalid Status
 
-Pause is only available for subscriptions in `Active` status. Subscriptions that are on-hold, cancelled, expired, or already paused cannot be paused.
+Pause is only available for subscriptions in `Active` or `Trial` status. Subscriptions that are on-hold, cancelled, expired, or already paused cannot be paused.
 
 ### Resume Failures
 
 **Error:** The resume action is not available.
 
-**Cause:** The subscription does not have an active pause period (no `_pause_until_date` metadata is set).
+**Cause:** Either **Allow Resume** is off in **Skip & Pause**, or the subscription is not actually paused — it has no active pause period (no `_pause_until_date` metadata).
+
+```box class="info-box"
+A resume request against an **On Hold** subscription is refused by design. On Hold means a failed payment or an admin hold, and neither is cleared by resuming — the invoice has to be paid, or an admin has to reactivate the record. Only a **Paused** subscription can be resumed.
+```
 
 **Fix:** Only subscriptions currently in a paused state can be resumed. Check the subscription detail page for the current pause status.
 

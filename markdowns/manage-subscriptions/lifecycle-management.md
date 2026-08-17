@@ -41,16 +41,21 @@ This guide covers:
 
 ## Subscription Statuses
 
-ArraySubs uses six statuses:
+ArraySubs uses seven statuses:
 
 | Status | Badge Color | Meaning |
 |--------|-------------|---------|
 | **Pending** | Orange | Subscription created but not yet activated. Waiting for first payment or manual activation. |
 | **Active** | Green | Subscription is live. Renewals are being processed on schedule. |
 | **Trial** | Cyan | Subscription is in a free trial period. No charges until the trial ends. |
-| **On Hold** | Yellow | Subscription is suspended. Renewals are paused. Typically triggered by an unpaid invoice or a manual hold. |
+| **Paused** | Blue | Renewals are deliberately suspended for a set period, by the customer or an admin. Resumes on its scheduled date, or earlier if resumed manually. |
+| **On Hold** | Yellow | Renewals are stopped because something is wrong — an unpaid invoice, or an administrative hold. |
 | **Cancelled** | Red | Subscription is permanently stopped. No further renewals will be processed. |
 | **Expired** | Red | Subscription reached its billing cycle limit or fixed end date. No further renewals. |
+
+```box class="warning-box"
+**Paused and On Hold are not interchangeable.** Paused is a chosen break with an end date; On Hold is a problem that needs resolving. They differ in what recovers them (a resume vs a payment), what the overdue checker does with them (ignores vs cancels after the grace window), and how they count in reports. Earlier versions reused On Hold for pauses — if you built status filters, member-access conditions, or reports on that assumption, review them.
+```
 
 Additionally, an active subscription can carry a **"Cancels at end of period"** indicator. This is not a separate status — the subscription remains Active until the scheduled cancellation date.
 
@@ -137,6 +142,26 @@ An admin can reactivate a subscription by changing its status to Active from the
 - The `_on_hold_date` meta is cleared.
 - A "Subscription Reactivated" email is sent.
 - The renewal reminder is rescheduled.
+
+### Pause and Resume (Active or Trial ↔ Paused)
+
+Pausing is a separate lifecycle path, not a variant of On Hold.
+
+**On pause** — from Active or Trial only:
+- The status becomes **Paused** and a resume date is scheduled.
+- Every pending renewal action is unscheduled; no invoices are created and no charges are attempted.
+- The next payment date is held as-is for the duration.
+
+**On resume** — automatically on the scheduled date, or manually at any time:
+- The status returns to what it was before the pause, normally Active.
+- The next payment date and any end date shift forward by the **actual elapsed pause time**, not the duration originally requested.
+- Renewal actions are rescheduled.
+
+```box class="warning-box"
+Resume applies to **Paused** subscriptions only. A subscription that is On Hold for a failed payment is not resumed — it is settled by paying the outstanding invoice, or reactivated by an admin. The API refuses a resume request against an On Hold subscription rather than reactivating something unpaid.
+```
+
+Who can trigger it: an admin always; a customer only while **Allow Customers to Pause** and **Allow Resume** are on under **ArraySubs → Settings → Skip & Pause**.
 
 ---
 
