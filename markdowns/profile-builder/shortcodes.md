@@ -35,17 +35,17 @@ Shortcodes now live in their own manual section because they are used across Pro
 
 ## How To Use This With Profile Builder
 
-1. Use **Profile Builder → Profile Form** when you want to configure account fields that appear in My Account and user profiles.
-2. Use **Profile Builder → My Account Editor** when you want to control the WooCommerce My Account menu and page ordering.
+1. Use **Profile Builder → Profile Form** *(Pro)* when you want to configure account fields that appear in My Account and user profiles.
+2. Use **Profile Builder → My Account Editor** *(Pro)* when you want to control the WooCommerce My Account menu and page ordering.
 3. Use the dedicated [Shortcodes](../shortcodes/README.md) section when you want to place account, content access, or store credit tools inside normal WordPress pages, Elementor layouts, block editor content, or theme templates.
 
 ## Can I?
 
 **Can I embed Profile Builder fields with a shortcode?**  
-Not directly. Profile Builder fields are rendered through the My Account/profile integrations. Use the shortcode guides for standalone account forms and gated content.
+Not directly. Profile Builder fields (Pro) are rendered through the My Account/profile integrations. Use the shortcode guides for standalone account forms and gated content.
 
 **Can I link a shortcode page from My Account?**  
-Yes. Create a WordPress page that contains the shortcode, then add that page as an endpoint or custom menu item from [My Account Editor](my-account-editor.md).
+Yes, with My Account Editor (Pro). Create a WordPress page that contains the shortcode, then add that page as an endpoint or custom menu item from [My Account Editor](my-account-editor.md).
 
 **Can I mix shortcodes with Member Access rules?**  
 Yes. The content gating shortcodes are designed to complement [Member Access](../member-access/README.md), especially when you need inline page sections rather than full-page redirects.

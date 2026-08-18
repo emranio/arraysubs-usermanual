@@ -1,13 +1,13 @@
 # Info
 - Module: Profile Form
-- Availability: Free
+- Availability: Pro
 - Last updated: 2026-04-02
 
 # Profile Form
 
 > Define custom profile fields and avatar upload settings so you can collect extra customer data from the My Account page and the WordPress admin user profile.
 
-**Availability:** Free
+**Availability:** Pro
 
 ## Page Navigation
 

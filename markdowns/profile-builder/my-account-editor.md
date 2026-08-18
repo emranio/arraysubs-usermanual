@@ -1,13 +1,13 @@
 # Info
 - Module: My Account Editor
-- Availability: Free (Pro features add additional menu items)
+- Availability: Pro
 - Last updated: 2026-04-14
 
 # My Account Editor
 
 > Rearrange, rename, show or hide WooCommerce My Account menu items, and add custom endpoint pages linked to any WordPress page or post — all without writing code.
 
-**Availability:** Free — Pro features like My Features and Store Credit automatically add their own menu items that can also be managed here
+**Availability:** Pro — requires ArraySubs Pro.
 
 ## Page Navigation
 
@@ -45,9 +45,10 @@ This editor is the source of truth for the **Subscriptions** tab label and menu 
 ## Prerequisites
 
 - ArraySubs installed and active.
+- **ArraySubs Pro installed and active** — My Account Editor is a Pro feature; the admin page shows a Pro-required notice without it.
 - WooCommerce My Account page set up.
 - Admin or Shop Manager access.
-- For Pro menu items (My Features, Store Credit): ArraySubs Pro installed and active with those features enabled.
+- For Pro menu items (My Features, Store Credit): those individual features enabled in ArraySubs Pro.
 
 ## How It Works
 
@@ -206,7 +207,7 @@ When ArraySubs Pro is active and certain features are enabled, additional menu i
 - **Customizable:** Label can be renamed and position can be changed here in the My Account Editor.
 
 ```box class="info-box"
-If you deactivate the Pro plugin, the My Features and Store Credit menu items disappear from the customer-facing menu automatically. They also stop appearing in the My Account Editor list. Your saved configuration is preserved — if you reactivate Pro, the items return to their configured positions.
+My Account Editor itself requires ArraySubs Pro. If Pro is deactivated, the admin page shows a Pro-required notice instead of the editor, and the customer-facing My Account menu reverts to WooCommerce's default order and labels — including the My Features and Store Credit items, since those Pro features are inactive too. Your saved menu configuration stays in the database but stops applying. Reactivating Pro restores everything to its configured positions automatically.
 ```
 
 ---
@@ -274,8 +275,11 @@ No. Hiding an item removes it from the My Account sidebar menu, but the endpoint
 ### Can I add more than one custom endpoint page?
 Yes. You can add multiple custom endpoints, each linked to a different page or post. Each one gets its own menu item and URL slug.
 
-### What happens to custom endpoints if I deactivate ArraySubs?
-Custom endpoints stop working because the rewrite rules and endpoint registration are handled by the plugin. WooCommerce reverts to its default menu. Re-activating ArraySubs restores your configuration.
+### What happens to custom endpoints if I deactivate ArraySubs Pro?
+Custom endpoints stop working because My Account Editor is a Pro feature — rewrite rules and endpoint registration are handled there. WooCommerce reverts to its default menu, and the admin page shows a Pro-required notice. Re-activating ArraySubs Pro restores your configuration automatically.
+
+### What happens to custom endpoints if I deactivate the free ArraySubs plugin?
+Nothing in ArraySubs Pro (including My Account Editor) can run without the free ArraySubs plugin active — both plugins deactivate together in that case, with the same effect as above.
 
 ### Can I link the same page to multiple custom endpoints?
 Technically yes, but it's not recommended. Each endpoint creates a separate URL path, so you'd have the same content available at multiple My Account URLs. This can confuse customers and cause SEO issues.

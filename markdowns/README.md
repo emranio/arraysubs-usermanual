@@ -24,20 +24,20 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Subscription foundation:** [Settings](settings/README.md) → [Subscription Products](subscription-products/README.md) → [Manage Subscriptions](manage-subscriptions/README.md)
 - **Access and memberships:** [Member Access](member-access/README.md) → [Comments](member-access/comments.md) → [Purchase Limit](member-access/purchase-limit.md) → [Member Styling](member-styling/README.md) → [Login Limit](member-access/login-limit.md) *(Pro)*
 - **Dedicated operations modules:** [Coupons](coupons/README.md) → [Subscription Shipping](subscription-shipping/README.md) *(Pro)* → [Subscription Notes](subscription-notes/README.md)
-- **Customer and account experience:** [Customer Portal](customer-portal/README.md) → [Member Insight](member-insight/README.md) *(Pro)* → [Store Credit](store-credit/README.md) *(Pro)* → [Shortcodes](shortcodes/README.md) → [Profile Builder](profile-builder/README.md) → [Feature Manager](feature-manager/README.md) *(Pro)*
+- **Customer and account experience:** [Customer Portal](customer-portal/README.md) → [Member Insight](member-insight/README.md) *(Pro)* → [Store Credit](store-credit/README.md) *(Pro)* → [Shortcodes](shortcodes/README.md) → [Profile Builder](profile-builder/README.md) *(Pro)* → [Feature Manager](feature-manager/README.md) *(Pro)*
 - **Checkout and lifecycle:** [Checkout and Payments](checkout-and-payments/README.md) → [Cart Info Editor](cart-info-editor/README.md) *(Pro)* → [Billing and Renewals](billing-and-renewals/README.md) → [Retention, Cancellation, and Refunds](retention-and-refunds/README.md)
-- **Reporting and communication:** [Analytics](analytics/README.md) → [Retention Analytics](retention-analytics/README.md) → [Emails and Notifications](emails/README.md)
+- **Reporting and communication:** [Analytics](analytics/README.md) → [Retention Analytics](retention-analytics/README.md) *(Pro)* → [Emails and Notifications](emails/README.md)
 - **Toolkit and gateway modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Gateway Health](gateway-health/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
 ## Dedicated Module Count
 
-The manual now tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **8 modules** require ArraySubs Pro.
+The manual now tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **19 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **10 modules** require ArraySubs Pro.
 
 | Count | Module Group |
 |---|---|
-| 21 | Free/core-accessible modules |
-| 8 | Pro-only modules |
+| 19 | Free/core-accessible modules |
+| 10 | Pro-only modules |
 | 29 | Total dedicated modules |
 
 ## Admin Screen Map
@@ -64,11 +64,11 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | **Marketing → Coupons** | Configure subscription-aware coupon discounts and renewal cycle limits | [Coupons](coupons/README.md) |
 | **ArraySubs → Manage Members** *(Pro)* | Search customers and open the Member Insight profile | [Member Insight](member-insight/README.md) |
 | **ArraySubs → Store Credit** *(Pro)* | Manage balances, adjustments, and transaction history | [Store Credit Management](store-credit/store-credit-management.md) |
-| **ArraySubs → Profile Builder** | Configure custom profile fields and My Account navigation | [Profile Builder](profile-builder/README.md) |
+| **ArraySubs → Profile Builder** *(Pro)* | Configure custom profile fields and My Account navigation | [Profile Builder](profile-builder/README.md) |
 | **ArraySubs → Cart Info Editor** *(Pro)* | Hide selected first-billing-cycle, shipping, and duration explanations across purchase surfaces | [Cart Info Editor](cart-info-editor/README.md) |
 | **ArraySubs → Checkout Builder** *(Pro)* | Design custom subscription checkout fields and steps | [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) |
-| **ArraySubs → Retention Flow** | Configure cancellation reasons and save-the-sale offers | [Cancellation Setup](retention-and-refunds/cancellation-setup.md) |
-| **ArraySubs → Reports** | Review subscription reporting entry points and open Retention Analytics | [Reports Hub](analytics/reports-hub.md) |
+| **ArraySubs → Retention Flow** *(Pro)* | Configure cancellation reasons and save-the-sale offers — cancellation timing itself stays free (Settings → General) | [Cancellation Setup](retention-and-refunds/cancellation-setup.md) |
+| **ArraySubs → Reports** | Review subscription reporting entry points and open Retention Analytics *(Pro)* | [Reports Hub](analytics/reports-hub.md) |
 | **ArraySubs → Settings → Payment Gateways** *(Pro)* | Monitor gateway status, webhook URLs, and webhook event logs | [Gateway Health](gateway-health/README.md) |
 | **ArraySubs → Audits [beta]** *(Pro)* | Diagnose activity, scheduled jobs, gateway events, renewals, portal actions, and access conflicts | [Audits and Logs](audits-and-logs/README.md) |
 
@@ -186,13 +186,13 @@ Use shortcodes to display login/logout links, personalized greetings, gated cont
 - [Content Gating Shortcodes](shortcodes/content-gating.md) — `[arraysubs_visibility]` and `[arraysubs_restrict]` for login-based and subscription-based content control.
 - [Store Credit Shortcode](shortcodes/store-credit-shortcode.md) *(Pro)* — `[arraysubs_buy_credits]` purchase form for store credits.
 
-## Profile Builder and My Account Customization
+## Profile Builder and My Account Customization *(Pro)*
 
 Collect custom profile data, manage avatars, and customize the My Account navigation.
 
 - [Overview](profile-builder/README.md) — What's included, where to find it, and quick start steps.
-- [Profile Form](profile-builder/profile-form.md) — Custom profile fields, avatar upload settings, field types, and where data appears on customer and admin screens.
-- [My Account Editor](profile-builder/my-account-editor.md) — Reorder, rename, hide menu items, and add custom endpoint pages to the WooCommerce My Account area.
+- [Profile Form](profile-builder/profile-form.md) *(Pro)* — Custom profile fields, avatar upload settings, field types, and where data appears on customer and admin screens.
+- [My Account Editor](profile-builder/my-account-editor.md) *(Pro)* — Reorder, rename, hide menu items, and add custom endpoint pages to the WooCommerce My Account area.
 
 ## Cart Info Editor *(Pro)*
 
@@ -239,10 +239,10 @@ How ArraySubs creates, schedules, and collects recurring payments — from the f
 Reduce churn with targeted retention offers, configure cancellation policies, track retention analytics, and manage refund workflows.
 
 - [Overview](retention-and-refunds/README.md) — How the retention system works, the multi-step cancellation flow, and section navigation.
-- [Cancellation Setup](retention-and-refunds/cancellation-setup.md) — Immediate vs end-of-period cancellation, cancellation reasons, and the Retention Flow admin page.
-- [Retention Offers](retention-and-refunds/retention-offers.md) — Discount, Pause, Downgrade, and Contact Support offers — configuration, trigger reasons, eligibility, and the customer modal flow.
-- [Retention Use Cases](retention-and-refunds/retention-use-cases.md) — 18 real-life scenarios showing how subscription businesses use retention offers to save revenue and reduce churn.
-- [Retention Analytics](retention-analytics/README.md) — Dedicated analytics module for cancellation and offer performance.
+- [Cancellation Setup](retention-and-refunds/cancellation-setup.md) — Immediate vs end-of-period cancellation (Free); cancellation reasons and the Retention Flow admin page *(Pro)*.
+- [Retention Offers](retention-and-refunds/retention-offers.md) *(Pro)* — Discount, Pause, Downgrade, and Contact Support offers — configuration, trigger reasons, eligibility, and the customer modal flow.
+- [Retention Use Cases](retention-and-refunds/retention-use-cases.md) *(Pro)* — 18 real-life scenarios showing how subscription businesses use retention offers to save revenue and reduce churn.
+- [Retention Analytics](retention-analytics/README.md) *(Pro)* — Dedicated analytics module for cancellation and offer performance.
 - [Refund Management](retention-and-refunds/refund-management.md) — Refund policies, prorated refunds, gateway refunds, full refund subscription behavior, and refund-to-store-credit *(Pro)*.
 
 ## Advanced Analytics *(Pro)*
@@ -254,9 +254,9 @@ Track subscription revenue, growth, churn, and customer behavior — from a dedi
 - [WooCommerce Analytics Extension](analytics/woocommerce-analytics-extension.md) — Type column, type filters, subscription revenue cards, subscription-only filters, and member links across 5 WC Analytics reports.
 - [Order List Enhancements](analytics/order-list-enhancements.md) — Type and coupon columns, filter dropdowns, embedded report panel, and order type backfill on the WooCommerce Orders page.
 
-## Retention Analytics
+## Retention Analytics *(Pro)*
 
-[Retention Analytics](retention-analytics/README.md) is a free dedicated analytics module for churn reasons, retention offer performance, cancellation trends, and retained revenue.
+[Retention Analytics](retention-analytics/README.md) is a Pro dedicated analytics module for churn reasons, retention offer performance, cancellation trends, and retained revenue.
 
 ## Emails and Notifications
 

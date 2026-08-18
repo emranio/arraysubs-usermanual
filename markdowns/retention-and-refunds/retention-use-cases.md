@@ -1,13 +1,13 @@
 # Info
 - Module: Retention Use Cases
-- Availability: Free
+- Availability: Pro
 - Last updated: 2026-04-02
 
 # Retention Use Cases
 
 > 18 real-world scenarios showing how subscription businesses use the ArraySubs retention system to reduce churn, recover revenue, and build stronger customer relationships.
 
-**Availability:** Free
+**Availability:** Pro
 
 ## Page Navigation
 

@@ -1,13 +1,13 @@
 # Info
 - Module: Retention Offers
-- Availability: Free
+- Availability: Pro
 - Last updated: 2026-04-02
 
 # Retention Offers
 
 > Present targeted offers to customers at the exact moment they are about to cancel — discounts, pausing, downgrading, or connecting with support — to save the subscription and retain revenue.
 
-**Availability:** Free
+**Availability:** Pro
 
 ## Page Navigation
 
@@ -38,6 +38,7 @@ Navigate to **ArraySubs → Retention Flow** and scroll to the **Retention Offer
 ## Prerequisites
 
 - ArraySubs core plugin installed and active
+- **ArraySubs Pro installed and active**
 - Customer cancellation enabled in **ArraySubs → Settings → General**
 - Cancellation reasons configured on the Retention Flow page (see [Cancellation Setup](cancellation-setup.md))
 - For the Downgrade offer: Plan Switching configured with downgrade paths on your subscription products

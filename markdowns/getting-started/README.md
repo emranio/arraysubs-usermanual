@@ -72,7 +72,7 @@ Redirect direct subscription product URLs to sales pages or return 404 responses
 Control one-time versus recurring shipping charges on physical subscription products *(Pro)*.
 
 ### [Retention Analytics](../retention-analytics/README.md)
-Analyze cancellation reasons, churn trends, offer acceptance, and retained revenue.
+Analyze cancellation reasons, churn trends, offer acceptance, and retained revenue *(Pro)*.
 
 ### [Gateway Health](../gateway-health/README.md)
 Monitor payment gateway connection status, webhook URLs, capabilities, and webhook events *(Pro)*.

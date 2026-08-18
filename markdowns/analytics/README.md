@@ -32,7 +32,7 @@ The analytics ecosystem has seven major surfaces:
 |---------|-----------------|-------------|---------------|
 | [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 13 categories |
 | [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | Pro | 10 KPI cards, 6 time-series charts, 5 leaderboards |
-| [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Free | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
+| [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Pro | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
 | [AI Churn Analysis](ai-churn-analysis.md) | WooCommerce → Analytics → Churn Analysis | Free | Per-subscriber churn risk scores and bands, revenue at risk, AI reasons and recommended actions |
 | [AI Revenue Forecast](ai-revenue-forecast.md) | WooCommerce → Analytics → Revenue Forecast | Free | MRR/ARR snapshot, 12 months of collected revenue, subscriber movement, billing mix, AI projection |
 | [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Pro | Type column, type filters, subscription revenue cards, subscription-only filters, member links |
@@ -46,7 +46,7 @@ The analytics ecosystem has seven major surfaces:
 
 ### Looking Back vs Looking Forward
 
-The three free reports under WooCommerce Analytics are designed to be read together:
+These three reports under WooCommerce Analytics are designed to be read together (Retention Analytics requires Pro):
 
 | Report | Time frame | Question it answers |
 |--------|-----------|--------------------|
@@ -94,8 +94,8 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 ## Prerequisites
 
-- **ArraySubs** (free) for the Reports Hub, Retention Analytics, AI Churn Analysis, and AI Revenue Forecast
-- **ArraySubs Pro** for the Subscription Performance Dashboard, WooCommerce Analytics Extension, and Order List Enhancements
+- **ArraySubs** (free) for the Reports Hub, AI Churn Analysis, and AI Revenue Forecast
+- **ArraySubs Pro** for Retention Analytics, the Subscription Performance Dashboard, WooCommerce Analytics Extension, and Order List Enhancements
 - **WooCommerce** 8.0+ with WooCommerce Admin (included by default)
 - At least one subscription product and a few orders to populate metrics
 - **Optional, for the AI layer on the two AI reports:** an AI provider connector configured under **Settings → Connectors**
@@ -104,7 +104,7 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 - [Reports Hub](reports-hub.md) — The central directory page that links to the reports in the ArraySubs ecosystem.
 - [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — The overview page with KPI cards, charts, and leaderboards.
-- [Retention Analytics](../retention-analytics/README.md) — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
+- [Retention Analytics](../retention-analytics/README.md) *(Pro)* — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
 - [AI Churn Analysis](ai-churn-analysis.md) — Per-subscriber churn risk scoring, revenue at risk, and AI-written reasons and next steps.
 - [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement, revenue and subscriber history, and an AI projection with a conservative-to-optimistic range.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) *(Pro)* — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data.
@@ -128,7 +128,7 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 ## FAQ
 
 ### Do I need to do anything to start seeing analytics data?
-The **Reports Hub**, **Retention Analytics**, **AI Churn Analysis**, and **AI Revenue Forecast** are available immediately with the free plugin — no extra setup required. For the Pro analytics surfaces (Performance Dashboard, WC Analytics Extension, Order List Enhancements), the module begins classifying orders as soon as the Pro plugin is activated. For orders that existed before activation, use the **Compute Order Types** backfill tool on the WooCommerce Orders page — see [Order List Enhancements](order-list-enhancements.md).
+The **Reports Hub**, **AI Churn Analysis**, and **AI Revenue Forecast** are available immediately with the free plugin — no extra setup required. For the Pro analytics surfaces (Retention Analytics, Performance Dashboard, WC Analytics Extension, Order List Enhancements), the module begins classifying orders as soon as the Pro plugin is activated. For orders that existed before activation, use the **Compute Order Types** backfill tool on the WooCommerce Orders page — see [Order List Enhancements](order-list-enhancements.md).
 
 ### Do the AI reports require a paid AI subscription?
 No. Every score, tile, chart, and table on both AI reports is calculated from your own store data and works with no AI provider configured. A provider only adds the written analysis — the churn narrative and per-subscriber recommendations, and the forward revenue projection. If no provider is set up, each report explains exactly which step is missing and links to the screen that fixes it.

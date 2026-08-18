@@ -91,7 +91,7 @@ For full documentation see [Subscription Performance Dashboard](subscription-per
 
 ---
 
-### Retention Analytics *(Free)*
+### Retention Analytics *(Pro)*
 
 Cancellation and retention flow analytics under WooCommerce Analytics.
 

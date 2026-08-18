@@ -1,13 +1,13 @@
 # Info
 - Module: Profile Builder and My Account Customization
-- Availability: Free (some integrations require Pro)
+- Availability: Pro (Profile Form, My Account Editor); Shortcodes stays Free
 - Last updated: 2026-04-02
 
 # Profile Builder and My Account Customization
 
 > Collect custom profile data from customers, let them upload avatars, rearrange the My Account menu, add custom pages, and use shortcodes to display user-specific content anywhere on your site.
 
-**Availability:** Free — some integrations like My Features page and Store Credit page placement require **Pro**
+**Availability:** Profile Form and My Account Editor require **ArraySubs Pro**. The Shortcodes catalog itself stays **Free** (one shortcode, store-credit purchase, requires Pro).
 
 ## Page Navigation
 
@@ -26,8 +26,8 @@ The Profile Builder area in ArraySubs gives you three sets of tools under one me
 
 | Tool | What It Does |
 |------|-------------|
-| **Profile Form** | Create custom profile fields and avatar upload for customer accounts and admin user profiles |
-| **My Account Editor** | Reorder, rename, hide, or add custom pages to the WooCommerce My Account navigation menu |
+| **Profile Form** *(Pro)* | Create custom profile fields and avatar upload for customer accounts and admin user profiles |
+| **My Account Editor** *(Pro)* | Reorder, rename, hide, or add custom pages to the WooCommerce My Account navigation menu |
 | **Shortcodes** | Use shortcodes to show login/logout links, user info, visibility-gated content, and subscription-restricted content on any page |
 
 ## Where to Find It
@@ -54,8 +54,8 @@ The Profile Builder menu lives in the main ArraySubs admin panel:
 
 ## Guides in This Section
 
-- [Profile Form](profile-form.md) — Custom fields, avatar settings, field types, and where data appears
-- [My Account Editor](my-account-editor.md) — Menu customization, custom endpoint pages, and Pro feature integration
+- [Profile Form](profile-form.md) *(Pro)* — Custom fields, avatar settings, field types, and where data appears
+- [My Account Editor](my-account-editor.md) *(Pro)* — Menu customization, custom endpoint pages, and Pro feature integration
 - [Shortcodes](../shortcodes/README.md) — All available shortcodes with attributes, examples, and use cases
 
 ---

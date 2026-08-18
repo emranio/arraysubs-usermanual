@@ -1,13 +1,13 @@
 # Info
 - Module: Retention Analytics
-- Availability: Free
+- Availability: Pro
 - Last updated: 2026-07-27
 
 # Retention Analytics
 
 > Understand why customers cancel, how well your retention offers perform, and which products have the highest churn — all from a dedicated analytics page inside WooCommerce Analytics.
 
-**Availability:** Free
+**Availability:** Pro
 
 ## Page Navigation
 
@@ -21,7 +21,7 @@
 
 ## Overview
 
-Retention Analytics is a free analytics page that tracks every cancellation, scheduled cancellation, and retention offer interaction across your subscription business. It lives under the WooCommerce Analytics menu and provides summary cards, visual charts, a trend timeline, and a detailed activity log.
+Retention Analytics is a Pro analytics page that tracks every cancellation, scheduled cancellation, and retention offer interaction across your subscription business. It lives under the WooCommerce Analytics menu and provides summary cards, visual charts, a trend timeline, and a detailed activity log.
 
 Navigate to **WooCommerce → Analytics → Retention** to open the page.
 
@@ -48,6 +48,7 @@ This report looks **backwards** — at customers who already cancelled. To see w
 ## Prerequisites
 
 - ArraySubs core plugin activated
+- **ArraySubs Pro installed and active**
 - WooCommerce 8.0+ with WooCommerce Admin (included by default)
 - At least one subscription with cancellation activity for data to appear
 - The [Retention Flow](../retention-and-refunds/cancellation-setup.md) configured with cancellation reasons and retention offers for full data capture
@@ -67,7 +68,7 @@ The Retention Analytics page reads from this log table through REST API endpoint
 
 ### Data Backfill
 
-When you first activate ArraySubs, the system automatically backfills cancelled subscriptions from your store's existing history. This runs in the background using Action Scheduler, processing 50 subscriptions per batch. Once the backfill completes, all historical cancellations appear in the analytics.
+When you first activate ArraySubs Pro, the system automatically backfills cancelled subscriptions from your store's existing history. This runs in the background using Action Scheduler, processing 50 subscriptions per batch. Once the backfill completes, all historical cancellations appear in the analytics.
 
 ```box class="info-box"
 The backfill runs automatically — no manual action is required. For stores with a large number of historical cancelled subscriptions, it may take several minutes to complete all batches.
@@ -284,7 +285,7 @@ A support agent investigates a customer complaint about unwanted auto-renewal. T
 Navigate to **WooCommerce → Analytics → Retention** in the WordPress admin sidebar. It appears as a submenu item under the Analytics section.
 
 ### Is this a free or Pro feature?
-Retention Analytics is **free** — it is included in the core ArraySubs plugin. No Pro license is required.
+Retention Analytics requires **ArraySubs Pro**. The dashboard, its REST endpoints, and the churn event log are all part of the Pro addon.
 
 ### Why do some card values show zero?
 If no cancellations or retention offers occurred during the selected date range, the cards show zero. Try expanding the date range or checking that the Retention Flow is configured with cancellation reasons and offers.

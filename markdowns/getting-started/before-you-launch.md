@@ -247,12 +247,12 @@ ArraySubs ships as two plugins. The core plugin is free and covers all essential
 
 ### Dedicated Manual Module Count
 
-The manual tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **21 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **8 modules** require ArraySubs Pro.
+The manual tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **19 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **10 modules** require ArraySubs Pro.
 
 | Count | Module Group |
 |---|---|
-| 21 | Free/core-accessible modules |
-| 8 | Pro-only modules |
+| 19 | Free/core-accessible modules |
+| 10 | Pro-only modules |
 | 29 | Total dedicated modules |
 
 ### Free/Core-Accessible Dedicated Modules
@@ -270,15 +270,13 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | [Subscription Notes](../subscription-notes/README.md) | Free |
 | [Customer Portal](../customer-portal/README.md) | Free core with Pro payment/shipping actions |
 | [Analytics](../analytics/README.md) | Free reports hub with Pro analytics extensions |
-| [Retention Analytics](../retention-analytics/README.md) | Free |
 | [Emails](../emails/README.md) | Free core emails with Pro store-credit/gateway emails |
 | [Shortcodes](../shortcodes/README.md) | Free shortcodes with one Pro store-credit shortcode |
-| [Profile Builder](../profile-builder/README.md) | Free core with Pro menu integrations |
 | [Member Access](../member-access/README.md) | Free core with Pro login-limit extension |
 | [Member Styling](../member-styling/README.md) | Free conditional body classes and CSS; Feature Value conditions require Pro |
 | [Checkout and Payments](../checkout-and-payments/README.md) | Free checkout flow with Pro automatic payments |
 | [Billing and Renewals](../billing-and-renewals/README.md) | Free renewal engine with Pro automatic collection |
-| [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) | Free core with Pro store-credit refund extension |
+| [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) | Free core (cancellation timing, undo, core refunds) with Pro cancellation reasons, retention offers, retention analytics, and store-credit refund extension |
 | [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md) | Free troubleshooting with Pro audit/log screens |
 
 ### Pro-Only Dedicated Modules
@@ -293,6 +291,8 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | [Feature Manager](../feature-manager/README.md) | Product entitlements, feature display, and feature logs |
 | [Gateway Health](../gateway-health/README.md) | Gateway status cards, webhook URLs, capabilities, and webhook event log |
 | [Cart Info Editor](../cart-info-editor/README.md) | Hide selected billing-cycle, shipping, and duration explanations without changing charges |
+| [Retention Analytics](../retention-analytics/README.md) | Churn/retention KPI dashboard under WooCommerce Analytics |
+| [Profile Builder](../profile-builder/README.md) | Custom profile fields, avatar upload, and My Account menu customization |
 
 ### Subscription Fundamentals
 

@@ -1,13 +1,13 @@
 # Info
 - Module: Cancellation Setup
-- Availability: Free
+- Availability: Free (cancellation timing, undo); Pro (cancellation reasons editor, Retention Flow admin page, retention offers)
 - Last updated: 2026-04-02
 
 # Cancellation Setup
 
 > Configure when and how subscriptions are cancelled, what reasons customers can choose, and how the Retention Flow admin page brings it all together.
 
-**Availability:** Free
+**Availability:** Free (cancellation timing, undo). **Pro** is required to edit cancellation reasons, use the Retention Flow admin page, and configure retention offers.
 
 ## Page Navigation
 
@@ -21,26 +21,27 @@
 
 ## Overview
 
-Cancellation setup controls three things: **when** a subscription is cancelled (immediately or at the end of the billing period), **why** the customer is cancelling (the reason they select), and **how** the admin Retention Flow page lets you manage both in one place. Getting this right is foundational — every retention offer, analytics report, and refund decision depends on the cancellation configuration.
+Cancellation setup controls three things: **when** a subscription is cancelled (immediately or at the end of the billing period — Free), **why** the customer is cancelling (the reason they select — runs on Free, but editing the reason list requires **Pro**), and **how** the admin Retention Flow page lets you manage both in one place (**Pro**). Getting this right is foundational — every retention offer, analytics report, and refund decision depends on the cancellation configuration.
 
 ## When to Use This
 
 - You are setting up ArraySubs for the first time and need to define your cancellation policy.
 - You want to switch between immediate and end-of-period cancellation.
-- You need to customize the reasons shown to customers during cancellation.
-- You want to require cancellation reasons to gather data for your retention strategy.
+- You need to customize the reasons shown to customers during cancellation *(Pro)*.
+- You want to require cancellation reasons to gather data for your retention strategy *(Pro)*.
 
 ## Prerequisites
 
 - ArraySubs core plugin installed and active
 - At least one subscription product created
 - Customer cancellation enabled in **ArraySubs → Settings → General → Customer Actions → Allow Cancellation**
+- **ArraySubs Pro installed and active** — required to edit cancellation reasons, open the Retention Flow admin page, and configure retention offers (the default 7-reason list and cancellation timing work without Pro)
 
 ## How It Works
 
 When a customer clicks **Cancel Subscription** in the customer portal, ArraySubs opens a cancellation modal. The modal asks the customer for a cancellation reason (if configured), then either directly cancels the subscription or schedules it for end-of-period cancellation based on your settings.
 
-If retention offers are also enabled, the system inserts a retention offer step between the reason selection and the final cancellation. See [Retention Offers](retention-offers.md) for that flow.
+If retention offers are also enabled (**Pro**, and only while ArraySubs Pro is active), the system inserts a retention offer step between the reason selection and the final cancellation. See [Retention Offers](retention-offers.md) for that flow.
 
 ---
 
@@ -88,9 +89,9 @@ End-of-period cancellation is generally recommended for most subscription busine
 
 ---
 
-## Cancellation Reasons
+## Cancellation Reasons *(Pro to edit)*
 
-Cancellation reasons are the predefined options customers choose from when cancelling. They serve two purposes: helping customers articulate why they are leaving, and giving you structured data to analyze in [Retention Analytics](../retention-analytics/README.md).
+Cancellation reasons are the predefined options customers choose from when cancelling. The reason-select step itself still renders on the free plugin using the last-saved (or default) list; **ArraySubs Pro** is required to open the editor below and change that list. Reasons serve two purposes: helping customers articulate why they are leaving, and giving you structured data to analyze in [Retention Analytics](../retention-analytics/README.md) *(Pro)*.
 
 ### Require Cancellation Reason
 
@@ -116,11 +117,11 @@ ArraySubs ships with 7 predefined cancellation reasons:
 | `temporary_pause` | Just need a temporary break |
 | `other` | Other |
 
-These defaults cover the most common cancellation reasons across subscription businesses. You can edit, reorder, add, or remove reasons on the Retention Flow page.
+These defaults cover the most common cancellation reasons across subscription businesses and work out of the box on the free plugin. To edit, reorder, add, or remove reasons, open the Retention Flow page — this requires **ArraySubs Pro**.
 
-### Custom Reasons
+### Custom Reasons *(Pro)*
 
-You can add as many custom reasons as you need. Each reason has two fields:
+With ArraySubs Pro active, you can add as many custom reasons as you need from the Retention Flow page. Each reason has two fields:
 
 | Field | Purpose | Example |
 |---|---|---|
@@ -141,16 +142,16 @@ Always include an "Other" option. It acts as a safety net for reasons you haven'
 
 Cancellation reasons are not just data points — they actively influence the retention system:
 
-- **Retention offers** can be targeted to specific reasons. For example, a discount offer shown only when the customer selects "Too expensive."
-- **Retention analytics** shows a pie chart breakdown of reasons, helping you identify the biggest churn drivers.
+- **Retention offers** *(Pro)* can be targeted to specific reasons. For example, a discount offer shown only when the customer selects "Too expensive."
+- **Retention analytics** *(Pro)* shows a pie chart breakdown of reasons, helping you identify the biggest churn drivers.
 - **Activity logs** record the reason for every cancellation event, making it searchable and filterable.
 - **Subscription notes** include the cancellation reason in the admin subscription detail view.
 
 ---
 
-## The Retention Flow Admin Page
+## The Retention Flow Admin Page *(Pro)*
 
-The Retention Flow page is the central admin interface for managing cancellation reasons and retention offers. It combines all cancellation and retention settings into a single configuration screen.
+The Retention Flow page is the central admin interface for managing cancellation reasons and retention offers, and it requires **ArraySubs Pro**. Without Pro, the menu item stays visible but opens a "Pro Feature" notice instead of the editor. It combines all cancellation and retention settings into a single configuration screen.
 
 Navigate to **ArraySubs → Retention Flow** in the WordPress admin sidebar.
 
@@ -201,9 +202,9 @@ The first modal appears with:
 - A **Keep Subscription** button to close the modal and take no action
 - A **Continue** button to proceed
 
-### Step 2: Retention Offers (if enabled)
+### Step 2: Retention Offers (Pro, if enabled)
 
-If retention offers are enabled and the customer is eligible for at least one offer, a second modal appears. See [Retention Offers](retention-offers.md) for the full flow.
+If ArraySubs Pro is active, retention offers are enabled, and the customer is eligible for at least one offer, a second modal appears. Without Pro, the flow skips straight to Step 3. See [Retention Offers](retention-offers.md) for the full flow.
 
 ### Step 3: Cancellation Confirmation
 
@@ -246,9 +247,9 @@ The admin sees the same option in the **Cancellation Details** card on the admin
 |---|---|---|---|
 | **Allow Cancellation** | Settings → General → Customer Actions | Enabled | Whether customers see the Cancel button in the portal |
 | **Cancel Immediately** | Settings → General → Customer Actions | Enabled | Whether cancellation is immediate or end-of-period |
-| **Require Cancellation Reason** | Retention Flow page | Enabled | Whether a reason is required before cancellation can proceed |
-| **Cancellation Reasons** | Retention Flow page | 7 defaults | The list of reasons shown in the cancellation modal |
-| **Enable Retention Offers** | Retention Flow page | Enabled | Whether retention offers appear after reason selection |
+| **Require Cancellation Reason** | Retention Flow page *(Pro)* | Enabled | Whether a reason is required before cancellation can proceed |
+| **Cancellation Reasons** | Retention Flow page *(Pro)* | 7 defaults | The list of reasons shown in the cancellation modal |
+| **Enable Retention Offers** | Retention Flow page *(Pro)* | Enabled | Whether retention offers appear after reason selection |
 
 ---
 
@@ -258,7 +259,8 @@ The admin sees the same option in the **Cancellation Details** card on the admin
 - **System-initiated cancellations** (from expired grace periods, full refunds, or scheduled expirations) also bypass the modal. These are logged with an initiator of `system`.
 - **Multiple subscriptions:** Cancellation is always per-subscription. If a customer has three subscriptions and cancels one, the other two are unaffected.
 - **Waiting cancellation and renewals:** End-of-period cancellations do not process any further renewals. The existing scheduled renewal for the current period is removed.
-- **Retention offers and end-of-period:** Retention offers are shown regardless of cancellation timing. If a customer accepts a retention offer during an end-of-period cancellation, the pending cancellation is cleared.
+- **Retention offers and end-of-period:** Retention offers *(Pro)* are shown regardless of cancellation timing. If a customer accepts a retention offer during an end-of-period cancellation, the pending cancellation is cleared.
+- **Retention Flow / retention offers require ArraySubs Pro.** With Pro inactive, the reason-select step still runs using whatever was last saved (or the 7 defaults on a fresh install), but you cannot edit reasons, and no retention offer step appears — customers go straight from reason selection to cancellation confirmation.
 
 ---
 
@@ -267,7 +269,7 @@ The admin sees the same option in the **Cancellation Details** card on the admin
 | Problem | Likely Cause | What to Do |
 |---|---|---|
 | Customer does not see the Cancel button | Cancellation is disabled in settings, or the subscription status is already cancelled/expired | Check **Settings → General → Customer Actions → Allow Cancellation** and the subscription status |
-| Customer cancels without selecting a reason | **Require Cancellation Reason** is disabled | Enable it on the **Retention Flow** page |
+| Customer cancels without selecting a reason | **Require Cancellation Reason** is disabled | Enable it on the **Retention Flow** page *(requires ArraySubs Pro)* |
 | Cancellation reason data is missing in analytics | Reasons were not configured or required before the cancellation occurred | Configure reasons and enable the require toggle — only future cancellations will capture reasons |
 | End-of-period cancellation still shows as Active | This is expected behavior — the subscription stays active until the period ends, with a pending cancellation flag | Check the subscription detail page for the Cancellation Details card |
 | Undo Cancellation button not visible | The subscription was cancelled immediately (not end-of-period), or the period has already ended | Undo is only available for pending end-of-period cancellations that haven't yet executed |
@@ -276,8 +278,8 @@ The admin sees the same option in the **Cancellation Details** card on the admin
 
 ## Related Guides
 
-- [Retention Offers](retention-offers.md) — Configure discount, pause, downgrade, and contact support offers
-- [Retention Analytics](../retention-analytics/README.md) — Track cancellation trends and offer performance
+- [Retention Offers](retention-offers.md) *(Pro)* — Configure discount, pause, downgrade, and contact support offers
+- [Retention Analytics](../retention-analytics/README.md) *(Pro)* — Track cancellation trends and offer performance
 - [Refund Management](refund-management.md) — Configure refund policies after cancellation
 - [Subscription Self-Service Actions](../customer-portal/self-service-actions.md) — The complete customer portal actions guide
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses transition
@@ -302,4 +304,7 @@ The discount offer will not be shown again for the same subscription if it was a
 No. Retention offers only appear in the customer portal cancellation flow. Admin status changes bypass the modal entirely.
 
 ### Can I customize the cancellation modal text?
-The modal messages adjust automatically based on your cancellation timing setting. For the retention offer step, you can configure custom headlines, descriptions, and button text for each offer type on the Retention Flow page.
+The modal messages adjust automatically based on your cancellation timing setting (Free). For the retention offer step, you can configure custom headlines, descriptions, and button text for each offer type on the Retention Flow page — this requires **ArraySubs Pro**.
+
+### Do I need ArraySubs Pro for cancellation to work at all?
+No. Customers can always cancel — cancellation timing, the reason-select step (using the last-saved or default reason list), and undo all work on the free plugin. **ArraySubs Pro** is only required to *edit* cancellation reasons, open the Retention Flow admin page, configure retention offers, or view retention analytics.
