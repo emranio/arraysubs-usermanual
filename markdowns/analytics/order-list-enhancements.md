@@ -1,11 +1,11 @@
 # Info
 - Module: Order List Enhancements
 - Availability: Pro
-- Last updated: 2026-07-27
+- Last updated: 2026-08-31
 
 # Order List Enhancements *(Pro)*
 
-> See subscription order types and coupons at a glance on the WooCommerce Orders page, filter orders by type or coupon, and view an embedded summary panel — plus back-classify orders that existed before activation.
+> See subscription order types and coupons at a glance on the WooCommerce Orders page, filter orders by type, coupon, or any store product, and view an embedded summary panel — plus back-classify orders that existed before activation.
 
 **Availability:** Pro
 
@@ -23,19 +23,21 @@
 The Order List Enhancements add four capabilities to the standard **WooCommerce → Orders** page:
 
 1. **Two new columns** — Order Type and Coupons.
-2. **Three filter dropdowns** — Type, Coupon, and Subscription Products Only.
+2. **Three order filters** — Type, Coupon, and an AJAX-searchable Product filter with a Subscription Products Only shortcut.
 3. **An embedded report panel** — A summary bar showing order counts by type.
 4. **A backfill tool** — A one-click mechanism to classify orders created before the Pro plugin was activated.
 
 These enhancements work with both **HPOS** (Custom Orders Table) and **legacy post-type** order storage.
 
-![WooCommerce Orders list with subscription order enhancements](order-list-enhancements.ASSETS/01-order-list-overview-annotated.png)
+![WooCommerce Orders list with subscription order enhancements](order-list-enhancements.ASSETS/01-order-list-overview-original.png)
 
 ## When to Use This
 
 - Quickly identify which orders on the list are renewals, upgrades, trials, or credit purchases.
 - Filter the orders list to show only renewal orders during a billing investigation.
 - Check which orders used a specific coupon code.
+- Search for any product or variation in the store and show only orders containing it.
+- Show every order containing a subscription product without choosing products one at a time.
 - See a quick count-by-type summary without leaving the Orders page.
 - Back-classify historical orders after first activating the Pro plugin.
 
@@ -64,15 +66,15 @@ A **Coupon(s)** column shows the coupon codes applied to each order. If multiple
 
 ---
 
-## Filter Dropdowns
+## Order Filters
 
-Three filter dropdowns appear above the orders table.
+Three ArraySubs Pro filters appear above the orders table. Click **Filter** after making one or more selections.
 
 ### Type Filter
 
 A dropdown that filters orders by their computed type. Selecting a type and clicking **Filter** shows only orders matching that classification.
 
-![The orders list filtered to Subs Renew orders](order-list-enhancements.ASSETS/04-order-list-type-filter-applied-annotated.png)
+![The orders list filtered to Subs Renew orders](order-list-enhancements.ASSETS/05-order-list-type-filter-applied-original.png)
 
 | Option | Shows |
 |--------|-------|
@@ -90,14 +92,31 @@ A dropdown populated with every coupon code used across your orders. Select a co
 
 The coupon list is dynamically built from actual order data, so only coupons that have been applied to at least one order appear.
 
-![Coupon and subscription filters on the orders list](order-list-enhancements.ASSETS/02-coupon-subscription-filter-annotated.png)
+### Product Filter
 
-### Subscription Products Only
+The **All Products** field is an AJAX-searchable product selector. It loads matching products and variations from WooCommerce as you type instead of preloading the store's full catalog.
 
-A checkbox or toggle that, when enabled, shows only orders containing at least one subscription product. This is useful for separating subscription-related orders from regular product orders when you don't need to filter by a specific type.
+To filter by a specific product:
+
+1. Click **All Products**.
+2. Enter part of the product name.
+3. Select the matching product or variation from the results.
+4. Click **Filter**.
+
+![Searching the store catalog from the Orders product filter](order-list-enhancements.ASSETS/02-product-search-results-original.png)
+
+The selected product remains visible in the filter row. The order table, item count, pagination, and embedded report panel all recalculate for orders containing that exact product.
+
+![Orders filtered to one selected product](order-list-enhancements.ASSETS/03-product-filter-applied-original.png)
+
+#### Subscription Products Only
+
+Open **All Products** and choose **Subscription Products Only** to show every order containing at least one subscription product. This shortcut appears immediately, before you type a search term, and avoids selecting subscription products individually.
+
+![Orders filtered to all subscription products](order-list-enhancements.ASSETS/04-subscription-products-only-original.png)
 
 ```box class="info-box"
-The three filters can be combined. For example, you can filter by Type = `Subs Renew` and Coupon = `SAVE20` to find all renewal orders that used a specific discount code.
+The filters can be combined. For example, choose Type = `Subs Renew`, select a product, and choose a coupon to find renewal orders for that product that used the discount code.
 ```
 
 ---
@@ -112,7 +131,7 @@ A summary panel appears above the orders table showing aggregate counts for the 
 | **Per-type counts** | Individual count for each order type (Subs Purchase, Subs Renew, Subs Trial, Subs Upgrade, Credit Purchase, Other) |
 | **Orders with Coupon** | Number of orders in the current view that have at least one coupon applied |
 
-The panel updates dynamically as you apply or remove filters, change the order status tab, or adjust the date range. The screenshot under [Coupon Filter](#coupon-filter) shows it recalculated for a coupon-filtered view.
+The panel updates as you apply or remove filters, change the order status tab, or adjust the date range. The product-filter screenshots above show the total and per-type counts recalculated for the selected product and for all subscription products.
 
 ---
 
@@ -124,13 +143,12 @@ Orders created before the Pro plugin was activated do not have the computed type
 
 1. Navigate to **WooCommerce → Orders**.
 2. If unclassified orders exist, an **admin notice** appears at the top of the page stating how many orders need type classification.
-
-   ![The admin notice prompting the order type backfill](order-list-enhancements.ASSETS/03-backfill-notice-annotated.png)
-
 3. Click the **Compute Order Types** button in the notice.
 4. The system processes orders in batches of **200 per request**.
-5. A progress indicator shows how many orders have been processed.
-6. When all orders are classified, the notice is replaced by a completion message confirming the total count, and it stops appearing on future visits.
+5. A progress notice shows how many orders have been processed and how many remain.
+6. When all orders are classified, the notice is replaced by a completion message, and the backfill prompt stops appearing on future visits.
+
+![The successful order type backfill completion notice](order-list-enhancements.ASSETS/06-backfill-complete-notice-original.png)
 
 ### What the Backfill Does
 
@@ -169,6 +187,10 @@ A marketing manager wants to know how a promotional coupon performed across subs
 
 A store owner wants a daily snapshot of their order mix. They open the Orders page and scan the report panel at the top: 45 total orders today — 12 renewals, 8 new subscriptions, 2 upgrades, 1 credit purchase, 22 other. No filters needed.
 
+### Reviewing Orders for One Product
+
+A product manager wants to review every order containing a particular plan or variation. They open **All Products**, search by name, choose the exact result, and click **Filter**. The table and report panel now describe only that product's orders.
+
 ---
 
 ## Edge Cases and Important Notes
@@ -177,6 +199,8 @@ A store owner wants a daily snapshot of their order mix. They open the Orders pa
 - **Type classification is automatic for new orders.** After activation, every new order is classified immediately at creation, checkout, and payment. No manual action is required for future orders.
 - **Filters apply to the current WooCommerce order query.** If you are viewing a specific order status tab (e.g., Processing), the Type filter and report panel reflect only that status subset.
 - **Coupon dropdown is cached.** The list of available coupons is cached using `wp_cache_set()` for performance. If a coupon was just used for the first time, refresh the page to see it in the dropdown.
+- **Product search is loaded on demand.** The selector requests up to 30 matching products and variations as you type; it does not load the entire catalog into the Orders page.
+- **Product filtering checks order line items.** Selecting a product or variation returns orders containing that item and keeps the WooCommerce item count and pagination aligned with the filtered rows.
 - **Both HPOS and legacy storage are supported automatically.** The enhancement detects your store's storage mode and adjusts column rendering, filter queries, and backfill logic accordingly.
 
 ---

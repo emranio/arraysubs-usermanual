@@ -4,60 +4,54 @@ title: analytics - README.md
 status: done
 priority: medium
 created: 2026-06-09T18:08:34.394907+06:00
-updated: 2026-06-23T18:04:09.983244+06:00
+updated: 2026-08-31T16:52:53.232255+06:00
 started: 2026-06-17T17:35:49.69654+06:00
-completed: 2026-06-23T18:04:09.983243+06:00
-claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T18:04:09.983244+06:00
+completed: 2026-08-31T16:52:53.232254+06:00
 class: standard
 ---
 
-1. `01-reports-hub-overview`
-Placement: after `## Overview`
+1. 01-reports-hub-overview
+Placement: after ## Overview
 Surface to cover: ArraySubs -> Reports hub.
-context: The Reports hub shows the analytics directory summary, quick navigation, and report category counts for the central free reporting surface.
+Context: The Reports hub shows the analytics directory summary, quick navigation, and report category counts for the central free reporting surface.
 Markers:
-- `arrow pointing to the Reports page heading, label 'Reports Hub'`
-- `arrow pointing to the report category count row, label 'Report coverage'`
-- `arrow pointing to the Quick Navigation section, label 'Analytics surfaces'`
+- arrow pointing to the Reports page heading, label Reports Hub
+- arrow pointing to the report category count row, label Report coverage
+- arrow pointing to the Quick Navigation section, label Analytics surfaces
 
-2. `02-subscription-performance-overview`
+2. 02-subscription-performance-overview
 Placement: after the analytics ecosystem surfaces table.
 Surface to cover: WooCommerce -> Analytics -> Overview with ArraySubs Pro performance cards.
-context: The full-page WooCommerce Analytics Overview frame shows subscription KPI cards, sales charts, subscription trend chart, product/customer leaderboards, cancellation reasons, and churn product tables.
+Context: The full-page WooCommerce Analytics Overview frame shows subscription KPI cards, sales charts, subscription trend chart, product or customer leaderboards, cancellation reasons, and churn product tables.
 Markers:
-- `arrow pointing to the Performance section heading, label 'Performance dashboard'`
-- `arrow pointing to the Active Subscriptions card, label 'Subscription KPI'`
-- `arrow pointing to the Monthly Recurring Revenue card, label 'MRR'`
-- `arrow pointing to the subscription trend chart, label 'Subscription trend'`
-- `arrow pointing to the lower leaderboard tables, label 'Subscription breakdowns'`
+- arrow pointing to the Performance section heading, label Performance dashboard
+- arrow pointing to the Active Subscriptions card, label Subscription KPI
+- arrow pointing to the Monthly Recurring Revenue card, label MRR
+- arrow pointing to the subscription trend chart, label Subscription trend
+- arrow pointing to the lower leaderboard tables, label Subscription breakdowns
 
-3. `03-retention-analytics-overview`
+3. 03-retention-analytics-overview
 Placement: after the Retention Analytics row in the surfaces table.
 Surface to cover: WooCommerce -> Analytics -> Retention.
-context: The full-page Retention analytics frame shows date filters, product filter, cancellation KPIs, reason and offer charts, cancellation trends, and the activity log table.
+Context: The full-page Retention analytics frame shows date filters, product filter, cancellation KPIs, reason and offer charts, cancellation trends, and the activity log table.
 Markers:
-- `arrow pointing to the Retention page heading, label 'Retention analytics'`
-- `arrow pointing to the date and product filters, label 'Report filters'`
-- `arrow pointing to the Churn Rate summary card, label 'Retention KPI'`
-- `arrow pointing to the Cancellation Reasons chart, label 'Reason breakdown'`
-- `arrow pointing to the Cancellation Trends chart, label 'Trend history'`
-- `arrow pointing to the Activity Log table, label 'Cancellation events'`
+- arrow pointing to the Retention page heading, label Retention analytics
+- arrow pointing to the date and product filters, label Report filters
+- arrow pointing to the Churn Rate summary card, label Retention KPI
+- arrow pointing to the Cancellation Reasons chart, label Reason breakdown
+- arrow pointing to the Cancellation Trends chart, label Trend history
+- arrow pointing to the Activity Log table, label Cancellation events
 
-4. `04-order-type-classification`
-Placement: after `## Order Type Classification`
-Surface to cover: WooCommerce Orders list with ArraySubs order type filters and summary panel.
-context: The full-page WooCommerce Orders frame shows the type filter, subscription order type totals, coupon count, Type column, and the order rows that use the stored classification.
-Markers:
-- `arrow pointing to the All Types dropdown, label 'Type filter'`
-- `arrow pointing to the Subs Renew total in the summary panel, label 'Order type totals'`
-- `arrow pointing to the Type column header in the orders table, label 'Stored classification'`
-- `arrow pointing to a Subs Renew row badge, label 'Classified order'`
+4. 01-order-list-overview
+Placement: after ## Order Type Classification
+Surface to cover: WooCommerce Orders with ArraySubs order types, the AJAX product selector, and the summary panel.
+Capture scope: full page.
+Context: The clean unfiltered Orders frame shows All Types, All Coupons, All Products, the order-type totals, Type and Coupon(s) columns, and classified order rows.
+Markers: None (clean original requested).
+Dedupe: Reuses order-list-enhancements.ASSETS/01-order-list-overview-original.png from the dedicated Order List Enhancements guide.
 
-
-
-Annotation notes (2026-06-23):
-- Reprocessed all four Analytics README screenshots as annotated variants with #873EFF, crop enabled, and steps=3.
-- Used essential labels only: two labels per image.
-- Generated README.ASSETS/01-reports-hub-overview-annotated.png, 02-subscription-performance-overview-annotated.png, 03-retention-analytics-overview-annotated.png, and 04-order-type-classification-annotated.png.
-- Verification: 8 labels resolved, 0 unresolved.
+Refresh notes (2026-08-31):
+- Updated the Analytics overview copy for AJAX product or variation search and the Subscription Products Only shortcut.
+- Replaced the old annotated Orders image reference with the verified clean overview original from the dedicated guide.
+- No new marker or annotated variant was created, per user request.
+- The three non-Orders Analytics screenshots and their historical annotation notes remain unchanged.

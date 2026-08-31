@@ -1162,3 +1162,14 @@
 {"timestamp":"2026-08-17T16:48:49.930008+06:00","action":"edit","task_id":112,"detail":"gateway-health - README.md (blocking issues + provider facts)"}
 {"timestamp":"2026-08-17T16:48:49.948804+06:00","action":"move","task_id":112,"detail":"in-progress -\u003e todo"}
 {"timestamp":"2026-08-17T17:27:01.385184+06:00","action":"edit","task_id":114,"detail":"automatic-payments - paddle.md (early renewal, webhook secret, tax category)"}
+{"timestamp":"2026-08-31T16:26:25.516956+06:00","action":"move","task_id":4,"detail":"done -\u003e in-progress"}
+{"timestamp":"2026-08-31T16:50:04.85079+06:00","action":"edit","task_id":4,"detail":"analytics - order-list-enhancements.md"}
+{"timestamp":"2026-08-31T16:50:56.931265+06:00","action":"edit","task_id":4,"detail":"analytics - order-list-enhancements.md"}
+{"timestamp":"2026-08-31T16:51:08.235341+06:00","action":"edit","task_id":4,"detail":"analytics - order-list-enhancements.md"}
+{"timestamp":"2026-08-31T16:51:08.235459+06:00","action":"release","task_id":4,"detail":"squeezy-jokeless"}
+{"timestamp":"2026-08-31T16:51:08.29123+06:00","action":"move","task_id":4,"detail":"in-progress -\u003e done"}
+{"timestamp":"2026-08-31T16:51:33.89022+06:00","action":"move","task_id":3,"detail":"done -\u003e in-progress"}
+{"timestamp":"2026-08-31T16:52:32.214383+06:00","action":"edit","task_id":3,"detail":"analytics - README.md"}
+{"timestamp":"2026-08-31T16:52:53.173875+06:00","action":"edit","task_id":3,"detail":"analytics - README.md"}
+{"timestamp":"2026-08-31T16:52:53.175034+06:00","action":"release","task_id":3,"detail":"squeezy-jokeless"}
+{"timestamp":"2026-08-31T16:52:53.232386+06:00","action":"move","task_id":3,"detail":"in-progress -\u003e done"}

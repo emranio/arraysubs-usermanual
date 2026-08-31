@@ -4,50 +4,56 @@ title: analytics - order-list-enhancements.md
 status: done
 priority: medium
 created: 2026-06-09T18:08:34.403705+06:00
-updated: 2026-06-23T18:08:39.130173+06:00
+updated: 2026-08-31T16:51:08.291124+06:00
 started: 2026-06-17T17:36:53.256912+06:00
-completed: 2026-06-23T18:08:39.130173+06:00
-claimed_by: hobbler-beswitch
-claimed_at: 2026-06-23T18:08:39.130173+06:00
+completed: 2026-08-31T16:51:08.291123+06:00
 class: standard
 ---
 
-1. `01-order-list-overview`
-Placement: after `## Overview`
+1. 01-order-list-overview
+Placement: after ## Overview
 Surface to cover: WooCommerce -> Orders with ArraySubs Pro order list enhancements.
-context: The full-page Orders frame shows the added All Types, All Coupons, and All Orders filters, the embedded order-type summary panel, the Type and Coupon(s) columns, and classified order rows below the fold.
-Markers:
-- `arrow pointing to the All Types dropdown, label 'Type filter'`
-- `arrow pointing to the All Coupons dropdown, label 'Coupon filter'`
-- `arrow pointing to the All Orders dropdown, label 'Subscription product filter'`
-- `arrow pointing to the summary panel counts, label 'Order mix summary'`
-- `arrow pointing to the Type column badge, label 'Computed type'`
-- `arrow pointing to the Coupon(s) column, label 'Coupon visibility'`
+Capture scope: full page.
+Context: The unfiltered Orders page shows All Types, All Coupons, the new All Products search field, the left-aligned summary panel, Type and Coupon(s) columns, and classified order rows.
+Markers: None (clean originals requested).
 
-2. `02-coupon-subscription-filter`
-Placement: after `### Coupon Filter`
-Surface to cover: WooCommerce Orders with coupon and subscription-products filters applied.
-context: The Orders page is filtered to coupon `save20` and Subscription Products Only; the summary panel shows one matching renewal order and the table row displays the coupon and type badge.
-Markers:
-- `arrow pointing to the selected save20 coupon dropdown, label 'Coupon selected'`
-- `arrow pointing to the selected Subscription Products Only dropdown, label 'Subscription-only view'`
-- `arrow pointing to the Total Orders count of 1, label 'Filtered result count'`
-- `arrow pointing to the save20 row cell, label 'Applied coupon'`
-- `arrow pointing to the Subs Renew row badge, label 'Matching order type'`
+2. 02-product-search-results
+Placement: after ### Product Filter
+Surface to cover: WooCommerce Orders with the AJAX product selector open.
+Capture scope: viewport.
+Context: Searching for test loads matching products and variations on demand while Subscription Products Only remains available before searching.
+Markers: None (clean originals requested).
 
-3. `03-backfill-complete-notice`
-Placement: after `## Order Type Backfill`
-Surface to cover: WooCommerce Orders backfill status notice.
-context: The live staging store currently has no unclassified orders, so the real backfill surface available for capture is the completion notice: All order types have been computed successfully.
-Markers:
-- `arrow pointing to the green success notice, label 'Backfill complete'`
-- `arrow pointing to the Compute Order Types area location above the filters, label 'Notice appears here when needed'`
-- `arrow pointing to the Type column below, label 'Classified orders'`
+3. 03-product-filter-applied
+Placement: after the selected-product explanation in ### Product Filter
+Surface to cover: WooCommerce Orders filtered to test normal product (#201).
+Capture scope: full page.
+Context: The selected product remains in the filter and the table, item count, and summary panel recalculate to the two matching orders.
+Markers: None (clean originals requested).
 
+4. 04-subscription-products-only
+Placement: after #### Subscription Products Only
+Surface to cover: WooCommerce Orders filtered to Subscription Products Only.
+Capture scope: full page.
+Context: The shortcut is selected and the Orders list plus summary panel recalculate to the 36 orders containing subscription products.
+Markers: None (clean originals requested).
 
+5. 05-order-list-type-filter-applied
+Placement: after ### Type Filter
+Surface to cover: WooCommerce Orders filtered to Subs Renew.
+Capture scope: full page.
+Context: The Type selector, summary panel, item count, and order badges all show the 19 matching renewal orders.
+Markers: None (clean originals requested).
 
-Annotation notes (2026-06-23):
-- Reprocessed all three order-list enhancement screenshots as annotated variants with #873EFF, crop enabled, and steps=3.
-- Used essential labels only: two labels per image.
-- Generated order-list-enhancements.ASSETS/01-order-list-overview-annotated.png, 02-coupon-subscription-filter-annotated.png, and 03-backfill-complete-notice-annotated.png.
-- Verification: 6 labels resolved, 0 unresolved.
+6. 06-backfill-complete-notice
+Placement: after ### How to Run the Backfill
+Surface to cover: WooCommerce Orders backfill completion state.
+Capture scope: viewport.
+Context: The clean Orders page shows the successful classification notice above the current filters, summary panel, and classified rows.
+Markers: None (clean originals requested).
+
+Refresh notes (2026-08-31):
+- Replaced the stale All Orders dropdown or toggle documentation with the AJAX-searchable All Products workflow.
+- Documented exact-product filtering, the immediate Subscription Products Only shortcut, and filtered count or report behavior.
+- Captured and visually verified all six clean original screenshots twice.
+- No annotated or marker variants were created, per user request.
