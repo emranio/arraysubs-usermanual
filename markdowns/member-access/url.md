@@ -81,10 +81,19 @@ Use this tab for:
 - Use exclusions to carve out public pages from a broad protected path.
 - If the protected resource is really WooCommerce product access, use [Shop Access](ecommerce.md) instead.
 
+## Per-Post Restrictions Win
+
+![URL tab showing the Priority note about per-post restrictions](per-post-access-restriction.ASSETS/16-url-rules-priority-note-original.png)
+
+A restriction set directly on a post or page — the **Access Restriction** panel in the block editor sidebar, or the **ArraySubs Access Restriction** metabox in the classic editor — always beats the rules on this tab.
+
+If a URL rule matches a post that carries its own restriction, the URL rule is skipped for that post, including its **THEN** action. Overlaps are listed on **Member Access -> Conflicts**.
+
 ## Related Guides
 
+- [Per-Post Access Restriction](per-post-access-restriction.md) — Gate one post or page from the editor; takes priority over these rules.
 - [Post Types](post-types.md) — Restrict posts and pages by content type instead of raw URL pattern.
-- [Conflicts](conflicts.md) — Review URL rules that overlap higher-priority per-post overrides.
+- [Conflicts](conflicts.md) — Review Members Access rules that overlap higher-priority per-post restrictions.
 - [Access-Rule Conflicts](../audits-and-logs/access-rule-conflicts.md) — Deeper troubleshooting guide.
 
 ## FAQ

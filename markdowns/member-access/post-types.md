@@ -33,7 +33,7 @@ Use this tab when:
 
 ## How Post Types Rules Work
 
-When a visitor loads content, ArraySubs evaluates the matching Post Types rules and any higher-priority per-post restriction meta on that content.
+When a visitor loads content, ArraySubs first checks whether that single item has its own per-post restriction. If it does, the per-post restriction decides everything and the rules on this tab are skipped for that item. Otherwise ArraySubs evaluates the matching Post Types rules.
 
 Supported target modes:
 
@@ -73,15 +73,26 @@ Supported target modes:
 | **Show with lock icon** | Items stay visible in listings but signal that access is restricted |
 | **Show normally (restrict content only)** | Listings stay normal; restriction happens on the single content view |
 
-## Per-Post Restrictions
+## Per-Post Restrictions Win
 
-Per-post restriction meta has higher priority than broad Post Types rules. If a single post has its own restriction enabled, that per-post rule wins for that post. That includes the per-post enabled flag, custom conditions, and custom denied message stored directly on the content.
+![Post Types tab showing the Priority note about per-post restrictions](per-post-access-restriction.ASSETS/15-cpt-rules-priority-note-original.png)
+
+A restriction set directly on a post or page — the **Access Restriction** panel in the block editor sidebar, or the **ArraySubs Access Restriction** metabox in the classic editor — always beats the rules on this tab.
+
+While a post carries its own restriction:
+
+- Every Post Types rule that covers it is skipped for that post.
+- The rule's **Archive Behavior** is skipped too, so the post keeps appearing in archives and listings even if the rule says **Hide**.
+- The rule's **THEN** action never runs; the per-post denied action (message or redirect) is used instead.
+
+Overlaps are listed on **Member Access -> Conflicts**, where you can compare both rules side by side and disable the one you no longer need.
 
 ## Related Guides
 
+- [Per-Post Access Restriction](per-post-access-restriction.md) — Gate one post or page from the editor; takes priority over these rules.
 - [URL](url.md) — Protect path patterns instead of post content structures.
 - [Content Gate](content-gate.md) — Use when only part of the page should be protected instead of the whole post.
-- [Conflicts](conflicts.md) — Review overlaps between URL rules and more specific post-level overrides.
+- [Conflicts](conflicts.md) — Review overlaps between Members Access rules and more specific per-post restrictions.
 
 ## FAQ
 

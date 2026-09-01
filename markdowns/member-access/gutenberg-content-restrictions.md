@@ -109,7 +109,7 @@ When a visitor does not qualify:
 - If the message is empty, ArraySubs uses the global restricted-content message.
 - If **Require Login** is enabled and the visitor is logged out, the login-required message is shown first.
 
-The block is for partial-page gating. It does not redirect the whole page when access is denied. Use **Member Access -> URL** or **Post Types** rules when you need full-page redirects.
+The block is for partial-page gating. It does not redirect the whole page when access is denied. When the whole page should be gated — or when denied visitors should be redirected somewhere else — use the [Per-Post Access Restriction](per-post-access-restriction.md) control in the editor sidebar, or a **Member Access -> URL** / **Post Types** rule.
 
 ## Common Patterns
 
@@ -172,5 +172,6 @@ The block is for partial-page gating. It does not redirect the whole page when a
 - [Content Gating Shortcodes](../shortcodes/content-gating.md) — Manual shortcode wrappers for inline content.
 - [Scheduled / Drip Access](scheduled-drip-access.md) — Global restricted messages, redirects, drip schedules, and cache compatibility.
 - [Content Gate](content-gate.md) — the main Member Access guide tab for choosing Gutenberg, Elementor, shortcode, or PHP gating.
+- [Per-Post Access Restriction](per-post-access-restriction.md) — Gate the whole post or page, with a message or a redirect, from the editor sidebar.
 - [Post Types](post-types.md) — Full-page restrictions when the whole post or page should be gated.
 - [Feature Manager](../feature-manager/README.md) — Define plan features used by feature-gated content.

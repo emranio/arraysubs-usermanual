@@ -107,8 +107,14 @@ These pages mirror the actual tabs in the plugin UI:
 - [Downloads](downloads.md) — Provision gated files to qualifying customers through My Account.
 - [Comments](comments.md) — Hide comments, block posting, or separate reading from reply access.
 - [Purchase Limit](purchase-limit.md) — Cap product or order quantities for matching or non-matching audiences.
-- [Conflicts](conflicts.md) — Review URL-rule overlaps with higher-priority per-post overrides.
+- [Conflicts](conflicts.md) — Review Members Access rules that overlap higher-priority per-post restrictions.
 - [Login Limit](login-limit.md) *(Pro)* — Related concurrent-session controls managed by the Pro extension.
+
+## Restricting a Single Post or Page
+
+Not every restriction needs a rule. Every post, page, and custom post type entry also has its own **Access Restriction** control in the editor, using the same conditions as the rules above plus a redirect option. A per-post restriction takes priority over every URL and Post Types rule for that one piece of content.
+
+- [Per-Post Access Restriction](per-post-access-restriction.md) — Gate one post, page, or CPT entry from the editor sidebar or metabox.
 
 ## Related Guides
 
