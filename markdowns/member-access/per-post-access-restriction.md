@@ -1,7 +1,7 @@
 # Info
 - Module: Per-Post Access Restriction
 - Availability: Free (Plan Feature conditions require Pro)
-- Last updated: 2026-09-01
+- Last updated: 2026-09-02
 
 # Per-Post Access Restriction
 
@@ -79,13 +79,15 @@ A per-post restriction is evaluated **before** every Members Access rule. See [P
 3. Click **Configure restriction** — or **Edit restriction** if one already exists.
 4. Turn on **Restrict access to this content**.
 5. Choose the **Restriction Type**.
-6. Configure the access rules.
-7. Choose what happens **When Access Is Denied**.
+6. Choose what happens **When Access Is Denied**.
+7. Configure the **Access Rules** or **Visibility** section shown for the selected restriction type.
 8. Click **Apply**.
 9. Save or update the post.
 10. Test the published page as a logged-out visitor, a non-qualifying customer, and a qualifying member.
 
-![Configuration modal showing the enable toggle, the priority notice, and the Restriction Type selector](per-post-access-restriction.ASSETS/02-modal-top-original.png)
+The modal keeps each configuration area in its own permanent section, with **When Access Is Denied** immediately after **Restriction Type**.
+
+![Configuration modal showing the enable toggle, notices, and permanent Restriction Type and When Access Is Denied sections](per-post-access-restriction.ASSETS/02-modal-top-original.png)
 
 ## Restriction Types
 
@@ -129,7 +131,7 @@ Leave a field empty to skip that rule entirely. Only the fields you fill in are 
 
 ### Plan Feature *(Pro)*
 
-![Plan Feature panel with a feature selected and the How To Check It selector](per-post-access-restriction.ASSETS/05-modal-plan-feature-original.png)
+![Plan Feature section with a feature selected, a combined-amount check, and the required amount](per-post-access-restriction.ASSETS/05-modal-plan-feature-original.png)
 
 Feature gating checks entitlements defined with Feature Manager on your subscription products (**Product -> Features**). Use it when content should unlock because of what a plan *includes*, not because of which product was bought.
 
