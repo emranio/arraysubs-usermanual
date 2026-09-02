@@ -53,6 +53,28 @@
           data-sidebar-overlay
         ></button>
         <main class="docs-shell__main" id="main-content">
+          <section
+            class="docs-release-notice"
+            aria-label="Upcoming ArraySubs release"
+          >
+            <div class="docs-release-notice__copy">
+              <span class="docs-release-notice__icon" aria-hidden="true">✦</span>
+              <p>
+                <strong>A major ArraySubs release arrives 5 September 2026.</strong>
+                New selling tools, gateways, AI analytics, reports, content
+                gates, integrations, and much more are almost here.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="docs-release-notice__button"
+              data-release-announcement-open
+              aria-haspopup="dialog"
+              aria-controls="docs-release-announcement-dialog"
+            >
+              Show details
+            </button>
+          </section>
           {{breadcrumb}}
           <article class="docs-article" aria-labelledby="page-title">
             <header class="docs-page-header">
@@ -70,6 +92,66 @@
         <aside class="docs-shell__toc docs-toc-panel" aria-label="On this page">
           {{toc}}
         </aside>
+      </div>
+      <div
+        class="docs-release-announcement"
+        data-release-announcement
+        hidden
+        role="presentation"
+      >
+        <div
+          class="docs-release-announcement__dialog"
+          id="docs-release-announcement-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="docs-release-announcement-title"
+          aria-describedby="docs-release-announcement-description"
+          tabindex="-1"
+        >
+          <div class="docs-release-announcement__header">
+            <div>
+              <h2 id="docs-release-announcement-title">
+                A major ArraySubs release is almost here
+              </h2>
+              <p id="docs-release-announcement-description">
+                A bigger, smarter subscription toolkit is arriving with new
+                ways to sell, automate, analyze, and retain customers.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="docs-release-announcement__close"
+              data-release-announcement-close
+              aria-label="Close release announcement"
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </button>
+          </div>
+          <ul class="docs-release-announcement__highlights">
+            <li>Highly customizable subscription boxes</li>
+            <li>Highly customizable subscription bundles</li>
+            <li>New payment gateways, including Mollie</li>
+            <li>All automatic payment gateways moved into the free ArraySubs core plugin</li>
+            <li>A fix for the reported automatic-payment bug</li>
+            <li>AI-powered churn prediction analytics</li>
+            <li>AI-powered revenue forecasting</li>
+            <li>A completely redesigned retention analytics report</li>
+            <li>A dedicated reporting dashboard for all subscriptions</li>
+            <li>Content-gate rules directly on pages, posts, and custom post types</li>
+            <li>Support for third-party LMS and CRM plugins</li>
+            <li>Refined visuals and UI throughout, plus many more improvements</li>
+          </ul>
+          <p class="docs-release-announcement__footnote">
+            <span class="docs-release-announcement__footnote-marker" aria-hidden="true">*</span>
+            <span>
+              This major version is scheduled for release on
+              <time datetime="2026-09-05">5 September 2026</time>.
+            </span>
+          </p>
+        </div>
       </div>
       <div
         class="docs-cookie-preferences"

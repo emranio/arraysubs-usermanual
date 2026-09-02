@@ -214,6 +214,136 @@
     });
   }
 
+  function initReleaseAnnouncement() {
+    var modal = document.querySelector("[data-release-announcement]");
+    var dialog = document.querySelector(
+      ".docs-release-announcement__dialog",
+    );
+    var closeButton = document.querySelector(
+      "[data-release-announcement-close]",
+    );
+    var openButtons = document.querySelectorAll(
+      "[data-release-announcement-open]",
+    );
+    var dismissedAtKey = "arraysubs_release_2026_09_dismissed_at";
+    var dismissalWindowMs = 60 * 60 * 1000;
+    var autoOpenDelayMs = 7000;
+    var timer = null;
+    var previousFocus = null;
+
+    if (!modal || !dialog || !closeButton) {
+      return;
+    }
+
+    function wasRecentlyDismissed() {
+      try {
+        var dismissedAt = parseInt(
+          window.localStorage.getItem(dismissedAtKey) || "",
+          10,
+        );
+
+        return (
+          Number.isFinite(dismissedAt) &&
+          Date.now() - dismissedAt < dismissalWindowMs
+        );
+      } catch (error) {
+        return false;
+      }
+    }
+
+    function rememberDismissal() {
+      try {
+        window.localStorage.setItem(dismissedAtKey, String(Date.now()));
+      } catch (error) {
+        // Storage can be unavailable in restricted browser modes. Closing the
+        // announcement should still work for the current page.
+      }
+    }
+
+    function getFocusableElements() {
+      return dialog.querySelectorAll(
+        "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])",
+      );
+    }
+
+    function openAnnouncement() {
+      if (timer !== null) {
+        window.clearTimeout(timer);
+        timer = null;
+      }
+
+      previousFocus =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
+      modal.hidden = false;
+      document.body.classList.add("docs-release-announcement-visible");
+
+      window.requestAnimationFrame(function () {
+        closeButton.focus();
+      });
+    }
+
+    function closeAnnouncement() {
+      modal.hidden = true;
+      document.body.classList.remove("docs-release-announcement-visible");
+      rememberDismissal();
+
+      if (previousFocus) {
+        previousFocus.focus();
+        previousFocus = null;
+      }
+    }
+
+    function handleKeydown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeAnnouncement();
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      var focusable = getFocusableElements();
+
+      if (!focusable.length) {
+        return;
+      }
+
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    openButtons.forEach(function (button) {
+      button.addEventListener("click", openAnnouncement);
+    });
+    closeButton.addEventListener("click", closeAnnouncement);
+    dialog.addEventListener("keydown", handleKeydown);
+    modal.addEventListener("mousedown", function (event) {
+      if (event.target === modal) {
+        closeAnnouncement();
+      }
+    });
+    window.addEventListener(
+      "arraysubs:open-release-announcement",
+      openAnnouncement,
+    );
+
+    if (!wasRecentlyDismissed()) {
+      timer = window.setTimeout(openAnnouncement, autoOpenDelayMs);
+    }
+  }
+
   function initCookieConsent() {
     var preferenceButtons = document.querySelectorAll("[data-cookie-preferences]");
     var preferenceModal = document.querySelector("[data-cookie-preferences-modal]");
@@ -508,6 +638,7 @@
     initCopyButtons();
     initTocHighlight();
     initSmoothScroll();
+    initReleaseAnnouncement();
     initCookieConsent();
   });
 })();
