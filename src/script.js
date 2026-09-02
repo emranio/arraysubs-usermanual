@@ -227,7 +227,7 @@
     );
     var dismissedAtKey = "arraysubs_release_2026_09_dismissed_at";
     var dismissalWindowMs = 60 * 60 * 1000;
-    var autoOpenDelayMs = 7000;
+    var autoOpenDelayMs = 5000;
     var timer = null;
     var previousFocus = null;
 
