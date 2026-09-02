@@ -24,12 +24,13 @@
 
 The **Manage Subscriptions** area is where you spend most of your day-to-day time as a subscription merchant. From here you can browse all subscriptions, create new ones manually, edit billing details, review order history, track lifecycle changes, and take action on individual subscriptions.
 
-This section covers four main areas:
+This section covers five main areas:
 
 | Area | What It Covers |
 |------|----------------|
 | [Subscription Operations](subscription-operations.md) | The subscriptions list, creating a subscription, editing a subscription, and the subscription detail screen |
-| [Admin Tools and Records](admin-tools-and-records.md) | Subscription notes, feature log (**Pro**), related orders and refund history, and CSV/JSON export |
+| [Subscription Data Export](subscription-data-export.md) | Downloading subscriptions as CSV, the column picker, and the shipping-address columns used for label printing |
+| [Admin Tools and Records](admin-tools-and-records.md) | Subscription notes, feature log (**Pro**), and related orders and refund history |
 | [Subscription Detail Cards](subscription-detail-cards.md) | Every information card on the detail screen — cancellation, skip & pause, coupon, gateway (**Pro**), checkout fields (**Pro**), and shipping (**Pro**) |
 | [Lifecycle Management](lifecycle-management.md) | How subscriptions move through statuses — activation, renewals, grace periods, cancellation, expiration, trials, and email triggers |
 
@@ -39,6 +40,7 @@ This section covers four main areas:
 - You want to create a subscription manually (for phone orders, migrations, or exceptions).
 - You need to reschedule a renewal, update an address, or change a subscription's status.
 - You want to review payment history, refund records, or admin notes for a specific subscription.
+- You need subscription data outside WordPress — a shipping label sheet, a revenue spreadsheet, or a file for a fulfilment partner.
 - You need to understand what happens at each stage of a subscription's life.
 
 ## Before You Create Subscriptions
@@ -63,6 +65,7 @@ Navigate to **ArraySubs → Subscriptions** in the WordPress admin sidebar. This
 
 ## Related Guides
 
+- [Subscription Data Export](subscription-data-export.md)
 - [Getting Started — Essential Daily Workflows](../getting-started/essential-daily-workflows.md)
 - [Subscription Products — Create and Configure](../subscription-products/create-and-configure.md)
 - [Settings — General Settings](../settings/general-settings.md)

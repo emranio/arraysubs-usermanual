@@ -109,8 +109,9 @@ Create, configure, and manage subscription products in WooCommerce.
 View, create, edit, and manage every subscription in your store.
 
 - [Overview](manage-subscriptions/README.md) — Section overview and quick reference.
-- [Subscription Operations](manage-subscriptions/subscription-operations.md) — All Subscriptions list, creating and editing subscriptions, the detail screen, and CSV export.
-- [Admin Tools and Records](manage-subscriptions/admin-tools-and-records.md) — Subscription notes, feature log *(Pro)*, related orders and refund history, and data export.
+- [Subscription Operations](manage-subscriptions/subscription-operations.md) — All Subscriptions list, creating and editing subscriptions, and the detail screen.
+- [Subscription Data Export](manage-subscriptions/subscription-data-export.md) — CSV export, the column picker, and shipping-address columns for bulk label printing.
+- [Admin Tools and Records](manage-subscriptions/admin-tools-and-records.md) — Subscription notes, feature log *(Pro)*, and related orders and refund history.
 - [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) — Cancellation, skip & pause, coupon, gateway *(Pro)*, checkout fields *(Pro)*, and shipping *(Pro)* cards.
 - [Lifecycle Management](manage-subscriptions/lifecycle-management.md) — Status transitions, renewal flow, grace periods, cancellation, expiration, trials, and email triggers.
 

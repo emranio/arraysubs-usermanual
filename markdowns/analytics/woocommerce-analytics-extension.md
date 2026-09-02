@@ -1,7 +1,7 @@
 # Info
 - Module: WooCommerce Analytics Extension
 - Availability: Pro
-- Last updated: 2026-07-27
+- Last updated: 2026-09-03
 
 # WooCommerce Analytics Extension *(Pro)*
 
@@ -28,7 +28,7 @@ The WooCommerce Analytics Extension adds subscription-aware columns, filters, an
 | **Revenue** | Three subscription revenue summary cards |
 | **Products** | Subscription products only filter |
 | **Variations** | Subscription variations only filter |
-| **Customers** | Member details quick link |
+| **Customers** | Subscription Status column, advanced Subscription Status filter (include/exclude), member details quick link |
 
 These additions appear automatically when ArraySubs Pro is active. No setup is required — the extensions integrate directly into the existing WooCommerce Analytics UI.
 
@@ -37,6 +37,8 @@ These additions appear automatically when ArraySubs Pro is active. No setup is r
 - Segment your order reports to see only renewal orders, trial orders, or plan switch orders.
 - Measure how much revenue comes from subscription renewals versus upgrades versus credit purchases.
 - Analyze product performance for subscription products only, excluding one-time purchases.
+- See at a glance which subscriptions each customer holds, without opening a single record.
+- Narrow the customer report to everyone who holds an active subscription — or everyone who does not — before exporting or following up.
 - Navigate from a customer row in the analytics report to their full member profile in ArraySubs.
 - Build advanced filters to exclude specific order types from your analysis (for example, exclude "Other" to focus purely on subscription-related orders).
 
@@ -172,6 +174,37 @@ The filter checks both the variation's own meta and the parent product's subscri
 
 Navigate to **WooCommerce → Analytics → Customers** to see the enhanced customers report.
 
+### Subscription Status Column
+
+A **Subscription Status** column appears after the Username column, listing every subscription status that customer currently holds. A customer with four active subscriptions and fifteen cancelled ones reads as `Active (4), Cancelled (15)` — the count is shown only when they hold more than one in that state, and the statuses are always listed in the same order so rows stay easy to scan.
+
+Customers with no subscriptions show an em dash.
+
+![Customers report showing the Subscription Status column](woocommerce-analytics-extension.ASSETS/09-customers-subscription-status-column-original.png)
+
+Like every other column in the report, it can be switched off from the **⋮** menu above the table. With the Username column hidden, Subscription Status moves up next to Name.
+
+### Subscription Status Filter
+
+Switch the **Show** dropdown from *All Customers* to **Advanced filters**, click **Add a filter**, and choose **Subscription Status**.
+
+![The Add a filter list on the Customers report, with Subscription Status available](woocommerce-analytics-extension.ASSETS/10-customers-add-subscription-status-filter-original.png)
+
+The rule row has two parts:
+
+- **Is** — Show only customers who hold at least one subscription in the selected status.
+- **Is Not** — Show only customers who hold **no** subscription in that status.
+
+![Customers report filtered to customers holding an active subscription](woocommerce-analytics-extension.ASSETS/11-customers-subscription-status-filter-original.png)
+
+Add the rule more than once to build precise segments. With **Customers match All filters**, `Subscription Status Is Active` plus `Subscription Status Is Not Cancelled` gives you every currently subscribed customer who has never cancelled. Switch the match dropdown to **Any** and the same two rules return customers who satisfy either condition.
+
+```box class="info-box"
+Each rule is evaluated on its own, because a customer can hold several subscriptions at once. Two **Is** rules under **match All** means "holds one of each" — not "holds one that is somehow both".
+```
+
+The filter applies to the summary numbers above the table as well as the rows themselves, so the customer count always matches what you are looking at.
+
 ### Member Details Link
 
 Below each customer's username in the report table, a **Member details** link appears. Clicking it navigates directly to the customer's full member profile in the ArraySubs admin panel, where you can view their subscription history, order history, store credit balance, and more.
@@ -196,6 +229,10 @@ A product manager launches new pricing tiers and wants to track how many custome
 
 A merchant with 50 products (20 subscription, 30 one-time) wants to see how their subscription products are performing relative to each other. They navigate to **Analytics → Products**, select **Subscription Products Only** from the Product Type filter, and compare items sold, net revenue, and orders across subscription products only.
 
+### Following Up With Lapsed Subscribers
+
+A store owner wants a list of customers who used to subscribe but no longer do. They open **Analytics → Customers**, switch to **Advanced filters**, and add two rules: `Subscription Status Is Cancelled` and `Subscription Status Is Not Active`, with **Customers match All filters**. What comes back is every customer with a cancelled subscription and nothing active — a ready-made win-back list, with the Subscription Status column showing exactly what each of them had.
+
 ### Deep-Diving into a Customer
 
 While reviewing the Customers report, a store owner notices a high-value customer. They click **Member details** beneath the username to jump straight to the ArraySubs member profile, where they can see active subscriptions, total spending, store credit balance, and more.
@@ -208,6 +245,9 @@ While reviewing the Customers report, a store owner notices a high-value custome
 - **Backfill required for pre-existing orders.** Orders created before the Pro plugin was activated will not have type metadata. Use the backfill tool on the WooCommerce Orders page — see [Order List Enhancements](order-list-enhancements.md) — to classify them.
 - **HPOS and legacy storage are both supported.** The extension automatically detects your store's order storage mode and adjusts its queries accordingly. No configuration is needed.
 - **Advanced filters use AND logic by default.** When combining a Type filter with a Coupon filter or Subscription-Only filter, all conditions must match. Add `match=any` to the URL to switch to OR logic.
+- **Subscription Status counts every subscription, whatever its age.** The column and the filter look at all of a customer's subscription records, not just those inside the report's date range. The date range still controls which customers appear.
+- **Guest customers never match a subscription status.** Rows without a WordPress user account cannot own a subscription, so they show an em dash and are excluded by any `Is` rule.
+- **The Subscription Status column cannot be sorted.** The value is assembled per customer rather than stored in the report tables. Use the Subscription Status filter to narrow the list instead.
 - **Revenue cards show completed and processing orders only.** Pending, failed, and refunded orders are excluded from the subscription revenue calculations.
 
 ---
@@ -238,6 +278,9 @@ Make sure ArraySubs Pro is activated. The Type column is injected automatically;
 
 ### What if an order qualifies for multiple types?
 The classification uses a strict priority: Credit Purchase → Subs Trial → Subs Renew → Subs Upgrade → Subs Purchase → Other. The first matching type wins. An order is always assigned exactly one type.
+
+### What does a Subscription Status of "Active (3), On Hold" mean?
+That customer holds four subscriptions: three currently active and one on hold. The number in brackets appears only when there is more than one subscription in that state.
 
 ### Do the Revenue cards include refunded amounts?
 No. Only orders with `completed` or `processing` status are included. Fully refunded orders are excluded from the subscription revenue card totals.

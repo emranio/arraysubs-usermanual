@@ -25,7 +25,7 @@ Beyond browsing and editing subscriptions, ArraySubs gives you a set of tools fo
 - **Subscription Notes** — an activity log of every change, plus a space for your own admin notes. See the dedicated [Subscription Notes](../subscription-notes/README.md) module guide.
 - **Feature Log** — a per-customer view of subscription entitlements and usage (**Pro**).
 - **Related Orders and Refund History** — every order and refund linked to a subscription.
-- **Export Subscriptions** — download subscription data as CSV or JSON.
+- **Export Subscriptions** — download subscription data as CSV or JSON. Full guide: [Subscription Data Export](subscription-data-export.md).
 
 ---
 
@@ -121,55 +121,13 @@ Orders are displayed in chronological order. The full list is loaded with the su
 
 ## Export Subscriptions
 
-![All Subscriptions list — Export CSV button and status filters](README.ASSETS/01-subscriptions-list-overview-annotated.png)
+![All Subscriptions list — Export CSV button and column picker](README.ASSETS/01-subscriptions-list-overview-annotated.png)
 
-ArraySubs lets you download subscription data for reporting, migration, or backup purposes.
+Subscription data can be downloaded as a CSV from **ArraySubs → Subscriptions**. You choose which of the 47 available columns the file contains — subscription details, customer identity, and the full shipping and billing addresses — and the selection is remembered for next time. The same data is available as JSON through the REST API.
 
-### How to Export
-
-1. Go to **ArraySubs → Subscriptions**.
-2. Optionally, switch to a specific status tab to filter the export.
-3. Click the **Export CSV** button at the top of the list.
-4. A file downloads automatically to your browser.
-
-### Export Formats
-
-| Format | How to Access |
-|--------|---------------|
-| **CSV** | Click the Export CSV button in the admin list |
-| **JSON** | Call the REST endpoint directly: `GET /arraysubs/v1/subscriptions/export?format=json` |
-
-### Export Fields
-
-The CSV export includes 15 columns:
-
-| Field | Description |
-|-------|-------------|
-| Subscription ID | Internal post ID |
-| Status | Localized status label (e.g., "Active", "Cancelled") |
-| Customer Name | Display name of the subscription owner |
-| Customer Email | Customer's email address |
-| Product Name | Name of the linked subscription product |
-| Recurring Amount | Numeric recurring price |
-| Currency | Three-letter currency code (e.g., USD) |
-| Billing Cycle | Formatted as "1 month", "2 week", etc. |
-| Start Date | When the subscription started |
-| Next Payment Date | Next scheduled renewal |
-| Last Payment Date | Most recent successful payment |
-| End Date | When the subscription ended (blank if still active) |
-| Total Payments | Count of completed renewal payments |
-| Payment Method | Payment method title (e.g., "Stripe", "Bank Transfer") |
-| Created Date | When the subscription record was created |
-
-### Filtering
-
-The export respects the current status filter. If you are viewing the **Active** tab, only active subscriptions are exported. If you are on the **All** tab, every subscription is included.
-
-### File Details
-
-- **Encoding**: UTF-8 with BOM header (Excel compatibility).
-- **Filename**: `subscriptions-export-YYYY-MM-DD-HHmmss.csv`.
-- **Field Escaping**: Values containing commas or quotes are properly escaped with double-quote wrapping.
+```box class="info-box"
+Exporting has its own guide: [Subscription Data Export](subscription-data-export.md) covers the column picker, the complete column catalogue, the shipping-label workflow, file details, and the JSON endpoint.
+```
 
 ---
 
@@ -185,7 +143,7 @@ A customer claims they should have 100 downloads per month but only see 50. Open
 
 ### Use Case 3: Monthly Revenue Report
 
-At the end of each month, go to **Subscriptions**, filter by **Active**, and click **Export CSV**. Open the file in a spreadsheet to calculate monthly recurring revenue from the Recurring Amount column.
+At the end of each month, go to **Subscriptions**, filter by **Active**, and click **Export CSV**. Open the file in a spreadsheet to calculate monthly recurring revenue from the Recurring Amount column. See [Subscription Data Export](subscription-data-export.md) for choosing the columns.
 
 ### Use Case 4: Documenting an Admin Action
 
@@ -199,7 +157,6 @@ Before making a manual change to a subscription (like updating the invoice email
 |---------|--------------|------------|
 | Notes panel is empty on a subscription | The subscription is newly created with no events yet | System notes are created as events occur (status changes, payments, etc.). Add a manual note if needed. |
 | Feature Log page shows "No features found" | The customer has no active subscriptions with Feature Manager products, or the feature is not configured | Verify the simple subscription product has features defined in the Feature Manager [AS] tab, or check the Feature Manager section inside the relevant variation |
-| Export CSV file is empty | No subscriptions match the current status filter | Switch to the **All** tab and export again |
 | Refund amounts do not appear in Order History | The refund was processed outside WooCommerce (e.g., directly in the payment gateway dashboard) | Process refunds through WooCommerce so they are recorded on the order and reflected in the subscription |
 
 ---
@@ -207,6 +164,7 @@ Before making a manual change to a subscription (like updating the invoice email
 ## Related Guides
 
 - [Subscription Operations](subscription-operations.md) — the full subscription list, create, edit, and detail screens
+- [Subscription Data Export](subscription-data-export.md) — CSV export, the column picker, and shipping-address columns
 - [Subscription Detail Cards](subscription-detail-cards.md) — the conditional cards for cancellation, coupon, and more
 - [Lifecycle Management](lifecycle-management.md) — understanding the events that create system notes
 - [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) *(Pro)* — order type columns, filters, and the embedded report panel on the WooCommerce Orders page
@@ -222,7 +180,7 @@ No. Private notes are only visible to users with admin access. Only notes create
 No. System-generated notes cannot be edited. You can delete them, but the content cannot be modified after creation.
 
 ### Can I export subscriptions in a format other than CSV?
-Yes. The REST endpoint supports JSON format: `GET /arraysubs/v1/subscriptions/export?format=json`. This returns the same data structure as the CSV but as a JSON array.
+Yes. The REST endpoint supports JSON: `GET /wp-json/arraysubs/v1/subscriptions/export?format=json`. It returns the same columns as the CSV, one object per subscription. See [Subscription Data Export](subscription-data-export.md).
 
 ### Does the Feature Log show cancelled subscriptions?
 The Feature Log displays features from the customer's active subscriptions. Cancelled or expired subscriptions are not included in the entitlement calculation.

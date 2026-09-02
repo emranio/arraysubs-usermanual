@@ -1191,3 +1191,9 @@
 {"timestamp":"2026-09-02T20:16:18.254870255+02:00","action":"edit","task_id":119,"detail":"Refresh: customer portal subscription detail screenshots"}
 {"timestamp":"2026-09-02T20:16:18.256908795+02:00","action":"release","task_id":119,"detail":"twig-hazel"}
 {"timestamp":"2026-09-02T20:16:18.376774586+02:00","action":"move","task_id":119,"detail":"in-progress -\u003e done"}
+{"timestamp":"2026-09-03T02:39:51.155717+06:00","action":"move","task_id":48,"detail":"done -\u003e in-progress"}
+{"timestamp":"2026-09-03T02:47:20.135191+06:00","action":"edit","task_id":48,"detail":"getting-started - easy-setup-wizard.md"}
+{"timestamp":"2026-09-03T02:47:20.160813+06:00","action":"move","task_id":48,"detail":"in-progress -\u003e done"}
+{"timestamp":"2026-09-03T02:47:24.013392+06:00","action":"move","task_id":51,"detail":"done -\u003e in-progress"}
+{"timestamp":"2026-09-03T02:53:19.547015+06:00","action":"edit","task_id":51,"detail":"getting-started - import-export-settings.md"}
+{"timestamp":"2026-09-03T02:57:41.637716+06:00","action":"move","task_id":51,"detail":"in-progress -\u003e done"}

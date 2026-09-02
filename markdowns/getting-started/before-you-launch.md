@@ -381,7 +381,7 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | All Subscriptions list with filters | ✅ | ✅ |
 | Create and edit subscriptions | ✅ | ✅ |
 | Subscription notes and timeline | ✅ | ✅ |
-| Export subscriptions (CSV, JSON) | ✅ | ✅ |
+| Export subscriptions (CSV, JSON) with selectable columns | ✅ | ✅ |
 | Subscription email notifications | ✅ | ✅ |
 | Overview analytics dashboard | — | ✅ |
 | WooCommerce Analytics extension (order types, subscription filters) | — | ✅ |

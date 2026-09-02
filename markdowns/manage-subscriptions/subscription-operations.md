@@ -91,26 +91,13 @@ You cannot delete Active or Trial subscriptions. Cancel the subscription first, 
 
 ### Exporting Subscriptions
 
-Click the **Export CSV** button at the top of the list to download all subscriptions as a CSV file. The export includes 15 fields:
+Two controls sit at the right of the toolbar. **Export CSV** downloads the list as a spreadsheet file, and the icon beside it opens a picker where you choose which of the 47 available columns the file contains — including the customer's shipping address, for label printing.
 
-| | |
-|---|---|
-| Subscription ID | Status |
-| Customer Name | Customer Email |
-| Product Name | Recurring Amount |
-| Currency | Billing Cycle |
-| Start Date | Next Payment Date |
-| Last Payment Date | End Date |
-| Total Payments | Payment Method |
-| Created Date | |
-
-The file is UTF-8 encoded with a BOM header for Excel compatibility. The filename includes the current date and time — for example, `subscriptions-export-2026-04-01-143022.csv`.
+The download always matches what the list is showing: the status tab, the gateway filter, and the search box all carry over, and pagination is ignored.
 
 ```box class="info-box"
-The export downloads **all** subscriptions matching the current status filter. To export only active subscriptions, switch to the Active tab first.
+See [Subscription Data Export](subscription-data-export.md) for the full column catalogue, the shipping-label workflow, file details, and the JSON endpoint.
 ```
-
-You can also export in JSON format by calling the REST endpoint directly: `GET /arraysubs/v1/subscriptions/export?format=json`.
 
 ### Pagination
 
@@ -457,14 +444,14 @@ A customer asks to stop their subscription but wants to keep access until their 
 | Cannot delete a subscription | The subscription is Active or in Trial | Cancel the subscription first, then delete it |
 | Product fields do not auto-fill when selecting a product | The product does not have subscription data configured | Verify the product is a subscription product with billing period, interval, and price set |
 | Status change to Active does not schedule renewals | The scheduler is not running, or the subscription billing configuration is invalid | Check **WooCommerce → Status → Scheduled Actions**, confirm the billing interval and period are correct, and verify the detail screen shows a valid automatically calculated next payment date |
-| Export CSV opens garbled in Excel | Excel not detecting UTF-8 encoding | The CSV includes a BOM header for Excel compatibility. Try opening with "Import from CSV" instead of double-clicking the file. |
 
 ---
 
 ## Related Guides
 
 - [Subscription Detail Cards](subscription-detail-cards.md) — deep dive into every conditional card on the detail screen
-- [Admin Tools and Records](admin-tools-and-records.md) — notes, export, feature log, and order history
+- [Subscription Data Export](subscription-data-export.md) — CSV export, the column picker, and shipping-address columns
+- [Admin Tools and Records](admin-tools-and-records.md) — notes, feature log, and order history
 - [Lifecycle Management](lifecycle-management.md) — the complete status transition system
 - [Subscription Products — Create and Configure](../subscription-products/create-and-configure.md) — setting up products before creating subscriptions
 - [Settings — General Settings](../settings/general-settings.md) — grace periods, email timing, and customer portal options
@@ -483,7 +470,7 @@ Not from the Edit screen. The product and variation are part of the subscription
 **View Details** is the read-only dashboard with all subscription information, timeline, order history, and notes. **Edit** is a focused form where you can update the invoice email, addresses, and subscription status.
 
 ### Can I export only certain statuses?
-The **Export CSV** button exports all subscriptions matching the current status filter. Switch to the status tab you want (e.g., Active) before clicking export to download only those subscriptions.
+Yes. The export matches whatever the list is showing, so switch to the status tab you want (e.g. Active) before clicking **Export CSV**. The gateway filter and the search box narrow it further. See [Subscription Data Export](subscription-data-export.md).
 
 ### What does "Login as Customer" do?
 It opens the store frontend in a new session logged in as that customer. This requires the Login as User module to be enabled. The button includes a back-URL so you can return to the admin dashboard.

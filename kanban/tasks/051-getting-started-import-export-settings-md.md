@@ -4,39 +4,64 @@ title: getting-started - import-export-settings.md
 status: done
 priority: medium
 created: 2026-06-09T18:08:34.858814+06:00
-updated: 2026-06-24T19:08:38.767908271+02:00
+updated: 2026-09-03T02:57:41.632648+06:00
 started: 2026-06-22T01:30:17.049975+06:00
-completed: 2026-06-24T19:08:38.767907069+02:00
-claimed_by: annotator
-claimed_at: 2026-06-24T19:08:38.767908171+02:00
+completed: 2026-09-03T02:57:41.63754+06:00
+claimed_by: codex
+claimed_at: 2026-09-03T02:57:41.632648+06:00
 class: standard
 ---
 
-1. `01-easy-setup-page` *(deduped from `user-manual/markdowns/getting-started/easy-setup-wizard.ASSETS/01-easy-setup-page-original.png`)*
-Placement: after `## Overview` or before `## Exporting Settings`
-Surface to cover: ArraySubs admin `/easy-setup` page before starting import.
-context: Shows the Setup Wizard, Export Settings, and Import Settings cards in one place, including the Export Settings and Import Settings buttons.
+1. `01-easy-setup-page` *(reused from `user-manual/markdowns/getting-started/easy-setup-wizard.ASSETS/01-easy-setup-page-original.png`)*
+Placement: after `## Overview`
+Surface to cover: ArraySubs admin Easy Setup page before export or import.
+Context: Shows Setup Wizard, Export Settings, and Import Settings cards together.
 Markers:
-- `arrow pointing to the Easy Setup page title, label 'Easy Setup route'`
-- `arrow pointing to Export Settings, label 'Download JSON backup'`
-- `arrow pointing to Import Settings, label 'Restore from JSON'`
-- `arrow pointing to Setup Wizard, label 'Related setup tool'`
+- None — clean original requested.
 
-2. `01-import-settings-entry`
-Placement: after `### Step 1 — Provide the JSON Data`
-Surface to cover: Import Settings card after clicking Import Settings.
-context: Shows the import entry form with Choose JSON File, paste textarea, Continue, and Cancel controls. No file was uploaded and no import was run.
+2. `01-export-settings-success-original.png`
+Placement: after `## Exporting Settings`
+Surface to cover: Easy Setup page immediately after selecting Export Settings.
+Context: Shows the successful export toast and all three Easy Setup cards.
 Markers:
-- `arrow pointing to Choose JSON File, label 'Upload export file'`
-- `arrow pointing to the textarea, label 'Paste JSON instead'`
-- `arrow pointing to Continue, label 'Validate import'`
-- `arrow pointing to Cancel, label 'Abort import'`
+- None — clean original requested.
+
+3. `02-import-settings-entry-original.png`
+Placement: after `### Step 1 — Provide the JSON Data`
+Surface to cover: Import Settings entry form.
+Context: Shows Choose JSON File, JSON textarea, Continue, and Cancel.
+Markers:
+- None — clean original requested.
+
+4. `03-import-section-selection-original.png`
+Placement: after `### Step 2 — Select Sections`
+Surface to cover: Valid v2 import after parsing.
+Context: Shows source metadata, portability warning, Select All, every one of the 13 current sections, Import Selected, and Cancel.
+Markers:
+- None — clean original requested.
+
+5. `04-import-confirmation-original.png`
+Placement: after `### Step 3 — Confirm the Import`
+Surface to cover: Confirm Import dialog.
+Context: Shows the exact replacement warning and Cancel / Import Settings controls.
+Markers:
+- None — clean original requested.
+
+6. `05-import-complete-original.png`
+Placement: after `### Step 4 — View Results`
+Surface to cover: Successful selective import result.
+Context: Shows Cart Info Editor imported, all unselected sections skipped, Dismiss, and the success toast.
+Markers:
+- None — clean original requested.
 
 Source update:
-- Updated `user-manual/markdowns/getting-started/import-export-settings.md` page navigation to point directly to `ArraySubs -> Easy Setup` and `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`.
+- Rewrote `user-manual/markdowns/getting-started/import-export-settings.md` for the current `arraysubs-settings` module `2.0.0`.
+- Documented the exact 13-section manifest, 5 MiB limit, 29 managed email rows, portable and excluded data, Pro-inactive behavior, cross-site warnings, and transactional rollback.
+- Embedded six clean original screenshots; no annotated images are referenced.
+- Updated the page date to 2026-09-03.
 
-
---- Annotation complete ---
-Annotated (#873EFF, --crop, --steps=3): 01-import-settings-entry (3).
-Reused: easy-setup-wizard.ASSETS/01-easy-setup-page-annotated.png (task 48).
-Source updated: getting-started/import-export-settings.md (2 image links).
+Verification:
+- Live export, parse, selection, confirmation, and selective same-site import completed successfully.
+- All screenshots were visually reviewed.
+- All Markdown image links resolve.
+- Documentation build completed successfully.

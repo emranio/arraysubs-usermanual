@@ -30,6 +30,7 @@
     [
         "manage-subscriptions/README.md",
         "manage-subscriptions/subscription-operations.md",
+        "manage-subscriptions/subscription-data-export.md",
         "manage-subscriptions/admin-tools-and-records.md",
         "manage-subscriptions/subscription-detail-cards.md",
         "manage-subscriptions/lifecycle-management.md"

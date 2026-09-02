@@ -300,4 +300,4 @@ Yes. Selecting a variable (parent) product automatically includes all its variat
 As far back as your subscription history goes. The backfill processes all historical cancelled subscriptions. The only limitation is that offer interaction data (shown, accepted, declined) is only available from the point when ArraySubs was actively logging events.
 
 ### Can I export the activity log?
-The activity log does not currently have a built-in export button. Use the Subscription CSV export from **ArraySubs → Subscriptions** for bulk subscription data exports.
+The activity log does not currently have a built-in export button. Use the [Subscription Data Export](../manage-subscriptions/subscription-data-export.md) from **ArraySubs → Subscriptions** for bulk subscription data.

@@ -183,11 +183,12 @@ For full documentation see [WooCommerce Analytics Extension](woocommerce-analyti
 
 ### Customers Analytics *(Pro)*
 
-WooCommerce Customers report with member profile quick links.
+WooCommerce Customers report with subscription status data and member profile quick links.
 
 | Report | What it shows |
 |--------|--------------|
 | Customers Report with Member Links | Standard Customers report with a Member Details link for each customer |
+| Subscription Status Column and Filter | Every status each customer holds, plus an advanced Is / Is Not filter on subscription status |
 
 Links to **WooCommerce → Analytics → Customers**.
 
@@ -219,11 +220,11 @@ View, search, filter, and export subscription data from the ArraySubs admin pane
 |--------|--------------|
 | All Subscriptions List | Sortable list with search, status filtering, bulk actions, and per-page control |
 | Subscription Detail View | Full lifecycle timeline, related orders, meta data, and activity notes |
-| CSV Export | Export subscriptions to CSV with status and date filters |
+| CSV Export | Export subscriptions to CSV with a chosen column set, matching the list's status, gateway, and search filters |
 
 All 3 reports link to **ArraySubs → Subscriptions**.
 
-For full documentation see [Subscription Operations](../manage-subscriptions/subscription-operations.md) and [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md).
+For full documentation see [Subscription Operations](../manage-subscriptions/subscription-operations.md), [Subscription Data Export](../manage-subscriptions/subscription-data-export.md), and [Admin Tools and Records](../manage-subscriptions/admin-tools-and-records.md).
 
 ---
 
