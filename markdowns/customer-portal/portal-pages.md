@@ -1,7 +1,7 @@
 # Info
 - Module: Customer Portal Pages
 - Availability: Shared
-- Last updated: 2026-04-01
+- Last updated: 2026-09-02
 
 # Customer Portal Pages
 
@@ -73,9 +73,9 @@ Clicking **View** on any subscription from the list page opens the detail page f
 
 **URL path:** `/my-account/view-subscription/{id}/`
 
-![View Subscription detail page with actions, orders, and notes](portal-pages.ASSETS/02-view-subscription-page-annotated.png)
+![View Subscription detail page with Renewals, management cards, orders, and notes](portal-pages.ASSETS/02-view-subscription-page-original.png)
 
-This page contains the complete subscription overview, action buttons, skip and pause controls, shipping address, related orders, refund history, and subscription notes.
+This page contains the complete subscription overview, renewal controls, customer management cards, shipping address when applicable, related orders, refund history, and subscription notes.
 
 ### Subscription Overview Table
 
@@ -89,8 +89,10 @@ The top section shows a detailed information table:
 | **Next Payment** | The next renewal date, or "Lifetime Deal — No recurring payment" for lifetime subscriptions | Active and On-Hold only |
 | **End Date** | The date the subscription will end | Only if an end date is set |
 | **Recurring Amount** | The effective price per billing cycle with the billing schedule | Always |
+| **Renewals** | Auto-renew status and toggle, plus Renew Early details and action when available | When at least one renewal control is available |
 | **Coupon Discount** | Applied coupon code, discount type, and remaining cycles | Only if a recurring coupon is active |
 | **Payment Method** | Payment method name with a link to manage payment methods | If a payment method is on file |
+| **Card on File** | Saved card summary, expiry, and Update payment method link | When supported by the automatic gateway |
 
 ### Recurring Amount with Discounts
 
@@ -119,22 +121,25 @@ The payment method row shows the name of the payment gateway and provides a link
 
 ---
 
-### Subscription Actions
+### Manage Your Subscription
 
-Below the overview table, the subscription actions section displays buttons for major actions. This section only appears when the subscription status is **Active** or **On-Hold** and at least one action is enabled.
+Below the overview table, **Manage Your Subscription** groups each available customer action into a focused card. The section appears only when at least one plan, cancellation, retry/reactivation, skip, or pause control is available for the subscription.
 
-| Button | When It Appears |
+| Action | When It Appears |
 |---|---|
-| **Change Plan** | Subscription is Active **and** plan switching is enabled in settings **and** the product has linked upgrade/downgrade/crossgrade products |
-| **Cancel Subscription** | Customer cancellation is enabled in settings **and** the subscription is in an eligible status (Active, Trial, or Pending) **and** there is no pending cancellation already scheduled |
+| **Change Plan** | Appears in its own guidance card when the subscription is Active, plan switching is enabled, and the product has linked upgrade/downgrade/crossgrade products |
+| **Cancel Subscription** | Appears as a compact text link in the final card when customer cancellation is enabled, the subscription is eligible, and no cancellation is already scheduled |
+| **Undo Scheduled Cancellation** | Appears when an end-of-period cancellation is waiting |
+| **Retry Payment** | Appears when the latest renewal charge failed and the subscription can still be charged |
+| **Reactivate Subscription** | Appears when the subscription is eligible for customer reactivation |
 
-For full details on what happens when a customer clicks these buttons, see [Subscription Self-Service Actions](self-service-actions.md).
+For full details on what happens when a customer uses these actions, see [Subscription Self-Service Actions](self-service-actions.md).
 
 ---
 
-### Skip and Pause Section
+### Skip and Pause Controls
 
-If skip or pause features are enabled and the subscription is in an eligible status, a **Manage Your Subscription** section appears with skip and pause controls.
+If skip or pause features are enabled and the subscription is in an eligible status, their cards appear alongside the other controls in **Manage Your Subscription**.
 
 #### Skip Next Renewal
 

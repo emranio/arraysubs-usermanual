@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Self-Service Actions
 - Availability: Shared
-- Last updated: 2026-07-23
+- Last updated: 2026-09-02
 
 # Subscription Self-Service Actions
 
@@ -20,11 +20,11 @@
 
 ## Overview
 
-The subscription detail page in the customer portal shows action buttons and controls based on the subscription's current status and your store settings. Customers can only see actions they are actually permitted to take. If you disable a feature in settings, the corresponding button simply does not appear.
+The subscription detail page in the customer portal shows renewal controls in the overview table and focused action cards under **Manage Your Subscription**, based on the subscription's current status and your store settings. Customers can only see actions they are actually permitted to take. If you disable a feature in settings, the corresponding control simply does not appear.
 
 This guide covers every self-service action, when it is available, what the customer experiences, and what happens to the subscription afterward.
 
-![Self-service actions on the subscription detail page](self-service-actions.ASSETS/01-self-service-actions-overview-annotated.png)
+![Self-service actions on the updated subscription detail page](portal-pages.ASSETS/02-view-subscription-page-original.png)
 
 ## When to Use This
 
@@ -48,7 +48,7 @@ Cancellation lets customers end their subscription. Depending on your settings, 
 
 ### When It Appears
 
-The **Cancel Subscription** button appears on the detail page when all of these are true:
+The **Cancel Subscription** text link appears in the final **Manage Your Subscription** card when all of these are true:
 
 - Customer cancellation is enabled: **General Settings → Customer Actions → Allow Cancellation**
 - The subscription status is **Active**, **Trial**, or **Pending**
@@ -56,7 +56,7 @@ The **Cancel Subscription** button appears on the detail page when all of these 
 
 ### Cancellation Flow
 
-1. The customer clicks **Cancel Subscription**.
+1. The customer clicks the **Cancel Subscription** link.
 2. A modal dialog opens.
 
 ![Cancel Subscription modal requiring a reason](self-service-actions.ASSETS/02-cancel-subscription-modal-annotated.png)
@@ -332,11 +332,11 @@ Early Renew lets customers pay their next renewal **before** its scheduled due d
 
 **Availability:** Pro
 
-![Renew Early button and helper text in the Subscription Actions section](self-service-actions.ASSETS/07-early-renew-action-annotated.png)
+![Renew Early helper text and compact action in the Renewals row](self-service-actions.ASSETS/07-early-renew-action-original.png)
 
 ### When It Appears
 
-The **Renew Early** button appears in the **Subscription Actions** section when all of these are true:
+The **Renew Early** button appears in the **Renewals** row of the subscription overview table when all of these are true:
 
 - Early renew is enabled: **General Settings → Customer Actions → Allow Early Renew**
 - The subscription status is **Active** (trials are excluded — the customer has not been billed a first full cycle yet)
@@ -345,7 +345,7 @@ The **Renew Early** button appears in the **Subscription Actions** section when 
 - There is no unpaid renewal invoice already waiting, and no skipped renewal scheduled
 - The subscription's gateway supports early renewal — see **Gateway support** below
 
-The helper text next to the button spells out the current due date and where the next payment moves to, so the customer knows exactly what will happen before they click.
+The helper text above the compact button spells out the current due date and where the next payment moves to, so the customer knows exactly what will happen before they click.
 
 ### Gateway Support
 
@@ -365,7 +365,7 @@ PayPal and Paddle manage the recurring billing date on their own systems and giv
 1. The customer clicks **Renew Early**.
 2. A confirmation dialog opens, showing the amount, the original due date, and the new next-payment date.
 
-![Renew Early confirmation dialog showing amount and dates](self-service-actions.ASSETS/08-early-renew-confirm-annotated.png)
+![Renew Early confirmation dialog showing amount and dates](self-service-actions.ASSETS/08-early-renew-confirm-original.png)
 
 3. The customer clicks **Renew Now**:
    - **Stripe (automatic):** the saved card is charged right away. On success the customer sees a confirmation and the page reloads with the new next-payment date.
@@ -439,7 +439,7 @@ This table summarizes which actions are available based on subscription status:
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| Customer cannot see the Cancel button | Cancellation is disabled in settings, or the subscription is already cancelled/expired | Check **General Settings → Customer Actions → Allow Cancellation** and verify the subscription status |
+| Customer cannot see the Cancel Subscription link | Cancellation is disabled in settings, or the subscription is already cancelled/expired | Check **General Settings → Customer Actions → Allow Cancellation** and verify the subscription status |
 | Customer cannot see the Change Plan button | Plan switching is disabled, the subscription is not Active, or no linked products are configured | Check **General Settings → Customer Actions → Allow Plan Switching**, verify the subscription is Active, and confirm that upgrade/downgrade products are linked on the product |
 | Skip or Pause section is missing | Skip or pause features are disabled in settings, or the subscription is not in Active/Trial status | Check **General Settings → Skip & Renewal** and **Pause Subscription** settings |
 | Retention offers are not appearing | The Retention Flow feature is disabled, or no offers are configured, or the subscription does not meet offer eligibility conditions | Check the **Retention Flow** admin page for enabled offers and their eligibility rules |

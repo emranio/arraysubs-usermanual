@@ -1,7 +1,7 @@
 # Info
 - Module: Customer Portal
 - Availability: Shared
-- Last updated: 2026-04-01
+- Last updated: 2026-09-02
 
 # Customer Portal
 
@@ -47,11 +47,11 @@ Managing payment methods, the auto-renew toggle *(Pro)*, and updating the shippi
 
 The customer portal builds on the standard WooCommerce My Account page. When ArraySubs is active, it registers custom endpoints and adds menu items to the account navigation. Customers see a **Subscriptions** link that takes them to a list of their subscriptions. Clicking **View** on any subscription opens the detail page where all self-service actions are available.
 
-![Customer subscription detail overview](README.ASSETS/02-subscription-detail-overview-annotated.png)
+![Customer subscription detail overview with Renewals and management controls](portal-pages.ASSETS/02-view-subscription-page-original.png)
 
 If you want to rename or reorder the **Subscriptions** tab itself, use **ArraySubs → Profile Builder → My Account**.
 
-The portal respects your store's settings. If you have disabled customer cancellation, the cancel button does not appear. If skip or pause features are turned off, those sections are hidden. Customers only see actions they are permitted to take on their current subscription.
+The portal respects your store's settings. Renewal controls such as auto-renew and Renew Early appear in the **Renewals** row of the overview table. Customer actions appear as focused cards under **Manage Your Subscription**. If you have disabled customer cancellation, the cancellation link does not appear. If skip or pause features are turned off, those cards are hidden. Customers only see actions they are permitted to take on their current subscription.
 
 ## Quick Reference
 

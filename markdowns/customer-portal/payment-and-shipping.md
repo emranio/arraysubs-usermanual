@@ -1,7 +1,7 @@
 # Info
 - Module: Payment and Shipping Actions
 - Availability: Shared
-- Last updated: 2026-04-28
+- Last updated: 2026-09-02
 
 # Payment and Shipping Actions
 
@@ -42,7 +42,7 @@ Refer to this guide when:
 
 Every customer with a subscription can access their WooCommerce payment methods from the subscription detail page.
 
-![Subscription detail payment method, auto-renew, and shipping update](payment-and-shipping.ASSETS/01-payment-method-auto-renew-annotated.png)
+![Subscription detail Renewals row and payment method details](portal-pages.ASSETS/02-view-subscription-page-original.png)
 
 ### What the Customer Sees
 
@@ -98,7 +98,7 @@ The auto-renew toggle lets customers control whether their subscription renews a
 
 ### When It Appears
 
-The toggle appears below the payment method details when all of these are true:
+The toggle appears in the **Renewals** row immediately after **Recurring Amount** when all of these are true:
 - The Pro plugin is active
 - The **auto-renew toggle** is enabled globally: **General Settings → Automatic Payments → Allow Auto-Renew Toggle**
 - The subscription has an automatic payment gateway configured
