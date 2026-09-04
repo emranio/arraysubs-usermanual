@@ -110,6 +110,26 @@ For full documentation see [Retention Analytics](../retention-analytics/README.m
 
 ---
 
+### Refund Analytics *(Pro)*
+
+Refund reporting under WooCommerce Analytics, built directly from WooCommerce refund records.
+
+| Report | What it shows |
+|--------|--------------|
+| Refund Summary | Refunds, refunded orders, gross and average refunded per currency, full vs partial counts, median time to refund, reason coverage |
+| Per-Currency Totals | Gross, average, products, fees, shipping, and unallocated value for each currency |
+| Refund Trend | Refund records and refunded orders over time, or exact refunded value per currency |
+| Subscription vs One-time | Refund records split by whether the parent order was subscription-related |
+| Breakdowns | Order type, top refunded products, refund reasons, and top refunded customers |
+| Time to Refund | Elapsed-time histogram from payment to refund, with the period median |
+| Recent Refunds | The newest 25 refund records linked to their parent orders |
+
+All reports link to **WooCommerce → Analytics → Refunds**.
+
+For full documentation see [Refund Analytics](../refund-analytics/README.md).
+
+---
+
 ### AI Reports *(Free)*
 
 AI-scored churn risk and forward revenue projection under WooCommerce Analytics.
@@ -304,6 +324,7 @@ A store owner on the free plan opens the Reports page and sees 15 free reports a
 
 - [Subscription Performance Dashboard](subscription-performance.md) — KPI cards, charts, and leaderboards.
 - [Retention Analytics](../retention-analytics/README.md) — Cancellation and retention flow analytics.
+- [Refund Analytics](../refund-analytics/README.md) — Refund totals, outcomes, drivers, and timing.
 - [AI Churn Analysis](ai-churn-analysis.md) — Per-subscriber churn risk scoring and recommended actions.
 - [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement with a forward projection.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics.

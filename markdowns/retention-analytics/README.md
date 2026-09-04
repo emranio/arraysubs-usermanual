@@ -16,7 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=wc-admin&path=/analytics/arraysubs-retention`
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [AI Revenue Forecast](../analytics/ai-revenue-forecast.md)
-- **Next guide:** [Emails](../emails/README.md)
+- **Next guide:** [Refund Analytics](../refund-analytics/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -269,6 +269,7 @@ A support agent investigates a customer complaint about unwanted auto-renewal. T
 
 - [AI Churn Analysis](../analytics/ai-churn-analysis.md) — Who is *about* to cancel, scored per subscriber, with a recommended next step for each one.
 - [AI Revenue Forecast](../analytics/ai-revenue-forecast.md) — What the churn in this report means for recurring revenue over the next 6 to 24 months.
+- [Refund Analytics](../refund-analytics/README.md) — How much money the churn in this report actually returned, and which products, reasons, and customers drove it.
 - [Reports Hub](../analytics/reports-hub.md) — Central directory of all analytics and reports.
 - [Subscription Performance Dashboard](../analytics/subscription-performance.md) — KPI cards, charts, and leaderboards on the WC Analytics Overview.
 - [WooCommerce Analytics Extension](../analytics/woocommerce-analytics-extension.md) — Subscription filters and metrics in WC Analytics reports.

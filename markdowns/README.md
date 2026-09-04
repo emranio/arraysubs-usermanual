@@ -26,7 +26,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Dedicated operations modules:** [Coupons](coupons/README.md) → [Subscription Shipping](subscription-shipping/README.md) *(Pro)* → [Subscription Notes](subscription-notes/README.md)
 - **Customer and account experience:** [Customer Portal](customer-portal/README.md) → [Member Insight](member-insight/README.md) *(Pro)* → [Store Credit](store-credit/README.md) *(Pro)* → [Shortcodes](shortcodes/README.md) → [Profile Builder](profile-builder/README.md) *(Pro)* → [Feature Manager](feature-manager/README.md) *(Pro)*
 - **Checkout and lifecycle:** [Checkout and Payments](checkout-and-payments/README.md) → [Cart Info Editor](cart-info-editor/README.md) *(Pro)* → [Billing and Renewals](billing-and-renewals/README.md) → [Retention, Cancellation, and Refunds](retention-and-refunds/README.md)
-- **Reporting and communication:** [Analytics](analytics/README.md) → [Retention Analytics](retention-analytics/README.md) *(Pro)* → [Emails and Notifications](emails/README.md)
+- **Reporting and communication:** [Analytics](analytics/README.md) → [Retention Analytics](retention-analytics/README.md) *(Pro)* → [Refund Analytics](refund-analytics/README.md) *(Pro)* → [Emails and Notifications](emails/README.md)
 - **Toolkit and gateway modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Gateway Health](gateway-health/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
@@ -244,6 +244,7 @@ Reduce churn with targeted retention offers, configure cancellation policies, tr
 - [Retention Offers](retention-and-refunds/retention-offers.md) *(Pro)* — Discount, Pause, Downgrade, and Contact Support offers — configuration, trigger reasons, eligibility, and the customer modal flow.
 - [Retention Use Cases](retention-and-refunds/retention-use-cases.md) *(Pro)* — 18 real-life scenarios showing how subscription businesses use retention offers to save revenue and reduce churn.
 - [Retention Analytics](retention-analytics/README.md) *(Pro)* — Dedicated analytics module for cancellation and offer performance.
+- [Refund Analytics](refund-analytics/README.md) *(Pro)* — Dedicated analytics module for refunded value, refund drivers, and refund timing.
 - [Refund Management](retention-and-refunds/refund-management.md) — Refund policies, prorated refunds, gateway refunds, full refund subscription behavior, and refund-to-store-credit *(Pro)*.
 
 ## Advanced Analytics *(Pro)*
@@ -258,6 +259,10 @@ Track subscription revenue, growth, churn, and customer behavior — from a dedi
 ## Retention Analytics *(Pro)*
 
 [Retention Analytics](retention-analytics/README.md) is a Pro dedicated analytics module for churn reasons, retention offer performance, cancellation trends, and retained revenue.
+
+## Refund Analytics *(Pro)*
+
+[Refund Analytics](refund-analytics/README.md) is a Pro dedicated analytics module for refunded value per currency, the refund trend, the subscription vs one-time split, the products, reasons, and customers behind refunds, and a time-to-refund histogram.
 
 ## Emails and Notifications
 

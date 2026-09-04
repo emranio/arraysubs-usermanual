@@ -26,13 +26,14 @@ Together they answer the questions every subscription merchant asks daily:
 - Are retention offers working?
 - Where will recurring revenue be in six, twelve, or twenty-four months?
 
-The analytics ecosystem has seven major surfaces:
+The analytics ecosystem has eight major surfaces:
 
 | Surface | Where it appears | Availability | What it shows |
 |---------|-----------------|-------------|---------------|
 | [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 13 categories |
 | [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | Pro | 10 KPI cards, 6 time-series charts, 5 leaderboards |
 | [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Pro | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
+| [Refund Analytics](../refund-analytics/README.md) | WooCommerce → Analytics → Refunds | Pro | Refund KPIs, per-currency totals, refund trend, subscription vs one-time split, top products, reasons, customers, elapsed-time histogram |
 | [AI Churn Analysis](ai-churn-analysis.md) | WooCommerce → Analytics → Churn Analysis | Free | Per-subscriber churn risk scores and bands, revenue at risk, AI reasons and recommended actions |
 | [AI Revenue Forecast](ai-revenue-forecast.md) | WooCommerce → Analytics → Revenue Forecast | Free | MRR/ARR snapshot, 12 months of collected revenue, subscriber movement, billing mix, AI projection |
 | [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Pro | Type column, type filters, subscription revenue cards, subscription-only filters, subscription status column and filter, member links |
@@ -105,6 +106,7 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 - [Reports Hub](reports-hub.md) — The central directory page that links to the reports in the ArraySubs ecosystem.
 - [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — The overview page with KPI cards, charts, and leaderboards.
 - [Retention Analytics](../retention-analytics/README.md) *(Pro)* — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
+- [Refund Analytics](../refund-analytics/README.md) *(Pro)* — Refunded value by currency, refund trend, subscription vs one-time split, top refunded products, reasons and customers, and a time-to-refund histogram.
 - [AI Churn Analysis](ai-churn-analysis.md) — Per-subscriber churn risk scoring, revenue at risk, and AI-written reasons and next steps.
 - [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement, revenue and subscriber history, and an AI projection with a conservative-to-optimistic range.
 - [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) *(Pro)* — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data, including the Subscription Status column and filter on Customers.

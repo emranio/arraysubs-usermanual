@@ -149,6 +149,9 @@
         "retention-analytics/README.md"
     ],
     [
+        "refund-analytics/README.md"
+    ],
+    [
         "emails/README.md",
         "emails/customer-emails.md",
         "emails/admin-emails.md",

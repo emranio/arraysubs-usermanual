@@ -16,6 +16,7 @@
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/refunds`
 - **Process prorated refunds from:** WordPress Admin -> ArraySubs -> Subscriptions -> open a subscription -> **Prorated Refund**
 - **Related customer cancellation setup:** [Cancellation Setup](cancellation-setup.md)
+- **Analyze the resulting refunds in:** [Refund Analytics](../refund-analytics/README.md)
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
 - **Next guide:** [Retention Analytics](../retention-analytics/README.md)
@@ -311,6 +312,7 @@ End-of-period refund policy is separate: when a subscription is already schedule
 
 ## Related Guides
 
+- [Refund Analytics](../refund-analytics/README.md) — Report on the refunds these settings produce: totals, products, reasons, timing, and repeat refunders **(Pro)**
 - [Cancellation Setup](cancellation-setup.md) — Configure when and how subscriptions are cancelled
 - [Retention Offers](retention-offers.md) — Reduce cancellations before they happen
 - [Refund to Credit](../store-credit/refund-to-credit.md) — Full guide to processing refunds as store credit **(Pro)**
