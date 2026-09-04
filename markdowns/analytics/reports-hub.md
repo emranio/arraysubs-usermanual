@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/reports`
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [Analytics & Reports](./README.md)
+- **Previous guide:** [Overview Dashboard](./overview-dashboard.md)
 - **Next guide:** [Subscription Performance Dashboard](./subscription-performance.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 

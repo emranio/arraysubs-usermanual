@@ -30,6 +30,7 @@ The analytics ecosystem has eight major surfaces:
 
 | Surface | Where it appears | Availability | What it shows |
 |---------|-----------------|-------------|---------------|
+| [Overview Dashboard](overview-dashboard.md) | ArraySubs → Overview | Free + Pro | Landing dashboard: MRR, subscriber movement, status mix, Action Center, renewal outlook; Pro modules add widgets inline |
 | [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 13 categories |
 | [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | Pro | 10 KPI cards, 6 time-series charts, 5 leaderboards |
 | [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Pro | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
@@ -73,7 +74,7 @@ Every order that passes through the store is automatically classified into one o
 - **Where to open it:** WordPress Admin -> ArraySubs -> Reports and WooCommerce -> Analytics
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [AI Revenue Forecast](./ai-revenue-forecast.md)
-- **Next guide:** [Reports Hub](./reports-hub.md)
+- **Next guide:** [Overview Dashboard](./overview-dashboard.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 | Type | Label | When assigned |
@@ -103,6 +104,7 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 ## What's in This Section
 
+- [Overview Dashboard](overview-dashboard.md) — The ArraySubs landing page: recurring revenue, movement, and everything needing attention, on one screen.
 - [Reports Hub](reports-hub.md) — The central directory page that links to the reports in the ArraySubs ecosystem.
 - [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — The overview page with KPI cards, charts, and leaderboards.
 - [Retention Analytics](../retention-analytics/README.md) *(Pro)* — Churn rate, retention effectiveness, cancellation reasons, and trend charts.

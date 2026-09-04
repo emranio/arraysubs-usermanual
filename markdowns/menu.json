@@ -138,6 +138,7 @@
     ],
     [
         "analytics/README.md",
+        "analytics/overview-dashboard.md",
         "analytics/reports-hub.md",
         "analytics/subscription-performance.md",
         "analytics/woocommerce-analytics-extension.md",
