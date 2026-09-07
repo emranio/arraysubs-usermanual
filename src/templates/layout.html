@@ -55,19 +55,19 @@
         <main class="docs-shell__main" id="main-content">
           <section
             class="docs-release-notice"
-            aria-label="Upcoming ArraySubs release"
+            aria-label="ArraySubs update is live"
           >
             <button
               type="button"
               class="docs-release-notice__cover"
               data-release-announcement-open
-              aria-label="Show details about the upcoming ArraySubs release"
+              aria-label="See what's new in the latest ArraySubs release"
               aria-haspopup="dialog"
               aria-controls="docs-release-announcement-dialog"
             >
               <img
                 src="{{releaseArtworkHref}}"
-                alt="The biggest ArraySubs update yet — 5 September 2026"
+                alt="The biggest ArraySubs update is live. See what's new."
                 width="2172"
                 height="724"
               />
@@ -79,7 +79,7 @@
               aria-haspopup="dialog"
               aria-controls="docs-release-announcement-dialog"
             >
-              Show details
+              See what's new
             </button>
           </section>
           {{breadcrumb}}
@@ -115,67 +115,69 @@
           aria-describedby="docs-release-announcement-description"
           tabindex="-1"
         >
-          <div class="docs-release-announcement__artwork">
-            <img
-              src="{{releaseArtworkHref}}"
-              alt=""
-              aria-hidden="true"
-              width="2172"
-              height="724"
-            />
-            <button
-              type="button"
-              class="docs-release-announcement__close"
-              data-release-announcement-close
-              aria-label="Close release announcement"
-            >
-              <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="docs-release-announcement__content">
-            <div class="docs-release-announcement__header">
-              <div>
-                <h2 id="docs-release-announcement-title">
-                  A major ArraySubs release is almost here
-                </h2>
-                <p id="docs-release-announcement-description">
-                  A bigger, smarter subscription toolkit is arriving with new
-                  ways to sell, automate, analyze, and retain customers.
-                </p>
-              </div>
+          <button
+            type="button"
+            class="docs-release-announcement__close"
+            data-release-announcement-close
+            aria-label="Close release announcement"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+          <a
+            class="docs-release-announcement__link"
+            href="https://arrayhash.com/changelog/#arraysubs"
+            aria-label="View the full ArraySubs changelog"
+            data-release-announcement-link
+          >
+            <div class="docs-release-announcement__artwork">
+              <img
+                src="{{releaseArtworkHref}}"
+                alt=""
+                aria-hidden="true"
+                width="2172"
+                height="724"
+              />
             </div>
-            <ul class="docs-release-announcement__highlights">
-              <li>Highly customizable <span class="docs-release-announcement__marker">subscription boxes</span></li>
-              <li>Highly customizable <span class="docs-release-announcement__marker">subscription bundles</span></li>
-              <li>New payment gateways, including <span class="docs-release-announcement__marker">Mollie</span></li>
-              <li>All <span class="docs-release-announcement__marker">automatic payment gateways moved into the free</span> ArraySubs core plugin</li>
-              <li>A fix for the reported automatic-payment bug</li>
-              <li>AI-powered <span class="docs-release-announcement__marker">churn prediction analytics</span></li>
-              <li>AI-powered <span class="docs-release-announcement__marker">revenue forecasting</span></li>
-              <li>A completely <span class="docs-release-announcement__marker">redesigned retention analytics</span> report</li>
-              <li>A dedicated reporting <span class="docs-release-announcement__marker">dashboard</span> for all subscriptions</li>
-              <li><span class="docs-release-announcement__marker">Content-gate rules directly</span> on pages, posts, and custom post types</li>
-              <li>Support for third-party LMS and CRM plugins</li>
-              <li>Refined visuals and UI throughout, plus many more improvements</li>
-            </ul>
-            <p class="docs-release-announcement__footnote">
-              <span class="docs-release-announcement__footnote-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M8 2v4"></path>
-                  <path d="M16 2v4"></path>
-                  <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                  <path d="M3 10h18"></path>
-                </svg>
-              </span>
-              <span>
-                <span aria-hidden="true">*</span> This major version is scheduled for release on
-                <time datetime="2026-09-05">5 September 2026</time>.
-              </span>
-            </p>
-          </div>
+            <div class="docs-release-announcement__content">
+              <div class="docs-release-announcement__header">
+                <div>
+                  <h2 id="docs-release-announcement-title">
+                    The biggest ArraySubs update is live
+                  </h2>
+                  <p id="docs-release-announcement-description">
+                    The latest release is now available, with new
+                    ways to sell, automate, analyze, and retain customers.
+                  </p>
+                </div>
+              </div>
+              <ul class="docs-release-announcement__highlights">
+                <li>Highly customizable <span class="docs-release-announcement__marker">subscription boxes</span></li>
+                <li>Highly customizable <span class="docs-release-announcement__marker">subscription bundles</span></li>
+                <li>New payment gateways, including <span class="docs-release-announcement__marker">Mollie</span></li>
+                <li>All <span class="docs-release-announcement__marker">automatic payment gateways moved into the free</span> ArraySubs core plugin</li>
+                <li>A fix for the reported automatic-payment bug</li>
+                <li>AI-powered <span class="docs-release-announcement__marker">churn prediction analytics</span></li>
+                <li>AI-powered <span class="docs-release-announcement__marker">revenue forecasting</span></li>
+                <li>A completely <span class="docs-release-announcement__marker">redesigned retention analytics</span> report</li>
+                <li>A dedicated reporting <span class="docs-release-announcement__marker">dashboard</span> for all subscriptions</li>
+                <li><span class="docs-release-announcement__marker">Content-gate rules directly</span> on pages, posts, and custom post types</li>
+                <li>Support for third-party LMS and CRM plugins</li>
+                <li>Refined visuals and UI throughout, plus many more improvements</li>
+              </ul>
+              <p class="docs-release-announcement__cta">
+                <span>View the full changelog</span>
+                <span class="docs-release-announcement__cta-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17 17 7"></path>
+                    <path d="M7 7h10v10"></path>
+                  </svg>
+                </span>
+              </p>
+            </div>
+          </a>
         </div>
       </div>
       <div

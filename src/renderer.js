@@ -88,7 +88,7 @@ async function renderPageHtml(options) {
   );
   const releaseArtworkHref = relativeAssetPath(
     page.outputRelativePath,
-    "assets/arraysubs-major-release-september-2026.png",
+    "assets/arraysubs-release-live-september-2026.png",
   );
   const homeHref = relativeAssetPath(page.outputRelativePath, "index.html");
   const hasLogo =

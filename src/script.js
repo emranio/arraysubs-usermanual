@@ -225,7 +225,8 @@
     var openButtons = document.querySelectorAll(
       "[data-release-announcement-open]",
     );
-    var dismissedAtKey = "arraysubs_release_2026_09_dismissed_at";
+    var changelogLink = document.querySelector("[data-release-announcement-link]");
+    var dismissedAtKey = "arraysubs_release_2026_09_live_dismissed_at";
     var dismissalWindowMs = 60 * 60 * 1000;
     var autoOpenDelayMs = 5000;
     var timer = null;
@@ -328,6 +329,9 @@
       button.addEventListener("click", openAnnouncement);
     });
     closeButton.addEventListener("click", closeAnnouncement);
+    if (changelogLink) {
+      changelogLink.addEventListener("click", rememberDismissal);
+    }
     dialog.addEventListener("keydown", handleKeydown);
     modal.addEventListener("mousedown", function (event) {
       if (event.target === modal) {
