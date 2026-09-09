@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-07-26
+- Last updated: 2026-09-09
 
 # Essential Daily Workflows
 
@@ -190,8 +190,8 @@ The main ArraySubs admin interface is a single-page application (SPA) accessible
 Subscription configuration lives inside the WooCommerce product editor:
 
 1. Go to **Products → Edit** on any product.
-2. Check the **Subscription [ArraySubs]** checkbox in the Product data section.
-3. Open the **Subscription [ArraySubs]** tab to configure billing period, interval, length, trial, and signup fee.
+2. Check the **Subscription [AS]** checkbox in the Product data section.
+3. For a simple product, click **Configure subscription billings** below Regular price to open the **Subscription Billings [AS]** tab. For a variable product, expand each variation and use its **Subscription Billings [AS]** card. Configure billing period, interval, length, trial, and signup fee there.
 4. For variable products, configure subscription fields per-variation.
 
 ### Customer Portal (Frontend)

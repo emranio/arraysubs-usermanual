@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products / Product Experience
 - Availability: Shared (pricing display: Free, redirect/features/shipping: Pro)
-- Last updated: 2026-07-26
+- Last updated: 2026-09-09
 
 # Product Experience and Display
 
@@ -227,7 +227,7 @@ Alternatively, for a supplement subscription where shipping is only charged once
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| Subscription info not showing on product page | Product is not marked as a subscription | Check the Subscription [ArraySubs] checkbox in the product editor |
+| Subscription info not showing on product page | Product is not marked as a subscription | Check the Subscription [AS] checkbox in the product editor |
 | Variable product shows no subscription info | No variation is selected yet | Subscription info appears after selecting a variation — this is expected behavior |
 | Redirect not working | Caching is serving the old page | Clear your site cache and CDN cache after saving redirect changes |
 | Admin sees the product page instead of redirect | Expected behavior — admins are not redirected | Admin users with `manage_options` capability always see the product page |

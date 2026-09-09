@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-07-26
+- Last updated: 2026-09-09
 
 # First-Time Setup
 
@@ -121,16 +121,16 @@ You can always come back to these settings later. Nothing here is permanent — 
 
 ## Step 3 — Create Your First Subscription Product
 
-![Subscription product data tab](first-time-setup.ASSETS/02-product-subscription-tab-annotated.png)
+![Subscription Billings [AS] tab with the recurring price and billing schedule](../subscription-products/create-and-configure.ASSETS/01-simple-recurring-price-billing-fields-cropped.png)
 
 1. Go to **Products → Add New** in WooCommerce.
 2. Enter a product name (e.g., "Monthly Membership").
 3. Set a regular price (e.g., $29.99).
-4. In the **Product data** section, check the **Subscription [ArraySubs]** checkbox near the top (next to Virtual and Downloadable).
+4. In the **Product data** section, check the **Subscription [AS]** checkbox near the top (next to Virtual and Downloadable).
 
-A new **Subscription [ArraySubs]** tab appears in the product data panel.
+A **Configure subscription billings** link appears below **Regular price**, and the **Subscription Billings [AS]** tab appears in the product data panel. Clicking the link opens that tab. Both are shown only for simple products with **Subscription [AS]** checked.
 
-5. Open the **Subscription [ArraySubs]** tab and configure:
+5. Open the **Subscription Billings [AS]** tab and configure:
 
 | Field | Recommended value | Description |
 |---|---|---|
@@ -150,12 +150,12 @@ Your subscription product is now live and visible in your store catalog.
 If you want to offer multiple plans (e.g., Monthly and Annual), create a **Variable product** instead:
 
 1. Choose **Variable product** as the product type.
-2. Check the **Subscription [ArraySubs]** checkbox.
+2. Check the **Subscription [AS]** checkbox.
 3. Create attributes (e.g., "Plan" with values "Monthly" and "Annual").
 4. Generate variations.
-5. For each variation, open it and configure the subscription fields (billing period, interval, price, trial, etc.) independently. The disabled **Enable Subscription [ArraySubs]** checkbox confirms that the parent product controls subscription status.
+5. Open each variation and set its regular price. Configure its billing period, interval, trial, and other terms in the **Subscription Billings [AS]** card below the standard variation fields.
 
-Each variation acts as a separate subscription plan under the same product.
+Each variation acts as a separate subscription plan under the same product. The parent **Subscription [AS]** checkbox controls all variations. Unchecking it hides every billing card; checking it again shows the cards. There is no separate visible subscription enable checkbox inside a variation.
 
 ---
 
@@ -294,7 +294,7 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| No Subscription [ArraySubs] tab appears on the product editor | WooCommerce is not active or plugin is not activated | Verify both WooCommerce and ArraySubs are activated in Plugins |
+| No Subscription Billings [AS] tab appears on the product editor | Subscription [AS] is unchecked, the product is variable, or a required plugin is inactive | For a simple product, check Subscription [AS]. For a variable product, open Variations and expand a variation. Verify WooCommerce and ArraySubs are active if the controls are still missing. |
 | Subscription is not created after checkout | Order was not marked as paid | Mark the order as Processing or Completed in WooCommerce → Orders |
 | Customer does not see the Subscriptions tab in My Account | Permalink settings need to be refreshed | Go to Settings → Permalinks and click Save Changes (without changing anything) |
 | Email notifications are not arriving | WordPress email is not configured properly | Install an SMTP plugin and check your server's mail configuration |

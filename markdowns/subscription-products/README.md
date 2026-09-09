@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Shared
-- Last updated: 2026-07-26
+- Last updated: 2026-09-09
 
 # Manage Subscription Products
 
@@ -9,9 +9,11 @@
 
 ## Overview
 
-![Subscription product editor — Subscription [ArraySubs] checkbox and product data tabs overview](README.ASSETS/01-subscription-product-editor-overview-annotated.png)
+![Simple product editor with Subscription [AS] enabled and the Configure subscription billings shortcut](create-and-configure.ASSETS/07-simple-configure-billings-shortcut-cropped.png)
 
 Subscription products are the foundation of your recurring-revenue store. ArraySubs extends WooCommerce products with subscription billing fields, trial periods, signup fees, plan-switching paths, coupon support, and more. This section covers the complete product setup experience — from basic billing configuration to advanced Pro features like fixed-period memberships and product entitlements.
+
+For a **Simple product**, check **Subscription [AS]** and click **Configure subscription billings** below Regular price to open the **Subscription Billings [AS]** tab. For a **Variable product**, check the same product-level checkbox and configure each variation's **Subscription Billings [AS]** card in **Variations**. Unchecking the product-level checkbox hides those billing controls.
 
 ## In This Section
 
@@ -38,10 +40,12 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 
 | Concept | Where to configure |
 |---|---|
-| Billing period, interval, length | Product editor → Subscription [ArraySubs] tab |
-| Free trial | Product editor → Subscription [ArraySubs] tab → Free Trial |
-| Signup fee | Product editor → Subscription [ArraySubs] tab → Sign-up Fee |
-| Different renewal price | Product editor → Subscription [ArraySubs] tab → Different Renewal Price |
+| Open simple-product billing settings | General tab → Configure subscription billings, below Regular price |
+| Per-variation billing settings | Variations tab → expand a variation → Subscription Billings [AS] card |
+| Billing period, interval, length | Product editor → Subscription Billings [AS] tab |
+| Free trial | Product editor → Subscription Billings [AS] tab → Trial Settings |
+| Signup fee | Product editor → Subscription Billings [AS] tab → Sign-up Fee |
+| Different renewal price | Product editor → Subscription Billings [AS] tab → Different Renewal Price |
 | Subscription box product type *(Pro)* | Product editor → Product data → Subscription Box [ArraySubs] |
 | Box configuration wizard *(Pro)* | Product editor → General tab → Edit Box Configuration |
 | Box billing schedule, steps, and elements *(Pro)* | Product editor → General tab → Edit Box Configuration → Box Steps |
@@ -49,10 +53,10 @@ Subscription products are the foundation of your recurring-revenue store. ArrayS
 | Box renewal sync segment plan *(Pro)* | Product editor → General tab → Edit Box Configuration → Flexible Renewal Sync |
 | Upgrade / downgrade / crossgrade paths | Product editor → Linked Products tab |
 | Auto-downgrade target | Product editor → Linked Products tab |
-| Fixed period end date *(Pro)* | Product editor → Subscription [ArraySubs] tab → Fixed Period Membership |
+| Fixed period end date *(Pro)* | Product editor → Subscription Billings [AS] tab → Fixed Period Membership |
 | Product page redirect *(Pro)* | Product editor → Product Redirect [AS] tab |
 | Feature entitlements *(Pro)* | Product editor → Feature Manager [AS] tab |
-| Subscription shipping *(Pro)* | Product editor → Subscription [ArraySubs] tab → Subscription Shipping |
+| Subscription shipping *(Pro)* | Product editor → Subscription Billings [AS] tab → Subscription Shipping |
 | Coupon settings | WooCommerce → Coupons → coupon edit → ArraySubs Subscription Settings |
 | Test links | Product editor → General tab → Helper Links |
 

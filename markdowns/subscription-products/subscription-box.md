@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Pro
-- Last updated: 2026-07-27
+- Last updated: 2026-09-09
 
 # Subscription Boxes
 
@@ -83,7 +83,7 @@ A gifting store adds an **Upload** element restricted to images and PDF at 5 MB,
 1. Go to **Products → Add New**.
 2. Enter a product name, description, and image as usual.
 3. In the **Product data** panel, open the product type dropdown and choose **Subscription Box [ArraySubs]**.
-4. The box controls appear in the **General** tab. Everything else — the price fields, the standard **Subscription [ArraySubs]** fields — is not used by a box.
+4. The box controls appear in the **General** tab. Everything else — the price fields, the standard **Subscription Billings [AS]** fields — is not used by a box.
 5. Configure the box (below), then click **Publish**.
 
 ![Product data panel with the Subscription Box product type selected and the Subscription Box Details panel below it](subscription-box.ASSETS/01-product-type-selector-annotated.png)
@@ -471,7 +471,7 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 | The General tab shows nothing about boxes | The product type is not set to Subscription Box, or the admin script failed to load | Re-select the product type; check the browser console for JavaScript errors |
 | "No box configuration yet. Customers cannot purchase this box until steps are configured." | The box has no steps | Open **Configure Box** and add at least one step with a product or category element |
 | Admin error on save: "add at least one box step…" | The product was saved with an empty configuration | Configure the box, then save again |
-| A product I expect does not appear in the picker | It is not simple, not published, on a different period/interval, uses **Different Renewal Price**, or is another box | Check the product's type and its Subscription [ArraySubs] settings |
+| A product I expect does not appear in the picker | It is not simple, not published, on a different period/interval, uses **Different Renewal Price**, or is another box | Check the product's type and its Subscription Billings [AS] settings |
 | The picker shows nothing while typing | Fewer than 3 characters typed | Type at least 3 characters; searching starts after that |
 | A category is missing from the category picker | It currently holds no eligible products for this cycle | Add eligible products, or change the box schedule |
 | The wizard jumps back to Box Steps with a red notice | A step, element, or option list is incomplete | Fix the item named in the notice, then continue |

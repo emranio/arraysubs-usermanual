@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Admin
 - Availability: Free, some cards and tools require Pro
-- Last updated: 2026-07-26
+- Last updated: 2026-09-09
 
 # Manage Subscriptions
 
@@ -49,8 +49,8 @@ Subscriptions are created from WooCommerce products that have ArraySubs subscrip
 
 1. Go to **Products -> Add New** or open an existing WooCommerce product.
 2. Set the product's **Regular price**.
-3. Check **Subscription [ArraySubs]** in the product data panel.
-4. Open the **Subscription [ArraySubs]** tab and configure the billing period, interval, length, trial, signup fee, and renewal pricing.
+3. Check **Subscription [AS]** in the product data panel.
+4. For a simple product, click **Configure subscription billings** below Regular price to open **Subscription Billings [AS]** and configure the billing period, interval, length, trial, signup fee, and renewal pricing. For a variable product, configure each variation's **Subscription Billings [AS]** card in **Variations**.
 5. Publish or update the product, then return to **ArraySubs -> Subscriptions** to create or manage customer subscriptions.
 
 See [Subscription Products](../subscription-products/README.md) for the full product setup workflow.

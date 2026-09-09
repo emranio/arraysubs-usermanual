@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Free
-- Last updated: 2026-07-26
+- Last updated: 2026-09-09
 
 # Create and Configure Subscription Products
 
@@ -20,7 +20,7 @@
 
 ## Overview
 
-ArraySubs adds a **Subscription [ArraySubs]** checkbox to the WooCommerce product editor. When enabled for a simple product, a new **Subscription [ArraySubs]** tab appears with fields for billing period, billing interval, subscription length, free trials, signup fees, and different renewal pricing. Both simple products and variable products are supported — variable products allow each variation to have its own independent subscription configuration.
+ArraySubs adds a **Subscription [AS]** checkbox to the WooCommerce product editor. When enabled for a simple product, a new **Subscription Billings [AS]** tab appears with fields for billing period, billing interval, subscription length, free trials, signup fees, and different renewal pricing. Both simple products and variable products are supported — variable products allow each variation to have its own independent subscription configuration.
 
 ## When to Use This
 
@@ -50,20 +50,26 @@ Once a customer subscribes, the **price is locked in** at the time of purchase. 
 
 1. Go to **Products → Add New** in WooCommerce.
 2. Enter a product name and set the **Regular price** in the General tab.
-3. In the **Product data** area, check the **Subscription [ArraySubs]** checkbox (next to Virtual and Downloadable).
-4. A new **Subscription [ArraySubs]** tab appears in the product data panel. Open it.
+3. In the **Product data** area, check the **Subscription [AS]** checkbox (next to Virtual and Downloadable).
+4. Click **Configure subscription billings** below the **Regular price** input. It opens the **Subscription Billings [AS]** tab. You can also select that tab directly.
 5. Configure the billing fields described below.
 6. Click **Publish** to save the product.
 
-### Subscription [ArraySubs] Tab Fields
+![Simple product General tab with Subscription [AS] enabled and Configure subscription billings below Regular price](create-and-configure.ASSETS/07-simple-configure-billings-shortcut-cropped.png)
 
-![Simple subscription product — Subscription [ArraySubs] checkbox, Billing Period, Interval, and Length fields](create-and-configure.ASSETS/01-simple-recurring-price-billing-fields-annotated.png)
+The **Configure subscription billings** link appears only when the product type is **Simple product** and **Subscription [AS]** is checked. It sits below Regular price, like the **Schedule** link below Sale price. Unchecking Subscription [AS] hides the shortcut and the billing tab; checking it again reveals them.
+
+### Subscription Billings [AS] Tab Fields
+
+![Subscription Billings [AS] tab with the recurring price and Billing Period, Billing Interval, and Subscription Length fields](create-and-configure.ASSETS/01-simple-recurring-price-billing-fields-cropped.png)
+
+With ArraySubs Pro active, **Subscription Type** appears above Billing Period. Choose **Fixed**, **Flexible Length**, or **Full Flexible**. The selected button uses your WordPress admin accent color. See [Flexible Subscription Duration](./flexible-subscription-duration.md) for the mode-specific settings.
 
 #### Recurring Price per Billing Cycle
 
 This read-only section displays the product's current regular price and sale price (if applicable), along with any scheduled sale dates. It confirms what customers will be charged each billing cycle.
 
-The recurring price is controlled by the WooCommerce **Regular price** and **Sale price** fields in the General tab — not by any field inside the **Subscription [ArraySubs]** tab.
+The recurring price is controlled by the WooCommerce **Regular price** and **Sale price** fields in the General tab — not by any field inside the **Subscription Billings [AS]** tab.
 
 #### Billing Period
 
@@ -113,7 +119,7 @@ The total number of billing cycles before the subscription ends automatically. S
 
 ### Free Trial
 
-![Free Trial and Sign-up Fee fields — Trial Length, Trial Period, and Sign-up Fee](create-and-configure.ASSETS/02-simple-length-trial-signup-fields-annotated.png)
+![Trial Settings and Sign-up Fee fields in the billing tab](create-and-configure.ASSETS/02-simple-length-trial-signup-fields-cropped.png)
 
 A trial gives customers access before their first payment. During the trial, no recurring charge is collected. When the trial ends, normal billing begins.
 
@@ -149,7 +155,7 @@ The signup fee is added to the first order as a separate WooCommerce fee line it
 
 ### Different Renewal Price
 
-![Different Renewal Price — enable checkbox, Renewal Price, and Apply Renewal Price After fields](create-and-configure.ASSETS/03-simple-different-renewal-price-fields-annotated.png)
+![Different Renewal Price enabled with Renewal Price and Apply Renewal Price After fields](create-and-configure.ASSETS/03-simple-different-renewal-price-fields-cropped.png)
 
 Enable this to charge a different price after a specified number of billing cycles. Useful for introductory pricing, promotional periods, or graduated pricing models.
 
@@ -176,7 +182,7 @@ When the different renewal price is enabled, both the **Renewal Price** (must be
 
 This field appears on the product's **General** tab only while the **Paddle** gateway is enabled, and it exists on variations as well as simple products.
 
-![Paddle tax category field on the product General tab, set to Use store default](create-and-configure.ASSETS/06-paddle-tax-category-field-original.png)
+![Paddle tax category field on the product General tab, set to Use store default](create-and-configure.ASSETS/06-paddle-tax-category-field-cropped.png)
 
 | Field | Description | Default |
 |---|---|---|
@@ -200,7 +206,7 @@ Selling on Stripe, PayPal, or Mollie? This field does nothing — WooCommerce's 
 
 ## Variable Subscription Products
 
-![Variable product editor — parent Subscription [ArraySubs] checkbox, Variations tab, and expanded variation](create-and-configure.ASSETS/04-variable-variation-editor-overview-annotated.png)
+![Variable product editor with the parent Subscription [AS] checkbox enabled and the Annual variation expanded](create-and-configure.ASSETS/04-variable-variation-editor-overview-cropped.png)
 
 Variable products let you offer multiple plans under a single product page. Each variation gets its own independent subscription configuration — different prices, billing periods, trial lengths, and more.
 
@@ -208,20 +214,26 @@ Variable products let you offer multiple plans under a single product page. Each
 
 1. Go to **Products → Add New** in WooCommerce.
 2. Select **Variable product** as the product type.
-3. Check the **Subscription [ArraySubs]** checkbox in the product data area.
+3. Check the **Subscription [AS]** checkbox in the product data area.
 4. Go to the **Attributes** tab and create an attribute (e.g., "Plan" with values "Monthly" and "Annual").
 5. Check **Used for variations** and save the attributes.
 6. Go to the **Variations** tab and click **Generate variations** (or add them manually).
 7. Open each variation and configure:
    - **Regular price** (required)
-   - All subscription fields (billing period, interval, length, trial, signup fee, different renewal price)
+   - The **Subscription Billings [AS]** card below the standard variation fields (billing period, interval, length, trial, signup fee, different renewal price)
 8. Click **Save changes** on the variations, then **Update** the product.
 
 ### How Variation Subscription Fields Work
 
-![Variable variation subscription fields — Billing Period and recurring price inside a variation](create-and-configure.ASSETS/05-variable-variation-subscription-fields-annotated.png)
+![Subscription Billings [AS] variation card with its recurring price, subscription type, billing schedule, trial, and signup fee](create-and-configure.ASSETS/05-variable-variation-subscription-fields-cropped.png)
 
-When you check the **Subscription [ArraySubs]** checkbox on the parent product, **all variations** are automatically marked as subscriptions. The per-variation **Enable Subscription [ArraySubs]** checkbox is disabled and shows "(controlled by product-level setting)" — you cannot make individual variations non-subscription while the parent is a subscription product.
+The **Subscription [AS]** checkbox in the product header controls **all variations**. When it is checked, each expanded variation shows a card headed **Subscription Billings [AS]**. There is no separate visible enable checkbox inside the card. You cannot make individual variations non-subscription while the parent is a subscription product.
+
+Unchecking the parent checkbox hides the entire billing card in every variation, including variations loaded afterward. The standard variation fields, such as Regular price and Sale price, remain visible. To show the billing cards again, check **Subscription [AS]** in the product header and expand a variation.
+
+![Variable product with Subscription [AS] unchecked: the expanded variation shows its standard fields without a billing card](create-and-configure.ASSETS/08-variable-subscription-disabled-cropped.png)
+
+Variable products are configured inside **Variations**. They do not use the simple product's pricing shortcut or separate billing tab.
 
 Each variation has its own complete set of subscription fields:
 
@@ -267,7 +279,7 @@ Lifetime subscriptions have their billing interval automatically set to 1.
 
 ## Settings Reference
 
-All billing fields below appear in the **Subscription [ArraySubs]** tab of the WooCommerce product editor when the **Subscription [ArraySubs]** checkbox is enabled.
+For simple products, the fields below appear in the **Subscription Billings [AS]** tab. For variable products, they appear in each variation's **Subscription Billings [AS]** card. Both require the product-level **Subscription [AS]** checkbox to be enabled.
 
 | Setting | Type | Default | What It Controls |
 |---|---|---|---|
@@ -298,10 +310,11 @@ All billing fields below appear in the **Subscription [ArraySubs]** tab of the W
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| No Subscription [ArraySubs] tab appears after checking the checkbox | Cache or JavaScript conflict | Refresh the page, clear browser cache. Check for JavaScript errors in the browser console. |
+| No Subscription Billings [AS] tab appears | The product is variable, the subscription checkbox is off, or the page has not refreshed correctly | For a simple product, select Simple product and check Subscription [AS]. For a variable product, open Variations and expand a variation. Refresh the editor if the expected controls still do not appear. |
+| Configure subscription billings is missing below Regular price | The product is not a simple subscription product | Select Simple product and check Subscription [AS]. Variable products use the billing cards inside Variations. |
 | Validation error about regular price | Price field is empty or set to 0 | Enter a price greater than 0 in the General tab's Regular price field |
-| Variable product variations don't show subscription fields | Subscription [ArraySubs] checkbox not checked on the parent product | Check the Subscription [ArraySubs] checkbox on the parent product data area, then save |
-| Signup fee not appearing in cart | Product does not have a signup fee value | Open the Subscription [ArraySubs] tab and enter a value in the Sign-up Fee field |
+| A variation's entire billing card is hidden | Subscription [AS] is unchecked on the parent product | Check Subscription [AS] in the product header, then expand the variation. The Subscription Billings [AS] card reappears immediately. |
+| Signup fee not appearing in cart | Product does not have a signup fee value | Open the Subscription Billings [AS] tab and enter a value in the Sign-up Fee field |
 | Different renewal price fields are hidden | The "Different Renewal Price" checkbox is not enabled | Check the "Different Renewal Price" checkbox to reveal the price and threshold fields |
 
 ---
@@ -318,10 +331,10 @@ All billing fields below appear in the **Subscription [ArraySubs]** tab of the W
 ## FAQ
 
 ### Can I change a regular product into a subscription product?
-Yes. Open the product, check the **Subscription [ArraySubs]** checkbox, fill in the billing fields, and save. The product will appear as a subscription in the catalog. This does not affect past orders — only new purchases will create subscriptions.
+Yes. Open the product, check the **Subscription [AS]** checkbox, fill in the billing fields, and save. The product will appear as a subscription in the catalog. This does not affect past orders — only new purchases will create subscriptions.
 
 ### Can I have both subscription and non-subscription products in my store?
-Yes. Only products with the **Subscription [ArraySubs]** checkbox enabled are treated as subscriptions. Regular WooCommerce products continue to work normally. Customers can even mix both in the same cart (if the "Allow mixed cart" setting is enabled in General Settings).
+Yes. Only products with the **Subscription [AS]** checkbox enabled are treated as subscriptions. Regular WooCommerce products continue to work normally. Customers can even mix both in the same cart (if the "Allow mixed cart" setting is enabled in General Settings).
 
 ### What happens if I set the billing period to Lifetime Deal?
 The product becomes a one-time purchase with no recurring billing. The customer pays once and gets permanent access. The billing interval is automatically set to 1 and cannot be changed.

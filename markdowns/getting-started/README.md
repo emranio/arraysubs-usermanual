@@ -39,7 +39,7 @@ A step-by-step checklist: configure your store, create your first subscription p
 Activate ArraySubs Pro with your license key, store the local activation details, remove a local license, and understand how Pro update downloads are gated *(Pro)*.
 
 ### [Easy Setup Wizard](easy-setup-wizard.md)
-A 9-step guided interview that configures the most important subscription settings for you — choose your business type and let the wizard do the rest.
+A nine-step guide to billing, checkout, plan switching, cancellation, refunds, emails, and optional tools. Review and save your choices, then use the congratulations cards to finish setting up your store.
 
 ### [Admin Bar Visibility](../admin-bar-visibility/README.md)
 Hide the WordPress frontend toolbar for customers while administrators keep normal shortcuts.

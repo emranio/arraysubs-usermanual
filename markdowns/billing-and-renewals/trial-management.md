@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free, with Pro extensions for auto-downgrade on trial expiry
-- Last updated: 2026-07-26
+- Last updated: 2026-09-09
 
 # Trial Management
 
@@ -117,7 +117,7 @@ Trial behavior is controlled by a combination of product-level configuration and
 
 ### Product-level settings
 
-Set on each subscription product under the **Subscription [ArraySubs]** tab:
+Set on each subscription product under the **Subscription Billings [AS]** tab:
 
 | Setting | What it controls | Example |
 |---|---|---|
@@ -126,7 +126,7 @@ Set on each subscription product under the **Subscription [ArraySubs]** tab:
 
 Each product variation can have its own independent trial configuration.
 
-![Product Subscription [ArraySubs] tab Free Trial settings](trial-management.ASSETS/01-product-trial-settings-annotated.png)
+![Trial Settings and Sign-up Fee in the Subscription Billings [AS] tab](../subscription-products/create-and-configure.ASSETS/02-simple-length-trial-signup-fields-cropped.png)
 
 ### Global settings
 
