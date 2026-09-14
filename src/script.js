@@ -222,9 +222,6 @@
     var closeButton = document.querySelector(
       "[data-release-announcement-close]",
     );
-    var openButtons = document.querySelectorAll(
-      "[data-release-announcement-open]",
-    );
     var changelogLink = document.querySelector("[data-release-announcement-link]");
     var dismissedAtKey = "arraysubs_release_2026_09_live_dismissed_at";
     var dismissalWindowMs = 60 * 60 * 1000;
@@ -325,9 +322,6 @@
       }
     }
 
-    openButtons.forEach(function (button) {
-      button.addEventListener("click", openAnnouncement);
-    });
     closeButton.addEventListener("click", closeAnnouncement);
     if (changelogLink) {
       changelogLink.addEventListener("click", rememberDismissal);

@@ -2,61 +2,6 @@
   overflow: hidden;
 }
 
-.docs-release-notice {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: stretch;
-  margin-bottom: 1.125rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-
-  &__cover {
-    display: block;
-    width: 100%;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-    border-radius: var(--docs-radius);
-    background: var(--docs-cream);
-    cursor: pointer;
-
-    img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 3 / 1;
-      object-fit: cover;
-    }
-  }
-
-  &__button {
-    display: inline-flex;
-    flex: 0 0 auto;
-    align-self: flex-start;
-    align-items: center;
-    justify-content: center;
-    min-height: 2.5rem;
-    padding: 0.5rem 0.9rem;
-    border: 1px solid var(--docs-primary);
-    border-radius: 999px;
-    background: var(--docs-primary);
-    color: #fff;
-    cursor: pointer;
-    font: inherit;
-    font-size: 0.875rem;
-    font-weight: 700;
-    transition:
-      background-color 160ms ease,
-      border-color 160ms ease;
-
-    &:hover {
-      border-color: var(--docs-primary-strong);
-      background: var(--docs-primary-strong);
-    }
-  }
-}
-
 .docs-release-announcement {
   position: fixed;
   inset: 0;
@@ -250,12 +195,6 @@
 }
 
 @media (max-width: 767px) {
-  .docs-release-notice {
-    &__button {
-      margin-left: 0;
-    }
-  }
-
   .docs-release-announcement {
     align-items: flex-end;
     padding: 0.75rem;
@@ -285,7 +224,6 @@
 }
 
 @media print {
-  .docs-release-notice,
   .docs-release-announcement {
     display: none !important;
   }
