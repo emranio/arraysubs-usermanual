@@ -1,17 +1,17 @@
 # Info
-- Module: Easy Setup
+- Module: 1-Minute Setup
 - Availability: Shared
 - Last updated: 2026-09-14
 
-# Easy Setup Wizard
+# 1-Minute Setup
 
-> Answer a guided set of questions about your subscription business and let the wizard configure the most important settings for you — no manual hunting through settings pages required.
+> 1-Minute Setup is the easiest way to get started with ArraySubs. Answer simple questions about your business, let the wizard configure the essentials, and follow one clear checklist to add a subscription product and connect payments. Spend less time in settings and more time getting ready for your first subscriber.
 
 **Availability:** Free (Pro options appear when ArraySubs Pro is active)
 
 ## Page Navigation
 
-- **Admin screen:** WordPress Admin → **ArraySubs → Easy Setup**
+- **Admin screen:** WordPress Admin → **ArraySubs → 1-Minute Setup**
 - **From Home:** WordPress Admin → **ArraySubs → Home → Easy Setup Wizard**, or **Start setup / Review setup** in the setup checklist.
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
 - **Use this first:** [First-Time Setup](first-time-setup.md)
@@ -20,11 +20,11 @@
 
 ## Overview
 
-The Easy Setup Wizard guides you through nine steps: Your Business, Billing & Renewal Rules, Checkout & Cart Rules, Plan Switching, Cancellation & Retention, Refunds, Emails & Notifications, Additional Features & Tools, and Review & Apply. Choose the answers that fit your store, review them, and save the matching settings together.
+The guided wizard takes you through nine steps: Your Business, Billing & Renewal Rules, Checkout & Cart Rules, Plan Switching, Cancellation & Retention, Refunds, Emails & Notifications, Additional Features & Tools, and Review & Apply. Choose the answers that fit your store, review them, and save the matching settings together.
 
 After saving, the final step shows a congratulations message, the settings' last-saved time, and cards for the next setup tasks. When you reopen a completed wizard, these cards appear first. Choose **Start Over** to review your saved setup from Step 1. Member access and content gating are configured separately; they are not a wizard step.
 
-Open the wizard from [Home](../analytics/home.md) or from **ArraySubs → Easy Setup**, alongside the Export and Import tools and a separate **Create subscription product** button.
+Open the wizard from [Home](../analytics/home.md) or from **ArraySubs → 1-Minute Setup**. The page brings your three setup essentials together: subscription settings, a subscription product, and payments. Your checklist updates automatically as you complete each task, with Export and Import tools just below.
 
 The same screen is also the safest place to back up or restore an ArraySubs configuration. Export before major changes, then import the JSON file on another site or after a reset.
 
@@ -75,16 +75,16 @@ A community platform picks **Membership / Community**, reviews its saved rules a
 
 ### Launching the Wizard
 
-![Easy Setup page with the Setup Wizard, Export Settings, and Import Settings cards](easy-setup-wizard.ASSETS/01-easy-setup-page-original.png)
+![1-Minute Setup page with the three setup checklist cards, Export Settings, and Import Settings](easy-setup-wizard.ASSETS/01-easy-setup-page-original.png)
 
-1. Go to **ArraySubs → Easy Setup**.
-2. Find the **Setup Wizard** card on the page.
-3. Click **Launch Setup Wizard**.
+1. Go to **ArraySubs → 1-Minute Setup**.
+2. Find **Subscription settings** in the **Setup Wizard** checklist.
+3. Click **Start setup**, or **Review setup** if your settings have already been saved.
 4. The wizard opens in a modal that fills the available screen height. Scroll inside it to see longer steps; the header and bottom action bar stay in place.
 
 You can also launch it from **ArraySubs → Home → Easy Setup Wizard**, or the checklist's **Start setup / Review setup** action. All entry points open the same wizard. If you see **Your subscription setup is ready.**, choose **Start Over** to load the current saved settings and return to **Your Business**. Start Over does not reset your store settings.
 
-The neighboring **Create subscription product** button opens the [product creation wizard](../subscription-products/quick-product-creation.md) directly. Use it when you want to add a product after configuring the store.
+The neighboring **Subscription product** card opens the [product creation wizard](../subscription-products/quick-product-creation.md) through **Create a product** or **Add another product**. The **Set up payments** card opens WooCommerce payment settings. Complete these tasks in whichever order suits your store.
 
 The screenshots below show ArraySubs Pro active, with example choices that reveal conditional fields. Use the settings that suit your store; you do not need to copy every selection.
 
@@ -403,7 +403,7 @@ The product card opens the **Create subscription product** modal on the current 
 
 Cards for plugin pages appear only when those pages are available in your admin menu. Your selection may differ depending on the installed features and access permissions.
 
-Choose **Start Over** to reload the saved configuration and review it from Step 1. When you are finished, click **Done** or the header's close icon. The settings are already saved; you can return to these tools later from Home or Easy Setup.
+Choose **Start Over** to reload the saved configuration and review it from Step 1. When you are finished, click **Done** or the header's close icon. The settings are already saved; you can return to these tools later from Home or 1-Minute Setup.
 
 ---
 
@@ -447,7 +447,7 @@ Choose **Start Over** to reload the saved configuration and review it from Step 
 ## Related Guides
 
 - [Home](../analytics/home.md) — Open the wizard, check setup progress, and access daily subscription tools.
-- [Quick Product Creation](../subscription-products/quick-product-creation.md) — Create a subscription product from the Easy Setup page or completion cards.
+- [Quick Product Creation](../subscription-products/quick-product-creation.md) — Create a subscription product from the 1-Minute Setup page or completion cards.
 - [Import / Export Settings](import-export-settings.md) — Back up and restore your full ArraySubs configuration across sites.
 - [First-Time Setup](first-time-setup.md) — A manual step-by-step checklist if you prefer configuring settings one by one.
 - [General Settings](../settings/general-settings.md) — Detailed reference for every individual setting the wizard configures.
@@ -464,7 +464,7 @@ No. It loads saved settings, saves supported choices you change, and initializes
 
 ### Can I run the wizard more than once?
 
-Yes. Reopen it from Home or Easy Setup. A completed setup opens on the next-step cards; choose **Start Over** to load the saved configuration and review it from Step 1. Changes are saved only after you confirm **Apply settings**.
+Yes. Reopen it from Home or 1-Minute Setup. A completed setup opens on the next-step cards; choose **Start Over** to load the saved configuration and review it from Step 1. Changes are saved only after you confirm **Apply settings**.
 
 ### Does Start Over reset my store settings?
 
@@ -476,7 +476,7 @@ Nothing changes. A confirmation dialog warns you that your answers will be disca
 
 ### Does the wizard create my subscription products?
 
-Applying Easy Setup saves plugin settings. Afterward, **Create your first subscription product** or **Create a subscription product** opens a separate [product creation wizard](../subscription-products/quick-product-creation.md). Use that modal to create and publish a product. Its variable-product path guides you through the full WooCommerce editor.
+Applying 1-Minute Setup saves plugin settings. Afterward, **Create your first subscription product** or **Create a subscription product** opens a separate [product creation wizard](../subscription-products/quick-product-creation.md). Use that modal to create and publish a product. Its variable-product path guides you through the full WooCommerce editor.
 
 ### Where did the Access Control & Content Gating step go?
 

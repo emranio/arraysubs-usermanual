@@ -20,7 +20,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 
 ## Start Here
 
-- **New store setup:** [Before You Launch](getting-started/before-you-launch.md) → [Cron Job Setup](getting-started/cron-job-setup.md) → [First-Time Setup](getting-started/first-time-setup.md) → [Import and Export Settings](getting-started/import-export-settings.md) → [Essential Daily Workflows](getting-started/essential-daily-workflows.md) → [Easy Setup Wizard](getting-started/easy-setup-wizard.md)
+- **New store setup:** [Before You Launch](getting-started/before-you-launch.md) → [Cron Job Setup](getting-started/cron-job-setup.md) → [First-Time Setup](getting-started/first-time-setup.md) → [Import and Export Settings](getting-started/import-export-settings.md) → [Essential Daily Workflows](getting-started/essential-daily-workflows.md) → [1-Minute Setup](getting-started/easy-setup-wizard.md)
 - **Subscription foundation:** [Settings](settings/README.md) → [Subscription Products](subscription-products/README.md) → [Manage Subscriptions](manage-subscriptions/README.md)
 - **Access and memberships:** [Member Access](member-access/README.md) → [Comments](member-access/comments.md) → [Purchase Limit](member-access/purchase-limit.md) → [Member Styling](member-styling/README.md) → [Login Limit](member-access/login-limit.md) *(Pro)*
 - **Dedicated operations modules:** [Coupons](coupons/README.md) → [Subscription Shipping](subscription-shipping/README.md) *(Pro)* → [Subscription Notes](subscription-notes/README.md)
@@ -47,13 +47,13 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 ## Page Navigation
 
 - **Manual home:** Start here for the complete ArraySubs and ArraySubsPro documentation map.
-- **First setup path:** [Before You Launch](getting-started/before-you-launch.md) -> [Easy Setup Wizard](getting-started/easy-setup-wizard.md) -> [First-Time Setup](getting-started/first-time-setup.md)
+- **First setup path:** [Before You Launch](getting-started/before-you-launch.md) -> [1-Minute Setup](getting-started/easy-setup-wizard.md) -> [First-Time Setup](getting-started/first-time-setup.md)
 - **Daily admin path:** [Subscription Operations](manage-subscriptions/subscription-operations.md) -> [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) -> [Lifecycle Management](manage-subscriptions/lifecycle-management.md)
 - **Troubleshooting path:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 
 | Admin Path | Use It For | Related Guide |
 |---|---|---|
-| **ArraySubs → Easy Setup** | Launch the guided setup wizard or import/export settings | [Easy Setup Wizard](getting-started/easy-setup-wizard.md) |
+| **ArraySubs → 1-Minute Setup** | Launch the guided setup wizard or import/export settings | [1-Minute Setup](getting-started/easy-setup-wizard.md) |
 | **ArraySubs → Settings** | Configure global subscription, toolkit, plan switching, refund, skip/pause, and feature settings | [General Settings](settings/general-settings.md) |
 | **ArraySubs → Settings → Toolkit** | Hide customer-facing WordPress clutter, restrict dashboard access, route login pages, and impersonate customers | [Toolkit Settings](settings/toolkit-settings.md) |
 | **Products → Edit Product → Product data → Subscription Billings [AS]** | Configure simple-product billing; use **Variations** for variable-product billing cards. Pro also adds Redirect Product Page and Subscription Shipping controls. | [Subscription Products](subscription-products/README.md), [Redirect Product Page](redirect-product-page/README.md), [Subscription Shipping](subscription-shipping/README.md) |
@@ -84,7 +84,7 @@ New to ArraySubs? Start here.
 - [First-Time Setup](getting-started/first-time-setup.md) — Install the plugins, create your first subscription product, place a test order, and verify the customer portal.
 - [Import and Export Settings](getting-started/import-export-settings.md) — Move ArraySubs settings between sites or keep a backup of your configuration.
 - [Essential Daily Workflows](getting-started/essential-daily-workflows.md) — How the subscription lifecycle works, where merchants manage everything, and what to check before going live.
-- [Easy Setup Wizard](getting-started/easy-setup-wizard.md) — Guided first configuration, recommended defaults, and import/export access.
+- [1-Minute Setup](getting-started/easy-setup-wizard.md) — Guided first configuration, recommended defaults, and import/export access.
 
 ## Settings
 

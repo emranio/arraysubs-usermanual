@@ -14,7 +14,7 @@
 - **Current guide:** Essential Daily Workflows
 - **Where to open it:** WordPress Admin -> ArraySubs
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [easy-setup-wizard](./easy-setup-wizard.md)
+- **Previous guide:** [1-Minute Setup](./easy-setup-wizard.md)
 - **Next guide:** [first-time-setup](./first-time-setup.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 

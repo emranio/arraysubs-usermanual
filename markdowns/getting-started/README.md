@@ -30,7 +30,7 @@ Open **ArraySubs → Home** in the WordPress admin sidebar. Home is the ArraySub
 
 The checklist covers three essentials, which you can complete in any order:
 
-1. **Set up your subscription engine** — select **Start setup** or **Review setup** to open the [Easy Setup Wizard](easy-setup-wizard.md).
+1. **Set up your subscription engine** — select **Start setup** or **Review setup** to open [1-Minute Setup](easy-setup-wizard.md).
 2. **Add a subscription product** — select **Create a product** or **Add another product** to open the quick product creation modal.
 3. **Set up payments** — open WooCommerce payment settings and configure an automatic recurring-payment gateway. Manual-only stores can still show this task as **To do**.
 
@@ -58,8 +58,8 @@ A step-by-step checklist: configure your store, create your first subscription p
 ### [License Activation](license-activation.md)
 Activate ArraySubs Pro with your license key, store the local activation details, remove a local license, and understand how Pro update downloads are gated *(Pro)*.
 
-### [Easy Setup Wizard](easy-setup-wizard.md)
-A nine-step guide to billing, checkout, plan switching, cancellation, refunds, emails, and optional tools. Launch it from Home or Easy Setup, review the loaded settings, and confirm your changes. Completed setups reopen on the next-step cards; **Start Over** lets you review the saved configuration again.
+### [1-Minute Setup](easy-setup-wizard.md)
+A nine-step guide to billing, checkout, plan switching, cancellation, refunds, emails, and optional tools. Launch it from Home or 1-Minute Setup, review the loaded settings, and confirm your changes. Completed setups reopen on the next-step cards; **Start Over** lets you review the saved configuration again.
 
 ### [Admin Bar Visibility](../admin-bar-visibility/README.md)
 Hide the WordPress frontend toolbar for customers while administrators keep normal shortcuts.

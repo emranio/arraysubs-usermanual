@@ -15,7 +15,7 @@
 - **Where to open it:** WordPress Admin -> ArraySubs
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [before-you-launch](./before-you-launch.md)
-- **Next guide:** [easy-setup-wizard](./easy-setup-wizard.md)
+- **Next guide:** [1-Minute Setup](./easy-setup-wizard.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview

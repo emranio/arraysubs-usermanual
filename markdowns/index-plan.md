@@ -32,7 +32,7 @@
   - First-Time Setup
   - Import and Export Settings
   - Essential Daily Workflows
-  - Easy Setup Wizard
+  - 1-Minute Setup
 
 - Settings - done
   - Settings overview

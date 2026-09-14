@@ -12,7 +12,7 @@
 ## Page Navigation
 
 - **Current guide:** Import / Export Settings
-- **Where to open it:** WordPress Admin -> ArraySubs -> Easy Setup
+- **Where to open it:** WordPress Admin -> ArraySubs -> 1-Minute Setup
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [first-time-setup](./first-time-setup.md)
@@ -21,13 +21,13 @@
 
 ## Overview
 
-![Easy Setup page with the Setup Wizard, Export Settings, and Import Settings cards](easy-setup-wizard.ASSETS/01-easy-setup-page-original.png)
+![1-Minute Setup page with the Setup Wizard, Export Settings, and Import Settings cards](easy-setup-wizard.ASSETS/01-easy-setup-page-original.png)
 
 The Import / Export tools let you back up the portable parts of your ArraySubs configuration and restore them on the same site or a different one. A current export contains a complete 13-section manifest, supported core and Pro settings, 29 ArraySubs WooCommerce email rows, profile fields, feature templates, the My Account menu layout, and more. Payment credentials and customer records are not included.
 
 Import reads that file, validates its structure and settings, and lets you choose exactly which sections to apply. Selected sections are replaced; unchecked sections remain untouched.
 
-Both tools live on the **ArraySubs → Easy Setup** page alongside the Setup Wizard.
+Both tools live on the **ArraySubs → 1-Minute Setup** page alongside the Setup Wizard.
 
 ## When to Use This
 
@@ -76,7 +76,7 @@ A franchise operates five WooCommerce stores that all use the same subscription 
 
 ![Successful settings export with the downloaded JSON file and confirmation toast](import-export-settings.ASSETS/01-export-settings-success-original.png)
 
-1. Go to **ArraySubs → Easy Setup**.
+1. Go to **ArraySubs → 1-Minute Setup**.
 2. Find the **Export Settings** card.
 3. Click **Export Settings**.
 4. A JSON file downloads automatically with the name `arraysubs-settings-YYYY-MM-DD.json`.
@@ -164,7 +164,7 @@ When Pro is active, `pro_version` contains its current version string; otherwise
 
 ![Import Settings entry form with file picker and JSON text area](import-export-settings.ASSETS/02-import-settings-entry-original.png)
 
-1. Go to **ArraySubs → Easy Setup**.
+1. Go to **ArraySubs → 1-Minute Setup**.
 2. Click **Import Settings** on the Import card.
 3. Choose one of two methods:
    - Click **Choose JSON File** and select a current ArraySubs `.json` export. A valid file is read and advanced automatically.
@@ -247,7 +247,7 @@ After the import completes, a result screen shows:
 - **Skipped** — Sections that were not selected or not found in the file.
 - **Warnings** — Compatibility and portability notes, such as Pro sections skipped because Pro is inactive or references imported from another site.
 
-Click **Dismiss** to close the result view and return to the Easy Setup page.
+Click **Dismiss** to close the result view and return to the 1-Minute Setup page.
 
 When the source URL differs from the current site, ArraySubs adds this warning:
 
@@ -299,7 +299,7 @@ When the source URL differs from the current site, ArraySubs adds this warning:
 | Manifest or unknown-option error | The file is incomplete, manually edited, corrupted, or contains settings this version does not recognize | Re-export from the source site. Do not repair the section list by hand |
 | The file is too large | The encoded JSON exceeds 5 MiB | Use an untouched ArraySubs settings export; confirm that unrelated data was not added to the file |
 | Sections are missing from the import list | The file is not a complete current export | Fresh v2 exports contain all 13 supported sections. Create a new export on the source site |
-| Pro sections appear under Skipped | ArraySubs Pro is not active on the target site | Activate Pro, return to Easy Setup, and import those sections again |
+| Pro sections appear under Skipped | ArraySubs Pro is not active on the target site | Activate Pro, return to 1-Minute Setup, and import those sections again |
 | Imported settings look wrong | Site-specific IDs do not match | Check settings that reference pages, products, or categories. Re-map them to the correct IDs on this site |
 | Nothing changed after import | All sections were unchecked, or the imported values are identical to existing ones | Verify you selected the correct sections in Step 2 and that the export file contains different values |
 | Import fails while saving an option | WordPress could not persist one of the prepared changes | Previous values are restored automatically. Resolve the database or option-write problem, then retry |
@@ -308,7 +308,7 @@ When the source URL differs from the current site, ArraySubs adds this warning:
 
 ## Related Guides
 
-- [Easy Setup Wizard](easy-setup-wizard.md) — Use the guided wizard for initial configuration instead of importing from a file.
+- [1-Minute Setup](easy-setup-wizard.md) — Use the guided wizard for initial configuration instead of importing from a file.
 - [First-Time Setup](first-time-setup.md) — A manual step-by-step checklist for new installations.
 - [General Settings](../settings/general-settings.md) — The full reference for individual settings the import may overwrite.
 - [Retention Offers](../retention-and-refunds/retention-offers.md) — Verify your retention flow after importing the Retention Flow Builder section.

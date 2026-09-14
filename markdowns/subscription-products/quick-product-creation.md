@@ -20,9 +20,9 @@ On **ArraySubs → Home**, click **+ Subscription Product**. The dialog is title
 
 ![ArraySubs Home toolbar with the + Subscription Product button](quick-product-creation.ASSETS/01-open-wizard-cropped.png)
 
-The **ArraySubs → Easy Setup** page has a **Create subscription product** button as another entry point. The Home onboarding card also opens it through **Create a product** or **Add another product**. After [Easy Setup](../getting-started/easy-setup-wizard.md), use **Create your first subscription product** or **Create a subscription product** on the completion screen. The product card opens this modal; other completion cards open their destination pages.
+The **ArraySubs → 1-Minute Setup** page has a **Subscription product** card with a **Create a product** or **Add another product** action. The Home onboarding card opens the same modal through these actions. After [1-Minute Setup](../getting-started/easy-setup-wizard.md), use **Create your first subscription product** or **Create a subscription product** on the completion screen. The product card opens this modal; other completion cards open their destination pages.
 
-![Saved Easy Setup with the Create a subscription product card](quick-product-creation.ASSETS/44-easy-setup-next-steps-cropped.png)
+![Saved 1-Minute Setup with the Create a subscription product card](quick-product-creation.ASSETS/44-easy-setup-next-steps-cropped.png)
 
 You need WooCommerce and ArraySubs active, plus an account allowed to edit and publish products, such as an administrator or an appropriately configured shop manager. Pro options appear according to the installed and enabled features.
 
@@ -366,5 +366,5 @@ Closing the outer modal after entering details opens **Discard product?**. Choos
 
 - [Create and Configure Subscription Products](create-and-configure.md) — Full WooCommerce editor and variation billing.
 - [First-Time Setup](../getting-started/first-time-setup.md) — Test the first purchase and customer portal.
-- [Easy Setup Wizard](../getting-started/easy-setup-wizard.md) — Configure store-wide subscription settings.
+- [1-Minute Setup](../getting-started/easy-setup-wizard.md) — Configure store-wide subscription settings.
 - [Member Access](../member-access/README.md) — Define the benefits attached to a subscription.

@@ -259,7 +259,7 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 
 | Module | Availability Notes |
 |---|---|
-| [Easy Setup Wizard](easy-setup-wizard.md) | Free guided setup with Pro-only options when Pro is active |
+| [1-Minute Setup](easy-setup-wizard.md) | Free guided setup with Pro-only options when Pro is active |
 | [Admin Bar Visibility](../admin-bar-visibility/README.md) | Free |
 | [Admin Dashboard Access](../admin-dashboard-access/README.md) | Free |
 | [WordPress Login Page](../wordpress-login-page/README.md) | Free |

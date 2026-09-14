@@ -1,11 +1,12 @@
 ---
 id: 48
 title: getting-started - easy-setup-wizard.md
-status: review
+status: done
 priority: medium
 created: 2026-06-09T18:08:34.832299+06:00
-updated: 2026-09-14T18:55:37.593589+06:00
+updated: 2026-09-14T20:19:01.932211+06:00
 started: 2026-06-22T01:23:40.780171+06:00
+completed: 2026-09-14T20:19:01.919409+06:00
 class: standard
 ---
 
@@ -466,3 +467,12 @@ Verification: Saved source and built copy inspected separately; source and built
 Text mismatch flagged for later review only: the launch instructions still say Launch Setup Wizard and refer to a separate Create subscription product button; the main page now shows Start setup / Review setup and Create a product / Add another product within the compact checklist. Manual text left unchanged under the screenshot-only request.
 
 Checksum count correction: the asset folder has 34 PNGs in total; the other 33 images are byte-for-byte unchanged.
+
+[[2026-09-14]] Mon 20:19
+1-Minute Setup manual rename — 2026-09-14. User explicitly authorized the manual menu/title rename, linked text on other pages, a marketing introduction, and a fresh main-page screenshot only.
+
+Updated the guide title and Module label to 1-Minute Setup, which also updates the generated menu and page title. Rewrote the opening introduction around the easiest way to get started, guided essentials, and the first subscriber. Updated 17 incoming link labels across 10 other pages and related references to the renamed admin page. Main-page launch instructions now match Start setup / Review setup and the compact product card; Home toolbar references retain the actual Easy Setup Wizard button label. Existing document URLs and inner step instructions are preserved.
+
+Screenshot: 01-easy-setup-page; placement after Launching the Wizard; full admin page showing the 1-Minute Setup heading and sidebar, all three primary-color checklist cards, Export Settings, and Import Settings. Captured clean with agent-browser on http://localhost:10013/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup, authenticated admin, core and Pro active. Viewport 1200 × 1200; image 1200 × 1307. Markers: none. No inner wizard pages opened or retaken.
+
+Verification: Inspected the saved source image and its built copy; bytes match. Only the main screenshot changed among 34 existing PNGs, with all other 33 unchanged. All 17 source links resolve. All 140 generated links/menu entries for the guide use 1-Minute Setup; built heading and introduction verified. Build passed with 123 documentation pages. Prior review note about stale main-page launch text is resolved.

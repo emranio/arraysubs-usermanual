@@ -57,7 +57,7 @@ Select **ArraySubs → Home**. This is the landing page, with a checklist for yo
 
 ![Home setup checklist and shortcuts after plugin activation](../analytics/home.ASSETS/02-home-setup-and-metrics-original.png)
 
-- **Start setup** or **Review setup** opens the [Easy Setup Wizard](easy-setup-wizard.md). You can use it to configure the store, or follow the settings steps below.
+- **Start setup** or **Review setup** opens [1-Minute Setup](easy-setup-wizard.md). You can use it to configure the store, or follow the settings steps below.
 - **Create a product** or **Add another product** opens the quick product creation modal. **+ Subscription Product** in the toolbar opens the same flow.
 - **Set up payments** opens WooCommerce payment settings. The checklist marks this task complete when an automatic recurring-payment gateway is enabled and configured; a manual test payment method alone does not complete it.
 
@@ -135,7 +135,7 @@ You can always come back to these settings later. Nothing here is permanent — 
 
 ### Guided creation from ArraySubs
 
-1. Open **ArraySubs → Home** and click **+ Subscription Product**. The product card after Easy Setup opens the same modal.
+1. Open **ArraySubs → Home** and click **+ Subscription Product**. The product card after 1-Minute Setup opens the same modal.
 2. Choose **Simple subscription product**, enter a title and positive price, and choose your billing terms.
 3. For a first test, use monthly billing, interval 1, length 0, trial length 0, and no signup fee. Review renewal sync and choose whether the product needs shipping.
 4. On **Review & create**, click **Create product** and confirm publishing. The success screen provides **View product page**, **Set up member access**, and **Edit product**.
@@ -335,7 +335,7 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 - [Create Products with the Quick Creation Wizard](../subscription-products/quick-product-creation.md) — A complete screenshot walkthrough of the product creation modal and its product-type paths.
 
 - [Before You Launch](before-you-launch.md) — Requirements, core concepts, and feature map.
-- [Easy Setup Wizard](easy-setup-wizard.md) — Prefer a guided setup? Use the wizard to configure settings by answering plain-language questions.
+- [1-Minute Setup](easy-setup-wizard.md) — Prefer a guided setup? Use the wizard to configure settings by answering plain-language questions.
 - [Import / Export Settings](import-export-settings.md) — Back up your configuration or migrate settings between sites.
 - [Essential Daily Workflows](essential-daily-workflows.md) — How the lifecycle works day to day and what to verify before going live.
 - [Create and Configure Subscription Products](../subscription-products/create-and-configure.md) — Detailed guide to all subscription billing fields, trials, signup fees, and different renewal pricing.

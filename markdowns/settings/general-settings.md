@@ -13,7 +13,7 @@
 
 - **Admin screen:** WordPress Admin → **ArraySubs → Settings → General**
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/general`
-- **Related setup page:** [Easy Setup Wizard](../getting-started/easy-setup-wizard.md)
+- **Related setup page:** [1-Minute Setup](../getting-started/easy-setup-wizard.md)
 - **Related product setup:** [Create and Configure Subscription Products](../subscription-products/create-and-configure.md)
 - **Related checkout guide:** [Subscription Checkout](../checkout-and-payments/subscription-checkout.md)
 - **Related renewal guide:** [Renewal Operations](../billing-and-renewals/renewal-operations.md)

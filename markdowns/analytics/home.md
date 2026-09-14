@@ -53,7 +53,7 @@ The **Get started here, for your first subscriber** card tracks three essentials
 
 | Task | What the button opens | When it shows Done |
 |---|---|---|
-| **Set up your subscription engine** | **Start setup** or **Review setup** opens the [Easy Setup Wizard](../getting-started/easy-setup-wizard.md) in a modal | ArraySubs settings have been saved |
+| **Set up your subscription engine** | **Start setup** or **Review setup** opens [1-Minute Setup](../getting-started/easy-setup-wizard.md) in a modal | ArraySubs settings have been saved |
 | **Add a subscription product** | **Create a product** or **Add another product** opens the quick product creation modal | The store has a subscription product |
 | **Set up payments** | WooCommerce payment settings; the label becomes **Manage payments** once complete | An automatic recurring-payment gateway is enabled and configured |
 
@@ -216,7 +216,7 @@ A store owner opens **ArraySubs → Home** each morning, selects **30 days**, an
 ## Related Guides
 
 - [Getting Started](../getting-started/README.md) — where Home fits into the setup process
-- [Easy Setup Wizard](../getting-started/easy-setup-wizard.md) — the setup flow opened by Home's wizard shortcuts
+- [1-Minute Setup](../getting-started/easy-setup-wizard.md) — the setup flow opened by Home's wizard shortcuts
 - [First-Time Setup](../getting-started/first-time-setup.md) — installation, first product, test order, and customer portal
 - [Reports Hub](reports-hub.md) — the directory of every report in the ecosystem
 - [Subscription Performance Dashboard](subscription-performance.md) — the full Pro analytics dashboard
