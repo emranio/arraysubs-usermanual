@@ -1,12 +1,11 @@
 ---
 id: 48
 title: getting-started - easy-setup-wizard.md
-status: done
+status: review
 priority: medium
 created: 2026-06-09T18:08:34.832299+06:00
-updated: 2026-09-14T17:59:54.600579+06:00
+updated: 2026-09-14T18:55:37.593589+06:00
 started: 2026-06-22T01:23:40.780171+06:00
-completed: 2026-09-14T17:59:54.600579+06:00
 class: standard
 ---
 
@@ -453,3 +452,17 @@ Markers:
 - `npm run build` passed: 123 documentation pages.
 - Real-browser manual preview loaded all 26 images successfully with no horizontal overflow. Launching the Wizard and Congratulations and Next Steps rendered correctly.
 - Save behavior was verified from the current loader and REST implementation. This documentation refresh did not submit a settings POST; the Apply dialog was cancelled and the draft discarded.
+
+[[2026-09-14]] Mon 18:54
+Main-page screenshot refresh — 2026-09-14. User scope: replace only the Easy Setup main-page screenshot; preserve every inner wizard image and the manual text.
+
+1. `01-easy-setup-page`
+Placement: after `### Launching the Wizard`.
+Surface: Easy Setup main admin page, with the compact Subscription settings, Subscription product, and Set up payments cards, plus Export Settings and Import Settings.
+Context: Current WordPress primary-color cards, white controls, and live 2 of 3 complete progress. Authenticated admin on http://localhost:10013/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup, core and Pro active. Browser session setup-manual-main-admin.
+Capture scope: Unmarked full-page original, 1200 × 1200 viewport; saved image 1200 × 1307. Existing filename replaced directly.
+Markers: None; clean screenshot requested.
+Verification: Saved source and built copy inspected separately; source and built image bytes match. All other 34 screenshot assets retain their prior checksums. Manual build passed with 123 pages, and the existing guide reference resolves to this image. No inner wizard screens were opened or changed, and no settings were saved.
+Text mismatch flagged for later review only: the launch instructions still say Launch Setup Wizard and refer to a separate Create subscription product button; the main page now shows Start setup / Review setup and Create a product / Add another product within the compact checklist. Manual text left unchanged under the screenshot-only request.
+
+Checksum count correction: the asset folder has 34 PNGs in total; the other 33 images are byte-for-byte unchanged.
