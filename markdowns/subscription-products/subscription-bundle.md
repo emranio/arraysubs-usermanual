@@ -20,6 +20,8 @@
 
 ## Overview
 
+To create a bundle from ArraySubs, open **Home → + Subscription Product → Subscription bundle product**. The [Quick Creation Wizard guide](quick-product-creation.md#subscription-bundles) covers its details screen, all three configuration screens, saved summary, review, and publishing. This page explains the full bundle configuration and eligibility rules.
+
 A subscription bundle is a WooCommerce **product type** added by ArraySubs Pro: **Subscription Bundle [ArraySubs]**. You decide exactly what goes in it — a membership plan, a mug, a tee — and the customer buys the whole bundle with one **Add to Cart** click for one recurring amount.
 
 There is no wizard for the shopper. The product page lists what is included, and the button reads whatever you set as the subscription button text under **Settings → General**, so a bundle behaves like any other subscription product on the storefront.

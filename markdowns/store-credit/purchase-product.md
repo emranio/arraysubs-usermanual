@@ -20,6 +20,8 @@
 
 ## Overview
 
+You can also create a credit product from **ArraySubs → Home → + Subscription Product → Store credit**. See [Create Products with the Quick Creation Wizard](../subscription-products/quick-product-creation.md#store-credit-products) for screenshots of product details, fixed or customer-chosen credit amounts, bonus credit, review, and publishing.
+
 The Store Credit Purchase Product is a special WooCommerce product type (`arraysubs_store_credit`) that allows customers to buy credit for their store account. When the order completes, the purchased credit (plus any configured bonus) is automatically added to the customer's balance.
 
 You can set up products with a fixed credit amount or let customers enter their own amount within configurable limits. An optional bonus percentage rewards larger purchases — for example, "Buy $100, get $110 in credit."

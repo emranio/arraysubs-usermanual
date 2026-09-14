@@ -1,13 +1,13 @@
 # Info
 - Module: Subscription Products
-- Availability: Pro
-- Last updated: 2026-09-09
+- Availability: Free
+- Last updated: 2026-09-14
 
 # Subscription Boxes
 
 > Sell a build-your-own box: customers assemble it from steps you define, and pay one recurring amount for the whole box.
 
-**Availability:** Pro
+**Availability:** Free
 
 ## Page Navigation
 
@@ -20,11 +20,11 @@
 
 ## Overview
 
-A subscription box is a WooCommerce **product type** added by ArraySubs Pro: **Subscription Box [ArraySubs]**. Instead of a fixed price, the box is priced by what the customer puts inside it. You define the steps of a small wizard — pick a coffee, pick two snacks, add a gift note, upload artwork — and the customer walks through those steps on the product page.
+A subscription box is a WooCommerce **product type** added by ArraySubs: **Subscription Box [ArraySubs]**. Instead of a fixed price, the box is priced by what the customer puts inside it. You define the steps of a small wizard — pick a coffee, pick two snacks, add a gift note, upload artwork — and the customer walks through those steps on the product page.
 
 Everything the customer chooses becomes **one subscription** that carries the whole recurring amount. The individual products go onto the order as included contents, not as separately billed lines.
 
-All box controls live in the product's **General** tab. There is no extra admin menu.
+Create a box through **ArraySubs → Home → + Subscription Product → Subscription box**, or use the product's **General** tab in the full WooCommerce editor. Both open the box configuration builder. See [Create Products with the Quick Creation Wizard](quick-product-creation.md#subscription-boxes) for the modal screens and publishing flow.
 
 ## When to Use This
 
@@ -38,7 +38,7 @@ All box controls live in the product's **General** tab. There is no extra admin 
 
 - WooCommerce installed and active.
 - ArraySubs core plugin installed and active.
-- ArraySubs **Pro** add-on installed and active with a valid license.
+- ArraySubs Subscription Box module available. The box builder is included in core.
 - At least one published **simple** product to offer inside the box, priced above zero.
 - Admin or Shop Manager access.
 

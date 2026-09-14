@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Shared
-- Last updated: 2026-09-09
+- Last updated: 2026-09-14
 
 # Manage Subscription Products
 
@@ -17,10 +17,12 @@ For a **Simple product**, check **Subscription [AS]** and click **Configure subs
 
 ## In This Section
 
+- [Create Products with the Quick Creation Wizard](quick-product-creation.md) — Start from **ArraySubs → Home → + Subscription Product**; follow the modal for simple products, boxes, bundles, and store credit, or open the variable-product setup guide. Includes screenshots of each screen.
+
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up simple and variable subscription products with billing periods, trials, signup fees, and different renewal pricing.
 - [Flexible Subscription Duration](flexible-subscription-duration.md) — Let customers choose the subscription length, and optionally the billing period, within merchant-set limits *(Pro)*.
-- [Subscription Boxes](subscription-box.md) — Create a build-your-own box product where customers assemble a box from steps you define, with product and category pickers, tiered discounts, freebies, and its own renewal-sync plan *(Pro)*.
-- [Subscription Box Customer Experience](subscription-box-customer-experience.md) — How shoppers build a box on the storefront, how it appears in the cart and at checkout, and how the box and its included subscriptions behave through renewals *(Pro)*.
+- [Subscription Boxes](subscription-box.md) — Create a build-your-own box product where customers assemble a box from steps you define, with product and category pickers, tiered discounts, freebies, and its own renewal-sync plan.
+- [Subscription Box Customer Experience](subscription-box-customer-experience.md) — How shoppers build a box on the storefront, how it appears in the cart and at checkout, and how the box and its included subscriptions behave through renewals.
 - [Subscription Bundles](subscription-bundle.md) — Create a merchant-curated bundle product with fixed contents, a bundle-wide fixed or percentage discount, and its own renewal-sync plan, bought in a single click *(Pro)*.
 - [Subscription Bundle Customer Experience](subscription-bundle-customer-experience.md) — What shoppers see on a bundle product page, how it appears in the cart and at checkout, and how the bundle and its included subscriptions behave through renewals *(Pro)*.
 - [Plan Switching and Product Relationships](plan-switching-and-relationships.md) — Configure upgrade, downgrade, and crossgrade paths, auto-downgrade fallback plans, and fixed-period memberships *(Pro)*.
@@ -40,17 +42,18 @@ For a **Simple product**, check **Subscription [AS]** and click **Configure subs
 
 | Concept | Where to configure |
 |---|---|
+| Create a product through the guided modal | ArraySubs → Home → + Subscription Product |
 | Open simple-product billing settings | General tab → Configure subscription billings, below Regular price |
 | Per-variation billing settings | Variations tab → expand a variation → Subscription Billings [AS] card |
 | Billing period, interval, length | Product editor → Subscription Billings [AS] tab |
 | Free trial | Product editor → Subscription Billings [AS] tab → Trial Settings |
 | Signup fee | Product editor → Subscription Billings [AS] tab → Sign-up Fee |
 | Different renewal price | Product editor → Subscription Billings [AS] tab → Different Renewal Price |
-| Subscription box product type *(Pro)* | Product editor → Product data → Subscription Box [ArraySubs] |
-| Box configuration wizard *(Pro)* | Product editor → General tab → Edit Box Configuration |
-| Box billing schedule, steps, and elements *(Pro)* | Product editor → General tab → Edit Box Configuration → Box Steps |
-| Box discounts and freebies *(Pro)* | Product editor → General tab → Edit Box Configuration → Discounts & Freebies |
-| Box renewal sync segment plan *(Pro)* | Product editor → General tab → Edit Box Configuration → Flexible Renewal Sync |
+| Subscription box product type | Product editor → Product data → Subscription Box [ArraySubs] |
+| Box configuration wizard | Product editor → General tab → Edit Box Configuration |
+| Box billing schedule, steps, and elements | Product editor → General tab → Edit Box Configuration → Box Steps |
+| Box discounts and freebies | Product editor → General tab → Edit Box Configuration → Discounts & Freebies |
+| Box renewal sync segment plan | Product editor → General tab → Edit Box Configuration → Flexible Renewal Sync |
 | Upgrade / downgrade / crossgrade paths | Product editor → Linked Products tab |
 | Auto-downgrade target | Product editor → Linked Products tab |
 | Fixed period end date *(Pro)* | Product editor → Subscription Billings [AS] tab → Fixed Period Membership |

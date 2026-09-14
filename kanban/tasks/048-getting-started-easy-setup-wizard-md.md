@@ -4,8 +4,9 @@ title: getting-started - easy-setup-wizard.md
 status: done
 priority: medium
 created: 2026-06-09T18:08:34.832299+06:00
-updated: 2026-09-09T19:41:10.238677+06:00
+updated: 2026-09-14T17:59:54.600579+06:00
 started: 2026-06-22T01:23:40.780171+06:00
+completed: 2026-09-14T17:59:54.600579+06:00
 class: standard
 ---
 
@@ -218,3 +219,237 @@ Markers: None — clean originals.
 - Confirmed all eight completion cards use `target="_blank"` and `rel="noopener noreferrer"` with the expected destinations.
 - All 26 referenced PNGs exist; all local guide links resolve. Manual build: 122 documentation pages.
 - Final review complete: all 26 originals visually inspected twice; every image loaded in the built manual, and full-browser preview confirmed correct presentation without horizontal overflow.
+
+
+# Easy Setup content and screenshot refresh — 2026-09-14
+
+This refresh supersedes the 2026-09-09 screenshot contexts and behavior notes above. User explicitly requested current content and screenshots.
+
+Scope: `markdowns/getting-started/easy-setup-wizard.md` and its Getting Started index description. The shared Easy Setup page image also refreshes Import / Export Settings automatically.
+
+Evidence: actual local administrator UI with core and Pro active; EasySetup wizard questions/defaults, saved-setting loader, step renderer, review and completion components, REST GET/apply/change filtering, and concrete Pro-module availability checks. Browser session: manual-wizard at the user-provided localhost:10013 admin site. No settings were applied, no products were changed, and the demonstration answers were discarded. The completion image shows the site's real previously saved setup.
+
+Content updated: Home and Easy Setup launch paths; direct product creation; loading saved settings; remembered business choices; Start Over and Skip; saved values taking priority over profile recommendations; preservation of unchanged settings; multiple-published-product restriction; Allow Early Renew; both purchase-button text fields; nested optional-tool controls; apply confirmation; last-saved time; all ten available next-step cards. Updated related links and troubleshooting.
+
+The current store prevents selecting One plan because multiple subscription products are published. Its disabled state is captured in the business-step images. The old single-plan-message image is no longer embedded; the source-backed explanation remains in the guide. Older unreferenced assets were preserved.
+
+## Current screenshot set (26 clean originals)
+
+The final coverage was checked against all nine actual steps, conditional controls, all expanded review sections, both confirmation dialogs, and the saved completion screen. Long steps use overlapping inner-scroll modal captures; together they cover the full content without gaps. No image annotations or edits were applied. Marker instructions below are text for future annotation only.
+
+1. `01-easy-setup-page`
+Placement: Launching the Wizard.
+Surface: Easy Setup page with the Setup Wizard, Export Settings, and Import Settings cards.
+Capture scope: full admin page; 1200 × 1307.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Launch Setup Wizard button in the Setup Wizard card, label 'Open setup'
+
+2. `11-wizard-discard-confirmation`
+Placement: Navigation.
+Surface: Confirmation before discarding an unfinished wizard session.
+Capture scope: confirmation modal; 400 × 193.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Keep working button, label 'Continue without discarding'
+
+3. `02-wizard-step-1-your-business`
+Placement: Step 1 — Your Business.
+Surface: Wizard Step 1 — Your Business.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the SaaS / Digital Software business card, label 'Choose your business'
+
+4. `02-wizard-step-1-your-business-part-2`
+Placement: Step 1 — Your Business.
+Surface: Custom billing interval, period, and plan choices.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Every how many billing periods? field, label 'Custom billing interval'
+
+5. `02-wizard-step-1-your-business-part-3`
+Placement: Step 1 — Your Business.
+Surface: Multiple published products disable One plan; free-trial controls appear when trials are selected.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the disabled One plan option and its published-products explanation, label 'Multiple published products'
+
+6. `03-wizard-step-2-billing-renewal-rules`
+Placement: Step 2 — Billing & Renewal Rules.
+Surface: Wizard Step 2 — Billing and Renewal Rules.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Custom grace-period option and its two day fields, label 'Custom grace periods'
+
+7. `03-wizard-step-2-billing-renewal-rules-part-2`
+Placement: Step 2 — Billing & Renewal Rules.
+Surface: Renewal timing, synchronization, Allow Early Renew, and billing flexibility.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Allow Early Renew checkbox, label 'Early renewal'
+
+8. `03-wizard-step-2-billing-renewal-rules-part-3`
+Placement: Step 2 — Billing & Renewal Rules.
+Surface: Skip limits and pause limits with both options enabled.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Maximum pause duration dropdown, label 'Pause limits'
+
+9. `04-wizard-step-3-checkout-cart-rules`
+Placement: Step 3 — Checkout & Cart Rules.
+Surface: Wizard Step 3 — Checkout and Cart Rules.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1310.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Add to Cart Text field, label 'Subscription button text'
+
+10. `04-wizard-step-3-checkout-cart-rules-part-2`
+Placement: Step 3 — Checkout & Cart Rules.
+Surface: One-click checkout, non-subscription button text, automatic accounts, and cart-information checkboxes.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1310.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Non-Subscription Purchase Button Text field, label 'Other purchase buttons'
+
+11. `04-wizard-checkout-auto-migration`
+Placement: Step 3 — Checkout & Cart Rules.
+Surface: Auto-migration choices when only one subscription per customer is allowed.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Should checkout auto-migrate an existing subscription? choices, label 'Existing subscription checkout'
+
+12. `05-wizard-step-4-plan-switching`
+Placement: Step 4 — Plan Switching.
+Surface: Wizard Step 4 — Plan Switching.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the price-difference handling choices, label 'Plan-switch proration'
+
+13. `06-wizard-step-5-cancellation-retention`
+Placement: Step 5 — Cancellation & Retention.
+Surface: Wizard Step 5 — Cancellation and Retention.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the When should a cancellation take effect? choices, label 'Cancellation timing'
+
+14. `06-wizard-step-5-cancellation-retention-part-2`
+Placement: Step 5 — Cancellation & Retention.
+Surface: Retention offers with discount percentage and duration controls.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Retention discount percentage dropdown, label 'Retention discount'
+
+15. `07-wizard-step-6-refunds`
+Placement: Step 6 — Refunds.
+Surface: Dedicated Refunds step with policy, gateway and prorated-refund switches, and minimum amount.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Automatic Gateway Refund switch, label 'Gateway refund handling'
+
+16. `08-wizard-step-7-emails-notifications`
+Placement: Step 7 — Emails & Notifications.
+Surface: Wizard Step 7 — Emails and Notifications.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Let me choose option, label 'Choose individual emails'
+
+17. `08-wizard-step-7-emails-notifications-part-2`
+Placement: Step 7 — Emails & Notifications.
+Surface: Customer email checkboxes revealed by Let me choose.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Renewal Reminder checkbox, label 'Customer renewal reminder'
+
+18. `08-wizard-step-7-emails-notifications-part-3`
+Placement: Step 7 — Emails & Notifications.
+Surface: Remaining customer emails, reminder timing, and administrator notifications.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Which admin notifications should stay enabled? group, label 'Administrator notifications'
+
+19. `09-wizard-step-8-additional-features-tools`
+Placement: Step 8 — Additional Features & Tools.
+Surface: Wizard Step 8 — Additional Features and Tools.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Store Credit System nested settings, label 'Store credit follow-up settings'
+
+20. `09-wizard-step-8-additional-features-tools-part-2`
+Placement: Step 8 — Additional Features & Tools.
+Surface: Nested feature-display, dashboard-redirect, and login-session controls.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Maximum concurrent login sessions per customer dropdown, label 'Customer session limit'
+
+21. `10-wizard-step-9-review-apply`
+Placement: Step 9 — Review & Apply.
+Surface: Wizard Step 9 — Review and Apply.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the 53 answers are ready to apply summary, label 'Review visible answers'
+
+22. `10-wizard-step-9-review-apply-part-2`
+Placement: Step 9 — Review & Apply.
+Surface: Review of renewal and checkout choices.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Checkout & Cart Rules section Edit button, label 'Edit checkout answers'
+
+23. `10-wizard-step-9-review-apply-part-3`
+Placement: Step 9 — Review & Apply.
+Surface: Review of checkout, plan switching, and cancellation choices.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Plan Switching section Edit button, label 'Edit switching answers'
+
+24. `10-wizard-step-9-review-apply-part-4`
+Placement: Step 9 — Review & Apply.
+Surface: Review of refund, email, and optional-feature choices.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Additional Features & Tools review section, label 'Review optional tools'
+
+25. `13-wizard-apply-confirmation`
+Placement: Step 9 — Review & Apply.
+Surface: Apply settings confirmation with Keep reviewing and Apply settings actions.
+Capture scope: confirmation modal; 400 × 167.
+Context: Unsaved example choices with Pro active; saved defaults retained unless changed to reveal conditional fields.
+Markers:
+- arrow pointing to the Keep reviewing button, label 'Return without saving'
+
+26. `12-wizard-complete-next-steps`
+Placement: Congratulations and Next Steps.
+Surface: Saved setup with its last-saved time, ten next-step cards, Start Over, and Done.
+Capture scope: wizard modal, section at its documented inner-scroll position; 1200 × 1160.
+Context: Real previously saved setup; all ten cards and completion footer visible.
+Markers:
+- arrow pointing to the Start Over button in the completion footer, label 'Review saved setup'
+
+## Verification
+
+- Reviewed all 26 original screenshots visually, including every lower step section and the ten-card completion screen.
+- Rechecked the final guide from start to finish against the current screenshots; no obsolete single-plan or quick-product completion image is embedded.
+- All guide-local links resolve; all 26 screenshot references are unique and exist. Every built screenshot matches its source bytes.
+- `npm run build` passed: 123 documentation pages.
+- Real-browser manual preview loaded all 26 images successfully with no horizontal overflow. Launching the Wizard and Congratulations and Next Steps rendered correctly.
+- Save behavior was verified from the current loader and REST implementation. This documentation refresh did not submit a settings POST; the Apply dialog was cancelled and the draft discarded.

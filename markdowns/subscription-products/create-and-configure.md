@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Free
-- Last updated: 2026-09-09
+- Last updated: 2026-09-14
 
 # Create and Configure Subscription Products
 
@@ -19,6 +19,8 @@
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
+
+For guided creation from ArraySubs, use [Create Products with the Quick Creation Wizard](quick-product-creation.md). Open **ArraySubs → Home → + Subscription Product** to choose simple, variable, box, bundle, or store-credit setup. The dedicated guide covers every main step, both nested configuration builders, review, publishing, and conditional settings with cropped screenshots. This page covers the full WooCommerce editor, including per-variation billing and later product edits.
 
 ArraySubs adds a **Subscription [AS]** checkbox to the WooCommerce product editor. When enabled for a simple product, a new **Subscription Billings [AS]** tab appears with fields for billing period, billing interval, subscription length, free trials, signup fees, and different renewal pricing. Both simple products and variable products are supported — variable products allow each variation to have its own independent subscription configuration.
 

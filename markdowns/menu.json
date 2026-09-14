@@ -17,6 +17,7 @@
     ],
     [
         "subscription-products/README.md",
+        "subscription-products/quick-product-creation.md",
         "subscription-products/create-and-configure.md",
         "subscription-products/flexible-subscription-duration.md",
         "subscription-products/subscription-box.md",
@@ -138,7 +139,7 @@
     ],
     [
         "analytics/README.md",
-        "analytics/overview-dashboard.md",
+        "analytics/home.md",
         "analytics/reports-hub.md",
         "analytics/subscription-performance.md",
         "analytics/woocommerce-analytics-extension.md",

@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-09
+- Last updated: 2026-09-14
 
 # First-Time Setup
 
@@ -50,6 +50,18 @@ Always activate the core plugin first. The Pro addon will not activate without A
 ```
 
 After activation, you will see a new **ArraySubs** menu item in the WordPress admin sidebar.
+
+### Open Home and Review the Setup Checklist
+
+Select **ArraySubs → Home**. This is the landing page, with a checklist for your subscription settings, first product, and automatic payment gateway.
+
+![Home setup checklist and shortcuts after plugin activation](../analytics/home.ASSETS/02-home-setup-and-metrics-original.png)
+
+- **Start setup** or **Review setup** opens the [Easy Setup Wizard](easy-setup-wizard.md). You can use it to configure the store, or follow the settings steps below.
+- **Create a product** or **Add another product** opens the quick product creation modal. **+ Subscription Product** in the toolbar opens the same flow.
+- **Set up payments** opens WooCommerce payment settings. The checklist marks this task complete when an automatic recurring-payment gateway is enabled and configured; a manual test payment method alone does not complete it.
+
+The tasks can be completed in any order. When all three are done, **Dismiss** hides the checklist for the whole site. See [Home](../analytics/home.md) for the complete page guide. A new store can show zero metrics until subscription activity exists.
 
 ---
 
@@ -121,6 +133,19 @@ You can always come back to these settings later. Nothing here is permanent — 
 
 ## Step 3 — Create Your First Subscription Product
 
+### Guided creation from ArraySubs
+
+1. Open **ArraySubs → Home** and click **+ Subscription Product**. The product card after Easy Setup opens the same modal.
+2. Choose **Simple subscription product**, enter a title and positive price, and choose your billing terms.
+3. For a first test, use monthly billing, interval 1, length 0, trial length 0, and no signup fee. Review renewal sync and choose whether the product needs shipping.
+4. On **Review & create**, click **Create product** and confirm publishing. The success screen provides **View product page**, **Set up member access**, and **Edit product**.
+
+See [Create Products with the Quick Creation Wizard](../subscription-products/quick-product-creation.md) for all screens and the variable, box, bundle, and store-credit paths. After creating your product, continue to Step 4 below.
+
+### Create through the full WooCommerce editor
+
+You can also create the same simple product through **Products → Add New**:
+
 ![Subscription Billings [AS] tab with the recurring price and billing schedule](../subscription-products/create-and-configure.ASSETS/01-simple-recurring-price-billing-fields-cropped.png)
 
 1. Go to **Products → Add New** in WooCommerce.
@@ -179,6 +204,8 @@ When the order is paid, ArraySubs automatically creates a subscription linked to
 ---
 
 ## Step 5 — Verify the Subscription
+
+Return to **ArraySubs → Home** and select **Refresh** to review your test activity. Check **Recent subscriptions**, then open the full subscription list for the detailed checks below.
 
 ![ArraySubs All Subscriptions list](README.ASSETS/01-arraysubs-admin-overview-annotated.png)
 
@@ -243,6 +270,7 @@ Take a quick tour of the ArraySubs admin menu to familiarize yourself with the a
 
 | Menu Item | Purpose |
 |---|---|
+| **[Home](../analytics/home.md)** | Setup checklist, product shortcuts, recurring revenue, Action Center, and upcoming renewals |
 | **Subscriptions** | View, create, edit, and manage all subscriptions |
 | **Retention Flow** | Configure cancellation reasons and retention offers |
 | **Member Access** | Set up role mapping, content restrictions, and access rules |
@@ -303,6 +331,8 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 ---
 
 ## Related Guides
+
+- [Create Products with the Quick Creation Wizard](../subscription-products/quick-product-creation.md) — A complete screenshot walkthrough of the product creation modal and its product-type paths.
 
 - [Before You Launch](before-you-launch.md) — Requirements, core concepts, and feature map.
 - [Easy Setup Wizard](easy-setup-wizard.md) — Prefer a guided setup? Use the wizard to configure settings by answering plain-language questions.

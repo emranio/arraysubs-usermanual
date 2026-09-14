@@ -1,7 +1,7 @@
 # Info
 - Module: Easy Setup
 - Availability: Shared
-- Last updated: 2026-09-09
+- Last updated: 2026-09-14
 
 # Easy Setup Wizard
 
@@ -12,6 +12,7 @@
 ## Page Navigation
 
 - **Admin screen:** WordPress Admin → **ArraySubs → Easy Setup**
+- **From Home:** WordPress Admin → **ArraySubs → Home → Easy Setup Wizard**, or **Start setup / Review setup** in the setup checklist.
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
 - **Use this first:** [First-Time Setup](first-time-setup.md)
 - **Review settings after saving:** [General Settings](../settings/general-settings.md), [Toolkit Settings](../settings/toolkit-settings.md), [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md)
@@ -21,9 +22,9 @@
 
 The Easy Setup Wizard guides you through nine steps: Your Business, Billing & Renewal Rules, Checkout & Cart Rules, Plan Switching, Cancellation & Retention, Refunds, Emails & Notifications, Additional Features & Tools, and Review & Apply. Choose the answers that fit your store, review them, and save the matching settings together.
 
-After saving, the final step shows a congratulations message and cards that help you decide what to set up next. Member access and content gating are configured separately from these cards; they are not a wizard step.
+After saving, the final step shows a congratulations message, the settings' last-saved time, and cards for the next setup tasks. When you reopen a completed wizard, these cards appear first. Choose **Start Over** to review your saved setup from Step 1. Member access and content gating are configured separately; they are not a wizard step.
 
-The wizard lives on the **ArraySubs → Easy Setup** page alongside the Export and Import tools.
+Open the wizard from [Home](../analytics/home.md) or from **ArraySubs → Easy Setup**, alongside the Export and Import tools and a separate **Create subscription product** button.
 
 The same screen is also the safest place to back up or restore an ArraySubs configuration. Export before major changes, then import the JSON file on another site or after a reset.
 
@@ -44,27 +45,29 @@ The same screen is also the safest place to back up or restore an ArraySubs conf
 
 The wizard presents eight configuration steps followed by a ninth **Review & Apply** step. Each configuration step has a title, an explanation, and one or more questions. Some questions only appear based on your earlier answers — for example, trial payment settings only show up if you said you offer free trials.
 
-When you reach the final step, a review screen summarizes every relevant answer organized by step. You can edit any step before applying. Click **Apply Settings** to save the settings covered by the wizard. Other settings remain unchanged. The same final step then changes to the congratulations view.
+When you reach the final step, a review screen summarizes every relevant answer organized by step. Use **Edit** to revisit a section. Click **Apply Settings**, then confirm **Apply settings** to save. The same final step then changes to the congratulations view.
 
-Each new wizard session starts with the **Other / Custom** profile's defaults, rather than loading your saved settings into the questions. Review the answers before applying, especially when running the wizard again.
+The wizard loads your saved settings when it opens. If you previously completed it, it also remembers your business answers. On a first run, **Other / Custom** supplies the starting business profile. Profile recommendations fill settings that have not been saved yet; existing settings take priority in the later steps.
+
+Applying saves the supported settings you changed and initializes missing settings. Existing values you left unchanged are preserved. Settings outside the wizard's scope stay intact. The review's answer count describes the visible answers, not the number of settings that will change.
 
 ```box class="info-box"
-The wizard only configures settings it can map to. It does not create products, define cancellation reasons, build access rules, or write email body content. Those tasks still need to be done manually after the wizard finishes.
+The wizard only configures settings it can map to. It does not create products, define cancellation reasons, build access rules, or write email body content. Complete those tasks after saving; the product card opens a separate guided creation modal.
 ```
 
 ## Real-Life Use Cases
 
 ### Use Case 1: New SaaS Launch
 
-A software company chooses **SaaS / Digital Software**. The wizard recommends strict grace periods, multiple plans, free trials with a payment method required, and plan switching. With ArraySubs Pro active, it also selects Feature Manager and Activity Audit Log. After reviewing and saving, the team uses **Set up member access** on the congratulations screen to configure its content rules.
+A new software store chooses **SaaS / Digital Software**. For settings that have not been saved, the profile recommends strict grace periods, multiple plans, trials with a payment method required, and plan switching. With Pro active, its recommendations include Feature Manager and Activity Audit Log. The team reviews any existing values before saving, then opens **Set up member access** to configure content rules.
 
 ### Use Case 2: Physical Subscription Box
 
-A snack box company selects **Physical Subscription Box**. The wizard pre-selects lenient grace periods plus skip and pause flexibility. With ArraySubs Pro active, it also enables Store Credit and a contact-support retention offer. The merchant adjusts the max pause duration from 30 to 60 days and applies. The box billing model is ready.
+A snack box company selects **Physical Subscription Box**. Its recommendations include lenient grace periods, skip and pause flexibility, and, with Pro, Store Credit and pause/contact-support retention offers. The merchant checks the loaded settings, enables the options it needs, changes the maximum pause duration to 60 days, and confirms the review.
 
 ### Use Case 3: Membership Community
 
-A community platform picks **Membership / Community** and gets recommendations for multiple plans, free trials, pause support, and plan switching. With ArraySubs Pro active, the profile also recommends Multi-Login Prevention, Feature Manager, and Activity Audit Log. After saving, the admin can open Member Access and Profile Builder from the next-step cards to finish the member experience.
+A community platform picks **Membership / Community**, reviews its saved rules alongside recommendations for trials, pausing, and plan switching, and chooses the tools it needs. With Pro active, the profile also recommends Multi-Login Prevention, Feature Manager, and Activity Audit Log. After saving, the admin opens Member Access and Profile Builder from the next-step cards.
 
 ---
 
@@ -79,6 +82,10 @@ A community platform picks **Membership / Community** and gets recommendations f
 3. Click **Launch Setup Wizard**.
 4. The wizard opens in a modal that fills the available screen height. Scroll inside it to see longer steps; the header and bottom action bar stay in place.
 
+You can also launch it from **ArraySubs → Home → Easy Setup Wizard**, or the checklist's **Start setup / Review setup** action. All entry points open the same wizard. If you see **Your subscription setup is ready.**, choose **Start Over** to load the current saved settings and return to **Your Business**. Start Over does not reset your store settings.
+
+The neighboring **Create subscription product** button opens the [product creation wizard](../subscription-products/quick-product-creation.md) directly. Use it when you want to add a product after configuring the store.
+
 The screenshots below show ArraySubs Pro active, with example choices that reveal conditional fields. Use the settings that suit your store; you do not need to copy every selection.
 
 ```box class="info-box"
@@ -90,8 +97,9 @@ If ArraySubs Pro is not active, a small note at the top of the wizard reads: "Ar
 - **Next** — Validates the current step's visible questions and moves forward.
 - **Close** — Appears on the first step and asks whether to discard this session.
 - **Back** — Appears from the second step onward and returns to the previous step without losing answers.
-- **Skip with defaults** — Resets the current step to the selected business profile's defaults and moves forward. Any edits you made on that step are replaced.
-- **Apply Settings** — Saves the configuration from the final review step. The button shows **Applying…** while the request is running.
+- **Skip** — Replaces edits on the current step with the values loaded from saved settings, using profile recommendations where no saved value exists, then moves forward.
+- **Apply Settings** — Opens a confirmation from the final review step. Confirm **Apply settings** to save; **Applying…** appears while it runs.
+- **Start Over** — On the completion screen, reloads saved settings and starts a new review at Step 1.
 - **Done** — Closes the wizard after a successful save.
 
 If you try to close the wizard before applying, a confirmation dialog appears:
@@ -110,9 +118,9 @@ The header's close icon and Escape key use the same confirmation before saving. 
 
 ![Wizard Step 1 — Your Business](easy-setup-wizard.ASSETS/02-wizard-step-1-your-business-original.png)
 
-Defines the shape of your subscription business. Your choice here sets smart defaults for every later step.
+Defines your subscription business and supplies recommendations where settings have not been saved yet.
 
-**Multiple plans / tiers** is selected by default for every business profile. Choose **One plan** if that fits your store. Selecting a different business type resets the whole session to that profile's recommendations, so review the later steps again.
+**Multiple plans / tiers** is the profile default. Choose **One plan** if that fits your store and the option is available. When the store already has multiple published subscription products, **One plan** is disabled and the reason appears beneath it. Selecting a different business type rebuilds the session's answers using that profile and your saved settings, so review any edits again.
 
 | Question | Type | Options |
 |---|---|---|
@@ -127,11 +135,11 @@ Defines the shape of your subscription business. Your choice here sets smart def
 
 ![Custom billing interval, period, and plan choices](easy-setup-wizard.ASSETS/02-wizard-step-1-your-business-part-2-original.png)
 
-![Multiple plans and the conditional free-trial controls](easy-setup-wizard.ASSETS/02-wizard-step-1-your-business-part-3-original.png)
+![Multiple published products disable One plan; free-trial controls appear when trials are selected](easy-setup-wizard.ASSETS/02-wizard-step-1-your-business-part-3-original.png)
 
 #### Business Type Profiles
 
-When you choose a business type, the wizard preloads recommended defaults for all subsequent steps. You can override any default as you go.
+These are the starting recommendations for settings that have not been saved yet. Saved values take priority in Steps 2–8, so selecting a profile may leave existing choices unchanged. You can edit the loaded answers as you go.
 
 ```box class="info-box"
 Pro-only profile recommendations are shown and applied only while ArraySubs Pro is active.
@@ -147,7 +155,7 @@ Pro-only profile recommendations are shown and applied only while ArraySubs Pro 
 | **Nonprofit / Donations** | Lenient grace, hide admin bar, minimal defaults |
 | **Other / Custom** | Monthly billing, standard grace, multiple subscriptions allowed, plan switching disabled, no automatic refund, and both refund switches off |
 
-Every profile starts with **Multiple plans / tiers** and **Enable User Impersonation** selected. **Activity Audit Log** is also selected by default when Pro is active. Other optional features depend on the profile. You can change any of these choices before saving.
+Every profile recommends **Multiple plans / tiers** and **Enable User Impersonation**. **Activity Audit Log** is also recommended when Pro is active. Other optional features depend on the profile. Saved business answers and tool settings can change what is selected when you open the wizard.
 
 ---
 
@@ -165,13 +173,14 @@ Controls grace periods, invoice timing, renewal sync, and skip/pause flexibility
 | When should renewal invoices be generated? | Radio | 6 hours before due date · 1 day before · 3 days before |
 | Should new subscriptions renew on the next billing-cycle boundary? | Radio | Yes · No |
 | How should the first checkout charge work? | Radio | Prorate until the synced renewal date · Charge the full recurring amount (only shown when renewal sync is enabled) |
+| Allow Early Renew | Checkbox | Lets customers pay the next renewal early without shortening the subscription period. Supports manual payments and Stripe; excludes PayPal and Paddle (**Pro**) |
 | What billing flexibility should customers have? | Checkboxes | Allow skipping the next renewal · Allow pausing the subscription |
 | Maximum consecutive skips allowed | Select | 1 · 2 · 3 · 5 (only when skip is enabled) |
 | How many days before renewal can a skip still be requested? | Select | Any time · 2 days before · 5 days before · 7 days before (only when skip is enabled) |
 | Maximum pause duration | Select | 14 · 30 · 60 · 90 days (only when pause is enabled) |
 | Maximum pauses per subscription | Select | 1 · 2 · 3 · 5 (only when pause is enabled) |
 
-![Renewal timing, synchronization, and billing flexibility](easy-setup-wizard.ASSETS/03-wizard-step-2-billing-renewal-rules-part-2-original.png)
+![Renewal timing, synchronization, Allow Early Renew, and billing flexibility](easy-setup-wizard.ASSETS/03-wizard-step-2-billing-renewal-rules-part-2-original.png)
 
 ![Skip limits and pause limits with both options enabled](easy-setup-wizard.ASSETS/03-wizard-step-2-billing-renewal-rules-part-3-original.png)
 
@@ -189,16 +198,20 @@ Shapes how subscriptions behave in the cart, at checkout, and during account cre
 | Should checkout auto-migrate an existing subscription? | Radio | Yes — automatically replace the old subscription · No — block checkout until they cancel first (only when one-per-customer is selected) |
 | Allow subscription and non-subscription products in the same cart? | Radio | Yes · No (hidden when one-per-customer) |
 | Allow subscriptions with different billing cycles in the same cart? | Radio | Yes · No (hidden when one-per-customer) |
-| How should one-click checkout behave? | Radio | Standard cart and checkout flow · One-click checkout for subscription items · One-click checkout for all products |
+| Add to Cart Text | Text | Subscription purchase-button label; leave empty to use the default |
+| One Click Checkout | Radio | Standard cart and checkout flow · One-click checkout for subscription items · One-click checkout for all products |
 | Should one-click items skip the cart page entirely? | Radio | Yes · No (only when one-click is not "Standard") |
+| Non-Subscription Purchase Button Text | Text | Appears for one-click checkout for all products; leave empty to keep WooCommerce's default text |
 | Automatically create customer accounts at checkout? | Radio | Yes · No |
 | Hide First billing cycle info | Checkbox | Hides the first billing-cycle details from customers (**Pro**) |
 | Hide shipping charge info | Checkbox | Hides the shipping-charge details from customers (**Pro**) |
 | Hide Duration info | Checkbox | Hides the subscription-duration details from customers (**Pro**) |
 
-The three cart-information checkboxes start unchecked, so those details remain visible unless you choose to hide them. These are the same options available in **Cart Info Editor**.
+One-click checkout sends the clicked item to checkout and clears existing cart contents. Review this choice before enabling it. The two text fields change purchase-button labels; they do not create products.
 
-![One-click checkout, automatic accounts, and the three cart-information checkboxes](easy-setup-wizard.ASSETS/04-wizard-step-3-checkout-cart-rules-part-2-original.png)
+The three cart-information checkboxes use your saved values. Their profile defaults are unchecked, keeping these details visible. They are the same options available in **Cart Info Editor**.
+
+![One-click checkout, non-subscription button text, automatic accounts, and cart-information checkboxes](easy-setup-wizard.ASSETS/04-wizard-step-3-checkout-cart-rules-part-2-original.png)
 
 Choosing **Only one subscription per customer** replaces the mixed-cart questions with the auto-migration question:
 
@@ -220,8 +233,6 @@ Decides whether customers with multiple plan choices can switch from **My Accoun
 ```box class="info-box"
 If you selected **One plan** in Step 1, this step explains why plan switching does not apply. The switching questions are hidden and switching remains disabled. Go back to **Your Business** and choose **Multiple plans / tiers** to configure it.
 ```
-
-![Plan Switching explains why its controls are unavailable for a single plan](easy-setup-wizard.ASSETS/05-wizard-single-plan-message-original.png)
 
 ---
 
@@ -318,7 +329,7 @@ The wizard controls which emails are enabled and sets the renewal-reminder timin
 
 Choose optional modules and customer-account tools using checkboxes. A checked box means the feature will be enabled when you apply the wizard.
 
-**Enable User Impersonation** is checked by default. **Activity Audit Log** is also checked by default when Pro is active. Store Credit and Feature Manager follow your selected business profile. Uncheck any feature you do not want to enable.
+Saved tool settings determine the initial selections. For unsaved settings, **Enable User Impersonation** and, with Pro, **Activity Audit Log** are recommended; other features depend on the business profile. Checking Store Credit, Feature Manager, Restrict WP Dashboard Access, or Multi-Login Prevention reveals follow-up controls directly beneath that feature.
 
 | Question | Type | Options |
 |---|---|---|
@@ -341,7 +352,7 @@ Choose optional modules and customer-account tools using checkboxes. A checked b
 | Restrict WP Dashboard Access | Free | Block non-admin users from reaching the WordPress dashboard |
 | Multi-Login Prevention | **Pro** | Limit concurrent sessions to reduce shared-account abuse |
 
-![Store-credit expiry, product-page feature display, session limits, and dashboard redirect](easy-setup-wizard.ASSETS/09-wizard-step-8-additional-features-tools-part-2-original.png)
+![Nested feature-display, dashboard-redirect, and login-session controls](easy-setup-wizard.ASSETS/09-wizard-step-8-additional-features-tools-part-2-original.png)
 
 Custom profile fields and My Account page editing are not choices in this step. Configure them separately after saving; the congratulations screen includes a Profile Builder shortcut when that page is available.
 
@@ -363,48 +374,58 @@ At the top, you see a count of how many answers are ready to apply and a note:
 
 ![Review of refund, email, and optional-feature choices](easy-setup-wizard.ASSETS/10-wizard-step-9-review-apply-part-4-original.png)
 
-Click **Apply Settings** to save. The button shows **Applying…** while your answers are being processed. On success, a notification confirms the result and this same step changes to the congratulations view. If saving fails, read the error shown in the wizard, correct the relevant answer, and try again.
+The count is the number of visible answers in this review, including answers you have not changed. It is not a count of changed settings.
+
+Click **Apply Settings** to open the confirmation below. Choose **Keep reviewing** to return without saving, or **Apply settings** to save the changes. The confirmation shows **Applying…** while the request runs. On success, this step changes to the congratulations view. If saving fails, read the error shown in the wizard, correct the relevant answer, and try again.
+
+![Apply settings confirmation with Keep reviewing and Apply settings actions](easy-setup-wizard.ASSETS/13-wizard-apply-confirmation-original.png)
 
 ### Congratulations and Next Steps
 
-![Settings saved, with the congratulations message and next-step cards](easy-setup-wizard.ASSETS/12-wizard-complete-next-steps-original.png)
+![Saved setup with its last-saved time, ten next-step cards, Start Over, and Done](easy-setup-wizard.ASSETS/12-wizard-complete-next-steps-original.png)
 
-The centered message confirms **“Congratulations! Your settings are saved.”** The cards underneath offer useful next steps. Click anywhere on a card to open its destination in a **new tab**; the completed wizard stays open so you can return and choose another card.
+After applying, the completion heading reads **Congratulations! Your settings are saved.** When returning to a completed setup, it reads **Your subscription setup is ready.**, as shown above. **Settings last saved** shows the saved-settings timestamp, including the displayed timezone; opening the wizard alone does not update it.
+
+The product card opens the **Create subscription product** modal on the current page. Other cards open their destination in a **new tab**, so you can return to the completed wizard. See [Create Products with the Quick Creation Wizard](../subscription-products/quick-product-creation.md) for the complete product flow.
 
 | Card | Where it takes you |
 |---|---|
-| **Create your first subscription product** | WooCommerce's new-product editor. Shown only when the store has no subscription products yet, including drafts. The highlighted card uses your WordPress admin color scheme |
+| **Create your first subscription product** / **Create a subscription product** | Opens the [product creation modal](../subscription-products/quick-product-creation.md). The label changes depending on whether a subscription product already exists; the card remains available for additional products |
+| **Configure payment method** | WooCommerce payment settings |
 | **Set up member access** | Member Access, where you configure content gating and access rules |
 | **Make checkout your own** | Checkout Builder, for checkout fields and layout |
 | **Give customers a reason to stay** | Retention Flow, for cancellation offers and messages |
 | **Get to know your customers** | Profile Builder, for customer profile fields |
 | **Adjust your settings further** | ArraySubs Settings, where you can revisit your choices and explore more options |
+| **Connect your integrations** | Integrations, for available connections |
 | **Find your way with the user manual** | The ArraySubs user manual |
 | **Need a hand or have an idea?** | Help, for support and feature requests |
 
 Cards for plugin pages appear only when those pages are available in your admin menu. Your selection may differ depending on the installed features and access permissions.
 
-When you are finished, click **Done** or the header's close icon. The settings are already saved; you can return to any of these pages later.
+Choose **Start Over** to reload the saved configuration and review it from Step 1. When you are finished, click **Done** or the header's close icon. The settings are already saved; you can return to these tools later from Home or Easy Setup.
 
 ---
 
 ## What Happens After Saving
 
-- The wizard saves the settings covered by your answers immediately.
+- The wizard saves supported settings changed during the session and fills missing settings from the reviewed answers.
 - Global settings take effect immediately, but the wizard does not rewrite existing subscription records. Future subscription actions use the new rules.
 - If Renewal Sync is enabled, it applies to future non-trial subscriptions paid through supported manual gateways or Stripe.
-- The wizard merges its generated settings patch with the current configuration; settings outside the wizard's supported mappings stay unchanged.
-- You can run the wizard again at any time. A new run starts with profile defaults, not your saved answers. Applying it overwrites the settings it covers, leaving settings outside its scope intact.
+- Existing settings left unchanged in the session and settings outside the wizard's scope are preserved.
+- The business answers are remembered. Reopening a completed setup shows the next-step cards; **Start Over** reloads saved settings for another review.
 - The wizard does **not** create, edit, or delete products, subscriptions, access rules, email templates, or cancellation reasons.
 
 ## Edge Cases / Important Notes
 
-- **Pro features hidden when Pro is inactive.** If ArraySubs Pro is not active, Store Credit, Feature Manager, Activity Audit Log, Multi-Login Prevention, retention offers, and the three cart-information checkboxes are hidden. User impersonation and the Refunds step remain available.
+- **Pro features hidden when Pro is inactive.** If ArraySubs Pro is not active, Allow Early Renew, Store Credit, Feature Manager, Activity Audit Log, Multi-Login Prevention, retention offers, and the three cart-information checkboxes are hidden. User impersonation and the Refunds step remain available.
 - **Conditional questions.** Many questions only appear based on earlier answers. If you change an earlier answer, the wizard may show or hide dependent questions. The settings generated by the wizard follow the currently relevant choices.
-- **Changing the business type reloads recommendations.** Selecting another business profile resets the wizard answers to that profile's defaults, so review each later step again.
-- **Skip with defaults uses business profile values.** When you skip a step, the wizard fills in the defaults for your selected business type — not empty values.
+- **Changing business type rebuilds the session.** It combines the chosen profile with saved settings. Unsaved edits can be replaced, so review the later steps again.
+- **Skip discards this step's edits.** It restores loaded saved values and uses profile recommendations for missing settings before advancing.
+- **Saved custom values can appear.** A value already configured in Settings may appear as an extra choice beyond the usual presets. Keep it if it suits your store.
+- **Multiple published products require multiple plans.** The wizard disables **One plan** when this store already has multiple published subscription products.
 - **Wizard does not delete data.** It only adds or updates settings. It never removes products, subscriptions, access rules, or other data from your site.
-- **Review repeat runs.** You can run the wizard multiple times, but applying a new run replaces the settings it covers. Export your configuration first if you want a backup.
+- **Review repeat runs.** Start Over loads your saved configuration; it does not reset it. Review edits before confirming, and export first if you want a backup.
 
 ## Troubleshooting
 
@@ -412,16 +433,21 @@ When you are finished, click **Done** or the header's close icon. The settings a
 |---|---|---|
 | Wizard does not appear in the menu | EasySetup feature is not loaded | Verify ArraySubs core is activated and up to date |
 | Pro-only options are not showing | ArraySubs Pro is not active | Activate the Pro addon, then re-open the wizard |
+| The wizard opens on the next-step cards | Setup was completed previously | Choose **Start Over** to review the saved configuration |
+| Could not load saved settings | The initial settings request failed | Close and reopen the wizard. Reload the admin page if needed; navigation and applying are unavailable until loading succeeds |
 | "Apply Settings" fails with an error | A validation or request error | Read the error inside the wizard, fix any flagged answer, and try again |
 | Settings did not change after applying | Wizard may have merged with existing identical values | Open **ArraySubs → Settings** and verify the values. The wizard only updates what differs |
 | Conditional questions disappeared | An earlier answer was changed | Go back to the step that changed and re-answer the dependent questions |
 | Plan Switching shows a message instead of questions | **One plan** was selected | Choose **Multiple plans / tiers** in Your Business if your store offers multiple plans |
-| The create-product card is missing after saving | A subscription product already exists, possibly as a draft | Continue with that product or use **Products → Add New** for another |
+| One plan is disabled | Multiple subscription products are already published | Continue with **Multiple plans / tiers**; the explanation is displayed beneath One plan |
+| The product card says Create a subscription product instead of Create your first subscription product | A subscription product already exists | Use the card to create another product; **ArraySubs → Home → + Subscription Product** opens the same modal |
 
 ---
 
 ## Related Guides
 
+- [Home](../analytics/home.md) — Open the wizard, check setup progress, and access daily subscription tools.
+- [Quick Product Creation](../subscription-products/quick-product-creation.md) — Create a subscription product from the Easy Setup page or completion cards.
 - [Import / Export Settings](import-export-settings.md) — Back up and restore your full ArraySubs configuration across sites.
 - [First-Time Setup](first-time-setup.md) — A manual step-by-step checklist if you prefer configuring settings one by one.
 - [General Settings](../settings/general-settings.md) — Detailed reference for every individual setting the wizard configures.
@@ -434,11 +460,15 @@ When you are finished, click **Done** or the header's close icon. The settings a
 
 ### Does the wizard replace all my existing settings?
 
-No. The wizard merges its answers with your current settings. Any setting the wizard does not cover remains unchanged. Settings the wizard does cover are overwritten with the new values.
+No. It loads saved settings, saves supported choices you change, and initializes missing values. Existing values you leave unchanged and settings outside the wizard's scope are preserved.
 
 ### Can I run the wizard more than once?
 
-Yes. Each new session starts with business-profile defaults. Review them before applying because the wizard replaces the settings it covers, even if you configured different values previously.
+Yes. Reopen it from Home or Easy Setup. A completed setup opens on the next-step cards; choose **Start Over** to load the saved configuration and review it from Step 1. Changes are saved only after you confirm **Apply settings**.
+
+### Does Start Over reset my store settings?
+
+No. It reloads your saved settings and starts a fresh review. **Skip** similarly restores the current step's loaded values, using profile recommendations where values have not been saved.
 
 ### What happens if I close the wizard without applying?
 
@@ -446,7 +476,7 @@ Nothing changes. A confirmation dialog warns you that your answers will be disca
 
 ### Does the wizard create my subscription products?
 
-No. The wizard only configures plugin settings. If there are no subscription products yet, the congratulations screen offers **Create your first subscription product**, which opens the WooCommerce editor in a new tab. You can also use **Products → Add New**.
+Applying Easy Setup saves plugin settings. Afterward, **Create your first subscription product** or **Create a subscription product** opens a separate [product creation wizard](../subscription-products/quick-product-creation.md). Use that modal to create and publish a product. Its variable-product path guides you through the full WooCommerce editor.
 
 ### Where did the Access Control & Content Gating step go?
 

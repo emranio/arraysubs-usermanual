@@ -1,13 +1,13 @@
 # Info
 - Module: Subscription Products
-- Availability: Pro
-- Last updated: 2026-07-27
+- Availability: Free
+- Last updated: 2026-09-14
 
 # Subscription Box Customer Experience
 
 > What shoppers see when they build a subscription box, how it appears in the cart, at checkout, and on the order — and how the box and the subscriptions inside it behave for the rest of their life.
 
-**Availability:** Pro
+**Availability:** Free
 
 ## Page Navigation
 
@@ -33,7 +33,7 @@ For the admin side — creating the product, defining steps and elements, discou
 
 ## Prerequisites
 
-- ArraySubs core and ArraySubs **Pro** installed, active, and licensed.
+- WooCommerce and ArraySubs core installed and active, with the Subscription Box module available.
 - A published **Subscription Box [ArraySubs]** product with at least one configured step.
 - A payment gateway that supports recurring payments, or a manual/offline gateway for testing.
 

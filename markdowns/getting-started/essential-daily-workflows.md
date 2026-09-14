@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-09
+- Last updated: 2026-09-14
 
 # Essential Daily Workflows
 
@@ -21,6 +21,18 @@
 ## Overview
 
 Once your store is set up and products are published, the subscription system runs largely on autopilot. This guide explains the day-to-day mechanics: what happens automatically, what you should monitor, and how the major pieces connect. Read this before going live to understand what your store will be doing behind the scenes.
+
+## Start Your Daily Check on Home
+
+1. Open **ArraySubs → Home** and select **Refresh** when you need the latest dashboard figures.
+2. Choose **7 days**, **30 days**, **90 days**, or **This month** to review new subscriptions, collected revenue, and subscriber movement. Current MRR and status totals describe the store now.
+3. Review **Action Center**. Select **Review** beside a signal to open its filtered subscription list, or **Open list** to see all subscriptions needing attention.
+4. Check **Renewal outlook** for the next 7, 30, and 90 days, then review **Billing operations** for queue or gateway warnings.
+5. Open a row in **Upcoming renewals** or **Recent subscriptions** when you need its full details.
+
+![Home Action Center, renewal outlook, billing operations, and Pro refund summary](../analytics/home.ASSETS/07-home-action-center-and-renewals-original.png)
+
+The [Home guide](../analytics/home.md) explains each metric and the extra Pro report cards. Home also retains **Easy Setup Wizard** and **+ Subscription Product** shortcuts for setup changes and new products.
 
 ## How the Subscription Lifecycle Works
 
@@ -125,9 +137,15 @@ All scheduled jobs use execution locks to prevent concurrent processing. If a jo
 
 ### Admin Dashboard — ArraySubs Menu
 
-![ArraySubs All Subscriptions admin screen](README.ASSETS/01-arraysubs-admin-overview-annotated.png)
+![ArraySubs Home landing page with setup shortcuts and daily subscription metrics](../analytics/home.ASSETS/02-home-setup-and-metrics-original.png)
 
-The main ArraySubs admin interface is a single-page application (SPA) accessible from the WordPress sidebar. Here is a map of every page and what it is for:
+Open the ArraySubs menu in the WordPress sidebar to start on **Home**. Here is a map of the main pages and what they are for:
+
+#### Home
+
+| Page | Path | Purpose |
+|---|---|---|
+| [Home](../analytics/home.md) | **ArraySubs → Home** | Setup checklist, wizard and product shortcuts, subscription metrics, Action Center, and renewal monitoring |
 
 #### Subscriptions
 
