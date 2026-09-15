@@ -1,13 +1,13 @@
 # Info
 - Module: Subscription Admin
 - Availability: Shared
-- Last updated: 2026-06-04
+- Last updated: 2026-09-15
 
 # Subscription Operations
 
 > Browse, create, edit, and inspect every subscription from a single set of screens.
 
-**Availability:** Free
+**Availability:** Free (core subscription management); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -152,6 +152,8 @@ When you select a product or variation, the form **auto-fills** the recurring am
 | **Trial Period** | Select | Day(s), Week(s), Month(s), or Year(s). |
 
 #### 4. Different Renewal Price
+
+**Pro feature:** Applying a different renewal price requires ArraySubsPro to be active with an active license. Entering values in a subscription record does not bypass this requirement.
 
 | Field | Type | Notes |
 |-------|------|-------|
@@ -347,7 +349,7 @@ Each conditional card is covered in detail in the [Subscription Detail Cards](su
 | **Recurring Amount** | The amount charged each cycle. If a retention discount is active, shows the effective (discounted) amount. |
 | **Base Renewal Amount** | The original amount before retention discount (only shown when a discount is active) |
 | **Retention Discount** | Discount type (percentage or fixed), amount, and remaining renewal count (only shown when active) |
-| **Different Renewal Price** | The price that applies after a set number of payments (only shown when enabled) |
+| **Different Renewal Price (Pro)** | The price that applies after a set number of payments while licensed Pro is active (only shown when enabled) |
 | **Applies After** | Number of payments before the different renewal price takes effect |
 | **Billing Schedule** | Formatted as "Every X day(s)/week(s)/month(s)/year(s)" or "Lifetime Deal" |
 | **Signup Fee** | One-time fee charged at subscription creation (only shown if greater than zero) |

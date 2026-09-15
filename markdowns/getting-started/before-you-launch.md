@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-09
+- Last updated: 2026-09-15
 
 # Before You Launch
 
@@ -124,7 +124,7 @@ A signup fee is a one-time charge collected at the initial checkout, separate fr
 
 ### Different Renewal Pricing
 
-You can set a different price that takes effect after a specified number of billing cycles. This is useful for introductory pricing models.
+With **ArraySubsPro active and an active license**, you can set a different price that takes effect after a specified number of billing cycles. This is useful for introductory pricing models. The free plugin shows the option with a red **Pro** label, but it stays disabled.
 
 **Example:** Charge $29.99/month for the first 3 months, then $49.99/month from the 4th month onward.
 
@@ -303,7 +303,7 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | Billing cycles (day, week, month, year, lifetime) | ✅ | ✅ |
 | Free trials | ✅ | ✅ |
 | Signup fees | ✅ | ✅ |
-| Different renewal pricing | ✅ | ✅ |
+| Different renewal pricing | ❌ | ✅ Active license required |
 | Subscription length limits | ✅ | ✅ |
 | Locked-in checkout pricing | ✅ | ✅ |
 | Coupon integration with cycle limits | ✅ | ✅ |

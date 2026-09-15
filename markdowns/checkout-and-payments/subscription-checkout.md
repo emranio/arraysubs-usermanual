@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Checkout
 - Availability: Free
-- Last updated: 2026-06-21
+- Last updated: 2026-09-15
 
 # Subscription Checkout
 
@@ -252,7 +252,7 @@ Every checkout page that includes a subscription product displays a detailed sum
 |---|---|---|
 | Product name + quantity | *"Premium Plan (x2)"* | Always |
 | Recurring price + schedule | *"$29.99 every month"* | Always |
-| Different renewal price tiers | *"$29.99 monthly for the first 3 payments, then $19.99 monthly"* | Product has different renewal price enabled |
+| Different renewal price tiers (Pro) | *"$29.99 monthly for the first 3 payments, then $19.99 monthly"* | Product has different renewal price enabled and licensed Pro is active |
 | Signup fee | *"$10.00 one-time fee"* | Signup fee > 0 |
 | Free trial | *"7 days"* | Trial length > 0 |
 | Duration | *"12 billing cycles"* or *"Continues until cancelled"* | Always |
@@ -297,7 +297,7 @@ Every subscription captures a snapshot of the checkout state:
 | Recurring amount | Full product recurring price at checkout | `$29.99` |
 | Signup fee | Product configuration | `$10.00` |
 | Trial length and period | Product configuration | `14`, `day` |
-| Different renewal price | Product configuration | `$19.99` after 3 payments |
+| Different renewal price (Pro) | Product configuration; active Pro license required | `$19.99` after 3 payments |
 | Payment method | Checkout selection | `stripe`, `paypal` |
 | Currency | Store currency | `USD` |
 | Start date | Order completion time | `2026-04-02 14:30:00` |

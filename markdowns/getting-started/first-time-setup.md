@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-14
+- Last updated: 2026-09-15
 
 # First-Time Setup
 
@@ -338,7 +338,7 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 - [1-Minute Setup](easy-setup-wizard.md) — Prefer a guided setup? Use the wizard to configure settings by answering plain-language questions.
 - [Import / Export Settings](import-export-settings.md) — Back up your configuration or migrate settings between sites.
 - [Essential Daily Workflows](essential-daily-workflows.md) — How the lifecycle works day to day and what to verify before going live.
-- [Create and Configure Subscription Products](../subscription-products/create-and-configure.md) — Detailed guide to all subscription billing fields, trials, signup fees, and different renewal pricing.
+- [Create and Configure Subscription Products](../subscription-products/create-and-configure.md) — Detailed guide to all subscription billing fields, trials, signup fees, and different renewal pricing (Pro with an active license).
 
 ---
 

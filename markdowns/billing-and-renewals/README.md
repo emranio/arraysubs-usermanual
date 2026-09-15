@@ -1,13 +1,13 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free, with Pro extensions for automatic gateway payments
-- Last updated: 2026-07-08
+- Availability: Free core billing engine; Pro for different renewal pricing
+- Last updated: 2026-09-15
 
 # Billing and Renewals
 
 > How ArraySubs creates, schedules, and collects recurring payments — from the first invoice to the final renewal.
 
-**Availability:** Free (core billing engine), with Pro extensions for automatic gateway payments
+**Availability:** Free (core billing engine); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -28,7 +28,7 @@ This section covers the complete billing lifecycle — how renewal invoices are 
 
 | Topic | What you will learn |
 |---|---|
-| [Renewal Operations](renewal-operations.md) | How renewal invoices are created, how payment is routed (manual vs automatic), and how the different renewal price feature changes pricing after N payments |
+| [Renewal Operations](renewal-operations.md) | How renewal invoices are created, how payment is routed (manual vs automatic), and how the Pro different renewal price feature changes pricing after N payments |
 | [Renewal Sync](renewal-sync.md) | How to align first renewals to cycle boundaries, choose prorated or full first charges globally, and configure Pro Flexible Renewal Sync segments per product |
 | [Trial Management](trial-management.md) | How free trials start, what happens when a trial ends, how trial-to-paid conversion works, and what auto-downgrade does when a customer does not convert |
 | [Recovery and Grace Flows](recovery-and-grace-flows.md) | The two-phase grace period timeline, how overdue renewals are detected, how skip and pause interact with the billing cycle, and how payment at any point during grace restores the subscription |
@@ -102,7 +102,7 @@ The system is designed to catch up. If the hourly job runs late, it processes al
 Renewal invoices are generated automatically by the billing engine. To create an order for a subscription manually, use WooCommerce's standard order creation and link it to the subscription.
 
 ### Does changing a product's price affect existing subscriptions?
-No. Subscription prices are locked at checkout. Product price changes only affect new subscriptions purchased after the change. Existing subscriptions continue to renew at their original stored price (or the configured different renewal price, if set).
+No. Subscription prices are locked at checkout. Product price changes only affect new subscriptions purchased after the change. Existing subscriptions continue to renew at their original stored price (or the configured different renewal price when licensed Pro is active).
 
 ### What is the difference between manual and automatic renewals?
 Manual renewals create a pending invoice and email the customer a payment link. The customer must log in and pay. Automatic renewals **(Pro)** charge the customer's saved payment method through the configured gateway (Stripe, PayPal, Paddle, or Mollie) without requiring customer action.

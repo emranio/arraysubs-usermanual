@@ -1,13 +1,13 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free, with Pro extensions for automatic gateway payments
-- Last updated: 2026-09-09
+- Availability: Free core renewal engine; Pro for different renewal pricing
+- Last updated: 2026-09-15
 
 # Renewal Operations
 
 > How ArraySubs generates renewal invoices, routes payments, and handles price changes across the subscription lifecycle.
 
-**Availability:** Free (core renewal engine), with Pro extensions for automatic gateway payments
+**Availability:** Free (core renewal engine); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -18,7 +18,7 @@
 - **Next guide:** [renewal-sync](./renewal-sync.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-**Last updated:** 2026-07-08
+**Last updated:** 2026-09-15
 
 ## Overview
 
@@ -58,7 +58,7 @@ When a subscription qualifies, the engine creates a **pending WooCommerce order*
 - The correct quantity from the subscription
 - Renewal shipping costs (if the subscription uses recurring shipping)
 - Any active retention discount applied to the order
-- The different renewal price, if the payment count threshold has been reached
+- The different renewal price, if licensed Pro is active and the payment count threshold has been reached
 - The pending target plan price and switch fee when an Apply at Renewal plan switch is waiting
 
 After the order is created, the subscription's `pending renewal order` reference is updated, and the subscription status **stays Active** — no status change happens when an invoice is generated. In the admin timeline, invoice creation appears as a pending event, not as a successful payment.
@@ -80,7 +80,7 @@ Each renewal order is a standard WooCommerce order with additional metadata link
 | Field | Source |
 |---|---|
 | Product line item | Subscription's stored product and variation |
-| Price | Stored recurring amount (or different renewal price if threshold reached) |
+| Price | Stored recurring amount (or different renewal price when licensed Pro is active and its threshold is reached) |
 | Quantity | Subscription's quantity |
 | Shipping | Renewal shipping cost (if recurring shipping is enabled) |
 | Billing address | Subscription's billing address |
@@ -156,7 +156,9 @@ When a renewal invoice is paid (either manually by the customer or automatically
 
 ## Different renewal price
 
-The different renewal price feature lets you charge a different amount after a specified number of billing cycles. This supports introductory pricing, promotional periods, or graduated pricing models.
+**Different Renewal Price is a Pro feature requiring both an active ArraySubsPro plugin and an active license.** It lets you charge a different amount after a specified number of billing cycles, supporting introductory pricing or promotional periods.
+
+Without licensed Pro, the product and wizard controls stay disabled and the different-price rule is not applied to renewals. Existing subscriptions continue using their stored recurring amount; a price change already applied to that amount is not reversed.
 
 ### When to use this
 
@@ -175,7 +177,7 @@ The different renewal price feature lets you charge a different amount after a s
 
 The billing engine uses this priority when setting the renewal invoice amount:
 
-1. If the **completed payments ≥ threshold** and a different renewal price is set → use the different renewal price
+1. If **licensed Pro is active**, the **completed payments ≥ threshold**, and a different renewal price is set → use the different renewal price
 2. Otherwise, if a **recurring amount** is stored → use the recurring amount
 3. Otherwise → use the subscription price (fallback)
 
@@ -209,7 +211,7 @@ The billing engine uses this priority when setting the renewal invoice amount:
 
 ### Configuration
 
-Set different renewal prices on each subscription product:
+Activate **ArraySubsPro** and its license, then set different renewal prices on each subscription product:
 
 1. Go to **Products → Edit Product**
 2. Open the **Subscription Billings [AS]** tab (or the variation's subscription fields for variable products)
@@ -267,7 +269,7 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 | Renewal invoice not being created | Subscription has a pending renewal order already, or billing period is Lifetime | Check the subscription detail for an existing pending order. Verify the billing period is not Lifetime. |
 | Invoice created too early or too late | Invoice timing setting misconfigured | Go to **Settings → General → Renewals** and adjust the invoice advance window (value and unit). |
 | Customer not receiving invoice email | Email disabled in settings, or email delivery issue | Check **WooCommerce → Settings → Emails** for the Renewal Invoice email status. Check email logs. |
-| Price not changing after N payments | Completed payments counter has not reached the threshold yet | View the subscription detail to check the completed payments count against the different renewal price threshold. |
+| Price not changing after N payments | Pro or its license is inactive, or the completed payments counter has not reached the threshold | Confirm ArraySubsPro and its license are active, then compare completed payments with the different renewal price threshold. |
 | Paid renewal order is still Processing | The renewal includes shipping work, or the order was created before the product/shipping configuration was corrected | Check the order's shipping lines and the subscription product's shipping settings. If there is no shipping work, future paid renewals should complete automatically; existing paid orders can be completed manually after confirming payment. |
 | Subscription is Active but renewal order is Processing | Payment succeeded and the subscription advanced, but WooCommerce is keeping the order open for fulfillment | Treat the subscription as paid. Complete the WooCommerce order only when any fulfillment work is done. |
 

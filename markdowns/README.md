@@ -1,7 +1,7 @@
 # Info
 - Module: User Manual Hub
 - Availability: Shared
-- Last updated: 2026-07-22
+- Last updated: 2026-09-15
 
 # ArraySubs User Manual
 
@@ -99,7 +99,7 @@ Configure store-wide subscription behavior and administration tools.
 Create, configure, and manage subscription products in WooCommerce.
 
 - [Overview](subscription-products/README.md) — Section overview and quick reference.
-- [Create and Configure Subscription Products](subscription-products/create-and-configure.md) — Simple and variable products, billing periods, trials, signup fees, and different renewal pricing.
+- [Create and Configure Subscription Products](subscription-products/create-and-configure.md) — Simple and variable products, billing periods, trials, signup fees, and different renewal pricing (Pro with an active license).
 - [Plan Switching and Product Relationships](subscription-products/plan-switching-and-relationships.md) — Upgrade, downgrade, and crossgrade paths, auto-downgrade, and Fixed Period Membership *(Pro)*.
 - [Product Experience and Display](subscription-products/product-experience.md) — Frontend pricing display and links to dedicated product modules.
 - [Product Lifecycle and Test Links](subscription-products/product-lifecycle.md) — Product deletion, cached data, and quick checkout test links.
@@ -230,7 +230,7 @@ Everything about how subscriptions are purchased, billed, and collected — from
 How ArraySubs creates, schedules, and collects recurring payments — from the first invoice to the final renewal.
 
 - [Overview](billing-and-renewals/README.md) — How the billing engine works, background jobs, billing cycle summary, and key concepts.
-- [Renewal Operations](billing-and-renewals/renewal-operations.md) — Invoice generation, manual vs automatic payment routing, different renewal pricing, and subscription expiration.
+- [Renewal Operations](billing-and-renewals/renewal-operations.md) — Invoice generation, manual vs automatic payment routing, Pro different renewal pricing, and subscription expiration.
 - [Trial Management](billing-and-renewals/trial-management.md) — Trial start, conversion to paid, first renewal calculation, auto-downgrade on trial expiry *(Pro)*, and trial settings.
 - [Recovery and Grace Flows](billing-and-renewals/recovery-and-grace-flows.md) — Two-phase grace period, overdue detection, skip and pause interaction with billing, and payment recovery.
 - [Renewal Communication](billing-and-renewals/renewal-communication.md) — Renewal reminders, invoice emails, payment confirmations, failure alerts, and on-hold notifications.

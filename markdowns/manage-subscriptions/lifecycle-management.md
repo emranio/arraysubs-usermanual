@@ -1,13 +1,13 @@
 # Info
 - Module: Subscription Admin
-- Availability: Free
-- Last updated: 2026-06-04
+- Availability: Free core lifecycle; Pro for different renewal pricing
+- Last updated: 2026-09-15
 
 # Lifecycle Management
 
 > How subscriptions move through statuses — from creation to activation, renewal, grace periods, cancellation, and expiration.
 
-**Availability:** Free
+**Availability:** Free (core lifecycle); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -201,7 +201,7 @@ Payment can happen through two paths:
 
 ### Different Renewal Price
 
-If the subscription has a **different renewal price** configured, the system automatically switches to the new price after the specified number of completed payments. For example, if the different renewal price is set to $30 after 3 payments, the first three renewals charge the original price and all subsequent renewals charge $30.
+**Different Renewal Price requires ArraySubsPro to be active with an active license.** When a subscription has this rule configured, licensed Pro applies the new price after the specified number of completed payments. For example, with $30 set to apply after 3 payments, the first three completed payments use the original price, and subsequent renewals use $30. Without licensed Pro, renewals continue using the stored recurring amount.
 
 ---
 

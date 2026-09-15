@@ -1,13 +1,13 @@
 # Info
 - Module: Subscription Products / Product Experience
-- Availability: Shared (pricing display: Free, redirect/features/shipping: Pro)
-- Last updated: 2026-09-09
+- Availability: Shared (standard pricing display: Free; different renewal pricing, redirect/features/shipping: Pro)
+- Last updated: 2026-09-15
 
 # Product Experience and Display
 
 > How subscription pricing, billing details, and entitlements appear across your store — from the product page to the order confirmation.
 
-**Availability:** Free (pricing display), Pro (Redirect Product Page, Feature Manager, Subscription Shipping)
+**Availability:** Free (standard pricing display), Pro (Different Renewal Price, Redirect Product Page, Feature Manager, Subscription Shipping)
 
 ## Page Navigation
 
@@ -36,7 +36,7 @@ On the single product page, subscription information appears below the product t
 |---|---|---|
 | Recurring price + billing schedule | Always | **$29.99 / month** |
 | Sale pricing | When product is on sale | **$19.99 / month** (was $29.99) |
-| Different renewal price | When enabled | **$19.99 / month for the first 3 payments, then $29.99 / month** |
+| Different renewal price (Pro) | When enabled with active ArraySubsPro and an active license | **$19.99 / month for the first 3 payments, then $29.99 / month** |
 | Signup fee | When fee > 0 | **+ $9.99 signup fee** |
 | Trial info | When trial length > 0 | **14-day free trial** |
 | Subscription length | When length > 0 | **5 billing cycles** |

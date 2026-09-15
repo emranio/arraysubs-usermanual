@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Shared
-- Last updated: 2026-09-14
+- Last updated: 2026-09-15
 
 # Manage Subscription Products
 
@@ -19,7 +19,7 @@ For a **Simple product**, check **Subscription [AS]** and click **Configure subs
 
 - [Create Products with the Quick Creation Wizard](quick-product-creation.md) — Start from **ArraySubs → Home → + Subscription Product**; follow the modal for simple products, boxes, bundles, and store credit, or open the variable-product setup guide. Includes screenshots of each screen.
 
-- [Create and Configure Subscription Products](create-and-configure.md) — Set up simple and variable subscription products with billing periods, trials, signup fees, and different renewal pricing.
+- [Create and Configure Subscription Products](create-and-configure.md) — Set up simple and variable subscription products with billing periods, trials, signup fees, and different renewal pricing (Pro with an active license).
 - [Flexible Subscription Duration](flexible-subscription-duration.md) — Let customers choose the subscription length, and optionally the billing period, within merchant-set limits *(Pro)*.
 - [Subscription Boxes](subscription-box.md) — Create a build-your-own box product where customers assemble a box from steps you define, with product and category pickers, tiered discounts, freebies, and its own renewal-sync plan.
 - [Subscription Box Customer Experience](subscription-box-customer-experience.md) — How shoppers build a box on the storefront, how it appears in the cart and at checkout, and how the box and its included subscriptions behave through renewals.
@@ -48,7 +48,7 @@ For a **Simple product**, check **Subscription [AS]** and click **Configure subs
 | Billing period, interval, length | Product editor → Subscription Billings [AS] tab |
 | Free trial | Product editor → Subscription Billings [AS] tab → Trial Settings |
 | Signup fee | Product editor → Subscription Billings [AS] tab → Sign-up Fee |
-| Different renewal price | Product editor → Subscription Billings [AS] tab → Different Renewal Price |
+| Different renewal price (Pro with an active license) | Product editor → Subscription Billings [AS] tab → Different Renewal Price |
 | Subscription box product type | Product editor → Product data → Subscription Box [ArraySubs] |
 | Box configuration wizard | Product editor → General tab → Edit Box Configuration |
 | Box billing schedule, steps, and elements | Product editor → General tab → Edit Box Configuration → Box Steps |
