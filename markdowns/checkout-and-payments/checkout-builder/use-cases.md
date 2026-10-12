@@ -40,7 +40,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The multi-step flow separates the fun part (customizing the box) from the payment part. Dietary preferences are captured once and copied to the subscription (`Copy Custom Fields to Subscriptions` enabled), so the fulfillment team sees them on every renewal order (`Copy Custom Fields to Renewal Orders` enabled).
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅, Show on Admin Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅
 
 ![Multi-step checkout with step tabs, Add Step, and field palette](use-cases.ASSETS/01-multi-step-use-case-annotated.png)
 
@@ -60,7 +60,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The company profile data is captured before payment and available immediately via the order meta API. The onboarding system can read `_arraysubs_cf_company_name`, `_arraysubs_cf_team_size`, and `_arraysubs_cf_industry` to auto-provision the workspace.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Subscription Details ✅, Show on Admin Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -78,7 +78,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The waiver step is a dedicated page — the customer reads the full text and explicitly checks the box before they can proceed to payment. Emergency contact data is stored on the subscription and available at the front desk.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -95,7 +95,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The Image Select field makes the learning track choice visual and engaging. The platform reads the meta values via REST API to set up the student's dashboard with relevant course recommendations from day one.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Subscription Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -113,7 +113,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The age verification step is legally required and clearly separated. The min\_date or max\_date on the Date field catches underage customers at the form level. Taste preferences flow to the subscription for the curation team.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅, Show on Admin Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅
 
 * * *
 
@@ -131,7 +131,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** B2B checkouts often need structured data beyond what WooCommerce provides. The PO number appears on every renewal invoice (with `Copy Custom Fields to Renewal Orders` enabled), making accounts payable reconciliation simple.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅, Show on Admin Order Details ✅, Show on Customer Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅
 
 * * *
 
@@ -148,7 +148,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** Conditional visibility makes the "Breed Size" field appear only for dogs — cat owners never see it. The photo upload is optional but lets the company personalize packaging or include the pet's photo on a card. All data copies to the subscription and every renewal order, so the fulfillment team always has the pet profile.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅, Show on Admin Order Details ✅, Allow File Uploads ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅
 
 * * *
 
@@ -165,7 +165,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** Conditional visibility is used creatively — the invoice currency field only appears when the Invoice Generator add-on is selected. This keeps the form clean for customers who don't need invoicing. The fulfillment system reads the selected modules to provision the right features.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Subscription Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -183,7 +183,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The entire directory listing section is conditional — if the member opts out, they see none of those fields. The bio, headshot, and display name are only collected when relevant, keeping the form short for members who prefer privacy.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅, Allow File Uploads ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -201,7 +201,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** Each step collects a focused category of information. The meal plan data copies to every renewal order, so the kitchen team sees exactly what to prepare for each cycle. The delivery preferences persist on the subscription for scheduling.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅, Show on Admin Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅
 
 * * *
 
@@ -219,7 +219,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The agency gets a structured project brief before the first payment. Color pickers capture exact brand colors (not "sort of blue"). File uploads for brand guidelines mean no separate email exchange is needed. The project brief lives on the subscription, visible to the entire team.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅, Show on Subscription Details ✅, Allow File Uploads ✅, Default Max File Size (MB): 10MB
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Max File Size (MB) set to 10 on the "Brand Guidelines / Logo" upload field
 
 * * *
 
@@ -237,7 +237,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** Gift Aid is a conditional section — only UK taxpayers who opt in see the legal name and address fields, required by HMRC. Conditional visibility keeps the flow simple for non-UK donors. The data is stored on the subscription for annual Gift Aid submissions.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅, Show on Customer Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -255,7 +255,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The coach knows the client's goals and scheduling preferences before the first session. The time zone field prevents scheduling confusion for remote clients. All data copies to the subscription for ongoing reference.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Subscription Details ✅, Show on Admin Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -273,7 +273,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The badge name field allows attendees to use a nickname or shortened name. Session preferences help the organizer plan capacity. The headshot uploads enable face-to-face networking features. Renewal orders carry forward preferences so the organizer doesn't have to re-survey annually.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅, Show on Admin Order Details ✅, Allow File Uploads ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅
 
 * * *
 
@@ -291,7 +291,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** The entire gift section is conditional — customers buying for themselves see a simple one-field step. Gift buyers get recipient details, a personalized message, and a start date selector. The fulfillment team reads the gift data from order meta and ships to the right address.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅, Show on Customer Order Details ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅
 
 * * *
 
@@ -309,7 +309,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** Conditional visibility keeps the medical section compact — customers without conditions, medications, or allergies see only three checkboxes. Those who check a box get the relevant follow-up fields. This makes the intake form feel personalized rather than overwhelming.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅, Allow File Uploads: No (no file uploads needed for this use case)
+**Key settings:** Copy Custom Fields to Subscriptions ✅ (no File Upload field is added, so checkout accepts no uploads)
 
 * * *
 
@@ -327,7 +327,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** Grid Select with descriptions helps customers understand the difference between access levels without leaving the checkout. Add-on toggles for locker and parking capture upgrades in the same flow. The schedule data helps the space manager predict capacity.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅, Copy Custom Fields to Renewal Orders ✅
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Copy Custom Fields to Renewal Orders ✅
 
 * * *
 
@@ -346,7 +346,7 @@ The Checkout Builder is not just a form editor — it's how you shape the first 
 
 **Why it works:** Four well-organized steps turn what would normally be a separate onboarding meeting into a self-service intake form. The agency has everything they need to start work on day one: business context, campaign goals, brand assets, and payment details. Date Range captures the expected campaign timeline. Multiple file uploads collect all brand materials in one go.
 
-**Key settings:** Copy Custom Fields to Subscriptions ✅, Show on Admin Order Details ✅, Show on Subscription Details ✅, Allow File Uploads ✅, Default Max File Size (MB): 10MB
+**Key settings:** Copy Custom Fields to Subscriptions ✅, Max File Size (MB) set to 10 on the "Logo Files" and "Brand Guidelines" upload fields
 
 * * *
 
@@ -356,14 +356,14 @@ These tips apply across all use cases:
 
 ### Enable Data Flow Early
 
-Before launching your checkout form, decide which data flow settings you need:
+Before launching your checkout form, decide which copy settings you need. Both live in the **General** card of the builder's Settings tab:
 
 | Need | Setting |
 | --- | --- |
 | Fulfillment team needs custom data on every renewal order | Copy Custom Fields to Subscriptions ✅ + Copy Custom Fields to Renewal Orders ✅ |
-| Admin needs to see custom data on orders | Show on Admin Order Details ✅ |
-| Customer should see their submitted data on the order receipt | Show on Customer Order Details ✅ |
-| Custom data should appear on subscription detail | Show on Subscription Details ✅ |
+| Custom data should appear on subscription detail | Copy Custom Fields to Subscriptions ✅ |
+
+You don't need a setting to display the data. While the builder is enabled, saved values always show on the admin order screen, on the customer's Thank You page and My Account order view, and on the subscription detail view (for values copied to the subscription).
 
 ### Keep Steps Focused
 
@@ -375,7 +375,7 @@ Each step should cover one clear topic:
 
 Three steps is the sweet spot for most stores. Four steps work for complex onboarding flows. More than four risks losing the customer.
 
-![Design tab with navigation position and step indicator controls](use-cases.ASSETS/02-design-settings-use-case-annotated.png)
+![Builder Settings tab with step position and step indicator controls](use-cases.ASSETS/02-design-settings-use-case-annotated.png)
 
 ### Use Conditional Visibility Aggressively
 
@@ -396,7 +396,7 @@ The best checkout forms feel short even when they collect a lot of data. Every f
 
 After building your checkout, place a test order and verify:
 
-1.  Custom field data appears on the order (admin and customer views, if enabled)
+1.  Custom field data appears on the order (admin and customer views)
 2.  Custom field data copies to the subscription (if enabled)
 3.  Conditional fields hide and show correctly
 4.  File uploads succeed and are accessible from the order
@@ -407,7 +407,7 @@ After building your checkout, place a test order and verify:
 
 ## Related Docs
 
--   [Checkout Builder Overview](README.md) — Builder interface, settings, and design panel
+-   [Checkout Builder Overview](README.md) — Builder interface, Settings tab, and the Enable Checkout Builder toggle
 -   [Field Types Reference](field-types.md) — Detailed reference for all 28 element types
 -   [Subscription Checkout](../subscription-checkout.md) — Cart rules and subscription creation
 -   [Subscription Detail Cards](../../manage-subscriptions/subscription-detail-cards.md) — How custom fields appear on subscriptions

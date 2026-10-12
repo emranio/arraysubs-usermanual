@@ -47,7 +47,7 @@ Replace the default WooCommerce classic checkout form with a fully customizable,
 
 ![Checkout Builder fullscreen editor with elements palette and steps](README.ASSETS/05-checkout-builder-editor-annotated.png)
 
-![Checkout Builder settings with field-copy toggles and upload limit](README.ASSETS/06-checkout-builder-settings-annotated.png)
+![Checkout Builder settings page with the Enable Checkout Builder toggle](README.ASSETS/06-checkout-builder-settings-annotated.png)
 
 ## Quick Reference
 

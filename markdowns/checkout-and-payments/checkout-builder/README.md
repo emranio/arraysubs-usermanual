@@ -53,8 +53,8 @@ The builder has two main areas:
 
 | Tab | Purpose |
 |---|---|
+| **Settings** | Builder-wide settings in four cards: **General** (copy custom fields to subscriptions and renewal orders), **Colors**, **Layout**, and **Steps** (step navigation style) |
 | **Elements** | Draggable palette of all 28 element types, grouped by category (Standard, Advanced, Layout) |
-| **Design** | Visual design settings: colors, layout, spacing, and step navigation style |
 
 When you select a field in the editor, the left sidebar switches to show that field's settings (label, key, placeholder, required toggle, CSS class, type-specific options, and **Show When** visibility rules when another input field can be referenced). Click the back arrow to return to the Elements palette.
 
@@ -208,11 +208,22 @@ Drop fields into any column within a section. Fields within a column stack verti
 
 ---
 
-## Design Panel
+## Settings Tab
 
-The Design tab in the left sidebar controls the visual appearance of the entire checkout form.
+The **Settings** tab is the first tab in the builder's left sidebar. It holds the settings that apply to the whole checkout form, laid out as plain cards that are always open: **General**, **Colors**, **Layout**, and **Steps**. Everything here is saved with the builder's **Save** button.
 
-### Color Settings
+### General
+
+| Setting | Default | Effect |
+|---|---|---|
+| **Copy Custom Fields to Subscriptions** | Off | Copies all custom field values from the checkout order to the subscription record's meta data |
+| **Copy Custom Fields to Renewal Orders** | Off | Copies custom field values from the subscription to each renewal order created by the billing engine |
+
+```box class="info-box"
+**Copy Custom Fields to Subscriptions** matters for subscription stores. Without it, custom field data only lives on the original checkout order. Turn it on in the **General** card so subscription detail pages and renewal orders carry the captured data forward.
+```
+
+### Colors
 
 | Setting | Default | Controls |
 |---|---|---|
@@ -224,7 +235,7 @@ The Design tab in the left sidebar controls the visual appearance of the entire 
 | Background color | `#ffffff` | Form background |
 | Text color | `#1e293b` | Body text |
 
-### Layout Settings
+### Layout
 
 | Setting | Default | Controls |
 |---|---|---|
@@ -233,49 +244,28 @@ The Design tab in the left sidebar controls the visual appearance of the entire 
 | Border radius | `8px` | Roundness of all form elements (0–24px) |
 | Spacing | `comfortable` | Options: `compact`, `comfortable`, `spacious` |
 
-### Step Navigation Settings
+### Steps
 
 | Setting | Default | Controls |
 |---|---|---|
 | Step position | `top` | Where steps appear: `top` (horizontal tabs), `left` (vertical sidebar), `hidden` |
 | Step indicator style | `numbers` | How steps are shown: `numbers`, `dots`, `progress-bar` |
 
-All design changes apply via CSS custom properties and update in real time as you adjust them in the builder.
+Color, layout, and step changes apply via CSS custom properties and update in real time as you adjust them in the builder.
 
 ---
 
 ## Checkout Builder Settings
 
-A separate settings page at **ArraySubs → Checkout Builder → Settings** controls global behavior.
-
-### Master Toggle
+A separate settings page at **ArraySubs -> Checkout Builder -> Settings** holds a single setting: the master toggle.
 
 | Setting | Default | Effect |
 |---|---|---|
 | **Enable Checkout Builder** | Off | Turns the entire Checkout Builder on or off. When off, the default WooCommerce checkout renders normally. |
 
-### Data Flow Settings
+The two copy toggles (**Copy Custom Fields to Subscriptions** and **Copy Custom Fields to Renewal Orders**) live in the **General** card of the builder's [Settings tab](#settings-tab). Display needs no setting: while the builder is enabled, saved custom field values always show on orders, and on subscriptions once they're copied there. Upload size limits are set on each File Upload field.
 
-| Setting | Default | Effect |
-|---|---|---|
-| **Copy Custom Fields to Subscriptions** | Off | Copies all custom field values from the checkout order to the subscription record's meta data |
-| **Copy Custom Fields to Renewal Orders** | Off | Copies custom field values from the subscription to each renewal order created by the billing engine |
-| **Show on Admin Order Details** | Off | Displays custom field values in a meta box on the WooCommerce admin order edit screen |
-| **Show on Customer Order Details** | Off | Displays custom field values on the customer's order detail page (My Account -> Orders -> View order) |
-| **Show on Subscription Details** | Off | Includes custom field values in the subscription detail REST API response and admin subscription detail view |
-
-### File Upload Settings
-
-| Setting | Default | Effect |
-|---|---|---|
-| **Allow File Uploads** | Off | Master toggle for file upload fields. Upload fields will not render at checkout unless this is on. |
-| **Default Max File Size (MB)** | 5 MB | Maximum file size per upload in megabytes |
-
-```box class="info-box"
-The **Copy Custom Fields to Subscriptions** setting is important for subscription stores. Without it, custom field data only lives on the original checkout order. Enable it to ensure subscription detail pages and renewal orders carry the captured data forward.
-```
-
-![Checkout Builder Settings: enable toggle, field copy, and upload settings](README.ASSETS/03-checkout-builder-settings-annotated.png)
+![Checkout Builder Settings page with the Enable Checkout Builder toggle](README.ASSETS/03-checkout-builder-settings-annotated.png)
 
 ---
 
@@ -296,13 +286,17 @@ Custom field data follows a clear path through your system:
 
 ### Display
 
-6. Admin order edit screen shows custom fields if **Show on Admin Order Details** is enabled
-7. Customer order detail page shows custom fields if **Show on Customer Order Details** is enabled
-8. Subscription detail REST response includes custom fields if **Show on Subscription Details** is enabled
+While the Checkout Builder is enabled, saved custom field values are always displayed. There are no display settings to turn on.
+
+6. The WooCommerce admin order edit screen shows the custom fields
+7. The customer sees them on the Thank You page and on the order view in My Account
+8. The subscription detail view shows the values copied to the subscription, both in admin (through the subscription detail REST response) and on the customer's My Account subscription view
 
 ### File Uploads
 
 Uploaded files are stored in `wp-content/uploads/arraysubs-checkout-uploads/{order_id}/` as private WordPress attachments, not publicly browsable. The meta value stores the attachment ID, and files can be downloaded from the order or subscription detail view.
+
+Checkout accepts uploads only through File Upload fields you add in the builder. If no File Upload field is configured, checkout accepts no uploads. Each File Upload field has its own **Max File Size (MB)** setting in its Type Settings. Leave it empty to accept files up to your site's WordPress max upload size. That WordPress limit (set by the server's `upload_max_filesize` and `post_max_size`) is always the hard ceiling: the builder won't save a larger per-field value, and uploads are clamped to it on the server.
 
 ---
 
@@ -375,9 +369,9 @@ See [Checkout Builder Use Cases](use-cases.md) for 15+ detailed real-world examp
 | Problem | Likely Cause | Solution |
 |---|---|---|
 | Custom fields not appearing at checkout | Builder not enabled | Go to Checkout Builder -> Settings and toggle **Enable Checkout Builder** on |
-| File upload field not showing | File uploads not enabled | Enable **Allow File Uploads** in Checkout Builder Settings |
-| Custom data missing on subscription | Subscription copy setting disabled | Enable **Copy Custom Fields to Subscriptions** in Checkout Builder Settings |
-| Custom data missing on renewal orders | Renewal-order copy setting disabled | Enable **Copy Custom Fields to Renewal Orders** in Checkout Builder Settings |
+| File upload field not showing | No File Upload field on a step, or the builder is off | Add a File Upload field to a step, save the builder, and make sure **Enable Checkout Builder** is on |
+| Custom data missing on subscription | Subscription copy setting disabled | Turn on **Copy Custom Fields to Subscriptions** in the **General** card of the builder's Settings tab, then save |
+| Custom data missing on renewal orders | Renewal-order copy setting disabled | Turn on **Copy Custom Fields to Renewal Orders** in the **General** card of the builder's Settings tab, then save |
 | Multi-step navigation not showing | Only one step configured | Add a second step in the builder to activate multi-step mode |
 | Field key collision | Two fields with the same slug | Each field's key must be unique. The builder auto-deduplicates when generating keys from labels, but manually entered keys must be unique. |
 | Design changes not visible | CSS caching | Clear your browser cache and any server-side page cache |

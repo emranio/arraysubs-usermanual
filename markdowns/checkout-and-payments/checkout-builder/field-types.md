@@ -189,7 +189,7 @@ File attachment with type and size validation.
 | Use cases | ID verification, logo upload, prescription documents |
 
 ```box class="warning-box"
-File Upload fields only work when **Allow File Uploads** is turned on in Checkout Builder Settings. The global **Default Max File Size (MB)** setting applies as an upper bound, but individual upload fields can set a lower limit.
+There's no separate switch for uploads. Checkout accepts files only through File Upload fields added in the builder, so if no File Upload field is configured, checkout accepts no uploads. Set each field's limit with **Max File Size (MB)** in its Type Settings, or leave it empty to allow files up to your site's WordPress max upload size. That WordPress limit (from the server's `upload_max_filesize` and `post_max_size`) is always the hard ceiling: the builder won't save a higher value, and the server clamps uploads to it.
 ```
 
 ### Image Select
@@ -425,5 +425,5 @@ Validation runs at checkout submission time (not during step transitions in mult
 
 ## Related Docs
 
-- [Checkout Builder Overview](README.md) — Builder interface, design panel, and settings
+- [Checkout Builder Overview](README.md) — Builder interface, Settings tab, and the Enable Checkout Builder toggle
 - [Checkout Builder Use Cases](use-cases.md) — Real-world examples using these field types
