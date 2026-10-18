@@ -141,7 +141,6 @@ PayPal and Paddle charge on their own schedule; ArraySubs records those payments
 ### For Developers
 
 - `arraysubs_auto_renew_toggled` fires after the customer or an admin changes auto-renew, with the subscription ID, the new state (`true` for on), and the gateway slug. See [React to Supported Events](../../developers/actions-and-filters.md).
-- `Subscriptions::update()` accepts an `auto_renew` change from your own trusted code. See [Find and Update Subscriptions](../../developers/subscriptions.md).
 - To test both paths on staging before launch, see [Verify Your Integration](../../developers/errors-and-testing.md) and [Test Automatic Renewals on Staging](stripe.md#test-automatic-renewals-on-staging).
 
 ---

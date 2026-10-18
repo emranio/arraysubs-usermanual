@@ -239,11 +239,11 @@ A successful renewal leaves the renewal order paid, the subscription **Active**,
 | Dates | Subscription detail page | **Next Payment** moved forward by exactly one billing period. It follows the schedule, not the moment the charge ran. |
 | Scheduled actions | **WooCommerce > Status > Scheduled Actions** | This cycle's `arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal` show **Complete**, and new **Pending** actions exist for the next cycle. |
 | Logs | **ArraySubs > Audits [beta] > Gateway Logs**; with Pro, also **Scheduled-Job Logs** and **Renewal Failures**; the official gateway's log in **WooCommerce > Status > Logs** when its logging is on | Stripe payment and webhook entries for the renewal, with no errors |
-| Lifecycle events | Your integration code | `arraysubs_lifecycle_event` fired `renewal_invoice_created`, then `renewed`. See [React to Supported Events](../../developers/actions-and-filters.md). |
+| Lifecycle events | Your integration code | The `arraysubs_renewal_invoice_created` action fired when the invoice was created, then `arraysubs_lifecycle_event` fired `renewed`. See [React to Supported Events](../../developers/actions-and-filters.md). |
 | Plan and access | Subscription detail page and the customer's My Account | Same product, variation, quantity, and recurring amount. The subscription is **Active** and the customer still sees member content. |
 | Payment method | **Payment Gateway** card | Still **Connected** with the same card on file |
 
-Developers can also read the computed state with `Lifecycle::get_state()`, described in [Read Lifecycle State and Manage Its Dates](../../developers/status-grace-periods-and-trials.md).
+Developers can also read the computed state with `\ArraySubs\Developer\Subscriptions::fromId( 123 )->data( array( 'status', 'schedule', 'recovery' ) )`, described in [Read Lifecycle State and Manage Its Dates](../../developers/status-grace-periods-and-trials.md).
 
 #### Test a Failed Renewal and Recovery
 
@@ -254,9 +254,9 @@ Developers can also read the computed state with `Lifecycle::get_state()`, descr
    - For a decline that can resolve itself, such as insufficient funds, a subscription note reads `Scheduled retry 1 of 3 at ...` and a new **Pending** `arraysubs_process_renewal` action appears at the retry time. Retries are not spread.
    - For a hard decline (expired card, invalid card, incorrect CVC, card declined, or authentication required), no retry is scheduled and a note records why. See [Hard declines are not retried](payment-recovery.md#hard-declines-are-not-retried).
    - The grace flow starts: the subscription stays **Active** for **Days Active After Due**, moves to **On-Hold** (members lose access), and is **Cancelled** after **Days On-Hold Before Cancel**. See [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
-   - Developers see the `renewal_failed` event, `payment_retry_scheduled` for a soft decline, and `grace_started`.
+   - Developers see the `renewal_failed` lifecycle event and, for a soft decline, the `arraysubs_payment_retry_scheduled` action.
 4. Recover: as the test customer, use **Update payment method** to save a working test card, then click **Retry Payment**. An admin can also click **Retry Payment** on the subscription detail page.
-5. Expected: the renewal order is paid, the retry counter resets, the subscription is **Active** again (an **On-Hold** subscription returns to **Active**), **Next Payment** moves forward, and access returns. Developers see `grace_recovered`, plus `reactivated` when the subscription was on hold.
+5. Expected: the renewal order is paid, the retry counter resets, the subscription is **Active** again (an **On-Hold** subscription returns to **Active**), **Next Payment** moves forward, and access returns. Developers see the `arraysubs_grace_recovered` action, plus the `arraysubs_data_reactivated` action and the `granted` and `status_changed` events of `arraysubs_lifecycle_event` when the subscription was on hold.
 
 ### Step 7: Return to Live Safely
 

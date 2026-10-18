@@ -5,9 +5,9 @@
 
 # Extend ArraySubs with a Module
 
-> Register your addon on the ArraySubs Modules screen, honor its on/off switch in your own code, and check the ArraySubs domains your addon depends on.
+> Add your addon to the ArraySubs Modules screen, honor its on/off switch in your own code, boot at the right moment, and check the ArraySubs features your addon depends on.
 
-**Availability:** Core (Free). The module list, switches, helpers and hooks on this page ship with ArraySubs core. The `arraysubs_module_myaccount_endpoints` filter is read by the My Account Editor in ArraySubs Pro, and Pro domains your addon calls (such as Store Credit) need ArraySubs Pro with an active license.
+**Availability:** Core (Free). The Modules screen, its filters and actions, the switch helpers and the boot hooks ship with ArraySubs core. Only the `arraysubs_module_myaccount_endpoints` filter is read by ArraySubs Pro (its My Account Editor). ArraySubs features your addon calls, such as Store Credit, can need ArraySubs Pro with an active license.
 
 ## Page Navigation
 
@@ -20,70 +20,53 @@
 
 ## Overview
 
-ArraySubs shows every module as a card on **ArraySubs -> Modules**: core modules that are always on, optional Free and Pro modules with a switch, and modules that addon plugins register. Your addon adds its card with the `arraysubs_modules` filter. ArraySubs saves the merchant's switch, carries it in settings export and import, fires `arraysubs_modules_saved` after each save, and can keep your own product types off sale while the switch is off.
+**ArraySubs -> Modules** shows one card per module: core modules that are always on, optional Free and Pro modules with a switch, and modules that addon plugins declare with the `arraysubs_modules` filter. ArraySubs saves each switch, keeps it while your addon is inactive, carries it in settings export and import, fires `arraysubs_modules_saved` after every save, and can keep products of your own product types off sale while your module is off.
 
-ArraySubs does not stop your code from running. Your addon reads the switch with `arraysubs_is_module_enabled()` and registers nothing while it is off. This page documents that contract, the related helpers and hooks, and `ArraySubs\Api\Availability` for the ArraySubs domains your addon relies on.
+ArraySubs never starts or stops addon code. Your addon reads its switch with `arraysubs_is_module_enabled()` and registers nothing while the switch is off.
 
 ## When to Use This
 
-- You ship an addon plugin for ArraySubs and want merchants to switch it on and off next to the built-in modules.
-- Your addon sells its own WooCommerce product type that should go off sale while the addon is switched off.
-- Your addon must react when a merchant switches it off, for example to stop its scheduled jobs.
-- Your addon calls an ArraySubs domain that can be missing or switched off, such as Store Credit (Pro).
+- You ship an addon plugin and want merchants to switch it on and off next to the built-in modules.
+- Your addon sells its own WooCommerce product type that should go off sale while the addon is off.
+- Your addon must clean up, for example stop a scheduled job, when a merchant switches it off.
+- Your addon calls an ArraySubs feature that can be missing or switched off, such as Store Credit (Pro).
 
-Do not use a module for per-member or per-plan limits. Those are Feature Manager features; see [Addon Modules vs Feature Manager Entitlements](#addon-modules-vs-feature-manager-entitlements).
+Do not use a module for per-member or per-plan limits. A module switch is store-wide; per-plan values are Feature Manager features (see [Read and Update Feature Data](./feature-manager.md)).
 
-## Prerequisites
+## Before You Start
 
-- ArraySubs core active and running: PHP 8.1+, WordPress 6.0+ and WooCommerce 9.0+. When WooCommerce is missing or too old, ArraySubs shows an admin notice and loads none of the helpers or hooks on this page.
-- Your addon packaged as a standalone plugin. Theme code loads after ArraySubs boots, which is too late for the boot-time filters on this page.
-- A user with the `manage_woocommerce` capability to open **ArraySubs -> Modules**.
-- ArraySubs Pro with an active license only when your addon calls a Pro domain such as `store_credit`, or relies on the My Account Editor endpoint filter. See [License Activation](../getting-started/license-activation.md).
+- **ArraySubs core must be active** and pass its checks (PHP 8.1+, WordPress 6.0+, WooCommerce 9.0+). When a check fails, ArraySubs shows an admin notice and loads none of the helpers, hooks or classes on this page. Guard calls with `function_exists()` and `class_exists()`.
+- **Ship your addon as a plugin.** A theme's `functions.php` loads after ArraySubs boots, which is too late for `arraysubs_boot_classes` and for boot-time `arraysubs_is_module_enabled` callbacks.
+- **Pick one module ID** such as `acme_loyalty` and use it everywhere: the declaration, the helpers, and the product type and endpoint maps. IDs pass through `sanitize_key()` (lowercase letters, numbers, `_` and `-`).
+- **Permissions:** the Modules screen needs `manage_woocommerce`. Its admin REST routes, `GET /wp-json/arraysubs/v1/modules` and `POST /wp-json/arraysubs/v1/modules/save`, accept `manage_woocommerce` or `manage_options`. The PHP helpers check nothing; your own handlers must check capabilities and nonces.
 
 ## How It Works
 
-### Available, switched on and running
+### What ArraySubs does and what your addon does
 
-| State | Built-in modules | Your addon module |
+| ArraySubs | Your addon |
+| --- | --- |
+| Lists your card: always-on modules first, then switchable modules, each group sorted by title. | Declares the card at plugin include time with `arraysubs_modules`. |
+| Saves the switch in the `arraysubs_settings` option and keeps it while your addon is inactive. | Checks `arraysubs_is_module_enabled()` before it registers hooks, menus, REST routes, assets, jobs or endpoints. |
+| Fires `arraysubs_modules_saved` after every successful save. | Cleans up its own scheduled work in an `arraysubs_modules_saved` listener. |
+| Drafts products of the types you map to your module while it is off, and restores them when it is on again. | Keeps its product type and product class registered whether the module is on or off. |
+| Flushes rewrite rules once on the next request after any switch changes. | Registers its My Account endpoints only while the module is on. |
+| Carries the switch in settings export and import (**Module Switches** section). | Stores its own settings in its own option. |
+
+### Boot order
+
+| When | What happens | What your addon can do |
 | --- | --- | --- |
-| Available | The module's code can run on this site. Core modules always; Pro modules need ArraySubs Pro active and licensed. | The `available` key in your declaration (default `true`). |
-| Switched on | The saved switch. A module that was never saved is on. | The same switch, read with `arraysubs_is_module_enabled()`. |
-| Running | ArraySubs boots its own feature code and puts switch-bound features to sleep while their switch is off. | Whatever your own boot code decides. ArraySubs never boots or stops addon code. |
+| Your plugin file is included | ArraySubs has not booted. | Add your `arraysubs_*` filters and actions. Do not call ArraySubs functions yet. |
+| `plugins_loaded` priority 9 | ArraySubs Pro checks its own requirements and, when they pass, queues its setup on `arraysubs_before_boot` priority 5. | Nothing. |
+| `plugins_loaded` priority 10 | ArraySubs core checks PHP, WordPress and WooCommerce. On failure it stops here. | Nothing. |
+| `arraysubs_before_boot` | Core helper functions, the class autoloader and the settings are loaded. ArraySubs Pro sets itself up at priority 5. No feature provider exists yet. | Read switches. Add an `arraysubs_boot_classes` callback if you did not add it at include time. |
+| ArraySubs boot | ArraySubs constructs its fixed list of feature providers, then every class returned by `arraysubs_boot_classes`, in order. | Your boot class constructor runs, if you registered one. |
+| `arraysubs_after_boot` | Every provider is constructed. `arraysubs_has_module()` now answers. | Boot your addon. |
+| `init` priority 10 | ArraySubs registers its subscription post type and statuses. At priority 999 it runs a pending rewrite flush. | Query subscriptions through the developer API from `init` priority 11 or later. |
+| `wp_loaded` | Developer API calls to `ArraySubs\Developer\StoreCredit` are accepted from here on. | Call Store Credit methods. Earlier calls return `arraysubs_not_ready`. |
 
-### What ArraySubs does for your module
-
-- Lists your card in display order: always-on modules first, then switchable modules, each group sorted by title.
-- Saves the switch when an administrator saves the Modules screen, and keeps the saved state while your addon is inactive.
-- Fires `arraysubs_modules_saved` after every save.
-- Drafts products of the product types you map to your module while it is off, and restores them when it is switched back on.
-- Flushes rewrite rules once, on the next request after any switch changes, so My Account endpoints you register only while on appear and disappear without a permalinks save.
-- Carries the switch in settings export and import (the **Module Switches** section).
-
-### What your addon must do itself
-
-- Check `arraysubs_is_module_enabled()` before it registers hooks, menus, REST routes, assets, scheduled jobs or endpoints.
-- Clean up its own scheduled work when the switch goes off.
-- Keep its product type and product class registered while the switch is off, so drafted products keep their type.
-- Check `Availability` before it calls an ArraySubs domain that can be unavailable.
-- Store its own settings in its own option.
-
-```mermaid
-flowchart TD
-    A["Your plugin file loads"] --> B["Add arraysubs_modules and other filters"]
-    B --> C["ArraySubs boots on plugins_loaded"]
-    C --> D{"arraysubs_is_module_enabled( 'acme_loyalty' )"}
-    D -->|on, or never saved| E["Your addon registers its hooks"]
-    D -->|off| F["Your addon stays idle"]
-    G["Merchant saves ArraySubs -> Modules"] --> H["arraysubs_update_module_states()"]
-    H --> I["Switch saved in the arraysubs_settings modules map"]
-    I --> J["arraysubs_modules_saved fires in the same request"]
-    J --> K["Mapped product types drafted or restored"]
-    J --> L["Your listener cleans up"]
-    I --> M["Next request boots with the new state"]
-    M --> C
-```
-
-A switch change reaches boot on the next request. In the save request itself your addon already booted with the old state, so put clean-up work in an `arraysubs_modules_saved` listener.
+`arraysubs_before_boot` and `arraysubs_after_boot` fire once per request, inside ArraySubs' `plugins_loaded` callback. A switch change reaches boot on the next request: the save request itself already booted with the old state.
 
 ## Register a Module
 
@@ -95,32 +78,30 @@ apply_filters( 'arraysubs_modules', array $modules ): array
 
 | Item | Details |
 | --- | --- |
-| Accepts | `array<string, array>` module declarations keyed by module ID, built-in modules included. |
+| Receives | Module declarations keyed by module ID, the built-in modules included. |
 | Returns | The same array with your declaration added. A non-array return empties the list, built-in modules included. |
-| When it runs | Only when ArraySubs builds the module list: the Modules screen, its admin REST routes, every switch save, settings export and import, and the Publish-box notice on a drafted product. All of these run after `init`, so `__()` is safe inside your callback. Add the filter at plugin include time so it exists on every request. |
-| Failure values | Declarations that are not arrays, whose ID is empty after `sanitize_key()`, or whose title is empty are dropped silently. |
-| Limits | One declaration per module ID. A later callback can overwrite any key. |
-| Permission boundary | Trusted server PHP. The list is shown only to users who can open ArraySubs admin screens (`manage_woocommerce`); the modules REST routes accept `manage_woocommerce` or `manage_options`. |
-| Side effects | None. The filter only describes the card; it does not boot code or save anything. |
+| When it runs | Whenever ArraySubs builds the module list: the Modules screen and its REST routes, every switch save, settings export and import, the ArraySubs admin app, and the Publish box of a drafted product. Add the callback at include time so it exists on every request. |
+| Dropped silently | A declaration that is not an array, whose ID is empty after `sanitize_key()`, or whose title is empty. Two IDs that sanitize to the same value: the later one wins. |
+| Side effects | None. The filter describes the card only. It does not boot code or save anything. |
 
 Declaration keys (only `title` is required):
 
 | Key | Type | Default | What it does |
 | --- | --- | --- | --- |
-| *(array key)* | string | required | Module ID. Sanitized with `sanitize_key()` (lowercase letters, numbers, `_` and `-`). Use a vendor prefix, such as `acme_loyalty`. |
-| `title` | string | required | Card title, plain text. An empty title removes the module from the list. |
+| *(array key)* | string | required | Module ID, sanitized with `sanitize_key()`. |
+| `title` | string | required | Card title, plain text. |
 | `description` | string | `''` | One line under the title, plain text. |
-| `icon` | string | `''` | Lucide icon name bundled with the Modules screen: `Activity`, `Bell`, `Blocks`, `Box`, `Boxes`, `Calendar`, `ChartColumn`, `CirclePause`, `CreditCard`, `FileText`, `Gift`, `Globe`, `HeartHandshake`, `LayoutGrid`, `ListChecks`, `Lock`, `Mail`, `Package`, `PackageOpen`, `PenTool`, `Plug`, `Puzzle`, `Repeat`, `Settings`, `ShieldCheck`, `Sparkles`, `Tag`, `Truck`, `UserCog`, `Users`, `Wallet`, `Wrench`, `Zap`. Any other name shows `Puzzle`. |
-| `icon_url` | string | `''` | Image URL shown instead of `icon`. |
-| `badge` | string or array | `''` | A badge ID registered through `arraysubs_module_badges`, a plain label (shown in the neutral tone), or `['label' => ..., 'tone' => ..., 'id' => ...]`. Empty shows no badge. |
-| `toggleable` | bool | `true` | `false` shows **Always on** with no switch. |
-| `available` | bool | `true` | `false` shows a lock with `unavailable_message` instead of the switch, hides **Configure**, and stops the switch from being saved. |
-| `unavailable_message` | string | `''` | Lock message, plain text. Kept only while `available` is `false`; empty shows "Unavailable". |
-| `unavailable_url` | string | `''` | Turns the lock message into a link. Kept only while `available` is `false`. |
-| `configure_url` | string | `''` | **Configure** link. Shown only while the module is available, switched on and saved on. Point it at your own admin page. |
+| `icon` | string | `''` | A Lucide icon name the screen bundles: `Activity`, `Bell`, `Blocks`, `Box`, `Boxes`, `Calendar`, `ChartColumn`, `CirclePause`, `CreditCard`, `FileText`, `Gift`, `Globe`, `HeartHandshake`, `LayoutGrid`, `ListChecks`, `Lock`, `Mail`, `Package`, `PackageOpen`, `PenTool`, `Plug`, `Puzzle`, `Repeat`, `Settings`, `ShieldCheck`, `Sparkles`, `Tag`, `Truck`, `UserCog`, `Users`, `Wallet`, `Wrench`, `Zap`. Characters other than letters and numbers are removed; any other name shows `Puzzle`. |
+| `icon_url` | string | `''` | Image shown instead of `icon`. Use an absolute URL. |
+| `badge` | string or array | `''` | A badge ID from `arraysubs_module_badges`, a plain label (shown in the `neutral` tone), or `[ 'label' => ..., 'tone' => ..., 'id' => ... ]`. An empty label shows no badge. |
+| `toggleable` | bool | `true` | `false` shows **Always on** instead of a switch, and the switch is never saved. |
+| `available` | bool | `true` | `false` shows a lock and `unavailable_message` instead of the switch, hides **Configure**, and stops the switch from being saved. It does not change what `arraysubs_is_module_enabled()` returns. |
+| `unavailable_message` | string | `''` | Lock text, kept only while `available` is `false`. Empty shows "Unavailable". |
+| `unavailable_url` | string | `''` | Turns the lock text into a link. Kept only while `available` is `false`. |
+| `configure_url` | string | `''` | **Configure** link, shown only while the module is available, switched on and saved on. Point it at your own admin page. |
 | `docs_url` | string | `''` | Opens from an info icon in a new tab. Empty shows no icon; a bare `#` shows an icon that does nothing. |
 
-Text values pass through `sanitize_text_field()` and URLs through `esc_url_raw()`, so a URL with a scheme WordPress does not allow (for example `data:`) is dropped. Characters other than letters and numbers are stripped from `icon`.
+Text values pass through `sanitize_text_field()` and URLs through `esc_url_raw()`. A URL with a scheme WordPress does not allow (for example `data:`) is dropped, and a value without a scheme gets `http://` in front. There is no key that hides a card: every declaration with a title is listed.
 
 ```php
 <?php
@@ -143,13 +124,11 @@ add_filter(
 
 Built-in module IDs are reserved. Do not reuse, change or remove them:
 
-| ID | Edition | Switch |
+| ID | Edition | Card |
 | --- | --- | --- |
-| `subscription_box` | Free | Switchable |
-| `store_credit`, `feature_manager`, `checkout_builder`, `subscription_bundle`, `cancellation_flow`, `profile_builder`, `audits` | Pro | Switchable; locked while Pro is missing or unlicensed |
+| `subscription_box` | Free | Switch |
+| `store_credit`, `feature_manager`, `checkout_builder`, `subscription_bundle`, `cancellation_flow`, `profile_builder`, `audits` | Pro | Switch while ArraySubs Pro runs with an active license; otherwise a lock that says "Requires ArraySubs Pro.", "Activate your ArraySubs Pro license to use this module." or, when the installed Pro release lacks that module, "Update ArraySubs Pro to use this module." |
 | `subscription_products`, `automatic_payments`, `skip_pause`, `member_access`, `emails`, `analytics`, `toolkit` | Core | Always on |
-
-To find out whether an ArraySubs domain can run, use [`Availability`](#check-arraysubs-domains-your-addon-needs) instead of reading built-in switches.
 
 ### `arraysubs_module_badges` filter
 
@@ -159,12 +138,10 @@ apply_filters( 'arraysubs_module_badges', array $badges ): array
 
 | Item | Details |
 | --- | --- |
-| Accepts | Badge declarations keyed by badge ID, each `['label' => string, 'tone' => string]`. Built-in IDs: `core`, `free`, `pro`. |
-| Returns | The same array with your badge added. A non-array return removes every badge, and badge IDs on cards then show as plain neutral labels. |
-| Tones | `core`, `free`, `pro`, `addon`, `neutral`. Anything else renders as `neutral`. `addon` is an outlined pill meant for addons. |
-| When it runs | With `arraysubs_modules`, whenever the module list is built. |
-| Permission boundary | Trusted server PHP. |
-| Side effects | None. |
+| Receives | Badge declarations keyed by badge ID, each `[ 'label' => string, 'tone' => string ]`. Built-in IDs: `core`, `free`, `pro`. |
+| Returns | The same array with your badge added. A non-array return removes every badge; cards then show their badge value as a plain neutral label. |
+| Tones | `core`, `free`, `pro`, `addon` (an outlined pill meant for addons) and `neutral`. Anything else renders as `neutral`. |
+| When it runs | Together with `arraysubs_modules`. |
 
 ```php
 <?php
@@ -181,89 +158,25 @@ add_filter(
 );
 ```
 
-## Read and Change Module Switches
+## Read and Change Switches
 
-### Where switches are stored
-
-Switches are saved in the shared `arraysubs_settings` option under the `modules` key, as `module_id => bool`.
+Switches are stored in the shared `arraysubs_settings` option under the `modules` key, as `module_id => bool`.
 
 - A module that was never saved has no entry and counts as on.
-- Only registered modules that are toggleable and available are written. Unknown IDs, always-on modules and locked modules keep whatever was stored, so an inactive addon's switch survives later saves.
+- A save writes only registered modules that are toggleable and available. Unknown IDs, always-on modules and locked modules keep whatever was stored, so an inactive addon's switch survives later saves.
 - Saving or resetting ArraySubs settings does not change the map.
-- Settings export and import carry the map in the **Module Switches** section and apply it through `arraysubs_update_module_states()`. Switches for modules the destination site has not registered, or cannot run, are skipped and reported. See [Import / Export Settings](../getting-started/import-export-settings.md).
-- The Modules screen reads and saves through the admin-only routes `GET /wp-json/arraysubs/v1/modules` and `POST /wp-json/arraysubs/v1/modules/save` (`manage_woocommerce` or `manage_options`). From PHP, use the helpers below.
+- Settings export carries every toggleable module's switch in the **Module Switches** section. Import applies it through `arraysubs_update_module_states()` and skips, and reports, switches for modules the destination site has not registered or cannot run. See [Import / Export Settings](../getting-started/import-export-settings.md).
 
 Change switches only with `arraysubs_update_module_states()`. Writing the option directly, or through `arraysubs_update_setting()`, skips `arraysubs_modules_saved`: products are not drafted or restored, rewrite rules are not flushed and Store Credit's expiry clock does not pause. A string such as `'false'` written there also reads as on.
 
-### `arraysubs_is_module_enabled()`
-
-```text
-arraysubs_is_module_enabled( string $module_id ): bool
-```
-
-| Parameter | Type | Default | Description |
+| Function | Arguments | Returns | Notes |
 | --- | --- | --- | --- |
-| `$module_id` | string | required | Module ID. Sanitized with `sanitize_key()` before the lookup. |
+| `arraysubs_is_module_enabled()` | `string $module_id` | `bool` | The saved switch, or `true` when never saved, passed through the `arraysubs_is_module_enabled` filter. An unknown ID returns `true`. It does not look at `available` or registration. Reads the option directly and loads no translations, so it is safe from `arraysubs_before_boot` on. |
+| `arraysubs_get_module_states()` | none | `array<string, bool>` | Every saved switch keyed by sanitized ID, for example `[ 'store_credit' => false ]`. Never-saved modules are absent; `[]` when nothing was saved. Not filtered. |
+| `arraysubs_update_module_states()` | `array $posted` (`module_id => bool`) | `bool` | Saves the switches, then fires `arraysubs_modules_saved`. Values pass through `rest_sanitize_boolean()`. Returns `false` only when the option write fails. IDs that are unknown, always on or locked are dropped silently and the call still returns `true`, so read the switch back when you need proof. It builds the module list, so call it after `init`. |
+| `arraysubs_get_modules_admin_url()` | none | `string` | The Modules screen URL, `.../wp-admin/admin.php?page=arraysubs-mainadmin#/modules`. Show it only to users with `manage_woocommerce`. |
 
-| Item | Details |
-| --- | --- |
-| Returns | `true` when the saved switch is on or was never saved; `false` when it was saved off. The result passes through the `arraysubs_is_module_enabled` filter. |
-| Failure values | None. An unknown ID returns `true` (never saved). It does not check `available` or whether the module is registered. |
-| Limits | One ID per call. |
-| Permission boundary | Trusted server PHP; no capability check. |
-| Side effects | Read only: no writes. It reads the option directly and never builds the module list or loads translations, so it is safe during `plugins_loaded`. |
-| Timing | From `arraysubs_before_boot` onward. The function does not exist when ArraySubs is inactive or fails its dependency check. |
-
-```php
-<?php
-if ( function_exists( 'arraysubs_is_module_enabled' ) && arraysubs_is_module_enabled( 'acme_loyalty' ) ) {
-	add_action( 'woocommerce_account_dashboard', 'acme_loyalty_render_dashboard_line' );
-}
-```
-
-### `arraysubs_get_module_states()`
-
-```text
-arraysubs_get_module_states(): array
-```
-
-| Item | Details |
-| --- | --- |
-| Accepts | No parameters. |
-| Returns | `array<string, bool>` of saved switches keyed by sanitized module ID, for example `['store_credit' => false, 'acme_loyalty' => true]`. Modules never saved are absent. |
-| Failure values | `[]` when nothing was saved yet. |
-| Limits | Returns the whole map; not paginated. |
-| Permission boundary | Trusted server PHP; no capability check. |
-| Side effects | Read only: no writes. Not filtered: `arraysubs_is_module_enabled` callbacks do not change it. |
-| Timing | Same as `arraysubs_is_module_enabled()`. |
-
-```php
-<?php
-if ( function_exists( 'arraysubs_get_module_states' ) ) {
-	$states = arraysubs_get_module_states();
-
-	// False until a merchant saves the Modules screen while Acme Loyalty is listed.
-	$has_saved_choice = array_key_exists( 'acme_loyalty', $states );
-}
-```
-
-### `arraysubs_update_module_states()`
-
-```text
-arraysubs_update_module_states( array $posted ): bool
-```
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$posted` | `array<string, bool>` | required | Switches to save, keyed by module ID. Values pass through `rest_sanitize_boolean()`; pass real booleans. |
-
-| Item | Details |
-| --- | --- |
-| Returns | `true` when the switches were saved or already matched; `false` only when the option write failed. |
-| Failure values | IDs that are unknown, always on or locked (`available` false) are dropped silently and the call still returns `true`. Read the result back with `arraysubs_get_module_states()` when you need confirmation. |
-| Limits | It builds the module list, so call it after `init` (admin screens, REST callbacks, form handlers). |
-| Permission boundary | Trusted server PHP; no capability check. Check `manage_woocommerce` and a nonce in your own handler before you call it. |
-| Side effects | Writes the `arraysubs_settings` option and the "Settings last saved" time; when something changed it also fires `arraysubs_settings_updated` and adds a settings audit note (when settings audit logging is on). Then it fires `arraysubs_modules_saved` on every successful call. ArraySubs' own listeners draft or restore products of mapped product types, flag a rewrite flush when a switch changed, and pause or resume Store Credit expiry (Pro). |
+A save also records the "Settings last saved" time. When the map changed, it fires `arraysubs_settings_updated` and, while settings audit logging is on, adds a settings audit note.
 
 ```php
 <?php
@@ -289,44 +202,13 @@ add_action(
 );
 ```
 
-### `arraysubs_get_modules_admin_url()`
-
-```text
-arraysubs_get_modules_admin_url(): string
-```
-
-| Item | Details |
-| --- | --- |
-| Accepts | No parameters. |
-| Returns | The absolute admin URL of the Modules screen, `.../wp-admin/admin.php?page=arraysubs-mainadmin#/modules`. |
-| Failure values | None. |
-| Permission boundary | Builds a URL only. Show the link only to users who can open the screen (`manage_woocommerce`). |
-| Side effects | Read only: no writes. |
-
-```php
-<?php
-if ( function_exists( 'arraysubs_get_modules_admin_url' ) && current_user_can( 'manage_woocommerce' ) ) {
-	printf(
-		'<a href="%s">%s</a>',
-		esc_url( arraysubs_get_modules_admin_url() ),
-		esc_html__( 'Manage ArraySubs modules', 'acme-loyalty' )
-	);
-}
-```
-
 ### `arraysubs_is_module_enabled` filter
 
 ```text
 apply_filters( 'arraysubs_is_module_enabled', bool $enabled, string $module_id ): bool
 ```
 
-| Item | Details |
-| --- | --- |
-| Accepts | `$enabled`: the saved state, or `true` when never saved. `$module_id`: the sanitized module ID. |
-| Returns | The state to use; cast to `bool`. |
-| When it runs | Every `arraysubs_is_module_enabled()` call, including ArraySubs' own boot on `plugins_loaded`. Add it at plugin include time (or in a must-use plugin) so it applies to boot. |
-| Permission boundary | Trusted server PHP. |
-| Side effects | Changes what ArraySubs and your addon treat as on or off, but the Modules screen keeps showing the saved switch, so the two can disagree. Use it for your own module IDs: overriding a built-in ID changes which ArraySubs features boot and which products are drafted. |
+It runs on every `arraysubs_is_module_enabled()` call, including ArraySubs' own boot, product drafting and the Store Credit and Feature Manager adapters. Add it at include time so it applies at boot. The Modules screen keeps showing the saved switch, so the screen and your code can disagree. Use it for your own module IDs: overriding a built-in ID changes which ArraySubs features boot and which products are drafted.
 
 ```php
 <?php
@@ -353,18 +235,14 @@ add_filter(
 do_action( 'arraysubs_modules_saved', array $states, array $previous )
 ```
 
-| Argument | Type | Description |
-| --- | --- | --- |
-| `$states` | `array<string, bool>` | Saved switches after the save, in the `arraysubs_get_module_states()` shape: never-saved modules absent, not filtered. |
-| `$previous` | `array<string, bool>` | Saved switches before the save. |
-
 | Item | Details |
 | --- | --- |
-| When it fires | After the option write succeeds, in the same request: a Modules screen save, a settings import that changes switches, or any `arraysubs_update_module_states()` call. It fires on every successful call, even when nothing changed. |
-| How to compare | Treat a missing entry as on: `$previous['acme_loyalty'] ?? true`. To match your boot check, which applies the filter, read the new state with `arraysubs_is_module_enabled()`. |
-| Failure semantics | The switch is already saved when your callback runs. An exception from your callback breaks the save response but does not undo the save. Keep callbacks fast. |
-| Permission boundary | Fires inside a save that the caller already authorized. |
-| Side effects | ArraySubs' own listeners run on this action (product drafting, the rewrite flush flag, Store Credit expiry pause). Your listener adds your addon's clean-up. |
+| `$states` | Saved switches after the save, in the `arraysubs_get_module_states()` shape (never-saved modules absent, not filtered). |
+| `$previous` | Saved switches before the save. |
+| When it fires | After the option write succeeds, in the same request: a Modules screen save, the Easy Setup wizard, a settings import that changes switches, or any `arraysubs_update_module_states()` call. It fires on every successful call, even when nothing changed, because the Modules screen posts every switch on each save. |
+| How to compare | Treat a missing entry as on: `$previous['acme_loyalty'] ?? true`. Read the new state with `arraysubs_is_module_enabled()` to match your boot check. |
+| Failure semantics | The switch is already saved when your callback runs. An exception breaks the save response but does not undo the save. |
+| ArraySubs' own listeners | Product drafting and restoring, the rewrite flush flag and, with Pro, the Store Credit expiry pause. |
 
 ```php
 <?php
@@ -374,13 +252,7 @@ add_action(
 		$was_on = (bool) ( $previous['acme_loyalty'] ?? true );
 		$is_on  = arraysubs_is_module_enabled( 'acme_loyalty' );
 
-		if ( $was_on === $is_on ) {
-			return; // This save did not change Acme Loyalty.
-		}
-
-		update_option( 'acme_loyalty_switched_at', time(), false );
-
-		if ( ! $is_on ) {
+		if ( $was_on && ! $is_on ) {
 			wp_clear_scheduled_hook( 'acme_loyalty_daily_sync' );
 		}
 	},
@@ -397,28 +269,23 @@ apply_filters( 'arraysubs_module_product_types', array $types ): array
 
 | Item | Details |
 | --- | --- |
-| Accepts | `array<string, string[]>`: WooCommerce product type slugs keyed by module ID. Defaults: `subscription_box => ['arraysubs_subscription_box']`, `subscription_bundle => ['arraysubs_subscription_bundle']`, `store_credit => ['arraysubs_store_credit']`. |
-| Returns | The same map with your module's types added. IDs and slugs are sanitized with `sanitize_key()`; empty or non-scalar entries are dropped. A non-array return removes every mapping, built-in ones included. |
-| When it runs | On every Modules save, on product saves, on the product edit screen and on WooCommerce REST product creation. It loads no translations, so it is safe at any point. |
-| Limits | Drafting runs inside the save request for every selling product of every switched-off module's types, on every save of the Modules screen, not only when your switch changed. Large catalogs make that save slower. |
-| Permission boundary | Trusted server PHP. |
-| Side effects | Product status changes while your module is off, listed below. |
+| Receives | WooCommerce product type slugs keyed by module ID. Defaults: `subscription_box => [ 'arraysubs_subscription_box' ]`, `subscription_bundle => [ 'arraysubs_subscription_bundle' ]`, `store_credit => [ 'arraysubs_store_credit' ]`. |
+| Returns | The same map with your module's types added. IDs and slugs pass through `sanitize_key()`; empty and non-scalar entries are dropped. A non-array return removes every mapping, built-in ones included. |
+| When it runs | On every Modules save, on product saves, on the product edit screen and on WooCommerce REST product creation. It loads no translations. |
+| Limits | Each Modules save drafts every selling product of every switched-off module's types, not only the module that changed. Large catalogs make that save slower. |
 
 While a mapped module is off:
 
-- Products in `publish`, `future`, `pending` or `private` move to draft on each save of the Modules screen, and their previous status is remembered.
+- Products in `publish`, `future`, `pending` or `private` move to draft on each Modules save, and their previous status is remembered.
 - Every save path (editor, quick or bulk edit, WooCommerce REST, imports, `wp_update_post()`) keeps them in draft.
-- The product editor's type list hides the type for new products and labels it "(module off)" on an existing product of that type. The Publish box explains the lock and links to the Modules screen.
+- The product editor hides the type for new products and labels it "(module off)" on an existing product of that type. The Publish box explains the lock and, for users with `manage_woocommerce` or `manage_options`, links to the Modules screen.
 - Creating a product of that type through the WooCommerce REST API returns a `WP_Error` with code `arraysubs_module_disabled` (status 400). Updates to existing products succeed and stay draft.
 - Existing subscriptions to those products keep renewing.
 
-When the module is switched back on, products still in draft return to their remembered status. Products the merchant trashed or republished meanwhile are left as they are.
-
-Keep your product type registered (for example in `product_type_selector`) and your product class loading while the module is off. If they disappear, WooCommerce loads the product as a simple product and the next save converts it.
+When the module is switched back on, products still in draft return to their remembered status. Products the merchant trashed or republished meanwhile are left as they are. Keep your product type and product class registered while the module is off; otherwise WooCommerce loads the product as a simple product and the next save converts it.
 
 ```php
 <?php
-// Map your product type to your module.
 add_filter(
 	'arraysubs_module_product_types',
 	static function ( array $types ): array {
@@ -447,12 +314,9 @@ apply_filters( 'arraysubs_module_myaccount_endpoints', array $endpoints ): array
 
 | Item | Details |
 | --- | --- |
-| Accepts | `array<string, string[]>`: My Account endpoint IDs keyed by module ID. Defaults: `feature_manager => ['features']`, `store_credit => ['store-credit']`. |
-| Returns | The same map with your endpoints added. |
-| Who reads it | The My Account Editor in ArraySubs Pro. When that editor is not running, nothing reads the filter. |
-| Effect while your module is off | The editor keeps the saved menu entry for these endpoints (label and position) instead of discarding it as unregistered, and refuses a custom menu item that would reuse the endpoint. The entry comes back in place when the module is switched on. |
-| Permission boundary | Trusted server PHP. |
-| Side effects | None beyond the editor behavior above. |
+| Receives | My Account endpoint IDs keyed by module ID. Defaults: `feature_manager => [ 'features' ]`, `store_credit => [ 'store-credit' ]`. |
+| Who reads it | Only the ArraySubs Pro My Account Editor, when it loads or saves the menu. Without it, nothing reads the filter. |
+| Effect while your module is off | The editor keeps the saved menu entry for these endpoints (label and position) instead of dropping it as unregistered, and refuses a custom menu item that would reuse the endpoint. The entry comes back in place when the module is on again. |
 
 ```php
 <?php
@@ -468,49 +332,39 @@ add_filter(
 
 Register the endpoint itself (`add_rewrite_endpoint()` on `init`) only while your module is on. ArraySubs flushes rewrite rules once at `init` priority 999 on the request after a switch change, so the endpoint appears or disappears without a permalinks save.
 
-## Boot Rules for Addon Code
+## Boot Your Addon
 
-### Gate your own code
+### `arraysubs_before_boot` and `arraysubs_after_boot`
 
-ArraySubs boots on `plugins_loaded` (priority 10) and fires `arraysubs_before_boot` and then `arraysubs_after_boot`, once each, inside that callback. It binds its own feature code to switches through an internal loader that only loads ArraySubs and ArraySubs Pro classes. Nothing in that path loads, pauses or skips classes from your plugin.
+| Action | Arguments | Fires | Use it to |
+| --- | --- | --- | --- |
+| `arraysubs_before_boot` | none | Once per request, inside `plugins_loaded` priority 10, after the core helpers load and before any ArraySubs feature is constructed. ArraySubs Pro sets itself up on it at priority 5. | Read switches early or add `arraysubs_boot_classes`. |
+| `arraysubs_after_boot` | none | Once per request, right after every feature provider is constructed. Never fires when ArraySubs core is inactive or fails its checks. | Boot your addon. |
 
 1. Add your `arraysubs_*` filters at plugin include time.
-2. Boot your addon on `arraysubs_after_boot`. In the request that activates your plugin, WordPress includes your file after `plugins_loaded`, so check `did_action( 'arraysubs_after_boot' )` and boot immediately in that case.
+2. Boot on `arraysubs_after_boot`. In the request that activates your plugin, WordPress includes your file after `plugins_loaded` has run, so check `did_action( 'arraysubs_after_boot' )` and boot at once in that case.
 3. Inside your boot function, return early unless `arraysubs_is_module_enabled()` is true.
-4. When ArraySubs never boots (inactive, or WooCommerce missing), `arraysubs_after_boot` never fires and your addon stays idle.
 
 The [complete minimal addon plugin](#complete-minimal-addon-plugin) follows these rules.
 
-### `arraysubs_boot_classes` and `arraysubs_has_module()`
+### `arraysubs_boot_classes` filter and `arraysubs_has_module()`
 
-Other code detects running ArraySubs features with `arraysubs_has_module()`. Your addon appears there only when you add its provider class to `arraysubs_boot_classes`. Use this instead of the `arraysubs_after_boot` boot function, not in addition to it.
+An alternative to a boot function: hand ArraySubs a provider class to construct during its boot. Then other code can detect your addon with `arraysubs_has_module()`. Use one approach, not both.
 
 ```text
 apply_filters( 'arraysubs_boot_classes', array $classes ): array
 arraysubs_has_module( string $moduleClassNamePartial ): int
 ```
 
-`arraysubs_boot_classes`:
-
 | Item | Details |
 | --- | --- |
-| Accepts | A list of fully qualified class names. ArraySubs puts its fixed core list in front and constructs every class that exists, with no arguments, in order. |
-| Returns | The list with your class appended. It must return an array; anything else causes a fatal error during boot. |
-| When it runs | Once, during ArraySubs' boot on `plugins_loaded` priority 10, after `arraysubs_before_boot`. Add the filter at include time; your class must be loadable at that point. Classes that do not exist are skipped silently. |
-| Module binding | A class that declares `public const MODULE = '<module_id>'` is reported as dormant while that switch is off, so `arraysubs_has_module()` returns `0` for it. ArraySubs still constructs it, so its constructor checks `arraysubs_is_module_enabled()` itself. |
-| Side effects | Your constructor runs on every request where ArraySubs boots. |
+| `arraysubs_boot_classes` receives | A list of fully qualified class names: five ArraySubs core providers plus anything earlier callbacks added (ArraySubs Pro adds its providers here). Append yours and return the list; removing entries stops those features from booting. |
+| What ArraySubs does | Puts its fixed provider list first, then constructs, with no arguments and in order, every class from the filter that exists. Class names that do not exist are skipped. The filter must return an array; anything else is a fatal error during boot. |
+| Module binding | A class that declares `public const MODULE = '<module_id>'` is still constructed while that switch is off, but it is recorded as dormant, so `arraysubs_has_module()` returns `0` for it. Your constructor must check the switch itself. |
+| `arraysubs_has_module()` returns | `1` when a live (not dormant) boot class name contains the fragment (case-sensitive), `0` when none does or ArraySubs has not finished booting (including inside boot class constructors), and `-1` for any fragment containing `ProFeatures`. Compare with `=== 1`. |
+| Timing | `arraysubs_has_module()` answers from `arraysubs_after_boot` on. |
 
-`arraysubs_has_module()`:
-
-| Item | Details |
-| --- | --- |
-| Returns | `1` when a running (not dormant) boot class name contains the fragment (case-sensitive); `0` when none matches or ArraySubs has not finished booting; `-1` for any fragment containing `ProFeatures` (a legacy value that an `if` treats as true). Compare with `=== 1`. |
-| Usage | Pass a precise namespace fragment, such as `'Acme\\Loyalty\\'` or `'Features\\StoreCredit\\'`. A loose fragment can match several classes. |
-| Timing | `arraysubs_after_boot` or later. |
-| Permission boundary | Trusted server PHP. |
-| Side effects | Read only: no writes. |
-
-For ArraySubs domains, prefer `Availability::get()`, which also reports why a domain is unavailable.
+Pass a precise namespace fragment, such as `'Acme\\Loyalty\\'`, because a loose fragment can match several classes. Do not extend ArraySubs' internal loader classes for addon code: they resolve only ArraySubs and ArraySubs Pro class names.
 
 ```php
 <?php
@@ -545,108 +399,39 @@ add_filter(
 );
 ```
 
-Do not extend ArraySubs' internal loader classes for addon code: they resolve only ArraySubs and ArraySubs Pro class names.
+## Check the ArraySubs Features Your Addon Uses
 
-## Check ArraySubs Domains Your Addon Needs
+Your module switch covers your own code. Before you call into ArraySubs, check that the feature you need is running on this site:
 
-Your module switch covers your own code. When your addon calls into an ArraySubs domain, ask `ArraySubs\Api\Availability` whether that domain can run on this site right now. Availability reports ArraySubs domains only; it does not know about addon modules.
-
-### `Availability::get()` and `Availability::check()`
-
-```text
-\ArraySubs\Api\Availability::get( string $domain ): array
-\ArraySubs\Api\Availability::check( string $domain ): true|WP_Error
-```
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$domain` | string | required | One ArraySubs domain from the table below. |
-
-`get()` returns:
-
-```text
-[
-  'domain'    => 'store_credit',
-  'available' => false,
-  'edition'   => 'pro',               // core | pro: the edition that provides the domain
-  'module'    => 'store_credit',      // the ArraySubs module switch involved, or null
-  'reason'    => 'license_inactive',  // see the reasons below
-]
-```
-
-`check()` returns `true` when the domain is available.
-
-| Reason | Meaning |
-| --- | --- |
-| `ok` | The domain is available. |
-| `core_unavailable` | ArraySubs core is not running, for example when the call runs before ArraySubs finishes booting. |
-| `pro_missing` | The domain needs ArraySubs Pro, which is not active. |
-| `license_inactive` | ArraySubs Pro is active, but its license is not active for this site. |
-| `module_disabled` | The domain's module is switched off on **ArraySubs -> Modules**. |
-| `setting_disabled` | A setting the domain depends on is turned off. |
-
-| Domain | Edition |
-| --- | --- |
-| `subscriptions`, `lifecycle`, `relationships`, `orders`, `customers`, `products`, `member_access`, `downloads`, `discounts`, `member_styling`, `events` | Core |
-| `feature_manager` | Core reads; configuration updates need Pro |
-| `profile_fields`, `login_limits`, `store_credit` | Pro |
-
-| Item | Details |
-| --- | --- |
-| Failure values | `check()` returns a `WP_Error` with code `module_unavailable`; `get_error_data()` holds `status` (`503`) and `reason`. |
-| Limits | One domain per call. Read your own switch with `arraysubs_is_module_enabled()`, not with Availability. |
-| Permission boundary | Trusted server PHP; no capability check and no `as_user`. |
-| Side effects | Read only: no writes. |
-| Timing | `arraysubs_after_boot` or later. The class does not exist when ArraySubs core is inactive or fails its dependency check, so guard with `class_exists()`. |
-
-```php
-<?php
-add_action(
-	'arraysubs_after_boot',
-	static function (): void {
-		if ( ! class_exists( '\ArraySubs\Api\Availability' ) ) {
-			return;
-		}
-
-		$store_credit = \ArraySubs\Api\Availability::get( 'store_credit' );
-
-		if ( $store_credit['available'] ) {
-			add_action( 'woocommerce_account_dashboard', 'acme_loyalty_render_credit_offer' );
-		}
-	}
-);
-```
-
-## Addon Modules vs Feature Manager Entitlements
-
-Both look like on/off settings, but they answer different questions. A module switch answers "does this block of code run on this store?". A Feature Manager feature answers "what does this member get from their plan?".
-
-| | Addon module | Feature Manager feature |
+| You need | Check | Notes |
 | --- | --- | --- |
-| What it is | A store-wide on/off switch for your addon's code | An entitlement value attached to a subscription plan |
-| Who sets it | The merchant, on **ArraySubs -> Modules** | The merchant, on each subscription product in Feature Manager (Pro) |
-| Scope | The whole store, every request | One member, through their subscriptions, combined by the Feature Manager aggregation mode |
-| Read it with | `arraysubs_is_module_enabled()` | `ArraySubs\Api\FeatureManager` (`for_customer()`, `for_subscription()`), Members Access feature conditions, the shortcode `feature` attribute |
-| Changes when | The merchant saves the Modules screen | The member's subscriptions, plan or product features change |
-| Off means | Your addon does not run | The member does not have the entitlement |
+| ArraySubs core | `did_action( 'arraysubs_after_boot' )` | `ARRAYSUBS_VERSION` alone is not enough: it is defined even when WooCommerce is missing. |
+| ArraySubs Pro features | `arraysubs_has_module( 'ArraySubsPro\\' ) === 1` | Pro boots its features only with an active license. `ARRAYSUBSPRO_VERSION` only proves the Pro plugin file loaded. |
+| Store Credit | `arraysubs_has_module( 'Features\\StoreCredit\\' ) === 1` | `0` while Pro is missing or unlicensed, or the `store_credit` switch is off. |
+| Feature Manager screens and My Account page | `arraysubs_has_module( 'Features\\FeatureManager\\' ) === 1` | Feature reads through `ArraySubs\Developer\Features` work in core without it; they read the values saved on products. |
+| Feature configuration updates | `Features::forProduct( 123 )->data( array( 'availability' ) )` | `availability.configuration_updates` is `true` only with an active Pro license and the `feature_manager` switch on. |
+| A built-in switch | `arraysubs_is_module_enabled( 'store_credit' )` | The saved switch only. It returns `true` on a site without Pro. |
 
-Use both together: the module switch decides whether your addon runs at all, and a feature on each plan decides the per-member value. The minimal plugin below reads a `loyalty_multiplier` feature. Do not model plan tiers as modules, and do not read a member's entitlement from a switch: switches have no member or subscription context.
+The developer API also reports a missing dependency itself, so handle its `WP_Error`:
 
-Switching the built-in `feature_manager` module off hides the Feature Manager management screens and the My Account features page. Feature values saved on products stay in place, and core readers (the `FeatureManager` reads, Members Access feature conditions and shortcodes) keep evaluating them. `FeatureManager::update_product_feature()` needs ArraySubs Pro with Feature Manager running and returns `module_unavailable` otherwise. See [Read and Update Feature Data](./feature-manager.md).
+- `ArraySubs\Developer\StoreCredit` methods return `store_credit_unavailable` while Pro Store Credit is not running. With Pro running and the `store_credit` switch off, `data()` and `history()` still read the retained ledger (`data()` reports `available => false`), and `adjust()` returns `store_credit_unavailable`.
+- `Features::updateConfiguration()` returns `unavailable` without an active Pro license or with the `feature_manager` switch off.
+
+See [Read and Update Store Credit](./store-credit.md) and [Read and Update Feature Data](./feature-manager.md) for those classes.
 
 ## Examples
 
 ### Complete minimal addon plugin
 
-Save as `wp-content/plugins/acme-loyalty/acme-loyalty.php`. It registers a card with an addon badge, boots only while switched on, shows each member the multiplier their plan grants, and stops its daily job when the merchant switches it off.
+Save as `wp-content/plugins/acme-loyalty/acme-loyalty.php`. It registers a card with an addon badge, boots only while switched on, shows each member the multiplier their plan grants through a Feature Manager feature named `Points Multiplier`, and stops its daily job when the merchant switches it off.
 
 ```php
 <?php
 /**
  * Plugin Name:       Acme Loyalty for ArraySubs
- * Description:       Example ArraySubs addon module. Shows each member the loyalty points multiplier their plan earns.
+ * Description:       Example ArraySubs addon module. Shows each member the loyalty points multiplier their plan grants.
  * Version:           1.0.0
- * Requires at least: 6.0
+ * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  arraysubs
  * Text Domain:       acme-loyalty
@@ -654,12 +439,11 @@ Save as `wp-content/plugins/acme-loyalty/acme-loyalty.php`. It registers a card 
 
 defined( 'ABSPATH' ) || exit;
 
-const ACME_LOYALTY_MODULE = 'acme_loyalty';
-const ACME_LOYALTY_CRON   = 'acme_loyalty_daily_sync';
+const ACME_LOYALTY_MODULE  = 'acme_loyalty';
+const ACME_LOYALTY_CRON    = 'acme_loyalty_daily_sync';
+const ACME_LOYALTY_FEATURE = 'Points Multiplier'; // Feature name exactly as saved on the plan.
 
-// 1. Describe the card. Keep this at include time: ArraySubs builds its module
-//    list on demand (Modules screen, its REST routes, saves, settings export and
-//    import), so the filter must exist on every request.
+// 1. Describe the card at include time, so the filters exist on every request.
 add_filter(
 	'arraysubs_modules',
 	static function ( array $modules ): array {
@@ -688,7 +472,6 @@ add_filter(
 );
 
 // 2. Boot only when ArraySubs is running and the module is switched on.
-//    ArraySubs never gates addon code for you.
 function acme_loyalty_boot(): void {
 	if ( ! function_exists( 'arraysubs_is_module_enabled' ) || ! arraysubs_is_module_enabled( ACME_LOYALTY_MODULE ) ) {
 		return; // Switched off: register no hooks, menus, routes, assets or jobs.
@@ -707,32 +490,38 @@ if ( did_action( 'arraysubs_after_boot' ) ) {
 
 // 3. Per-member value: read the member's plan feature, not the module switch.
 function acme_loyalty_render_dashboard_line(): void {
-	if ( ! is_user_logged_in() || ! class_exists( '\ArraySubs\Api\FeatureManager' ) ) {
+	if ( ! is_user_logged_in() || ! class_exists( '\ArraySubs\Developer\Features' ) ) {
 		return;
 	}
 
-	$features = \ArraySubs\Api\FeatureManager::for_customer( get_current_user_id(), array( 'mode' => 'max' ) );
-
+	$features = \ArraySubs\Developer\Features::forCustomer( get_current_user_id(), 'max' );
 	if ( is_wp_error( $features ) ) {
 		return;
 	}
 
-	$feature = $features->get_feature( 'loyalty_multiplier' );
-
-	if ( is_wp_error( $feature ) || 'available' !== $feature['state'] || ! is_numeric( $feature['value'] ) ) {
-		return; // No current plan grants a multiplier.
+	$effective = $features->effective( array( 'per_page' => 100 ) );
+	if ( is_wp_error( $effective ) ) {
+		return;
 	}
 
-	printf(
-		'<p class="acme-loyalty-multiplier">%s</p>',
-		esc_html(
-			sprintf(
-				/* translators: %s: points multiplier, for example 2.5 */
-				__( 'Your plan earns %sx loyalty points.', 'acme-loyalty' ),
-				number_format_i18n( (float) $feature['value'], 1 )
+	foreach ( $effective['items'] as $feature ) {
+		if ( ACME_LOYALTY_FEATURE !== $feature['name'] || ! is_numeric( $feature['value'] ) ) {
+			continue;
+		}
+
+		printf(
+			'<p class="acme-loyalty-multiplier">%s</p>',
+			esc_html(
+				sprintf(
+					/* translators: %s: points multiplier, for example 2.5 */
+					__( 'Your plan earns %sx loyalty points.', 'acme-loyalty' ),
+					number_format_i18n( (float) $feature['value'], 1 )
+				)
 			)
-		)
-	);
+		);
+
+		return;
+	}
 }
 
 function acme_loyalty_schedule_sync(): void {
@@ -751,9 +540,8 @@ add_action(
 	'arraysubs_modules_saved',
 	static function ( array $states, array $previous ): void {
 		$was_on = (bool) ( $previous[ ACME_LOYALTY_MODULE ] ?? true );
-		$is_on  = arraysubs_is_module_enabled( ACME_LOYALTY_MODULE ); // Same check as boot.
 
-		if ( $was_on && ! $is_on ) {
+		if ( $was_on && ! arraysubs_is_module_enabled( ACME_LOYALTY_MODULE ) ) {
 			wp_clear_scheduled_hook( ACME_LOYALTY_CRON );
 		}
 	},
@@ -769,11 +557,11 @@ register_deactivation_hook(
 );
 ```
 
-To try it, activate the plugin, open **ArraySubs -> Modules** and find the **Acme Loyalty** card with an **Acme** badge. Give a test plan a `loyalty_multiplier` feature with a numeric value in Feature Manager (see [Defining Product Features](../feature-manager/defining-product-features.md)), then open **My Account** as a member on that plan. Switch the card off, save, and reload **My Account**: the line disappears and the daily job is unscheduled.
+`Features::forCustomer( $user_id, 'max' )` combines the features of the member's subscriptions in a status that grants access, one row per feature name; for number features it keeps the highest value, and `Unlimited` wins. Each row has `id`, `name`, `value` (a string, such as `"2.5"` or `"Unlimited"`), `enabled`, `order` and `usage`. To try it, activate the plugin, find the **Acme Loyalty** card with an **Acme** badge on **ArraySubs -> Modules**, give a test plan a `Points Multiplier` feature in Feature Manager (see [Defining Product Features](../feature-manager/defining-product-features.md)), and open **My Account** as a member on that plan.
 
-### Handle an unavailable dependency
+### Convert points to store credit and handle a missing dependency
 
-This conversion needs your own switch and the Pro Store Credit domain. Each missing piece returns a `WP_Error` instead of a partial result, and the caller turns the `reason` into a readable notice.
+This conversion needs your own switch and Pro Store Credit. Every missing piece returns a `WP_Error` instead of a partial result.
 
 ```php
 <?php
@@ -781,12 +569,13 @@ This conversion needs your own switch and the Pro Store Credit domain. Each miss
  * Convert loyalty points to customer store credit (100 points = 1.00).
  *
  * Trusted server code: call it from your own handler after checking the
- * capability, the nonce and which member the conversion is for.
+ * capability, the nonce and which member the conversion is for, and after
+ * wp_loaded.
  *
- * @return array|WP_Error Store Credit mutation result, or why nothing was credited.
+ * @return array|WP_Error Adjustment result, or why nothing was credited.
  */
 function acme_loyalty_convert_points( int $user_id, int $points, string $conversion_id ) {
-	if ( ! function_exists( 'arraysubs_is_module_enabled' ) || ! class_exists( '\ArraySubs\Api\Availability' ) ) {
+	if ( ! function_exists( 'arraysubs_is_module_enabled' ) || ! class_exists( '\ArraySubs\Developer\StoreCredit' ) ) {
 		return new WP_Error( 'acme_arraysubs_missing', __( 'ArraySubs is not running.', 'acme-loyalty' ) );
 	}
 
@@ -794,58 +583,46 @@ function acme_loyalty_convert_points( int $user_id, int $points, string $convers
 		return new WP_Error( 'acme_module_off', __( 'Acme Loyalty is switched off.', 'acme-loyalty' ) );
 	}
 
-	// Store Credit is a Pro domain: Pro can be missing, unlicensed or switched off.
-	$check = \ArraySubs\Api\Availability::check( 'store_credit' );
-
-	if ( is_wp_error( $check ) ) {
-		return $check; // Code module_unavailable; get_error_data()['reason'] says why.
-	}
-
-	if ( ! class_exists( '\ArraySubsPro\Api\StoreCredit' ) ) {
-		return new WP_Error( 'acme_store_credit_missing', __( 'Store Credit is not available.', 'acme-loyalty' ) );
-	}
-
-	$credit = \ArraySubsPro\Api\StoreCredit::for_customer( $user_id );
-
+	$credit = \ArraySubs\Developer\StoreCredit::fromCustomerId( $user_id );
 	if ( is_wp_error( $credit ) ) {
-		return $credit; // For example not_found, or unsupported_entity for a guest.
+		return $credit; // invalid_credit_customer for a guest or unknown user, arraysubs_not_ready before wp_loaded.
 	}
 
-	// Sends the credit-added email unless you pass 'notify' => false.
-	return $credit->credit(
-		number_format( $points / 100, 2, '.', '' ),
+	$state = $credit->data( array( 'available', 'currency' ) );
+	if ( is_wp_error( $state ) ) {
+		return $state; // store_credit_unavailable: ArraySubs Pro Store Credit is not running.
+	}
+
+	if ( ! $state['available'] ) {
+		return new WP_Error( 'acme_store_credit_off', __( 'Switch on the Store Credit module to convert points.', 'acme-loyalty' ) );
+	}
+
+	// A retried call with the same operation_id and values credits nothing twice.
+	return $credit->adjust(
+		round( $points / 100, wc_get_price_decimals() ),
 		array(
-			'reason'          => sprintf( 'Converted %d Acme Loyalty points', $points ),
-			'idempotency_key' => 'acme-points-' . $conversion_id, // A retried conversion never credits twice.
-			'reference'       => array(
-				'type' => 'external',
-				'id'   => $conversion_id,
-			),
+			'operation_id' => 'acme-points-' . $conversion_id,
+			'reason'       => sprintf( 'Converted %d Acme Loyalty points', $points ),
+			'currency'     => $state['currency'],
+			'source'       => 'promotional',
 		)
 	);
 }
 
 /**
- * Show the outcome to a store manager (inside your own admin screen).
+ * Show the outcome to a store manager inside your own admin screen.
  *
  * @param array|WP_Error $result Result of acme_loyalty_convert_points().
  */
 function acme_loyalty_render_conversion_notice( $result ): void {
 	if ( is_wp_error( $result ) ) {
-		$data     = (array) $result->get_error_data();
 		$messages = array(
-			'pro_missing'      => __( 'Points can become store credit once ArraySubs Pro is active.', 'acme-loyalty' ),
-			'license_inactive' => __( 'Activate the ArraySubs Pro license to convert points to store credit.', 'acme-loyalty' ),
-			'module_disabled'  => __( 'Switch on the Store Credit module to convert points.', 'acme-loyalty' ),
+			'store_credit_unavailable' => __( 'Points can become store credit once ArraySubs Pro Store Credit is running.', 'acme-loyalty' ),
+			'credit_busy'              => __( 'The balance is being updated. Try again in a moment.', 'acme-loyalty' ),
 		);
-		$message  = $messages[ $data['reason'] ?? '' ] ?? $result->get_error_message();
+		$message  = $messages[ $result->get_error_code() ] ?? $result->get_error_message();
 
 		printf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $message ) );
-		return;
-	}
-
-	if ( $result['replayed'] ) {
-		printf( '<div class="notice notice-info"><p>%s</p></div>', esc_html__( 'This conversion was already credited.', 'acme-loyalty' ) );
 		return;
 	}
 
@@ -855,22 +632,22 @@ function acme_loyalty_render_conversion_notice( $result ): void {
 			sprintf(
 				/* translators: 1: balance amount, 2: currency code */
 				__( 'Credited. New balance: %1$s %2$s', 'acme-loyalty' ),
-				$result['balance']['customer'],
-				$result['balance']['currency']
+				wc_format_decimal( $result['state']['customer_balance'], wc_get_price_decimals() ),
+				$result['state']['currency']
 			)
 		)
 	);
 }
 
-// Example call with synthetic IDs: member 45, conversion record conv-1001.
-// acme_loyalty_render_conversion_notice( acme_loyalty_convert_points( 45, 500, 'conv-1001' ) );
+// Example call with synthetic IDs: member 123, conversion record conv-1001.
+// acme_loyalty_render_conversion_notice( acme_loyalty_convert_points( 123, 500, 'conv-1001' ) );
 ```
 
-The mutation contract (`reason`, `idempotency_key`, replay behavior and the returned balance) is described in [Read and Update Store Credit](./store-credit.md).
+`adjust()` accepts only `operation_id`, `reason` and `currency` (required) plus `bucket`, `expected_balance`, `source` (`admin`, the default, or `promotional` for positive grants), `reference_id` (an order of the same customer) and `actor_id`. It returns `[ 'transaction' => ..., 'state' => ... ]`, where `state` is the same shape as `data()`. A positive adjustment to the customer balance fires `arraysubs_customer_credit_added`, the action the Pro Store Credit Added email is triggered by. Reusing an `operation_id` with different values returns `credit_mutation_failed`. The full contract is in [Read and Update Store Credit](./store-credit.md).
 
 ### Lock your card while your own dependency is missing
 
-Use `available` when your addon's own code cannot run on this site, for example because a connector plugin it needs is missing. The card then shows a lock and a link instead of a switch.
+Use `available` when your addon's code cannot run on this site, for example because a connector plugin it needs is missing. The card shows a lock and a link instead of a switch.
 
 ```php
 <?php
@@ -893,40 +670,40 @@ add_filter(
 );
 ```
 
-`available` changes only the card. `arraysubs_is_module_enabled( 'acme_points_sync' )` still returns the saved switch (or `true`), so your boot code checks the connector as well.
+`available` changes only the card. `arraysubs_is_module_enabled( 'acme_points_sync' )` still returns the saved switch (or `true`), so your boot code checks the connector too.
 
-## Edge Cases and Important Notes
+## Errors You Can Get
 
-- **IDs are sanitized.** Module IDs pass through `sanitize_key()`. Use one lowercase, vendor-prefixed ID, such as `acme_loyalty`, everywhere: the declaration, the helpers and the product type and endpoint maps.
-- **Keys can be overwritten.** A later `arraysubs_modules` callback can replace any entry, built-in modules included. Add your own key only and always return the array you received.
-- **Never saved means on.** A fresh install runs your addon until the merchant switches it off.
-- **Always-on keeps old state.** If you change an existing module from switchable to `toggleable => false`, a previously saved off state stays stored and `arraysubs_is_module_enabled()` still returns `false`, while the card shows **Always on**. Do not read the switch for always-on modules.
-- **Locked cards keep their state.** While `available` is `false`, the switch cannot be saved and the stored state stays as it was.
-- **Changes reach boot on the next request.** The save request already booted with the old state.
-- **Saves re-run drafting.** Every save of the Modules screen drafts selling products of every switched-off module's mapped types, even when only another module changed.
-- **No screens inside the ArraySubs admin app.** Menu items added through `arraysubs_main_admin_menu_items` become routes inside the ArraySubs admin app, which has no page for addon routes. Register your own admin page and link it with `configure_url`.
-- **Settings belong in your own option.** Settings export and import carry your switch, not addon settings stored inside `arraysubs_settings`, and ArraySubs replaces or migrates that option when it saves its own settings.
-- **Inactive addons keep their switch.** Deactivating your addon keeps its saved switch, and reactivating restores the merchant's last choice. There is no supported call that removes a stored switch; one left behind after uninstall is harmless.
-- **Filters can contradict the screen.** The Modules screen shows the saved switch, not the result of `arraysubs_is_module_enabled` filter callbacks.
-- **Plugins, not themes.** Theme code loads after ArraySubs boots, so `arraysubs_boot_classes` and boot-time `arraysubs_is_module_enabled` callbacks in a theme have no effect on boot.
-- **Plugin dependency header.** With `Requires Plugins: arraysubs`, WordPress refuses to activate your addon while ArraySubs is inactive and keeps ArraySubs from being deactivated while your addon is active.
-- **Nothing is deleted.** Switching a module off, or a Pro license lapsing, deletes no ArraySubs data. What your addon does with its own data is up to your addon.
+| Code | Returned by | Meaning |
+| --- | --- | --- |
+| `arraysubs_module_disabled` (HTTP 400) | WooCommerce REST API, product creation | The product type belongs to a switched-off module. |
+| `invalid_import_value` (HTTP 400) | Settings import | The file's **Module Switches** section is not a non-empty map of module IDs to booleans. |
+| `store_credit_unavailable` | `ArraySubs\Developer\StoreCredit` | Pro Store Credit is not running, or (for `adjust()`) the `store_credit` switch is off. |
+| `arraysubs_not_ready` | `ArraySubs\Developer\StoreCredit` | Called before `wp_loaded`. |
+| `invalid_credit_customer` | `StoreCredit::fromCustomerId()` | The user ID is `0` or not a registered user. |
+| `invalid_credit_adjustment` | `StoreCredit::adjust()` | `operation_id`, `reason` or `currency` is missing, or the amount is zero or has more decimals than the store uses. |
+| `unsupported_credit_argument` | `StoreCredit::adjust()` | An unknown option was passed. |
+| `credit_currency_mismatch` | `StoreCredit::adjust()` | `currency` differs from the balance currency. |
+| `credit_busy` | `StoreCredit::adjust()` | Another change to the same balance is running. Retry. |
+| `credit_mutation_failed` | `StoreCredit::adjust()` | The change could not complete safely, or the `operation_id` was used before with different values. Retry with the same values. |
+| `not_found` | `Features::forCustomer()` | The user does not exist. |
+| `unavailable` | `Features::updateConfiguration()` | No active Pro license, or the `feature_manager` switch is off. |
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 | --- | --- | --- |
-| Your card does not appear on **ArraySubs -> Modules** | The filter is added inside a hook that does not run on admin or REST requests, the title is empty after sanitizing, the callback returned a non-array, or another callback removed your key | Add the `arraysubs_modules` filter at plugin include time, return the array you received and use a non-empty plain-text title |
-| Your card shows a lock instead of a switch | `available` is `false` in your declaration | Check the condition you pass to `available`; the lock shows `unavailable_message` |
-| The switch flips back after saving | The module is not toggleable or available during the save request, or the filter is not registered on REST requests | Add the filter at include time and keep `toggleable` and `available` true |
-| Your addon keeps running after it was switched off | The boot code does not check the switch, checks it after registering hooks, or you are looking at the save request itself | Return early from your boot function unless `arraysubs_is_module_enabled()` is true; switch changes apply from the next request |
-| The card says on but your addon is idle | An `arraysubs_is_module_enabled` filter callback returns `false`; the Modules screen shows only the saved switch | Look for `arraysubs_is_module_enabled` callbacks, such as environment overrides |
-| Fatal error: call to undefined function `arraysubs_is_module_enabled()` | Called at include time before ArraySubs boots, or ArraySubs is inactive or failed its dependency check | Call it on `arraysubs_after_boot` or later and guard with `function_exists()` |
-| `arraysubs_has_module()` returns `0` for your addon | The class is not in `arraysubs_boot_classes`, its `MODULE` switch is off, or the call ran before `arraysubs_after_boot` | Add the class at include time, check the switch, and call the helper later |
-| Products of your type stay published while your module is off | The type is not mapped, the module ID differs, or no Modules save has run since you added the mapping | Map the type to the exact module ID, then save the Modules screen |
-| A drafted product turned into a simple product | Your product type or class registration ran only while the module was on | Keep your type and class registered while the module is off |
-| `Availability::check()` returns `module_unavailable` | The ArraySubs domain cannot run; the error data names the `reason` | Act on the reason: install or license ArraySubs Pro, or switch the domain's module on |
-| An imported settings file did not set your switch | Your addon was not active on the destination site, so its module was not registered | Activate the addon on the destination site and import again |
+| Your card does not appear on **ArraySubs -> Modules** | The filter is added inside a hook that does not run on admin or REST requests, the title is empty after sanitizing, or a callback returned a non-array | Add `arraysubs_modules` at plugin include time, return the array you received and use a non-empty plain-text title. |
+| Your card shows a lock instead of a switch | `available` is `false` | Check the condition you pass to `available`. |
+| The switch flips back after saving | The module is not toggleable or available during the save request, or the filter is missing on REST requests | Add the filter at include time and keep `toggleable` and `available` true. |
+| Your addon keeps running after it was switched off | The boot code does not check the switch, or you are looking at the save request itself | Return early from your boot function unless `arraysubs_is_module_enabled()` is true; changes apply from the next request. |
+| The card says on but your addon is idle | An `arraysubs_is_module_enabled` callback returns `false` | Look for filter callbacks such as environment overrides. The screen shows only the saved switch. |
+| Fatal error: call to undefined function `arraysubs_is_module_enabled()` | Called at include time, or ArraySubs is inactive or failed its checks | Call it on `arraysubs_before_boot` or later and guard with `function_exists()`. |
+| `arraysubs_has_module()` returns `0` for your addon | The class is not in `arraysubs_boot_classes`, its `MODULE` switch is off, or the call ran before `arraysubs_after_boot` | Add the class at include time, check the switch, and call the helper later. |
+| Products of your type stay published while your module is off | The type is not mapped, the module ID differs, or no Modules save has run since you added the mapping | Map the type to the exact module ID, then save the Modules screen. |
+| A drafted product turned into a simple product | Your product type or class was registered only while the module was on | Keep both registered while the module is off. |
+| `store_credit_unavailable` | Pro is missing or unlicensed, or the `store_credit` switch is off | Activate and license ArraySubs Pro, or switch Store Credit on. |
+| An imported settings file did not set your switch | Your addon was not active on the destination site | Activate the addon there and import again. |
 
 To see what the site has saved and what your code will read, run:
 
@@ -937,44 +714,32 @@ wp eval 'var_export( arraysubs_get_module_states() ); echo PHP_EOL; var_export( 
 ## Related Guides
 
 - [Connect Your Custom Plugin](./getting-started.md) - load timing, dependency checks and a first lookup.
-- [React to Supported Events](./actions-and-filters.md) - the full action and filter catalog.
+- [React to Supported Events](./actions-and-filters.md) - the action and filter catalog.
 - [Read and Update Feature Data](./feature-manager.md) - per-member feature values for your addon.
-- [Read and Update Store Credit](./store-credit.md) - the Store Credit domain used in the failure example.
+- [Read and Update Store Credit](./store-credit.md) - the Store Credit class used in the second example.
 - [Verify Your Integration](./errors-and-testing.md) - error codes and testing without Pro.
 - [Feature Manager](../feature-manager/README.md) - merchant guide to plan features.
 - [Import / Export Settings](../getting-started/import-export-settings.md) - how module switches travel between sites.
-- [License Activation](../getting-started/license-activation.md) - why Pro domains can report `license_inactive`.
+- [License Activation](../getting-started/license-activation.md) - why Pro modules stay locked without a license.
 - [My Account Editor](../profile-builder/my-account-editor.md) - the Pro editor that reads the endpoint filter.
 
 ## FAQ
 
 ### Do I need ArraySubs Pro to add a module?
 
-No. The module list, switches, helpers and hooks are part of ArraySubs core. Pro is needed only for Pro domains your addon calls, such as Store Credit, and for the My Account Editor endpoint filter.
+No. The module list, switches, helpers and hooks are part of ArraySubs core. Pro matters only for Pro features your addon calls, such as Store Credit, and for the My Account Editor endpoint filter.
 
 ### Can my module start switched off?
 
-There is no declaration key for a default-off state; a module that was never saved is on. If your addon must start off, save `false` once from your own setup flow with `arraysubs_update_module_states()`, after `init`, while your module is registered.
+There is no declaration key for that; a module that was never saved is on. If your addon must start off, save `false` once from your own setup flow with `arraysubs_update_module_states()`, after `init`, while your module is registered.
 
 ### Does switching my module off delete anything?
 
-ArraySubs deletes nothing. It only drafts products of the product types you mapped to your module. What happens to your addon's own data is up to your addon.
+No. ArraySubs only drafts products of the types you mapped to your module. What happens to your addon's own data is up to your addon. Deactivating your addon keeps its saved switch, and reactivating restores the merchant's last choice.
 
 ### Can I add my settings page inside the ArraySubs admin app?
 
-No. The ArraySubs admin app has no page for addon routes. Register your own admin page and link it with `configure_url`.
-
-### Should plan-based limits be modules?
-
-No. Use Feature Manager features on each plan and read them with `ArraySubs\Api\FeatureManager`. A module switch is store-wide and has no member context.
-
-### Does `Availability` report my module?
-
-No. It reports ArraySubs domains only. Read your own switch with `arraysubs_is_module_enabled()`.
-
-### Why did my module come back in its old state after I reactivated the addon?
-
-ArraySubs keeps the saved switch while your addon is inactive, so reactivating restores the merchant's last choice.
+No. Items added through `arraysubs_main_admin_menu_items` become routes inside the ArraySubs admin app, which has no page for addon routes. Register your own admin page and link it with `configure_url`.
 
 ### When does a switch change take effect?
 

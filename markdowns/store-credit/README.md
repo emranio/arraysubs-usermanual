@@ -48,10 +48,10 @@ Store Credit operates at two levels:
 
 | Level | Where stored | Purpose |
 |-------|-------------|---------|
-| **Subscription credit** | On the individual subscription | Earned from plan switches that leave unused value, usually downgrades. Applied to that subscription's renewals first whenever Store Credit is active. |
+| **Subscription credit** | On the individual subscription | Earned from plan switches that leave unused value, usually downgrades. Applied to that subscription's renewals first when **Auto-Apply to Renewals** is on. |
 | **Customer credit** | On the customer's account | Earned from refunds, purchases, promotions, and admin adjustments. Applied to renewals after subscription credit when **Auto-Apply to Renewals** is on, and at checkout when **Allow at Checkout** is on. |
 
-When credit is applied to a renewal invoice, the system uses **subscription-level credit first**, then draws from **customer-level credit** for any remaining balance when **Auto-Apply to Renewals** is on. This priority ensures plan-switch credits are consumed by the subscription that generated them before dipping into the customer's general balance.
+When **Auto-Apply to Renewals** is on and credit is applied to a renewal invoice, the system uses **subscription-level credit first**, then draws from **customer-level credit** for any remaining balance. With the toggle off, renewals get no credit. This priority ensures plan-switch credits are consumed by the subscription that generated them before dipping into the customer's general balance.
 
 Credits appear as a negative fee line item on orders, reducing the payment total while keeping full auditability.
 
@@ -113,7 +113,7 @@ Customers interact with store credit in the **My Account → Store Credit** page
 - See any credits expiring soon (30-day window)
 - Purchase more credit if the merchant has enabled credit purchases
 
-Credit is applied automatically to renewal orders: subscription credit always, and customer credit when **Auto-Apply to Renewals** is on. Customers do not need to take action. When credit is used, they receive an email confirmation showing the amount applied and their remaining balance.
+When **Auto-Apply to Renewals** is on, credit is applied automatically to renewal orders: subscription credit first, then customer credit. Customers do not need to take action. When credit is used, they receive an email confirmation showing the amount applied and their remaining balance.
 
 ---
 

@@ -5,9 +5,9 @@
 
 # Read Subscription Product Terms
 
-> Look up a subscription product by ID, slug or store URL and read its current catalog terms (price, schedule, trial, sign-up fee, plan relationships and module settings) without changing anything.
+> Look up a subscription product by ID, slug or product URL and read its catalog terms, variations and plan-switch targets with `ArraySubs\Developer\Product`.
 
-**Availability:** Core (Free). The `bundle` and `modules` field groups need ArraySubs Pro with an active license; `bundle` also needs the Subscription Bundle module. Rows in the `features` group are configured with Pro Feature Manager; reading saved rows is core.
+**Availability:** Core (Free). Different renewal price values need ArraySubs Pro with an active license. The `bundle` module block needs ArraySubs Pro (Subscription Bundle module). Feature rows are set up with Pro Feature Manager; reading saved rows is core.
 
 ## Page Navigation
 
@@ -20,875 +20,741 @@
 
 ## Overview
 
-`ArraySubs\Api\Products` is a read-only reader for subscription products. It resolves a product or variation from an ID, a `WC_Product`, a slug or the product's own URL, and returns its subscription terms as a documented data array split into field groups.
+`ArraySubs\Developer\Product` is a read-only view of one WooCommerce subscription product or variation. Get an instance from an ID, a slug or a product URL, then read:
 
-Products stay WooCommerce objects. Use `wc_get_product()` when you need the `WC_Product`; use this class when you need the subscription terms as stable data (decimal-string money with currency, normalized schedule values, plan relationships) without reading ArraySubs product meta yourself.
+- `data()` - the catalog terms, split into field groups: `identity`, `relationships`, `pricing`, `billing`, `trial`, `features`, `access`, `plans` and `modules`.
+- `variations()` - the variations of a variable product, page by page.
+- `plans()` - the configured upgrade, downgrade or crossgrade targets that are eligible right now.
+- `object()` - the underlying `WC_Product`.
 
-The class has no setters and no save, update or delete methods. A read never changes a product, a price, a cart or a subscription.
+The class has no setters, save, update or delete methods. A read never changes a product, a price, a cart or a subscription.
 
-## When to Use This
+Typical uses: show plan terms in your own templates or app, resolve a plan link or slug saved in your plugin settings, list the options of a variable plan, show upgrade targets, and compare what a member agreed to pay with today's catalog price.
 
-- You sell memberships and want to show "what the customer will pay and how often" in your own templates, emails or app.
-- You store a plan reference (ID, slug or product URL) in your plugin settings and need to resolve it reliably.
-- You need to pick the right variation of a variable plan (for example monthly vs annual) from attribute values.
-- You compare a member's agreed price with today's catalog price (grandfathered pricing).
-- You list upgrade, downgrade and crossgrade targets configured on a plan.
-- You read box, bundle, flexible-duration or fixed-period settings for a product.
+## Before You Start
 
-## Prerequisites
+- **ArraySubs core must be active.** Guard calls with `class_exists( '\ArraySubs\Developer\Product' )`. The class is not loaded while ArraySubs is inactive or fails its dependency check.
+- **Call it on `init` or later**, for example on `wp_loaded`, `template_redirect`, or in a REST or AJAX callback. Until WooCommerce has registered its post types and taxonomies on `init`, `wc_get_product()` returns `false`, so every lookup returns `not_found`.
+- **Results depend on the current user** for unpublished products. See [Visibility](#visibility).
+- **Pro parts.** `billing.different_renewal_price_*` needs an active ArraySubs Pro license. The `modules.bundle` block exists only while ArraySubs Pro is active. Feature rows are configured with Pro Feature Manager.
 
-- ArraySubs (core) active. Guard every call with `class_exists( '\ArraySubs\Api\Products' )`: the class does not exist when ArraySubs fails its dependency check.
-- Call product reads on `init` (priority 10 or later) or later hooks such as `wp_loaded` and `template_redirect`, or inside REST and AJAX callbacks. WooCommerce cannot load products before it registers its product types on `init`.
-- ArraySubs Pro with an active license for the `bundle` and `modules` groups.
-- Subscription products set up by the merchant. See [Create and Configure Subscription Products](../subscription-products/create-and-configure.md).
+## Get a Product
 
-`\ArraySubs\Api\Availability::check( 'products' )` returns `true` whenever core is booted. See [Connect Your Custom Plugin](./getting-started.md) for loading and availability checks.
-
-## How It Works
-
-Every lookup runs the same steps:
-
-1. **Resolve.** `get()` takes an ID or a `WC_Product`, `get_by_slug()` a product slug, `get_by_url()` a product permalink on this site.
-2. **Select a variation (optional).** `variation_id` or `attributes` picks one variation of a variable product.
-3. **Check visibility.** The default `view` context reads published products only. `edit` also reads drafts, pending and private products.
-4. **Check the entity.** A product that is not a subscription product returns `unsupported_entity`.
-5. **Project.** The reader builds only the field groups you request from the product's current catalog data.
-
-```mermaid
-flowchart LR
-    A[ID, WC_Product, slug or URL] --> B[Resolve product]
-    B --> C{Variation selector?}
-    C -- variation_id or attributes --> D[Resolve exactly one variation]
-    C -- none --> E[Use the product as given]
-    D --> F{Visible in context and a subscription product?}
-    E --> F
-    F -- no --> G[WP_Error]
-    F -- yes --> H[Build the requested field groups]
-```
-
-The term groups are built from the same product data as `arraysubs_get_product_subscription_data()`, so callbacks on the `arraysubs_product_subscription_data` filter apply to both. Prices come from WooCommerce's own price getters, so WooCommerce price filters apply exactly as they do on the product page.
-
-### Shared arguments
-
-`get()`, `get_by_slug()` and `get_by_url()` accept the same `$args`:
-
-| Argument | Type | Default | Description |
+| Method | Arguments | Returns | Notes |
 | --- | --- | --- | --- |
-| `fields` | string[] | Every documented group you can read | Field groups to return: `identity`, `relationships`, `pricing`, `schedule`, `trial`, `signup_fee`, `lifetime`, `plans`, `box`, `bundle`, `features`, `access`, `modules`. An unknown group returns `invalid_argument`. |
-| `variation_id` | int | `0` | A variation of the variable product you pass. See [Choose a Variation](#choose-a-variation). |
-| `attributes` | array | `array()` | Attribute values such as `array( 'attribute_pa_size' => 'large' )`. They must resolve exactly one variation. |
-| `context` | string | `view` | `view`: published products only, customer-safe output. `edit`: also drafts, pending and private products, and feature `type` values. Check capabilities yourself before you use `edit`. |
+| `Product::fromId( int $product_id )` | A product or variation ID | `Product` or `WP_Error` | A variation ID reads that variation. Errors: `not_found`, `forbidden`, `unsupported`. Holding a `WC_Product`? Pass `$wc_product->get_id()`. |
+| `Product::fromSlug( string $slug )` | A product or variation slug, such as `gold-plan` | `Product` or `WP_Error` | The slug is passed through `sanitize_title()`. Products and variations that are published, private, draft or pending are searched. Errors: `validation` (empty, or contains `/`), `ambiguous` (more than one match), `not_found`, then the `fromId()` errors. |
+| `Product::fromUrl( string $url )` | An absolute product URL on this site | `Product` or `WP_Error` | Parsed, never requested. See [URL rules](#url-rules). |
+| `$product->object()` | none | `WC_Product` | The resolved WooCommerce object, for example `WC_Product_Simple`, `WC_Product_Variable` or `WC_Product_Variation`. Use it for WooCommerce helpers such as `get_price_html()`. |
 
-### Return value
+The constructor is private, so these three factory methods are the only way to get an instance. All four methods are read only.
 
-The three lookups return a data array (never a `WC_Product`). It always has a top-level `id` (the product or variation that was read) plus one key per requested group:
+### Visibility
 
-```php
-<?php
-// Shape of a get() result with fields => array( 'identity', 'pricing', 'schedule' ).
-$terms = array(
-    'id'       => 456,
-    'identity' => array( /* ... */ ),
-    'pricing'  => array( /* ... */ ),
-    'schedule' => array( /* ... */ ),
-);
-```
+`fromId()` decides what resolves. `fromSlug()`, `fromUrl()`, `variations()` and `plans()` all go through it, so the same rules apply everywhere:
 
-A requested group that does not apply to the product is `null`, never left out. For example `box` is `null` on a simple product. The full list of keys is in the [Field Group Reference](#field-group-reference).
+1. No WooCommerce product with that ID returns `not_found`.
+2. A product that is not published, or a variation whose variable parent is not published, resolves only when `current_user_can( 'read_post', $id )` is true for it, as it is for shop managers and administrators. Otherwise you get `forbidden`.
+3. A product that is not a subscription product returns `unsupported`. The check is the **Subscription [AS]** flag on the product or variation you read. Ordinary WooCommerce products and Pro store credit products return `unsupported`.
 
-### Errors
+WP-CLI, cron and logged-out requests run without such a user, so only published products resolve there.
 
-Failures return `WP_Error`. `get_error_data()` is an array with `status` and, where relevant, `field` or `details`.
+### URL rules
 
-| Code | When | status |
-| --- | --- | --- |
-| `invalid_argument` | Bad input type (for example a `WP_Post`), unknown field group or `context`, malformed `attributes`, both `variation_id` and `attributes`, a `variation_id` that belongs to another product or a `variation_id` on a product that is not variable, an empty slug, an external or non-product URL, `per_page` above 100, a bad cursor | 400 |
-| `not_found` | No product with that ID, slug or URL; the ID is not a WooCommerce product; the product is trashed; the product is not published and `context` is `view`; no variation matches `attributes` | 404 |
-| `ambiguous_match` | `attributes` or a slug matched more than one product or variation. `details` lists up to 10 candidate IDs | 409 |
-| `unsupported_entity` | The product exists but is not a subscription product (for example an ordinary simple product or a Pro store credit product) | 422 |
-
-### Permission boundary
-
-PHP calls are trusted server code: they do not check the current user's capabilities. Products have no customer owner, so there is no `as_user` ownership check in this class.
-
-- The default `view` context is safe for public output: published products only, and feature types are never included.
-- `edit` context exposes unpublished products and feature `type` values. Use it only after your own check, for example `current_user_can( 'edit_products' )` in a REST `permission_callback`.
-
-### Side effects
-
-Read only: no writes. Reads never save or change products, prices or meta, never add to the cart, never schedule jobs and never request a URL.
-
-## Lookup Methods
-
-### `Products::get()`
-
-```text
-\ArraySubs\Api\Products::get( int|WC_Product $product, array $args = array() ): array|WP_Error
-```
-
-- **Accepts:** a product or variation ID, or a `WC_Product` (including `WC_Product_Variation`). A variation ID reads that variation directly.
-- **Arguments:** [Shared arguments](#shared-arguments).
-- **Returns:** the data array, or `WP_Error` (see [Errors](#errors)).
-- **Read only:** no writes.
-
-```php
-<?php
-add_action( 'init', function () {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return;
-    }
-
-    $terms = \ArraySubs\Api\Products::get( 456, array( 'fields' => array( 'pricing', 'schedule' ) ) );
-
-    if ( is_wp_error( $terms ) ) {
-        error_log( 'Plan lookup failed: ' . $terms->get_error_code() );
-        return;
-    }
-
-    // $terms['pricing']['recurring_amount'] is a decimal string such as '19.00'.
-}, 20 );
-```
-
-### `Products::get_by_slug()`
-
-```text
-\ArraySubs\Api\Products::get_by_slug( string $slug, array $args = array() ): array|WP_Error
-```
-
-- **Accepts:** the product's slug, the last part of its permalink (for example `gold-plan`).
-- Only WooCommerce products are searched. Pages, posts and attachments with the same slug are ignored.
-- Variations have no slug of their own that resolves. Pass the variable product's slug and select the variation with `variation_id` or `attributes`.
-- More than one product with the slug returns `ambiguous_match` with the candidate IDs in `details`.
-- **Arguments, returns, errors:** as `get()`. **Read only:** no writes.
-
-```php
-<?php
-function myplugin_plan_by_slug( string $slug ) {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return null;
-    }
-
-    $terms = \ArraySubs\Api\Products::get_by_slug( $slug, array( 'fields' => array( 'identity', 'pricing' ) ) );
-
-    return is_wp_error( $terms ) ? null : $terms;
-}
-```
-
-### `Products::get_by_url()`
-
-```text
-\ArraySubs\Api\Products::get_by_url( string $url, array $args = array() ): array|WP_Error
-```
-
-- **Accepts:** a canonical product permalink on this site, such as the value of `identity.permalink` or `get_permalink()`.
-- The URL is parsed, never requested: no HTTP request is made, and a Pro product page redirect does not affect the lookup.
-- The fragment and query arguments are ignored, except `attribute_*` arguments, which select a variation exactly like the `attributes` argument.
-- **Arguments, returns, errors:** as `get()`. **Read only:** no writes.
+`fromUrl()` matches the URL against this site's product permalinks without making an HTTP request.
 
 | URL | Result |
 | --- | --- |
-| `https://example.com/product/gold-plan/` | The product |
-| `https://example.com/product/gold-plan/?utm_source=news#faq` | The same product (extra query arguments and the fragment are ignored) |
-| `https://example.com/product/gold-plan/?attribute_pa_billing=annual` | The matching variation, or `ambiguous_match` / `not_found` |
-| `https://another-store.example/product/gold-plan/` | `invalid_argument` (another host; never fetched) |
-| `https://example.com/about/` or a product category URL | `invalid_argument` (not a product permalink) |
-| `https://example.com/?p=123` | `invalid_argument` (a shortlink, not the canonical permalink; read the ID and call `get()`) |
+| `https://example.com/product/gold-plan/` | The product. The trailing slash is optional and a `#fragment` is ignored. |
+| `https://example.com/product/gold-plan/?attribute_pa_billing=annual` | The published variation whose attributes match, including variations set to "Any". |
+| `https://example.com/product/gold-plan/?variation_id=124` | That variation, when it is a published variation of this product. |
+| Attribute or `variation_id` arguments that match no published variation | `not_found` |
+| Attribute arguments that match more than one variation | `ambiguous`. Add `variation_id` to pick one. |
+| `https://example.com/product/gold-plan/?attribute_pa_color=red` | `invalid_field` when `pa_color` is not a variation attribute of this product. |
+| `https://example.com/product/gold-plan/?utm_source=news` | `validation`. Only `attribute_*` and `variation_id` query arguments are accepted. |
+| Variation arguments on a product that is not variable | `validation` |
+| `https://example.com/product/gold-plan/?variation_id=abc` | `validation`. `variation_id` must be a positive whole number. |
+| `https://example.com/?p=123` (a shortlink) | `validation`. Use the permalink, or call `fromId()`. |
+| Another host, another port, a relative URL, a URL with a user name or password, or a scheme other than `http` / `https` | `validation` |
+| `https://example.com/about/` or the shop page | `not_found`. The URL is not a product. |
 
-```php
-<?php
-function myplugin_plan_from_url( string $url ) {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return new WP_Error( 'myplugin_unavailable', __( 'ArraySubs is not active.', 'myplugin' ) );
-    }
+- A variation's own permalink (`identity.permalink`, which is the parent URL plus its `attribute_*` arguments) resolves back to that variation.
+- `fromUrl()` resolves pretty permalinks only. With plain permalinks (`/?product=gold-plan`) it cannot match the product, so use `fromId()` or `fromSlug()`.
 
-    return \ArraySubs\Api\Products::get_by_url( $url, array( 'fields' => array( 'identity', 'pricing', 'schedule' ) ) );
-}
-```
-
-### `Products::is_subscription_product()`
+## Read Product Data
 
 ```text
-\ArraySubs\Api\Products::is_subscription_product( int|WC_Product $product ): bool
+$product->data( array $fields = [] )
 ```
 
-- Returns `true` when the product or variation is a subscription product. It uses the same rule as `arraysubs_is_subscription_product()`: the item's own subscription flag. Variable parents, Subscription Box and Subscription Bundle products return `true`; a variation is checked on its own flag.
-- Returns `false` for missing products and non-subscription products. It never returns `WP_Error`.
-- It does not check post status or context. Use `get()` when visibility matters.
+| Argument | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `$fields` | string[] | `[]` (every group) | Any of `identity`, `relationships`, `pricing`, `billing`, `trial`, `features`, `access`, `plans`, `modules`. An unknown name returns `invalid_field`. |
+
+- **Returns** an array keyed by group, or `WP_Error` (`invalid_field`).
+- Groups always come back in the order listed above, whatever order you request them in.
+- Only requested groups are built. Ask for what you need: `plans` runs three target lookups, and `modules` runs module filters.
 - **Read only:** no writes.
 
-```php
-<?php
-add_filter( 'woocommerce_post_class', function ( $classes, $product ) {
-    if ( class_exists( '\ArraySubs\Api\Products' ) && \ArraySubs\Api\Products::is_subscription_product( $product ) ) {
-        $classes[] = 'myplugin-plan';
-    }
-    return $classes;
-}, 10, 2 );
-```
-
-## Variations
-
-### Choose a Variation
-
-Variation terms live on each variation, not on the variable parent. You can read a variation three ways:
-
-| You have | Call |
-| --- | --- |
-| The variation ID | `Products::get( 457 )` |
-| The parent and the variation ID | `Products::get( 123, array( 'variation_id' => 457 ) )` |
-| The parent and attribute values | `Products::get( 123, array( 'attributes' => array( 'attribute_pa_billing' => 'annual' ) ) )` |
-
-Rules:
-
-- `attributes` must resolve exactly one variation. A variation with an "Any" value can match several combinations, so pass every attribute the product uses. Several matches return `ambiguous_match` (candidate IDs in `details`); no match returns `not_found`.
-- Pass `variation_id` or `attributes`, not both (`invalid_argument`).
-- A variable parent read without a selector returns the parent: `identity` and `relationships` are filled, and the term groups (`pricing`, `schedule`, `trial`, `signup_fee`, `lifetime`, `plans`) are `null` because the parent has no purchasable terms of its own.
-- A variation is a subscription product only when its own flag is set. ArraySubs copies the parent's flag to every variation when the variable product is saved in the product editor.
-
-```php
-<?php
-function myplugin_annual_terms( int $parent_id ) {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return null;
-    }
-
-    $terms = \ArraySubs\Api\Products::get(
-        $parent_id,
-        array(
-            'attributes' => array( 'attribute_pa_billing' => 'annual' ),
-            'fields'     => array( 'identity', 'pricing', 'schedule' ),
-        )
-    );
-
-    if ( is_wp_error( $terms ) && 'ambiguous_match' === $terms->get_error_code() ) {
-        $data = $terms->get_error_data();
-        // Several variations match: ask for another attribute, or choose from these IDs.
-        $candidate_ids = isset( $data['details'] ) ? array_map( 'absint', (array) $data['details'] ) : array();
-        return null;
-    }
-
-    return is_wp_error( $terms ) ? null : $terms;
-}
-```
-
-### `Products::get_variations()`
-
-```text
-\ArraySubs\Api\Products::get_variations( int|WC_Product $product, array $args = array() ): array|WP_Error
-```
-
-Lists the subscription variations of a variable product as a paged collection, ordered by ID.
-
-| Argument | Type | Default | Description |
-| --- | --- | --- | --- |
-| `output` | string | `object` | `object` (`WC_Product_Variation` items), `ids` (ints) or `data` (data arrays like `get()` returns). |
-| `fields` | string[] | Every documented group you can read | Field groups for `data` output. |
-| `context` | string | `view` | `view`: enabled variations of a published product. `edit`: also disabled variations and unpublished parents. |
-| `per_page` | int | `20` | Maximum 100. Larger values return `invalid_argument`. |
-| `cursor` | string | none | The `next_cursor` value from the previous page. |
-| `order` | string | `asc` | `asc` or `desc` by ID. |
-| `include_total` | bool | `false` | `true` adds an exact `total` (slower). |
-
-Returns:
-
-```php
-<?php
-$page = array(
-    'items'       => array( /* WC_Product_Variation objects, IDs or data arrays */ ),
-    'per_page'    => 20,
-    'next_cursor' => 'c2lkOjQ1Ng', // Opaque string, or null on the last page.
-    'has_more'    => true,
-    'total'       => null,         // An int only with 'include_total' => true.
-);
-```
-
-- A simple, box, bundle or variation input returns an empty collection (not an error).
-- A product that is not a subscription product returns `unsupported_entity`; a missing one `not_found`.
-- **Read only:** no writes. See [Export every variation](#export-every-variation) for a paging loop.
-
-## Field Group Reference
-
-A complete `data` result for an annual variation, with every group requested (Pro active):
+A result for `data( array( 'identity', 'pricing', 'billing', 'trial' ) )` on a simple monthly plan:
 
 ```php
 <?php
 $terms = array(
-    'id'            => 457,
-    'identity'      => array(
-        'id'        => 457,
-        'parent_id' => 123,
-        'type'      => 'variation',
-        'name'      => 'Gold Plan - Annual',
-        'slug'      => 'gold-plan-annual',
+    'identity' => array(
+        'id'        => 123,
+        'name'      => 'Gold Plan',
+        'slug'      => 'gold-plan',
+        'type'      => 'simple',
         'status'    => 'publish',
-        'permalink' => 'https://example.com/product/gold-plan/?attribute_pa_billing=annual',
-        'sku'       => 'GOLD-ANNUAL',
+        'permalink' => 'https://example.com/product/gold-plan/',
     ),
-    'relationships' => array(
-        'parent_id'     => 123,
-        'variation_ids' => null,
+    'pricing'  => array(
+        'price'         => '29.99',
+        'regular_price' => '29.99',
+        'sale_price'    => '',
+        'currency'      => 'USD',
+        'tax_basis'     => 'catalog',
+        'quantity'      => 1,
     ),
-    'pricing'       => array(
-        'price'            => '190.00',
-        'regular_price'    => '190.00',
-        'sale_price'       => null,
-        'currency'         => 'USD',
-        'decimals'         => 2,
-        'recurring_amount' => '190.00',
+    'billing'  => array(
+        'period'                          => 'month',
+        'interval'                        => 1,
+        'length'                          => 12,
+        'lifetime'                        => false,
+        'different_renewal_price_enabled' => true,
+        'different_renewal_price'         => '24.99',
+        'different_renewal_price_after'   => 3,
     ),
-    'schedule'      => array(
-        'billing_interval' => 1,
-        'billing_period'   => 'year',
-        'length'           => 0,
-        'expires_after'    => null,
-    ),
-    'trial'         => array(
-        'length'                  => 14,
-        'period'                  => 'day',
-        'requires_payment_method' => true,
-    ),
-    'signup_fee'    => array(
-        'amount'   => '0.00',
-        'currency' => 'USD',
-        'decimals' => 2,
-    ),
-    'lifetime'      => false,
-    'plans'         => array(
-        'upgrades'    => array( 789 ),
-        'downgrades'  => array( 456 ),
-        'crossgrades' => array(),
-    ),
-    'box'           => null,
-    'bundle'        => null,
-    'features'      => array(
-        array(
-            'name'      => 'seats',
-            'value'     => '5',
-            'unlimited' => false,
-            'enabled'   => true,
-            'inherited' => true,
-        ),
-    ),
-    'access'        => array( 'r_12' ),
-    'modules'       => array(
-        'flexible_subscription' => array(
-            'mode'       => 'fixed',
-            'periods'    => array( 'month' ),
-            'max_length' => 0,
-        ),
-        'fixed_period'          => null,
+    'trial'    => array(
+        'length'     => 14,
+        'period'     => 'day',
+        'signup_fee' => 10.0,
     ),
 );
 ```
-
-While ArraySubs Pro is not active with a license, the default field set leaves out `bundle` and `modules`, and requesting them returns `null`.
 
 ### identity
 
 | Key | Type | Notes |
 | --- | --- | --- |
 | `id` | int | The product or variation that was read. |
-| `parent_id` | int | The variable parent for a variation, otherwise `0`. |
-| `type` | string | WooCommerce product type: `simple`, `variable`, `variation`, `arraysubs_subscription_box` or `arraysubs_subscription_bundle`. |
-| `name` | string | Product name. A variation's name includes its attribute values. |
-| `slug` | string | Product slug. |
-| `status` | string | WordPress post status. Always `publish` in `view` context; `edit` can also return `draft`, `pending` or `private`. |
-| `permalink` | string | Canonical URL. A variation's permalink is the parent URL plus its `attribute_*` query arguments. |
-| `sku` | string | `''` when the product has no SKU. |
+| `name` | string | Product name. A variation's name includes its attribute values, for example `Gold Plan - Annual`. |
+| `slug` | string | Post slug. Variations have their own slug, which `fromSlug()` also resolves. |
+| `type` | string | WooCommerce product type, for example `simple`, `variable`, `variation`, `arraysubs_subscription_box` or `arraysubs_subscription_bundle`. |
+| `status` | string | Post status. Always `publish` unless the current user can read unpublished products. |
+| `permalink` | string | Product URL. A variation's permalink is the parent URL plus its `attribute_*` query arguments. |
 
 ### relationships
 
 | Key | Type | Notes |
 | --- | --- | --- |
-| `parent_id` | int | Same as `identity.parent_id`. |
-| `variation_ids` | array or null | For a variable product: `items` (the first page of subscription variation IDs, up to 20, ascending), `count` (all of them) and `has_more`. `null` for every other type. Use `get_variations()` for the rest. |
+| `parent_id` | int or null | The variable parent of a variation; `null` for every other product. |
+| `is_variable` | bool | `true` for a variable product. |
+| `is_variation` | bool | `true` for a variation. |
+| `variations` | page envelope | For a variable product, the first page (up to 20, ascending) of its published variation IDs: the same result as `variations( array( 'output' => 'ids' ) )`. An empty envelope for every other product. See [Page envelope](#page-envelope). |
 
 ### pricing
 
 | Key | Type | Notes |
 | --- | --- | --- |
-| `price` | string or null | WooCommerce active price: the sale price while a sale runs, otherwise the regular price. Stored price before tax display adjustments. |
-| `regular_price` | string or null | Regular price. For a bundle, the subtotal of its contents. |
-| `sale_price` | string or null | `null` when no sale price is set. |
-| `currency` | string | Store currency (ISO 4217), as WooCommerce reports it. |
-| `decimals` | int | Store price decimals. |
-| `recurring_amount` | string or null | The unit amount a new subscription records as its recurring amount at checkout: equal to `price` for simple products and variations, the live total for a bundle, `null` for a box. |
+| `price` | string | Stored active price: the sale price while a sale is active, otherwise the regular price. `''` when none is stored. |
+| `regular_price` | string | Stored regular price, or `''`. |
+| `sale_price` | string | Stored sale price, or `''` when no sale price is set. |
+| `currency` | string | Store currency code from `get_woocommerce_currency()`, such as `USD`. |
+| `tax_basis` | string | Always `catalog`: the prices as entered on the product, before tax display settings. |
+| `quantity` | int | Always `1`. Prices are for one unit. |
 
-- Money values are decimal strings in `currency`, such as `'19.00'`.
-- For a Subscription Box, `price`, `regular_price`, `sale_price` and `recurring_amount` are `null`: the amount depends on the customer's selection.
-- A different renewal price that starts after a number of payments (needs an active Pro license) is not part of `recurring_amount`. Read it from `arraysubs_get_product_subscription_data()` (`enable_different_renewal_price`, `different_renewal_price`, `different_renewal_price_after`).
+- Prices are read in WooCommerce `edit` context: the stored values, without WooCommerce price getter filters. Plugins that change displayed prices through those filters do not change them.
+- A Subscription Box has no stored price (`''`): the box is priced from the customer's selection. A Subscription Bundle stores its discounted total as `price` and its subtotal as `regular_price`.
+- A variable parent reports its own stored values, which are not the terms of any plan. Read its variations instead.
 
-### schedule
+### billing
 
 | Key | Type | Notes |
 | --- | --- | --- |
-| `billing_interval` | int | Charge every N periods. `1` for lifetime products. |
-| `billing_period` | string | `day`, `week`, `month`, `year` or `lifetime`. |
-| `length` | int | Paid billing cycles before the subscription expires. `0` means it renews until cancelled. In Pro flexible modes this is the longest length a customer can choose. |
-| `expires_after` | array or null | The nominal term that `length` covers, as `array( 'count' => 12, 'period' => 'month' )` (length times interval periods). `null` when `length` is `0` or the product is lifetime. |
+| `period` | string | `day`, `week`, `month`, `year` or `lifetime`. `month` when none is saved. |
+| `interval` | int | Bill every N periods. `1` when none is saved, and always `1` for lifetime products. |
+| `length` | int | Billing cycles before the subscription expires. `0` means it renews until cancelled, and is always `0` for lifetime products. |
+| `lifetime` | bool | `true` when `period` is `lifetime`: one payment, no renewals. |
+| `different_renewal_price_enabled` | bool | `true` only when ArraySubs Pro has an active license and the product's **Different Renewal Price** option is on. Always `false` for lifetime products. |
+| `different_renewal_price` | string or null | The saved **Renewal Price**, such as `'24.99'`. `null` unless enabled. |
+| `different_renewal_price_after` | int or null | The **Apply Renewal Price After** value: renewals switch to the renewal price once the subscription has this many completed payments. `1` when empty, `null` unless enabled. |
 
-Empty stored values are read the way checkout reads them: an empty period is `month` and an empty or zero interval is `1`. Expiry counts completed payments, so trials, skips and pauses move the real end date; after purchase, read the subscription's own dates.
+`billing` and `trial` are built from `arraysubs_get_product_subscription_data()`, so callbacks on the `arraysubs_product_subscription_data` filter change them too. For a box, the schedule saved in the box builder is copied to these fields when the product is saved; the full schedule is in `modules.box.terms.schedule`.
 
 ### trial
 
 | Key | Type | Notes |
 | --- | --- | --- |
 | `length` | int | Trial length in `period` units. `0` means no trial. |
-| `period` | string or null | `day`, `week`, `month` or `year`. `null` when there is no trial. |
-| `requires_payment_method` | bool | The store-wide **Require Payment Method** trial setting. It is the same for every product. |
+| `period` | string | Trial period, such as `day`, `week`, `month` or `year`. `day` when none is saved, including products without a trial. |
+| `signup_fee` | float or int | One-time sign-up fee, such as `10.0`. `0` when there is none. |
 
-Whether a given customer actually gets the trial also depends on the store's **One Trial Per Customer** setting. Box and bundle products have no trial. See [Trial Management](../billing-and-renewals/trial-management.md).
+The sign-up fee sits in this group although it is not a trial setting. Box products are saved without a trial or a product-level sign-up fee. These are catalog values: read the trial a member actually got from the subscription.
 
-### signup_fee
+### features
 
 | Key | Type | Notes |
 | --- | --- | --- |
-| `amount` | string | One-time fee, `'0.00'` when none. |
-| `currency` | string | Store currency. |
-| `decimals` | int | Store price decimals. |
+| `effective` | array | The enabled Feature Manager rows of this product. A variation with no rows of its own uses its parent's rows. Each row is returned as saved, without its `type`: for example `id`, `name`, `value`, `enabled`, `order` and `reset_period`. |
+| `inherited` | bool | `true` for a variation that has no rows of its own. |
 
-The fee is charged once per cart line at checkout (not multiplied by quantity), also when the product has a trial, and never on renewals. Box and bundle products report `'0.00'` here; their checkout fee comes from their contents (`box.schedule.keep_signup_fees`, `bundle.pricing.signup_fee`).
+- Rows are set up with ArraySubs Pro Feature Manager. Core returns the saved rows whether or not Pro is active or the module is switched on.
+- For a product's paged feature configuration (`Features::forProduct()`) and for members' effective values and usage, see [Read and Update Feature Data](./feature-manager.md).
 
-### lifetime
+### access
 
-A bool. `true` when the product charges once and never renews: `schedule.billing_period` is `lifetime`, `billing_interval` is `1`, `length` is `0` and `expires_after` is `null`.
+| Key | Type | Notes |
+| --- | --- | --- |
+| `enabled` | bool | `true` while Member Access is on for the store (it is on by default). |
+| `configured` | array | This product's own **Access Restriction** settings from the product editor, or the defaults when none are saved: `enabled`, `mode` (`restrict` or `visibility`), `visShow`, `status`, `roles`, `products`, `variations`, `purchased`, `lifetimeSpent`, `condition`, `feature`, `featureMatch`, `featureValue`, `featureOp`, `aggregation`, `deniedAction` (`message` or `redirect`), `message`, `redirectType`, `redirectPageId`, `redirectPageLabel`, `redirectUrl`, `loginRequired`, `showToAdmins`. |
+
+- This group describes who may view the product page. It does not list the content a plan unlocks; to check what a member can access, see [Check Content Access](./member-access.md).
+- In `restrict` mode, a configuration that is `enabled` but has no condition (no login requirement, statuses, roles, products, purchases, spend or feature) restricts nothing. In `visibility` mode, `visShow` (`logged_in` or `logged_out`) decides who sees the page.
+- A variation reports its own settings, which are normally the defaults. Restrictions are set on the parent product.
+- `message` is merchant HTML. Escape it with `wp_kses_post()` before output.
+- The merchant setup is in [Per-Post Access Restriction](../member-access/per-post-access-restriction.md).
 
 ### plans
 
 | Key | Type | Notes |
 | --- | --- | --- |
-| `upgrades` | int[] | Product or variation IDs configured as upgrades. |
-| `downgrades` | int[] | Configured downgrades. |
-| `crossgrades` | int[] | Configured crossgrades. |
+| `upgrades` | array | `plans( 'upgrade' )` with default arguments. |
+| `downgrades` | array | `plans( 'downgrade' )` with default arguments. |
+| `crossgrades` | array | `plans( 'crossgrade' )` with default arguments. |
 
-- These are the switch targets configured on this product or variation, empty arrays when none. On a variable parent the group is `null`: targets are configured per variation.
-- Relationships are one-directional. Listing B as an upgrade of A does not make A a downgrade of B.
-- A listed target is not a promise that a given subscription can switch to it. Eligibility is checked per subscription (status, stock, price direction, store switching settings). For one subscription's eligible options, call the `POST /arraysubs/v1/subscriptions/{id}/switch-options` route.
-- The automatic downgrade fallback plan is not part of this group.
+Each value is the first page (up to 20) of eligible target IDs. See [List Plan Switch Targets](#list-plan-switch-targets).
 
-See [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) for the merchant setup.
+### modules
 
-### box
+One block per product module. Every block has the same three keys:
 
-`null` unless `identity.type` is `arraysubs_subscription_box`. Otherwise the sanitized box configuration, with the same structure the box builder saves:
-
-| Key | Contents |
-| --- | --- |
-| `schedule` | `mode`, `flexible_periods`, `period`, `interval`, `length`, `keep_signup_fees` |
-| `steps` | Each step: `id`, `title`, `elements` (each `id`, `type`, `label`, `required`, `settings`; `type` is the builder element kind, for example `product` or `categories`) |
-| `discounts` | `basis`, `max_value`, `boundaries`, `ranges` (each `freebies` and a `discount` with `type` and `amount`) |
-| `renewal_sync` | `enabled`, `seg1_end`, `seg2_end`, `seg1_active`, `seg2_active`, `seg3_active` |
-
-Core feature (Subscription Box module). The box price is computed from the customer's selection when it is added to the cart, and the purchased contents and price are frozen on the subscription. See [Subscription Boxes](../subscription-products/subscription-box.md).
-
-### bundle *(Pro)*
-
-`null` unless `identity.type` is `arraysubs_subscription_bundle` and Pro is active with a license.
-
-| Key | Contents |
-| --- | --- |
-| `schedule` | The bundle's billing schedule (same keys as `box.schedule`) |
-| `products` | Rows of `id`, `product_id`, `qty` |
-| `discount` | `type` (`none`, `fixed` or `percent`) and `amount` |
-| `renewal_sync` | Same keys as `box.renewal_sync` |
-| `pricing` | Live totals from the current contents: `subtotal`, `discount_type`, `discount_amount`, `discount_value`, `total`, `signup_fee` (amounts are decimal strings in the store currency) |
-
-See [Subscription Bundles](../subscription-products/subscription-bundle.md).
-
-### features
-
-A list of the Feature Manager rows configured on the product or variation: the same rows `FeatureManager::get_product_features()` returns. Each row carries `inherited`, `true` when a variation uses its parent's defaults. Empty list when none.
-
-- Feature `type` values appear only in `edit` context. Keep them out of anything a customer can see.
-- These are catalog rows. For a member's effective values and usage, see [Read and Update Feature Data](./feature-manager.md).
-
-### access
-
-A list of Member Access rule IDs (strings such as `'r_12'`) that reference this product or variation. Empty list when none. To evaluate access for a person, see [Check Content Access](./member-access.md).
-
-### modules *(Pro)*
-
-`null` while Pro is not active with a license. Otherwise keyed blocks:
-
-| Block | Key | Notes |
+| Key | Type | Notes |
 | --- | --- | --- |
-| `flexible_subscription` | `mode` | `fixed`, `flexible_length` or `full_flexible`. Lifetime and fixed-period products are always `fixed`. |
-| | `periods` | Periods a customer can pick in `full_flexible`: any of `day`, `week`, `month`, `year`. |
-| | `max_length` | Longest length a customer can pick in the flexible modes. `0` means no merchant cap. |
-| `fixed_period` | (block) | `null` unless the product has a fixed end date enabled. |
-| | `end_date_type` | `absolute` or `recurring_annual`. |
-| | `end_date` | `YYYY-MM-DD` (absolute) or `MM-DD` (annual), a site-local calendar date. |
-| | `enrollment_window_start`, `enrollment_window_end` | `YYYY-MM-DD` site-local dates, or `null`. |
-| | `end_renewal` | `expire` or `renew`. |
+| `configured` | bool | `true` when this product belongs to that module: a box for `box`, a bundle for `bundle`. |
+| `enabled` | bool | Whether the module can be used right now (see the next table). |
+| `terms` | array or null | The module's saved configuration. `null` when the product is not that type, or its configuration is not usable (a box needs at least one step, a bundle at least one product). |
 
-These are calendar settings, not timestamps. When a fixed-period subscription is bought, its UTC end date is stored on the subscription (`schedule.end_at` from [Find and Update Subscriptions](./subscriptions.md)). See [Flexible Subscription Duration](../subscription-products/flexible-subscription-duration.md) and [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) (Fixed Period Membership section).
+| Block | Availability | `enabled` is true when | `terms` keys |
+| --- | --- | --- | --- |
+| `box` | Core | The **Subscription Box** module is on in **ArraySubs -> Modules** | `schedule`, `steps`, `discounts`, `renewal_sync` |
+| `bundle` *(Pro)* | ArraySubs Pro active | ArraySubs Pro has an active license and the **Subscription Bundle** module is on | `schedule`, `products`, `discount`, `renewal_sync` |
 
-## Catalog Terms vs a Subscription's Stored Terms
+Box `terms`:
 
-`Products` returns the **catalog terms**: what a new customer would buy today. A subscription keeps the **terms it was bought with**.
+- `schedule`: `mode`, `flexible_periods`, `period`, `interval`, `length`, `keep_signup_fees`. Without Pro Flexible Subscription, `mode` is always `fixed`.
+- `steps`: each step has `id`, `title` and `elements`. Each element has `id`, `type` (the builder element: `product`, `categories`, `text`, `textarea`, `checkbox`, `select`, `multiselect` or `upload`), `label`, `required` and `settings`.
+- `discounts`: `basis` (`total_value` or `total_count`), `max_value`, `boundaries`, and `ranges`. Each range has `freebies` (product IDs) and a `discount` with `type` (`none`, `fixed` or `percent`) and `amount`.
+- `renewal_sync`: `enabled`, `seg1_end`, `seg2_end`, `seg1_active`, `seg2_active`, `seg3_active`.
 
-At checkout ArraySubs copies the product's current terms into the new subscription once: unit price, recurring amount, quantity, billing interval and period, length, trial, sign-up fee, currency and any different renewal price. Renewals then charge from the subscription's stored terms.
+Bundle `terms` *(Pro)*:
 
-| Change on the product | Effect on existing subscriptions |
-| --- | --- |
-| Price, sale price, schedule, length, trial, sign-up fee | None. The subscription keeps its agreed price and schedule. A subscription bought during a sale keeps renewing at the price it was bought at. |
-| Plan switch targets | Used for future switches; the switch quote uses the target's current price. |
-| Feature Manager rows | Live: entitlements are read from the product when they are evaluated. |
-| Product name, SKU, tax and shipping data | Live: each renewal order line is built from the current product. |
-| Trash | Renewals continue (a trashed product still loads). |
-| Permanent delete | Renewal order creation fails and the subscription goes on hold. `Lifecycle::get_state()` reports `grace.skip_reason` `renewal_order_creation_failed`. Retire plans by drafting or trashing them instead. |
+- `schedule`: the same keys as the box schedule.
+- `products`: rows of `id`, `product_id` and `qty`.
+- `discount`: `type` (`none`, `fixed` or `percent`) and `amount`.
+- `renewal_sync`: the same keys as the box.
 
-A subscription's terms change only through a plan switch (it copies the new product's current price and schedule at that moment), an admin edit, `Subscriptions::update()`, or a different renewal price taking over after its number of payments.
+The box configuration passes through the `arraysubs_box_config` filter and the bundle configuration through `arraysubspro_bundle_config` (both receive `array $config, int $product_id`).
 
-Read the stored terms from the subscription, not the product:
+Without ArraySubs Pro, `modules` has only the `box` block, and WooCommerce loads a bundle product as a `simple` product. With Pro active but no license, `bundle.terms` is still read and `bundle.enabled` is `false`. Check `isset( $data['modules']['bundle'] )` instead of assuming Pro is present.
+
+See [Subscription Boxes](../subscription-products/subscription-box.md) and [Subscription Bundles](../subscription-products/subscription-bundle.md) for the merchant setup.
+
+### Add your own module block
+
+`data()` builds the `modules` group through a filter, so a product module of your own can report its settings the same way:
+
+```text
+apply_filters( 'arraysubs_developer_product_modules', array $modules, WC_Product $product )
+```
+
+| Parameter | Type | Notes |
+| --- | --- | --- |
+| `$modules` | array | Starts as `array( 'box' => ... )`. ArraySubs Pro adds `bundle` at priority 10. |
+| `$product` | `WC_Product` | The product or variation being read. |
+
+The filter runs only when the `modules` group is requested. Return the array, keep the `configured` / `enabled` / `terms` shape, and leave out secrets and private file paths.
 
 ```php
 <?php
-function myplugin_agreed_terms( int $subscription_id ) {
-    if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
-        return null;
-    }
+add_filter( 'arraysubs_developer_product_modules', function ( array $modules, WC_Product $product ) {
+    $course_id = (int) $product->get_meta( '_myplugin_course_id' );
 
-    $subscription = \ArraySubs\Api\Subscriptions::get(
-        $subscription_id,
-        array(
-            'output' => 'data',
-            'fields' => array( 'plan', 'pricing', 'schedule', 'trial' ),
-        )
+    $modules['myplugin_course'] = array(
+        'configured' => $course_id > 0,
+        'enabled'    => true,
+        'terms'      => $course_id > 0 ? array( 'course_id' => $course_id ) : null,
     );
 
-    // pricing.recurring_amount and schedule.billing_interval / billing_period are what renewals charge.
-    return is_wp_error( $subscription ) ? null : $subscription;
+    return $modules; // Always return the array.
+}, 20, 2 );
+```
+
+## List Variations
+
+```text
+$product->variations( array $args = [] )
+```
+
+| Argument | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `page` | int | `1` | 1 or more. |
+| `per_page` | int | `20` | 1 to 100. |
+| `output` | string | `data` | `data` (arrays like `data()` returns), `ids` (ints) or `object` (`WC_Product_Variation`). |
+| `fields` | string[] | `[]` (every group) | Field groups for `data` output. |
+
+- **Returns** a [page envelope](#page-envelope), or `WP_Error`. There is no `total` key.
+- Lists the published variations of this product in ascending ID order. Disabled variations are not listed. A simple product, box, bundle or variation returns an empty envelope.
+- With `data` or `object` output, each variation goes through `fromId()`, and a variation that does not resolve (for example one without the subscription flag) is skipped. A page can then hold fewer than `per_page` items, so keep paging while `has_more` is `true`. `ids` output lists every published variation ID.
+- Pass `fields` with `data` output. Every group of every variation is built otherwise.
+- Errors: `invalid_query` (an argument other than the four above, a bad `page` or `per_page`), `validation` (an unknown `output`, or `fields` that is not an array), `invalid_field` (an unknown group).
+- **Read only:** no writes.
+
+## List Plan Switch Targets
+
+```text
+$product->plans( string $direction = 'upgrade', array $args = [] )
+```
+
+| Argument | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `$direction` | string | `upgrade` | `upgrade`, `downgrade` or `crossgrade`. Anything else returns `validation`. |
+| `page` | int | `1` | 1 or more. |
+| `per_page` | int | `20` | 1 to 100. |
+| `output` | string | `ids` | `ids` (ints), `object` (`WC_Product`) or `data` (arrays like `data()` returns). |
+| `fields` | string[] | `[]` (every group) | Field groups for `data` output. |
+
+Targets come from the product's **Upgrade to**, **Downgrade to** or **Crossgrade to** list on the **Linked Products** tab (set per variation on variable products). A listed target is kept only when:
+
+- it is not the product itself;
+- it is a published subscription product and in stock, and a variation target also has a published parent;
+- its price per day falls in that direction compared with this product: more than 5% higher for `upgrade`, more than 5% lower for `downgrade`, and within 5% for `crossgrade`. A month counts as 30 days and a year as 365.
+
+Kept targets are sorted by ascending ID. A target that the current user cannot resolve with `fromId()` is left out of `items`.
+
+While plan switching and the requested direction are on:
+
+```php
+<?php
+$targets = array(
+    'items'     => array( 456, 789 ), // IDs, WC_Product objects or data arrays, depending on output.
+    'page'      => 1,
+    'per_page'  => 20,
+    'has_more'  => false,
+    'next_page' => null,
+    'total'     => 2,    // Eligible targets on all pages.
+    'enabled'   => true,
+);
+```
+
+While **Enable Plan Switching**, or the matching **Allow Upgrades**, **Allow Downgrades** or **Allow Crossgrades (Same Tier)** switch, is off in **ArraySubs -> Settings -> Plan Switching**:
+
+```php
+<?php
+$targets = array(
+    'items'            => array(),
+    'page'             => 1,
+    'per_page'         => 20,
+    'has_more'         => false,
+    'next_page'        => null,
+    'enabled'          => false,
+    'configured_count' => 1, // Eligible targets that would be listed.
+);
+```
+
+- This is product configuration, not a switch quote. Whether one subscription can switch, and what it pays, also depends on that subscription (its price, status and any pending switch) and is decided by the switch workflow.
+- The **Auto-downgrade to** product is not part of `plans()`.
+- Errors: `validation` (unknown direction), `invalid_query` (an argument other than the four above, a bad `page` or `per_page`, an unknown `output`, or `fields` that is not an array), `invalid_field` (an unknown group with `data` output).
+- **Read only:** no writes.
+
+See [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) for the merchant setup.
+
+## Page Envelope
+
+`variations()`, `plans()` and `relationships.variations` return the same paged shape:
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `items` | array | The current page. Empty past the last page. |
+| `page` | int | The page you asked for. |
+| `per_page` | int | The page size. |
+| `has_more` | bool | `true` when another page exists. |
+| `next_page` | int or null | The next page number, or `null` on the last page. |
+
+`plans()` adds `total` and `enabled` (`true`), or `enabled` (`false`) and `configured_count` while switching is off.
+
+## Catalog Terms vs Agreed Terms
+
+`Product` reports catalog terms: what a new customer would buy today. At checkout, ArraySubs stores the purchased line's terms on the new subscription (unit price, billing period and interval, length, trial, sign-up fee and any different renewal price), and renewals charge from those stored terms. Changing a product's price or schedule later does not change existing subscriptions.
+
+Read a member's agreed terms from the subscription with `Subscriptions::fromId( $id )->data( array( 'plan', 'pricing', 'schedule' ) )`. See [Find and Update Subscriptions](./subscriptions.md).
+
+This function compares the two:
+
+```php
+<?php
+/**
+ * true when a subscription renews below its plan's current catalog price.
+ */
+function myplugin_has_locked_in_price( int $subscription_id ) {
+    if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) || ! class_exists( '\ArraySubs\Developer\Product' ) ) {
+        return new WP_Error( 'myplugin_unavailable', 'ArraySubs is not active.' );
+    }
+
+    $subscription = \ArraySubs\Developer\Subscriptions::fromId( $subscription_id );
+    $agreed       = is_wp_error( $subscription ) ? $subscription : $subscription->data( array( 'plan', 'pricing' ) );
+    if ( is_wp_error( $agreed ) ) {
+        return $agreed;
+    }
+
+    $product = \ArraySubs\Developer\Product::fromId( $agreed['plan']['effective_product_id'] );
+    if ( is_wp_error( $product ) ) {
+        return $product; // For example forbidden after the plan was unpublished.
+    }
+
+    $catalog = $product->data( array( 'pricing' ) );
+    if ( is_wp_error( $catalog ) || '' === $catalog['pricing']['price'] || $catalog['pricing']['currency'] !== $agreed['pricing']['currency'] ) {
+        return false; // Nothing comparable.
+    }
+
+    return (float) $agreed['pricing']['recurring_amount'] < (float) $catalog['pricing']['price'];
 }
 ```
 
-For the computed current plan and any pending plan switch, see [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md).
+## Errors
 
-## Existing Product Helpers
+Every failure is a `WP_Error`. The codes carry no error data, so there is no HTTP `status`: a REST route that returns one unchanged answers with status 500. Add a status yourself, as in [Serve plan terms from a REST route](#serve-plan-terms-from-a-rest-route).
 
-These global helpers remain available. They are handy for quick checks; the `Products` class is the documented data contract with errors, contexts and field groups.
-
-| Helper | Returns | Notes |
+| Code | Returned by | When |
 | --- | --- | --- |
-| `arraysubs_get_product_subscription_data( $product )` | `?array` | `null` unless the product or variation is a subscription product. Keys: `product_id`, `price`, `period`, `interval`, `length`, `trial_length`, `trial_period`, `signup_fee`, `enable_different_renewal_price`, `different_renewal_price`, `different_renewal_price_after`; licensed Pro Flexible Subscription adds `flex_mode` and `flex_periods`. Filtered by `arraysubs_product_subscription_data` (`array $data`, `WC_Product $product`). |
-| `arraysubs_is_subscription_product( $product )` | `bool` | The flag check `Products::is_subscription_product()` also uses. |
-| `arraysubs_get_wc_product( $product )` | `?WC_Product` | Accepts an ID or a `WC_Product`. |
-| `arraysubs_get_current_product()` | `?WC_Product` | The product of the current single-product request. |
-| `arraysubs_product_has_free_trial( $product )` | `bool` | `true` when the trial length is above 0. |
-| `arraysubs_is_lifetime_product( $product )` | `bool` | Checks the billing period only. |
-| `arraysubs_get_subscription_products( array $args = array() )` | `WC_Product[]` or `int[]` | Published subscription products through `wc_get_products()`. Unlimited by default: always pass a `limit`. Do not pass `'paginate' => true`. |
-| `arraysubs_has_subscription_variations( $product )` | `bool` | Builds every available variation; avoid it in loops. |
-| `arraysubs_get_cart_item_subscription_data( array $cart_item )` | `?array` | Terms for a cart line (filter `arraysubs_cart_item_subscription_data`). |
-| `arraysubs_get_order_item_subscription_data( $item, $order = null )` | `?array` | Terms for an order line (filter `arraysubs_order_item_subscription_data`). |
-| `arraysubs_get_billing_schedule_string( int $interval, string $period )` | `string` | Display label such as `Every month`. Display only. |
-| `arraysubs_get_subscription_effective_product_id( int $subscription_id )` | `int` | The subscription's variation ID, or its product ID for simple products. |
-
-The helpers return `null` or `false` instead of `WP_Error`, accept only an ID or a `WC_Product` (a `WP_Post`, slug or URL gives `null`), and return raw types (for example `signup_fee` is a float or `0`).
+| `not_found` | `fromId()`, `fromSlug()`, `fromUrl()` | No WooCommerce product with that ID (also when called before `init`), no product or variation with that slug, a URL that is not a product, or no published variation matching the URL's variation arguments. |
+| `forbidden` | `fromId()` and everything that uses it | The product, or a variation's parent, is not published and the current user cannot read it. |
+| `unsupported` | `fromId()` and everything that uses it | The product is not a subscription product. |
+| `ambiguous` | `fromSlug()`, `fromUrl()` | More than one product or variation matches. |
+| `validation` | `fromSlug()`, `fromUrl()`, `variations()`, `plans()` | An empty slug or one with `/`; a URL that is not a local product permalink or has unsupported query arguments; variation arguments on a product that is not variable; a bad `variation_id`; an unknown `output` or non-array `fields` in `variations()`; an unknown direction in `plans()`. |
+| `invalid_field` | `data()`, `fromUrl()`, `variations()`, `plans()` | An unknown field group, or an `attribute_*` argument that is not a variation attribute of the product. |
+| `invalid_query` | `variations()`, `plans()` | An unknown argument, a `page` below 1 or not a whole number, or a `per_page` outside 1 to 100. In `plans()`, also an unknown `output` or non-array `fields`. |
 
 ## Examples
 
 ### Show a plan's price and schedule
 
-The minimal case: print the renewal amount and schedule on a single product page.
+The minimal case: one line of terms on the single product page.
 
 ```php
 <?php
+/**
+ * One line of plan terms, for example "$29.99 / Every month - 7 days free trial".
+ */
+function myplugin_plan_terms_line( int $product_id ): string {
+    if ( ! class_exists( '\ArraySubs\Developer\Product' ) ) {
+        return '';
+    }
+
+    $product = \ArraySubs\Developer\Product::fromId( $product_id );
+    if ( is_wp_error( $product ) || $product->object()->is_type( 'variable' ) ) {
+        return ''; // Not a readable subscription product, or a variable parent: read its variations.
+    }
+
+    $terms = $product->data( array( 'pricing', 'billing', 'trial' ) );
+    if ( is_wp_error( $terms ) || '' === $terms['pricing']['price'] ) {
+        return ''; // No stored catalog price to show.
+    }
+
+    $line = wc_price( $terms['pricing']['price'], array( 'currency' => $terms['pricing']['currency'] ) )
+        . ' / ' . esc_html( arraysubs_get_billing_schedule_string( $terms['billing']['interval'], $terms['billing']['period'] ) );
+
+    if ( $terms['trial']['length'] > 0 ) {
+        $line .= ' - ' . esc_html(
+            sprintf(
+                /* translators: %s: trial duration such as "7 days". */
+                __( '%s free trial', 'myplugin' ),
+                arraysubs_get_duration_string( $terms['trial']['length'], $terms['trial']['period'] )
+            )
+        );
+    }
+
+    return $line;
+}
+
 add_action( 'woocommerce_single_product_summary', function () {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return;
+    $line = myplugin_plan_terms_line( get_the_ID() );
+
+    if ( '' !== $line ) {
+        echo '<p class="myplugin-plan-terms">' . wp_kses_post( $line ) . '</p>';
     }
-
-    $terms = \ArraySubs\Api\Products::get( get_the_ID(), array( 'fields' => array( 'pricing', 'schedule' ) ) );
-
-    // Errors, variable parents (null groups) and boxes (null amount) print nothing.
-    if ( is_wp_error( $terms ) || null === $terms['pricing'] || null === $terms['pricing']['recurring_amount'] ) {
-        return;
-    }
-
-    printf(
-        '<p class="myplugin-plan-terms">%1$s %2$s</p>',
-        wp_kses_post( wc_price( $terms['pricing']['recurring_amount'], array( 'currency' => $terms['pricing']['currency'] ) ) ),
-        esc_html( arraysubs_get_billing_schedule_string( $terms['schedule']['billing_interval'], $terms['schedule']['billing_period'] ) )
-    );
 }, 25 );
 ```
 
-### Resolve a plan URL from your settings
+A lifetime product prints its price followed by `Lifetime Deal`, the label `arraysubs_get_billing_schedule_string()` returns for the `lifetime` period.
 
-Failure handling: map each error code to a message the merchant can act on.
+### Resolve a saved plan link or slug
+
+Failure handling: turn each error code into a message the merchant can act on.
 
 ```php
 <?php
-function myplugin_resolve_plan_url( string $url ) {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
+/**
+ * Resolve a saved plan reference (a product link or a slug) for your settings screen.
+ */
+function myplugin_resolve_plan( string $reference ) {
+    if ( ! class_exists( '\ArraySubs\Developer\Product' ) ) {
         return new WP_Error( 'myplugin_unavailable', __( 'ArraySubs is not active.', 'myplugin' ) );
     }
 
-    $terms = \ArraySubs\Api\Products::get_by_url( $url, array( 'fields' => array( 'identity', 'pricing', 'schedule' ) ) );
+    $reference = trim( $reference );
+    $product   = preg_match( '#^https?://#i', $reference )
+        ? \ArraySubs\Developer\Product::fromUrl( $reference )
+        : \ArraySubs\Developer\Product::fromSlug( $reference );
 
-    if ( ! is_wp_error( $terms ) ) {
-        return $terms;
+    if ( ! is_wp_error( $product ) ) {
+        return $product;
     }
 
-    switch ( $terms->get_error_code() ) {
-        case 'invalid_argument':
-            $message = __( 'Use the plan page URL from this store.', 'myplugin' );
-            break;
-        case 'not_found':
-            $message = __( 'That plan does not exist or is not published.', 'myplugin' );
-            break;
-        case 'unsupported_entity':
-            $message = __( 'That product is not a subscription plan.', 'myplugin' );
-            break;
-        case 'ambiguous_match':
-            $message = __( 'Pick one plan option, for example monthly or annual.', 'myplugin' );
-            break;
-        default:
-            $message = $terms->get_error_message();
-    }
+    $messages = array(
+        'validation'    => __( 'Use a product link from this store (no extra query arguments) or a product slug.', 'myplugin' ),
+        'invalid_field' => __( 'The link selects an option this product does not have.', 'myplugin' ),
+        'ambiguous'     => __( 'More than one plan matches. Use a link to one option or the product ID.', 'myplugin' ),
+        'not_found'     => __( 'No plan matches this link or slug.', 'myplugin' ),
+        'forbidden'     => __( 'This plan is not published.', 'myplugin' ),
+        'unsupported'   => __( 'This product is not a subscription plan.', 'myplugin' ),
+    );
+    $code = $product->get_error_code();
 
-    return new WP_Error( 'myplugin_plan_url', $message, $terms->get_error_data() );
+    return new WP_Error( 'myplugin_plan_reference', $messages[ $code ] ?? $product->get_error_message(), array( 'arraysubs_code' => $code ) );
 }
 
-// Showing the result in an admin notice:
-// $result = myplugin_resolve_plan_url( $saved_url );
-// if ( is_wp_error( $result ) ) {
-//     echo '<div class="notice notice-error"><p>' . esc_html( $result->get_error_message() ) . '</p></div>';
+// On your settings screen:
+// $plan = myplugin_resolve_plan( (string) get_option( 'myplugin_plan' ) );
+// if ( is_wp_error( $plan ) ) {
+//     echo '<div class="notice notice-error"><p>' . esc_html( $plan->get_error_message() ) . '</p></div>';
 // }
-```
-
-### Serve plan terms from your own REST route
-
-The public route uses the default `view` context. The second route uses `edit` context, so it checks a capability first. Error data carries `status`, so a returned `WP_Error` becomes the matching HTTP status.
-
-```php
-<?php
-add_action( 'rest_api_init', function () {
-    register_rest_route(
-        'myplugin/v1',
-        '/plan-terms',
-        array(
-            'methods'             => 'GET',
-            'permission_callback' => '__return_true',
-            'args'                => array(
-                'url' => array(
-                    'type'     => 'string',
-                    'required' => true,
-                ),
-            ),
-            'callback'            => function ( WP_REST_Request $request ) {
-                if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-                    return new WP_Error( 'myplugin_unavailable', 'Plans are unavailable.', array( 'status' => 503 ) );
-                }
-
-                // Customer-safe: published products only, no feature types.
-                return \ArraySubs\Api\Products::get_by_url(
-                    (string) $request->get_param( 'url' ),
-                    array( 'fields' => array( 'identity', 'pricing', 'schedule', 'trial', 'signup_fee' ) )
-                );
-            },
-        )
-    );
-
-    register_rest_route(
-        'myplugin/v1',
-        '/plan-terms/(?P<id>\d+)/edit',
-        array(
-            'methods'             => 'GET',
-            'permission_callback' => function () {
-                return current_user_can( 'edit_products' );
-            },
-            'callback'            => function ( WP_REST_Request $request ) {
-                if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-                    return new WP_Error( 'myplugin_unavailable', 'Plans are unavailable.', array( 'status' => 503 ) );
-                }
-
-                return \ArraySubs\Api\Products::get( absint( $request['id'] ), array( 'context' => 'edit' ) );
-            },
-        )
-    );
-} );
-```
-
-### Detect grandfathered pricing
-
-Compare what a member agreed to pay with today's catalog price.
-
-```php
-<?php
-function myplugin_is_grandfathered( int $subscription_id ) {
-    if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) || ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return new WP_Error( 'myplugin_unavailable', 'ArraySubs is not active.' );
-    }
-
-    $subscription = \ArraySubs\Api\Subscriptions::get(
-        $subscription_id,
-        array(
-            'output' => 'data',
-            'fields' => array( 'plan', 'pricing' ),
-        )
-    );
-    if ( is_wp_error( $subscription ) ) {
-        return $subscription;
-    }
-
-    $product = \ArraySubs\Api\Products::get(
-        $subscription['plan']['effective_product_id'],
-        array( 'fields' => array( 'pricing' ) )
-    );
-    if ( is_wp_error( $product ) ) {
-        return $product; // For example not_found when the plan is no longer published.
-    }
-
-    $catalog = $product['pricing'];
-    if ( null === $catalog['recurring_amount'] || $catalog['currency'] !== $subscription['pricing']['currency'] ) {
-        return false; // Not comparable: a box product or another currency.
-    }
-
-    $decimals = (int) $catalog['decimals'];
-
-    return round( (float) $subscription['pricing']['recurring_amount'], $decimals ) < round( (float) $catalog['recurring_amount'], $decimals );
-}
-```
-
-### Export every variation
-
-Walk all pages of a variable plan's variations with the cursor.
-
-```php
-<?php
-function myplugin_export_variations( int $parent_id ): array {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return array();
-    }
-
-    $rows = array();
-    $args = array(
-        'output'   => 'data',
-        'fields'   => array( 'identity', 'pricing', 'schedule' ),
-        'per_page' => 100,
-    );
-
-    do {
-        $page = \ArraySubs\Api\Products::get_variations( $parent_id, $args );
-        if ( is_wp_error( $page ) ) {
-            error_log( 'Variation export stopped: ' . $page->get_error_code() );
-            break;
-        }
-
-        foreach ( $page['items'] as $variation ) {
-            $rows[] = array(
-                'id'       => $variation['id'],
-                'name'     => $variation['identity']['name'],
-                'price'    => $variation['pricing']['price'],
-                'currency' => $variation['pricing']['currency'],
-                'period'   => $variation['schedule']['billing_period'],
-            );
-        }
-
-        $args['cursor'] = $page['next_cursor'];
-    } while ( $page['has_more'] );
-
-    return $rows;
-}
 ```
 
 ### List upgrade targets
 
 ```php
 <?php
-add_action( 'woocommerce_after_add_to_cart_form', function () {
-    if ( ! class_exists( '\ArraySubs\Api\Products' ) ) {
-        return;
+/**
+ * Upgrade targets of a plan as display rows. Empty when there are none or upgrades are switched off.
+ */
+function myplugin_upgrade_targets( int $product_id ): array {
+    if ( ! class_exists( '\ArraySubs\Developer\Product' ) ) {
+        return array();
     }
 
-    $terms = \ArraySubs\Api\Products::get( get_the_ID(), array( 'fields' => array( 'plans' ) ) );
-    if ( is_wp_error( $terms ) || empty( $terms['plans']['upgrades'] ) ) {
-        return; // No targets, or a variable parent (targets are per variation).
+    $product = \ArraySubs\Developer\Product::fromId( $product_id );
+    if ( is_wp_error( $product ) ) {
+        return array();
     }
 
-    echo '<ul class="myplugin-upgrades">';
-    foreach ( $terms['plans']['upgrades'] as $target_id ) {
-        $target = \ArraySubs\Api\Products::get( $target_id, array( 'fields' => array( 'identity' ) ) );
-        if ( is_wp_error( $target ) ) {
-            continue; // Unpublished, removed or no longer a subscription product.
-        }
-        printf(
-            '<li><a href="%1$s">%2$s</a></li>',
-            esc_url( $target['identity']['permalink'] ),
-            esc_html( $target['identity']['name'] )
+    $targets = $product->plans(
+        'upgrade',
+        array(
+            'output' => 'data',
+            'fields' => array( 'identity', 'pricing' ),
+        )
+    );
+
+    // enabled is false while plan switching or upgrades are off in the plan switching settings.
+    if ( is_wp_error( $targets ) || ! $targets['enabled'] ) {
+        return array();
+    }
+
+    $rows = array();
+    foreach ( $targets['items'] as $target ) {
+        $rows[] = array(
+            'name'     => $target['identity']['name'],
+            'url'      => $target['identity']['permalink'],
+            'price'    => $target['pricing']['price'],
+            'currency' => $target['pricing']['currency'],
         );
     }
-    echo '</ul>';
+
+    return $rows;
+}
+
+// Output:
+// foreach ( myplugin_upgrade_targets( 123 ) as $row ) {
+//     printf( '<li><a href="%1$s">%2$s</a> %3$s</li>', esc_url( $row['url'] ), esc_html( $row['name'] ), wp_kses_post( wc_price( $row['price'], array( 'currency' => $row['currency'] ) ) ) );
+// }
+```
+
+This returns the first 20 targets. For more, pass `page` and `per_page` and follow `next_page`, as in the next example.
+
+### Walk every variation
+
+```php
+<?php
+/**
+ * Price and schedule of every variation of a variable plan, page by page.
+ */
+function myplugin_variation_terms( int $parent_id ): array {
+    if ( ! class_exists( '\ArraySubs\Developer\Product' ) ) {
+        return array();
+    }
+
+    $parent = \ArraySubs\Developer\Product::fromId( $parent_id );
+    if ( is_wp_error( $parent ) ) {
+        return array();
+    }
+
+    $rows = array();
+    $page = 1;
+
+    do {
+        $result = $parent->variations(
+            array(
+                'page'     => $page,
+                'per_page' => 50,
+                'fields'   => array( 'identity', 'pricing', 'billing' ),
+            )
+        );
+        if ( is_wp_error( $result ) ) {
+            break;
+        }
+
+        foreach ( $result['items'] as $variation ) {
+            $rows[] = array(
+                'id'       => $variation['identity']['id'],
+                'name'     => $variation['identity']['name'],
+                'price'    => $variation['pricing']['price'],
+                'schedule' => arraysubs_get_billing_schedule_string( $variation['billing']['interval'], $variation['billing']['period'] ),
+            );
+        }
+
+        $page = $result['next_page'];
+    } while ( null !== $page );
+
+    return $rows;
+}
+```
+
+A product that is not variable returns an empty list.
+
+### Serve plan terms from a REST route
+
+The route is public, so it relies on the [visibility](#visibility) rules: logged-out visitors get published plans only, and a shop manager signed in to the admin can also read drafts. The error codes are mapped to HTTP statuses because ArraySubs errors carry none.
+
+```php
+<?php
+add_action( 'rest_api_init', function () {
+    register_rest_route(
+        'myplugin/v1',
+        '/plans/(?P<id>\d+)',
+        array(
+            'methods'             => 'GET',
+            'permission_callback' => '__return_true',
+            'callback'            => function ( WP_REST_Request $request ) {
+                if ( ! class_exists( '\ArraySubs\Developer\Product' ) ) {
+                    return new WP_Error( 'myplugin_unavailable', 'Plans are unavailable.', array( 'status' => 503 ) );
+                }
+
+                $product = \ArraySubs\Developer\Product::fromId( (int) $request['id'] );
+
+                // For a variable parent, relationships.variations lists the variation IDs to request instead.
+                $terms = is_wp_error( $product ) ? $product : $product->data( array( 'identity', 'relationships', 'pricing', 'billing', 'trial' ) );
+
+                if ( is_wp_error( $terms ) ) {
+                    // ArraySubs errors carry no HTTP status. Without one, the REST API answers 500.
+                    $statuses = array(
+                        'not_found'   => 404,
+                        'forbidden'   => 403,
+                        'unsupported' => 422,
+                    );
+
+                    return new WP_Error( $terms->get_error_code(), $terms->get_error_message(), array( 'status' => $statuses[ $terms->get_error_code() ] ?? 400 ) );
+                }
+
+                return rest_ensure_response( $terms );
+            },
+        )
+    );
 } );
 ```
 
+## Product Helper Functions
+
+These global helpers are available alongside the class. They return `null`, `false` or raw values instead of `WP_Error`.
+
+| Helper | Returns | Notes |
+| --- | --- | --- |
+| `arraysubs_is_subscription_product( $product )` | bool | `true` when the product or variation itself has the **Subscription [AS]** flag. Accepts an ID or a `WC_Product`. Does not check post status. |
+| `arraysubs_get_product_subscription_data( $product )` | array or null | The raw terms checkout uses: `product_id`, `price`, `period`, `interval`, `length`, `trial_length`, `trial_period`, `signup_fee`, `enable_different_renewal_price`, `different_renewal_price`, `different_renewal_price_after`. Pro Flexible Subscription adds `flex_mode` and `flex_periods`. `null` for a product that is not a subscription product. Filtered by `arraysubs_product_subscription_data` (`array $data`, `WC_Product $product`). |
+| `arraysubs_get_product_term_description( $product )` | string | Customer-facing HTML summary of the terms (price, renewal price, sign-up fee, trial, length). Escape it with `wp_kses_post()`. |
+| `arraysubs_get_subscription_products( array $args = [] )` | array | `wc_get_products()` with `is_subscription => true`, `status => publish`, `return => objects` and an unlimited `limit` by default. Always pass a `limit`; `paginate` is not supported. |
+| `arraysubs_get_billing_schedule_string( int $interval, string $period )` | string | Display label such as `Every month`, `Every 2 weeks` or `Lifetime Deal`. |
+| `arraysubs_get_duration_string( int $interval, string $period )` | string | Display label such as `14 days` or `1 month`. |
+
 ## Edge Cases and Important Notes
 
-- **No writes, ever.** Change subscription terms in the WooCommerce product editor or with [Quick Product Creation](../subscription-products/quick-product-creation.md). Do not write ArraySubs product meta directly: direct writes skip validation, lifetime normalization and the parent-to-variation flag sync.
-- **No raw meta.** The reader returns the documented groups only. Settings outside them, such as Pro shipping options, are not part of this contract.
-- **Variable parents** have `null` term groups. Read a variation.
-- **Module switches.** Switching the Subscription Box or Subscription Bundle module off drafts those products, so `view` reads return `not_found`. Existing subscriptions keep renewing.
-- **Without Pro**, a bundle product loads as a simple WooCommerce product: its mirrored schedule and stored price still read, and `bundle` is `null`.
-- **Trashed products** return `not_found` in both contexts, even though their subscriptions keep renewing. Read those subscriptions' stored terms instead.
-- **Prices are filtered by WooCommerce**, so currency or dynamic-pricing plugins that filter product prices affect `pricing`. Coupons are not part of product terms.
-- **Feature types** appear only in `edit` context and never belong in customer-facing output, HTML classes or data attributes.
-- **Plan lists are configuration**, not per-subscription eligibility.
-- **Store credit products** (Pro) are not subscription products and return `unsupported_entity`.
+- **No writes.** Change terms in the WooCommerce product editor. Do not write ArraySubs product meta directly. To update an existing product feature row (Pro Feature Manager), use `Features::forProduct()` on [Read and Update Feature Data](./feature-manager.md).
+- **Variable parents** are not plans: their `billing` group shows the parent's own saved values (usually the `month` and `1` defaults), and switch targets are set per variation. Read a variation.
+- **Boxes** have no stored price and are priced from the customer's selection. Read the box contents and schedule from `modules.box.terms`.
+- **Module switches.** Switching the Subscription Box or Subscription Bundle module off in **ArraySubs -> Modules** moves its published products to draft, so `fromId()` returns `forbidden` for visitors. Existing subscriptions keep renewing.
+- **Feature types are never included.** `features.effective` rows have no `type`. Keep internal feature types out of customer-facing output.
+- **`plans()` is configuration.** It is filtered by product-level eligibility only, so a listed target is not a promise that a particular subscription can switch to it.
+- **Prices are stored values.** `pricing` reads the catalog prices as saved. Coupons and member discounts are not part of product terms.
+- **Store credit products** (Pro) are not subscription products and return `unsupported`.
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 | --- | --- | --- |
-| Every lookup returns `not_found` | Your code runs before `init`, when WooCommerce cannot load products | Move the call to `init` priority 20, `wp_loaded`, `template_redirect` or a REST callback. |
-| `not_found` for a product you can see in the admin | It is a draft, pending, private or trashed product, or its box/bundle module is switched off | Check the status. Use `context` `edit` behind your own capability check for unpublished products. |
-| `unsupported_entity` | The product or variation is not a subscription product | Check the **Subscription [AS]** checkbox in the product editor and save the product (this also syncs its variations). |
-| `invalid_argument` from `get_by_url()` | Another host, a non-product page or a shortlink | Pass the product permalink (`identity.permalink` or `get_permalink()`), or read the ID and call `get()`. |
-| `ambiguous_match` | Incomplete `attributes` ("Any" values) or a duplicate slug | Pass every attribute, or use `variation_id`. The candidate IDs are in `get_error_data()['details']`. |
-| `pricing` and `schedule` are `null` | You read a variable parent | Select a variation, or call `get_variations()`. |
-| `recurring_amount` is `null` | A Subscription Box: the price depends on the customer's selection | Read the amount from the subscription after purchase. |
-| `bundle` or `modules` is `null` | Pro is not active with a license, or the product is not a bundle | Activate ArraySubs Pro and its license; check `identity.type`. |
-| The product price differs from what a member pays | Catalog terms vs stored terms | Read the subscription with `Subscriptions::get()` (`pricing`, `schedule`). |
-| Feature rows have no `type` | `view` context | Use `edit` context only in admin tooling, after a capability check. |
+| Every lookup returns `not_found` | Your code runs before `init`, when WooCommerce cannot load products yet | Move the call to `init` or later, such as `wp_loaded`, `template_redirect` or a REST callback. |
+| `forbidden` for a product you can see in the admin | The product, or a variation's parent, is a draft, pending or private (a switched-off module also drafts its products), and the code runs without a user who can read it, as in WP-CLI, cron or a visitor request | Publish the product or switch its module on, or run the read for a user who can read the product. |
+| `unsupported` | The product or variation does not have the **Subscription [AS]** flag | Check **Subscription [AS]** in the product editor and save the product. |
+| `validation` from `fromUrl()` | Another host or port, tracking arguments such as `utm_source`, or a shortlink | Pass the permalink (`identity.permalink` or `get_permalink()`) without extra arguments, or use `fromId()`. |
+| `not_found` from `fromUrl()` for a real product link | The site uses plain permalinks | Use `fromId()` or `fromSlug()`. |
+| `ambiguous` | Attributes left out, overlapping "Any" variations, or a slug shared by a product and a variation | Add `variation_id`, or use `fromId()`. |
+| `plans()` returns `enabled => false` | Plan switching, or that direction, is off | Turn it on in **ArraySubs -> Settings -> Plan Switching**. |
+| `plans()` lists fewer targets than you configured | A target is unpublished, out of stock or not a subscription product, or its price per day does not match the list it is in | Fix the target, or move it to the list that matches its price. |
+| `billing` shows `month` and `1` on a variable product | You read the variable parent | Read a variation, or use `variations()`. |
+| `pricing.price` is `''` | A Subscription Box, or no price saved | For a box, read `modules.box.terms`; the price comes from the customer's selection. |
+| `different_renewal_price_enabled` is `false` although the option is set | No active ArraySubs Pro license, or a lifetime product | Activate the Pro license. Lifetime products never use a renewal price. |
+| `modules` has no `bundle` | ArraySubs Pro is not active | Activate ArraySubs Pro. |
+| Your REST route answers 500 | It returns an ArraySubs `WP_Error`, which has no status | Add a `status` to the error data before returning it. |
 
 ## Related Guides
 
-- [Find and Update Subscriptions](./subscriptions.md) - read a subscription's stored plan, pricing and schedule.
-- [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) - current plan, pending plan switches and grace states.
-- [Read and Update Feature Data](./feature-manager.md) - effective feature values and usage.
-- [Check Content Access](./member-access.md) - evaluate the rules listed in `access`.
+- [Find and Update Subscriptions](./subscriptions.md) - a subscription's agreed plan, pricing and schedule.
+- [Read and Update Feature Data](./feature-manager.md) - product feature configuration, members' effective values and usage.
+- [Check Content Access](./member-access.md) - what a member can access.
+- [Read Member Discounts](./discounts.md) - a member's discounted price for a product.
+- [React to Supported Events](./actions-and-filters.md) - the supported actions and filters.
 - [Verify Your Integration](./errors-and-testing.md) - error handling and testing.
 - [Create and Configure Subscription Products](../subscription-products/create-and-configure.md) - merchant setup of the terms this page reads.
-- [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) - upgrade, downgrade and crossgrade setup.
+- [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) - upgrade, downgrade and crossgrade setup and settings.
 - [Subscription Boxes](../subscription-products/subscription-box.md) and [Subscription Bundles](../subscription-products/subscription-bundle.md) - box and bundle configuration.
-- [Product Lifecycle and Test Links](../subscription-products/product-lifecycle.md) - product snapshots, trash and delete behavior.
+- [Per-Post Access Restriction](../member-access/per-post-access-restriction.md) - the product page restriction reported in `access`.
 
 ## FAQ
 
 ### Can I change a product with this class?
 
-No. `Products` has no setters and never writes. Change terms in the product editor or create products with Quick Product Creation.
+No. `Product` only reads. Change terms in the product editor.
 
 ### Does editing a product's price change existing subscriptions?
 
-No. Each subscription keeps the price and schedule it was bought with. Feature Manager rows and the renewal order line details (name, SKU, tax and shipping) are read from the current product.
+No. Each subscription keeps the price and schedule it was bought with, and renewals charge from those stored terms. Read them with `Subscriptions::fromId()`.
 
 ### How do I get the `WC_Product` object?
 
-Call `wc_get_product( $terms['id'] )`, or use `get_variations()` with the default `object` output for variations.
+Call `$product->object()`, or use `variations()` or `plans()` with `'output' => 'object'`.
 
-### Is the output safe to show customers?
+### Why does `plans()` return nothing on my store?
 
-The default `view` context is: it reads published products only and never includes feature types. Escape values when you print them.
+Check `enabled` first: it is `false` while plan switching or that direction is off, and `configured_count` then shows how many targets would be listed. When `enabled` is `true` and `items` is empty, no configured target passed the eligibility checks.
 
-### Does `get_by_url()` make an HTTP request?
+### Why does a variation report `inherited => true` in `features`?
 
-No. It parses the URL and matches it against this site's product permalinks. External URLs return `invalid_argument`.
+The variation has no feature rows of its own, so its `effective` rows come from the parent product.
 
 ### How do I list all subscription products?
 
-`Products` reads one product at a time. Get IDs with `arraysubs_get_subscription_products( array( 'limit' => 20, 'return' => 'ids' ) )` (always set a `limit`), then read each with `Products::get()`.
+`Product` reads one product at a time. Get IDs with `arraysubs_get_subscription_products( array( 'limit' => 20, 'return' => 'ids' ) )` (always set a `limit`), then read each with `Product::fromId()`.
 
-### Why is `plans` empty on my variable product?
+### Does `fromUrl()` make an HTTP request?
 
-Switch targets are configured per variation. Read the variation, for example `Products::get( 123, array( 'variation_id' => 457, 'fields' => array( 'plans' ) ) )`.
+No. It parses the URL and matches it against this site's product permalinks. URLs on another host return `validation`.

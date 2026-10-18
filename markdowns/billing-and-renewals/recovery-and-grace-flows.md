@@ -163,9 +163,9 @@ Setting the active grace period too short may move subscriptions to On-Hold befo
 
 ### Grace state for developers
 
-Custom code should not guess the grace phase from the status label. `ArraySubs\Api\Lifecycle::get_state()` returns the stored status together with the computed phase (`renewal_due`, `grace`, `on_hold` and others), the grace stage (`before_on_hold` or `before_cancel`), the projected On-Hold and cancellation dates, the policy in use (site or subscription) and the retry state. It also reports the two paths above as skipped grace. Reading it never moves a subscription between phases.
+Custom code should not guess the grace phase from the status label. `\ArraySubs\Developer\Subscriptions::fromId( 123 )->data( array( 'status', 'recovery' ) )` returns the stored status together with a computed `recovery` block: the `phase` (`none`, `awaiting_invoice`, `before_on_hold`, `on_hold_due`, `on_hold` or `cancellation_due`), whether the renewal is overdue, the dates the subscription becomes eligible for On-Hold (`hold_eligible_at`) and for cancellation (`cancel_eligible_at`), the grace `policy` in use (site or subscription) and the retry state (`retry_attempts`, `next_retry_at`, `failure_category`). Reading it never moves a subscription between phases.
 
-To react to changes, listen for the lifecycle events `grace_started`, `grace_changed`, `grace_recovered`, `grace_ended`, `on_hold`, `cancelled`, `payment_retry_scheduled`, `payment_retry_attempted` and `payment_retry_exhausted`, or the matching native actions such as `arraysubs_grace_period_started` and `arraysubs_payment_retry_exhausted`. See [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) and [React to Supported Events](../developers/actions-and-filters.md).
+To react to changes, listen for the native actions `arraysubs_data_put_on_hold`, `arraysubs_grace_recovered`, `arraysubs_payment_retry_scheduled` and `arraysubs_payment_retry_exhausted`, or for the `renewal_failed`, `granted` and `revoked` events of `arraysubs_lifecycle_event`. See [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) and [React to Supported Events](../developers/actions-and-filters.md).
 
 ---
 

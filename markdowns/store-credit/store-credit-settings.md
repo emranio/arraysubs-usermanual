@@ -65,12 +65,12 @@ These settings control how and when credit is consumed.
 
 | Setting | Type | Default | What it controls |
 |---------|------|---------|-----------------|
-| **Auto-Apply to Renewals** | Toggle | On | When enabled, available customer credit is also applied to subscription renewal invoices, after that subscription's own credit. Subscription-level credit is applied to its subscription's renewals first whenever Store Credit is active, even when this toggle is off. |
+| **Auto-Apply to Renewals** | Toggle | On | When enabled, available credit is applied to subscription renewal invoices: the subscription's own credit first, then the customer's credit. When it is off, no credit of either kind is applied to renewals. |
 | **Allow at Checkout** | Toggle | Off | When enabled, credit is automatically applied to new subscription purchases at checkout. Only applies to orders that contain subscription products. |
 | **Minimum Order Amount** | Number | 0 | Credit can only be applied to orders above this amount. Set to `0` to allow credit on any order regardless of total. Accepts decimal values (e.g., `25.00`). |
 
 ```box class="info-box"
-**Auto-Apply to Renewals** is the most impactful setting here. When it is on, customers with credit never need to take action — their credit silently reduces each renewal total. When it is off, customer credit accumulates and is only spent at checkout when **Allow at Checkout** is enabled for new purchases. Subscription credit from plan switches is still applied to that subscription's renewals.
+**Auto-Apply to Renewals** is the most impactful setting here. When it is on, customers with credit never need to take action — their credit silently reduces each renewal total. When it is off, no credit is applied to renewals at all: customer credit accumulates and is only spent at checkout when **Allow at Checkout** is enabled for new purchases, and subscription credit from plan switches waits until you turn the toggle back on.
 ```
 
 **How the minimum order amount works:** If you set this to `$50.00` and a renewal invoice is `$35.00`, credit will **not** be applied to that invoice. The full $35.00 is charged through the normal payment method. This prevents credit from being consumed on small recurring charges where you prefer full payment.
@@ -79,8 +79,8 @@ These settings control how and when credit is consumed.
 
 | Credit | Applied to renewal invoices when |
 |--------|----------------------------------|
-| Subscription credit (from plan switches) | Always, to that subscription's own renewals and before any customer credit, whenever Store Credit is active |
-| Customer credit | Only when **Auto-Apply to Renewals** is on, after the subscription's own credit |
+| Subscription credit (from plan switches) | When **Auto-Apply to Renewals** is on, to that subscription's own renewals and before any customer credit |
+| Customer credit | When **Auto-Apply to Renewals** is on, after the subscription's own credit |
 
 ### Credit Expiration
 
@@ -185,14 +185,14 @@ Then create a Store Credit product with a bonus percentage (see [Purchase Produc
 - **Credit applied as a negative fee.** On the WooCommerce order, credit appears as a fee line item with a negative value. This keeps the original order total intact for reporting.
 - **Minimum order amount affects both renewals and checkout.** If set to $50, neither a $30 renewal nor a $30 checkout order will have credit applied.
 - **Expiration job timing.** The daily expiration batch runs at 3:00 AM server time. Credits that expire mid-day are not processed until the next batch run.
-- **Subscription credit vs. customer credit.** **Auto-Apply to Renewals** and **Allow at Checkout** control customer-level credit. Subscription-level credit (from plan switches) is always applied to that subscription's renewals first, whether or not **Auto-Apply to Renewals** is on, as long as the Store Credit module is on.
+- **Subscription credit vs. customer credit.** **Auto-Apply to Renewals** controls both kinds of credit on renewals: when it is on, the subscription's own credit (from plan switches) is applied first, then customer credit. **Allow at Checkout** controls customer credit at checkout.
 - **Plan-switch credit is a ledger entry.** When a plan switch leaves unused value, the excess is added to the subscription's credit as a permanent ledger entry (source **Plan Downgrade**). The customer gets one **Credit Added** email, and the expiration period counts from the moment the credit is created. Without Store Credit active, such a switch is applied at the next renewal instead and no credit is created.
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 |---------|-------------|------------|
-| Credit is not applied to renewals | For customer credit, Auto-Apply to Renewals is off. For any credit, the Store Credit module is off or the order total is below the minimum order amount | Enable the toggle, confirm the module is on in **ArraySubs -> Modules**, and check the minimum order amount |
+| Credit is not applied to renewals | Auto-Apply to Renewals is off, the Store Credit module is off, or the order total is below the minimum order amount | Enable the toggle, confirm the module is on in **ArraySubs -> Modules**, and check the minimum order amount |
 | Credit is not applied at checkout | Allow at Checkout is off, or the cart does not contain a subscription product | Enable the toggle and verify the cart contents |
 | No expiration emails sent | Expiration days is set to 0, or the email is disabled in WooCommerce settings | Set an expiration period and enable the Credit Expiring email in **WooCommerce → Settings → Emails** |
 | Credit purchase products not visible | Enable Credit Purchases is off, or no Store Credit product has been created | Enable the toggle and create a product (see [Purchase Product](purchase-product.md)) |
@@ -225,4 +225,4 @@ Before. The system checks if the order total (before credit) exceeds the minimum
 Only new credits receive the new expiration date. Existing credits keep their original expiration date. Credits that were issued with no expiration (when the setting was 0) will not retroactively gain an expiration date.
 
 ### Is subscription credit used when Auto-Apply to Renewals is off?
-Yes. Subscription credit, such as credit from a plan switch, is always applied to that subscription's renewal invoices first while Store Credit is active. **Auto-Apply to Renewals** only decides whether customer credit is applied as well.
+No. With **Auto-Apply to Renewals** off, renewal invoices get no credit, including subscription credit from a plan switch. The credit stays on the subscription and is applied to the next renewal invoice created after you turn the toggle back on.

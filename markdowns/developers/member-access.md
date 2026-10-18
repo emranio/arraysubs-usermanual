@@ -5,9 +5,9 @@
 
 # Check Content Access
 
-> Ask ArraySubs from your own PHP whether one subscription, a member or a logged-out visitor passes a conditions array or the saved Members Access rules for a post, archive, term, URL, product purchase or comment thread, without redirecting, rendering or switching users.
+> Ask ArraySubs from your own PHP whether a customer, one of their subscriptions or a logged-out visitor passes a conditions array or the saved Members Access rules for a post, a URL, a product or a comment thread, without redirecting, rendering or switching users.
 
-**Availability:** Core (Free). `ArraySubs\Api\MemberAccess` belongs to the core Members Access module and needs the Members Access setting turned on. Feature Value conditions are evaluated in core against saved Feature Manager values; you configure those values with Pro Feature Manager.
+**Availability:** Core (Free). `ArraySubs\Developer\MemberAccess` ships with the core plugin and has no Pro adapter. Saved rules are enforced only while the Members Access setting (`members_access.enabled`, on by default) is on. Feature Value conditions compare feature values that are configured with ArraySubs Pro Feature Manager; values that are already saved are still compared while Pro is inactive.
 
 ## Page Navigation
 
@@ -20,125 +20,86 @@
 
 ## Overview
 
-`ArraySubs\Api\MemberAccess` is a read-only reader for Members Access decisions. You create it for one context, then ask questions:
+`ArraySubs\Developer\MemberAccess` is a read-only reader over Members Access for one member context. Create it for a user, a customer, a subscription or a logged-out visitor, then:
 
-| Step | Call | Result |
-| --- | --- | --- |
-| 1. Choose whose access you check | `MemberAccess::for_subscription()`, `for_user()`, `for_customer()` or `for_guest()` | A `MemberAccess` instance, or `WP_Error` |
-| 2a. Test your own conditions | `meets( $conditions )` | A decision for the conditions array you pass |
-| 2b. Test the saved rules for a target | `check( $entity_type, $entity )` or a shortcut such as `can_view_post()` | A decision that follows the site's saved rules and their precedence |
-| 3. See which saved rules cover a target | `get_conditions( $entity_type, $entity )` | The configured rules, in precedence order |
-
-Every decision is a documented array with a `result`, an `allowed` flag, reason codes, the rule that decided, schedule information and the rules it overrode.
+- `evaluateConditions()` tests a conditions array that you pass and returns `true` or `false`.
+- `check()` returns the decision that the saved rules give for a post, a URL, a product purchase or a post's comments, with the deciding rule, its schedule and the reason.
+- `rules()` lists the saved Post Types, URL, Shop Access and Comment rules with their evaluation for the context.
 
 ```box class="info-box"
-Reads never redirect, enforce access, print or return denial markup, send headers, assign roles, create download grants, touch download or feature counters, write rules or meta, log anyone out, change the current WordPress user or enqueue assets. Your code decides what to do with the decision.
+Every method evaluates the user ID and subscription ID that the factory fixed. Nothing logs anyone in, calls `wp_set_current_user()` or changes `get_current_user_id()`, so you can check any member from cron, WP-CLI, an admin screen or a REST callback. Reads never redirect, print a denial message, send headers, filter queries, assign roles or write rules, meta or orders.
 ```
 
-This class covers content and purchase access only. Role management (Role Mapping), downloads, discounts, login limits and member styling have their own readers: [Read Download Benefits](./downloads.md), [Read Member Discounts](./discounts.md), [Read Login-Limit Policy](./login-limits.md) and [Read Member Styling Rules](./member-styling.md). Saved rules that contain a User Role condition are still honored here.
+Other member benefits have their own readers: [Read Download Benefits](./downloads.md), [Read Member Discounts](./discounts.md), [Read Login-Limit Policy](./login-limits.md) and [Read Member Styling Rules](./member-styling.md). Role Mapping and Purchase Limit rules are not part of this class. The template helpers (`arraysubs_user_can_access()`, `arraysubs_user_meets_conditions()`) and the `[arraysubs_restrict]` shortcode are documented in [Gate Custom PHP Output](./php-templates.md).
 
-The existing helper functions (`arraysubs_user_meets_conditions()`, `arraysubs_current_user_can_access()`, `arraysubs_get_restricted_message()`) and the `[arraysubs_restrict]` shortcode are documented in [Gate Custom PHP Output](./php-templates.md). Those helpers return user-wide booleans; this class adds explicit contexts, subscription scope, reasons and schedules.
+## Before You Start
 
-## When to Use This
-
-- Your membership plugin must know whether one specific subscription, not just the customer, unlocks a resource.
-- You render your own templates, REST responses or app screens and need the same answer the saved rules give for a post, page, archive, term, URL, product or comment thread.
-- You want to tell a member why access is denied (login, status, product, role, spend, feature or drip schedule) and when scheduled content unlocks.
-- You run background jobs or admin tools that check a member who is not the current visitor.
-- You want to audit which saved rules cover a target and which one wins.
-
-## Prerequisites
-
-- ArraySubs core active. The class does not exist when core fails its dependency check, so guard calls with `class_exists( '\ArraySubs\Api\MemberAccess' )`. See [Connect Your Custom Plugin](./getting-started.md).
-- Call it on `arraysubs_after_boot` or later. Checks that resolve URLs, terms or custom post types need those registered, so run them on `init` or later; `wp`, `template_redirect` and REST callbacks are safe places.
-- Members Access turned on. `\ArraySubs\Api\Availability::check( 'member_access' )` returns `true`, or `WP_Error` `module_unavailable` with reason `setting_disabled` while the Members Access setting is off.
-- Saved rules configured by the merchant: [Member Access and Restrictions](../member-access/README.md), [Per-Post Access Restriction](../member-access/per-post-access-restriction.md), [URL](../member-access/url.md), [Post Types](../member-access/post-types.md), [Shop Access](../member-access/ecommerce.md) and [Comment Restrictions](../member-access/comments.md).
-- ArraySubs Pro with Feature Manager only to configure the feature values that Feature Value conditions compare.
+- ArraySubs must be active. Guard every call with `class_exists( '\ArraySubs\Developer\MemberAccess' )`; the class cannot load when core fails its dependency check. See [Connect Your Custom Plugin](./getting-started.md).
+- Call the reader after `init`, for example in a template, on `template_redirect`, in a REST callback or in an admin screen. Conditions read subscriptions by status, and subscription statuses are registered on `init`.
+- The merchant configures the rules: [Member Access and Restrictions](../member-access/README.md), [Per-Post Access Restriction](../member-access/per-post-access-restriction.md), [URL](../member-access/url.md), [Post Types](../member-access/post-types.md), [Shop Access](../member-access/ecommerce.md) and [Comment Restrictions](../member-access/comments.md).
+- This is trusted server PHP. It checks no capabilities and no ownership. Before you answer for a member other than the viewer, check at your own boundary that the viewer is that member or holds a staff capability such as `manage_woocommerce`.
 
 ## How It Works
 
-1. A factory fixes the context: one subscription, a registered user or customer, or a guest. The current WordPress user is never used or changed.
-2. For `check()` and the shortcuts, ArraySubs finds the enabled saved rules that cover the target and picks the one that owns the decision (see [Precedence and Conflicts](#precedence-and-conflicts)).
-3. It evaluates that rule's conditions for the context, applies the status policy for the action (viewing, purchasing or commenting) and the rule's schedule, and returns a decision.
-4. For `meets()`, it evaluates only the conditions array you pass.
+1. A factory fixes the context: a user ID (0 for a logged-out visitor), or one subscription together with its customer.
+2. `evaluateConditions()` evaluates only the array you pass.
+3. `check()` finds the rule that owns the target: an active per-post restriction first, otherwise the enabled saved rule with the highest number (the one lowest in its list) whose target covers it. That rule's conditions and schedule decide; lower matching rules never run.
+4. Members Access status rules decide which subscription statuses count (see [Statuses That Grant Access](#statuses-that-grant-access)).
 
 ```mermaid
 flowchart TD
     A[Target] --> B{Active per-post restriction?}
     B -- yes --> C[Per-post restriction decides]
-    B -- no --> D{Enabled rule of this type covers the target?}
+    B -- no --> D{Enabled saved rule covers the target?}
     D -- no --> E[unrestricted]
-    D -- yes --> F[Highest rule number decides]
-    C --> G[Evaluate conditions and schedule for the context]
+    D -- yes --> F[Highest-numbered matching rule decides]
+    C --> G[Conditions and schedule for the context]
     F --> G
-    G --> H[allowed or denied, with reasons]
+    G --> H[decision: allowed, status and reason]
 ```
 
-## Create a Context
+### Subscription context versus customer context
 
-### `MemberAccess::for_subscription()`, `for_user()`, `for_customer()` and `for_guest()`
-
-```text
-MemberAccess::for_subscription( int|WP_Post $subscription ): MemberAccess|WP_Error
-MemberAccess::for_user( int $user_id ): MemberAccess|WP_Error
-MemberAccess::for_customer( WC_Customer $customer ): MemberAccess|WP_Error
-MemberAccess::for_guest(): MemberAccess|WP_Error
-```
-
-| Factory | Parameter | Accepts | Context `type` |
+| Condition family | `fromSubscriptionId()` | `fromUserId()`, `fromUser()`, `fromCustomer()` | `fromUserId( 0 )` (logged out) |
 | --- | --- | --- | --- |
-| `for_subscription()` | `$subscription` | A subscription post ID, or the `WP_Post` returned by `arraysubs_get_subscription()` | `subscription` |
-| `for_user()` | `$user_id` | A WordPress user ID greater than 0 | `user` |
-| `for_customer()` | `$customer` | A `WC_Customer` or `ArraySubs\Api\Customer` that has a user ID | `customer` |
-| `for_guest()` | none | - | `guest` |
+| Subscription status, product and variation conditions | Only this subscription | Any of the customer's subscriptions; each clause can be met by a different one | Fail, except the `has_not_*` types, which pass |
+| Feature Value | Only this subscription's plan, while its status grants access | Plans of the customer's subscriptions plus products bought in completed or processing orders | Fail |
+| Role, lifetime spend, purchases | The subscription's customer | The customer | Fail |
+| Login status | Logged in | Logged in | Logged out |
+| Schedules (drip delays) | Count from this subscription's start date | Count from the earliest start among subscriptions that satisfy the rule on their own | Never unlock |
 
-**Returns:** a `MemberAccess` instance bound to that context.
+When one subscription must satisfy every clause of an AND, use `fromSubscriptionId()`.
 
-**Failures (`WP_Error`):**
+## Create a Reader
 
-| Code | When |
-| --- | --- |
-| `not_found` | The ID is not a subscription (`for_subscription()`), or the user does not exist (`for_user()`) |
-| `invalid_argument` | `for_user( 0 )`, or a `WC_Customer` without a user ID. Use `for_guest()` for logged-out visitors and `for_subscription()` for guest subscriptions |
-| `module_unavailable` | The Members Access setting is off (data `reason` is `setting_disabled`). ArraySubs enforces no Members Access rule while it is off |
+Every factory is inherited from the shared member context (`ArraySubs\Developer\MemberContext`) and returns a reader or a `WP_Error`. The constructor is not public.
 
-**Permission boundary:** trusted server code. The factories do not check capabilities or ownership. Decide whose context to build at your own web boundary: never pass a user or subscription ID taken from a request without confirming it belongs to the logged-in user, or that the caller has `manage_woocommerce`. Pass `as_user` to `check()` to make ArraySubs enforce ownership as well.
-
-**Side effects:** read only, no writes. Creating a context never logs anyone in and never changes `get_current_user_id()`.
+| Method | Arguments | Returns | Notes |
+| --- | --- | --- | --- |
+| `MemberAccess::fromUserId()` | `int $user_id` | `MemberAccess` or `WP_Error` | All of the user's subscriptions. `0` is a logged-out visitor. A negative ID, or an ID with no WordPress user, returns `invalid_customer`. |
+| `MemberAccess::fromUser()` | `WP_User $user` | `MemberAccess` or `WP_Error` | Same as `fromUserId( $user->ID )`. |
+| `MemberAccess::fromCustomer()` | `WC_Customer $customer` | `MemberAccess` or `WP_Error` | Same as `fromUserId( $customer->get_id() )`. Accepts `ArraySubs\Developer\Customer`, which extends `WC_Customer`. An unsaved customer has ID 0 and gives a logged-out context. |
+| `MemberAccess::fromSubscriptionId()` | `int $subscription_id` | `MemberAccess` or `WP_Error` | Only that subscription, for its customer. Returns `invalid_subscription` when the ID is not a subscription, and `invalid_customer` when the subscription has no valid customer account (for example a guest checkout). |
+| `MemberAccess::fromSubscription()` | `WP_Post $subscription` | `MemberAccess` or `WP_Error` | Same as `fromSubscriptionId( $subscription->ID )`. |
+| `$access->context()` | none | `array` | `user_id` (int) and `subscription_id` (int, or `null` for a user context). |
+| `MemberAccess::supportedEntities()` | none | `string[]` | Static. `[ 'post', 'url', 'product', 'comments' ]`. |
 
 ```php
 <?php
-if ( class_exists( '\ArraySubs\Api\MemberAccess' ) ) {
-    $by_subscription = \ArraySubs\Api\MemberAccess::for_subscription( 123 );
-    $by_user         = \ArraySubs\Api\MemberAccess::for_user( 45 );
-    $visitor         = \ArraySubs\Api\MemberAccess::for_guest();
+if ( class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
+    $member  = \ArraySubs\Developer\MemberAccess::fromUserId( 123 );         // A customer.
+    $plan    = \ArraySubs\Developer\MemberAccess::fromSubscriptionId( 456 ); // One subscription.
+    $visitor = \ArraySubs\Developer\MemberAccess::fromUserId( 0 );           // Logged out.
 
-    if ( is_wp_error( $by_subscription ) ) {
-        error_log( 'ArraySubs access context failed: ' . $by_subscription->get_error_code() );
+    if ( ! is_wp_error( $plan ) ) {
+        $context = $plan->context(); // [ 'user_id' => 123, 'subscription_id' => 456 ]
     }
 }
 ```
 
-### Single subscription versus all subscriptions
+## Conditions Format
 
-The same conditions mean different things in each context:
-
-| Clause | Subscription context | User or customer context | Guest context |
-| --- | --- | --- | --- |
-| `subscription_status`, `has_active_subscription`, `has_subscription_variation` | Checked against this one subscription | Passes when any of the user's subscriptions satisfies it | Fails |
-| `has_not_subscription`, `has_not_subscription_variation` | The inverse, for this one subscription | The inverse, across all of the user's subscriptions | Passes |
-| `feature_value` | Values from this subscription's plan only, while its status qualifies | Values combined across qualifying subscriptions and purchased products | Fails |
-| `user_role`, `lifetime_spent`, `purchased_product`, `purchased_variation`, `purchased_from_group` | Checked for the subscription owner's account; they fail for a guest subscription | Checked for the user | Fail |
-| `user_login_status` | The owner counts as logged in; a guest subscription counts as logged out | Logged in | Logged out |
-| Rule schedules | Count from this subscription's start date | Count from the earliest start date among qualifying subscriptions | Never unlock |
-
-In a user or customer context each clause is evaluated on its own, so the clauses of one AND can be satisfied by different subscriptions. For example, an active subscription to product 456 plus a paused subscription to product 123 (under Full pause access) together satisfy `subscription_status` = `active` AND `has_active_subscription` = `[123]`. When one subscription must satisfy every clause, use `for_subscription()`.
-
-Each decision's `context` block reports `subscription_ids` (the one subscription; every subscription the user owns, in any status; or an empty list for a guest) and `user_id` (0 for guests and guest subscriptions).
-
-## Conditions Arrays
-
-### Structure
+`evaluateConditions()` accepts the same tree that saved rules store.
 
 ```php
 <?php
@@ -158,382 +119,276 @@ $conditions = [
 ];
 ```
 
-| Key | Type | Default | Notes |
-| --- | --- | --- | --- |
-| `logic` | string | `and` | `and` or `or`, trimmed and case-insensitive (`AND`, `Or` and ` or ` all work). Missing, empty, unknown and non-text values mean `and`, so a malformed array denies instead of granting |
-| `rules` | array | `[]` | A list of rule arrays. An empty list checks nothing, and `meets()` returns `unrestricted`. Never rely on an empty list as protection |
-| `type` (each rule) | string | none | One of the rule types below, or `group` |
+- `logic` is `and` or `or`, trimmed and case-insensitive. Missing, empty and unknown values mean `and`.
+- `rules` is a list of rule arrays. **An empty or missing list passes**: a rule with no conditions applies to everyone, including logged-out visitors. Never rely on an empty list as protection.
+- An entry that is not an array, or that has a missing or unknown `type`, fails instead of being skipped.
+- A `group` entry carries its own `logic` and `rules` and can be nested to any depth.
+- Pass IDs as integers. `has_active_subscription` and `has_subscription_variation` compare IDs strictly, so `'123'` does not match.
 
-- A `group` rule carries its own `logic` and `rules`, and groups can be nested inside other groups.
-- A rule with a missing or unknown `type`, or an entry that is not an array, never passes.
-- Pass product, variation and term IDs as integers. Product clauses compare IDs strictly, so string IDs do not match.
-
-### Rule types
-
-| `type` | Keys and defaults | Passes when (user context) | Reason when it fails |
-| --- | --- | --- | --- |
-| `subscription_status` | `statuses`: simple names `active`, `trial`, `paused`, `on-hold`, `pending`, `cancelled`, `expired` (default `['active']`; an empty list fails) | A subscription has one of the listed stored statuses. Ignores the pause-access policy | `subscription_status` |
-| `has_active_subscription` | `product_ids`: int[], optional | An access-qualifying subscription exists; with `product_ids`, its parent product is listed | `product_required` with `product_ids`, otherwise `subscription_status` |
-| `has_not_subscription` | `product_ids`: int[], optional | The inverse of `has_active_subscription` | As for `has_active_subscription` |
-| `has_subscription_variation` | `variation_ids`: int[], required (an empty list fails) | An access-qualifying subscription is for one of the listed variations | `variation_required` |
-| `has_not_subscription_variation` | `variation_ids`: int[], optional | With IDs, the inverse of `has_subscription_variation`. Without IDs, no access-qualifying subscription is for any variation | `variation_required` |
-| `user_login_status` | `login_status`: `logged_in` (default) or `logged_out` | The context's login state matches | `login_required` |
-| `user_role` | `roles`: role slugs, required | The user has any listed role | `role_required` |
-| `lifetime_spent` | `operator` (default `>=`), `amount` (number, default 0) | The customer's WooCommerce total spent compares true | `spending_threshold` |
-| `purchased_product` | `product_ids`: int[], required | The customer bought any listed product in a paid order; a variable product also matches its variations | `product_required` |
-| `purchased_variation` | `variation_ids`: int[], required | The customer bought any listed variation | `variation_required` |
-| `purchased_from_group` | `taxonomy` (such as `product_cat` or `product_tag`) and `term_ids` (int[]), both required | The customer bought a product in any listed term (completed or processing orders) | `product_required` |
-| `feature_value` | `feature_key` (stored feature name, required), `operator` (default `>=`), `value` (default 0), `aggregation`: `sum` (default), `max` or `any`, case-insensitive | The combined feature value compares true | `feature_required` |
-| `group` | `logic`, `rules` | Its own rules pass under its own logic | `rule_group_failed` |
-
-Operators for `lifetime_spent` and `feature_value` are `>=`, `>`, `=`, `!=`, `<` and `<=`. Saved admin rules use `>=`, `>`, `=`, `<` and `<=`.
-
-`has_active_subscription` matches the subscription's parent product ID, so a variation ID in `product_ids` never matches. Use `has_subscription_variation` with `variation_ids` for variations.
-
-### Status policy
-
-Access-qualifying subscriptions are the statuses that unlock benefits for the action being checked:
-
-| Status | Viewing (`post`, `post_type_archive`, `term`, `url`, `meets()`) | Purchasing (`product_purchase`) | Commenting (`comments`) |
-| --- | --- | --- | --- |
-| `active`, `trial` | Qualify | Qualify | Qualify |
-| `paused` | Qualifies when **Content Access** is Limited or Full | Qualifies only when it is Full | Qualifies only when it is Full |
-| `on-hold`, `pending`, `cancelled`, `expired` | Never | Never | Never |
-
-**Content Access** is set at **ArraySubs -> Settings -> Skip & Pause** (see [Access Behavior During Pause States](../member-access/session-and-frontend-controls.md)). Explicit `subscription_status` clauses ignore this policy: a rule that lists `paused` or `on-hold` targets those statuses directly. The existing `arraysubs_member_access_statuses` filter (`$statuses`, `$scope`, `$mode`) can change the list; its scope is `view`, `purchase` or `interact` for the three columns above.
-
-A subscription inside a payment grace period keeps its stored `active` or `trial` status, so it keeps access until it moves to on-hold. See [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md).
-
-### Feature Value conditions
-
-`feature_value` compares configured Feature Manager values, not remaining usage:
-
-- Each holding counts once: a purchased product or variation, or the plan of an access-qualifying subscription. Two subscriptions to the same product count once, and quantity is ignored.
-- A variation's own feature list replaces its parent's defaults; an empty variation list inherits them.
-- Toggles count as 1 or 0, numbers as numbers and Unlimited as unlimited. `sum` returns Unlimited when any value is Unlimited. Text features are skipped by `sum` and `max`. `any` is true when any value is on.
-- `feature_key` is the exact stored feature name, such as `seats`.
-- In a subscription context only that subscription's plan counts; purchase history does not.
-- Core evaluates saved feature values even while Pro or Feature Manager is off; Pro provides the screens that configure them.
-
-For remaining usage, call `FeatureManager::can_use()`; see [Read and Update Feature Data](./feature-manager.md). Feature types never appear in decisions.
-
-## Methods
-
-### `meets()`
-
-```text
-$access->meets( array $conditions ): array
-```
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$conditions` | array | required | A conditions array with `logic`, `rules` and optional nested groups |
-
-Evaluates only the array you pass, for the instance's context, with the viewing status policy. It does not load any post's saved rules, add a login requirement, apply an administrator bypass or evaluate schedules.
-
-**Returns:** a decision whose `result` is `allowed`, `denied` or `unrestricted` (empty `rules`). `entity` is `null`, `source` is `custom`, `matched_rules` holds one item whose `rule_id` is `null`, `schedule.available_at` is `null` and `conflicts` is empty.
-
-**Failures:** none. `meets()` always returns a decision; malformed parts fail closed as described under [Structure](#structure).
-
-**Permission boundary:** trusted server code; build the context only for a user or subscription your boundary has authorized. **Side effects:** read only, no writes. **Limits:** one decision per call.
-
-### `check()`
-
-```text
-$access->check( string $entity_type, mixed $entity, array $args = [] ): array|WP_Error
-```
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$entity_type` | string | required | A registered type from `MemberAccess::get_supported_entities()` |
-| `$entity` | mixed | required | The target. The accepted input for each type is listed under [Supported Entities](#supported-entities) |
-| `$args['action']` | string | `post` | `comments` only: `post` (may submit a comment) or `read` (may see existing comments) |
-| `$args['as_user']` | int | not set | Ownership check: the context must belong to this user, otherwise the call returns `forbidden`. A guest context always fails it |
-
-**Returns:** a decision (see [Decision Reference](#decision-reference)). A target that does not resolve is a decision with `result` `invalid_target`, not an error.
-
-**Failures (`WP_Error`):**
-
-| Code | status | When |
+| `type` | Keys and defaults | Passes when |
 | --- | --- | --- |
-| `unsupported_entity` | 422 | `$entity_type` is not registered, for example `user_profile` |
-| `invalid_argument` | 400 | `$entity` has the wrong PHP type for the entity type, `$args` contains an unknown key, or `action` is passed for a type other than `comments` or has an unknown value |
-| `forbidden` | 403 | `as_user` is set and the context belongs to another user |
+| `subscription_status` | `statuses`: `active`, `trial`, `paused`, `on-hold`, `pending`, `cancelled`, `expired` (full `arraysubs-*` slugs also work). Default `[ 'active' ]`; an empty list fails. | A subscription in the context has one of the listed statuses. Ignores the pause access setting. |
+| `has_active_subscription` | `product_ids`: int[], optional | A subscription in a status that grants access exists; with `product_ids`, its parent product ID is listed. A variation ID never matches here. |
+| `has_not_subscription` | `product_ids`: int[], optional | `has_active_subscription` with the same keys fails. |
+| `has_subscription_variation` | `variation_ids`: int[], required (an empty list fails) | A subscription in a status that grants access is for one of the listed variations. |
+| `has_not_subscription_variation` | `variation_ids`: int[], optional | With IDs, the inverse of `has_subscription_variation`. Without IDs, no subscription in a status that grants access is for any variation. |
+| `user_login_status` | `login_status`: `logged_in` (default) or `logged_out` | The context's user ID is above 0 (`logged_in`) or is 0 (`logged_out`). |
+| `user_role` | `roles`: role slugs, required | The user has any listed role. |
+| `lifetime_spent` | `operator` (default `>=`), `amount` (default 0) | The customer's WooCommerce total spent compares true. |
+| `purchased_product` | `product_ids`: required | The customer bought any listed product in a paid order; a variable product also matches its variations. |
+| `purchased_variation` | `variation_ids`: required | The customer bought any listed variation. |
+| `purchased_from_group` | `taxonomy` (such as `product_cat`) and `term_ids`, both required | The customer bought, in a completed or processing order, a product that has any listed term. |
+| `feature_value` | `feature_key` (the exact feature name, required), `operator` (default `>=`), `value` (default 0), `aggregation`: `sum` (default), `max` or `any` | The combined feature value compares true. |
+| `group` | `logic`, `rules` | Its own rules pass under its own logic. |
 
-With `as_user` the decision is customer-safe: `matched_rules` and `conflicts` come back empty because they describe the merchant's rule configuration. `result`, `allowed`, `reasons` and `schedule` are unchanged.
+Comparison operators for `lifetime_spent` and `feature_value` are `=` (or `==`), `!=` (or `<>`), `>`, `>=`, `<` and `<=`. An unknown operator fails.
 
-**Permission boundary:** trusted server code; ArraySubs does not check the current user's capabilities. **Side effects:** read only, no writes. **Limits:** one target per call. Keep loops over many targets bounded, because each check can read the context's subscriptions and orders.
+**Feature Value details.** Each plan or purchased product counts once. Toggles count as 1 or 0, numbers as numbers, and a number feature set to Unlimited makes `sum` and `max` unlimited. Text features are skipped by `sum` and `max`. `any` passes when any value is on, above 0 or non-empty text. A variation with no features of its own uses its parent product's features. The value is the configured amount, not remaining usage; for usage see [Read and Update Feature Data](./feature-manager.md).
 
-### Shortcuts: `can_view_post()`, `can_view_url()`, `can_purchase()` and `can_comment()`
+### Statuses That Grant Access
+
+Conditions that do not name statuses (`has_active_subscription`, the variation types and Feature Value) count only subscriptions in a status that grants access for the action being checked:
+
+| Scope | Used by | Statuses that count |
+| --- | --- | --- |
+| `view` | `evaluateConditions()`, `check( 'post' )`, `check( 'url' )`, Post Types and URL rules | Active and trial, plus paused when **Content Access** is Limited or Full |
+| `purchase` | `check( 'product' )`, Shop Access rules | Active and trial, plus paused only when **Content Access** is Full |
+| `interact` | `check( 'comments' )`, Comment rules | Active and trial, plus paused only when **Content Access** is Full |
+
+**Content Access** is set at **ArraySubs -> Settings -> Skip & Pause**, under **Access During Pause** (see [Access Behavior During Pause States](../member-access/session-and-frontend-controls.md)). The existing `arraysubs_member_access_statuses` filter receives `( array $statuses, string $scope, string $mode )` and can change the list. A `subscription_status` condition always targets the statuses it names.
+
+## `evaluateConditions()`
 
 ```text
-$access->can_view_post( int $post_id ): array      // check( 'post', $post_id )
-$access->can_view_url( string $url ): array        // check( 'url', $url )
-$access->can_purchase( int $product_id ): array    // check( 'product_purchase', $product_id )
-$access->can_comment( int $post_id ): array        // check( 'comments', $post_id ) with action post
+$access->evaluateConditions( array $conditions ): bool
 ```
 
-Shortcuts always return a decision and never `WP_Error`; an ID or URL that does not resolve returns `result` `invalid_target`. They take no `$args`, so call `check()` when you need `as_user` or `'action' => 'read'`. Read only, no writes.
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `$conditions` | array | required | A conditions tree as described in [Conditions Format](#conditions-format). |
+
+Returns `true` when the context passes the tree under the `view` scope. It loads no saved rules, adds no login requirement, applies no administrator bypass and evaluates no schedule. It never returns `WP_Error`: malformed parts fail closed.
+
+**Side effects:** read only. Each call clears the request-level condition and schedule caches first, so a check made after your own changes in the same request sees them.
+
+## `check()`
+
+```text
+$access->check( string $entity, mixed $target, array $fields = [] ): array|WP_Error
+```
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `$entity` | string | required | One of `MemberAccess::supportedEntities()`. Anything else returns `unsupported_entity`. |
+| `$target` | mixed | required | What to check. See the table below. |
+| `$fields` | string[] | `[]` | Result groups to keep: `context`, `target`, `availability`, `decision`, `rule`, `precedence`. Empty keeps all. An unknown name returns `invalid_field`. |
+
+| `$entity` | `$target` accepts | Decided by, in order | Scope |
+| --- | --- | --- | --- |
+| `post` | A post ID (int) or `WP_Post` of any post type | The post's per-post restriction, then Post Types rules | `view` |
+| `url` | A root-relative path such as `/members/library/`, or an absolute `http`/`https` URL on this site's host and port | The per-post restriction of the post the URL resolves to (`url_to_postid()`), then URL rules matched on the path | `view` |
+| `product` | A product or variation ID (int) or `WP_Post`. For a `WC_Product`, pass `$product->get_id()` | The product's per-post restriction (a variation inherits its parent's unless it has its own), then Shop Access rules | `purchase` |
+| `comments` | A post ID (int) or `WP_Post` | The post's per-post restriction, then Comment rules | `interact` |
+
+Numeric strings are not accepted as IDs; cast them with `(int)` or `absint()` first. For URLs the query string is ignored and matching is case-insensitive. A path listed in a rule's exclusions is not covered by that rule, so another matching rule can still decide it. Post Types rules are not part of a `url` decision and URL rules are not part of a `post` decision, so check both when you need the answer for a real page visit.
+
+**Return shape** (a URL rule with a 52-week drip delay, checked for one subscription):
 
 ```php
 <?php
-// $access comes from one of the MemberAccess factories.
-$decision = $access->can_purchase( 789 );
-
-if ( ! $decision['allowed'] ) {
-    echo esc_html__( 'This plan is available to members only.', 'myplugin' );
-}
+$result = [
+    'context'      => [ 'user_id' => 123, 'subscription_id' => 456 ],
+    'target'       => [ 'entity' => 'url', 'id' => null, 'url' => '/members/library/' ],
+    'availability' => [ 'available' => true, 'enabled' => true ],
+    'decision'     => [
+        'allowed'      => false,
+        'status'       => 'denied',
+        'reason'       => 'schedule_pending',
+        'evaluated_at' => 1792327059,
+    ],
+    'rule'         => [
+        'id'                      => 'rule_members_library',
+        'enabled'                 => true,
+        'source'                  => 'saved_rule',
+        'source_post_id'          => null,
+        'conditions'              => [
+            'logic' => 'and',
+            'rules' => [ [ 'type' => 'subscription_status', 'statuses' => [ 'active' ] ] ],
+        ],
+        'conditions_met'          => true,
+        'schedule'                => [ 'enabled' => true, 'satisfied' => false, 'unlocks_at' => 1811943141 ],
+        'qualifies'               => false,
+        'source_subscription_ids' => [ 456 ],
+    ],
+    'precedence'   => [
+        'policy'              => 'post_config_then_highest_saved_rule',
+        'winning_rule_id'     => 'rule_members_library',
+        'matching_rule_count' => 2,
+        'shadowed_rule_count' => 1,
+    ],
+];
 ```
 
-### `get_conditions()`
-
-```text
-$access->get_conditions( string $entity_type, mixed $entity ): array|WP_Error
-```
-
-Returns the enabled saved rules that cover the target, in precedence order: the rule that decides comes first. An empty array means no rule covers the target. The list does not depend on the context.
-
-```text
-[
-  [
-    'rule_id'    => 'post_321',
-    'source'     => 'per_post',
-    'name'       => null,
-    'decides'    => true,
-    'conditions' => [ 'logic' => 'and', 'rules' => [ [ 'type' => 'subscription_status', 'statuses' => [ 'active', 'trial' ] ] ] ],
-    'schedule'   => null,
-  ],
-  [
-    'rule_id'    => 'rule_1759300000000_x7k2m9q4p',
-    'source'     => 'post_type_rule',
-    'name'       => 'Members-only courses',
-    'decides'    => false,
-    'conditions' => [ 'logic' => 'or', 'rules' => [ ... ] ],
-    'schedule'   => [ 'enabled' => true, 'value' => 30, 'unit' => 'days' ],
-  ],
-]
-```
-
-| Key | Type | Description |
+| Key | Type | Meaning |
 | --- | --- | --- |
-| `rule_id` | string | The saved rule ID (opaque). Per-post restrictions use `post_{ID}`; a variation that inherits its parent product's restriction reports the parent's ID |
-| `source` | string | `per_post`, `post_type_rule`, `url_rule`, `product_rule` or `comments_rule` |
-| `name` | string or null | The rule name from the admin screen; `null` for per-post restrictions |
-| `decides` | bool | `true` for the rule that owns the decision, `false` for the rules it overrides |
-| `conditions` | array | The rule's conditions with `logic` normalized to lowercase. A login-only per-post restriction appears as one `user_login_status` rule with `logged_in` |
-| `schedule` | array or null | `enabled` (bool), `value` (int) and `unit` (`days`, `weeks` or `months`); `null` for per-post restrictions, which have no schedule |
+| `context` | array | `user_id` and `subscription_id` of the reader. |
+| `target` | array | `entity`; `id`: the post or product ID, or for `url` the post the URL resolves to (`null` when it resolves to none); `url`: the URL exactly as you passed it (`null` for other entities). |
+| `availability` | array | `available` (always `true`, core feature) and `enabled` (the Members Access setting). |
+| `decision.allowed` | bool | The answer. Gate on this key. |
+| `decision.status` | string | `unrestricted` (no rule covers the target, or Members Access is off), `conditional` (a rule covers it and allows the context) or `denied`. |
+| `decision.reason` | string | See [Reasons](#reasons). |
+| `decision.evaluated_at` | int | Unix timestamp of the read. |
+| `rule` | array or null | The deciding rule, or `null` when no rule covers the target. Keys are listed below. |
+| `precedence.policy` | string | Always `post_config_then_highest_saved_rule`. |
+| `precedence.winning_rule_id` | string or null | The deciding rule's ID; an empty string for a per-post restriction; `null` when no rule decided. |
+| `precedence.matching_rule_count` | int | Enabled rules that cover the target, counting an active per-post restriction as one. |
+| `precedence.shadowed_rule_count` | int | Covering rules that lost to the deciding one (`matching_rule_count` minus 1, never below 0). |
 
-**Failures (`WP_Error`):** `unsupported_entity` and `invalid_argument` as for `check()`; `not_found` when the post, term, post type or product does not exist; `invalid_argument` for a URL on another host.
+Rule keys (the same keys as `rules()` items, without `domain`):
 
-**Permission boundary:** this is merchant configuration (product IDs, roles, feature names). Show it only to users with `manage_woocommerce` or `manage_options`, never in customer-facing output. **Side effects:** read only, no writes. **Limits:** not paginated; bounded by the number of saved rules.
+| Key | Type | Meaning |
+| --- | --- | --- |
+| `id` | string | The saved rule ID. Empty for per-post restrictions. |
+| `enabled` | bool | The rule's own toggle. |
+| `source` | string | `saved_rule` for saved rules (in `check()`, a Post Types rule that decides a `post` reports `cpt_rule`); `post_config` for a per-post restriction; `post_meta` for a per-post condition list stored without the editor configuration. A rule added by a filter can set its own `source`. |
+| `source_post_id` | int or null | For a per-post restriction, the post it was read for (the checked post, or the post a URL resolves to); `null` for saved rules. |
+| `conditions` | array | The rule's condition tree with `logic` normalized. For a per-post restriction, the conditions built from its editor settings. With **Only login is required** on, the decision follows the login state alone, whatever `conditions_met` says. |
+| `conditions_met` | bool | The conditions pass for this context. |
+| `schedule` | array | `enabled` (bool), `satisfied` (bool, `true` without a schedule) and `unlocks_at`: the Unix timestamp (UTC) when the delay ends for this context, or `null` without a schedule, without a qualifying subscription, or for a logged-out visitor. Per-post restrictions have no schedule. |
+| `qualifies` | bool | `enabled`, `conditions_met` and `schedule.satisfied` are all `true`. |
+| `source_subscription_ids` | int[] | When `conditions_met` is `true`: the context's subscriptions that satisfy the conditions on their own. Empty otherwise. |
 
-### `MemberAccess::get_supported_entities()`
+`rule`, `precedence` and `rules()` items expose merchant configuration (rule IDs, product IDs, roles, feature names). Show them only in staff tools. For customers, request `[ 'decision' ]`.
+
+**Side effects:** read only. The configured denial action (message, redirect, 404 or blocked purchase) is never applied.
+
+### Reasons
+
+| `decision.reason` | `allowed` | When |
+| --- | --- | --- |
+| `module_disabled` | `true` | The Members Access setting is off. ArraySubs enforces no rule, so `status` is `unrestricted`. |
+| `no_matching_rule` | `true` | No enabled rule covers the target. |
+| `conditions_satisfied` | `true` | The deciding rule's conditions and schedule pass. |
+| `conditions_failed` | `false` | The deciding rule's conditions fail. |
+| `schedule_pending` | `false` | The conditions pass, but the drip delay has not ended. Read `rule.schedule.unlocks_at`. |
+| `administrator_bypass` | `true` | A per-post restriction with **Always Show To Admins** on, and the context user has `manage_options`. |
+| `login_only_allowed` | `true` | A per-post restriction with **Only login is required** on, and the context has a user. |
+| `login_required` | `false` | The same login-only restriction, checked for a logged-out visitor. |
+| `privileged_bypass` | `true` | A Shop Access or Comment rule decides a `product` or `comments` target, and the context user has `manage_options` or `manage_woocommerce`. |
+| `extension_allowed`, `extension_denied` | `true`, `false` | The final answer differs from the rule's own evaluation, for example because a callback on `arraysubs_ecommerce_user_has_access` or `arraysubs_comment_restriction_for_post` changed it, or a comment moderator (`moderate_comments`) bypassed a Comment rule. `extension_denied` also appears when a comment filter restricts a post that no rule covers. |
+
+Post Types and URL rules have no administrator bypass: an administrator context gets the same answer as any other user who meets or fails the conditions.
+
+### Comments decisions
+
+For `comments`, `allowed` is `true` only when no comment restriction applies to the context. A failing context is reported as denied whatever the rule's restriction mode (**Hide comments + block posting**, **Allow reading, block posting** or **Hide comments, allow posting**); the decision does not say which mode. WordPress discussion settings, such as closed comments, are not part of the decision.
+
+## `rules()`
+
+Lists the saved rules of the Post Types, URL, Shop Access and Comment tabs, in that order and in saved order within each tab, and evaluates each one for the reader's context. Disabled rules are included.
 
 ```text
-MemberAccess::get_supported_entities(): array
+$access->rules( array $args = [] ): array|WP_Error
 ```
 
-Static. Returns the registered entity types: `['post', 'post_type_archive', 'term', 'url', 'product_purchase', 'comments']`. Any other `$entity_type` passed to `check()` or `get_conditions()` returns `unsupported_entity`. Read only, no writes.
+| Argument | Type | Default | Description |
+| --- | --- | --- | --- |
+| `page` | int | `1` | Page number, 1 or more. |
+| `per_page` | int | `20` | Items per page, 1 to 100. |
+| `include` | array | none | Up to 100 rule IDs. Only those rules are listed, and `total` counts them. |
+| `fields` | string[] | `[]` | Item keys to keep: `domain` plus the rule keys of `check()`. Empty keeps every key. An unknown key returns `invalid_field`. |
+| `output` | string | `data` | `data` returns item arrays; `ids` returns a list of rule ID strings. |
 
-## Supported Entities
+Any other argument returns `invalid_query`.
 
-Every entity type works in all four contexts.
+| `domain` | Admin tab | Scope |
+| --- | --- | --- |
+| `cpt` | Post Types | `view` |
+| `url` | URL | `view` |
+| `ecommerce` | Shop Access | `purchase` |
+| `comment` | Comments | `interact` |
 
-| Entity type | `$entity` accepts | Shortcut | Decided by, in precedence order | Status policy |
-| --- | --- | --- | --- | --- |
-| `post` | A post ID or `WP_Post`: posts, pages, products and custom post type entries | `can_view_post()` | Per-post restriction, then Post Types rules | Viewing |
-| `post_type_archive` | A post type name, such as `course` | none | Post Types rules with an Entire Post Type target | Viewing |
-| `term` | A term ID or `WP_Term` | none | Post Types rules with a By Taxonomy/Category target that covers the term | Viewing |
-| `url` | An absolute URL on this site, or a root-relative path | `can_view_url()` | Per-post restriction of the post the URL resolves to, then URL rules | Viewing |
-| `product_purchase` | A product or variation ID, or `WC_Product` | `can_purchase()` | The product's per-post restriction, then Shop Access rules | Purchasing |
-| `comments` | A post ID or `WP_Post` | `can_comment()` | Per-post restriction, then Comment rules | Commenting |
+**Return shape:**
 
-### `post`
-
-- Precedence: the post's active per-post restriction; otherwise the highest-numbered enabled Post Types rule whose target covers the post (Entire Post Type, By Taxonomy/Category or Specific Posts/Pages); otherwise `unrestricted`.
-- When a per-post restriction's login-only option is on, any logged-in user passes and its other conditions are skipped.
-- URL rules are not part of this decision; check them with `url`.
-- `invalid_target` for an ID that is not a post. `unsupported` for attachments, revisions, menu items and post types without an admin screen, which Members Access does not gate.
-- The decision covers ArraySubs rules only. Draft and private status and password protection still apply; check them yourself with `user_can( $user_id, 'read_post', $post_id )` and `post_password_required()`.
-
-### `post_type_archive`
-
-- Accepts a registered post type name. An unknown name returns `invalid_target`.
-- Evaluates the Post Types rules whose target is Entire Post Type for that post type; the highest-numbered enabled one decides. The result tells you whether the context passes the rule that covers every entry of the type.
-- Individual entries can still differ: an entry with its own per-post restriction, or one covered by a higher-numbered taxonomy or specific-posts rule, is decided by that rule. Check entries with `post`.
-- In archive listings ArraySubs hides denied entries, shows them with a lock icon, or shows them normally, depending on the deciding rule's archive behavior. A read never filters a query.
-- The archive page's own URL is governed by URL rules; check it with `can_view_url()`.
-
-### `term`
-
-- Accepts a term ID or `WP_Term`. A missing term returns `invalid_target`.
-- Evaluates the Post Types rules with a By Taxonomy/Category target for the term's taxonomy that select no terms (any term) or select this term; the highest-numbered enabled one decides.
-- Terms match exactly: a rule that selects a parent term does not cover its child terms.
-- Like `post_type_archive`, this is the term-wide rule. Entries with their own restriction or a higher-numbered rule can be decided differently.
-
-### `url`
-
-- Accepts an absolute URL on this site or a root-relative path such as `/members/library/`. A URL on another host returns `invalid_target`.
-- Only the path is matched: the query string and fragment are ignored, the path is URL-decoded once, and matching is case-insensitive.
-- `unsupported` for `wp-admin`, `wp-login.php` and REST (`/wp-json/`) paths, because URL rules apply to front-end page requests only.
-- When the URL resolves to a post with an active per-post restriction, that restriction decides and every URL rule is skipped (matching URL rules appear in `conflicts`).
-- Otherwise the highest-numbered enabled URL rule whose pattern matches and whose exclusions do not cover the path decides. Pattern types are `prefix` (Starts with; a trailing `*` is optional), `exact`, `contains` and `regex`. Exclusions are path prefixes that stay public.
-- Post Types rules are not part of this decision. A real visit to a post's URL applies both, so check `post` as well (see [Answer a full page visit](#answer-a-full-page-visit)).
-
-### `product_purchase`
-
-- Accepts a product or variation ID, or a `WC_Product`. An ID that is not a product returns `invalid_target`.
-- Precedence: the product's active per-post restriction (a variation inherits its parent product's restriction unless it has its own), then the highest-numbered enabled Shop Access rule whose target covers the product: Full store, specific products (a variation matches when its parent is listed) or specific categories (the parent product's categories), minus excluded products and categories.
-- Uses the purchasing status policy, so a paused subscription counts only under Full pause access.
-- `denied` means the store refuses the purchase. The configured action (block purchase, 404, redirect to login or redirect to a page) is not applied by the read and is not part of the decision.
-- Purchase Limit quantity caps, stock and other plugins' purchasability filters are not part of this decision.
-
-### `comments`
-
-- Accepts a post ID or `WP_Post`. A missing post returns `invalid_target`.
-- `'action' => 'post'` (the default, and what `can_comment()` checks) asks whether the context may submit a comment; `'action' => 'read'` asks whether it may see existing comments.
-- Precedence: when the post has an active per-post restriction, a context that fails it can neither read nor post, and a context that passes it skips every Comment rule. Otherwise the highest-numbered enabled Comment rule whose target covers the post (All content, specific post types, taxonomy terms or specific posts) decides.
-- The deciding rule's restriction mode sets what a failing context loses: Block all (reading and posting), Block posting (posting) or Hide comments (reading). When the mode does not affect the requested action the result is `allowed`, and `matched_rules` still shows the failed rule.
-- Uses the commenting status policy.
-- WordPress discussion settings, such as closed comments or required registration, are not part of the decision.
-
-## Decision Reference
-
-### Decision shape
-
-```text
-[
-  'result'        => 'denied',
-  'allowed'       => false,
-  'entity'        => [ 'type' => 'post', 'id' => 321 ],
-  'context'       => [ 'type' => 'subscription', 'subscription_ids' => [ 123 ], 'user_id' => 45 ],
-  'source'        => 'post_type_rule',
-  'matched_rules' => [
-    [ 'rule_id' => 'rule_1759300000000_x7k2m9q4p', 'source' => 'post_type_rule', 'passed' => false, 'reasons' => [ 'schedule_pending' ] ],
-  ],
-  'reasons'       => [ 'schedule_pending' ],
-  'schedule'      => [ 'available_at' => '2026-11-01T09:00:00+00:00' ],
-  'conflicts'     => [
-    [ 'rule_id' => 'rule_1759200000000_b4n8c1r6t', 'source' => 'post_type_rule', 'overridden_by' => 'rule_1759300000000_x7k2m9q4p' ],
-  ],
-  'evaluated_at'  => '2026-10-18T09:30:00+00:00',
-]
+```php
+<?php
+$page = [
+    'items'     => [
+        [
+            'domain'                  => 'url',
+            'id'                      => 'rule_members_library',
+            'enabled'                 => true,
+            'source'                  => 'saved_rule',
+            'source_post_id'          => null,
+            'conditions'              => [ 'logic' => 'and', 'rules' => [ [ 'type' => 'has_active_subscription', 'product_ids' => [ 123 ] ] ] ],
+            'conditions_met'          => false,
+            'schedule'                => [ 'enabled' => false, 'satisfied' => true, 'unlocks_at' => null ],
+            'qualifies'               => false,
+            'source_subscription_ids' => [],
+        ],
+    ],
+    'page'      => 1,
+    'per_page'  => 20,
+    'has_more'  => false,
+    'next_page' => null, // Next page number while has_more is true.
+    'total'     => 1,
+];
 ```
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `result` | string | See [Result values](#result-values) |
-| `allowed` | bool | `true` only for `allowed` and `unrestricted`. Gate on this key: it is `false` for `unsupported` and `invalid_target`, so unexpected targets fail closed |
-| `entity` | array or null | `type` and `id` of the resolved target: a post, product or term ID (int), a post type name, or the normalized URL path. `null` for `meets()` |
-| `context` | array | `type` (`subscription`, `user`, `customer` or `guest`), `subscription_ids` (int[]) and `user_id` (int, 0 for guests) |
-| `source` | string or null | The rule family that decided: `per_post`, `post_type_rule`, `url_rule`, `product_rule`, `comments_rule`, or `custom` for `meets()`. `null` when no rule decided |
-| `matched_rules` | array | The deciding rule: `rule_id`, `source`, `passed` (bool) and its `reasons`. Empty when no rule decided |
-| `reasons` | string[] | Reason codes for a `denied` result, each listed once. Empty otherwise |
-| `schedule` | array | `available_at`: when the deciding rule's schedule unlocks for this context. See [Schedules](#schedules) |
-| `conflicts` | array | Enabled rules that also cover the target but were overridden: `rule_id`, `source` and `overridden_by` (the deciding rule's ID) |
-| `evaluated_at` | string | Evaluation time, ISO 8601 UTC |
+`rules()` reads the saved rules directly. Rules that other plugins add through the `arraysubs_ecommerce_restriction_rules`, `arraysubs_comment_rules` or `arraysubs_comment_restriction_rules` filters are not listed here, but they can still decide `check()`.
 
-### Result values
-
-| `result` | `allowed` | Meaning |
-| --- | --- | --- |
-| `allowed` | `true` | A rule covers the target and the context passes its conditions and schedule, or a privileged bypass applies |
-| `denied` | `false` | A rule covers the target and the context fails its conditions, or the rule's schedule has not unlocked |
-| `unrestricted` | `true` | No enabled rule covers the target, or `meets()` received no rules. ArraySubs does not restrict it |
-| `unsupported` | `false` | The target exists, but Members Access does not gate that kind of target, for example an attachment or a REST URL |
-| `invalid_target` | `false` | The target does not resolve: a missing post, term or product, an unregistered post type, or a URL on another host |
-
-### Reason codes
-
-| Code | Meaning |
-| --- | --- |
-| `login_required` | A `user_login_status` clause failed. In a guest context, and for a guest subscription, every clause that needs an account reports `login_required` instead of its own code |
-| `subscription_status` | `subscription_status` failed, or `has_active_subscription` / `has_not_subscription` without products failed |
-| `product_required` | A product clause failed: `has_active_subscription` or `has_not_subscription` with `product_ids`, `purchased_product` or `purchased_from_group` |
-| `variation_required` | `has_subscription_variation`, `has_not_subscription_variation` or `purchased_variation` failed |
-| `role_required` | `user_role` failed |
-| `spending_threshold` | `lifetime_spent` failed |
-| `feature_required` | `feature_value` failed |
-| `schedule_pending` | The conditions pass, but the rule's schedule has not unlocked for this context |
-| `rule_group_failed` | A nested group failed (the clauses that failed inside it add their own codes too), or an entry could not be evaluated: a missing or unknown `type`, or an entry that is not an array |
-
-Codes name the clause family, not its polarity: a failed `has_not_subscription` with products still reports `product_required`.
-
-### Schedules
-
-Rules on the URL, Post Types, Shop Access and Comments tabs can carry a schedule (see [Scheduled / Drip Access](../member-access/scheduled-drip-access.md)):
-
-- **Unlock time** = the subscription's start date (`start_at` in subscription data) plus the delay. Units are `days` (24 hours), `weeks` (7 days) and `months` (30 days). All times are UTC.
-- **Which subscription counts:** the candidates are the subscriptions with a status named by the rule's `subscription_status` clauses (including clauses inside groups), or with a viewing access-qualifying status when the rule names none. Each candidate must satisfy the rule's conditions on its own, and the earliest start date among them wins.
-- **Context:** in a subscription context only that subscription is a candidate. A guest context never unlocks a schedule.
-- **`schedule.available_at`:** the unlock time, which is in the past once unlocked. It is `null` when the deciding rule has no schedule, when no candidate subscription qualifies, for guests, for per-post restrictions and for `meets()`.
-- **Pending:** when the conditions pass but the unlock time is still in the future, or no candidate qualifies, the result is `denied` with `schedule_pending`.
-- **No writes:** the schedule is computed at `evaluated_at`. Nothing is stored or scheduled.
-
-### Precedence and Conflicts
-
-1. **Per-post restriction first.** An active per-post restriction (the editor's Access Restriction panel or metabox) owns its post: it decides `post`, the post's URL for `url`, the product for `product_purchase` and the post's `comments`. Rules on the URL, Post Types, Shop Access and Comments tabs that also cover it are skipped. Product variations inherit their parent's restriction unless they have their own.
-2. **Highest rule number within one rule type.** Among the enabled rules of one type that cover the target, the rule with the highest number (lowest in the admin list) decides, whether it allows or denies. Lower rules never run for that target. Merchants change the winner by moving rules in the list and saving.
-3. **Rule types are independent.** URL rules, Post Types rules, Shop Access rules and Comment rules each answer their own entity. A front-end visit to a post applies URL rules and the Post Types rule separately, and either can deny it.
-4. **No covering rule** means `unrestricted`.
-
-Overridden rules appear in `conflicts` with `overridden_by`. The merchant's **Member Access -> Conflicts** screen lists overlaps between per-post restrictions and site-wide rules (see [Conflicts](../member-access/conflicts.md)).
-
-Privileged bypasses are evaluated for the context's user, never for the current visitor:
-
-| Deciding source | Bypass |
-| --- | --- |
-| `per_post` | Users with `manage_options`, while the restriction's administrator option is on (the default) |
-| `url_rule`, `post_type_rule` | None. These rules apply to administrators too |
-| `product_rule` | Users with `manage_options` or `manage_woocommerce` |
-| `comments_rule` | Users with `moderate_comments` or `manage_options` |
-
-A bypassed decision is `allowed`, with the deciding rule in `matched_rules` and `passed` set to `true`.
+**Side effects:** read only.
 
 ## Examples
 
-### Check a post for a member
+### Gate a template fragment for the current visitor
 
 ```php
 <?php
 /**
- * Whether a member may view a post under the saved Members Access rules.
+ * Print member-only markup when the visitor may view a post under the saved rules.
  */
-function myplugin_member_can_view( int $user_id, int $post_id ): bool {
-    if ( ! class_exists( '\ArraySubs\Api\MemberAccess' ) ) {
-        return false; // Fail closed when ArraySubs is unavailable.
+function myplugin_render_member_box( int $post_id ): void {
+    if ( ! class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
+        return; // Fail closed when ArraySubs is unavailable.
     }
 
-    $access = \ArraySubs\Api\MemberAccess::for_user( $user_id );
+    // get_current_user_id() is 0 for a logged-out visitor, which is a valid context.
+    $access = \ArraySubs\Developer\MemberAccess::fromUserId( get_current_user_id() );
     if ( is_wp_error( $access ) ) {
-        return false;
+        return;
     }
 
-    $decision = $access->can_view_post( $post_id );
+    $result = $access->check( 'post', $post_id, [ 'decision' ] );
+    if ( is_wp_error( $result ) || ! $result['decision']['allowed'] ) {
+        return;
+    }
 
-    return $decision['allowed'];
+    echo '<div class="myplugin-member-box">' . esc_html__( 'Member resources', 'myplugin' ) . '</div>';
 }
 ```
+
+The decision covers ArraySubs rules only. Draft, private and password-protected posts still need the usual WordPress checks.
 
 ### Require one subscription to satisfy every clause
 
 ```php
 <?php
 /**
- * True only when this one subscription is active or trialing, is for product 123
- * and its own plan includes at least 5 seats.
+ * True only when this one subscription is active or in trial, is for product 123,
+ * and its own plan includes at least 5 projects.
  */
 function myplugin_subscription_unlocks_studio( int $subscription_id ): bool {
-    if ( ! class_exists( '\ArraySubs\Api\MemberAccess' ) ) {
+    if ( ! class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
         return false;
     }
 
-    $access = \ArraySubs\Api\MemberAccess::for_subscription( $subscription_id );
+    $access = \ArraySubs\Developer\MemberAccess::fromSubscriptionId( $subscription_id );
     if ( is_wp_error( $access ) ) {
-        return false;
+        return false; // invalid_subscription or invalid_customer.
     }
 
-    $decision = $access->meets(
+    return $access->evaluateConditions(
         [
             'logic' => 'and',
             'rules' => [
@@ -541,7 +396,7 @@ function myplugin_subscription_unlocks_studio( int $subscription_id ): bool {
                 [ 'type' => 'has_active_subscription', 'product_ids' => [ 123 ] ],
                 [
                     'type'        => 'feature_value',
-                    'feature_key' => 'seats',
+                    'feature_key' => 'Projects',
                     'operator'    => '>=',
                     'value'       => 5,
                     'aggregation' => 'max',
@@ -549,71 +404,42 @@ function myplugin_subscription_unlocks_studio( int $subscription_id ): bool {
             ],
         ]
     );
-
-    // Comparing the result also rejects 'unrestricted', which an empty rules list returns.
-    return 'allowed' === $decision['result'];
 }
 ```
 
-With `for_user()` the same array can pass when different subscriptions meet different clauses. `for_subscription()` requires the one subscription to meet the status and product clauses, and reads the feature value from its plan only.
+With `fromUserId()` the same tree can pass when different subscriptions meet different clauses, and Feature Value also counts purchased products.
 
-### Handle errors and explain a denial
+### Tell a member when a section unlocks
 
 ```php
 <?php
 /**
- * Print a short notice for a gated lesson. Prints nothing when access is allowed.
+ * Returns an escaped notice when a URL rule's drip delay is still running for the member.
  */
-function myplugin_lesson_notice( int $post_id ): void {
-    if ( ! class_exists( '\ArraySubs\Api\MemberAccess' ) || ! class_exists( '\ArraySubs\Api\Availability' ) ) {
-        return;
+function myplugin_unlock_notice( int $user_id, string $path ): string {
+    if ( ! class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
+        return '';
     }
 
-    if ( is_wp_error( \ArraySubs\Api\Availability::check( 'member_access' ) ) ) {
-        return; // Members Access is off, so ArraySubs gates nothing.
-    }
-
-    $access = is_user_logged_in()
-        ? \ArraySubs\Api\MemberAccess::for_user( get_current_user_id() )
-        : \ArraySubs\Api\MemberAccess::for_guest();
-
+    $access = \ArraySubs\Developer\MemberAccess::fromUserId( $user_id );
     if ( is_wp_error( $access ) ) {
-        error_log( 'ArraySubs access context failed: ' . $access->get_error_code() );
-        return;
+        return '';
     }
 
-    $decision = $access->check( 'post', $post_id );
-
-    if ( is_wp_error( $decision ) ) {
-        // unsupported_entity or invalid_argument point to a bug in this integration.
-        error_log( 'ArraySubs access check failed: ' . $decision->get_error_code() );
-        return;
+    $result = $access->check( 'url', $path, [ 'decision', 'rule' ] );
+    if ( is_wp_error( $result ) || 'schedule_pending' !== $result['decision']['reason'] ) {
+        return '';
     }
 
-    if ( 'denied' !== $decision['result'] ) {
-        return; // allowed, unrestricted, unsupported or invalid_target: no lesson notice.
+    $unlocks_at = $result['rule']['schedule']['unlocks_at'];
+    if ( ! $unlocks_at ) {
+        return ''; // No qualifying subscription, so there is no unlock date.
     }
 
-    $available_at = $decision['schedule']['available_at'];
+    /* translators: %s: unlock date. */
+    $text = sprintf( __( 'This section unlocks on %s.', 'myplugin' ), wp_date( get_option( 'date_format' ), $unlocks_at ) );
 
-    if ( in_array( 'schedule_pending', $decision['reasons'], true ) && $available_at ) {
-        $date = wp_date( get_option( 'date_format' ), strtotime( $available_at ) );
-        /* translators: %s: unlock date. */
-        $text = sprintf( __( 'This lesson unlocks on %s.', 'myplugin' ), $date );
-        echo '<p class="lesson-notice">' . esc_html( $text ) . '</p>';
-        return;
-    }
-
-    if ( in_array( 'login_required', $decision['reasons'], true ) ) {
-        printf(
-            '<p class="lesson-notice"><a href="%1$s">%2$s</a></p>',
-            esc_url( wp_login_url( (string) get_permalink( $post_id ) ) ),
-            esc_html__( 'Log in to continue.', 'myplugin' )
-        );
-        return;
-    }
-
-    echo '<p class="lesson-notice">' . esc_html__( 'This lesson is part of a membership plan.', 'myplugin' ) . '</p>';
+    return '<p class="myplugin-unlock-notice">' . esc_html( $text ) . '</p>';
 }
 ```
 
@@ -626,132 +452,108 @@ add_action(
     function () {
         register_rest_route(
             'myplugin/v1',
-            '/subscriptions/(?P<id>\d+)/access/(?P<post>\d+)',
+            '/subscriptions/(?P<id>\d+)/can-view/(?P<post>\d+)',
             [
                 'methods'             => 'GET',
-                'permission_callback' => function () {
-                    return is_user_logged_in();
-                },
-                'callback'            => function ( WP_REST_Request $request ) {
-                    if ( ! class_exists( '\ArraySubs\Api\MemberAccess' ) ) {
-                        return new WP_Error( 'myplugin_unavailable', __( 'Membership checks are unavailable.', 'myplugin' ), [ 'status' => 503 ] );
-                    }
-
-                    $access = \ArraySubs\Api\MemberAccess::for_subscription( absint( $request['id'] ) );
-                    if ( is_wp_error( $access ) ) {
-                        return $access;
-                    }
-
-                    // as_user makes ArraySubs refuse a subscription the caller does not own.
-                    $decision = $access->check( 'post', absint( $request['post'] ), [ 'as_user' => get_current_user_id() ] );
-                    if ( is_wp_error( $decision ) ) {
-                        return $decision; // forbidden carries status 403.
-                    }
-
-                    return [
-                        'allowed'      => $decision['allowed'],
-                        'result'       => $decision['result'],
-                        'reasons'      => $decision['reasons'],
-                        'available_at' => $decision['schedule']['available_at'],
-                    ];
-                },
+                'permission_callback' => 'is_user_logged_in',
+                'callback'            => 'myplugin_rest_can_view',
             ]
         );
     }
 );
-```
 
-The route checks login itself and passes `as_user`, so a customer can ask only about their own subscriptions. ArraySubs error data includes an HTTP `status`, which the REST API uses for the response code.
+function myplugin_rest_can_view( WP_REST_Request $request ) {
+    if ( ! class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
+        return new WP_Error( 'myplugin_unavailable', __( 'Membership checks are unavailable.', 'myplugin' ), [ 'status' => 503 ] );
+    }
 
-### Answer a full page visit
+    $access = \ArraySubs\Developer\MemberAccess::fromSubscriptionId( absint( $request['id'] ) );
 
-```php
-<?php
-/**
- * A front-end visit to a post applies URL rules and the post's own rules separately.
- *
- * @param \ArraySubs\Api\MemberAccess $access  Context from a MemberAccess factory.
- * @param int                         $post_id Post to open.
- */
-function myplugin_visit_allowed( $access, int $post_id ): bool {
-    $url_decision  = $access->can_view_url( (string) get_permalink( $post_id ) );
-    $post_decision = $access->can_view_post( $post_id );
+    // Ownership is your job: the context names the subscription's customer.
+    if ( is_wp_error( $access ) || get_current_user_id() !== $access->context()['user_id'] ) {
+        return new WP_Error( 'myplugin_not_found', __( 'Subscription not found.', 'myplugin' ), [ 'status' => 404 ] );
+    }
 
-    return $url_decision['allowed'] && $post_decision['allowed'];
+    $result = $access->check( 'post', absint( $request['post'] ), [ 'decision' ] );
+    if ( is_wp_error( $result ) ) {
+        // invalid_target: the post does not exist. ArraySubs errors carry no HTTP status.
+        return new WP_Error( 'myplugin_bad_target', $result->get_error_message(), [ 'status' => 404 ] );
+    }
+
+    return [
+        'allowed' => $result['decision']['allowed'],
+        'reason'  => $result['decision']['reason'],
+    ];
 }
 ```
 
-When the post has its own per-post restriction, both decisions come from that restriction, so the combined answer stays consistent.
+Only the `decision` group leaves the server, so the response contains no rule configuration.
+
+## Errors
+
+| Code | Returned by | When |
+| --- | --- | --- |
+| `invalid_customer` | `fromUserId()`, `fromUser()`, `fromCustomer()`, `fromSubscriptionId()`, `fromSubscription()` | The user ID is negative or no WordPress user has it, or the subscription has no valid customer account. |
+| `invalid_subscription` | `fromSubscriptionId()`, `fromSubscription()` | The ID is 0 or not an ArraySubs subscription. |
+| `unsupported_entity` | `check()` | `$entity` is not `post`, `url`, `product` or `comments`. |
+| `invalid_target` | `check()` | `url`: empty, starting with `//`, another host or port, a scheme other than `http`/`https`, or a URL with credentials. Other entities: the target is not an int or `WP_Post`, the post does not exist, or (for `product`) it is not a WooCommerce product. |
+| `invalid_field` | `check()`, `rules()` | An unknown group in `$fields`, or an unknown item key in the `fields` argument. |
+| `invalid_query` | `rules()` | An unknown argument; `page` below 1; `per_page` outside 1 to 100; `output` other than `data` or `ids`; `fields` that is not an array; `include` that is not an array of up to 100 non-empty IDs. |
+
+These errors carry no error data, so map them to your own HTTP status codes in REST responses.
 
 ## Edge Cases and Important Notes
 
-- **No side effects.** Checks never redirect, render, send headers, write roles, grants, counters, rules or meta, log users out or switch the current user. The configured denial action (message, redirect, 403, 404) is not applied.
-- **Check after saving.** Decisions reflect data saved before the check. ArraySubs can reuse evaluation results within one request, so when your code changes a subscription and then needs a fresh decision, check again in a later request or from a lifecycle event handler (see [React to Supported Events](./actions-and-filters.md)). The `granted` and `revoked` events fire when a customer's overall entitlement flips.
-- **Not a WordPress permission.** Decisions cover ArraySubs rules only. Draft, private and password-protected posts still need WordPress checks.
-- **Administrators.** URL and Post Types rules have no administrator bypass; per-post, Shop Access and Comment rules have their own (see [Precedence and Conflicts](#precedence-and-conflicts)). A context built for an administrator shows what that administrator gets, not what a customer gets.
-- **Members Access off.** The factories return `module_unavailable` with reason `setting_disabled`. Saved rules stay stored and apply again when the setting is turned back on.
-- **Variations.** `has_active_subscription` and Shop Access product targets match parent products; use variation clauses for variations. Per-post restrictions on a variable product cover its variations unless a variation has its own.
-- **Feature values are configuration.** Feature Value conditions compare configured values, not usage left. They keep evaluating saved values while Pro is off.
-- **Caching.** Output personalized from a decision must not be served from a page cache to other visitors. Vary or bypass caching for gated fragments.
-- **Configuration is admin data.** `get_conditions()`, `matched_rules` and `conflicts` expose rule IDs, product IDs, roles and feature names. Keep them out of customer-facing responses; `as_user` removes `matched_rules` and `conflicts`.
-- **Separate domains.** Role assignment, downloads, discounts, login limits and member styling are not part of these decisions; use their own readers.
+- **No denial actions.** A read never redirects, prints the restricted message, returns a 404 or blocks a purchase. Your code decides what to render.
+- **Members Access off.** Factories still work. `check()` returns `allowed` with reason `module_disabled`, and `evaluateConditions()` still evaluates the tree you pass.
+- **Fresh within a request.** Each call clears the condition and schedule caches first, so a check made after your own changes in the same request reflects them.
+- **Caches.** Purchase and spend conditions read WooCommerce order data and can fill the same purchase-history caches (transients) that a page view fills. No ArraySubs rules, roles, subscriptions or orders change.
+- **Variations.** `has_active_subscription` and Shop Access product targets match parent products. Use `has_subscription_variation` for a specific variation.
+- **Page caching.** Output personalized from a decision must not be served from a shared page cache to other visitors.
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 | --- | --- | --- |
-| A factory returns `module_unavailable` | The Members Access setting is off | Check `\ArraySubs\Api\Availability::get( 'member_access' )`; ask the site owner to turn Members Access on |
-| `unrestricted` for a page you expected to be gated | No enabled rule of that type covers it, or the page is protected by a URL rule while you checked `post` | Call `get_conditions()` for the target; for a page visit check both `url` and `post` |
-| `for_user()` allows access but `for_subscription()` denies it | The user's clauses were met by different subscriptions | Use `for_subscription()` whenever one subscription must satisfy every clause |
-| A paused member is denied with `subscription_status` | **Content Access** is No access, or Limited while you check purchasing or commenting | Review **ArraySubs -> Settings -> Skip & Pause -> Content Access**, or add an explicit `paused` status clause |
-| `has_active_subscription` with a variation ID never passes | That clause compares parent product IDs | Use `has_subscription_variation` with `variation_ids` |
-| A product clause never passes in `meets()` | IDs passed as strings | Pass integers, for example `[ 123 ]` |
-| The decision differs from what an administrator sees on the site | Bypasses follow the context's user, and URL and Post Types rules have no bypass | Build the context for the user you are asking about |
-| `invalid_target` for a URL | The URL points to another host, or the path is mistyped | Pass a URL on this site or a root-relative path |
-| `unsupported` for a URL | `wp-admin`, `wp-login.php` and REST paths are not gated by URL rules | Protect those endpoints with capability checks in your own code |
-| `schedule_pending` with `available_at` `null` | No candidate subscription qualifies for the rule's schedule | Check the statuses the rule names and the subscription's start date |
-| `forbidden` from `check()` | `as_user` does not own the subscription or user context | Build the context from the logged-in user's own subscription |
-| `unsupported_entity` from `check()` | The entity type is not registered | Use a type from `MemberAccess::get_supported_entities()` |
+| `class_exists( '\ArraySubs\Developer\MemberAccess' )` is `false` | ArraySubs is not active or failed its dependency check | Activate WooCommerce and ArraySubs, then call the class after `init`. |
+| `unrestricted` for a page you expected to be gated | No enabled rule of that type covers it, or a URL rule protects it while you checked `post` | Read `rules()`; for a page visit check both `url` and `post`. |
+| A subscription context denies while the customer context allows | The customer's clauses were met by different subscriptions | Expected. Use `fromSubscriptionId()` when one subscription must meet every clause. |
+| A paused member fails `has_active_subscription` | **Content Access** is No access, or Limited while you check `product` or `comments` | Review **Access During Pause**, or add an explicit `subscription_status` clause for `paused`. |
+| `has_active_subscription` with a variation ID never passes | That type compares parent product IDs | Use `has_subscription_variation` with `variation_ids`. |
+| A product clause never passes | IDs passed as strings | Pass integers, for example `[ 123 ]`. |
+| `schedule_pending` with `unlocks_at` `null` | The conditions pass, but no subscription qualifies for the schedule | Check the statuses the rule names and the member's subscription start dates. |
+| `invalid_target` for a URL | Another host, a protocol-relative URL, or an empty string | Pass a root-relative path or a URL on this site. |
+| `invalid_target` for a post that exists | The ID was passed as a string | Cast it with `absint()`. |
 
 ## Related Guides
 
-- [Gate Custom PHP Output](./php-templates.md) - Existing helper functions and the `[arraysubs_restrict]` shortcode.
-- [Read and Update Feature Data](./feature-manager.md) - Feature values, usage and remaining amounts.
-- [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) - Status, grace and trial state behind access.
-- [Find Members and Update Profiles](./customers-and-profile-fields.md) - Resolve the customer or user for a context.
-- [Read Download Benefits](./downloads.md), [Read Member Discounts](./discounts.md), [Read Login-Limit Policy](./login-limits.md) and [Read Member Styling Rules](./member-styling.md) - The separate benefit readers.
-- [React to Supported Events](./actions-and-filters.md) - The `granted` and `revoked` lifecycle events.
+- [Gate Custom PHP Output](./php-templates.md) - Template helper functions and the `[arraysubs_restrict]` shortcode.
+- [Read and Update Feature Data](./feature-manager.md) - Feature values and usage behind Feature Value conditions.
+- [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) - The subscription statuses behind access.
+- [Find Members and Update Profiles](./customers-and-profile-fields.md) - Resolve the customer for a context.
+- [Read Download Benefits](./downloads.md) and [Read Member Discounts](./discounts.md) - Readers built on the same member context.
 - [Verify Your Integration](./errors-and-testing.md) - Error handling and staging checks.
 - [Member Access and Restrictions](../member-access/README.md) - The merchant guide to rules and conditions.
-- [Per-Post Access Restriction](../member-access/per-post-access-restriction.md), [URL](../member-access/url.md), [Post Types](../member-access/post-types.md), [Shop Access](../member-access/ecommerce.md) and [Comment Restrictions](../member-access/comments.md) - Where merchants configure each rule type.
 - [Scheduled / Drip Access](../member-access/scheduled-drip-access.md) and [Conflicts](../member-access/conflicts.md) - Schedules and rule overlaps in the admin.
 
 ## FAQ
 
-### Does a check redirect the visitor or show the denied message?
+### Does a check redirect the visitor or show the restricted message?
 
-No. Every method only returns a decision. Your code chooses what to render, and the configured message, redirect, 403 or 404 action is never applied by a read.
+No. Every method only returns data. The configured message, redirect, 404 or purchase block is never applied by a read.
 
 ### Can I check a member who is not the current visitor?
 
-Yes. `MemberAccess::for_user( 45 )` or `for_subscription( 123 )` evaluates that member without logging in as them or changing `get_current_user_id()`. Use `for_guest()` for logged-out visitors.
+Yes. `MemberAccess::fromUserId( 123 )` or `fromSubscriptionId( 456 )` evaluates that member without logging in as them; `get_current_user_id()` is unchanged. Use `fromUserId( 0 )` for a logged-out visitor.
 
-### Why does `for_user()` allow access when `for_subscription()` denies it?
+### Why does an empty conditions array return `true`?
 
-A user context lets each clause be met by any of the user's subscriptions. A subscription context requires that one subscription to meet every subscription clause. Use the subscription context when the guarantee must come from one subscription.
+A rule without conditions applies to everyone, and `evaluateConditions()` follows the same rule. Always pass at least one condition when the result protects something.
 
 ### Do I need ArraySubs Pro?
 
-No. The class is part of core. Pro Feature Manager is needed only to configure the feature values that Feature Value conditions compare; saved values keep evaluating in core while Pro is off.
-
-### Are uppercase `AND` and `OR` accepted in `logic`?
-
-Yes. `logic` is trimmed and case-insensitive at every level, including nested groups. Any value other than `or` means `and`.
-
-### Does this class assign roles or report downloads and discounts?
-
-No. Role Mapping, downloads, discounts, login limits and member styling have separate contracts. Saved access rules that contain a User Role condition are still evaluated with the user's current roles.
+No. The class is part of core. Pro Feature Manager is needed only to configure the feature values that Feature Value conditions compare.
 
 ### How is this different from `arraysubs_user_can_access()`?
 
-`arraysubs_user_can_access()` returns a user-wide boolean for a post's saved rules. `MemberAccess` adds subscription and guest contexts, URL, archive, term, purchase and comment targets, reason codes, schedules and conflicts. Both follow the same saved rules; see [Gate Custom PHP Output](./php-templates.md) for the helpers.
+`arraysubs_user_can_access( $user_id, $post_id )` returns one boolean for a post. `MemberAccess` adds subscription and logged-out contexts, URL, product and comment targets, the deciding rule, schedules and reasons.

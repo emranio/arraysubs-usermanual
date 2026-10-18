@@ -114,7 +114,7 @@ To remove a whole box or bundle family, cancel the box or bundle subscription (i
 ```
 
 ```box class="info-box"
-**Deleting from code removes included subscriptions.** A developer who deletes a subscription through the ArraySubs API (`Subscriptions::delete()` or `arraysubs_delete_subscription()`) also deletes its box or bundle's included subscriptions, removes their jobs and notes, and reports what was removed. Linked orders are kept on that path too. See [Find and Update Subscriptions](../developers/subscriptions.md).
+**Deleting from code removes included subscriptions.** A developer who deletes a subscription through the ArraySubs API (`\ArraySubs\Developer\Subscriptions::fromId( $id )->delete()` or `arraysubs_delete_subscription()`) also deletes its box or bundle's included subscriptions, removes their jobs and notes, and reports what was removed. Linked orders are kept on that path too. See [Find and Update Subscriptions](../developers/subscriptions.md).
 ```
 
 ### Exporting Subscriptions
@@ -333,7 +333,7 @@ The detail screen displays up to 17 card sections in this order:
 | 7 | [Billing Information](#billing-information-card) | Yes |
 | 8 | [Checkout Builder Fields](subscription-detail-cards.md#checkout-builder-custom-fields-card-pro) | Only if custom checkout fields exist (**Pro**) |
 | 9 | [Coupon Discount](subscription-detail-cards.md#coupon-discount-card) | Only if a coupon is applied |
-| 10 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card-pro) | Only if an automatic payment gateway is attached (**Pro**) |
+| 10 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card) | Only if an automatic payment gateway is attached (**Pro**) |
 | 11 | [Billing Address](#billing-address-card) | Yes |
 | 12 | [Shipping Address](#shipping-address-card) | Yes |
 | 13 | [Subscription Shipping](subscription-detail-cards.md#subscription-shipping-card-pro) | Only if the product requires shipping (**Pro**) |

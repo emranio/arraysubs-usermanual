@@ -5,9 +5,9 @@
 
 # Work with Subscription Families and Orders
 
-> Resolve box and bundle families, find the subscription that bills, read related WooCommerce orders by type, and make the few order changes that are safe outside the payment, refund, renewal and plan-switch workflows.
+> Find the subscription that bills a box or bundle, list the orders that belong to a subscription, see which subscriptions an order covers, and correct or remove orders within the limits the API enforces.
 
-**Availability:** Core (Free). `ArraySubs\Api\Relationships` and `ArraySubs\Api\Orders` ship with the core plugin. Subscription Box families are core. Subscription Bundle families need ArraySubs Pro with an active license. Early renewal orders need ArraySubs Pro with **Allow Early Renew** turned on.
+**Availability:** Core (Free). `ArraySubs\Developer\Subscriptions` and `ArraySubs\Developer\Orders` ship with the core plugin. Subscription Box families are core. Subscription Bundle families are created by ArraySubs Pro with an active license; core still reads their links when Pro is off.
 
 ## Page Navigation
 
@@ -20,1057 +20,731 @@
 
 ## Overview
 
-A subscription rarely stands alone. A WooCommerce checkout order creates it, renewal orders bill it, and a subscription box or bundle can own child subscriptions for the products inside it. Two core classes tell you what is related to what, and what you may change:
+A subscription is tied to WooCommerce orders: the checkout order that created it and the renewal orders that bill it. A Subscription Box (core) or Subscription Bundle (Pro) also gets a zero-priced child subscription for each subscription product inside it. The parent is billed; each child records the customer's entitlement to one product.
 
-| Class | Scope | Methods |
-| --- | --- | --- |
-| `ArraySubs\Api\Relationships` | Read only | `get_family()`, `get_parent()`, `get_children()`, `get_billing_owner()`, `get_orders()`, `get_pending_renewal_order()`, `get_order_type()`, `get_subscriptions_for_order()` |
-| `ArraySubs\Api\Orders` | Read, update and delete related orders | `get()`, `update()`, `delete()` |
+| Class | Methods on this page |
+| --- | --- |
+| `ArraySubs\Developer\Subscriptions` | `fromChildId()`, `family()`, `children()`, `orders()`. Reads, updates and lifecycle operations are in [Find and Update Subscriptions](./subscriptions.md). |
+| `ArraySubs\Developer\Orders` | `fromId()`, `fromOrder()`, `object()`, `query()`, `subscriptions()`, `data()`, `update()`, `delete()` |
 
-Subscriptions come back as `WP_Post` objects and orders as `WC_Order` objects unless you ask for IDs or data arrays. Every order read and write goes through WooCommerce CRUD, so the classes work the same with High-Performance Order Storage (HPOS) and with the legacy posts table.
+Both classes are instance APIs: a static finder returns an object or a `WP_Error`, and you call methods on the object, for example `Subscriptions::fromId( 123 )->orders()`. Order reads and writes go through WooCommerce CRUD (`wc_get_order()`, `wc_get_orders()`, `save()` and `delete()`), so they work with High-Performance Order Storage (HPOS) and with the posts table.
 
 ## When to Use This
 
-- You grant access per product and need the child subscriptions a member holds inside a box or bundle.
-- You start from any subscription, possibly a child, and need the subscription that bills before you pause, cancel, skip or move dates.
-- You sync orders to an accounting, CRM or commission system and need each order's type: initial, renewal, switch, early renewal or manual.
-- You need the open renewal invoice, for example to show "payment due" or to check whether a pending plan switch is frozen.
-- You want to add an order note, correct an order address or remove an unpaid leftover order without touching payments.
-- You delete a subscription and need a report of the child subscriptions removed and the orders kept.
+- A member holds a product through a box or bundle, and you need the subscription that bills before you cancel it or change its dates.
+- You grant access per product and need the child subscriptions inside a box or bundle.
+- You sync a subscription's orders to an accounting, CRM or commission system.
+- You start from a WooCommerce order and need the subscriptions it covers.
+- You correct the billing or shipping details on an order, or remove an unpaid order that no subscription references.
 
-## Prerequisites
+## Before You Start
 
-- WooCommerce and ArraySubs (core) active. Guard every call with `class_exists( '\ArraySubs\Api\Relationships' )` or `class_exists( '\ArraySubs\Api\Orders' )`. The classes do not exist when ArraySubs fails its dependency check. See [Connect Your Custom Plugin](./getting-started.md).
-- Call the classes from `init` or later. They are available from `arraysubs_after_boot`, but status filters and translated labels need `init`.
-- Bundle families: ArraySubs Pro active with a valid license. Box families: core only.
-- Your own capability, nonce and ownership checks at your web boundary. See [Permissions](#permissions).
-- The subscription data model from [Find and Update Subscriptions](./subscriptions.md).
+- WooCommerce and ArraySubs (core) active. The classes are autoloaded on `plugins_loaded` only when ArraySubs passes its dependency check, so guard every call with `class_exists( '\ArraySubs\Developer\Subscriptions' )` or `class_exists( '\ArraySubs\Developer\Orders' )`, and call them from `init` or later. See [Connect Your Custom Plugin](./getting-started.md).
+- Every method returns its result or a `WP_Error`. Check the result with `is_wp_error()`.
+- The methods are trusted server code. They check no capability, nonce or ownership. For admin tools, check `current_user_can( 'manage_woocommerce' )` and a nonce. For customer-facing code, compare the record's `customer_id` with `get_current_user_id()` before you show or change anything (see [Show a member's orders in My Account](#show-a-members-orders-in-my-account)).
+- Bundle families need ArraySubs Pro with an active license. Box families need only core.
 
 ## How It Works
 
-### The family model
+### Parents, children and standalone subscriptions
 
-- A **standalone** subscription bills itself.
-- A **parent** subscription is a subscription box (core) or a subscription bundle (Pro) that bills for everything inside it.
-- A **child** subscription is a zero-priced subscription that ArraySubs creates for each subscription product inside a box or bundle. It represents the customer's entitlement to that product and never bills on its own. The merchant guides call children "included subscriptions".
+- A **standalone** subscription bills itself and has no family links.
+- A **parent** is a Subscription Box (core) or Subscription Bundle (Pro) subscription. It is the only subscription in its family that is billed.
+- A **child** is a zero-priced subscription that ArraySubs creates for each subscription product inside a box or bundle. Plain (non-subscription) products inside it get no child. The merchant guides call children "included subscriptions".
 
-Children are created once, together with the parent, from the initial checkout order. After that:
+ArraySubs creates the children when the checkout order is processed, and checks again for missing children when the order is paid. Each child copies the parent's customer, billing period and interval, subscription length, start date, next payment date, status and payment method, and the parent's checkout order becomes its initial order. After that:
 
-- Every parent status change is copied to each child right away.
-- The parent's next payment date, last payment date and payment count are copied to each child when a parent renewal is paid.
-- Renewal invoices, payment methods, retries, grace periods, plan switches, pauses and cancellations all happen on the parent.
+- Every parent status change is copied to each child. The copy is a normal status change, so `arraysubs_data_status_changed` fires for each child too.
+- When a parent renewal is paid, the parent's next payment date, last payment date and payment count are copied to each child, and the renewal order is added to each child's order history.
+- Children never get their own renewal orders or billing jobs. Renewal invoices and their payment retries belong to the parent.
+- When the parent switches to a plan that is not a box (or not a bundle), its children are cancelled and unlinked, so they become standalone. A box-to-box or bundle-to-bundle switch keeps them.
 
-### Example: a box with two children and three renewals
+### Example family
+
+A box subscription 123 with two subscription products inside, one checkout order and one paid renewal:
 
 ```mermaid
-flowchart TB
-    O1001["Order 1001 - initial order, paid"]
-    S123["Subscription 123 - Coffee Box - parent and billing owner - 30.00 USD per month"]
-    S124["Subscription 124 - Beans A - child - 0.00"]
-    S125["Subscription 125 - Beans B - child - 0.00"]
-    O1002["Order 1002 - renewal, paid"]
-    O1003["Order 1003 - renewal, paid"]
-    O1004["Order 1004 - renewal, open invoice"]
-    O1001 -->|creates| S123
-    O1001 -->|creates| S124
-    O1001 -->|creates| S125
-    S124 -->|child of| S123
-    S125 -->|child of| S123
+flowchart LR
+    O1001["Order 1001 - checkout order"]
+    O1002["Order 1002 - renewal order, paid"]
+    S123["Subscription 123 - box parent - billed"]
+    S124["Subscription 124 - child - 0.00"]
+    S125["Subscription 125 - child - 0.00"]
+    O1001 -->|initial order| S123
+    O1001 -->|initial order| S124
+    O1001 -->|initial order| S125
+    S124 -->|parent link| S123
+    S125 -->|parent link| S123
     O1002 -->|bills| S123
-    O1003 -->|bills| S123
-    O1004 -->|bills| S123
+    O1002 -.->|added to history when paid| S124
+    O1002 -.->|added to history when paid| S125
 ```
 
-Subscriptions in this family:
+What the API returns for this family:
 
-| Subscription | What it is | `get_family()` result | `billing_owner_id` | Related orders (type) |
-| --- | --- | --- | --- | --- |
-| 123 | Coffee Box, 30.00 USD per month | `role` `parent`, `relation` `box`, `child_count` 2 | 123 | 1001 (`initial`); 1002 and 1003 (`renewal`, paid); 1004 (`renewal`, open invoice) |
-| 124 | Beans A, 0.00 | `role` `child`, `relation` `box`, `parent_id` 123 | 123 | 1001 (`initial`) |
-| 125 | Beans B, 0.00 | `role` `child`, `relation` `box`, `parent_id` 123 | 123 | 1001 (`initial`) |
+| Call | Result |
+| --- | --- |
+| `Subscriptions::fromId( 123 )->family()` | `parent_id` `null`, `kind` `null`, `billing_owner_id` 123, `orphaned` `false` |
+| `Subscriptions::fromId( 124 )->family()` | `parent_id` 123, `kind` `box`, `billing_owner_id` 123, `orphaned` `false` |
+| `Subscriptions::fromId( 123 )->children( array( 'output' => 'ids' ) )` | `items` `[124, 125]` |
+| `Subscriptions::fromChildId( 124 )` | The `Subscriptions` object for 124 |
+| `Subscriptions::fromChildId( 123 )` | `WP_Error` `invalid_relation` |
+| `Subscriptions::fromId( 123 )->orders( array( 'output' => 'ids' ) )` | `items` `[1001, 1002]` |
+| `Subscriptions::fromId( 124 )->orders( array( 'output' => 'ids' ) )` | `items` `[1001, 1002]`: a child's history includes the parent's orders |
+| `Orders::fromId( 1001 )->subscriptions( array( 'output' => 'ids' ) )` | `items` `[123, 124, 125]` |
+| `Orders::fromId( 1002 )->subscriptions( array( 'output' => 'ids' ) )` | `items` `[123, 124, 125]` once the renewal is paid; `[123]` before |
 
-Orders in this family:
+A bundle family looks the same, with `kind` `bundle`.
 
-| Order | Type | Status | `subscription_ids` | Notes |
-| --- | --- | --- | --- | --- |
-| 1001 | `initial` | `completed` | `[123, 124, 125]` | The checkout order: the box line plus a zero-priced line for each child. It created all three subscriptions. |
-| 1002 | `renewal` | `completed` | `[123]` | A paid renewal. It repeats the box contents as zero-priced lines but links only to the parent. |
-| 1003 | `renewal` | `completed` | `[123]` | A paid renewal. |
-| 1004 | `renewal` | `pending` | `[123]` | The open renewal invoice. `Relationships::get_pending_renewal_order( 123 )` returns it. |
+### Which orders belong to a subscription
 
-```box class="info-box"
-## A child subscription is not a renewal order
+`orders()`, and `Orders::query()` with `subscription_id`, return the orders that pass both checks:
 
-A child is a separate subscription record (a `WP_Post`) created once, together with its parent, from the initial order. A renewal order is a WooCommerce order (`WC_Order`) that bills the parent for the next period. Renewal orders link only to the billing owner: they never appear in a child's `get_orders()` results, and `get_order_type( 1002, 124 )` returns `not_found`.
-```
+1. **Link.** The order is in the subscription's order history (for example its checkout order, its renewal orders, and the recorded pending renewal or pending plan-switch order), or the order's own link data names the subscription. On a child, the billing owner's order history and checkout order count too.
+2. **Customer.** The order's customer matches the subscription's customer: the same WordPress user ID when both have one, otherwise the same billing email, compared in lowercase.
 
-### Box families and bundle families
+The `arraysubs_subscription_history_includes_order` filter can change the first check (see [Hooks](#hooks)); nothing changes the second. Only the subscription customer's orders are considered, refunds never are, and every order status is included unless you pass `statuses`.
 
-| | Subscription Box | Subscription Bundle *(Pro)* |
-| --- | --- | --- |
-| Edition | Core (Free) | ArraySubs Pro with an active license |
-| Contents | Chosen by the customer in the box builder | Fixed by the merchant |
-| `relation` value | `box` | `bundle` |
-| Children | One per subscription product line in the box, including subscription products added as freebies | One per subscription product line in the bundle |
-| Hook after children are created | `arraysubs_box_child_subscriptions_created` | `arraysubspro_bundle_child_subscriptions_created` |
-| Error when a customer request tries to change a child | `arraysubs_box_child_locked` (403) | `arraysubs_bundle_child_locked` (403) |
-| Merchant setup | [Subscription Box](../subscription-products/subscription-box.md) | [Subscription Bundle](../subscription-products/subscription-bundle.md) |
+`Orders::subscriptions()` makes the same kind of checks from the order's side, without the filter and without adding the parent's orders to a child. The two directions can differ for a family: a child's `orders()` already lists the parent's unpaid renewal invoice, while that invoice's `subscriptions()` lists the child only after the renewal is paid.
 
-Plain (non-subscription) products in a box or bundle get no child subscription. Both creation hooks receive `( int $subscription_id, int[] $child_ids, int $order_id )` and fire after the children exist and are linked, only when new children were created. See [React to Supported Events](./actions-and-filters.md).
+### Pages
 
-### The billing owner
-
-The billing owner is the subscription that is charged: the parent for a child, and the subscription itself for a parent or a standalone subscription. Run billing and lifecycle operations on the billing owner, and read the family's schedule from it. Whenever your code may receive a child (for example from a product-based access check), resolve the owner first with `Relationships::get_billing_owner()`.
-
-Operations that a child cannot run on its own return `WP_Error` code `unsupported_operation`, and the error data names the owner in `billing_owner_id`. See [Child operation restrictions](#child-operation-restrictions).
-
-### Related orders and order types
-
-An order is related to a subscription only when both checks pass:
-
-1. The order links to the subscription as its initial order, a renewal, a plan switch, an early renewal or a manual payment.
-2. The order's customer matches the subscription's customer: the same WordPress user ID or, when either side is a guest, the same billing email (compared case-insensitively).
-
-Orders that fail either check are ignored by every method on this page.
-
-| Type | Created by | Links to |
-| --- | --- | --- |
-| `initial` | Checkout. It creates the subscription and any children. | Every subscription it created, children included |
-| `renewal` | The renewal engine, ahead of each due date (automatic and manual-payment renewals) | The billing owner only |
-| `switch` | A plan switch that charges a prorated amount, or settles with credit (order status `arraysubs-settled`, shown as "Credit settled") | The switched subscription |
-| `early_renewal` *(Pro)* | The customer's **Renew Early** action | The billing owner |
-| `manual` | An administrator recording a manual payment for the subscription | The subscription |
-
-Each order has exactly one type. An early renewal order is a renewal paid ahead of time, but it reports `early_renewal`. Pass both types when you want every renewal charge: `'type' => array( 'renewal', 'early_renewal' )`.
-
-### The pending renewal order
-
-The renewal engine creates the next renewal invoice before the due date (**Generate Invoice Before Due**, 6 hours by default) in `pending` status. At the due time it is charged automatically, or the customer pays it from My Account. A failed charge leaves it `failed` and still open while retries and the grace period run. The invoice stops being open when it is paid (the subscription renews) or cancelled (for example when the subscription is cancelled).
-
-`Relationships::get_pending_renewal_order()` returns that open invoice, or `null`. A subscription has at most one open invoice at a time.
-
-When a pending plan switch exists at invoice time, the invoice is built on the target plan: its product, quantity and price are the new plan's, and its order data reports `carries_pending_switch` as `true`. Paying the invoice applies the switch and emits the `plan_switched` lifecycle event with `trigger` `pending_switch`. While that invoice is open, the switch is frozen: `Lifecycle::cancel_pending_switch()` returns `conflict`, and `Subscriptions::update()` returns `conflict` for plan, price, schedule or date changes. See [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md).
-
-### HPOS-safe order access
-
-`Relationships` reads orders with `wc_get_order()` and `wc_get_orders()`. `Orders::update()` writes through `WC_Order` setters and `save()`, and `Orders::delete()` uses WooCommerce's own trash and delete. All three work with HPOS and with the legacy posts table.
-
-Use the same CRUD calls in your own order code:
-
-```php
-<?php
-// HPOS-safe: works with both order storage modes.
-$order = wc_get_order( 1002 );
-
-if ( $order ) {
-	$order->update_meta_data( '_myplugin_synced_at', gmdate( 'c' ) );
-	$order->save();
-}
-
-// Not HPOS-safe: these read and write the posts table, which HPOS does not use for orders.
-// get_post_meta( 1002, '_myplugin_synced_at', true );
-// update_post_meta( 1002, '_myplugin_synced_at', gmdate( 'c' ) );
-```
-
-Store only your own meta keys this way. Never write ArraySubs link or type data on orders or subscriptions: relationship checks depend on it, and `Orders::update()` refuses it.
-
-### Changes that need a dedicated workflow
-
-Generic order changes are not neutral for subscription orders. Moving an order to Processing or Completed is processed as a real payment (it activates or renews the subscription). Failed or Cancelled on an initial order puts its subscriptions on hold. Refunded cancels the subscription. `Orders::update()` therefore refuses status, totals, payment, refund and ArraySubs link or type changes with `unsupported_operation`, and `get_error_data()['use']` names the workflow to use instead:
-
-| You want to | `use` value | Use instead |
-| --- | --- | --- |
-| Mark an order paid or record payment details | `payment_completion` | Let the payment gateway complete the order. For a payment you confirm offline, call WooCommerce's `$order->payment_complete( $transaction_id )`, which runs the ArraySubs payment checks and then activates or renews the subscription. |
-| Refund an order or mark it refunded | `refund` | A WooCommerce refund (`wc_create_refund()` or the order screen's Refund button), or the ArraySubs refund helpers `arraysubs_process_full_order_refund( $order_id, $reason )` and `arraysubs_process_partial_order_refund( $order_id, $amount, $reason )`. Refunds are checked against each subscription's share of the order. See [Refund Management](../retention-and-refunds/refund-management.md). |
-| Create, charge, cancel or re-price a renewal invoice | `renewal_processing` | The renewal schedule (`arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal`), the customer's payment from My Account, and subscription-level methods such as `Subscriptions::update()`, `skip_renewal()` and `cancel()`. Never build renewal orders yourself. |
-| Change or complete a plan-switch order | `plan_switch_finalization` | The plan switch flow. Plan-switch orders carry a signed switch contract and are finalized automatically when paid; editing their fees or data invalidates the contract. See [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md). |
-
-The refund helpers move money and do not check capabilities, so call them only after your own permission check.
-
-### Permissions
-
-All methods on this page are trusted server code. Like WordPress core functions, they never check the current user's capabilities. Before you call them from a request:
-
-- For admin tools, check a capability such as `current_user_can( 'manage_woocommerce' )` and verify a nonce.
-- For customer-facing code, pass `as_user` wherever the method accepts `$args`. The subscription must belong to that user (its customer ID must equal `as_user`), otherwise the call returns `forbidden`.
-- The methods without `$args` (`get_family()`, `get_parent()`, `get_billing_owner()`, `get_pending_renewal_order()`, `get_order_type()`) take no `as_user`. Confirm ownership first with `\ArraySubs\Api\Subscriptions::get( $id, array( 'as_user' => $user_id ) )`.
-
-Children copy the customer from their parent, so ownership of the parent covers the whole family.
-
-## Relationships Reference
-
-Shared rules for every `Relationships` method:
-
-- All methods are static on `ArraySubs\Api\Relationships`.
-- Subscription inputs accept a subscription ID or the `WP_Post` from `arraysubs_get_subscription()`. Order inputs accept an order ID or a `WC_Order`.
-- `invalid_argument` (status 400) means a wrong input type, an unknown argument or an unknown filter value (data `field`). `not_found` (status 404) means the subscription or order does not exist.
-- Read only: no writes. Reads never repair links, create invoices, take locks or send email.
-- Collections return `items`, `per_page`, `next_cursor`, `has_more` and `total`, and accept `per_page` (default 20, maximum 100), `cursor`, `order` (`asc` by ID by default, or `desc`) and `include_total` (default `false`). An empty collection is not an error.
-
-### Relationships::get_family()
-
-```text
-Relationships::get_family( int|WP_Post $subscription ): array|WP_Error
-```
-
-Describes the subscription's place in a family.
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$subscription` | `int\|WP_Post` | Required | The subscription to describe |
-
-Returns:
+`children()`, `orders()`, `Orders::query()` and `subscriptions()` return the same page array:
 
 | Key | Type | Meaning |
 | --- | --- | --- |
-| `subscription_id` | int | The subscription you asked about |
-| `role` | string | `parent` (at least one child points to it), `child` (a zero-priced subscription inside a box or bundle) or `standalone` |
-| `relation` | string\|null | `box` (core Subscription Box), `bundle` (Pro Subscription Bundle), or `null` for a standalone subscription |
-| `parent_id` | int\|null | The parent's ID for a child; `null` otherwise |
-| `billing_owner_id` | int | The parent's ID for a child; the subscription's own ID otherwise |
-| `child_count` | int | Children in the family. For a child, this counts every child of its parent, itself included. `0` for a standalone subscription. |
+| `items` | array | Objects, IDs or data arrays, depending on `output` |
+| `page` | int | The page you asked for |
+| `per_page` | int | The page size |
+| `has_more` | bool | `true` when another page exists |
+| `next_page` | int\|null | The next page number, or `null` |
 
-- **Errors:** `not_found`, `invalid_argument`.
-- **Permission:** no `as_user`; check ownership first (see [Permissions](#permissions)).
-- **Side effects:** Read only: no writes.
+`page` defaults to 1 and `per_page` to 20 (1 to 100). Items are ordered by ID: `order` `asc` (default) or `desc`. There is no total count; loop while `has_more` is `true`.
 
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$family = \ArraySubs\Api\Relationships::get_family( 124 );
+## Family Reference
 
-	if ( is_wp_error( $family ) ) {
-		error_log( 'Family lookup failed: ' . $family->get_error_code() );
-	} elseif ( 'child' === $family['role'] ) {
-		// Bill, pause or cancel through the parent, never the child.
-		$billing_owner_id = $family['billing_owner_id']; // 123
-	}
-}
-```
+| Method | Arguments | Returns | Notes |
+| --- | --- | --- | --- |
+| `Subscriptions::fromChildId( int $id )` | Subscription ID | `Subscriptions` or `WP_Error` | Accepts only a box or bundle child |
+| `$subscription->family()` | None | array | The parent link and the subscription that bills |
+| `$subscription->children( array $args = [] )` | `Subscriptions::query()` arguments | Page or `WP_Error` | The children of this subscription |
+| `$subscription->orders( array $args = [] )` | `Orders::query()` arguments | Page or `WP_Error` | The orders that belong to this subscription |
 
-### Relationships::get_parent()
+All four are read only. `$subscription` is the object that `Subscriptions::fromId()` returns.
+
+### Subscriptions::fromChildId()
 
 ```text
-Relationships::get_parent( int|WP_Post $subscription ): WP_Post|null|WP_Error
+Subscriptions::fromChildId( int $id ): Subscriptions|WP_Error
 ```
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$subscription` | `int\|WP_Post` | Required | The subscription whose parent you want |
+Opens a subscription only when it links to a box or bundle parent. An orphaned child (see [family()](#family)) is accepted too, so check `family()['orphaned']` before you rely on its parent.
 
-- **Returns:** the parent `WP_Post` for a child, or `null` for a parent or standalone subscription.
-- **Errors:** `not_found` when the subscription does not exist, or when a child's stored parent no longer exists (see [Edge Cases and Important Notes](#edge-cases-and-important-notes)); `invalid_argument`.
-- **Permission:** no `as_user`; check ownership first.
-- **Side effects:** Read only: no writes.
+- **Errors:** `not_found` (`Subscription not found.`); `invalid_relation` (`This subscription is not an entitlement child.`) for a parent or standalone subscription.
 
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$parent = \ArraySubs\Api\Relationships::get_parent( 124 );
-
-	if ( is_wp_error( $parent ) ) {
-		error_log( 'Parent lookup failed: ' . $parent->get_error_message() );
-	} elseif ( null === $parent ) {
-		// 124 is a parent or a standalone subscription.
-	} else {
-		$parent_id = $parent->ID; // 123
-	}
-}
-```
-
-### Relationships::get_children()
+### family()
 
 ```text
-Relationships::get_children( int|WP_Post $parent, array $args = [] ): array|WP_Error
+$subscription->family(): array
 ```
 
-Lists the child subscriptions of a box or bundle parent. Only children whose stored parent link points back to this parent are returned.
+| Key | Type | Meaning |
+| --- | --- | --- |
+| `parent_id` | int\|null | The direct parent's ID when that link is valid; `null` for a parent, a standalone subscription, or a child whose own parent link is invalid |
+| `kind` | string\|null | `box` or `bundle` when the subscription has a parent link, valid or not; `null` otherwise |
+| `billing_owner_id` | int\|null | The subscription that bills: the top of the parent chain for a child, the subscription itself otherwise; `null` for an orphaned child |
+| `orphaned` | bool | `true` when the chain of parent links cannot be trusted: a parent in it does not exist or belongs to a different customer, the links loop or run deeper than 20 levels, or a record in it links to both a box and a bundle parent |
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$parent` | `int\|WP_Post` | Required | The parent subscription |
-| `status` | `string\|string[]` | `any` | Simple status names (`pending`, `trial`, `active`, `paused`, `on-hold`, `cancelled`, `expired`), `live` or `any` |
-| `output` | string | `object` | `object` (`WP_Post` items), `ids` (ints) or `data` (subscription data arrays) |
-| `fields` | string[] | Every group you may see | Field groups for `data` output, as in [Find and Update Subscriptions](./subscriptions.md) |
-| `per_page`, `cursor`, `order`, `include_total` | | 20, none, `asc`, `false` | Collection paging |
-| `as_user` | int | none | Enforce that the parent belongs to this user and return customer-safe data |
-
-- **Returns:** a collection. A standalone subscription or a child returns an empty collection.
-- **Limits:** at most 100 items per page; follow `next_cursor` for more.
-- **Errors:** `not_found`, `invalid_argument`, `forbidden` (with `as_user`).
-- **Side effects:** Read only: no writes.
-
-`Subscriptions::query( array( 'parent_id' => 123 ) )` returns the same children with every query filter, but its `status` defaults to `live`.
+`family()` reports a parent the same way as a standalone subscription. Call `children()` to tell them apart:
 
 ```php
 <?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$children = \ArraySubs\Api\Relationships::get_children(
-		123,
-		array(
-			'status'   => array( 'active', 'trial' ),
-			'per_page' => 50,
-		)
-	);
+if ( class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( 123 );
 
-	if ( ! is_wp_error( $children ) ) {
-		foreach ( $children['items'] as $child ) {
-			// Each item is a WP_Post.
-			$product_name = arraysubs_get_subscription_product_name_by_subscription( $child->ID );
+	if ( ! is_wp_error( $subscription ) ) {
+		$family = $subscription->family();
+
+		if ( null !== $family['kind'] ) {
+			$role = $family['orphaned'] ? 'orphaned child' : 'child'; // Bill through $family['billing_owner_id'].
+		} else {
+			$children = $subscription->children( array( 'output' => 'ids', 'per_page' => 1 ) );
+			$role     = ( ! is_wp_error( $children ) && $children['items'] ) ? 'parent' : 'standalone';
 		}
 	}
 }
 ```
 
-### Relationships::get_billing_owner()
+### children()
 
 ```text
-Relationships::get_billing_owner( int|WP_Post $subscription ): WP_Post|WP_Error
+$subscription->children( array $args = [] ): array|WP_Error
 ```
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$subscription` | `int\|WP_Post` | Required | Any subscription in the family |
+Runs `Subscriptions::query()` with `parent_id` set to this subscription, and keeps only the records whose `family()['parent_id']` is this subscription, so orphaned children are left out. A child or a standalone subscription returns an empty page.
 
-- **Returns:** the parent `WP_Post` for a child; the subscription itself for a parent or standalone subscription.
-- **Errors:** `not_found` when the subscription, or a child's stored parent, does not exist; `invalid_argument`.
-- **Permission:** no `as_user`; check ownership first.
-- **Side effects:** Read only: no writes.
+| Argument | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `statuses` | string[] | Every ArraySubs status | Full status keys: `arraysubs-pending`, `arraysubs-active`, `arraysubs-trial`, `arraysubs-paused`, `arraysubs-on-hold`, `arraysubs-cancelled`, `arraysubs-expired`. An empty array returns an empty page. |
+| `output` | string | `object` | `object` (`WP_Post`), `ids` or `data` |
+| `fields` | string[] | Every group | Subscription data groups for `output` `data`, as in [Find and Update Subscriptions](./subscriptions.md) |
+| `customer_id`, `order_id`, `include` | | None | Extra filters, combined with AND. `include` takes up to 100 subscription IDs. |
+| `page`, `per_page`, `order` | | 1, 20, `asc` | Paging, by subscription ID |
+
+- **Errors:** `invalid_query` (an unknown argument or an invalid value), `invalid_field` (an unknown field group), `not_found` (the subscription, or the `order_id` order, no longer exists).
+
+### orders()
+
+```text
+$subscription->orders( array $args = [] ): array|WP_Error
+```
+
+Runs `Orders::query()` with `subscription_id` set to this subscription and accepts its other arguments (`customer_id`, `include`, `statuses`, `output`, `fields`, `page`, `per_page`, `order`). On a child the result includes the billing owner's checkout and renewal orders.
+
+- **Errors:** as for [Orders::query()](#ordersquery), including `unclaimed_identity` for a guest subscription without a valid email.
+
+### Family data groups
+
+Three subscription data groups carry the same links, ready for `$subscription->data( $fields )`:
+
+| Group | Contents |
+| --- | --- |
+| `family` | The `family()` array plus `children`: the first page (20) of child IDs, as a page array |
+| `orders` | The first page (20) of order IDs from `orders()`, as a page array |
+| `order_references` | `initial_order_id`, `original_order_id`, `pending_renewal_order_id` and `pending_plan_switch_order_id`: the order IDs the subscription records, each kept only when `orders()` would return that order, otherwise `null` |
+
+See [Find and Update Subscriptions](./subscriptions.md) for the other groups.
+
+### What a child refuses
+
+A child shares its parent's billing, so the subscription methods refuse billing and lifecycle changes on it:
+
+| Call on a child | Result |
+| --- | --- |
+| `update()` that changes the status, product, variation, quantity, billing period or interval, length, recurring amount, renewal-price settings or trial terms, and `changeStatus()`, `activate()`, `suspend()`, `expire()` | `WP_Error` `parent_billed_subscription` |
+| `update()` that changes other fields, such as the billing or shipping address or the invoice email | Allowed |
+| `setNextPaymentDate()`, `setTrialEnd()`, `endTrial()`, `setGracePolicy()` | `parent_billed_subscription` |
+| `cancel()`, `undoCancellation()` | `parent_billed_subscription` |
+| `pause()`, `resume()` | `subscription_conflict` |
+| `delete()` | Deletes this child only |
+| A customer's write request to an ArraySubs REST route (`/arraysubs/v1/...`) that names a child | 403 `arraysubs_box_child_locked`, or `arraysubs_bundle_child_locked` *(Pro)* |
+
+Input validation runs first, so an invalid value can return its own error before the family check. The error data does not name the parent: read `family()['billing_owner_id']` and repeat the call there (see [Act on the subscription that bills](#act-on-the-subscription-that-bills)). These checks look at the parent link itself, so they also apply to orphaned children.
+
+### Deleting a parent
+
+`Subscriptions::fromId( 123 )->delete()` permanently deletes the parent and its children, and returns:
+
+```text
+[
+  'deleted'                  => true,
+  'id'                       => 123,
+  'direct_children_deleted'  => 2,
+  'direct_children_retained' => 0,
+  'orders_deleted'           => false,
+  'customer_deleted'         => false,
+]
+```
+
+WooCommerce orders and the customer are never deleted. Bundle children are deleted with their parent only while ArraySubs Pro is running; otherwise they stay and are counted in `direct_children_retained`. Deleting a parent from the **ArraySubs -> Subscriptions** list keeps its children, which then report `orphaned` `true`. See [Find and Update Subscriptions](./subscriptions.md) for `delete()`.
+
+## Orders Reference
+
+| Method | Arguments | Returns | Notes |
+| --- | --- | --- | --- |
+| `Orders::fromId( int $id )` | Order ID | `Orders` or `WP_Error` | `not_found` for a missing order or a refund |
+| `Orders::fromOrder( WC_Order $order )` | Order object | `Orders` or `WP_Error` | Same as `fromId( $order->get_id() )` |
+| `$order->object()` | None | `WC_Order` or `null` | A fresh `wc_get_order()` result; `null` once the order is deleted |
+| `Orders::query( array $args = [] )` | See below | Page or `WP_Error` | Any WooCommerce orders, or one subscription's orders |
+| `$order->subscriptions( array $args = [] )` | `Subscriptions::query()` arguments | Page or `WP_Error` | Same as `Subscriptions::fromOrderId( $order_id, $args )` |
+| `$order->data( array $fields = [] )` | Field groups | array or `WP_Error` | See [Order data](#order-data) |
+| `$order->update( array $changes, array $expected = [] )` | Contact changes, expected values | Order data or `WP_Error` | Billing, shipping and customer note only |
+| `$order->delete()` | None | `array( 'deleted' => true, 'id' => int )` or `WP_Error` | Only unpaid orders that no subscription references |
+
+`$order` is the object that `Orders::fromId()` or `Orders::fromOrder()` returns. Only `update()` and `delete()` write.
+
+### Orders::fromId() and Orders::fromOrder()
+
+```text
+Orders::fromId( int $id ): Orders|WP_Error
+Orders::fromOrder( WC_Order $order ): Orders|WP_Error
+```
+
+Opens any WooCommerce order, whether or not a subscription is linked to it.
+
+- **Errors:** `not_found` (`Order not found.`) for a missing ID or a refund ID.
+
+### Orders::query()
+
+```text
+Orders::query( array $args = [] ): array|WP_Error
+```
+
+| Argument | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `subscription_id` | int | None | Only the orders that belong to this subscription (see [Which orders belong to a subscription](#which-orders-belong-to-a-subscription)) |
+| `customer_id` | int | None | Only orders whose WooCommerce customer is this user. With `subscription_id`, it replaces the default lookup by the subscription's customer ID and email; each order must still match the subscription's customer. |
+| `include` | int[] | None | Only these order IDs, up to 100. An empty array returns an empty page. |
+| `statuses` | string[] | Every key of `wc_get_order_statuses()` | Keys with the `wc-` prefix, for example `wc-pending`, `wc-processing`, `wc-completed`, `wc-on-hold`, `wc-failed`, `wc-cancelled`, `wc-refunded`, `wc-checkout-draft` or `wc-arraysubs-settled` (Credit settled). An empty array returns an empty page. |
+| `output` | string | `object` | `object` (`WC_Order`), `ids` or `data` ([order data](#order-data)) |
+| `fields` | string[] | Every group | Order data groups for `output` `data` |
+| `page`, `per_page`, `order` | | 1, 20, `asc` | Paging, by order ID |
+
+- **Without `subscription_id`**, `query()` is a plain WooCommerce order listing (refunds excluded) with no subscription check.
+- **Errors:** `invalid_query` (an unknown argument; `page` below 1 or `per_page` outside 1 to 100; a non-positive ID; a status that is not a `wc_get_order_statuses()` key; an invalid `order` or `output`; `fields` that is not an array; more than 100 `include` IDs), `invalid_field` (an unknown field group), `not_found` (the `subscription_id` subscription does not exist), `unclaimed_identity` (a guest subscription without a valid email).
+- **Performance:** with `subscription_id`, the query reads the customer's orders in batches of 100 and checks each one. Every page repeats the checks for the orders before it.
+- `Customer::fromUserId( $user_id )->orders( $args )` runs this query with `customer_id`. See [Find Members and Update Profiles](./customers-and-profile-fields.md).
+
+### subscriptions()
+
+```text
+$order->subscriptions( array $args = [] ): array|WP_Error
+```
+
+Lists the subscriptions linked to the order. It accepts the `Subscriptions::query()` arguments (`statuses`, `output`, `fields`, `customer_id`, `parent_id`, `include`, `page`, `per_page`, `order`) and returns `WP_Post` items in every status by default. A checkout order lists every subscription it created, children included. A renewal order lists its billing owner, and also the children once the renewal is paid.
+
+- **Errors:** `invalid_query`, `invalid_field`, `not_found` (the order no longer exists).
 
 ```php
 <?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$owner = \ArraySubs\Api\Relationships::get_billing_owner( 124 );
+if ( class_exists( '\ArraySubs\Developer\Orders' ) ) {
+	$order = \ArraySubs\Developer\Orders::fromId( 1001 );
 
-	if ( ! is_wp_error( $owner ) ) {
-		$owner_id = $owner->ID; // 123 for this child; the same ID for a parent or standalone subscription.
-	}
-}
-```
+	if ( ! is_wp_error( $order ) ) {
+		$linked = $order->subscriptions( array( 'per_page' => 100 ) );
+		$roles  = array();
 
-### Relationships::get_orders()
-
-```text
-Relationships::get_orders( int|WP_Post $subscription, array $args = [] ): array|WP_Error
-```
-
-Lists the orders related to a subscription, including plan-switch orders, paid orders and the open renewal invoice.
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$subscription` | `int\|WP_Post` | Required | The subscription |
-| `type` | `string\|string[]` | `any` | `initial`, `renewal`, `switch`, `early_renewal`, `manual` or `any` |
-| `status` | `string\|string[]` | Every status | WooCommerce order statuses without `wc-`, such as `pending`, `processing`, `completed`, `on-hold`, `failed`, `cancelled`, `refunded`, `checkout-draft` or `arraysubs-settled` |
-| `output` | string | `object` | `object` (`WC_Order` items), `ids` or `data` ([order data](#order-data-fields)) |
-| `per_page`, `cursor`, `order`, `include_total` | | 20, none, `asc`, `false` | Collection paging. `asc` is oldest first, because order IDs grow over time. |
-| `as_user` | int | none | Enforce that the subscription belongs to this user |
-
-- **Returns:** a collection. On a child it lists only the orders that link to the child, normally the initial order. Call it on the billing owner to list the family's renewals.
-- **Limits:** at most 100 items per page; there is no cap on the total, so follow `next_cursor`. Trashed and deleted orders are not listed.
-- **Errors:** `not_found`, `invalid_argument`, `forbidden` (with `as_user`).
-- **Side effects:** Read only: no writes. HPOS safe.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$page = \ArraySubs\Api\Relationships::get_orders(
-		123,
-		array(
-			'type'   => array( 'renewal', 'early_renewal' ),
-			'status' => array( 'processing', 'completed' ),
-			'output' => 'data',
-			'order'  => 'desc',
-		)
-	);
-
-	if ( ! is_wp_error( $page ) ) {
-		foreach ( $page['items'] as $order ) {
-			// $order['id'], $order['type'], $order['total'], $order['currency'], $order['paid_at']
+		foreach ( is_wp_error( $linked ) ? array() : $linked['items'] as $post ) {
+			$subscription = \ArraySubs\Developer\Subscriptions::fromSubscription( $post );
+			if ( ! is_wp_error( $subscription ) ) {
+				$roles[ $post->ID ] = null === $subscription->family()['kind'] ? 'billed' : 'included';
+			}
 		}
+		// Order 1001: array( 123 => 'billed', 124 => 'included', 125 => 'included' ).
 	}
 }
 ```
 
-### Relationships::get_pending_renewal_order()
+### Order data
 
 ```text
-Relationships::get_pending_renewal_order( int|WP_Post $subscription ): WC_Order|null|WP_Error
+$order->data( array $fields = [] ): array|WP_Error
 ```
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$subscription` | `int\|WP_Post` | Required | The billing owner |
+Returns the groups you list, or all of them: `identity`, `amounts`, `billing`, `shipping` and `subscriptions`. An unknown group returns `invalid_field`; a deleted order returns `not_found`.
 
-- **Returns:** the open renewal invoice (an unpaid renewal order in `pending`, `on-hold` or `failed` status), or `null` when there is none. A child never has its own invoice, so a child returns `null`; ask the billing owner.
-- **Errors:** `not_found`; `invalid_argument`; `ambiguous_match` when more than one open renewal invoice exists (data `details` lists their IDs). That points to a data problem; see [Troubleshooting](#troubleshooting).
-- **Permission:** no `as_user`; check ownership first.
-- **Side effects:** Read only: no writes. It never creates an invoice.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$invoice = \ArraySubs\Api\Relationships::get_pending_renewal_order( 123 );
-
-	if ( is_wp_error( $invoice ) ) {
-		error_log( 'Open invoice lookup failed: ' . $invoice->get_error_code() );
-	} elseif ( $invoice instanceof WC_Order ) {
-		$pay_url = $invoice->get_checkout_payment_url(); // WooCommerce pay page for the open invoice.
-	}
-}
-```
-
-### Relationships::get_order_type()
-
-```text
-Relationships::get_order_type( int|WC_Order $order, int|WP_Post $subscription ): string|WP_Error
-```
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$order` | `int\|WC_Order` | Required | The order |
-| `$subscription` | `int\|WP_Post` | Required | The subscription to compare against |
-
-- **Returns:** `initial`, `renewal`, `switch`, `early_renewal` or `manual`.
-- **Errors:** `not_found` when the order or subscription does not exist, or when they are not related (including a failed customer identity check); `invalid_argument`.
-- **Permission:** no `as_user`; check ownership first.
-- **Side effects:** Read only: no writes.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$type = \ArraySubs\Api\Relationships::get_order_type( 1002, 123 ); // 'renewal'
-
-	if ( is_wp_error( $type ) ) {
-		$type = 'unrelated'; // not_found: the order does not belong to this subscription.
-	}
-}
-```
-
-### Relationships::get_subscriptions_for_order()
-
-```text
-Relationships::get_subscriptions_for_order( int|WC_Order $order, array $args = [] ): array|WP_Error
-```
-
-Lists every subscription linked to an order. This is the same lookup as `Subscriptions::for_order()`, and it has no 50-result cap.
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$order` | `int\|WC_Order` | Required | The order |
-| `status` | `string\|string[]` | `any` | Every linked subscription, whatever its status, unless you narrow it |
-| Other filters | | | The `Subscriptions::query()` filters except `order_id`, for example `relation` and `product_id` |
-| `output`, `fields` | | `object`, every group | `object` (`WP_Post`), `ids` or `data` |
-| `per_page`, `cursor`, `order`, `include_total` | | 20, none, `asc`, `false` | Collection paging |
-| `as_user` | int | none | Enforce that the subscriptions belong to this user |
-
-- **Returns:** a collection. An initial order lists every subscription it created, children included; a renewal, early renewal, switch or manual order lists one subscription. An order with no subscriptions returns an empty collection.
-- **Errors:** `not_found` (no such order), `invalid_argument`, `forbidden` (with `as_user`).
-- **Side effects:** Read only: no writes. HPOS safe.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) ) {
-	$linked = \ArraySubs\Api\Relationships::get_subscriptions_for_order(
-		1001,
-		array(
-			'output' => 'ids',
-			'status' => 'any',
-		)
-	);
-
-	if ( ! is_wp_error( $linked ) ) {
-		$subscription_ids = $linked['items']; // array( 123, 124, 125 )
-	}
-}
-```
-
-### Order data fields
-
-`output => 'data'` on `get_orders()` and `Orders::get()` returns one flat array per order:
+`identity`:
 
 | Key | Type | Meaning |
 | --- | --- | --- |
 | `id` | int | Order ID |
-| `type` | string | `initial`, `renewal`, `switch`, `early_renewal` or `manual` |
-| `status` | string | WooCommerce order status without `wc-` |
-| `created_at` | string | Creation time, ISO 8601 UTC, for example `2026-10-01T00:00:00+00:00` |
-| `paid_at` | string\|null | Payment time, ISO 8601 UTC; `null` while unpaid |
-| `total` | string | Order total as a decimal string, for example `'30.00'` |
-| `currency` | string | ISO 4217 code, for example `USD` |
-| `payment_method` | string | Payment gateway ID, for example `stripe`; an empty string when none |
-| `subscription_ids` | int[] | Every subscription the order links to |
-| `carries_pending_switch` | bool | `true` when this renewal invoice is built on a pending plan switch; always `false` for other order types |
+| `customer_id` | int\|null | WordPress user ID; `null` for a guest order |
+| `status` | string | WooCommerce status without the `wc-` prefix, for example `processing` |
+| `created_at` | int\|null | Creation time, Unix timestamp (UTC) |
+| `paid_at` | int\|null | Payment time, Unix timestamp (UTC); `null` while unpaid |
+| `pending_switch` | bool | `true` for a renewal order built on a pending plan switch |
+| `is_renewal` | bool | `true` for a renewal order, including a Pro early renewal order |
+| `is_plan_switch` | bool | `true` for an order created by a plan switch |
 
-## Orders Reference
+`amounts`:
 
-`ArraySubs\Api\Orders` reads and changes only orders that are related to a subscription. For any other WooCommerce order, use WooCommerce directly. Every method is static and trusted server code (see [Permissions](#permissions)).
+| Key | Type | Meaning |
+| --- | --- | --- |
+| `currency` | string | Currency code, for example `USD` |
+| `total` | string | Order total as WooCommerce stores it, for example `'30.00'` |
+| `tax`, `shipping`, `discount` | string | Tax total, shipping total and discount total |
+| `refunded` | number | Amount refunded so far; `0` when nothing was refunded |
 
-### Orders::get()
+`billing`: `first_name`, `last_name`, `company`, `address_1`, `address_2`, `city`, `state`, `postcode`, `country`, `email` and `phone`. `shipping`: the same keys without `email`.
 
-```text
-Orders::get( int|WC_Order $order, array $args = [] ): WC_Order|array|WP_Error
-```
+`subscriptions`: the first page (20) of linked subscription IDs, as a page array, the same as `subscriptions( array( 'output' => 'ids' ) )`.
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$order` | `int\|WC_Order` | Required | The order |
-| `subscription` | `int\|WP_Post` | none | When given, the order must be related to this subscription, otherwise `not_found`. Without it, the order must link to at least one subscription. |
-| `output` | string | `object` | `object` (`WC_Order`) or `data` ([order data](#order-data-fields)) |
-| `as_user` | int | none | Enforce that the order's subscription belongs to this user |
-
-- **Returns:** a `WC_Order` or the order data array.
-- **Errors:** `not_found` (missing order, an unrelated order, or a refund ID), `invalid_argument`, `forbidden` (with `as_user`).
-- **Side effects:** Read only: no writes.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Orders' ) ) {
-	$order = \ArraySubs\Api\Orders::get(
-		1004,
-		array(
-			'subscription' => 123,
-			'output'       => 'data',
-		)
-	);
-
-	if ( is_wp_error( $order ) ) {
-		error_log( 'Order read failed: ' . $order->get_error_code() );
-	} elseif ( 'renewal' === $order['type'] && null === $order['paid_at'] ) {
-		// An unpaid renewal invoice.
-	}
-}
-```
-
-### Orders::update()
+### update()
 
 ```text
-Orders::update( int|WC_Order $order, array $changes, array $args = [] ): WC_Order|WP_Error
+$order->update( array $changes, array $expected = [] ): array|WP_Error
 ```
 
-Allowed `$changes` keys:
+Changes an order's contact details. It works on any WooCommerce order, linked to a subscription or not.
+
+`$changes` (any other key returns `unsupported_operation`):
 
 | Key | Type | Effect |
 | --- | --- | --- |
-| `customer_note` | string | Replaces the order's customer-provided note (the note left at checkout) |
-| `billing_address` | array | WooCommerce billing fields: `first_name`, `last_name`, `company`, `address_1`, `address_2`, `city`, `state`, `postcode`, `country`, `email`, `phone`. Only the fields you pass change. |
-| `shipping_address` | array | WooCommerce shipping fields: `first_name`, `last_name`, `company`, `address_1`, `address_2`, `city`, `state`, `postcode`, `country`, `phone`. Only the fields you pass change. |
-| `note` | array | `array( 'content' => string, 'customer' => bool )` adds an order note. With `'customer' => true` it is a note to the customer, which WooCommerce emails when its Customer note email is enabled. |
+| `billing` | array | Billing fields to change: `first_name`, `last_name`, `company`, `address_1`, `address_2`, `city`, `state`, `postcode`, `country`, `email`, `phone`. Fields you leave out keep their value. `email` must be a valid address or empty. |
+| `shipping` | array | Shipping fields to change: the same keys without `email` |
+| `customer_note` | string | Replaces the note the customer left at checkout |
 
-`$args`:
+Address values must be scalar and are cleaned with `sanitize_text_field()`; the note is cleaned with `sanitize_textarea_field()`.
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `subscription` | `int\|WP_Post` | Required | The related subscription; also where the audit note is written |
-| `reason` | string | Required | 1-500 characters, recorded in the subscription notes |
-| `actor` | array | `array( 'type' => 'integration', 'id' => get_current_user_id() )` | Who made the change (`type` `integration`, `admin`, `customer` or `system`, plus `id` and optional `label`) |
-| `dry_run` | bool | `false` | Validate and return an unsaved copy of the order with the changes applied; nothing is written |
-| `as_user` | int | none | Enforce that the subscription belongs to this user |
+`$expected` protects against overwriting a change you have not seen. Its keys are `billing`, `shipping` and `customer_note`, and each value must be identical (`===`: same keys, order and types) to the order's current `get_address( 'billing' )`, `get_address( 'shipping' )` or `get_customer_note()`. Pass the arrays exactly as `get_address()` returned them; the `billing` and `shipping` arrays from `data()` are the same unless another plugin filters order addresses.
 
-- **Returns:** the fresh `WC_Order` after the save.
-- **Errors:** `unsupported_operation` for status, totals, payment, refund or ArraySubs link and type changes (for example the keys `status`, `total`, `payment_method`, `transaction_id` or `date_paid`); data `use` names the workflow from [Changes that need a dedicated workflow](#changes-that-need-a-dedicated-workflow). `invalid_argument` for any other unknown key or field, or a missing `subscription` or `reason`. `not_found` for an unrelated order. `forbidden` with `as_user`.
-- **Side effects:** saves the order through WooCommerce CRUD (HPOS safe), adds the order note when requested, and writes the reason and actor to the subscription notes. It never changes the subscription: address changes affect this order only. To change the addresses used for future renewals, call `Subscriptions::update()` with `billing_address` or `shipping_address`. No lifecycle events are emitted.
+- **Returns:** the full [order data](#order-data) after the save.
+- **Errors:** `unsupported_operation` (a key other than `billing`, `shipping` or `customer_note`, such as a status, total or payment field); `conflict` (another `update()` of the order is running, or `$expected` does not match or names an unknown key); `not_found`; `validation_failure` (a note that is not a string, an address that is not an array, an unknown or non-scalar address field, an invalid email); `persistence_failed` (WooCommerce could not save the order).
+- **Side effects:** saves the order with `$order->save()` and adds the private order note "Contact details updated through the ArraySubs developer API." It does not change the order's status, totals or payment data, and it does not change the subscription. Renewal orders copy their addresses from the subscription, so to change the address on future renewals, call `Subscriptions::update()` with `billing_address` or `shipping_address` on the billing owner.
 
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Orders' ) ) {
-	$order = \ArraySubs\Api\Orders::update(
-		1004,
-		array(
-			'shipping_address' => array(
-				'address_1' => '12 Example Street',
-				'city'      => 'Springfield',
-				'postcode'  => '12345',
-				'country'   => 'US',
-			),
-			'note'             => array(
-				'content'  => 'We updated the delivery address for this renewal.',
-				'customer' => true,
-			),
-		),
-		array(
-			'subscription' => 123,
-			'reason'       => 'Member asked to ship this renewal to a new address',
-		)
-	);
-
-	if ( is_wp_error( $order ) ) {
-		error_log( 'Order update failed: ' . $order->get_error_code() );
-	}
-}
-```
-
-### Orders::delete()
+### delete()
 
 ```text
-Orders::delete( int|WC_Order $order, array $args = [] ): array|WP_Error
+$order->delete(): array|WP_Error
 ```
 
-Deletes a related order that was never paid: status `pending`, `failed`, `cancelled` or `checkout-draft`, and not the subscription's open renewal invoice.
+Permanently deletes the order (it skips the WooCommerce trash), but only when all of these are true:
 
-| Parameter | Type | Default | Description |
+- the status is `pending`, `failed` or `cancelled`;
+- the order was never paid, has no transaction ID and has nothing refunded;
+- no subscription is linked to it: `subscriptions()` returns no items;
+- it carries no ArraySubs store credit or plan-switch settlement data.
+
+A subscription's own orders, including a cancelled renewal order, always stay as history.
+
+- **Returns:** `array( 'deleted' => true, 'id' => 1005 )`.
+- **Errors:** `unsupported_operation` (`Referenced or settled orders must be retained. Use the payment or refund workflow.`) when any rule above fails; `conflict` while a gateway payment or paid-order processing for the order is running; `not_found`; `persistence_failed` (WooCommerce could not delete it).
+
+Order status, totals, payments and refunds are not editable through `Orders`. Use the WooCommerce order screen, the payment gateway or a WooCommerce refund; see [Refund Management](../retention-and-refunds/refund-management.md).
+
+## Hooks
+
+| Hook | Type | Arguments | When |
 | --- | --- | --- | --- |
-| `subscription` | `int\|WP_Post` | Required | The related subscription |
-| `reason` | string | Required | 1-500 characters, recorded in the subscription notes |
-| `force` | bool | `false` | `false` moves the order to the trash; `true` deletes it permanently |
-| `actor` | array | Integration actor | As in `Orders::update()` |
-| `dry_run` | bool | `false` | Validate and return the would-be result without deleting |
-| `as_user` | int | none | Enforce that the subscription belongs to this user |
+| `arraysubs_box_child_subscriptions_created` | Action | `int $subscription_id, int[] $child_ids, int $order_id` | After ArraySubs creates missing children for a box from its checkout order. `$child_ids` lists all of that box's children. It fires only when at least one child was created. |
+| `arraysubspro_bundle_child_subscriptions_created` *(Pro)* | Action | `int $subscription_id, int[] $child_ids, int $order_id` | The same for a bundle |
+| `arraysubs_subscription_history_includes_order` | Filter | `bool $include, WC_Order $order, int $subscription_id` | Decides whether one of the customer's orders is in a subscription's history. `orders()` and `Orders::query()` with `subscription_id` drop orders of another customer whatever it returns. Box and bundle children use it to include their parent's orders. |
 
-- **Returns:** `array( 'deleted' => true, 'order_id' => 1005, 'trashed' => true )`. `trashed` is `false` after a permanent delete.
-- **Errors:** `unsupported_operation` for a paid order or the open renewal invoice; `not_found` for an unrelated order; `invalid_argument` for a missing `subscription` or `reason`; `forbidden` with `as_user`.
-- **Side effects:** WooCommerce trash or delete (HPOS safe, WooCommerce hooks run), plus a subscription note with the reason. The order leaves `get_orders()` results. It never changes the subscription's status, dates or billing. To stop collecting an open renewal invoice, change the subscription instead: for example `Subscriptions::cancel()` with `'when' => 'now'` retires the unpaid invoice.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Orders' ) ) {
-	$args = array(
-		'subscription' => 123,
-		'reason'       => 'Remove a cancelled renewal invoice that was replaced',
-		'dry_run'      => true,
-	);
-
-	$check = \ArraySubs\Api\Orders::delete( 1005, $args );
-
-	if ( is_wp_error( $check ) ) {
-		// unsupported_operation: paid, or the open renewal invoice. not_found: unrelated order.
-		error_log( 'Order 1005 cannot be deleted: ' . $check->get_error_message() );
-	} else {
-		$args['dry_run'] = false;
-		$result          = \ArraySubs\Api\Orders::delete( 1005, $args ); // Moves the order to the trash.
-	}
-}
-```
-
-## Family Rules in Other Classes
-
-### Child operation restrictions
-
-A child shares its parent's billing, so the subscription and lifecycle classes refuse independent billing and lifecycle operations on it. Every refusal is `unsupported_operation` (status 422) with `billing_owner_id` in the error data.
-
-| Call on a child | Result |
-| --- | --- |
-| `Subscriptions::update()` with `next_payment_date`, `end_date`, `recurring_amount`, `quantity`, `billing_interval`, `billing_period` or `auto_renew` | `unsupported_operation` |
-| `Subscriptions::update()` with `billing_address` or `shipping_address` | Allowed |
-| `Subscriptions::activate()`, `put_on_hold()`, `pause()`, `resume()`, `cancel()`, `undo_cancellation()`, `expire()`, `skip_renewal()`, `undo_skip()` | `unsupported_operation` |
-| `Lifecycle::set_grace_override()`, `Lifecycle::update_trial()` | `unsupported_operation` |
-| Reads such as `Subscriptions::get()`, `Lifecycle::get_state()` and every `Relationships` method | Allowed |
-| `Subscriptions::delete()` | Deletes that child only; the parent and the rest of the family stay |
-| A customer request to an ArraySubs REST route that changes a child | 403 `arraysubs_box_child_locked` or `arraysubs_bundle_child_locked` |
-
-Run the operation on `billing_owner_id` instead. Status changes reach the children at once; dates and the payment count reach them when the next parent renewal is paid.
-
-### Cascade on Subscriptions::delete()
-
-`Subscriptions::delete()` on a parent deletes its box or bundle children with it and reports the cascade:
-
-```text
-[
-  'deleted'             => true,
-  'subscription_id'     => 123,
-  'children_deleted'    => [ 124, 125 ],
-  'orders_kept'         => [ 1001, 1002, 1003, 1004 ],
-  'notes_deleted'       => 6,
-  'actions_unscheduled' => 2,
-  'events'              => [ 'deleted' ],
-]
-```
-
-- Deletion is permanent: subscriptions have no trash. Each deleted child emits its own `deleted` lifecycle event.
-- WooCommerce orders and the customer account are never deleted; `orders_kept` lists the related orders that stay.
-- Deletion runs no payment gateway cancellation. Cancel first (`Subscriptions::cancel()` with `'when' => 'now'`) when the subscription may still bill.
-- Pass `'dry_run' => true` to get the same report without deleting anything.
-- The admin Subscriptions list deletes through `DELETE /wp/v2/arraysubs_data/{id}?force=true`. That path keeps box and bundle children by design and emits no `deleted` event; the kept children still point at the deleted parent.
-
-See [Find and Update Subscriptions](./subscriptions.md) for every `Subscriptions::delete()` argument.
+ArraySubs applies `arraysubs_subscription_history_includes_order` to its own order history as well, for example in the My Account subscription view and in refund and plan-switch calculations, so a filter that hides orders changes those features too. See [React to Supported Events](./actions-and-filters.md).
 
 ## Examples
 
-### Run a lifecycle operation on the billing owner
+### Act on the subscription that bills
 
-Minimal working example: whatever subscription you start from, pause the one that bills.
+Minimal working example with failure handling: start from any subscription a member holds, resolve the billing owner and schedule the cancellation there.
 
 ```php
 <?php
 /**
- * Pause the subscription that bills, even when you start from a box or bundle child.
+ * Schedule cancellation at the end of the paid period, starting from any subscription in a family.
  *
- * @param int $subscription_id Any subscription in the family.
- * @return array|WP_Error Mutation result or error.
+ * @param int    $subscription_id Any subscription, possibly a box or bundle child.
+ * @param string $reason          Cancellation reason.
+ * @return array|WP_Error Subscription data of the billing owner, or an error.
  */
-function myplugin_pause_family( $subscription_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Relationships' ) || ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
+function myplugin_cancel_family_at_period_end( $subscription_id, $reason ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
 		return new WP_Error( 'myplugin_arraysubs_missing', 'ArraySubs is not active.' );
 	}
 
-	$owner = \ArraySubs\Api\Relationships::get_billing_owner( $subscription_id );
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( $subscription_id );
+	if ( is_wp_error( $subscription ) ) {
+		return $subscription; // not_found
+	}
+
+	$owner_id = $subscription->family()['billing_owner_id'];
+	if ( null === $owner_id ) {
+		// An orphaned child: its parent is missing or belongs to another customer.
+		return new WP_Error( 'myplugin_orphaned_child', 'This included subscription has no valid billing owner.' );
+	}
+
+	$owner = \ArraySubs\Developer\Subscriptions::fromId( $owner_id );
 	if ( is_wp_error( $owner ) ) {
 		return $owner;
 	}
 
-	return \ArraySubs\Api\Subscriptions::pause(
-		$owner,
-		array(
-			'reason'    => 'Member requested a break from the membership portal',
-			'resume_at' => '2026-12-01T00:00:00+00:00',
-		)
-	);
+	return $owner->cancel( 'end_of_period', $reason );
 }
 ```
 
-### Recover from unsupported_operation on a child
+Calling `cancel()` on the child itself would return `parent_billed_subscription`.
 
-Failure-handling example: try the change, and when the subscription turns out to be a child, repeat it on the billing owner named in the error.
+### Export a subscription's paid orders
+
+Pages through every processing or completed order of one subscription, 100 orders at a time.
 
 ```php
 <?php
 /**
- * Move the next renewal date, starting from any subscription the member holds.
+ * Collect the paid orders of one subscription for an accounting export.
  *
- * @param int    $subscription_id Subscription ID (may be a child).
- * @param string $new_date        ISO 8601 date, for example 2026-11-15T00:00:00+00:00.
- * @return array|WP_Error
+ * @param int $subscription_id Subscription ID.
+ * @return array|WP_Error Rows of order ID, renewal flag, paid time, total and currency.
  */
-function myplugin_move_renewal_date( $subscription_id, $new_date ) {
-	if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
+function myplugin_export_paid_orders( $subscription_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
 		return new WP_Error( 'myplugin_arraysubs_missing', 'ArraySubs is not active.' );
 	}
 
-	$changes = array( 'next_payment_date' => $new_date );
-	$args    = array( 'reason' => 'Align renewals with the club calendar' );
-
-	$result = \ArraySubs\Api\Subscriptions::update( $subscription_id, $changes, $args );
-
-	if ( is_wp_error( $result ) && 'unsupported_operation' === $result->get_error_code() ) {
-		$data     = (array) $result->get_error_data();
-		$owner_id = isset( $data['billing_owner_id'] ) ? (int) $data['billing_owner_id'] : 0;
-
-		if ( $owner_id > 0 && $owner_id !== (int) $subscription_id ) {
-			// A box or bundle child: change the parent instead.
-			$result = \ArraySubs\Api\Subscriptions::update( $owner_id, $changes, $args );
-		}
-	}
-
-	if ( is_wp_error( $result ) ) {
-		error_log( sprintf( 'Renewal date change failed (%s): %s', $result->get_error_code(), $result->get_error_message() ) );
-	}
-
-	return $result;
-}
-```
-
-### Show a member's orders for one subscription
-
-The subscription ID comes from the request, so `as_user` enforces ownership. Output is escaped.
-
-```php
-<?php
-/**
- * Render a member's order history for one subscription in My Account.
- *
- * @param int $subscription_id Subscription ID from the request.
- */
-function myplugin_render_subscription_orders( $subscription_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Relationships' ) || ! is_user_logged_in() ) {
-		return;
-	}
-
-	$page = \ArraySubs\Api\Relationships::get_orders(
-		absint( $subscription_id ),
-		array(
-			'as_user'  => get_current_user_id(),
-			'output'   => 'data',
-			'order'    => 'desc',
-			'per_page' => 10,
-		)
-	);
-
-	if ( is_wp_error( $page ) ) {
-		// forbidden (not this member's subscription) or not_found: show nothing.
-		return;
-	}
-
-	$labels = array(
-		'initial'       => __( 'Sign-up', 'myplugin' ),
-		'renewal'       => __( 'Renewal', 'myplugin' ),
-		'switch'        => __( 'Plan change', 'myplugin' ),
-		'early_renewal' => __( 'Early renewal', 'myplugin' ),
-		'manual'        => __( 'Manual payment', 'myplugin' ),
-	);
-
-	echo '<ul class="myplugin-subscription-orders">';
-	foreach ( $page['items'] as $order ) {
-		$label = isset( $labels[ $order['type'] ] ) ? $labels[ $order['type'] ] : $order['type'];
-		printf(
-			'<li>%1$s - %2$s - %3$s %4$s</li>',
-			esc_html( sprintf( __( 'Order %d', 'myplugin' ), $order['id'] ) ),
-			esc_html( $label ),
-			esc_html( $order['total'] ),
-			esc_html( $order['currency'] )
-		);
-	}
-	echo '</ul>';
-}
-```
-
-For a child, this lists only the initial order. To show the renewals that cover a child, pass the billing owner's ID; it belongs to the same member.
-
-### Export every paid renewal charge, page by page
-
-```php
-<?php
-/**
- * Collect every paid renewal charge of one subscription, 100 orders per page.
- *
- * @param int $subscription_id Billing owner ID.
- * @return array|WP_Error Rows of order ID, paid time, total and currency.
- */
-function myplugin_export_renewal_charges( $subscription_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Relationships' ) ) {
-		return new WP_Error( 'myplugin_arraysubs_missing', 'ArraySubs is not active.' );
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( $subscription_id );
+	if ( is_wp_error( $subscription ) ) {
+		return $subscription;
 	}
 
 	$rows = array();
 	$args = array(
-		'type'     => array( 'renewal', 'early_renewal' ),
-		'status'   => array( 'processing', 'completed' ),
+		'statuses' => array( 'wc-processing', 'wc-completed' ),
 		'output'   => 'data',
+		'fields'   => array( 'identity', 'amounts' ),
 		'per_page' => 100,
+		'page'     => 1,
 	);
 
 	do {
-		$page = \ArraySubs\Api\Relationships::get_orders( $subscription_id, $args );
+		$page = $subscription->orders( $args );
 		if ( is_wp_error( $page ) ) {
 			return $page;
 		}
 
 		foreach ( $page['items'] as $order ) {
-			$rows[] = array( $order['id'], $order['paid_at'], $order['total'], $order['currency'] );
+			$rows[] = array(
+				'order_id' => $order['identity']['id'],
+				'renewal'  => $order['identity']['is_renewal'],
+				'paid_at'  => $order['identity']['paid_at'] ? gmdate( 'c', $order['identity']['paid_at'] ) : null,
+				'total'    => $order['amounts']['total'],
+				'currency' => $order['amounts']['currency'],
+			);
 		}
 
-		$args['cursor'] = $page['next_cursor'];
+		$args['page'] = $page['next_page'];
 	} while ( $page['has_more'] );
 
 	return $rows;
 }
 ```
 
-### List the subscriptions an order bills
+For a child this also exports the parent's paid orders. Export from the billing owner when you want each charge once.
 
-An initial order also lists the children it created. Skip them when you only want the subscriptions that were charged.
+### Show a member's orders in My Account
+
+The subscription ID comes from the request, so the code checks ownership itself and escapes every value.
 
 ```php
 <?php
 /**
- * Map each billed subscription on an order to the order's type.
+ * Render the latest orders of one of the current member's subscriptions.
+ *
+ * @param int $subscription_id Subscription ID from the request.
+ */
+function myplugin_render_subscription_orders( $subscription_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) || ! is_user_logged_in() ) {
+		return;
+	}
+
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( absint( $subscription_id ) );
+	if ( is_wp_error( $subscription ) ) {
+		return;
+	}
+
+	// The API trusts its caller: confirm the subscription belongs to the viewer.
+	$identity = $subscription->data( array( 'identity' ) );
+	if ( is_wp_error( $identity ) || (int) $identity['identity']['customer_id'] !== get_current_user_id() ) {
+		return;
+	}
+
+	$page = $subscription->orders(
+		array(
+			'output'   => 'data',
+			'fields'   => array( 'identity', 'amounts' ),
+			'order'    => 'desc',
+			'per_page' => 10,
+		)
+	);
+	if ( is_wp_error( $page ) || empty( $page['items'] ) ) {
+		return;
+	}
+
+	echo '<ul class="myplugin-subscription-orders">';
+	foreach ( $page['items'] as $order ) {
+		if ( $order['identity']['is_renewal'] ) {
+			$label = __( 'Renewal', 'myplugin' );
+		} elseif ( $order['identity']['is_plan_switch'] ) {
+			$label = __( 'Plan change', 'myplugin' );
+		} else {
+			$label = __( 'Order', 'myplugin' );
+		}
+
+		printf(
+			'<li>%1$s - %2$s - %3$s %4$s - %5$s</li>',
+			/* translators: %d: order number. */
+			esc_html( sprintf( __( 'Order #%d', 'myplugin' ), $order['identity']['id'] ) ),
+			esc_html( $label ),
+			esc_html( $order['amounts']['total'] ),
+			esc_html( $order['amounts']['currency'] ),
+			esc_html( wc_get_order_status_name( $order['identity']['status'] ) )
+		);
+	}
+	echo '</ul>';
+}
+```
+
+A viewer who does not own the subscription, including a guest, sees nothing.
+
+### Correct an order's shipping postcode safely
+
+`$expected` makes the save fail with `conflict` when the address changes between your read and your write, because the new value was computed from the old one.
+
+```php
+<?php
+/**
+ * Normalize the shipping postcode of one order.
  *
  * @param int $order_id WooCommerce order ID.
- * @return array Subscription ID => order type.
+ * @return array|WP_Error|null Order data after the save, null when nothing changed, or an error.
  */
-function myplugin_billed_subscriptions_for_order( $order_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Relationships' ) ) {
-		return array();
-	}
-
-	$linked = \ArraySubs\Api\Relationships::get_subscriptions_for_order(
-		$order_id,
-		array(
-			'output'   => 'ids',
-			'status'   => 'any',
-			'per_page' => 100,
-		)
-	);
-	if ( is_wp_error( $linked ) ) {
-		return array();
-	}
-
-	$billed = array();
-	foreach ( $linked['items'] as $subscription_id ) {
-		$family = \ArraySubs\Api\Relationships::get_family( $subscription_id );
-		if ( is_wp_error( $family ) || 'child' === $family['role'] ) {
-			continue;
-		}
-
-		$type = \ArraySubs\Api\Relationships::get_order_type( $order_id, $subscription_id );
-		if ( ! is_wp_error( $type ) ) {
-			$billed[ $subscription_id ] = $type;
-		}
-	}
-
-	return $billed; // Order 1001: array( 123 => 'initial' ). Order 1002: array( 123 => 'renewal' ).
-}
-```
-
-### Check the open invoice before a plan change
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Relationships' ) && class_exists( '\ArraySubs\Api\Orders' ) ) {
-	$invoice = \ArraySubs\Api\Relationships::get_pending_renewal_order( 123 );
-
-	if ( is_wp_error( $invoice ) ) {
-		error_log( 'Open invoice lookup failed: ' . $invoice->get_error_code() );
-	} elseif ( null !== $invoice ) {
-		$data = \ArraySubs\Api\Orders::get(
-			$invoice,
-			array(
-				'subscription' => 123,
-				'output'       => 'data',
-			)
-		);
-
-		if ( ! is_wp_error( $data ) && $data['carries_pending_switch'] ) {
-			// The pending plan switch is frozen until this invoice is paid or cancelled.
-			// Tell the member that the new plan starts when this invoice is paid.
-		}
-	}
-}
-```
-
-### Route a payment change to its workflow
-
-`Orders::update()` refuses a status change and names the workflow. Here an offline payment is confirmed through WooCommerce payment completion instead.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Orders' ) ) {
-	$result = \ArraySubs\Api\Orders::update(
-		1004,
-		array( 'status' => 'completed' ),
-		array(
-			'subscription' => 123,
-			'reason'       => 'Member paid by bank transfer',
-		)
-	);
-
-	if ( is_wp_error( $result ) && 'unsupported_operation' === $result->get_error_code() ) {
-		$data = (array) $result->get_error_data();
-
-		if ( isset( $data['use'] ) && 'payment_completion' === $data['use'] ) {
-			// Runs the ArraySubs payment checks, then renews the subscription.
-			$order = wc_get_order( 1004 );
-			if ( $order && $order->needs_payment() ) {
-				$order->payment_complete( 'BANK-2026-10-18-001' );
-			}
-		}
-	}
-}
-```
-
-### Delete a box parent with a cascade preview
-
-Run this only from your own admin tool, after a capability and nonce check.
-
-```php
-<?php
-/**
- * Permanently remove a test box subscription and report what goes with it.
- *
- * @param int $subscription_id Box parent ID.
- * @return array|WP_Error
- */
-function myplugin_delete_test_box( $subscription_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
+function myplugin_normalize_shipping_postcode( $order_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Orders' ) ) {
 		return new WP_Error( 'myplugin_arraysubs_missing', 'ArraySubs is not active.' );
 	}
 
-	$args = array(
-		'reason'  => 'Remove a test subscription created on staging',
-		'dry_run' => true,
-	);
-
-	$preview = \ArraySubs\Api\Subscriptions::delete( $subscription_id, $args );
-	if ( is_wp_error( $preview ) ) {
-		return $preview;
+	$order = \ArraySubs\Developer\Orders::fromId( $order_id );
+	if ( is_wp_error( $order ) ) {
+		return $order;
 	}
 
-	error_log(
-		sprintf(
-			'Deleting subscription %1$d also deletes children [%2$s]; orders kept: [%3$s]',
-			$preview['subscription_id'],
-			implode( ', ', $preview['children_deleted'] ),
-			implode( ', ', $preview['orders_kept'] )
-		)
+	$wc_order = $order->object();
+	if ( ! $wc_order ) {
+		return new WP_Error( 'myplugin_order_missing', 'The order no longer exists.' );
+	}
+
+	$shipping = $wc_order->get_address( 'shipping' );
+	$postcode = strtoupper( trim( $shipping['postcode'] ) );
+	if ( $postcode === $shipping['postcode'] ) {
+		return null;
+	}
+
+	$result = $order->update(
+		array( 'shipping' => array( 'postcode' => $postcode ) ),
+		array( 'shipping' => $shipping )
 	);
 
-	$args['dry_run'] = false;
+	if ( is_wp_error( $result ) ) {
+		// conflict: the address changed after it was read, or another update holds the order. Run again later.
+		// validation_failure: a field or value was rejected.
+		error_log( sprintf( 'Postcode cleanup for order %1$d failed: %2$s', $order_id, $result->get_error_code() ) );
+	}
 
-	return \ArraySubs\Api\Subscriptions::delete( $subscription_id, $args );
+	return $result;
 }
 ```
 
+### Remove an unpaid order that nothing references
+
+Run this only from your own admin tool, after a nonce check. The early `subscriptions()` check gives a clearer message; `delete()` enforces the same rule.
+
+```php
+<?php
+/**
+ * Permanently delete an unpaid order that no subscription references.
+ *
+ * @param int $order_id WooCommerce order ID.
+ * @return array|WP_Error array( 'deleted' => true, 'id' => $order_id ), or an error.
+ */
+function myplugin_delete_unused_order( $order_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Orders' ) ) {
+		return new WP_Error( 'myplugin_arraysubs_missing', 'ArraySubs is not active.' );
+	}
+
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		return new WP_Error( 'myplugin_forbidden', 'You cannot delete orders.' );
+	}
+
+	$order = \ArraySubs\Developer\Orders::fromId( $order_id );
+	if ( is_wp_error( $order ) ) {
+		return $order;
+	}
+
+	$linked = $order->subscriptions( array( 'per_page' => 1, 'output' => 'ids' ) );
+	if ( is_wp_error( $linked ) ) {
+		return $linked;
+	}
+	if ( $linked['items'] ) {
+		return new WP_Error( 'myplugin_order_in_use', 'A subscription references this order, so it is kept.' );
+	}
+
+	$result = $order->delete();
+	if ( is_wp_error( $result ) ) {
+		// unsupported_operation: paid, refunded, not pending/failed/cancelled, or it carries store credit or plan-switch data.
+		// conflict: a payment for this order is being processed. Try again later.
+		error_log( sprintf( 'Order %1$d was not deleted: %2$s', $order_id, $result->get_error_code() ) );
+	}
+
+	return $result;
+}
+```
+
+## Errors You Can Get
+
+| Code | Returned by | What to do |
+| --- | --- | --- |
+| `not_found` | `Subscriptions::fromId()`, `fromChildId()`, `Orders::fromId()`, `fromOrder()`, `Orders::query()` with an unknown `subscription_id`, and methods on a record deleted meanwhile | Check the ID. A refund ID counts as missing. |
+| `invalid_relation` | `Subscriptions::fromChildId()` | The subscription has no box or bundle parent link. Use `Subscriptions::fromId()`. |
+| `invalid_query` | `children()`, `orders()`, `Orders::query()`, `subscriptions()` | Fix the argument: unknown key, page size over 100, a status without its prefix, a non-positive ID. |
+| `invalid_field` | The same methods, and `data()` | Request only the documented field groups. |
+| `unclaimed_identity` | `orders()`, `Orders::query()` with `subscription_id` | The guest subscription has no valid email, so no order can be matched to it. |
+| `unsupported_operation` | `update()`, `delete()` | `update()` changes only `billing`, `shipping` and `customer_note`. `delete()` keeps paid, refunded or referenced orders. |
+| `conflict` | `update()`, `delete()` | Another process is working on the order, or `$expected` no longer matches. Read the order again and retry later. |
+| `validation_failure` | `update()` | Send scalar values for known address fields, a valid email and a text note. |
+| `persistence_failed` | `update()`, `delete()` | WooCommerce could not save or delete the order. Read it again before retrying. |
+| `parent_billed_subscription` | Billing and lifecycle methods on a child (see [What a child refuses](#what-a-child-refuses)) | Repeat the call on `family()['billing_owner_id']`. |
+| `subscription_conflict` | `pause()` and `resume()` on a child | Repeat the call on `family()['billing_owner_id']`. |
+
 ## Edge Cases and Important Notes
 
-- **Children's dates lag behind.** A child's next payment date, last payment date and payment count are copied when a parent renewal is paid. A skip, pause or date change on the parent reaches the children only at the next paid renewal. Read the family's schedule from the billing owner.
-- **Mirrored status changes are real status changes.** Every child receives the parent's status change as its own, so your status listeners also run for children. Use `get_family()` to skip children when you only care about billing.
-- **Switching away from a box or bundle.** When the parent switches to a plan that is not a box (or not a bundle), its children are cancelled and unlinked; afterwards `get_family()` reports them as `standalone`. A box-to-box or bundle-to-bundle switch keeps the children.
-- **Children kept by an admin-list delete.** They keep their stored parent link. `get_family()` still reports the old `parent_id` and `billing_owner_id`, while `get_parent()` and `get_billing_owner()` return `not_found` because the parent record is gone. Clean them up with `Subscriptions::delete()` on each child.
-- **Bundles without an active Pro license.** Stored bundle links stay readable through `Relationships`. Pro's bundle behavior (status mirroring, customer locks and renewal-date copying) runs only while Pro is active with a valid license. Delete bundle parents while Pro is active and check `children_deleted` in the result.
-- **Module switches.** Turning off the Subscription Box or Subscription Bundle module stops new sales of those products. Existing families keep working.
-- **Guest identity uses the billing email.** For guest subscriptions, orders match by billing email. Changing a guest order's billing email (including through `Orders::update()` `billing_address`) makes it fail the identity check, so it stops counting as related. Leave the email unchanged on guest orders.
-- **Renewal lines are not links.** Box and bundle renewal orders repeat the contents as zero-priced lines, but those lines do not link the children. A renewal invoice built on a pending plan switch uses the target plan and has no child lines at all.
-- **Plan-switch orders in admin.** `get_orders()` includes `switch` orders, which the subscription's Order History card in admin does not list.
-- **Refunds are not orders.** A refund ID passed to `Orders::get()` or `Relationships::get_order_type()` returns `not_found`.
-- **Multi-subscription checkouts.** One checkout order can create several standalone subscriptions, one per subscription line. `get_subscriptions_for_order()` returns all of them.
-- **Existing helper functions.** Older code may use `arraysubs_get_subscription_ids_for_order( $order )`, `arraysubs_get_order_subscriptions( $order )`, `arraysubs_order_belongs_to_subscription( $order, $subscription_id )` or `arraysubs_get_subscription_orders( $subscription_id, $order_by )`. They apply the same identity check but are not paged, and `arraysubs_get_subscription_orders()` omits plan-switch orders. Prefer the classes for paging and order types.
+- **Children's dates follow paid renewals.** A child's next payment date, last payment date and payment count change when a parent renewal is paid. A date change on the parent reaches the children at the next paid renewal, so read the schedule from the billing owner.
+- **Orphaned children.** A child whose parent was deleted from the admin list, or whose parent belongs to another customer, reports `orphaned` `true` and `billing_owner_id` `null`. `children()` on the old parent leaves it out, and its `orders()` returns only its own orders. Delete it with `Subscriptions::fromId( $id )->delete()` when it is no longer needed.
+- **Bundles without Pro.** Core still reads bundle links through `family()`, `children()` and `orders()`. Copying the bundle's status and dates to its children, deleting them with the bundle and locking them for customers need ArraySubs Pro with an active license.
+- **Guest subscriptions match by email.** When either side has no WordPress user, an order matches by billing email. Changing a guest order's billing email, including through `update()`, can drop the order from the subscription's history.
+- **Two status formats.** `Orders::query()` `statuses` takes `wc-` keys such as `wc-completed`, while `data()` returns `identity.status` without the prefix, such as `completed`.
+- **`update()` applies `$changes` key by key.** It stops at the first invalid key without calling `save()`. WooCommerce's `WC_Order::set_address()`, which applies `billing` and `shipping`, also writes those fields straight to post meta, so on a store that keeps orders in the posts table an address group applied before the failing key can still be stored. Validate values first, or send one address group per call.
+- **Your own order data.** Store it with `$order->update_meta_data()` and `$order->save()`, not with post meta functions, so it works with HPOS. Never write ArraySubs link data on orders or subscriptions.
+- **Refunds are not orders.** `Orders::fromId()` returns `not_found` for a refund ID, and `Orders::query()` never lists refunds. The refunded amount is in `amounts.refunded`.
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 | --- | --- | --- |
-| `get_orders()` on a subscription returns only the initial order | It is a box or bundle child; renewals bill the billing owner | Call `get_billing_owner()`, then `get_orders()` on the owner |
-| `unsupported_operation` with `billing_owner_id` | A billing or lifecycle operation was called on a child | Repeat the call on `billing_owner_id` |
-| `get_order_type()` returns `not_found` for an order you expected | The order belongs to another family member, or a guest order's billing email changed | Read `subscription_ids` with `Orders::get( $order_id, array( 'output' => 'data' ) )` and check the billing email |
-| `ambiguous_match` from `get_pending_renewal_order()` | Two open renewal invoices exist for one subscription | Ask a store manager to review both in WooCommerce -> Orders and cancel the duplicate. Cancelling an unpaid renewal invoice does not change the subscription's status. |
-| `Orders::update()` returns `unsupported_operation` | The change touches status, totals, payment, refunds or ArraySubs data | Use the workflow named in `get_error_data()['use']` |
-| `Orders::delete()` returns `unsupported_operation` | The order is paid, or it is the open renewal invoice | Paid orders stay for the record; manage the open invoice through the subscription |
-| Children remain after a box was deleted | It was deleted from the admin Subscriptions list, which keeps children by design | Delete each child with `Subscriptions::delete()` |
-| Bundle children no longer follow the parent's status | ArraySubs Pro is inactive or its license is not active | Activate Pro and its license |
-| Your own order meta is missing or stale | Your code reads or writes `get_post_meta()` / `update_post_meta()` on orders while HPOS is on | Use `$order->get_meta()`, `$order->update_meta_data()` and `$order->save()` |
-| `forbidden` | `as_user` does not own the subscription | Pass the logged-in user's ID and the member's own subscription |
+| `orders()` returns `invalid_query` | `statuses` uses names such as `completed` | Use the `wc-` keys from `wc_get_order_statuses()`, such as `wc-completed` |
+| A child's `orders()` shows renewal orders | A child's history includes its billing owner's orders | Expected. Read orders from the billing owner to count each charge once. |
+| `fromChildId()` returns `invalid_relation` | The subscription is a parent or standalone | Use `Subscriptions::fromId()` |
+| `family()['billing_owner_id']` is `null` | The child is orphaned | Check the parent record; delete or fix the orphaned child |
+| `parent_billed_subscription` or `subscription_conflict` on a member's subscription | It is a box or bundle child | Repeat the call on `family()['billing_owner_id']` |
+| An order is missing from `orders()` | Its customer does not match the subscription (for example a changed guest billing email), or a filter on `arraysubs_subscription_history_includes_order` hides it | Compare `Orders::fromId( $id )->data( array( 'identity', 'billing' ) )` with the subscription's customer |
+| `update()` returns `conflict` | The address or note changed after you read it, or another update is running | Read the order again, recompute the change and retry |
+| `delete()` returns `unsupported_operation` | The order is paid, refunded, referenced by a subscription or not pending, failed or cancelled | Keep it; it is part of the payment history |
+| Bundle children stop following the bundle | ArraySubs Pro is inactive or its license is not active | Activate Pro and its license |
 
 ## Related Guides
 
-- [Find and Update Subscriptions](./subscriptions.md) - query, update and delete subscriptions, including every `Subscriptions::delete()` argument.
-- [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) - open invoices, grace periods and pending plan switches.
-- [React to Supported Events](./actions-and-filters.md) - family creation hooks and lifecycle events such as `renewed` and `deleted`.
-- [Connect Membership Workflows](./integration-recipes.md) - parent, child and order lookups inside complete integrations.
-- [Verify Your Integration](./errors-and-testing.md) - error codes, permissions and test plans.
+- [Find and Update Subscriptions](./subscriptions.md) - finders, `Subscriptions::query()` arguments, data groups, updates, lifecycle operations and `delete()`.
+- [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) - renewal dates, trials and grace periods on the billing owner.
+- [Find Members and Update Profiles](./customers-and-profile-fields.md) - `Customer::orders()` and `Customer::subscriptions()`.
+- [React to Supported Events](./actions-and-filters.md) - status, renewal and family hooks.
+- [Connect Membership Workflows](./integration-recipes.md) - complete integrations that use these lookups.
+- [Verify Your Integration](./errors-and-testing.md) - error handling and test plans.
 - [Subscription Box](../subscription-products/subscription-box.md) and [Subscription Bundle](../subscription-products/subscription-bundle.md) - merchant setup for families.
-- [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) - how plan-switch orders are created and finalized.
-- [Renewal Operations](../billing-and-renewals/renewal-operations.md) - how renewal invoices are created and charged.
-- [Refund Management](../retention-and-refunds/refund-management.md) - the refund workflow for subscription orders.
-- [Subscription Self-Service Actions](../customer-portal/self-service-actions.md) - the customer's Renew Early action.
+- [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md) - how plan-switch orders are created.
+- [Renewal Operations](../billing-and-renewals/renewal-operations.md) - how renewal orders are created and charged.
+- [Refund Management](../retention-and-refunds/refund-management.md) - refunds for subscription orders.
 
 ## FAQ
 
-### Is a child subscription the same as a renewal order?
-
-No. A child is a zero-priced subscription record that represents one product inside a box or bundle. A renewal order is a WooCommerce order that bills the parent for the next period. Renewal orders link only to the billing owner.
-
 ### How do I find the subscription that pays for a child?
 
-Call `Relationships::get_billing_owner( $child_id )`, or read `billing_owner_id` from `Relationships::get_family()`.
+Read `billing_owner_id` from `Subscriptions::fromId( $child_id )->family()`. It is `null` only for an orphaned child.
 
-### Can I change a child's next payment date or price?
+### Does a child subscription have its own orders?
 
-No. Those changes return `unsupported_operation` with `billing_owner_id`. Change the billing owner; the child receives the new dates at the next paid renewal.
+It has the checkout order that created it, and its history also includes the parent's orders. It never gets renewal orders of its own; the parent's renewal orders cover it.
 
 ### Which subscriptions does an order belong to?
 
-Call `Relationships::get_subscriptions_for_order( $order_id )`. An initial order lists every subscription it created, children included. A renewal, early renewal, switch or manual order lists one subscription.
+Call `Orders::fromId( $order_id )->subscriptions()`. A checkout order lists every subscription it created, children included. A renewal order lists its billing owner, and its children once the renewal is paid.
 
-### Can I mark a renewal invoice as paid with Orders::update()?
+### Can I change an order's status or total with update()?
 
-No. Status changes return `unsupported_operation` with `use` `payment_completion`. Let the gateway complete the payment, or call WooCommerce's `$order->payment_complete()` for a payment you confirm offline.
+No. `update()` changes only `billing`, `shipping` and `customer_note`; any other key returns `unsupported_operation`.
 
-### Does deleting a subscription delete its orders?
+### Can I delete a subscription's failed renewal order?
 
-No. `Subscriptions::delete()` never deletes WooCommerce orders and lists them in `orders_kept`. It does delete the box or bundle children of a parent.
-
-### Can I delete an old failed order?
-
-Yes, with `Orders::delete()`, when the order is related, was never paid and is not the open renewal invoice. It moves to the trash unless you pass `'force' => true`.
+No. `delete()` keeps every order a subscription references. It deletes only unpaid `pending`, `failed` or `cancelled` orders that nothing references, and the deletion is permanent.
 
 ### Do these classes work with HPOS?
 
-Yes. They use WooCommerce CRUD for every order read and write, so they work with HPOS and with the legacy posts table.
+Yes. They read orders with `wc_get_order()` and `wc_get_orders()`, and write with `$order->save()` and `$order->delete()`, so they work with HPOS and with the posts table.

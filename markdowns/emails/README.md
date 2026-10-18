@@ -1,7 +1,7 @@
 # Info
 - Module: Emails and Notifications
 - Availability: Shared (core emails are Free; Store Credit and gateway emails require Pro)
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Emails and Notifications
 
@@ -35,7 +35,7 @@ ArraySubs registers its email classes with WooCommerce using the standard `wooco
 1. **Appears in the WooCommerce email list** alongside built-in WooCommerce emails (order confirmation, refund, etc.).
 2. **Inherits your store's email styling** — header logo, colors, footer text, and layout all follow the same settings you configure for WooCommerce emails.
 3. **Supports HTML and Plain Text** — each email ships with both an HTML template (styled tables, buttons, color highlights) and a plain text variant. You choose the format per email.
-4. **Can be overridden by your theme** — copy a template to `yourtheme/woocommerce/emails/` and customize the layout without modifying the plugin.
+4. **Can be overridden by your theme** — copy a core template to `yourtheme/woocommerce/` (Store Credit templates go to `yourtheme/woocommerce/emails/`) and customize the layout without modifying the plugin.
 
 ### Where Emails Are Configured
 
@@ -248,9 +248,9 @@ You can customize any email template by copying it to your theme:
    - Core emails: `wp-content/plugins/arraysubs/src/Features/Emails/templates/`
    - Store Credit emails *(Pro)*: `wp-content/plugins/arraysubspro/src/Features/StoreCredit/templates/emails/`
 
-2. **Copy to your theme's WooCommerce emails directory:**
-   - Create (if it does not exist) `wp-content/themes/your-theme/woocommerce/emails/`
-   - Copy the template file into that directory
+2. **Copy it to your theme's `woocommerce` folder, keeping the same relative path:**
+   - Core emails: copy `customer-new-subscription.php` to `wp-content/themes/your-theme/woocommerce/customer-new-subscription.php`, and plain-text versions to `woocommerce/plain/`.
+   - Store Credit emails *(Pro)*: copy `emails/credit-added.php` to `wp-content/themes/your-theme/woocommerce/emails/credit-added.php`, and plain-text versions to `woocommerce/emails/plain/`.
 
 3. **Edit the copied file.** Your customized version takes priority over the plugin's original.
 
@@ -262,11 +262,11 @@ Only edit the copy in your theme directory — never modify the plugin files dir
 
 To customize the New Subscription email:
 - Source: `arraysubs/src/Features/Emails/templates/customer-new-subscription.php`
-- Destination: `your-theme/woocommerce/emails/customer-new-subscription.php`
+- Destination: `your-theme/woocommerce/customer-new-subscription.php`
 
 For the plain text version:
 - Source: `arraysubs/src/Features/Emails/templates/plain/customer-new-subscription.php`
-- Destination: `your-theme/woocommerce/emails/plain/customer-new-subscription.php`
+- Destination: `your-theme/woocommerce/plain/customer-new-subscription.php`
 
 ### Template File Reference
 
@@ -324,7 +324,7 @@ Every HTML template has a matching plain text version in a `plain/` subdirectory
 | Admin not getting notifications | The admin email recipient is not set or is incorrect | Open the admin email settings and confirm the recipient address. Multiple addresses can be comma-separated. |
 | Renewal Reminder not arriving | The scheduled Action Scheduler job has not run, or the days-before setting is too low | Check **ArraySubs → Settings → General Settings** for the Renewal Reminder days-before value. Verify the Action Scheduler is processing pending jobs. |
 | Emails look unstyled | The email type is set to Plain Text, or your email client is not rendering HTML | Check the Email Type setting in WooCommerce email settings. Switch to HTML or Multipart. |
-| Template override not working | The file was placed in the wrong directory or named incorrectly | Confirm the file exists at `your-theme/woocommerce/emails/` with the exact filename from the plugin template. |
+| Template override not working | The file was placed in the wrong directory or named incorrectly | Confirm the file is at `your-theme/woocommerce/<file>` for core emails (`woocommerce/plain/<file>` for plain text) or `your-theme/woocommerce/emails/<file>` for Store Credit emails, with the exact filename from the plugin template. WooCommerce shows the expected path on each email's settings screen. |
 | Store Credit emails not appearing *(Pro)* | The ArraySubs Pro plugin is not active | Activate ArraySubs Pro. Store Credit emails are registered by the Pro plugin. |
 
 ---
@@ -360,7 +360,7 @@ When you open any ArraySubs email's settings page in WooCommerce, a **Placeholde
 No. The four Store Credit emails (Credit Added, Credit Used, Credit Expiring, Credit Expired) require ArraySubs Pro.
 
 ### Can I customize the email HTML layout?
-Yes. Copy the template file to your theme's `woocommerce/emails/` directory (see the "How to Override Templates" section above) and edit it. The overridden template takes priority over the plugin default.
+Yes. Copy the template file to your theme's `woocommerce/` folder for core emails, or `woocommerce/emails/` for Store Credit emails (see the "How to Override Templates" section above), and edit it. The overridden template takes priority over the plugin default.
 
 ### What happens if the Pro plugin is deactivated?
 The 4 Store Credit emails will stop appearing in WooCommerce settings and will no longer be sent. All 21 core subscription/admin emails continue to work normally.

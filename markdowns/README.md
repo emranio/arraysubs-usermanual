@@ -314,13 +314,13 @@ Track every subscription action, monitor scheduled jobs and gateway health, and 
 
 ## Developers
 
-Integrate a custom plugin or theme with ArraySubs through its supported public functions, hooks, shortcodes and REST routes, without editing plugin files.
+Integrate a custom plugin or theme with ArraySubs through the `ArraySubs\Developer` PHP API, its hooks, shortcodes and REST routes, without editing plugin files.
 
-- [Developers](developers/README.md) - Which API to use for each task, with the Core and Pro matrix.
+- [Developers](developers/README.md) - Which class to use for each task, and which parts need ArraySubs Pro.
 - [Connect Your Custom Plugin](developers/getting-started.md) - Load at the right time, detect ArraySubs and Pro, and make a first lookup.
 - [Find and Update Subscriptions](developers/subscriptions.md) - Read, query, update and delete subscription records.
 - [Work with Subscription Families and Orders](developers/subscription-relationships-and-orders.md) - Parent and child subscriptions and their WooCommerce orders.
-- [Read Lifecycle State and Manage Its Dates](developers/status-grace-periods-and-trials.md) - Statuses, grace periods, retries, trials and pending plan switches.
+- [Read Lifecycle State and Manage Its Dates](developers/status-grace-periods-and-trials.md) - Statuses, grace periods, retries, trials, pause and resume, and cancellation.
 - [Find Members and Update Profiles](developers/customers-and-profile-fields.md) - Customer identity and Profile Builder fields.
 - [Read Subscription Product Terms](developers/subscription-products.md) - Subscription product data without modifying products.
 - [Read and Update Feature Data](developers/feature-manager.md) - Feature entitlements and usage.
@@ -330,8 +330,8 @@ Integrate a custom plugin or theme with ArraySubs through its supported public f
 - [Read Login-Limit Policy](developers/login-limits.md) - Login limit rules and session counts.
 - [Read Member Styling Rules](developers/member-styling.md) - Member styling rules.
 - [Read and Update Store Credit](developers/store-credit.md) - Store Credit balances, history and adjustments.
-- [React to Supported Events](developers/actions-and-filters.md) - Actions, filters and normalized lifecycle events.
+- [React to Supported Events](developers/actions-and-filters.md) - Actions, filters and the `arraysubs_lifecycle_event` action.
 - [Extend ArraySubs with a Module](developers/addon-modules.md) - The module system for addons.
-- [Gate Custom PHP Output](developers/php-templates.md) - Shortcode and helper-based gates in PHP templates.
+- [Gate Custom PHP Output](developers/php-templates.md) - Member-only gates in PHP output and email template overrides.
 - [Connect Membership Workflows](developers/integration-recipes.md) - End-to-end integration recipes.
 - [Verify Your Integration](developers/errors-and-testing.md) - Errors, permissions, concurrency and staging tests.

@@ -111,7 +111,7 @@ The trial end is the subscription's next payment date, which ArraySubs calculate
 - **Editing trial terms** (trial length or trial period) on an existing subscription updates the stored terms only. It does not move a trial that is already running.
 - **Pausing** a trial subscription pushes the trial end back by the pause, and the subscription returns to Trial when it resumes. **Skipping** moves it by whole billing cycles. The original trial end date stays on record either way.
 - **Provider-owned schedules:** when PayPal or Paddle owns the billing schedule, the provider must accept a date change first. Paddle is updated before ArraySubs changes the date; PayPal refuses date moves, so the change is rejected.
-- **Developers** can move a running trial's end date or end the trial immediately with `ArraySubs\Api\Lifecycle::update_trial()`. Ending it now runs the normal trial conversion. The call realigns the renewal schedule, sends provider-owned dates through the provider first, and emits the `trial_changed` lifecycle event (native action `arraysubs_trial_changed`). See [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) and [React to Supported Events](../developers/actions-and-filters.md).
+- **Developers** can move a running trial's end date with `\ArraySubs\Developer\Subscriptions::fromId( 123 )->setTrialEnd( $timestamp )` (a future UTC timestamp) or end the trial now with `->endTrial()`, which runs the normal trial conversion. Moving the date realigns the renewal schedule and fires the `arraysubs_trial_terms_updated` action. Trials whose billing clock belongs to the payment provider are refused. See [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) and [React to Supported Events](../developers/actions-and-filters.md).
 
 ![Subscriptions list filtered to Trial status](trial-management.ASSETS/04-trial-subscriptions-list-annotated.png)
 
@@ -229,7 +229,7 @@ A membership site offers a 30-day trial of the Premium tier ($99/month) with aut
 
 ## Edge cases and important notes
 
-- **Trial conversion is automated.** Most trials end when the trial-end renewal is paid. The daily conversion job (first run 2:00 AM UTC) is the fallback for trials still unpaid after their trial end; those are processed during the next execution. A developer can end a running trial immediately with `ArraySubs\Api\Lifecycle::update_trial()`.
+- **Trial conversion is automated.** Most trials end when the trial-end renewal is paid. The daily conversion job (first run 2:00 AM UTC) is the fallback for trials still unpaid after their trial end; those are processed during the next execution. A developer can end a running trial immediately with `\ArraySubs\Developer\Subscriptions::fromId( $id )->endTrial()`.
 - **Two conversion paths, different side effects.** A paid trial-end renewal moves the subscription to Active without the Trial Converted email and keeps the trial length on record. The daily job sends the Trial Converted email, sets the trial length to 0, and restarts the cycle from the conversion date.
 - **Manual status changes skip trial hooks.** If an admin manually changes a subscription from Trial to Active, the `trial_converted` hook does not fire and the Trial Converted email is not sent. The system does not run the conversion logic for manual changes.
 - **Variation-level trials.** Each variation on a variable product can have its own trial length and period. The trial stored on the subscription matches the variation the customer purchased.
@@ -261,7 +261,7 @@ A membership site offers a 30-day trial of the Premium tier ($99/month) with aut
 - [Renewal Operations](renewal-operations.md) for how the first paid renewal is generated after trial conversion
 - [Recovery and Grace Flows](recovery-and-grace-flows.md) for what happens if payment fails after trial conversion
 - [Subscription Checkout](../checkout-and-payments/subscription-checkout.md) for trial checkout behavior and pricing
-- [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) for reading trial state in code and changing or ending a trial with `Lifecycle::update_trial()`
+- [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) for reading trial state in code and changing or ending a trial with `setTrialEnd()` and `endTrial()`
 - [React to Supported Events](../developers/actions-and-filters.md) for `trial_started`, `trial_changed`, `trial_converted`, `trial_ended` and `auto_downgraded` events
 
 ---

@@ -5,9 +5,9 @@
 
 # Connect Membership Workflows
 
-> Combine the ArraySubs developer APIs into eight copyable recipes for common membership integrations: status and plan lookups, grace-aware permissions, renewal commissions, families and orders, profile-field lookups, paged exports, content decisions and store credit adjustments.
+> Ten copyable recipes that combine the `ArraySubs\Developer` classes with real ArraySubs hooks: find a member's active subscriptions, react to renewals and failed payments, sync a CRM, grant and revoke an entitlement, read features and meter usage, walk families and orders, show lock badges, export in pages, find members by a profile field and add store credit exactly once.
 
-**Availability:** Core (Free) for recipes 1, 2, 3, 4, 6 and 7. Recipe 5 requires ArraySubs Pro with Profile Builder fields. Recipe 8 requires ArraySubs Pro with the Store Credit module enabled.
+**Availability:** Core (Free) for recipes 1 to 8. Recipe 5 reads features that merchants define with the Feature Manager module of ArraySubs Pro. Recipe 9 needs ArraySubs Pro with an active license and the Profile Builder module. Recipe 10 needs ArraySubs Pro with the Store Credit module switched on.
 
 ## Page Navigation
 
@@ -20,332 +20,354 @@
 
 ## Overview
 
-This page shows how the ArraySubs APIs work together inside a custom membership plugin. Each recipe states its goal and availability, gives working code, explains why the approach is safe and lists what to test before you rely on it.
+Each recipe is a small, working part of a custom plugin. It states the goal, the classes and hooks it uses, gives the code, and lists the points that keep it correct in production. Full signatures and return shapes are on the reference pages linked from each recipe. Every error code and the staging test steps are in [Verify Your Integration](./errors-and-testing.md).
 
-The recipes do not repeat every parameter. When you need a full signature, default or error code, follow the reference link in the recipe's **APIs used** line.
+ArraySubs gives you trusted reads, validated writes and lifecycle hooks. Your plugin keeps its own business rules: CRM field mapping, reward amounts, commission rates and any permission model outside ArraySubs.
 
-ArraySubs supplies authoritative reads, supported writes and lifecycle events. Your plugin keeps its own business rules: commission rates and payouts, CRM mapping, reward policies and any permission model outside ArraySubs.
-
-## When to Use This
-
-- You run a custom membership, marketplace or community plugin next to ArraySubs and need each member's real status and plan.
-- You grant permissions in your own system and must keep them through a payment grace period, then remove them at the right time.
-- You pay commissions or partner revenue on renewals and need each paid renewal recorded once on your side.
-- You build support or account screens that show box or bundle children, renewal orders and the open renewal invoice.
-- You look up members by a custom profile value such as a membership number or a region.
-- You export subscription data to another system in pages instead of loading everything at once.
-- You show lock badges or teasers for protected content without redirecting the visitor.
-- You award or correct store credit from your own workflow and must never apply it twice.
-
-## Prerequisites
-
-- WordPress, WooCommerce and ArraySubs (core) installed and active.
-- Your code lives in your own small plugin. Never edit ArraySubs files. See [Connect Your Custom Plugin](./getting-started.md).
-- Register hooks when your plugin loads. Call the API classes on `arraysubs_after_boot` or later, and on `init` or later when you query by status or display translated labels.
-- Recipe 5: ArraySubs Pro with an active license and at least one registered Profile Builder field. See [Profile Form](../profile-builder/profile-form.md).
-- Recipe 8: ArraySubs Pro with an active license and the Store Credit module enabled. See [Store Credit Management](../store-credit/store-credit-management.md).
-- A staging site with test subscriptions in each state your code handles. See [Verify Your Integration](./errors-and-testing.md).
-
-## How It Works
-
-Every recipe follows the same pattern:
-
-1. **Guard.** Check `class_exists()` for the API class and, for Pro domains, `ArraySubs\Api\Availability::check()`. Return a `WP_Error` instead of guessing.
-2. **Identify explicitly.** Pass the user ID, subscription ID or order ID you mean. The PHP API is trusted server code: it does not check the current user's capabilities and never infers the customer from the browser session. When you read on behalf of the logged-in customer, pass `as_user` so ArraySubs enforces ownership and returns customer-safe data.
-3. **Read authoritative state.** Use `Lifecycle::get_state()`, `Relationships`, `MemberAccess` and the other readers instead of status labels or post meta. Reads never write.
-4. **Decide in your plugin.** Commission, CRM and permission rules stay in your code.
-5. **Write through the API.** Mutations require a `reason`, accept `dry_run`, and financial or usage writes take an idempotency key. Never write ArraySubs meta directly.
-6. **React and reconcile.** Lifecycle events are delivered in-process, at least once. Deduplicate with `event_id`, re-read state before acting on delayed work, and run a periodic reconciliation for anything your plugin missed while it was inactive.
-
-| Recipe | Goal | Main APIs | Availability | Writes to ArraySubs |
+| # | Recipe | Main classes and hooks | Availability | Writes to ArraySubs |
 | --- | --- | --- | --- | --- |
-| [1](#recipe-1-read-the-authoritative-status-and-current-plan) | Status and current plan | `Lifecycle::get_state()`, `Subscriptions::for_customer()` | Core | No |
-| [2](#recipe-2-keep-account-permissions-grace-aware) | Grace-aware permissions | `Subscriptions::query()`, `Lifecycle::get_state()`, `arraysubs_lifecycle_event` | Core | No |
-| [3](#recipe-3-record-renewal-commissions-once) | Renewal commission events | `arraysubs_lifecycle_event` (`renewed`), `Orders::get()`, `Relationships::get_order_type()` | Core | No |
-| [4](#recipe-4-look-up-parents-children-and-orders) | Families and orders | `Relationships` | Core | No |
-| [5](#recipe-5-find-members-by-a-profile-field-pro) | Profile-field member lookup | `Customer::find_by_profile_field()`, `Customer::resolve_by_profile_field()` | Pro | No |
-| [6](#recipe-6-export-subscriptions-in-pages) | Partial, paged export | `Subscriptions::each()`, `Subscriptions::query()` | Core | No |
-| [7](#recipe-7-make-a-read-only-content-decision) | Read-only content decision | `MemberAccess` | Core | No |
-| [8](#recipe-8-adjust-store-credit-with-a-retry-key-pro) | Store credit with a retry key | `StoreCredit::credit()`, `StoreCredit::adjust_to()` | Pro | Yes (one ledger row) |
+| 1 | [Find a customer's active subscriptions](#recipe-1-find-a-customers-active-subscriptions) | `Subscriptions::fromUserId()`, `Customer::fromEmail()` | Core | No |
+| 2 | [React to a paid renewal or a failed payment](#recipe-2-react-to-a-paid-renewal-or-a-failed-payment) | `arraysubs_renewal_payment_complete`, `arraysubs_renewal_payment_failed`, `Orders`, the `recovery` group | Core | No |
+| 3 | [Sync a CRM when a subscription changes](#recipe-3-sync-a-crm-when-a-subscription-changes) | `arraysubs_lifecycle_event`, `Subscriptions::fromId()` | Core | No |
+| 4 | [Grant and revoke an entitlement](#recipe-4-grant-and-revoke-an-entitlement) | `arraysubs_lifecycle_event`, `Subscriptions::fromUserId()` | Core | No |
+| 5 | [Read a customer's features and meter usage](#recipe-5-read-a-customers-features-and-meter-usage) | `Features::forCustomer()`, `Features::forSubscription()` | Core API; features are defined with Pro | Usage counters only |
+| 6 | [Walk a subscription family and its orders](#recipe-6-walk-a-subscription-family-and-its-orders) | `family()`, `children()`, `orders()`, `Orders::subscriptions()` | Core | No |
+| 7 | [Show lock badges without enforcing access](#recipe-7-show-lock-badges-without-enforcing-access) | `MemberAccess::check()` | Core | No |
+| 8 | [Export subscriptions page by page](#recipe-8-export-subscriptions-page-by-page) | `Subscriptions::query()` | Core | No |
+| 9 | [Find members by a profile field](#recipe-9-find-members-by-a-profile-field-pro) | `Customer::fromProfileField()`, `Customer::queryByProfileField()` | Pro | No |
+| 10 | [Add store credit exactly once](#recipe-10-add-store-credit-exactly-once-pro) | `StoreCredit::fromCustomerId()`, `adjust()` | Pro | One ledger entry |
 
-All examples use synthetic IDs (user 45, subscriptions 123 and 124, product 197, orders 1001 and 1003) and an `acme_` prefix for your own code.
+All examples use synthetic IDs (customer 45, subscriptions 123 and 124, product 197, order 1001) and an `acme_` prefix for your own code.
 
-## Recipe 1: Read the Authoritative Status and Current Plan
+## Before You Start
 
-**Goal:** Show which plan a member is on, how ArraySubs classifies each subscription right now, and whether a plan change is waiting for the next renewal.
+- WordPress, WooCommerce and ArraySubs core are active. Put the code in your own small plugin, as described in [Connect Your Custom Plugin](./getting-started.md). Never edit ArraySubs files.
+- Register your hooks inside an `arraysubs_after_boot` callback. That action fires after ArraySubs (and ArraySubs Pro, when active) has booted, and it never fires when ArraySubs fails its dependency check, so your listeners never run against a missing API.
+- Call the API on `init` or later. Error messages are translated, and every `StoreCredit` call returns `arraysubs_not_ready` before `wp_loaded`.
+- Guard each entry point with `class_exists()` for the class you use, for example `class_exists( '\ArraySubs\Developer\Subscriptions' )`, and handle failures with `is_wp_error()`.
+- On this page, `Class::method()` names a method of that class. Factories such as `Subscriptions::fromId()` are static and return an instance (or a `WP_Error`); methods such as `data()`, `family()` and `subscriptions()` are then called on that instance with `->`.
+- The PHP API is trusted server code. It never checks ownership, and most methods ignore the current user. When a person reaches your code through a REST route, AJAX action, form or shortcode, check the nonce, the login and ownership yourself. Recipe 1 shows the simplest ownership rule: look up only the logged-in user's own ID.
+- Machine times in `data()` output are UTC Unix timestamps (or `null`). Show them with `arraysubs_format_timestamp_local()`. Status values are stored slugs such as `arraysubs-active`; show them with `arraysubs_get_status_label()`.
+- Never write ArraySubs post meta directly. The API keeps locks, renewal schedules, provider calls and audit notes consistent; direct meta writes skip all of them.
 
-**Availability:** Core (Free). No module switch is involved.
+## Lifecycle Events You Can Listen To
 
-**APIs used:** `Lifecycle::get_state()` and `Subscriptions::for_customer()`. See [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) and [Find and Update Subscriptions](./subscriptions.md).
+Recipes 3 and 4 use the normalized event bus. ArraySubs listens to its own native hooks and re-emits one action with a flat, scalar-only payload:
 
-```php
-<?php
-/**
- * Summarize one subscription from its authoritative lifecycle state.
- *
- * @param int $subscription_id Subscription post ID.
- * @return array|WP_Error
- */
-function acme_get_plan_summary( int $subscription_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Lifecycle' ) ) {
-		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
-	}
-
-	$state = \ArraySubs\Api\Lifecycle::get_state( $subscription_id );
-	if ( is_wp_error( $state ) ) {
-		return $state; // For example not_found for an unknown or deleted ID.
-	}
-
-	$plan    = $state['plan'];
-	$pending = $state['pending_switch']; // null, or the plan waiting for the next paid renewal.
-
-	return array(
-		'subscription_id' => $state['subscription_id'],
-		'status'          => $state['status'],     // Stored status: active, trial, on-hold, ...
-		'phase'           => $state['phase'],      // Computed: active, renewal_due, grace, on_hold, ...
-		'has_access'      => $state['has_access'],
-		'product_id'      => $plan['product_id'],
-		'variation_id'    => $plan['variation_id'],
-		'quantity'        => $plan['quantity'],
-		'amount'          => $plan['recurring_amount'], // Decimal string, for example '19.00'.
-		'currency'        => $plan['currency'],
-		'interval'        => $plan['billing_interval'],
-		'period'          => $plan['billing_period'],
-		'next_payment_at' => $state['renewal']['next_payment_at'], // ISO 8601 UTC or null.
-		'pending_plan'    => $pending ? $pending['target'] : null,
-		'pending_from'    => $pending ? $pending['expected_at'] : null,
-	);
-}
-
-/**
- * Summaries for every live subscription a member holds.
- *
- * @param int $user_id WordPress user ID.
- * @return array|WP_Error
- */
-function acme_get_member_plans( int $user_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
-		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
-	}
-
-	$page = \ArraySubs\Api\Subscriptions::for_customer(
-		$user_id,
-		array(
-			'status'   => 'live', // pending, trial, active, paused and on-hold.
-			'output'   => 'ids',
-			'per_page' => 100,
-		)
-	);
-	if ( is_wp_error( $page ) ) {
-		return $page;
-	}
-
-	$plans = array();
-	foreach ( $page['items'] as $subscription_id ) {
-		$summary = acme_get_plan_summary( (int) $subscription_id );
-		if ( ! is_wp_error( $summary ) ) {
-			$plans[] = $summary;
-		}
-	}
-
-	return $plans;
-}
+```text
+do_action( 'arraysubs_lifecycle_event', string $event, array $payload );
 ```
 
-Display the result with escaped output and a translated status label. `arraysubs_get_status_label()` accepts the simple status names that `get_state()` returns.
+ArraySubs builds the payload only while at least one callback is attached to `arraysubs_lifecycle_event`, so adding your listener switches it on. Events fire in the PHP request that made the change. A repeat of the same event inside one request is filtered out, but the same change can arrive again from a later request, for example a webhook retry.
 
-```php
-<?php
-/**
- * Print a member's plans.
- *
- * @param int $user_id WordPress user ID.
- */
-function acme_render_member_plans( int $user_id ) {
-	$plans = acme_get_member_plans( $user_id );
-
-	if ( is_wp_error( $plans ) ) {
-		echo '<p>' . esc_html__( 'Membership details are unavailable right now.', 'acme' ) . '</p>';
-		return;
-	}
-
-	foreach ( $plans as $plan ) {
-		$product = wc_get_product( $plan['variation_id'] ? $plan['variation_id'] : $plan['product_id'] );
-		$name    = $product ? $product->get_name() : '#' . (int) $plan['product_id'];
-
-		printf(
-			'<p>%1$s: %2$s (%3$s %4$s)</p>',
-			esc_html( $name ),
-			esc_html( arraysubs_get_status_label( $plan['status'] ) ),
-			esc_html( $plan['amount'] ),
-			esc_html( $plan['currency'] )
-		);
-
-		if ( $plan['pending_plan'] && $plan['pending_from'] ) {
-			printf(
-				'<p>%s</p>',
-				esc_html(
-					sprintf(
-						/* translators: %s: date */
-						__( 'Plan change scheduled from %s.', 'acme' ),
-						wp_date( get_option( 'date_format' ), strtotime( $plan['pending_from'] ) )
-					)
-				)
-			);
-		}
-	}
-}
-```
-
-**Why it is safe**
-
-- `get_state()` is read only. It never converts trials, advances grace or retries, runs sweeps or attempts a payment, so you can call it on any page load.
-- `status` is the stored status and `phase` is the computed interpretation. Neither depends on a translated label, so your logic keeps working when labels change.
-- The current plan and a pending plan switch are separate blocks. A pending downgrade never changes `plan` until the renewal order built on the target plan is paid.
-- Money stays a decimal string with its currency, and dates stay ISO 8601 UTC until you format them for display.
-- These functions are trusted server code. If you return their data from your own REST route, check the caller's capability, or pass `as_user` so ArraySubs rejects a subscription the caller does not own with `forbidden`.
-
-**What to test**
-
-| Scenario | Expected result |
+| Group | Event names |
 | --- | --- |
-| Active subscription, paid up | `status` `active`, `phase` `active`, `has_access` true |
-| Subscription in a trial | `status` `trial`, `phase` `trial`, `trial.ends_at` set |
-| Renewal overdue, inside the grace days | `status` `active`, `phase` `grace`, `has_access` true |
-| Grace ran out | `status` `on-hold`, `phase` `on_hold`, `has_access` false |
-| Pending downgrade requested | `plan` unchanged; `pending_plan` shows the target and `pending_from` the expected date |
-| Unknown subscription ID such as 999999 | `WP_Error` with code `not_found` |
+| Entitlement | `activated`, `trial_started`, `trial_converted`, `renewed`, `granted`, `revoked`, `expired`, `deleted`, `plan_switched` |
+| Status | `status_changed`, `on_hold`, `trial_ended`, `paused`, `resumed`, `cancellation_scheduled`, `cancellation_undone`, `cancelled` |
+| Billing | `renewal_invoice_created`, `renewal_payment_attempted`, `renewal_payment_result`, `renewal_failed`, `retry_scheduled`, `retry_attempted`, `retry_succeeded`, `retry_pending`, `retry_failed`, `retry_exhausted`, `grace_entered`, `grace_recovered`, `grace_ended` |
+| Terms | `updated`, `trial_changed`, `grace_changed`, `pending_switch_set`, `pending_switch_replaced`, `pending_switch_cleared`, `pending_switch_cancelled`, `pending_switch_applied`, `auto_downgraded` |
 
-`get_state()` also accepts `at` to show how ArraySubs would classify a subscription at another moment. Use it to check your messages; it is an evaluation, not a scheduled change.
+Payload keys present on every event:
 
-## Recipe 2: Keep Account Permissions Grace-Aware
+| Key | Meaning |
+| --- | --- |
+| `event`, `subscription_id` | The event name and the subscription it is about |
+| `status`, `previous_status` | Stored status slugs. `previous_status` is set when the event knows the earlier status (status transitions and `updated`), otherwise empty |
+| `effect` | `grant`, `revoke` or `none`: whether this subscription's transition starts or ends an entitlement |
+| `user_id`, `customer_email` | The customer. `user_id` is 0 for a guest subscription |
+| `product_id`, `parent_product_id`, `variation_id` | `product_id` is the variation when there is one, otherwise the product |
+| `parent_order_id`, `order_id` | The initial order, and the order this event is about (0 when none) |
+| `currency`, `recurring_amount` | The subscription's stored currency and recurring amount, as strings |
+| `next_payment_date`, `trial_end_date`, `end_date` | Stored UTC dates in `Y-m-d H:i:s` format, or empty |
+| `event_time` | ISO 8601 UTC time, for example `2026-10-18T09:30:00Z` |
+| `event_id`, `identity_scope` | `identity_scope` is `operation` when the event is tied to a durable operation (an order, a payment failure or charge attempt on that order, a retry action, a scheduled cancellation date or a pending switch); `event_id` is then a stable hash. With `request`, `event_id` is a random UUID for that request |
+| `source_hook`, `persistence_phase`, `actor_id` | The native hook that produced the event, `status_transition` or `domain_hook`, and the acting user ID (0 for system work) |
 
-**Goal:** Grant a permission in your own plugin (here the capability `acme_community_member`) while the member has access through a subscription product, keep it through the payment grace period, show a payment warning during grace, and remove it when ArraySubs removes access.
+Every payload also carries `error_message`, `switch_type`, `old_product_id`, `new_product_id`, `is_renewal` and `force_delete`, filled only where they apply (`renewal_failed`, `plan_switched` and `auto_downgraded`, billing events, `deleted`). Some events add keys of their own: `attempt` and `result` (payment attempts and retries), `scheduled_at` and `action_id` (`retry_scheduled`), `scheduled_date` and `reason` (`cancellation_scheduled`), `cancellation_mode` (`cancelled`), `duration_days` and `reason` (`paused`), `automatic` (`resumed`), and `changed_fields` with `previous_*` and `current_*` values (`updated`).
+
+The payload is a snapshot of the moment the event fired. For any decision that matters, re-read the subscription when you act, as the recipes do. The full catalog of native hooks is in [React to Supported Events](./actions-and-filters.md).
+
+## Recipe 1: Find a Customer's Active Subscriptions
+
+**Goal:** List every active or trial subscription a member holds, starting from a user ID or an account email, and show it on a page for the logged-in member.
 
 **Availability:** Core (Free).
 
-**APIs used:** `Subscriptions::query()`, `Lifecycle::get_state()` and the `arraysubs_lifecycle_event` action. See [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) and [React to Supported Events](./actions-and-filters.md).
-
-During grace the stored status stays `active` (or `trial`), `phase` is `grace` and `has_access` stays true. When grace ends, the subscription moves to on-hold and `has_access` becomes false. Base the permission on `has_access` and use `phase` only to choose messages.
+**API used:** `Subscriptions::fromUserId()` and `Customer::fromEmail()`. See [Find and Update Subscriptions](./subscriptions.md) and [Find Members and Update Profiles](./customers-and-profile-fields.md).
 
 ```php
 <?php
-const ACME_COMMUNITY_PRODUCT_ID = 197; // Parent subscription product; covers its variations.
-
 /**
- * Combine every live subscription to the community product into one decision.
+ * Every active or trial subscription a customer holds, as data arrays.
  *
- * @param int  $user_id          WordPress user ID.
- * @param bool $customer_context True when reading for the logged-in customer.
+ * @param int $user_id WordPress user ID.
  * @return array|WP_Error
  */
-function acme_community_snapshot( int $user_id, bool $customer_context = false ) {
-	if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) || ! class_exists( '\ArraySubs\Api\Lifecycle' ) ) {
+function acme_active_subscriptions( int $user_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
+		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
+	}
+	if ( $user_id <= 0 ) {
+		return array(); // Guests have no account to look up.
+	}
+
+	$items = array();
+	$page  = 1;
+
+	do {
+		$result = \ArraySubs\Developer\Subscriptions::fromUserId(
+			$user_id,
+			array(
+				'statuses' => array( 'arraysubs-active', 'arraysubs-trial' ),
+				'output'   => 'data',
+				'fields'   => array( 'identity', 'status', 'plan', 'pricing', 'schedule' ),
+				'per_page' => 100,
+				'page'     => $page,
+			)
+		);
+		if ( is_wp_error( $result ) ) {
+			return $result; // invalid_query or invalid_field: fix the arguments.
+		}
+
+		$items = array_merge( $items, $result['items'] );
+		$page  = (int) $result['next_page'];
+	} while ( $result['has_more'] );
+
+	return $items;
+}
+
+/**
+ * The same list, starting from the WordPress account email.
+ *
+ * @param string $email Account email (not a billing email).
+ * @return array|WP_Error
+ */
+function acme_active_subscriptions_by_email( string $email ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Customer' ) ) {
 		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
 	}
 
-	// Customer context: ArraySubs enforces ownership and returns customer-safe data.
-	$context     = $customer_context ? array( 'as_user' => $user_id ) : array();
-	$has_access  = false;
-	$in_grace    = false;
-	$grace_until = '';
-	$on_hold     = false;
-
-	$args = array_merge(
-		array(
-			'customer_id' => $user_id,
-			'product_id'  => ACME_COMMUNITY_PRODUCT_ID,
-			'status'      => 'live',
-			'output'      => 'ids',
-			'per_page'    => 100,
-		),
-		$context
-	);
-
-	do {
-		$page = \ArraySubs\Api\Subscriptions::query( $args );
-		if ( is_wp_error( $page ) ) {
-			return $page;
-		}
-
-		foreach ( $page['items'] as $subscription_id ) {
-			$state = \ArraySubs\Api\Lifecycle::get_state( (int) $subscription_id, $context );
-			if ( is_wp_error( $state ) ) {
-				continue; // Deleted since the query ran, so it grants nothing.
-			}
-
-			if ( $state['has_access'] ) {
-				$has_access = true;
-			}
-
-			if ( 'grace' === $state['phase'] ) {
-				$in_grace    = true;
-				$grace_until = (string) $state['grace']['on_hold_at'];
-			} elseif ( 'on_hold' === $state['phase'] ) {
-				$on_hold = true;
-			}
-		}
-
-		$args['cursor'] = (string) $page['next_cursor'];
-	} while ( $page['has_more'] );
-
-	$warning = null;
-	if ( $in_grace ) {
-		$warning = array(
-			'type'       => 'grace',
-			'on_hold_at' => $grace_until,
-		);
-	} elseif ( $on_hold && ! $has_access ) {
-		$warning = array( 'type' => 'on_hold' );
+	$customer = \ArraySubs\Developer\Customer::fromEmail( $email );
+	if ( is_wp_error( $customer ) ) {
+		return $customer; // validation, not_found or ambiguous.
 	}
 
-	return array(
-		'has_access' => $has_access,
-		'warning'    => $warning,
+	return acme_active_subscriptions( $customer->get_id() );
+}
+```
+
+Show the list to the logged-in member with a shortcode. The lookup uses the logged-in user's own ID and never an ID from the request, which is the ownership check.
+
+```php
+<?php
+add_shortcode(
+	'acme_my_plans',
+	function () {
+		$user_id = get_current_user_id();
+		if ( ! $user_id || ! function_exists( 'acme_active_subscriptions' ) ) {
+			return '';
+		}
+
+		$items = acme_active_subscriptions( $user_id );
+		if ( is_wp_error( $items ) ) {
+			return '<p>' . esc_html__( 'Your plans are unavailable right now.', 'acme' ) . '</p>';
+		}
+		if ( ! $items ) {
+			return '<p>' . esc_html__( 'You have no active plans.', 'acme' ) . '</p>';
+		}
+
+		$html = '<ul class="acme-plans">';
+		foreach ( $items as $item ) {
+			$next = $item['schedule']['next_payment_at'];
+			$line = sprintf(
+				'%1$s - %2$s',
+				esc_html( $item['plan']['name'] ),
+				esc_html( arraysubs_get_status_label( $item['status']['stored'] ) )
+			);
+			$line .= ' - ' . wp_kses_post( wc_price( $item['pricing']['recurring_amount'], array( 'currency' => $item['pricing']['currency'] ) ) );
+			if ( null !== $next ) {
+				/* translators: %s: date of the next payment. */
+				$line .= ' - ' . esc_html( sprintf( __( 'next payment %s', 'acme' ), arraysubs_format_timestamp_local( (int) $next, get_option( 'date_format' ) ) ) );
+			}
+			$html .= '<li>' . $line . '</li>';
+		}
+
+		return $html . '</ul>';
+	}
+);
+```
+
+Notes:
+
+- `statuses` takes stored slugs. Without it, every status is included: pending, active, paused, on-hold, cancelled, expired and trial. A short slug such as `active` returns `invalid_query`.
+- Collections are ordered by ascending ID, hold at most 100 items per page and report `has_more` and `next_page`. Subscription collections have no `total`.
+- Subscription Box and Subscription Bundle children are subscriptions of their own and appear in this list. Request the `family` group and skip items whose `family.kind` is not `null` when you only want the subscriptions that bill.
+- To ask "does this subscription give access right now", read `status.has_view_entitlement`. It also counts a paused subscription while the store keeps access during a pause.
+- `Customer::fromEmail()` matches the WordPress account email exactly. A guest subscription has no account: `Customer::fromSubscriptionId()` returns a guest identity array for it instead of a `Customer`.
+
+## Recipe 2: React to a Paid Renewal or a Failed Payment
+
+**Goal:** Record each paid renewal exactly once in your own table (for commissions, analytics or partner payouts), alert your team when a renewal payment fails, and show the member a payment reminder while the renewal is overdue.
+
+**Availability:** Core (Free).
+
+**API used:** the native hooks below, `Orders::fromId()` and the subscription `recovery` data group. See [React to Supported Events](./actions-and-filters.md) and [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md).
+
+| Hook | Arguments | Fires when |
+| --- | --- | --- |
+| `arraysubs_renewal_payment_complete` | `int $subscription_id, int $order_id` | A renewal order is paid and processed. ArraySubs processes each order once. |
+| `arraysubs_renewal_payment_failed` | `int $subscription_id, int $order_id, string $error_message` | An automatic renewal charge or a retry fails, the gateway reports a failure later, or the renewal order could not be created (`$order_id` is 0 and the subscription moves to on-hold). |
+| `arraysubs_payment_retry_scheduled` | `WP_Post $subscription, int $attempt, int $next_attempt_at, int $action_id` | An automatic retry is queued. `$next_attempt_at` is a UTC timestamp. |
+| `arraysubs_payment_retry_exhausted` | `WP_Post $subscription, int $attempts` | The retry limit in the gateway's retry settings is reached. |
+| `arraysubs_grace_recovered` | `WP_Post $subscription, WC_Order $order` | A renewal is paid after a failure, or while the subscription was on hold. |
+
+**Step 1: register the hooks and keep them fast.** These hooks run inside payment requests, webhooks and scheduled jobs, so the listeners only queue work with Action Scheduler.
+
+```php
+<?php
+/**
+ * Plugin Name: Acme Renewal Ledger
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+register_activation_hook( __FILE__, 'acme_renewals_install' );
+
+/**
+ * One row per paid renewal order. The primary key turns repeats into no-ops.
+ */
+function acme_renewals_install() {
+	global $wpdb;
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+	dbDelta(
+		"CREATE TABLE {$wpdb->prefix}acme_renewals (
+			order_id bigint(20) unsigned NOT NULL,
+			subscription_id bigint(20) unsigned NOT NULL,
+			total varchar(32) NOT NULL DEFAULT '',
+			currency char(3) NOT NULL DEFAULT '',
+			paid_at bigint(20) unsigned NOT NULL DEFAULT 0,
+			PRIMARY KEY  (order_id)
+		) {$wpdb->get_charset_collate()};"
+	);
+}
+
+add_action(
+	'arraysubs_after_boot',
+	function () {
+		add_action( 'arraysubs_renewal_payment_complete', 'acme_queue_renewal_paid', 10, 2 );
+		add_action( 'arraysubs_renewal_payment_failed', 'acme_queue_renewal_failed', 10, 3 );
+		add_action( 'acme_record_renewal', 'acme_record_renewal', 10, 2 );
+		add_action( 'acme_review_failed_renewal', 'acme_review_failed_renewal', 10, 2 );
+	}
+);
+
+/**
+ * Queue the paid renewal for a background job.
+ */
+function acme_queue_renewal_paid( $subscription_id, $order_id ) {
+	if ( function_exists( 'as_enqueue_async_action' ) ) {
+		as_enqueue_async_action( 'acme_record_renewal', array( (int) $subscription_id, (int) $order_id ), 'acme' );
+	}
+}
+
+/**
+ * Queue the failure for review. $error_message is raw gateway text: log it, never show it to members.
+ */
+function acme_queue_renewal_failed( $subscription_id, $order_id, $error_message ) {
+	if ( function_exists( 'as_enqueue_async_action' ) ) {
+		as_enqueue_async_action( 'acme_review_failed_renewal', array( (int) $subscription_id, (int) $order_id ), 'acme' );
+	}
+}
+```
+
+**Step 2: re-read, then record once.** The job reads the order through the API, confirms it is a paid renewal linked to the subscription, and inserts one row per order.
+
+```php
+<?php
+/**
+ * Record one paid renewal. Safe to run any number of times for the same order.
+ *
+ * @param int $subscription_id Subscription ID from the hook.
+ * @param int $order_id        Renewal order ID from the hook.
+ */
+function acme_record_renewal( $subscription_id, $order_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Orders' ) ) {
+		return;
+	}
+
+	$order = \ArraySubs\Developer\Orders::fromId( (int) $order_id );
+	if ( is_wp_error( $order ) ) {
+		return; // not_found: the order was deleted.
+	}
+
+	$data = $order->data( array( 'identity', 'amounts' ) );
+	if ( is_wp_error( $data ) || ! $data['identity']['is_renewal'] || null === $data['identity']['paid_at'] ) {
+		return; // Not a paid renewal order.
+	}
+
+	$linked = $order->subscriptions( array( 'output' => 'ids', 'per_page' => 100 ) );
+	if ( is_wp_error( $linked ) || ! in_array( (int) $subscription_id, $linked['items'], true ) ) {
+		return; // The order does not belong to this subscription.
+	}
+
+	global $wpdb;
+	$wpdb->query(
+		$wpdb->prepare(
+			"INSERT IGNORE INTO {$wpdb->prefix}acme_renewals (order_id, subscription_id, total, currency, paid_at) VALUES (%d, %d, %s, %s, %d)",
+			$data['identity']['id'],
+			(int) $subscription_id,
+			(string) $data['amounts']['total'],
+			$data['amounts']['currency'],
+			(int) $data['identity']['paid_at']
+		)
 	);
 }
 
 /**
- * Apply the decision to your own capability.
+ * Hand a failed renewal to your team with the recovery timeline.
  *
- * @param int $user_id WordPress user ID.
+ * @param int $subscription_id Subscription ID from the hook.
+ * @param int $order_id        Renewal order ID, or 0 when no order could be created.
  */
-function acme_sync_community_access( int $user_id ) {
-	$user = $user_id > 0 ? get_userdata( $user_id ) : false;
-	if ( ! $user ) {
-		return; // Guest subscriptions have no account to update.
+function acme_review_failed_renewal( $subscription_id, $order_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
+		return;
 	}
 
-	$snapshot = acme_community_snapshot( $user_id );
-	if ( is_wp_error( $snapshot ) ) {
-		return; // Keep the last known permission; the next event or the daily check retries.
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( (int) $subscription_id );
+	if ( is_wp_error( $subscription ) ) {
+		return;
 	}
 
-	if ( $snapshot['has_access'] ) {
-		$user->add_cap( 'acme_community_member' );
-	} else {
-		$user->remove_cap( 'acme_community_member' );
+	$data = $subscription->data( array( 'identity', 'status', 'recovery' ) );
+	if ( is_wp_error( $data ) ) {
+		return;
 	}
+
+	$recovery = $data['recovery'];
+
+	/**
+	 * Your alerting code listens here (email to your team, ticket, Slack message).
+	 */
+	do_action(
+		'acme_renewal_failed',
+		array(
+			'subscription_id'  => (int) $subscription_id,
+			'order_id'         => (int) $order_id,
+			'customer_id'      => $data['identity']['customer_id'],
+			'status'           => $data['status']['stored'],
+			'phase'            => $recovery['phase'],
+			'failure_category' => $recovery['failure_category'],
+			'retry_attempts'   => $recovery['retry_attempts'],
+			'next_retry_at'    => $recovery['next_retry_at'],
+			'on_hold_from'     => $recovery['hold_eligible_at'],
+		)
+	);
 }
-
-// Re-sync on every event that can change access or the grace phase.
-add_action(
-	'arraysubs_lifecycle_event',
-	function ( $event, $payload ) {
-		$watched = array( 'granted', 'revoked', 'grace_started', 'grace_recovered', 'grace_ended', 'on_hold', 'reactivated', 'paused', 'resumed', 'cancelled', 'expired', 'plan_switched', 'deleted' );
-
-		if ( ! in_array( $event, $watched, true ) || empty( $payload['user_id'] ) ) {
-			return;
-		}
-
-		acme_sync_community_access( absint( $payload['user_id'] ) );
-	},
-	10,
-	2
-);
 ```
 
-Show the warning in My Account. This read runs for the logged-in customer, so it passes `as_user` through the snapshot function.
+**Step 3: remind the member.** The `recovery` group explains where an overdue subscription stands: `phase` is `before_on_hold` or `on_hold_due` while an active or trial subscription is overdue, and `on_hold` or `cancellation_due` once it is on hold. `hold_eligible_at` and `cancel_eligible_at` are the UTC timestamps of the next grace steps.
 
 ```php
 <?php
@@ -353,609 +375,636 @@ add_action(
 	'woocommerce_account_dashboard',
 	function () {
 		$user_id = get_current_user_id();
-		if ( ! $user_id || ! function_exists( 'acme_community_snapshot' ) ) {
+		if ( ! $user_id || ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
 			return;
 		}
 
-		$snapshot = acme_community_snapshot( $user_id, true );
-		if ( is_wp_error( $snapshot ) || null === $snapshot['warning'] ) {
+		$result = \ArraySubs\Developer\Subscriptions::fromUserId(
+			$user_id,
+			array(
+				'statuses' => array( 'arraysubs-active', 'arraysubs-trial', 'arraysubs-on-hold' ),
+				'output'   => 'data',
+				'fields'   => array( 'plan', 'recovery' ),
+				'per_page' => 100,
+			)
+		);
+		if ( is_wp_error( $result ) ) {
 			return;
 		}
 
-		$warning = $snapshot['warning'];
+		$format = get_option( 'date_format' );
 
-		if ( 'grace' === $warning['type'] && '' !== $warning['on_hold_at'] ) {
-			$message = sprintf(
-				/* translators: %s: date */
-				__( 'Your last renewal payment did not go through. Update your payment method before %s to keep community access.', 'acme' ),
-				wp_date( get_option( 'date_format' ), strtotime( $warning['on_hold_at'] ) )
+		foreach ( $result['items'] as $item ) {
+			$recovery = $item['recovery'];
+			if ( ! $recovery['renewal_overdue'] || ! $recovery['unpaid_renewal_order_id'] ) {
+				continue;
+			}
+
+			if ( in_array( $recovery['phase'], array( 'on_hold', 'cancellation_due' ), true ) ) {
+				$deadline = $recovery['cancel_eligible_at'];
+				/* translators: 1: plan name, 2: date. */
+				$text = __( '%1$s is on hold. Pay the overdue renewal before %2$s to keep it.', 'acme' );
+			} else {
+				$deadline = $recovery['hold_eligible_at'];
+				/* translators: 1: plan name, 2: date. */
+				$text = __( 'The last renewal payment for %1$s did not go through. Pay it before %2$s to keep your access.', 'acme' );
+			}
+			if ( ! $deadline ) {
+				continue;
+			}
+
+			$order = wc_get_order( $recovery['unpaid_renewal_order_id'] );
+			$link  = $order ? ' <a class="button" href="' . esc_url( $order->get_checkout_payment_url() ) . '">' . esc_html__( 'Pay now', 'acme' ) . '</a>' : '';
+
+			printf(
+				'<div class="woocommerce-info">%1$s%2$s</div>',
+				esc_html( sprintf( $text, $item['plan']['name'], arraysubs_format_timestamp_local( (int) $deadline, $format ) ) ),
+				$link // Built from escaped parts above.
 			);
-		} elseif ( 'grace' === $warning['type'] ) {
-			$message = __( 'Your last renewal payment did not go through. Update your payment method to keep community access.', 'acme' );
-		} else {
-			$message = __( 'Your community access is paused until the overdue renewal is paid.', 'acme' );
 		}
-
-		echo '<div class="woocommerce-info">' . esc_html( $message ) . '</div>';
 	}
 );
 ```
 
-Events fired while your plugin was inactive are not replayed. Add a daily job (for example with `as_schedule_recurring_action()`) that calls `acme_sync_community_access()` for members who hold the capability or a live subscription to the product.
+Notes:
 
-**Why it is safe**
+- `arraysubs_renewal_payment_complete` fires once per processed renewal order, but your job can still run twice (a retried job, a manual re-run). The primary key on `order_id` makes the second insert a no-op.
+- Take amounts from the paid order, not from the subscription's recurring amount. Coupons, store credit, switch fees or a different renewal price can make the paid total differ.
+- `arraysubs_renewal_payment_failed` fires for every failed attempt, including retries. Count attempts with `arraysubs_payment_retry_scheduled`, and use `arraysubs_payment_retry_exhausted` for the "last automatic attempt failed" alert.
+- Grace dates in the reminder are messages only. ArraySubs applies on-hold and the grace-end cancellation on its hourly overdue check, so never remove access on the date yourself; follow the status, as in recipe 4.
+- The reminder reads only the logged-in member's subscriptions, so it can never show someone else's order.
 
-- The permission follows `has_access`, which already reflects grace, the pause access setting and on-hold. Your plugin does not re-implement the grace algorithm or decide access from dates.
-- Grace dates such as `grace.on_hold_at` are used only in messages. ArraySubs moves a subscription to on-hold on its hourly check after the boundary, and a payment that is still settling (`grace.settlement_pending`) can postpone it, so never revoke on the date alone.
-- The decision combines every live subscription to the product, so ending one subscription does not remove access that another valid subscription still grants. The `granted` and `revoked` events follow the same rule.
-- Each event triggers a full re-read, so duplicate, delayed or out-of-order events all produce the same final permission.
-- The account notice reads with `as_user`, so a customer can only see their own subscriptions. The background sync is trusted server code and reads without it.
-- Nothing is written to ArraySubs. The only write is your own capability.
+## Recipe 3: Sync a CRM When a Subscription Changes
 
-**What to test**
-
-- Let a renewal fail and pay it inside the grace days: the capability stays, the grace notice shows, then disappears after `grace_recovered`.
-- Let grace run out: after the hourly check moves the subscription to on-hold, the capability is removed and the on-hold notice shows.
-- Give the member a second active subscription to the same product, then cancel one: the capability stays.
-- Pause a subscription under each pause access setting and confirm the capability matches `has_access`.
-- Run the sync twice, or fire the same event twice: the result does not change.
-- Deactivate your plugin, change a subscription, reactivate it: the daily job (or the next event) corrects the capability.
-
-## Recipe 3: Record Renewal Commissions Once
-
-**Goal:** When a renewal is paid, record one sale in your commission plugin, even when the event arrives twice, late or after a payment retry. Your plugin calculates and pays the commission; ArraySubs only reports the paid renewal.
+**Goal:** Keep one CRM record per subscription up to date whenever its status, plan, renewal or cancellation changes, without slowing checkout or payment requests and without sending stale data.
 
 **Availability:** Core (Free).
 
-**APIs used:** the `arraysubs_lifecycle_event` action (event `renewed`), `Orders::get()`, `Relationships::get_order_type()` and `Lifecycle::get_state()`. See [React to Supported Events](./actions-and-filters.md) and [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md).
+**API used:** the `arraysubs_lifecycle_event` action and `Subscriptions::fromId()`. See [Lifecycle Events You Can Listen To](#lifecycle-events-you-can-listen-to) and [Find and Update Subscriptions](./subscriptions.md).
 
-```mermaid
-flowchart LR
-  A[Renewal order paid] --> B[ArraySubs saves the renewal]
-  B --> C["arraysubs_lifecycle_event: renewed"]
-  C --> D{event_id already stored?}
-  D -- yes --> E[Ignore the duplicate]
-  D -- no --> F[Store the row and queue a job]
-  F --> G[Job re-reads the order and state]
-  G --> H[Your commission logic]
-```
-
-**Step 1: claim each event durably.** The listener stores `event_id` in your own table with a UNIQUE key, then queues a background job. A repeated delivery hits the key and does nothing.
+**Step 1: queue a sync for every change you care about.**
 
 ```php
 <?php
-/**
- * Plugin Name: Acme Commission Bridge
- */
-
-defined( 'ABSPATH' ) || exit;
-
-register_activation_hook( __FILE__, 'acme_commission_install' );
-
-/**
- * Create the durable event log. The UNIQUE keys turn duplicate deliveries into no-ops.
- */
-function acme_commission_install() {
-	global $wpdb;
-	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-
-	$table   = $wpdb->prefix . 'acme_commission_events';
-	$charset = $wpdb->get_charset_collate();
-
-	dbDelta(
-		"CREATE TABLE {$table} (
-			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-			event_id varchar(191) NOT NULL,
-			subscription_id bigint(20) unsigned NOT NULL,
-			order_id bigint(20) unsigned NOT NULL,
-			occurred_at varchar(32) NOT NULL DEFAULT '',
-			status varchar(20) NOT NULL DEFAULT 'queued',
-			created_at datetime NOT NULL,
-			PRIMARY KEY  (id),
-			UNIQUE KEY event_id (event_id),
-			UNIQUE KEY order_id (order_id)
-		) {$charset};"
-	);
-}
-
-add_action( 'arraysubs_lifecycle_event', 'acme_commission_on_event', 10, 2 );
-
-/**
- * Claim each paid renewal once, then hand the work to a background job.
- *
- * @param string $event   Normalized event name.
- * @param array  $payload Scalar event payload.
- */
-function acme_commission_on_event( $event, $payload ) {
-	if ( 'renewed' !== $event || ! is_array( $payload ) ) {
-		return;
+add_action(
+	'arraysubs_after_boot',
+	function () {
+		add_action( 'arraysubs_lifecycle_event', 'acme_crm_queue_sync', 10, 2 );
+		add_action( 'acme_crm_sync_subscription', 'acme_crm_sync_subscription', 10, 1 );
 	}
+);
 
-	$event_id        = isset( $payload['event_id'] ) ? sanitize_text_field( (string) $payload['event_id'] ) : '';
+/**
+ * Queue one sync job. The payload is only a hint; the job reads the current state.
+ *
+ * @param string $event   Event name, for example 'status_changed' or 'renewed'.
+ * @param array  $payload Flat, scalar-only event payload.
+ */
+function acme_crm_queue_sync( $event, $payload ) {
+	$watched = array( 'activated', 'trial_started', 'trial_converted', 'renewed', 'status_changed', 'plan_switched', 'cancellation_scheduled', 'cancellation_undone', 'cancelled', 'expired', 'deleted' );
+
 	$subscription_id = isset( $payload['subscription_id'] ) ? absint( $payload['subscription_id'] ) : 0;
-	$order_id        = isset( $payload['order_id'] ) ? absint( $payload['order_id'] ) : 0;
-
-	if ( '' === $event_id || ! $subscription_id || ! $order_id ) {
+	if ( ! $subscription_id || ! in_array( $event, $watched, true ) || ! function_exists( 'as_enqueue_async_action' ) ) {
 		return;
 	}
 
-	global $wpdb;
-	$table = $wpdb->prefix . 'acme_commission_events';
-
-	$inserted = $wpdb->query(
-		$wpdb->prepare(
-			"INSERT IGNORE INTO {$table} (event_id, subscription_id, order_id, occurred_at, status, created_at) VALUES (%s, %d, %d, %s, 'queued', %s)",
-			$event_id,
-			$subscription_id,
-			$order_id,
-			isset( $payload['occurred_at'] ) ? sanitize_text_field( (string) $payload['occurred_at'] ) : '',
-			current_time( 'mysql', true )
-		)
-	);
-
-	if ( 1 !== $inserted ) {
-		return; // 0 = duplicate delivery (same event or same order). false = database error.
-	}
-
-	// Keep the hook fast and never throw from it: the real work runs in the background.
-	if ( function_exists( 'as_enqueue_async_action' ) ) {
-		as_enqueue_async_action( 'acme_commission_process', array( $event_id ), 'acme-commission' );
-	}
+	as_enqueue_async_action( 'acme_crm_sync_subscription', array( $subscription_id ), 'acme-crm' );
 }
 ```
 
-**Step 2: re-read, then hand off.** The job claims the row with a compare-and-set update, re-reads the order and the subscription, and passes one sale to your commission code.
+**Step 2: read the current state and upsert it.** Running the job twice sends the same record, so duplicate or late events are harmless.
 
 ```php
 <?php
-add_action( 'acme_commission_process', 'acme_commission_process', 10, 1 );
-
 /**
- * Re-read the paid order and the subscription, then hand one sale to your commission code.
+ * Push the current state of one subscription to the CRM.
  *
- * @param string $event_id Stored event ID.
+ * @param int $subscription_id Subscription ID.
  */
-function acme_commission_process( $event_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Orders' ) || ! class_exists( '\ArraySubs\Api\Relationships' ) || ! class_exists( '\ArraySubs\Api\Lifecycle' ) ) {
-		return; // The row stays queued; the reconciliation job retries it.
-	}
-
-	global $wpdb;
-	$table = $wpdb->prefix . 'acme_commission_events';
-
-	// Compare-and-set: only one worker can move a row from queued to processing.
-	$claimed = $wpdb->query(
-		$wpdb->prepare( "UPDATE {$table} SET status = 'processing' WHERE event_id = %s AND status = 'queued'", (string) $event_id )
-	);
-	if ( 1 !== $claimed ) {
+function acme_crm_sync_subscription( $subscription_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
 		return;
 	}
 
-	$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE event_id = %s", (string) $event_id ) );
-	if ( ! $row ) {
+	$subscription_id = (int) $subscription_id;
+	$subscription    = \ArraySubs\Developer\Subscriptions::fromId( $subscription_id );
+
+	if ( is_wp_error( $subscription ) ) {
+		// not_found: the subscription was deleted after the event fired.
+		acme_crm_send( $subscription_id, array( 'deleted' => true ) );
 		return;
 	}
 
-	$subscription_id = (int) $row->subscription_id;
-
-	// Passing 'subscription' also proves the order belongs to this subscription.
-	$order = \ArraySubs\Api\Orders::get( (int) $row->order_id, array( 'subscription' => $subscription_id ) );
-	if ( is_wp_error( $order ) ) {
-		acme_commission_set_status( $event_id, 'skipped' );
+	$data = $subscription->data( array( 'identity', 'status', 'plan', 'pricing', 'schedule', 'cancellation' ) );
+	if ( is_wp_error( $data ) ) {
 		return;
 	}
 
-	$type = \ArraySubs\Api\Relationships::get_order_type( $order, $subscription_id );
-	if ( is_wp_error( $type ) || ! in_array( $type, array( 'renewal', 'early_renewal' ), true ) || ! $order->is_paid() ) {
-		acme_commission_set_status( $event_id, 'skipped' );
-		return;
-	}
-
-	$state = \ArraySubs\Api\Lifecycle::get_state( $subscription_id );
-
-	/**
-	 * Your commission module listens here: rates, attribution, payouts and reversals.
-	 */
-	do_action(
-		'acme_commission_renewal_paid',
+	acme_crm_send(
+		$subscription_id,
 		array(
-			'event_id'        => (string) $row->event_id,
-			'subscription_id' => $subscription_id,
-			'order_id'        => $order->get_id(),
-			'order_type'      => $type,
-			'order_total'     => $order->get_total(),
-			'total_refunded'  => $order->get_total_refunded(),
-			'currency'        => $order->get_currency(),
-			'customer_id'     => $order->get_customer_id(),
-			'current_status'  => is_wp_error( $state ) ? null : $state['status'],
-			'current_plan'    => is_wp_error( $state ) ? null : $state['plan'],
+			'email'            => $data['identity']['customer_email'],
+			'customer_id'      => $data['identity']['customer_id'], // null for a guest subscription.
+			'status'           => $data['status']['stored'],
+			'has_access'       => $data['status']['has_view_entitlement'],
+			'plan'             => $data['plan']['name'],
+			'product_id'       => $data['plan']['effective_product_id'],
+			'recurring_amount' => $data['pricing']['recurring_amount'],
+			'currency'         => $data['pricing']['currency'],
+			'next_payment_at'  => $data['schedule']['next_payment_at'] ? gmdate( 'c', $data['schedule']['next_payment_at'] ) : null,
+			'cancels_at'       => $data['cancellation']['scheduled_at'] ? gmdate( 'c', $data['cancellation']['scheduled_at'] ) : null,
 		)
-	);
-
-	acme_commission_set_status( $event_id, 'done' );
-}
-
-/**
- * Update the stored row status.
- *
- * @param string $event_id Stored event ID.
- * @param string $status   New row status.
- */
-function acme_commission_set_status( $event_id, $status ) {
-	global $wpdb;
-
-	$wpdb->update(
-		$wpdb->prefix . 'acme_commission_events',
-		array( 'status' => $status ),
-		array( 'event_id' => (string) $event_id ),
-		array( '%s' ),
-		array( '%s' )
 	);
 }
 ```
 
-**Step 3: reconcile.** Events are in-process WordPress actions; no outgoing webhooks are part of this contract, and an event fired while your plugin was inactive is not replayed. Add a daily job that re-queues rows left in `queued` or `processing` for longer than an hour, and that walks recent paid renewal orders with `Relationships::get_orders( $subscription_id, array( 'type' => 'renewal' ) )` and inserts any missing order with the event ID `backfill:order:{order_id}`. The UNIQUE `order_id` key keeps a backfilled order and a late live event from both creating a sale.
-
-**Why it is safe**
-
-- `event_id` is durable: the same occurrence carries the same ID across retries and request paths. Storing it under a UNIQUE key makes any repeat delivery a no-op, which in-memory or per-request checks cannot guarantee.
-- The UNIQUE `order_id` key enforces the business rule "one sale per paid renewal order", including rows created by the backfill.
-- The listener only inserts a row and queues a job. It never throws and adds almost nothing to the payment request.
-- The job re-reads the order and the lifecycle state, so a delayed or out-of-order job acts on current facts and skips orders that are no longer paid or related.
-- The sale amount comes from the paid order, not from `recurring_amount` in the payload. Switch fees, coupons, store credit or a plan switch applied at that renewal can make the paid total differ from the plan price.
-- Nothing is written to ArraySubs. Commission calculation, payouts, refund reversals and partner attribution stay in your plugin.
-
-**What to test**
-
-- A normal automatic renewal: one row with status `done` and one `acme_commission_renewal_paid` call.
-- Fire the same `renewed` payload twice from a test script with `do_action( 'arraysubs_lifecycle_event', 'renewed', $payload )`: still one row.
-- A renewal paid late during grace, and one paid after a retry: one row each.
-- A renewal with a total of 0.00 (fully discounted or covered by credit): your commission code decides what to do; the row is still recorded once.
-- Two workers running the same job at once: only one reaches `done`; the other stops at the compare-and-set.
-- Deactivate your plugin, pay a renewal, reactivate it and run the backfill: the order is recorded once.
-- Refund a renewal order: confirm that your own reversal workflow handles it; this listener does not.
-
-## Recipe 4: Look Up Parents, Children and Orders
-
-**Goal:** Show a subscription's family and money trail in one place: whether it is standalone, a box or bundle parent, or a child; which subscription pays for it; the other children; the latest initial and renewal orders; and any open renewal invoice. Then go the other way, from an order to every linked subscription.
-
-**Availability:** Core (Free). Subscription boxes are core and subscription bundles need Pro; the readers work for both.
-
-**APIs used:** `Relationships::get_family()`, `get_billing_owner()`, `get_children()`, `get_orders()`, `get_pending_renewal_order()` and `get_subscriptions_for_order()`. See [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md).
+**Step 3: send it, and retry by re-reading.**
 
 ```php
 <?php
 /**
- * Describe a subscription's family, recent orders and open renewal invoice.
+ * Upsert one CRM record keyed by the subscription ID.
  *
- * @param int $subscription_id Any subscription in the family.
- * @return array|WP_Error
+ * @param int   $subscription_id Subscription ID, used as the CRM external ID.
+ * @param array $record          Fields to store.
  */
-function acme_describe_family( int $subscription_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Relationships' ) ) {
+function acme_crm_send( int $subscription_id, array $record ) {
+	$response = wp_remote_post(
+		'https://crm.example.com/api/subscriptions/' . $subscription_id,
+		array(
+			'timeout' => 10,
+			'headers' => array( 'Content-Type' => 'application/json' ),
+			'body'    => wp_json_encode( $record ),
+		)
+	);
+
+	$code = is_wp_error( $response ) ? 0 : (int) wp_remote_retrieve_response_code( $response );
+	if ( ( $code < 200 || $code >= 300 ) && function_exists( 'as_schedule_single_action' ) ) {
+		// Retry the whole job later, so the retry sends the state of that moment.
+		as_schedule_single_action( time() + 5 * MINUTE_IN_SECONDS, 'acme_crm_sync_subscription', array( $subscription_id ), 'acme-crm' );
+	}
+}
+```
+
+Notes:
+
+- The CRM record is keyed by the subscription ID, so every job is an idempotent upsert. Do not use `event_id` as a durable de-duplication key here: it is stable only when `identity_scope` is `operation`, and `status_changed` and `cancelled` events are request-scoped.
+- `status_changed` covers every real status move, including on-hold, pause, resume and reactivation. A move into trash or draft emits no `status_changed`.
+- `deleted` fires just before a permanent deletion, so the queued job finds `not_found` and marks the record deleted.
+- Events fired while your plugin was inactive are not replayed. Run the same job nightly for every subscription, paging with recipe 8, to catch anything you missed.
+- Guest subscriptions have `customer_id` `null` in `data()` (and `user_id` 0 in the event payload). Key the contact by email in that case.
+
+## Recipe 4: Grant and Revoke an Entitlement
+
+**Goal:** Give members a capability in your own plugin (here `acme_community_member`) while any of their subscriptions to the right product entitles them, keep it through the payment grace days, and remove it only when no subscription grants it any more.
+
+**Availability:** Core (Free).
+
+**API used:** the `arraysubs_lifecycle_event` action (`effect`, `plan_switched`, `deleted`) and `Subscriptions::fromUserId()`. See [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md).
+
+```php
+<?php
+const ACME_BENEFIT_PRODUCT_IDS = array( 197 ); // Products or variations that grant the benefit.
+
+/**
+ * Does the member hold any subscription that grants the benefit right now?
+ *
+ * @param int $user_id    WordPress user ID.
+ * @param int $exclude_id Subscription to ignore, for example one that is being deleted.
+ * @return bool|null Null when ArraySubs could not answer.
+ */
+function acme_member_is_entitled( int $user_id, int $exclude_id = 0 ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) || $user_id <= 0 ) {
+		return null;
+	}
+
+	// The statuses ArraySubs uses to compute "effect": active and trial, plus paused
+	// when the store keeps full access during a pause.
+	$statuses = (array) apply_filters(
+		'arraysubs_integration_access_statuses',
+		arraysubs_get_member_access_subscription_statuses( 'integration' )
+	);
+	$statuses = array_values( array_intersect( $statuses, array_keys( arraysubs_get_subscription_statuses() ) ) );
+
+	$page = 1;
+	do {
+		$result = \ArraySubs\Developer\Subscriptions::fromUserId(
+			$user_id,
+			array(
+				'statuses' => $statuses,
+				'output'   => 'data',
+				'fields'   => array( 'identity', 'plan' ),
+				'per_page' => 100,
+				'page'     => $page,
+			)
+		);
+		if ( is_wp_error( $result ) ) {
+			return null;
+		}
+
+		foreach ( $result['items'] as $item ) {
+			if ( $item['identity']['id'] === $exclude_id ) {
+				continue;
+			}
+			if ( array_intersect( array( $item['plan']['product_id'], $item['plan']['effective_product_id'] ), ACME_BENEFIT_PRODUCT_IDS ) ) {
+				return true;
+			}
+		}
+
+		$page = (int) $result['next_page'];
+	} while ( $result['has_more'] );
+
+	return false;
+}
+
+/**
+ * Apply the answer to your own capability.
+ *
+ * @param int $user_id    WordPress user ID.
+ * @param int $exclude_id Subscription to ignore.
+ */
+function acme_sync_benefit( int $user_id, int $exclude_id = 0 ) {
+	$user     = get_userdata( $user_id );
+	$entitled = acme_member_is_entitled( $user_id, $exclude_id );
+
+	if ( ! $user || null === $entitled ) {
+		return; // Keep the last known state; the nightly check tries again.
+	}
+
+	if ( $entitled ) {
+		$user->add_cap( 'acme_community_member' );
+	} else {
+		$user->remove_cap( 'acme_community_member' );
+	}
+}
+
+add_action(
+	'arraysubs_after_boot',
+	function () {
+		add_action(
+			'arraysubs_lifecycle_event',
+			function ( $event, $payload ) {
+				$user_id = isset( $payload['user_id'] ) ? absint( $payload['user_id'] ) : 0;
+				$effect  = isset( $payload['effect'] ) ? (string) $payload['effect'] : 'none';
+				$plan    = in_array( $event, array( 'plan_switched', 'auto_downgraded', 'pending_switch_applied' ), true );
+
+				if ( ! $user_id || ( 'none' === $effect && ! $plan ) ) {
+					return; // A guest, or an event that does not change entitlement.
+				}
+
+				// "deleted" fires just before the subscription is removed: leave it out of the count.
+				acme_sync_benefit( $user_id, 'deleted' === $event ? absint( $payload['subscription_id'] ) : 0 );
+			},
+			10,
+			2
+		);
+	}
+);
+```
+
+Notes:
+
+- `effect` describes one subscription's transition: `grant` when it enters an entitling status, `revoke` when it leaves one. It does not look at the member's other subscriptions, so the code recounts them all before it removes anything. Cancelling one of two qualifying subscriptions keeps the capability.
+- Grace is handled by the status. During the store's "days active after due" the subscription stays active, so the capability stays. When ArraySubs moves it to on-hold, a `revoked` event fires; a late payment reactivates it and `granted` fires.
+- Pause: a paused subscription counts only when the store keeps full access during a pause. Limited pause access is view-only and does not confer entitlements. When a merchant switches full pause access on or off, ArraySubs emits `granted` or `revoked` for every paused subscription.
+- The recount is idempotent and independent of event order, so duplicate or late events give the same final result.
+- The listener runs inside the request that changed the subscription. It makes one query and one user-meta write; keep it that small, and queue anything slower, as in recipe 3.
+- Events are not replayed for a plugin that was inactive. Add a nightly job that calls `acme_sync_benefit()` for members who hold the capability.
+
+## Recipe 5: Read a Customer's Features and Meter Usage
+
+**Goal:** Show a member what their plans include, and count each API call against a numeric feature so a retried request is never counted twice.
+
+**Availability:** The `Features` class is part of core (Free), and its reads and usage counters work without Pro. The features themselves are defined on products with the Feature Manager module of ArraySubs Pro; features saved earlier stay readable without it. Changing a product's feature configuration through the API needs Pro with an active license and the Feature Manager module; see [Read and Update Feature Data](./feature-manager.md).
+
+**API used:** `Features::forCustomer()`, `Features::forSubscription()`, `effective()`, `usage()` and `consume()`.
+
+```php
+<?php
+/**
+ * A member's features, grouped by feature name, for display.
+ *
+ * @param int $user_id WordPress user ID.
+ * @return array|WP_Error name => list of ['value' => string, 'remaining' => float|null|false].
+ */
+function acme_customer_features( int $user_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Features' ) ) {
 		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
 	}
 
-	$family = \ArraySubs\Api\Relationships::get_family( $subscription_id );
-	if ( is_wp_error( $family ) ) {
-		return $family;
+	$features = \ArraySubs\Developer\Features::forCustomer( $user_id ); // Uses the store's aggregation mode.
+	if ( is_wp_error( $features ) ) {
+		return $features; // not_found: no such user.
 	}
 
-	// Itself when standalone or a parent; the parent when this is a box or bundle child.
-	$owner = \ArraySubs\Api\Relationships::get_billing_owner( $subscription_id );
+	$identity = $features->data( array( 'identity' ) );
+	$result   = $features->effective( array( 'per_page' => 100 ) );
+	if ( is_wp_error( $identity ) || is_wp_error( $result ) ) {
+		return is_wp_error( $result ) ? $result : $identity;
+	}
+
+	// per_subscription: one group per subscription. combine and max: one merged row per feature.
+	$rows = array();
+	foreach ( $result['items'] as $item ) {
+		$rows = array_merge( $rows, 'per_subscription' === $identity['identity']['aggregation_mode'] ? $item['features'] : array( $item ) );
+	}
+
+	$out = array();
+	foreach ( $rows as $row ) {
+		$out[ $row['name'] ][] = array(
+			'value'     => $row['value'],
+			'remaining' => $row['usage'] ? $row['usage']['remaining'] : false, // null = unlimited, false = not metered.
+		);
+	}
+
+	return $out;
+}
+```
+
+Count one API call against the subscription that pays for it:
+
+```php
+<?php
+/**
+ * Spend one unit of the "API Calls" feature, once per request ID.
+ *
+ * @param int    $subscription_id Subscription that pays for the call.
+ * @param string $request_id      Your stable request ID (at most 128 bytes with the prefix).
+ * @return array|WP_Error Usage after the change.
+ */
+function acme_count_api_call( int $subscription_id, string $request_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Features' ) ) {
+		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
+	}
+
+	$features = \ArraySubs\Developer\Features::forSubscription( $subscription_id );
+	if ( is_wp_error( $features ) ) {
+		return $features;
+	}
+
+	$usage = $features->consume(
+		'API Calls',
+		1,
+		array(
+			'reason'       => 'Acme API request',
+			'operation_id' => 'acme-api-' . $request_id, // A repeat with the same ID is not counted again.
+		)
+	);
+
+	if ( is_wp_error( $usage ) && 'feature_usage_limit_exceeded' === $usage->get_error_code() ) {
+		return new WP_Error( 'acme_quota_reached', __( 'Your plan has no API calls left this period.', 'acme' ), array( 'status' => 429 ) );
+	}
+
+	return $usage; // feature_not_defined, feature_usage_busy and the other codes pass through.
+}
+```
+
+Notes:
+
+- `effective()` never contains feature types. `configuration()` includes them only for users with the `manage_woocommerce` capability. Never print feature types in customer pages, class names or data attributes.
+- Feature rows carry the stored feature fields, such as `id`, `name`, `value`, `enabled` and `order`, plus `usage`. `usage` is `null` for a feature that is not metered; inside it, `limit` and `remaining` are `null` when the feature is unlimited.
+- In `per_subscription` mode, `usage( 'API Calls' )` without a subscription ID reports a limit of 0 and lists the real balances under `per_subscription`. Pass the subscription: `$features->usage( 'API Calls', 123 )`. Pass `'combine'` or `'max'` as the second argument of `forCustomer()` to read merged values instead.
+- Every usage write needs a non-empty `reason`. `operation_id` makes retries safe: a repeated ID returns the current usage without counting again. On `feature_usage_busy`, retry later with the same ID.
+- A customer-level `consume()` (`Features::forCustomer( 45 )->consume( 'API Calls', 1, array( 'reason' => '...', 'subscription_id' => 123 ) )`) spends across subscriptions in `combine` mode and needs `subscription_id` in `per_subscription` mode. `set()`, `increment()` and `reset()` need a subscription context.
+- Every change fires `arraysubs_feature_usage_changed` with `WP_Post $subscription, string $feature_key, array $usage, array $previous, string $operation, array $context`. Reading usage never resets or writes anything.
+
+## Recipe 6: Walk a Subscription Family and Its Orders
+
+**Goal:** For any subscription, find the subscription that bills it, its box or bundle children, its recent orders and any unpaid renewal; and from an order, find every subscription it is linked to.
+
+**Availability:** Core (Free). Subscription Box children are core; Subscription Bundle children exist when ArraySubs Pro is active. The same calls work for both.
+
+**API used:** `Subscriptions::family()`, `children()`, `orders()`, `data()` and `Orders::subscriptions()`. See [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md).
+
+```php
+<?php
+/**
+ * Billing owner, children, recent orders and unpaid renewal for any subscription in a family.
+ *
+ * @param int $subscription_id Parent, child or standalone subscription ID.
+ * @return array|WP_Error
+ */
+function acme_describe_family( int $subscription_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
+		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
+	}
+
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( $subscription_id );
+	if ( is_wp_error( $subscription ) ) {
+		return $subscription;
+	}
+
+	$family = $subscription->family(); // parent_id, kind (box, bundle or null), billing_owner_id, orphaned.
+	if ( $family['orphaned'] ) {
+		return new WP_Error( 'acme_orphaned_child', 'This child has no valid billing owner.' );
+	}
+
+	$owner = $family['billing_owner_id'] === $subscription_id
+		? $subscription
+		: \ArraySubs\Developer\Subscriptions::fromId( $family['billing_owner_id'] );
 	if ( is_wp_error( $owner ) ) {
 		return $owner;
 	}
 
-	$children = \ArraySubs\Api\Relationships::get_children(
-		$owner,
+	$children = $owner->children( array( 'output' => 'ids', 'per_page' => 100 ) );
+	$orders   = $owner->orders(
 		array(
-			'status'   => 'any',
-			'output'   => 'ids',
-			'per_page' => 50,
-		)
-	);
-	if ( is_wp_error( $children ) ) {
-		return $children;
-	}
-
-	$orders = \ArraySubs\Api\Relationships::get_orders(
-		$owner,
-		array(
-			'type'     => array( 'initial', 'renewal' ),
+			'output'   => 'data',
+			'fields'   => array( 'identity', 'amounts' ),
 			'order'    => 'desc',
 			'per_page' => 5,
-			'output'   => 'data',
 		)
 	);
-	if ( is_wp_error( $orders ) ) {
-		return $orders;
-	}
+	$recovery = $owner->data( array( 'recovery' ) );
 
-	$open_invoice = \ArraySubs\Api\Relationships::get_pending_renewal_order( $owner );
-	if ( is_wp_error( $open_invoice ) ) {
-		return $open_invoice;
+	foreach ( array( $children, $orders, $recovery ) as $part ) {
+		if ( is_wp_error( $part ) ) {
+			return $part;
+		}
 	}
 
 	return array(
-		'subscription_id'  => $family['subscription_id'],
-		'role'             => $family['role'],     // standalone, parent or child.
-		'relation'         => $family['relation'], // box, bundle or null.
-		'billing_owner_id' => $owner->ID,
-		'child_ids'        => $children['items'],
-		'more_children'    => $children['has_more'],
-		'recent_orders'    => $orders['items'],    // id, type, status, created_at, paid_at, total, currency, ...
-		'open_invoice_id'  => $open_invoice ? $open_invoice->get_id() : null,
+		'subscription_id'   => $subscription_id,
+		'kind'              => $family['kind'],
+		'billing_owner_id'  => $family['billing_owner_id'],
+		'child_ids'         => $children['items'],
+		'more_children'     => $children['has_more'],
+		'recent_orders'     => $orders['items'], // identity: id, status, created_at, paid_at, is_renewal, ...; amounts: total, currency, ...
+		'unpaid_renewal_id' => $recovery['recovery']['unpaid_renewal_order_id'],
 	);
 }
 
 /**
- * Print the recent orders on an admin-only support screen.
- *
- * @param int $subscription_id Subscription post ID.
- */
-function acme_render_family_orders( int $subscription_id ) {
-	if ( ! current_user_can( 'manage_woocommerce' ) ) {
-		return;
-	}
-
-	$summary = acme_describe_family( $subscription_id );
-	if ( is_wp_error( $summary ) ) {
-		echo '<p>' . esc_html( $summary->get_error_message() ) . '</p>';
-		return;
-	}
-
-	foreach ( $summary['recent_orders'] as $order ) {
-		printf(
-			'<tr><td>#%1$d</td><td>%2$s</td><td>%3$s</td><td>%4$s %5$s</td></tr>',
-			(int) $order['id'],
-			esc_html( $order['type'] ),
-			esc_html( $order['status'] ),
-			esc_html( $order['total'] ),
-			esc_html( $order['currency'] )
-		);
-	}
-}
-```
-
-From an order to its subscriptions, with full history and paging:
-
-```php
-<?php
-/**
- * Every subscription linked to an order (initial, renewal or switch).
+ * Every subscription linked to an order (initial, renewal or plan switch), all statuses.
  *
  * @param int $order_id WooCommerce order ID.
  * @return int[]|WP_Error
  */
-function acme_subscriptions_for_order( int $order_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Relationships' ) ) {
+function acme_subscription_ids_for_order( int $order_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Orders' ) ) {
 		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
 	}
 
+	$order = \ArraySubs\Developer\Orders::fromId( $order_id );
+	if ( is_wp_error( $order ) ) {
+		return $order; // not_found, also for a refund ID.
+	}
+
 	$ids  = array();
-	$args = array(
-		'status'   => 'any', // Include cancelled and expired history.
-		'output'   => 'ids',
-		'per_page' => 100,
-	);
-
+	$page = 1;
 	do {
-		$page = \ArraySubs\Api\Relationships::get_subscriptions_for_order( $order_id, $args );
-		if ( is_wp_error( $page ) ) {
-			return $page;
+		$result = $order->subscriptions( array( 'output' => 'ids', 'per_page' => 100, 'page' => $page ) );
+		if ( is_wp_error( $result ) ) {
+			return $result;
 		}
-
-		$ids            = array_merge( $ids, $page['items'] );
-		$args['cursor'] = (string) $page['next_cursor'];
-	} while ( $page['has_more'] );
+		$ids  = array_merge( $ids, $result['items'] );
+		$page = (int) $result['next_page'];
+	} while ( $result['has_more'] );
 
 	return $ids;
 }
 ```
 
-**Why it is safe**
+Notes:
 
-- Every call is read only and works through WooCommerce order objects, so it behaves the same with HPOS and with legacy order storage.
-- Billing questions (renewals, invoices, grace) go to the billing owner. A child subscription is an entitlement record, not a renewal order, and it never bills on its own.
-- Every list is a paged collection with an explicit `per_page` and `next_cursor`. The order-to-subscription lookup has no hidden result cap.
-- `get_subscriptions_for_order()` defaults to live statuses, like `Subscriptions::query()`. Pass `status` `any` when you need history.
-- To act on a child (pause, cancel, change dates), run the operation on the billing owner. Independent billing or lifecycle operations on a child return `unsupported_operation` with `billing_owner_id` in the error data.
-- The support screen checks `manage_woocommerce` itself, because the API does not check capabilities.
+- Children never bill on their own. Renewals, invoices and grace belong to the billing owner, and a child's `orders()` already includes the owner's order history.
+- Billing and lifecycle operations on a child return `parent_billed_subscription` (edits, dates, cancellation) or `subscription_conflict` (pause and resume). Run them on `billing_owner_id`.
+- `orphaned` is `true` when a child's parent link is broken: the parent is missing, belongs to another customer, or the links form a loop. `billing_owner_id` is then `null`.
+- Every link is verified against the customer identity, and order reads go through WooCommerce, so the same code works with HPOS and with legacy order storage.
+- Like every subscription and order collection, these include every status unless you pass `statuses`, which is what support screens usually need.
 
-**What to test**
+## Recipe 7: Show Lock Badges Without Enforcing Access
 
-- A standalone subscription: `role` `standalone`, no children, and the billing owner is the subscription itself.
-- A box parent with three children: three child IDs, and each child resolves to the parent as billing owner.
-- Pass a child ID such as 124: the summary resolves the parent (123) and lists the siblings.
-- An order that created two subscriptions at checkout: both IDs come back from the order lookup.
-- A subscription with an unpaid renewal invoice such as order 1003: `open_invoice_id` is 1003; after payment it is null.
-- An unknown subscription or order ID: `not_found`.
+**Goal:** List lessons with a lock badge and a short reason for the ones the visitor cannot open, without redirecting anyone or changing what ArraySubs enforces on the lesson pages.
 
-## Recipe 5: Find Members by a Profile Field *(Pro)*
+**Availability:** Core (Free). Uses your saved Member Access rules and per-post restrictions.
 
-**Goal:** Find members by a Profile Builder value: every member in the `emea` region for a CRM sync, or exactly one member by membership number for a support tool.
-
-**Availability:** Pro. Requires ArraySubs Pro with an active license and registered Profile Builder fields. Without Pro, or with the license inactive, these calls return `module_unavailable`.
-
-**APIs used:** `Availability::check( 'profile_fields' )`, `Customer::find_by_profile_field()`, `Customer::resolve_by_profile_field()` and `Customer::get_profile_field_schema()`. See [Find Members and Update Profiles](./customers-and-profile-fields.md).
+**API used:** `MemberAccess::fromUserId()` and `check()`. See [Check Content Access](./member-access.md).
 
 ```php
 <?php
 /**
- * Send every member in a region to your CRM, one page at a time.
+ * Lesson list with lock badges. Read only: nothing is redirected or enforced here.
  *
- * @param string $region Select option value, for example 'emea'.
- * @return true|WP_Error
+ * @param int[] $lesson_ids Post IDs of the lessons.
+ * @return string HTML.
  */
-function acme_sync_region( string $region ) {
-	if ( ! class_exists( '\ArraySubs\Api\Availability' ) || ! class_exists( '\ArraySubs\Api\Customer' ) ) {
-		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
+function acme_lesson_list( array $lesson_ids ) {
+	if ( ! class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
+		return '';
 	}
 
-	$available = \ArraySubs\Api\Availability::check( 'profile_fields' );
-	if ( is_wp_error( $available ) ) {
-		return $available; // module_unavailable; the error data 'reason' says why.
+	$access = \ArraySubs\Developer\MemberAccess::fromUserId( get_current_user_id() ); // 0 is a guest.
+	if ( is_wp_error( $access ) ) {
+		return '';
 	}
 
-	$args = array(
-		'compare'  => '=',
-		'per_page' => 50,
-	);
-
-	do {
-		$page = \ArraySubs\Api\Customer::find_by_profile_field( 'region', $region, $args );
-		if ( is_wp_error( $page ) ) {
-			return $page; // not_found: no registered "region" field. invalid_argument: bad compare.
+	$html = '<ul class="acme-lessons">';
+	foreach ( $lesson_ids as $lesson_id ) {
+		$check = $access->check( 'post', (int) $lesson_id, array( 'decision', 'rule' ) );
+		if ( is_wp_error( $check ) ) {
+			continue; // invalid_target: the post does not exist.
 		}
 
-		foreach ( $page['items'] as $customer ) {
-			// Each item is an ArraySubs\Api\Customer, which extends WC_Customer.
-			do_action(
-				'acme_crm_upsert',
-				array(
-					'user_id'    => $customer->get_id(),
-					'email'      => $customer->get_email(),
-					'first_name' => $customer->get_first_name(),
-					'is_member'  => $customer->has_active_subscription( array( 197 ) ),
-				)
-			);
+		$decision = $check['decision'];
+		$note     = '';
+		if ( ! $decision['allowed'] ) {
+			$unlocks = $check['rule']['schedule']['unlocks_at'] ?? null;
+			if ( 'login_required' === $decision['reason'] ) {
+				$note = __( 'Log in to open this lesson.', 'acme' );
+			} elseif ( 'schedule_pending' === $decision['reason'] && $unlocks ) {
+				/* translators: %s: date the lesson unlocks. */
+				$note = sprintf( __( 'Unlocks on %s.', 'acme' ), arraysubs_format_timestamp_local( (int) $unlocks, get_option( 'date_format' ) ) );
+			} else {
+				$note = __( 'Members only.', 'acme' );
+			}
 		}
 
-		$args['cursor'] = (string) $page['next_cursor'];
-	} while ( $page['has_more'] );
+		$html .= sprintf(
+			'<li class="%1$s"><a href="%2$s">%3$s</a>%4$s</li>',
+			esc_attr( $decision['allowed'] ? 'acme-lesson' : 'acme-lesson acme-lesson--locked' ),
+			esc_url( get_permalink( (int) $lesson_id ) ),
+			esc_html( get_the_title( (int) $lesson_id ) ),
+			'' !== $note ? ' <span class="acme-lesson__note">' . esc_html( $note ) . '</span>' : ''
+		);
+	}
 
-	return true;
+	return $html . '</ul>';
 }
 ```
 
-Resolve exactly one member, and refuse to guess when the value is shared:
+Notes:
 
-```php
-<?php
-/**
- * Resolve one member from a membership number for a support tool.
- *
- * @param string $member_number Value typed by staff, for example 'M-1001'.
- * @return \ArraySubs\Api\Customer|WP_Error
- */
-function acme_find_member_by_number( string $member_number ) {
-	if ( ! class_exists( '\ArraySubs\Api\Customer' ) ) {
-		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
-	}
+- `check()` never redirects, renders, enqueues or writes. ArraySubs still enforces the rules when the visitor opens the lesson; the badge only reflects the decision.
+- `decision.status` is `unrestricted`, `conditional` or `denied`. `decision.reason` explains it, for example `no_matching_rule`, `conditions_satisfied`, `conditions_failed`, `schedule_pending`, `login_required`, `login_only_allowed`, `administrator_bypass` or `module_disabled`.
+- Supported entities are `post`, `url` (a local URL or path), `product` (purchase rules) and `comments`; `MemberAccess::supportedEntities()` returns them. Other entities return `unsupported_entity`.
+- `fromUserId()` combines all of the member's subscriptions. Use `MemberAccess::fromSubscriptionId( 123 )` when the decision must come from one subscription.
+- The list is personal. Keep pages that show it out of full-page caches.
 
-	$customer = \ArraySubs\Api\Customer::resolve_by_profile_field( 'member_number', sanitize_text_field( $member_number ) );
+## Recipe 8: Export Subscriptions Page by Page
 
-	if ( is_wp_error( $customer ) && 'ambiguous_match' === $customer->get_error_code() ) {
-		$data = (array) $customer->get_error_data();
-		$ids  = isset( $data['details'] ) ? array_map( 'absint', (array) $data['details'] ) : array();
-
-		// Show the candidates (up to 10) to an admin. Never pick the first one.
-		return new WP_Error( 'acme_duplicate_member_number', 'Several members share this number.', array( 'candidate_ids' => $ids ) );
-	}
-
-	return $customer; // A Customer, or WP_Error not_found / module_unavailable.
-}
-```
-
-Range searches use the operators allowed for the field. For a date field, pass a two-item array with `BETWEEN`:
-
-```php
-<?php
-$joined_first_half = \ArraySubs\Api\Customer::find_by_profile_field(
-	'joined_on',
-	array( '2026-01-01', '2026-06-30' ),
-	array(
-		'compare'  => 'BETWEEN',
-		'output'   => 'ids',
-		'per_page' => 100,
-	)
-);
-```
-
-| Field kind | Allowed `compare` values |
-| --- | --- |
-| Text, email, URL, text area | `=`, `!=`, `LIKE` |
-| Number, date | `=`, `!=`, `>`, `>=`, `<`, `<=`, `BETWEEN` (value is a two-item array) |
-| Select, radio | `=`, `!=`, `IN` (value is an array of option values) |
-| Checkbox | `=` (value is a bool) |
-| Any searchable field | `EXISTS`, `NOT EXISTS` |
-| File | Not searchable: `invalid_argument` |
-
-Before you build a search screen, read `Customer::get_profile_field_schema()` to list the registered keys, their kinds and options. The schema is a server-side configuration contract; do not print it in customer pages.
-
-**Why it is safe**
-
-- Searches run against registered fields only. An unknown key returns `not_found` and a file field returns `invalid_argument`, so callers cannot probe arbitrary user meta.
-- Results are paged collections of `Customer` objects, so you never load every user at once.
-- `resolve_by_profile_field()` refuses to guess. Profile values are typed by customers and are not unique, so it returns `ambiguous_match` with candidate IDs instead of picking a match.
-- Lookups are trusted server code. Never expose them through a public endpoint without your own capability check: guessing values could reveal who your members are. Never use a profile value as a login or authorization secret.
-- Fields marked private are admin-only. When you show profile data to the customer, read it with `get_profile_fields( array( 'context' => 'customer' ) )`, which omits private fields.
-
-**What to test**
-
-- Values with zero, one and many matches, including more than one page of results.
-- Two members with the same membership number: `ambiguous_match` and no automatic pick.
-- An unregistered key and a file field: `not_found` and `invalid_argument`.
-- An operator that does not fit the field, such as `>` on a select field: `invalid_argument`.
-- Pro deactivated, or the license inactive: `module_unavailable` with `reason` `pro_missing` or `license_inactive`.
-- Upper-case, lower-case and padded versions of a text value, to confirm your matching expectations.
-
-## Recipe 6: Export Subscriptions in Pages
-
-**Goal:** Export subscriptions to another system with only the data groups you need, page by page, without loading every record into memory.
+**Goal:** Export subscriptions to a warehouse or another system with only the data groups you need, without loading everything into memory.
 
 **Availability:** Core (Free).
 
-**APIs used:** `Subscriptions::each()` and `Subscriptions::query()`. See [Find and Update Subscriptions](./subscriptions.md).
-
-**Option A: one long process (WP-CLI).** `each()` walks every page for you with the same arguments as `query()`.
+**API used:** `Subscriptions::query()`. See [Find and Update Subscriptions](./subscriptions.md).
 
 ```php
 <?php
 /**
- * WP-CLI: stream subscriptions as CSV to STDOUT.
+ * WP-CLI: wp acme export-subscriptions [--status=<slug>] > subscriptions.csv
  *
- * ## OPTIONS
- *
- * [--status=<status>]
- * : live (default), any, or one status such as active or on-hold.
+ * @param array $args       Positional arguments (unused).
+ * @param array $assoc_args Named arguments; status is a stored slug such as arraysubs-active.
  */
 function acme_cli_export_subscriptions( $args, $assoc_args ) {
-	if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
 		WP_CLI::error( 'ArraySubs is not available.' );
 	}
 
 	$query = array(
-		'status'   => isset( $assoc_args['status'] ) ? sanitize_key( $assoc_args['status'] ) : 'live',
 		'output'   => 'data',
-		'fields'   => array( 'status', 'plan', 'schedule' ),
+		'fields'   => array( 'identity', 'status', 'plan', 'schedule' ),
 		'per_page' => 100,
+		'page'     => 1,
 	);
-
-	// Validate the arguments once, before any output is written.
-	$probe = \ArraySubs\Api\Subscriptions::query( array_merge( $query, array( 'per_page' => 1 ) ) );
-	if ( is_wp_error( $probe ) ) {
-		WP_CLI::error( $probe->get_error_code() . ': ' . $probe->get_error_message() );
+	if ( isset( $assoc_args['status'] ) ) {
+		$query['statuses'] = array( sanitize_key( $assoc_args['status'] ) );
 	}
 
-	$out = fopen( 'php://stdout', 'w' );
-	fputcsv( $out, array( 'id', 'customer_id', 'status', 'product_id', 'variation_id', 'quantity', 'next_payment_at' ) );
+	$out    = fopen( 'php://stdout', 'w' );
+	$header = false;
 
-	foreach ( \ArraySubs\Api\Subscriptions::each( $query ) as $item ) {
-		fputcsv(
-			$out,
-			array(
-				$item['id'],
-				$item['customer_id'],
-				$item['status']['status'],
-				$item['plan']['product_id'],
-				$item['plan']['variation_id'],
-				$item['plan']['quantity'],
-				$item['schedule']['next_payment_at'],
-			)
-		);
-	}
+	do {
+		$result = \ArraySubs\Developer\Subscriptions::query( $query );
+		if ( is_wp_error( $result ) ) {
+			WP_CLI::error( $result->get_error_code() . ': ' . $result->get_error_message() );
+		}
+
+		if ( ! $header ) {
+			fputcsv( $out, array( 'id', 'customer_id', 'status', 'product_id', 'quantity', 'next_payment_at' ), ',', '"', '\\' );
+			$header = true;
+		}
+
+		foreach ( $result['items'] as $item ) {
+			fputcsv(
+				$out,
+				array(
+					$item['identity']['id'],
+					(int) $item['identity']['customer_id'],
+					$item['status']['stored'],
+					$item['plan']['product_id'],
+					$item['plan']['quantity'],
+					$item['schedule']['next_payment_at'] ? gmdate( 'c', $item['schedule']['next_payment_at'] ) : '',
+				),
+				',',
+				'"',
+				'\\'
+			);
+		}
+
+		$query['page'] = (int) $result['next_page'];
+	} while ( $result['has_more'] );
 
 	fclose( $out );
 }
@@ -966,189 +1015,122 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 ```
 
 ```bash
-wp acme export-subscriptions > live-subscriptions.csv
-wp acme export-subscriptions --status=any > subscription-history.csv
+wp acme export-subscriptions > subscriptions.csv
+wp acme export-subscriptions --status=arraysubs-active > active-subscriptions.csv
 ```
 
-**Option B: background chunks across requests.** Store `next_cursor` and continue on the next run.
+Notes:
 
-```php
-<?php
-add_action( 'acme_export_next_chunk', 'acme_export_next_chunk' );
+- `fields` limits both the work and the data. Leave out `billing` and `shipping`, which hold personal data, unless the destination needs them. An unknown group returns `invalid_field` before any row is written.
+- Pages hold at most 100 items (`per_page` above 100 returns `invalid_query`) and are ordered by ascending ID. Paging is offset-based: page N reads past the IDs of the earlier pages, so run full exports from WP-CLI or a background job rather than in a web request.
+- Subscriptions created during a long export appear on later pages. A subscription deleted during the export shifts later pages by one, so compare counts or run the export again when exactness matters.
+- Guest subscriptions export with `customer_id` 0 here, because the code casts `null` to 0.
 
-/**
- * Export one page per run and remember where to continue.
- */
-function acme_export_next_chunk() {
-	if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
-		return;
-	}
+## Recipe 9: Find Members by a Profile Field *(Pro)*
 
-	$args = array(
-		'status'   => 'any',
-		'output'   => 'data',
-		'fields'   => array( 'identity', 'status' ),
-		'per_page' => 100,
-	);
+**Goal:** Resolve exactly one member from a value staff type (a membership number), and send every member with a given region to your CRM, page by page.
 
-	$cursor = (string) get_option( 'acme_export_cursor', '' );
-	if ( '' !== $cursor ) {
-		$args['cursor'] = $cursor;
-	}
+**Availability:** Pro. Needs ArraySubs Pro with an active license, the Profile Builder module switched on and custom profile fields enabled. Otherwise both calls return `unavailable`.
 
-	$page = \ArraySubs\Api\Subscriptions::query( $args );
-	if ( is_wp_error( $page ) ) {
-		return; // Keep the cursor; the next scheduled run retries the same page.
-	}
-
-	foreach ( $page['items'] as $item ) {
-		do_action( 'acme_export_row', $item ); // Your CRM or warehouse client.
-	}
-
-	if ( $page['has_more'] ) {
-		update_option( 'acme_export_cursor', $page['next_cursor'], false );
-		as_enqueue_async_action( 'acme_export_next_chunk', array(), 'acme-export' );
-	} else {
-		delete_option( 'acme_export_cursor' );
-	}
-}
-```
-
-With `output` `data`, each requested group is a keyed block (`$item['plan']['product_id']`), and every item also carries `id` and `customer_id`. Common groups:
-
-| Group | Fields |
-| --- | --- |
-| `identity` | `id`, `number`, `created_at`, `parent_order_id` |
-| `status` | `status`, `status_label`, `has_access` |
-| `plan` | `product_id`, `variation_id`, `effective_product_id`, `product_name`, `quantity` |
-| `schedule` | `billing_interval`, `billing_period`, `start_at`, `next_payment_at`, `last_payment_at`, `end_at`, `completed_payments`, `auto_renew`, `gateway` |
-| `customer` | `customer_id`, `is_guest`, `email`, `first_name`, `last_name`, `billing`, `shipping` (personal data) |
-
-The full group list is in [Find and Update Subscriptions](./subscriptions.md).
-
-**Why it is safe**
-
-- `fields` limits both the work and the data. Request only the groups you export; leave out `customer`, which carries personal data, unless the destination needs it.
-- Pages hold at most 100 items. `each()` pages internally inside one process; `query()` with `next_cursor` lets a background job continue across requests.
-- Collections are ordered by ID, so a stored cursor continues where the last run stopped. Subscriptions created during a long export appear at the end.
-- An unknown group or filter returns `invalid_argument` before any row is written, because the command validates its arguments with one `query()` call first.
-- Exports are read only. The CLI output goes to STDOUT, so no export file lands in a public uploads folder.
-- `status` defaults to `live`. Pass `any` when the export must include cancelled and expired history.
-
-**What to test**
-
-- An export larger than one page has no gaps or duplicates: compare the row count with a `query()` call that sets `include_total` to true.
-- An invalid group name such as `plans`: the command stops with the `invalid_argument` message and writes no rows.
-- Interrupt the background job and run it again: it continues from the stored cursor.
-- `--status=any` includes cancelled and expired subscriptions; the default does not.
-- Guest subscriptions export with `customer_id` 0.
-
-## Recipe 7: Make a Read-Only Content Decision
-
-**Goal:** Show a lesson list where locked lessons get a badge and a reason, without redirecting the visitor or changing what ArraySubs enforces on the lesson pages.
-
-**Availability:** Core (Free). Uses your saved Member Access rules.
-
-**APIs used:** `MemberAccess::for_user()`, `MemberAccess::for_guest()` and `can_view_post()`. See [Check Content Access](./member-access.md).
+**API used:** `Customer::fromProfileField()` and `Customer::queryByProfileField()`. See [Find Members and Update Profiles](./customers-and-profile-fields.md).
 
 ```php
 <?php
 /**
- * Print a lesson list with lock badges. Read only: nothing is redirected or enforced here.
+ * Resolve one member from a membership number held in a Profile Builder field.
  *
- * @param int[] $lesson_ids Post IDs of the lessons.
+ * @param string $member_number Value typed by staff, for example 'M-1001'.
+ * @return \ArraySubs\Developer\Customer|WP_Error
  */
-function acme_render_lesson_list( array $lesson_ids ) {
-	if ( ! class_exists( '\ArraySubs\Api\MemberAccess' ) ) {
-		return;
+function acme_find_member_by_number( string $member_number ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Customer' ) ) {
+		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
 	}
 
-	$user_id = get_current_user_id();
-	$access  = $user_id
-		? \ArraySubs\Api\MemberAccess::for_user( $user_id )
-		: \ArraySubs\Api\MemberAccess::for_guest();
+	$value    = sanitize_text_field( $member_number );
+	$customer = \ArraySubs\Developer\Customer::fromProfileField( 'member_number', $value );
 
-	if ( is_wp_error( $access ) ) {
-		return; // Show nothing rather than guess.
+	if ( is_wp_error( $customer ) && 'ambiguous' === $customer->get_error_code() ) {
+		// Several members share the value: list them for staff instead of picking one.
+		$candidates = \ArraySubs\Developer\Customer::queryByProfileField( 'member_number', $value, array( 'output' => 'ids', 'per_page' => 10 ) );
+
+		return new WP_Error(
+			'acme_duplicate_member_number',
+			'Several members share this membership number.',
+			array( 'candidate_ids' => is_wp_error( $candidates ) ? array() : $candidates['items'] )
+		);
 	}
 
-	echo '<ul class="acme-lessons">';
+	return $customer; // A Customer (it extends WC_Customer), or not_found, unavailable, invalid_field, forbidden or validation.
+}
 
-	foreach ( $lesson_ids as $lesson_id ) {
-		$decision = $access->can_view_post( (int) $lesson_id );
+/**
+ * Send every member whose "region" field matches to your CRM, 50 at a time.
+ *
+ * @param string $region Stored option value, for example 'emea'.
+ * @return true|WP_Error
+ */
+function acme_sync_region_members( string $region ) {
+	if ( ! class_exists( '\ArraySubs\Developer\Customer' ) ) {
+		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
+	}
 
-		if ( in_array( $decision['result'], array( 'invalid_target', 'unsupported' ), true ) ) {
-			continue; // Missing post, or a target Member Access does not evaluate.
+	$page = 1;
+	do {
+		$result = \ArraySubs\Developer\Customer::queryByProfileField(
+			'region',
+			$region,
+			array(
+				'operator' => '=',
+				'output'   => 'data',
+				'fields'   => array( 'identity', 'account' ),
+				'per_page' => 50,
+				'page'     => $page,
+			)
+		);
+		if ( is_wp_error( $result ) ) {
+			return $result;
 		}
 
-		$locked = ! $decision['allowed'];
-		$note   = $locked ? acme_lock_note( $decision ) : '';
+		foreach ( $result['items'] as $member ) {
+			do_action(
+				'acme_crm_upsert_contact',
+				array(
+					'user_id'    => $member['identity']['id'],
+					'email'      => $member['identity']['email'],
+					'first_name' => $member['account']['first_name'],
+				)
+			);
+		}
 
-		printf(
-			'<li class="%1$s"><a href="%2$s">%3$s</a>%4$s</li>',
-			esc_attr( $locked ? 'acme-lesson acme-lesson--locked' : 'acme-lesson' ),
-			esc_url( get_permalink( (int) $lesson_id ) ),
-			esc_html( get_the_title( (int) $lesson_id ) ),
-			'' !== $note ? ' <span class="acme-lesson__note">' . esc_html( $note ) . '</span>' : ''
-		);
-	}
+		$page = (int) $result['next_page'];
+	} while ( $result['has_more'] );
 
-	echo '</ul>';
-}
-
-/**
- * Choose a short message from the decision's reason codes.
- *
- * @param array $decision MemberAccess decision.
- * @return string
- */
-function acme_lock_note( array $decision ) {
-	$reasons = isset( $decision['reasons'] ) ? (array) $decision['reasons'] : array();
-
-	if ( in_array( 'login_required', $reasons, true ) ) {
-		return __( 'Log in to open this lesson.', 'acme' );
-	}
-
-	if ( in_array( 'schedule_pending', $reasons, true ) && ! empty( $decision['schedule']['available_at'] ) ) {
-		return sprintf(
-			/* translators: %s: date */
-			__( 'Unlocks on %s.', 'acme' ),
-			wp_date( get_option( 'date_format' ), strtotime( $decision['schedule']['available_at'] ) )
-		);
-	}
-
-	if ( in_array( 'subscription_status', $reasons, true ) ) {
-		return __( 'Renew your membership to open this lesson.', 'acme' );
-	}
-
-	return __( 'Members only.', 'acme' );
+	return true;
 }
 ```
 
-**Why it is safe**
+| Field type | Allowed `operator` values |
+| --- | --- |
+| Date (`YYYY-MM-DD` values) | `=`, `!=`, `>`, `>=`, `<`, `<=`, `BETWEEN` (an array of exactly two values) |
+| Checkbox | `=`, `!=` |
+| Every other searchable type | `=`, `!=`, `LIKE`, `IN`, `NOT IN` (`IN` and `NOT IN` take an array of up to 100 values) |
+| Upload | Not searchable: `forbidden` |
 
-- `MemberAccess` reads never redirect, enforce, render, write grants, touch counters, change the current user or enqueue assets, so you can call them in loops, widgets and REST responses.
-- ArraySubs still enforces the saved rules on the lesson pages. The list only reflects the decision; it does not replace the gate.
-- Logged-out visitors are evaluated with `for_guest()`, so the decision reports `login_required` instead of failing.
-- `for_user()` combines all of the member's subscriptions by the engine's rules. Use `for_subscription()` when the decision must come from one specific subscription.
-- Output is escaped and the badge uses your own class names. Reason codes only choose a message; rule internals never reach the HTML.
-- If a REST route returns these decisions, it must authenticate the user. WordPress treats a cookie request without a valid REST nonce as logged out.
+Notes:
 
-**What to test**
+- Only enabled Profile Builder fields can be searched. An unknown or disabled key returns `invalid_field`, so callers cannot probe arbitrary user meta. Values are validated like a profile save: a select value must be one of the field's options.
+- `fromProfileField()` refuses to guess. Profile values are typed by people and are not unique, so two matches return `ambiguous`.
+- `queryByProfileField()` results include `total`. Its `fields` are the `Customer::data()` groups: `identity`, `account`, `billing`, `shipping` and `profile`.
+- Lookups are trusted server code. Never expose them through a public endpoint without your own capability check, and never use a profile value as a login secret.
 
-- A guest, a member with access, a member without the required product and a member whose subscription is on-hold.
-- A drip lesson before its release date: `schedule_pending` with `schedule.available_at` set.
-- An unrestricted lesson: `result` `unrestricted` and `allowed` true, so no badge.
-- A deleted lesson ID: `invalid_target`, skipped.
-- A paused member under each pause access setting.
+## Recipe 10: Add Store Credit Exactly Once *(Pro)*
 
-## Recipe 8: Adjust Store Credit with a Retry Key *(Pro)*
+**Goal:** Award 10.00 of store credit when a member completes a course, so that a double click, a duplicate job or a retried request never pays twice; and bring a balance to an exact amount without overwriting a change made in the meantime.
 
-**Goal:** Award store credit from your own workflow (here 10.00 when a member completes a course) so that a double click, a duplicate job or a retried request can never pay twice. Then correct a balance to an exact amount without overwriting a concurrent change.
+**Availability:** Pro. Needs ArraySubs Pro active and the Store Credit module switched on. The `StoreCredit` class itself is in core: without Pro, its factories still validate the customer, but every `data()`, `history()` and `adjust()` call returns `store_credit_unavailable`. With the module switched off, `data()` and `history()` still read (with `available` false) and `adjust()` returns `store_credit_unavailable`.
 
-**Availability:** Pro. Requires ArraySubs Pro with an active license and the Store Credit module enabled. While the module is off, balances and history stay readable and these writes return `module_unavailable`.
-
-**APIs used:** `Availability::check( 'store_credit' )`, `StoreCredit::for_customer()`, `credit()` and `adjust_to()`. See [Read and Update Store Credit](./store-credit.md).
+**API used:** `StoreCredit::fromCustomerId()`, `data()` and `adjust()`. See [Read and Update Store Credit](./store-credit.md).
 
 ```php
 <?php
@@ -1157,236 +1139,151 @@ function acme_lock_note( array $decision ) {
  *
  * @param int $user_id   WordPress user ID.
  * @param int $course_id Your course ID.
- * @return array|WP_Error Result with 'transaction', 'balance' and 'replayed'.
+ * @return array|WP_Error Array with 'transaction' and 'state'.
  */
 function acme_award_course_credit( int $user_id, int $course_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Availability' ) || ! class_exists( '\ArraySubsPro\Api\StoreCredit' ) ) {
-		return new WP_Error( 'acme_store_credit_missing', 'Store Credit is not available.' );
+	if ( ! class_exists( '\ArraySubs\Developer\StoreCredit' ) ) {
+		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
 	}
 
-	$available = \ArraySubs\Api\Availability::check( 'store_credit' );
-	if ( is_wp_error( $available ) ) {
-		return $available; // module_unavailable; the error data 'reason' says why.
-	}
-
-	$wallet = \ArraySubsPro\Api\StoreCredit::for_customer( $user_id );
+	$wallet = \ArraySubs\Developer\StoreCredit::fromCustomerId( $user_id );
 	if ( is_wp_error( $wallet ) ) {
-		return $wallet;
+		return $wallet; // arraysubs_not_ready before wp_loaded; invalid_credit_customer for a guest or unknown user.
 	}
 
-	// One business event = one key. Build it from the event, never per attempt.
-	$key = sprintf( 'acme-course-%d-user-%d', $course_id, $user_id );
-
-	return $wallet->credit(
-		'10.00',
+	return $wallet->adjust(
+		10.00,
 		array(
-			'reason'          => sprintf( 'Course %d completion reward', $course_id ),
-			'idempotency_key' => $key,
-			'source'          => 'integration',
-			'reference'       => array(
-				'type' => 'external',
-				'id'   => 'course-' . $course_id,
-			),
-			'expiry_days'     => 90,
+			// One business event = one operation ID. Never build it per attempt.
+			'operation_id' => sprintf( 'acme-course-%d-user-%d', $course_id, $user_id ),
+			'reason'       => sprintf( 'Course %d completion reward', $course_id ),
+			'currency'     => get_woocommerce_currency(),
+			'source'       => 'promotional',
 		)
 	);
 }
-```
 
-Run the award as a background job that is safe to repeat:
-
-```php
-<?php
-add_action( 'acme_course_completed', 'acme_queue_course_credit', 10, 2 );
 add_action( 'acme_run_course_credit', 'acme_run_course_credit', 10, 3 );
 
 /**
- * Your course plugin fires acme_course_completed; queue the reward outside the request.
- */
-function acme_queue_course_credit( $user_id, $course_id ) {
-	as_enqueue_async_action( 'acme_run_course_credit', array( (int) $user_id, (int) $course_id, 1 ), 'acme-rewards' );
-}
-
-/**
- * Run the reward. Safe to run any number of times for the same member and course.
+ * Background job: safe to run any number of times for the same member and course.
+ *
+ * @param int $user_id   WordPress user ID.
+ * @param int $course_id Your course ID.
+ * @param int $attempt   Attempt number, starting at 1.
  */
 function acme_run_course_credit( $user_id, $course_id, $attempt ) {
 	$result = acme_award_course_credit( (int) $user_id, (int) $course_id );
 
 	if ( ! is_wp_error( $result ) ) {
-		// New or replayed: the reward exists exactly once in the ledger.
+		// New or repeated, the reward exists once. A repeat returns the same transaction ID.
 		update_user_meta( (int) $user_id, 'acme_course_' . (int) $course_id . '_credit_tx', $result['transaction']['id'] );
 		return;
 	}
 
-	$code = $result->get_error_code();
-
-	if ( in_array( $code, array( 'conflict', 'validation_failed', 'currency_mismatch', 'unsupported_entity', 'not_found' ), true ) ) {
-		// Waiting will not fix these: log for review. Never retry with a new key.
-		error_log( sprintf( 'Course credit for user %d failed: %s', (int) $user_id, $code ) );
+	$retry_later = array( 'credit_busy', 'credit_mutation_failed', 'store_credit_unavailable' );
+	if ( in_array( $result->get_error_code(), $retry_later, true ) && (int) $attempt < 5 && function_exists( 'as_schedule_single_action' ) ) {
+		// Same member, course and amount, so the same operation ID keeps the retry safe.
+		as_schedule_single_action( time() + HOUR_IN_SECONDS, 'acme_run_course_credit', array( (int) $user_id, (int) $course_id, (int) $attempt + 1 ), 'acme-rewards' );
 		return;
 	}
 
-	// module_unavailable or an unexpected failure: repeat the SAME request later.
-	if ( (int) $attempt < 5 ) {
-		as_schedule_single_action(
-			time() + HOUR_IN_SECONDS,
-			'acme_run_course_credit',
-			array( (int) $user_id, (int) $course_id, (int) $attempt + 1 ),
-			'acme-rewards'
-		);
-	}
+	error_log( sprintf( 'Acme course credit for user %d failed: %s', (int) $user_id, $result->get_error_code() ) );
 }
 ```
 
-Correct a balance to an exact amount, for example from an external loyalty system. `expected_balance` is the balance your system last synced, not a fresh read, so a retry of the same sync run sends identical parameters and replays instead of conflicting.
+Correct a balance to an exact amount, for example from an external loyalty system. The operation ID includes the balance you read, so a retry after the balance moved becomes a new, re-decided operation instead of a conflicting reuse.
 
 ```php
 <?php
 /**
  * Set a member's customer credit to an exact amount.
  *
- * @param int    $user_id     WordPress user ID.
- * @param string $last_synced Balance your system recorded after its last sync, for example '18.50'.
- * @param string $target      New balance, for example '25.00'.
- * @param string $run_id      ID of this sync run.
+ * @param int    $user_id WordPress user ID.
+ * @param float  $target  New balance, for example 25.00.
+ * @param string $run_id  ID of this sync run.
  * @return array|WP_Error
  */
-function acme_sync_credit_balance( int $user_id, string $last_synced, string $target, string $run_id ) {
-	if ( ! class_exists( '\ArraySubsPro\Api\StoreCredit' ) ) {
-		return new WP_Error( 'acme_store_credit_missing', 'Store Credit is not available.' );
+function acme_set_credit_balance( int $user_id, float $target, string $run_id ) {
+	if ( ! class_exists( '\ArraySubs\Developer\StoreCredit' ) ) {
+		return new WP_Error( 'acme_arraysubs_missing', 'ArraySubs is not available.' );
 	}
 
-	$wallet = \ArraySubsPro\Api\StoreCredit::for_customer( $user_id );
+	$wallet = \ArraySubs\Developer\StoreCredit::fromCustomerId( $user_id );
 	if ( is_wp_error( $wallet ) ) {
 		return $wallet;
 	}
 
-	// conflict: the balance changed since the last sync (a checkout, refund or expiry).
-	// Do not force it; re-read get_balance(), reconcile, and start a new run with a new key.
-	return $wallet->adjust_to(
-		$target,
+	$state = $wallet->data( array( 'customer_balance', 'currency', 'precision' ) );
+	if ( is_wp_error( $state ) ) {
+		return $state; // store_credit_unavailable without Pro.
+	}
+
+	$current = (float) $state['customer_balance'];
+	$delta   = round( $target - $current, (int) $state['precision'] );
+	if ( 0.0 === $delta ) {
+		return $state; // Already at the target.
+	}
+
+	return $wallet->adjust(
+		$delta,
 		array(
-			'expected_balance' => $last_synced,
+			'operation_id'     => sprintf( 'acme-sync-%s-%d-%s', $run_id, $user_id, wc_format_decimal( $current, (int) $state['precision'] ) ),
 			'reason'           => 'Loyalty balance sync',
-			'idempotency_key'  => substr( 'acme-sync-' . $run_id . '-' . $user_id, 0, 64 ),
+			'currency'         => $state['currency'],
+			'expected_balance' => $current, // credit_balance_changed if a checkout or refund moved it meanwhile.
 		)
 	);
 }
 ```
 
-**Why it is safe**
+Notes:
 
-- The idempotency key comes from the business event (member plus course), so every repeat of that event sends the same key and the same parameters. ArraySubs returns the original transaction with `replayed` true instead of adding credit again.
-- A key identifies one exact request. Reusing it with different parameters returns `conflict`, which surfaces bugs such as a changed reward amount instead of paying twice.
-- Every change is an append-only ledger row with your `reason`, `source`, `reference` and actor. Corrections are new rows; nothing is edited or deleted.
-- `adjust_to()` requires `expected_balance`, so a sync never overwrites a balance that changed after your system last saw it. It writes one compensating credit or debit row.
-- `debit()` never clamps: a debit larger than the balance returns `insufficient_credit` instead of draining the balance to zero.
-- The amount, member and reason come from your server-side logic. If a customer action starts the job (for example a **Claim reward** button), verify the nonce, the login and the course completion in your own handler, and never accept an amount from the request.
+- `adjust()` accepts `operation_id` (required, up to 200 bytes), `reason` (required, up to 1000 bytes), `currency` (required, must be the bucket's currency), and optional `expected_balance`, `source` (`admin`, the default, or `promotional` for positive amounts), `bucket`, `reference_id` (an order ID that belongs to the customer) and `actor_id` (a user ID, or 0 for the system). Any other key returns `unsupported_credit_argument`.
+- The operation ID is scoped to the customer and the bucket. The same ID with the same parameters returns the original transaction and writes nothing new. The same ID with different parameters returns `credit_mutation_failed`, so keep parameters fixed per ID.
+- The amount must be non-zero and use at most the store's price decimals. A negative amount is a debit, and a debit larger than the bucket balance returns `insufficient_credit`; ArraySubs never clamps it.
+- `fromCustomerId()` uses the customer bucket. `fromSubscriptionId()` uses that subscription's bucket by default; pass `'bucket' => 'customer'` to use the member's customer bucket from it.
+- A new positive entry fires `arraysubs_customer_credit_added` (or `arraysubs_subscription_credit_added` for a subscription bucket), which sends the "Store Credit Added" email when that email is enabled. Debits fire the matching `..._credit_deducted` action. Expiry follows the store's Store Credit expiration setting.
+- The amount and the member come from your server-side logic. If a customer action starts the job (for example a **Claim reward** button), verify the nonce, the login and the course completion yourself, and never accept an amount from the request.
 
-**What to test**
+## Errors You Can Get
 
-- Run the job twice for the same member and course: one ledger row, and the second result has `replayed` true.
-- Change the reward amount and rerun for the same course: `conflict` and no second row.
-- Pass user ID 0 (a guest): `unsupported_entity`.
-- Switch the Store Credit module off: `module_unavailable`, while `get_balance()` and `get_history()` still read.
-- Call `adjust_to()` after the member spent credit at checkout: `conflict` and the balance is untouched.
-- Add `'dry_run' => true`: the result shows the would-be transaction and balance, and no row is written.
-- The awarded credit appears in `get_expiring()` with an `expires_at` 90 days out.
+The recipes handle the codes below. The complete list, with the methods that return each code, is in [Verify Your Integration](./errors-and-testing.md).
 
-## Examples
-
-### Minimal Working Example: Is a Subscription in Grace?
-
-```php
-<?php
-/**
- * True while the subscription is overdue but still inside its grace days.
- *
- * @param int $subscription_id Subscription post ID, for example 123.
- * @return bool
- */
-function acme_is_in_grace( int $subscription_id ) {
-	if ( ! class_exists( '\ArraySubs\Api\Lifecycle' ) ) {
-		return false;
-	}
-
-	$state = \ArraySubs\Api\Lifecycle::get_state( $subscription_id );
-
-	return ! is_wp_error( $state ) && ! empty( $state['grace']['in_grace'] );
-}
-```
-
-### Failure-Handling Example: One Error Handler for Every Recipe
-
-```php
-<?php
-/**
- * Turn an ArraySubs WP_Error into a safe message and a retry decision.
- *
- * @param WP_Error $error Error returned by an ArraySubs API call.
- * @return array
- */
-function acme_handle_arraysubs_error( WP_Error $error ) {
-	$code = $error->get_error_code();
-	$data = (array) $error->get_error_data();
-
-	switch ( $code ) {
-		case 'not_found':
-			return array( 'retry' => false, 'message' => __( 'That membership record no longer exists.', 'acme' ) );
-
-		case 'forbidden':
-			return array( 'retry' => false, 'message' => __( 'You cannot view this membership.', 'acme' ) );
-
-		case 'ambiguous_match':
-			return array( 'retry' => false, 'message' => __( 'More than one member matches. Please contact support.', 'acme' ) );
-
-		case 'module_unavailable':
-			// reason: core_unavailable, pro_missing, license_inactive, module_disabled or setting_disabled.
-			error_log( 'ArraySubs module unavailable: ' . ( isset( $data['reason'] ) ? $data['reason'] : 'unknown' ) );
-			return array( 'retry' => true, 'message' => __( 'This feature is switched off right now.', 'acme' ) );
-
-		case 'conflict':
-			return array( 'retry' => false, 'message' => __( 'The record changed while we were working. Please reload and try again.', 'acme' ) );
-
-		default:
-			// invalid_argument, validation_failed, unsupported_operation and others point to input or code to fix.
-			error_log( 'ArraySubs error ' . $code . ': ' . $error->get_error_message() );
-			return array( 'retry' => false, 'message' => __( 'Something went wrong. Please try again later.', 'acme' ) );
-	}
-}
-```
-
-Show `message` with `esc_html()`. Log details server-side only; never echo raw error data to customers.
+| Code | Seen in | What to do |
+| --- | --- | --- |
+| `not_found` | Recipes 2, 3, 5, 6 | Treat the record as gone. In a sync job, mark it deleted on your side. |
+| `invalid_query`, `invalid_field` | Every collection and `data()` call | Fix the arguments: a short status slug, `per_page` above 100, an unknown option or field group. |
+| `ambiguous` | Recipes 1 and 9 | More than one account matches. Never pick one; ask a person. |
+| `feature_usage_limit_exceeded`, `feature_not_defined`, `feature_usage_busy` | Recipe 5 | Quota reached; the plan has no such numeric feature; retry later with the same `operation_id`. |
+| `unavailable` | Recipe 9 | Pro, its license, the Profile Builder module or custom profile fields are off. Hide the feature. |
+| `store_credit_unavailable`, `credit_busy`, `credit_mutation_failed`, `credit_balance_changed`, `insufficient_credit` | Recipe 10 | Pro or the module is off; the bucket is busy; retry with the same operation ID and parameters; re-read the balance; debit less. |
+| `parent_billed_subscription` | Recipe 6 | The subscription is a child: act on `billing_owner_id`. |
 
 ## Edge Cases and Important Notes
 
-- **In-process, at-least-once events.** `arraysubs_lifecycle_event` runs inside the request that made the change, after the change is saved. The same occurrence can reach your listener more than once, so deduplicate with `event_id`. No outgoing webhooks are part of this contract, and events are not replayed for a plugin that was inactive, so pair every listener with a reconciliation job.
-- **Out-of-order delivery.** A delayed job can run after newer changes. Re-read with `Lifecycle::get_state()` and the other readers before acting; keep the event payload only as the record of what happened.
-- **Several subscriptions per member.** `granted` and `revoked` fire only when the member's overall entitlement flips. Compute permissions from every relevant subscription, never from the single subscription in an event.
-- **Grace is computed, not a status.** There is no `graced` status. Use `phase`, `grace.in_grace` and `has_access`. ArraySubs applies grace boundaries on its hourly check after a boundary passes, and `grace.settlement_pending` true means a gateway payment is still settling.
-- **Grace can be skipped.** A failed initial payment, or a renewal order that cannot be created, moves the subscription straight to on-hold. `grace.skipped` is then true and `grace.skip_reason` says why.
-- **Children bill through the owner.** Box and bundle children never renew on their own, so `renewed` arrives for the billing owner. If commissions depend on child selections, read them with `Relationships::get_children()`.
-- **Admin-list deletes.** Deleting from the admin Subscriptions list keeps box and bundle children and emits no `deleted` event. `Subscriptions::delete()` removes the children and emits `deleted`. Delayed jobs must handle `not_found` calmly.
-- **Dates and money.** API dates are ISO 8601 UTC; convert with `strtotime()` and format with `wp_date()` for display. Money is a decimal string with a currency; avoid floating-point arithmetic on it.
-- **Never write ArraySubs meta.** Use the API for every change. Direct meta writes skip locks, renewal scheduling, provider coordination and the audit trail.
-- **Pro availability.** Pro classes load whenever Pro passes its dependency check, but return `module_unavailable` while the license is inactive or the module is off. Check `Availability::check()` and show a neutral message.
-- **Feature types stay private.** If you extend these recipes with Feature Manager data, never print feature types in customer HTML, class names or data attributes.
+- **Times.** `data()` returns UTC Unix timestamps. Event payload dates are stored `Y-m-d H:i:s` UTC strings, and `event_time` is ISO 8601 UTC. Format for display with `arraysubs_format_timestamp_local()` or `arraysubs_format_date_local()`.
+- **Statuses.** Status values are always stored slugs (`arraysubs-active`, `arraysubs-on-hold`, ...). Labels are translated, so never compare labels.
+- **Guests.** A guest subscription has `identity.customer_id` `null`, `identity.guest` `true` and `user_id` 0 in event payloads. Key guest records by email.
+- **Children.** Box and bundle children are separate subscriptions that never bill. Billing questions go to the billing owner from `family()`.
+- **Feature types stay private.** They appear only in admin configuration for users who can manage WooCommerce. Keep them out of customer HTML, class names and data attributes.
+- **Writes from inside hooks.** The subscription lock is re-entrant within one PHP request, so a write from inside an ArraySubs hook does not deadlock, but it runs in the middle of ArraySubs' own operation. Queue it instead.
+- **No direct meta writes.** Use the API for every change.
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 | --- | --- | --- |
-| A commission is recorded twice | Deduplication happens in memory or per request instead of by `event_id` in storage | Store `event_id` under a UNIQUE key before doing any work (recipe 3) |
-| A member lost access during a late payment | Your code revoked on `renewal_failed` or on a grace date | Follow `has_access`; revoke only after ArraySubs reports `on_hold` or `revoked` |
-| Access stays after one of two subscriptions is cancelled | Another valid subscription still grants it | This is expected; check the other subscription's state |
-| Your listener never runs | Registered too late, missing the `10, 2` arguments, or your plugin was inactive | Add the action when your plugin loads with two accepted arguments, and run the reconciliation job |
-| `module_unavailable` from recipe 5 or 8 | Pro missing, license inactive, or module off | Read `reason` from the error data and fix the configuration |
-| `ambiguous_match` from a profile lookup | Several members share the value | Ask an admin to correct the data; never pick the first candidate |
-| `invalid_argument` from an export | Unknown field group or filter, or `per_page` above 100 | Use the documented group names and keep `per_page` at 100 or less |
-| `conflict` from `credit()` | The same `idempotency_key` was sent with different parameters | Keep parameters fixed per key; use a new key only for a new business event |
-| `unsupported_operation` on a child subscription | Billing or lifecycle operation on a box or bundle child | Run it on the `billing_owner_id` from the error data |
-| The grace date passed but the status is still active | The hourly check has not run yet, or a payment is still settling | Wait for the next run and check `grace.settlement_pending` |
+| Your `arraysubs_lifecycle_event` listener never runs | Registered too late, missing `10, 2` accepted arguments, or your plugin was inactive | Add it inside `arraysubs_after_boot` with two accepted arguments, and add a nightly reconciliation |
+| A renewal is recorded twice | No unique key in your storage | Key the row by the renewal order ID (recipe 2) |
+| A member lost access after one of two subscriptions ended | The code acted on one subscription's `revoked` event | Recount every entitling subscription before removing anything (recipe 4) |
+| A member keeps a paused subscription's entitlement unexpectedly | The store keeps full access during a pause | That is the pause access setting; see [Self-Service Actions](../customer-portal/self-service-actions.md) |
+| `invalid_query` from `fromUserId()` | A short status slug such as `active`, an unknown option, or `per_page` above 100 | Use stored slugs (`arraysubs-active`) and `per_page` from 1 to 100 |
+| Feature usage shows a limit of 0 | `per_subscription` mode without a subscription ID | Pass the subscription ID to `usage()`, or read with `combine` or `max` |
+| `unavailable` from a profile lookup | Pro inactive or unlicensed, Profile Builder module off, or custom profile fields disabled | Check the license and the module; hide the lookup meanwhile |
+| `store_credit_unavailable` from `adjust()` | Pro is not active, or the Store Credit module is switched off | Switch the module on under **ArraySubs -> Modules**; keep the job queued |
+| `credit_mutation_failed` on every retry | The operation ID was reused with different parameters | Keep the amount, reason and source fixed per operation ID; use a new ID for a new decision |
+| The CRM shows a status that was later changed | The job sent the payload instead of re-reading | Read the subscription in the job (recipe 3) |
 
 ## Related Guides
 
@@ -1395,34 +1292,35 @@ Show `message` with `esc_html()`. Log details server-side only; never echo raw e
 - [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md)
 - [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md)
 - [Find Members and Update Profiles](./customers-and-profile-fields.md)
+- [Read and Update Feature Data](./feature-manager.md)
 - [Check Content Access](./member-access.md)
 - [Read and Update Store Credit](./store-credit.md)
 - [React to Supported Events](./actions-and-filters.md)
 - [Verify Your Integration](./errors-and-testing.md)
-- Merchant setup: [Recovery and Grace Flows](../billing-and-renewals/recovery-and-grace-flows.md), [Subscription Box](../subscription-products/subscription-box.md), [Subscription Bundle](../subscription-products/subscription-bundle.md), [Profile Form](../profile-builder/profile-form.md), [Access Rules](../member-access/access-rules.md), [Store Credit Management](../store-credit/store-credit-management.md) and [Stripe](../checkout-and-payments/automatic-payments/stripe.md)
+- Merchant setup: [Recovery and Grace Flows](../billing-and-renewals/recovery-and-grace-flows.md), [Subscription Box](../subscription-products/subscription-box.md), [Subscription Bundle](../subscription-products/subscription-bundle.md), [Defining Product Features](../feature-manager/defining-product-features.md), [Access Rules](../member-access/access-rules.md), [Profile Form](../profile-builder/profile-form.md) and [Store Credit Management](../store-credit/store-credit-management.md)
 
 ## FAQ
 
-### Does ArraySubs calculate or pay commissions?
-
-No. ArraySubs reports paid renewals through the `renewed` event and gives you authoritative order and state reads. Commission rates, attribution, payouts and refund reversals are your plugin's responsibility.
-
 ### Does ArraySubs send these events to an external URL?
 
-No. `arraysubs_lifecycle_event` is an in-process WordPress action. If an external system needs the event, send it from your listener through your own queue with retries, and let the receiver deduplicate with `event_id`.
+No. `arraysubs_lifecycle_event` and the native hooks are WordPress actions that run inside your site. To reach an external system, send the data from a queued job, as recipe 3 does, and let the receiver treat every message as an upsert.
 
-### Why does a member in grace still have access?
+### Why do the recipes queue jobs instead of working inside the hook?
 
-Grace keeps the stored status active (or trial) while ArraySubs waits for the overdue payment. `has_access` stays true until the subscription moves to on-hold. Show a warning while `phase` is `grace` instead of removing access.
+The hooks run inside checkout, payment webhooks and scheduled renewals, often while ArraySubs holds the subscription lock. A queued job keeps those requests fast, survives a slow remote service, and reads the state as it is when the job runs.
 
-### Which recipes need Pro?
+### Which recipes need ArraySubs Pro?
 
-Recipe 5 (profile-field lookups) and recipe 8 (store credit adjustments). Every other recipe works with ArraySubs core alone.
+Recipe 9 (profile field lookups) needs Pro with an active license and the Profile Builder module. Recipe 10 (store credit) needs Pro and the Store Credit module. Recipe 5 runs on core, but the features it reads are defined with the Pro Feature Manager module. Every other recipe works with ArraySubs core alone.
+
+### Can I use `event_id` to de-duplicate events?
+
+Only when `identity_scope` is `operation`; the ID is then stable across requests. Request-scoped events get a new random ID in every request. Payment failures and charge attempts are identified individually: each failed attempt on a renewal order fires its own `renewal_failed` with its own `event_id`, so storing the IDs you have processed never drops a later failure.
 
 ### How do I test these recipes without waiting for real renewals?
 
-Use a staging site with test subscriptions in each state, call your listeners with synthetic payloads to prove deduplication, and follow [Verify Your Integration](./errors-and-testing.md). For real automatic renewals and gateway callbacks, follow the staging steps in the [Stripe](../checkout-and-payments/automatic-payments/stripe.md) guide.
+Call your own job functions directly with real staging IDs, then follow the gateway staging walkthroughs listed in [Verify Your Integration](./errors-and-testing.md) for real automatic renewals and failures.
 
 ### Can I put these recipes in my theme instead of a plugin?
 
-Reads work from a theme, but a small custom plugin is the better home: your event listeners stay registered whatever theme is active, and the plugin can create its own tables on activation.
+Reads work from a theme, but a small custom plugin is the better home: listeners stay registered whatever theme is active, and the plugin can create its own table on activation.

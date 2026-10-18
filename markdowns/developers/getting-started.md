@@ -5,9 +5,9 @@
 
 # Connect Your Custom Plugin
 
-> Build a small standalone plugin that loads at the right time, detects ArraySubs core, Pro, license and module state, makes a safe first subscription lookup and handles errors the same way everywhere.
+> Load your integration after ArraySubs boots, check which parts of the developer API this site can use, and follow the conventions every `ArraySubs\Developer` class shares: factories, field groups, bounded pages, `$expected` checks and `WP_Error` codes.
 
-**Availability:** Core (Free). Pro, license and module checks matter only when your integration uses a Pro domain: profile fields, login limits, Store Credit or Feature Manager configuration updates.
+**Availability:** Core (Free). Customer profile fields, Feature Manager configuration updates, login limits and Store Credit need ArraySubs Pro with an active license. Each section below says what the core API returns without it.
 
 ## Page Navigation
 
@@ -20,264 +20,297 @@
 
 ## Overview
 
-ArraySubs exposes its developer API as PHP classes in the `ArraySubs\Api\` namespace (core) and the `ArraySubsPro\Api\` namespace (Pro), plus existing `arraysubs_*` helper functions and hooks. This guide shows how to connect a separate plugin you own to that API.
+The developer API is a set of PHP classes in the `ArraySubs\Developer` namespace of ArraySubs core. You get an object for one record from a static factory, then call methods on it:
 
-You learn when the classes exist, how to check whether a domain such as Store Credit is usable on the current site, how to pass identity explicitly instead of relying on whoever is logged in, and how to make your first read with `Subscriptions::get()` and `Lifecycle::get_state()`.
+```php
+<?php
+$subscription = \ArraySubs\Developer\Subscriptions::fromId( 123 ); // Subscriptions object or WP_Error.
+
+if ( ! is_wp_error( $subscription ) ) {
+    $post = $subscription->object();                         // The subscription WP_Post.
+    $data = $subscription->data( [ 'status', 'schedule' ] ); // Only the field groups you ask for.
+}
+```
+
+ArraySubs Pro adds no classes for you to call. Its adapters answer the core classes through `arraysubs_developer_*` filters, so the same calls return Pro data (profile fields, login limits, Store Credit, Feature Manager configuration updates) while Pro and its license are active.
+
+The API is trusted server-side PHP. It does not check nonces, logins or ownership, apart from the few current-user checks listed in [Permissions and Identity](#permissions-and-identity). Your REST routes, AJAX handlers and forms decide who may call it.
 
 ## When to Use This
 
-- You are starting an integration between ArraySubs and a membership, LMS, CRM, commission or reporting plugin.
-- You are moving ArraySubs-related code out of a theme's `functions.php` into a plugin.
-- Your code fails with "Class not found" or reads empty results because it runs too early.
-- You need to know whether Pro, its license or a module switch allows a call before you make it.
-- You expose subscription data through your own REST route, AJAX handler or form.
+- You are starting an integration with a membership, LMS, CRM, commission or reporting plugin.
+- You are moving ArraySubs code out of a theme's `functions.php` into a plugin.
+- Your code fails with `Class "ArraySubs\Developer\Subscriptions" not found`, or a status filter seems to be ignored, because it runs too early.
+- You need to know whether a Pro-backed call will work before you make it.
 
-## Prerequisites
+## Before You Start
 
 | Requirement | Minimum | Notes |
 | --- | --- | --- |
-| PHP | 8.1 | ArraySubs checks this at runtime. Declare `Requires PHP: 8.1` (or higher) in your plugin header. |
-| WordPress | 6.0 | WordPress enforces the `Requires Plugins` header from 6.5. On older versions only your runtime guards protect you. |
-| WooCommerce | 9.0 | ArraySubs does not boot on older WooCommerce versions. |
-| ArraySubs (core) | Active and booted | Every `ArraySubs\Api\` class and `arraysubs_*` helper comes from core. |
-| ArraySubs Pro | Only for Pro domains | Pro needs core, and its features run only while its license is active for the site. |
-| Module switches | Only for module-bound domains | Merchants switch modules on and off in **ArraySubs -> Modules**. |
+| PHP | 8.1 | ArraySubs core and Pro check it at runtime. |
+| WordPress | 6.0 | Checked at runtime. |
+| WooCommerce | 9.0 | ArraySubs core does not boot without it. |
+| ArraySubs (core) | Active and booted | Provides every `ArraySubs\Developer` class and the `arraysubs_*` helper functions. |
+| ArraySubs Pro | Only for Pro-backed calls | Pro checks for ArraySubs core 2.0.0 or newer. Its features run only while its license is active for the site's domain. |
+| Module switches | On, where a call depends on a module | Merchants switch modules on and off in **ArraySubs -> Modules**. |
 
-Merchant-side setup is covered in [Before You Launch](../getting-started/before-you-launch.md), [First-Time Setup](../getting-started/first-time-setup.md) and [License Activation](../getting-started/license-activation.md). Test your integration on a staging copy of the store first.
+- Keep your integration in its own plugin. ArraySubs updates replace the `arraysubs` and `arraysubspro` folders, so edits inside them are lost.
+- Build on the `ArraySubs\Developer` classes, the documented `arraysubs_*` helper functions and the documented hooks. Other ArraySubs classes are internal implementation details.
+- Test on a staging copy first. The Pro license is checked against the site's domain, so a staging domain needs its own activation. Merchant setup is covered in [Before You Launch](../getting-started/before-you-launch.md), [First-Time Setup](../getting-started/first-time-setup.md) and [License Activation](../getting-started/license-activation.md).
 
-## How It Works
+## How ArraySubs Loads
 
 ArraySubs boots once per request, inside WordPress's `plugins_loaded` action:
 
 | Step | When | What happens |
 | --- | --- | --- |
-| 1 | Plugin files are included (before `plugins_loaded`) | `ARRAYSUBS_VERSION` and `ARRAYSUBSPRO_VERSION` are defined. Nothing else is ready. Register your hook callbacks here. |
-| 2 | `plugins_loaded`, priority 9 | ArraySubs Pro checks its own requirements, including an active ArraySubs core. |
-| 3 | `plugins_loaded`, priority 10 | ArraySubs core checks PHP 8.1, WordPress 6.0 and WooCommerce 9.0. If a check fails, ArraySubs shows an admin notice and loads nothing else: no helpers, no API classes, no boot actions. |
-| 4 | Same callback, checks passed | The core autoloader and `arraysubs_*` helpers load, `arraysubs_before_boot` fires (Pro loads its helpers and `ArraySubsPro\Api\` classes there), feature services start, then `arraysubs_after_boot` fires. |
-| 5 | `init`, priority 10 | The `arraysubs_data` post type and its seven statuses are registered. |
-| 6 | `init`, priority 11 or later | Status-based queries and translated labels are safe. |
-| 7 | `rest_api_init` | Register your own REST routes. |
-
-The PHP API is trusted server code. It does not check capabilities, nonces or the logged-in user. Your plugin checks those at its own web boundary and passes identity to ArraySubs explicitly.
-
-## When the API Loads
+| 1 | Plugin files are included | `ARRAYSUBS_VERSION` and `ARRAYSUBSPRO_VERSION` are defined. No ArraySubs class or helper is loaded yet. |
+| 2 | `plugins_loaded`, priority 9 | Pro checks PHP 8.1, WordPress 6.0, ArraySubs core 2.0.0 and WooCommerce 8.0. If they pass, it waits for core's `arraysubs_before_boot` action. |
+| 3 | `plugins_loaded`, priority 10 | Core checks PHP 8.1, WordPress 6.0 and WooCommerce 9.0. If a check fails, core shows the notice "ArraySubs is not activated, Additional plugins are required:" and stops: no autoloader, no helpers, no boot actions, and Pro never boots. |
+| 4 | Same callback, checks passed | Core registers its autoloader (every `ArraySubs\Developer` class becomes loadable), includes the `arraysubs_*` helpers and fires `arraysubs_before_boot`. Pro boots there at priority 5: it registers its autoloader and includes its helpers and developer adapters. Core then starts its feature services (plus Pro's, while the Pro license is active) and fires `arraysubs_after_boot`. |
+| 5 | `init`, priority 10 | The `arraysubs_data` post type and its seven `arraysubs-*` statuses are registered. |
+| 6 | `wp_loaded` | `StoreCredit` accepts calls from here on. |
 
 ### Earliest safe point for each task
 
 | Task | Earliest safe point | Why |
 | --- | --- | --- |
-| Add callbacks to ArraySubs actions and filters | Plugin include time | Registering a callback needs nothing from ArraySubs. |
-| Call `ArraySubs\Api\` classes, `Availability` or `arraysubs_*` helpers | `arraysubs_after_boot` | Classes and helpers exist only after core boots, and availability depends on which features started. |
-| Call `ArraySubsPro\Api\` classes | `arraysubs_after_boot`, guarded by `class_exists()` and `Availability` | Pro boots inside core's boot and only when Pro passes its own checks. |
-| Query or filter subscriptions by status | `init` priority 11 or later (`wp_loaded`, `admin_init`, `rest_api_init` and later hooks also work) | Statuses register on `init` priority 10. |
-| Read translated labels or strings | `init` or later | WordPress warns when translations load earlier. |
-| Register REST routes that call ArraySubs | `rest_api_init` | Standard WordPress timing. |
+| Add callbacks to ArraySubs actions and filters | When your plugin file loads | Registering a callback needs nothing from ArraySubs. |
+| Check that the API exists | `arraysubs_after_boot`, or `plugins_loaded` priority 11 or later | The autoloader is registered on `plugins_loaded` priority 10. |
+| Call `ArraySubs\Developer` methods | `init` priority 11 or later (`wp_loaded`, `admin_init`, `rest_api_init`, `template_redirect`, WP-CLI and scheduled jobs all qualify) | Statuses are registered on `init` priority 10; before that WordPress drops the `statuses` condition from subscription queries. WordPress also expects translated strings, such as ArraySubs status labels and error messages, to load on `init` or later. |
+| Call `StoreCredit` methods | `wp_loaded` or later | Earlier calls return `WP_Error` `arraysubs_not_ready`. |
 
-### The activation request
+Code that is included after `plugins_loaded` (a theme's `functions.php`, or your plugin file in the request that activates it) runs after `arraysubs_after_boot` has fired, so a new callback on that action never runs. Check `did_action( 'arraysubs_after_boot' )` first, as the [plugin skeleton](#minimal-plugin-skeleton) does.
 
-When WordPress activates your plugin, it includes your plugin file after `plugins_loaded` has already run. A callback you add to `arraysubs_after_boot` in that request never fires. Check `did_action()` first, as the skeleton below does:
+## Check What Is Available
+
+| Question | Check | Notes |
+| --- | --- | --- |
+| Did ArraySubs core boot? | `did_action( 'arraysubs_after_boot' )` | `0` when core is inactive or failed its requirement checks. |
+| Can the API classes load? | `class_exists( '\ArraySubs\Developer\Subscriptions' )` | `false` until ArraySubs boots on `plugins_loaded` priority 10, and whenever core did not pass its checks. |
+| Is Pro installed? | `defined( 'ARRAYSUBSPRO_VERSION' )` | Proves only that the Pro plugin file loaded, not that Pro booted or is licensed. |
+| Is a Pro-backed call usable? | The availability value the API returns (table below) | One value that combines Pro, its license and the module switch. |
+| Is a module switched on? | `arraysubs_is_module_enabled( 'store_credit' )` | The saved switch only, `true` when never saved. It does not check Pro or the license. Built-in IDs include `store_credit`, `feature_manager`, `profile_builder`, `subscription_box` and `subscription_bundle`. |
+| Which versions are installed? | `ARRAYSUBS_VERSION`, `ARRAYSUBSPRO_VERSION` | Defined even when the plugin cannot boot. Use them for diagnostics only. |
+
+### Pro-backed calls and their core fallbacks *(Pro)*
+
+| Call | Works when | Without it |
+| --- | --- | --- |
+| `Customer->data( [ 'profile' ] )` | Pro licensed, `profile_builder` module on, and the **Enable custom profile fields** setting on | The `profile` group is `[ 'available' => false, 'values' => [], 'redacted' => [] ]`. |
+| `Customer::queryByProfileField()`, `Customer::fromProfileField()`, `Customer->update( [ 'profile' => ... ] )` | Same as above | `WP_Error` `unavailable`. |
+| `Features->updateConfiguration()` | Pro licensed, `feature_manager` module on, and the current user can `manage_woocommerce` | `WP_Error` `unavailable`, or `forbidden` without the capability. `Features->data( [ 'availability' ] )['availability']['configuration_updates']` reports the first two conditions. |
+| `LoginLimits->data()` | Pro licensed | `availability` is `[ 'available' => false, 'enabled' => false, 'requires' => 'arraysubspro' ]` and `policy.reason` is `module_unavailable`. |
+| `StoreCredit->data()`, `history()`, `adjust()` | Pro licensed; `adjust()` also needs the `store_credit` module on | `WP_Error` `store_credit_unavailable`. With Pro licensed and the module off, reads still work and report `available => false`, and `adjust()` returns `store_credit_unavailable`. |
+| `Product->data( [ 'modules' ] )` | Pro active | Without Pro there is no `bundle` entry. With Pro, `bundle.enabled` is `false` while the license is inactive or the `subscription_bundle` module is off. |
+
+The Pro adapters behind these calls:
+
+| Core filter | Pro adapter | Registered |
+| --- | --- | --- |
+| `arraysubs_developer_customer_profile`, `arraysubs_developer_customer_profile_query`, `arraysubs_developer_customer_profile_validate`, `arraysubs_developer_customer_profile_save` | `ArraySubsPro\Developer\CustomerProfile` | Whenever Pro boots; the adapter checks the license, module and setting itself. |
+| `arraysubs_developer_feature_availability`, `arraysubs_developer_feature_update`, `arraysubs_developer_product_modules` | `ArraySubsPro\Developer\FeatureConfiguration` | Whenever Pro boots; checks the license and module itself. |
+| `arraysubs_developer_login_limits` | Pro Multi-Login Prevention service | Only while the Pro license is active. |
+| `arraysubs_developer_store_credit` | Pro Store Credit `DeveloperAccess` service | Only while the Pro license is active, including while the `store_credit` module is off. |
+
+Call the core classes, not the adapters. The `modules` group of `Subscriptions->data()` comes from the `arraysubs_developer_subscription_modules` filter, which neither plugin fills, so it is an empty array unless another add-on adds to it.
+
+## Namespace and Instance Style
+
+- Every class you call lives in `ArraySubs\Developer`. Create objects through the factories: they confirm the record exists and return the object or a `WP_Error`.
+- `object()` returns the underlying WordPress or WooCommerce object: `WP_Post` for `Subscriptions`, `WC_Order` for `Orders`, `WC_Product` for `Product`. `Customer` extends `WC_Customer`, so it is the WooCommerce customer object itself.
+- `data()` returns arrays grouped by field group (see [Select field groups](#select-field-groups)).
+
+| Class | Factory | Returns |
+| --- | --- | --- |
+| `Subscriptions` | `fromId( int $id )`, `fromSubscription( WP_Post $subscription )` | `Subscriptions`, or `WP_Error` `not_found`. |
+| `Subscriptions` | `fromChildId( int $id )` | `Subscriptions` for a box or bundle child; `WP_Error` `invalid_relation` for any other subscription, or `not_found`. |
+| `Subscriptions` | `fromUserId( int $customer_id, array $args = [] )`, `fromOrderId( int $order_id, array $args = [] )`, `query( array $args = [] )` | A page of results (see [Page through collections](#page-through-collections)), not an object, or `WP_Error`. |
+| `Orders` | `fromId( int $id )`, `fromOrder( WC_Order $order )` | `Orders`, or `WP_Error` `not_found` (refunds are not accepted). `query()` returns a page. |
+| `Customer` | `fromUserId( int $user_id )`, `fromEmail( string $email )`, `fromUsername( string $username )` | `Customer`, or `WP_Error` `not_found`, `validation` (invalid email) or `ambiguous` (several accounts share the email). |
+| `Customer` | `fromSubscriptionId( int $subscription_id )` | `Customer`; for a guest subscription, an identity array `[ 'guest' => true, 'user_id' => null, 'subscription_id' => ..., 'email' => ... ]`; or `WP_Error` `not_found`. |
+| `Customer` *(Pro)* | `fromProfileField( string $key, $value, string $operator = '=' )` | `Customer`, or `WP_Error` such as `ambiguous`, `not_found` or `unavailable`. `queryByProfileField()` returns a page. |
+| `Product` | `fromId( int $product_id )`, `fromSlug( string $slug )`, `fromUrl( string $url )` | `Product`, or `WP_Error` such as `not_found`, `unsupported` (not a subscription product), `forbidden`, `validation` or `ambiguous`. |
+| `Features` | `forSubscription( int $subscription_id )`, `forCustomer( int $customer_id, ?string $mode = null )`, `forProduct( int $product_id )` | `Features`, or `WP_Error` `not_found`. |
+| `MemberAccess`, `Downloads`, `Discounts`, `LoginLimits`, `MemberStyling` | `fromUserId( int $user_id )`, `fromUser( WP_User $user )`, `fromCustomer( WC_Customer $customer )`, `fromSubscriptionId( int $subscription_id )`, `fromSubscription( WP_Post $subscription )` | The reader, or `WP_Error` `invalid_customer` or `invalid_subscription`. User ID `0` is a valid guest context. `context()` returns `[ 'user_id' => ..., 'subscription_id' => ... ]`. |
+| `StoreCredit` *(Pro)* | `fromCustomerId( int $customer_id )`, `fromSubscriptionId( int $subscription_id )`, `fromSubscription( WP_Post $subscription )` | `StoreCredit`, or `WP_Error` `arraysubs_not_ready`, `invalid_credit_customer` or `invalid_subscription`. The factories are core; the methods need Pro. |
+
+## Shared Conventions
+
+### Select field groups
+
+Every `data()` method takes a list of group names, checked by `Fields::select()`:
+
+- An empty list (the default) returns every group.
+- A name the class does not have returns `WP_Error` `invalid_field`.
+- Only the requested groups come back, keyed by group name.
+
+| Method | Groups |
+| --- | --- |
+| `Subscriptions->data()` | `identity`, `status`, `plan`, `pricing`, `schedule`, `trial`, `recovery`, `cancellation`, `pending_switch`, `family`, `order_references`, `orders`, `billing`, `shipping`, `modules` (also available as `SubscriptionSnapshot::GROUPS`) |
+| `Orders->data()` | `identity`, `amounts`, `billing`, `shipping`, `subscriptions` |
+| `Customer->data()` | `identity`, `account`, `billing`, `shipping`, `profile` |
+| `Product->data()` | `identity`, `relationships`, `pricing`, `billing`, `trial`, `features`, `access`, `plans`, `modules` |
+| `Features->data( $fields, $args )` | `identity`, `availability`, `configuration`, `effective` |
+| `MemberAccess->check( $entity, $target, $fields )` | `context`, `target`, `availability`, `decision`, `rule`, `precedence` |
+| `Downloads->data()` | `context`, `availability`, `policy`, `files` |
+| `Discounts->data()` | `context`, `availability`, `rules`, `policy` |
+| `LoginLimits->data( $fields, $context )` | `context`, `availability`, `policy`, `sessions` |
+| `MemberStyling->data( $fields, $display_context )` | `context`, `availability`, `rules`, `effective` |
+| `StoreCredit->data()` *(Pro)* | Top-level keys such as `available`, `currency`, `customer_balance`, `subscription_balance` and `total_balance` |
+
+Collections of rules and files also accept a `fields` list in their arguments, which selects keys inside each item.
+
+Two value conventions to know:
+
+- Subscription, order and customer data report machine times as UTC Unix timestamps (integers) or `null`, for example `identity.created_at` and `schedule.next_payment_at`.
+- Subscription statuses keep their stored `arraysubs-` prefix everywhere: `status.stored` is, for example, `arraysubs-active`, and the `statuses` query filter, `changeStatus()` and `$expected['status']` use the same values.
+
+### Page through collections
+
+Every collection uses `Query::page()` to read its paging arguments and `Query::result()` to build the page it returns.
+
+| Argument | Default | Rule |
+| --- | --- | --- |
+| `page` | `1` | A whole number of 1 or more. |
+| `per_page` | `20` | A whole number from 1 to 100. |
+
+An invalid `page` or `per_page`, or an option the collection does not know, returns `WP_Error` `invalid_query`.
+
+| Key | Type | Meaning |
+| --- | --- | --- |
+| `items` | array | Objects, IDs or data arrays, depending on `output`. |
+| `page` | int | The page returned. |
+| `per_page` | int | The page size used. |
+| `has_more` | bool | `true` when another page exists. |
+| `next_page` | int or null | `page + 1` when `has_more` is `true`, otherwise `null`. |
+| `total` | int | Only on counted collections: rule and file lists, `Features->configuration()` and `effective()`, `Product->plans()` while plan switching is on, profile-field queries and Store Credit history. |
+
+| Collection | `output` values (default first) | Other notes |
+| --- | --- | --- |
+| `Subscriptions::query()`, `fromUserId()`, `fromOrderId()`, `children()`, `orders()`; `Orders::query()`, `Orders->subscriptions()`; `Customer->subscriptions()`, `Customer->orders()` | `object`, `ids`, `data` (with `fields`) | Ascending ID order; `order` accepts `asc` or `desc`. |
+| `Product->variations()` | `data`, `ids`, `object` | Published variations only. |
+| `Product->plans()` | `ids`, `object`, `data` | Adds `enabled` (and `configured_count` while plan switching is off). |
+| `MemberAccess->rules()`, `Downloads->files()`, `Discounts->rules()`, `MemberStyling->rules()` | `data`, `ids` | Also accept `include` (up to 100 IDs) and `fields`. |
+| `Features->configuration()`, `Features->effective()` | none | Accept only `page` and `per_page`. |
+| `Customer::queryByProfileField()` *(Pro)* | `data`, `ids`, `object` | Also accepts `operator` and `fields`. |
+| `StoreCredit->history()` *(Pro)* | none | Also accepts `fields` and `bucket`. |
+
+An empty result is a normal page whose `items` is an empty array, not an error.
+
+### Guard updates with `$expected`
+
+Update methods take the values you last read and refuse to write when the stored values changed in between. An empty `$expected` array, or `null` for the timestamp arguments, skips the check.
+
+| Method | What you pass | On mismatch |
+| --- | --- | --- |
+| `Subscriptions->update( $changes, $expected )`, `changeStatus( $status, $expected )`, `activate( $expected )`, `suspend( $expected )`, `expire( $expected )` | Field => value pairs: `status` (for example `arraysubs-active`) or an editable field such as `quantity`, `recurring_amount` or `billing_interval`. Compared loosely, so `'19.00'` matches `19`. | `subscription_conflict` |
+| `Subscriptions->setNextPaymentDate( $utc_timestamp, $expected_timestamp )`, `setTrialEnd( $utc_timestamp, $expected_timestamp )` | The `schedule.next_payment_at` timestamp you read. | `subscription_conflict` |
+| `Subscriptions->setGracePolicy( $changes, $expected )` | Values from `recovery.policy`: `before_on_hold`, `before_cancel` and their `_source` keys. Compared strictly. | `subscription_conflict` |
+| `Orders->update( $changes, $expected )` | `billing`, `shipping` (whole address arrays) or `customer_note`, as you read them. Compared strictly. | `conflict` |
+| `Customer->update( $changes, $context )` | `$context['expected_email']`: the account email you read. | `conflict` |
+| `Features->updateConfiguration( $name, $changes, $context )` *(Pro)* | `$context['expected']`: keys and values of the feature row you read. Compared strictly. | `conflict` |
+| `StoreCredit->adjust( $amount, $args )` *(Pro)* | `$args['expected_balance']`: the bucket balance you read. | `credit_balance_changed` |
+
+The same methods also refuse to run while another request is updating the record: `Subscriptions` returns `subscription_conflict`, `Orders`, `Customer` and Pro feature configuration return `conflict`, and Store Credit returns `credit_busy`.
+
+This snippet moves the next payment date by one week only if nobody changed it since it was read:
 
 ```php
 <?php
-if ( did_action( 'arraysubs_after_boot' ) ) {
-    acme_members_boot(); // ArraySubs booted before this file loaded (activation request).
-} else {
-    add_action( 'arraysubs_after_boot', 'acme_members_boot' );
-}
-```
+$subscription = \ArraySubs\Developer\Subscriptions::fromId( 123 );
+$data         = is_wp_error( $subscription ) ? $subscription : $subscription->data( [ 'schedule' ] );
 
-The same applies to a theme: `functions.php` loads after `plugins_loaded`, so `arraysubs_after_boot` has already fired when it runs.
+if ( ! is_wp_error( $data ) && null !== $data['schedule']['next_payment_at'] ) {
+    $read   = $data['schedule']['next_payment_at'];                              // The value you read.
+    $result = $subscription->setNextPaymentDate( $read + WEEK_IN_SECONDS, $read ); // Writes only if it is unchanged.
 
-## Detect Core, Pro, License and Module State
-
-### Which check answers which question
-
-| Question | Use | Notes |
-| --- | --- | --- |
-| Did ArraySubs core boot and load its API? | `did_action( 'arraysubs_after_boot' )` and `class_exists( '\ArraySubs\Api\Availability' )` | Both are false when core's requirements fail. |
-| Can I use a domain right now? | `Availability::check( 'store_credit' )` | One answer that combines Pro presence, license, module switch and settings. |
-| Why is a domain unavailable? | `Availability::get( 'store_credit' )['reason']` | Use it for notices, logs and Site Health. |
-| Which versions are installed? | `ARRAYSUBS_VERSION`, `ARRAYSUBSPRO_VERSION` | Defined even when the plugin cannot boot. Diagnostics only. |
-| Is a module switch on? | `arraysubs_is_module_enabled( 'acme_members' )` | Saved switch only; it does not know about Pro or the license. |
-| What is a setting's value? | `arraysubs_get_setting( 'renewals.grace_days_before_on_hold' )` | Dot notation; built-in defaults are merged in. |
-
-### `Availability::get()`
-
-```text
-ArraySubs\Api\Availability::get( string $domain ): array
-```
-
-Reports whether one API domain can run on this site in this request, and why not when it cannot.
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$domain` | string | required | One of the domain names below, exactly as written. |
-
-| Domain | Edition | Reference |
-| --- | --- | --- |
-| `subscriptions` | Core | [Find and Update Subscriptions](./subscriptions.md) |
-| `lifecycle` | Core | [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) |
-| `relationships`, `orders` | Core | [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) |
-| `customers` | Core | [Find Members and Update Profiles](./customers-and-profile-fields.md) |
-| `profile_fields` | Pro | [Find Members and Update Profiles](./customers-and-profile-fields.md) |
-| `products` | Core | [Read Subscription Product Terms](./subscription-products.md) |
-| `feature_manager` | Core reads and usage; Pro for configuration updates | [Read and Update Feature Data](./feature-manager.md) |
-| `member_access` | Core | [Check Content Access](./member-access.md) |
-| `downloads` | Core | [Read Download Benefits](./downloads.md) |
-| `discounts` | Core | [Read Member Discounts](./discounts.md) |
-| `member_styling` | Core | [Read Member Styling Rules](./member-styling.md) |
-| `login_limits` | Pro | [Read Login-Limit Policy](./login-limits.md) |
-| `store_credit` | Pro | [Read and Update Store Credit](./store-credit.md) |
-| `events` | Core | [React to Supported Events](./actions-and-filters.md) |
-
-**Returns** an array:
-
-| Key | Type | Description |
-| --- | --- | --- |
-| `domain` | string | The domain you asked about. |
-| `available` | bool | `true` only when the domain can run now. |
-| `edition` | string | `core` or `pro`. |
-| `module` | string or null | The module switch that governs the domain (for example `store_credit`), or `null` when no switch applies. |
-| `reason` | string | One of the values below. |
-
-| `reason` | Meaning | What to do |
-| --- | --- | --- |
-| `ok` | The domain is available. | Continue. |
-| `core_unavailable` | ArraySubs core cannot serve the domain in this request. | Call on `arraysubs_after_boot` or later and confirm ArraySubs meets its requirements. |
-| `pro_missing` | ArraySubs Pro is not active or did not pass its own checks. | Install and activate Pro, or skip the Pro feature. |
-| `license_inactive` | Pro is active, but its license is not active for this site's domain. | Activate the license; see [License Activation](../getting-started/license-activation.md). |
-| `module_disabled` | The domain's module is switched off in **ArraySubs -> Modules**. | Ask the merchant to switch it on, or skip the feature. |
-| `setting_disabled` | A setting the domain depends on is switched off. | Check the related ArraySubs settings. |
-
-**Failure values:** none. `get()` always returns the array above. **Permission boundary:** trusted server code; it reveals site configuration, not member data. **Side effects:** Read only: no writes. **Pagination:** not applicable.
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Availability' ) ) {
-    $store_credit = \ArraySubs\Api\Availability::get( 'store_credit' );
-
-    if ( ! $store_credit['available'] ) {
-        // For example 'pro_missing', 'license_inactive' or 'module_disabled'.
-        error_log( 'Acme Members: Store Credit unavailable: ' . $store_credit['reason'] );
+    if ( is_wp_error( $result ) && 'subscription_conflict' === $result->get_error_code() ) {
+        // The date changed after you read it, or another request is updating this subscription.
+        // Read the subscription again and decide whether the change still makes sense.
     }
 }
 ```
 
-### `Availability::check()`
+On success these `Subscriptions` methods return the subscription's full `data()` array, so you do not need a second read.
 
-```text
-ArraySubs\Api\Availability::check( string $domain ): true|WP_Error
-```
+## Errors You Can Get
 
-Same evaluation as `get()`, shaped for an early return.
+Every method, factories included, returns a `WP_Error` on failure. Check `is_wp_error()` after each call and branch on `get_error_code()`, never on the message. Most errors carry no data; a few add data such as `field` (the rejected field) or an HTTP-style `status`, so do not depend on `get_error_data()`.
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$domain` | string | required | A domain name from the table above. |
+Codes are specific to each class. For example, `Customer` and `Product` return `validation` where `Subscriptions` and `Orders` return `validation_failure`. The common codes:
 
-**Returns** `true` when the domain is available. **Failure values:** `WP_Error` code `module_unavailable` (status 503); `get_error_data()` includes `reason` with one of the values above. **Permission boundary:** trusted server code. **Side effects:** Read only: no writes.
-
-```php
-<?php
-$ready = \ArraySubs\Api\Availability::check( 'store_credit' );
-
-if ( is_wp_error( $ready ) ) {
-    $data   = $ready->get_error_data();
-    $reason = is_array( $data ) && isset( $data['reason'] ) ? $data['reason'] : 'unknown';
-    // Skip the Store Credit part of your integration and record $reason.
-    return;
-}
-
-// Store Credit calls are safe to make here.
-```
-
-Pro methods also return `module_unavailable` on their own when Pro is unlicensed or the module is off, so keep handling that code even after a successful `check()`.
-
-### Version constants
-
-| Constant | Defined when | Example value |
+| Code | Returned by | Meaning |
 | --- | --- | --- |
-| `ARRAYSUBS_VERSION` | The ArraySubs plugin file loads, even if ArraySubs cannot boot (for example, WooCommerce is missing). | `'2.0.9'` |
-| `ARRAYSUBSPRO_VERSION` | The Pro plugin file loads, even when Pro is unlicensed or cannot boot. | `'1.2.8'` |
+| `not_found` | Factories of `Subscriptions`, `Orders`, `Customer`, `Product` and `Features`; queries with a missing `parent_id`, `order_id` or `subscription_id` | The record does not exist. |
+| `invalid_customer`, `invalid_subscription` | `MemberAccess`, `Downloads`, `Discounts`, `LoginLimits` and `MemberStyling` factories; `invalid_subscription` also from `StoreCredit` | Unknown user or subscription, or a subscription with no registered customer. |
+| `invalid_relation` | `Subscriptions::fromChildId()` | The subscription is not a box or bundle child. |
+| `ambiguous` | `Customer::fromEmail()`, `Customer::fromProfileField()`, `Product::fromSlug()`, `Product::fromUrl()` | More than one record matches; use an ID. |
+| `invalid_query` | `Query::page()` and every collection | Bad `page` or `per_page`, an unknown option, or (on most collections) an invalid `statuses`, `output` or `order` value. |
+| `invalid_field` | `Fields::select()` (every `data()` and `fields` list); most update methods given an unsupported field (`Orders->update()` returns `unsupported_operation`) | Unknown field group or field. |
+| `validation`, `validation_failure` | `validation`: `Customer`, `Product`, `Features` and the Pro adapters. `validation_failure`: `Subscriptions`, `Orders` | A value failed validation. |
+| `subscription_conflict`, `conflict` | `subscription_conflict`: `Subscriptions`. `conflict`: `Orders`, `Customer`, Pro feature configuration | `$expected` did not match, or another request is updating the record. |
+| `unsupported`, `unsupported_operation`, `unsupported_entity` | `unsupported`: `Customer`, `Product`, `Features`. `unsupported_operation`: `Orders` and subscription changes. `unsupported_entity`: `MemberAccess->check()` | The operation does not apply to this record, scope, state or entity. |
+| `parent_billed_subscription` | `Subscriptions` changes on a box or bundle child or an externally billed subscription | Make the change on the billing owner instead. |
+| `invalid_target` | `MemberAccess->check()`, `Discounts->calculateProduct()`, `MemberStyling->data()` | The post, URL, product, quantity or display context is not valid. |
+| `forbidden` | `Product` factories for an unpublished product the current user cannot read; Pro feature configuration without `manage_woocommerce`; Pro profile fields that are not editable or searchable | The current WordPress user may not do this. |
+| `unavailable` | `Customer` profile operations, `Features->updateConfiguration()` | Pro, its license, the module or the setting is not active. |
+| `store_credit_unavailable` | `StoreCredit` | Pro is not active or not licensed, or `adjust()` was called with the `store_credit` module off. |
+| `arraysubs_not_ready` | `StoreCredit` | Called before `wp_loaded`. |
+| `operation_failed`, `persistence_failed` | Writes | The change did not complete. Read the record again before you retry. |
 
-Use them for diagnostics and support information, not as proof that a feature works. Always check `defined()` first. This example adds the versions and one availability reason to **Tools -> Site Health -> Info**:
+Billing and lifecycle changes return more specific codes, such as `pending_switch_conflict`, `payment_pending` and `provider_rejection`; Feature Manager usage and Store Credit have their own codes too. Each class guide lists its codes, and [Verify Your Integration](./errors-and-testing.md) covers testing them.
 
-```php
-<?php
-add_filter(
-    'debug_information',
-    static function ( array $info ): array {
-        $store_credit = class_exists( '\ArraySubs\Api\Availability' )
-            ? \ArraySubs\Api\Availability::get( 'store_credit' )['reason']
-            : 'ArraySubs not booted';
+## Permissions and Identity
 
-        $info['acme-members'] = [
-            'label'  => 'Acme Members Bridge',
-            'fields' => [
-                'arraysubs'    => [ 'label' => 'ArraySubs', 'value' => defined( 'ARRAYSUBS_VERSION' ) ? ARRAYSUBS_VERSION : 'not loaded' ],
-                'arraysubspro' => [ 'label' => 'ArraySubs Pro', 'value' => defined( 'ARRAYSUBSPRO_VERSION' ) ? ARRAYSUBSPRO_VERSION : 'not loaded' ],
-                'booted'       => [ 'label' => 'ArraySubs booted', 'value' => did_action( 'arraysubs_after_boot' ) ? 'yes' : 'no' ],
-                'store_credit' => [ 'label' => 'Store Credit', 'value' => $store_credit ],
-            ],
-        ];
+The API trusts its caller and never decides which member a request is for. To serve a member, compare `identity.customer_id` from the data with `get_current_user_id()` yourself. The current WordPress user matters only here:
 
-        return $info;
-    }
-);
-```
+- `Product::fromId()`, `fromSlug()` and `fromUrl()` return `forbidden` for an unpublished product, or a variation of one, unless the current user can `read_post` it.
+- `Features->configuration()` includes each feature's internal `type` only for users who can `manage_woocommerce`; `configuration_types_included` tells you which you got.
+- `Features->updateConfiguration()` *(Pro)* returns `forbidden` unless the current user can `manage_woocommerce`, so it fails in WP-CLI and cron unless you run it as such a user (for example `wp --user=<admin>`).
+- Feature usage changes honor `allow_overage` only for users who can `manage_woocommerce`.
 
-### `arraysubs_is_module_enabled()`
+At your own web boundary:
 
-```text
-arraysubs_is_module_enabled( string $module_id ): bool
-```
-
-Reads a saved module switch.
-
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `$module_id` | string | required | A module ID, such as `feature_manager`, `store_credit`, `subscription_box` or your own addon's ID. The value is passed through `sanitize_key()`. |
-
-**Returns** `true` when the switch is on, and also when it was never saved (modules default to on). The `arraysubs_is_module_enabled` filter can change the result. **Failure values:** none; it returns a bool. **Side effects:** Read only: no writes; safe during boot.
-
-It does not check whether Pro is installed or licensed. For built-in domains use `Availability`; use this helper mainly for the switch of your own addon module (see [Extend ArraySubs with a Module](./addon-modules.md)).
-
-```php
-<?php
-if ( function_exists( 'arraysubs_is_module_enabled' ) && arraysubs_is_module_enabled( 'acme_members' ) ) {
-    // The merchant has not switched the Acme Members module off.
-}
-```
-
-## Build a Standalone Plugin
-
-Keep your integration in its own plugin. ArraySubs updates replace the `arraysubs` and `arraysubspro` folders, so any edit inside them is lost, and a patched copy no longer matches the code that support and other integrations expect.
-
-### File layout and prefixes
-
-```text
-wp-content/plugins/acme-members-bridge/
-    acme-members-bridge.php    Header, dependency guards, boot
-    includes/rest.php          Your REST routes
-    includes/sync.php          Background jobs and event listeners
-    uninstall.php              Removes only your own data
-```
-
-| Item | Example | Rule |
+| Check | Admin endpoint | Customer endpoint |
 | --- | --- | --- |
-| Functions | `acme_members_boot()` | One unique prefix for everything you define. |
-| Hooks you fire | `acme_members_synced` | Never fire or register names that start with `arraysubs_` or `arraysubspro_`. |
-| Options and user meta | `acme_members_settings` | Store your own data under your prefix. Never write ArraySubs meta, options or tables directly; use the API. |
-| REST namespace | `acme-members/v1` | Do not register routes in the `arraysubs/v1` namespace. |
-| Action Scheduler group | `acme-members` | Keeps your jobs separate from ArraySubs jobs. |
-| Text domain | `acme-members` | Translate your own strings with your own domain. |
+| Authentication | Logged in | Logged in |
+| Capability | `current_user_can( 'manage_woocommerce' )` | None beyond login; ownership decides |
+| Nonce | Cookie-authenticated REST requests send a `wp_rest` nonce in `X-WP-Nonce`; AJAX uses `check_ajax_referer()`; forms use `wp_nonce_field()` with `check_admin_referer()` or `wp_verify_nonce()` | Same |
+| Ownership | Not needed | `identity.customer_id` must equal `get_current_user_id()`; take the user from the session, never from a request value |
+| Output | Any data you need | Only the groups the member needs, with ArraySubs errors replaced by your own generic messages |
 
-Only `ArraySubs\Api\`, `ArraySubsPro\Api\`, the documented `arraysubs_*` functions and documented hooks are supported. Other namespaced ArraySubs classes are internal and can change in any update.
+Renewals, retries and scheduled cancellations run from the scheduler, where nobody is logged in, and an admin bulk action runs as the admin. Queue background work with explicit subscription and user IDs, and read the current state inside the job instead of trusting an earlier copy.
+
+## Classes and Guides
+
+| Guide | Classes and main methods | Edition |
+| --- | --- | --- |
+| [Find and Update Subscriptions](./subscriptions.md) | `Subscriptions`: `fromId()`, `query()`, `fromUserId()`, `data()`, `update()`, `changeStatus()`, `activate()`, `suspend()`, `expire()`, `delete()` | Core |
+| [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) | `Subscriptions`: `fromChildId()`, `fromOrderId()`, `family()`, `children()`, `orders()`. `Orders`: `fromId()`, `query()`, `data()`, `subscriptions()`, `update()`, `delete()` | Core |
+| [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) | `Subscriptions`: the `status`, `trial`, `recovery`, `cancellation` and `pending_switch` groups; `pause()`, `resume()`, `cancel()`, `undoCancellation()`, `setNextPaymentDate()`, `setTrialEnd()`, `endTrial()`, `setGracePolicy()` | Core |
+| [Find Members and Update Profiles](./customers-and-profile-fields.md) | `Customer`: factories, `data()`, `subscriptions()`, `orders()`, `update()`, `queryByProfileField()` | Core; profile fields need Pro |
+| [Read Subscription Product Terms](./subscription-products.md) | `Product`: `fromId()`, `fromSlug()`, `fromUrl()`, `data()`, `variations()`, `plans()` | Core |
+| [Read and Update Feature Data](./feature-manager.md) | `Features`: `data()`, `configuration()`, `effective()`, `usage()`, `set()`, `increment()`, `reset()`, `consume()`, `updateConfiguration()` | Core; `updateConfiguration()` needs Pro |
+| [Check Content Access](./member-access.md) | `MemberAccess`: `check()`, `rules()`, `evaluateConditions()`, `supportedEntities()` | Core |
+| [Read Download Benefits](./downloads.md) | `Downloads`: `files()`, `data()` | Core |
+| [Read Member Discounts](./discounts.md) | `Discounts`: `rules()`, `calculateProduct()`, `data()` | Core |
+| [Read Login-Limit Policy](./login-limits.md) | `LoginLimits`: `data()` | Pro; core returns an unavailable result |
+| [Read Member Styling Rules](./member-styling.md) | `MemberStyling`: `rules()`, `data()` | Core |
+| [Read and Update Store Credit](./store-credit.md) | `StoreCredit`: `data()`, `history()`, `adjust()` | Pro |
+| [React to Supported Events](./actions-and-filters.md) | ArraySubs actions and filters, including `arraysubs_lifecycle_event` | Core and Pro |
+| [Extend ArraySubs with a Module](./addon-modules.md) | The `arraysubs_modules` filter and `arraysubs_is_module_enabled()` | Core |
+| [Gate Custom PHP Output](./php-templates.md) | Server-side checks before member-only theme or plugin output renders | Core |
+| [Connect Membership Workflows](./integration-recipes.md) | End-to-end recipes that combine these classes | Core and Pro |
+| [Verify Your Integration](./errors-and-testing.md) | Error codes and staging tests | Core and Pro |
+
+This page covers the shared helpers: `Query` (paging), `Fields` (field selection), `SubscriptionSnapshot` (builds `Subscriptions->data()`) and `MemberContext` (the factories shared by the member readers).
+
+## Examples
 
 ### Minimal plugin skeleton
 
-The header declares the dependencies, the guards keep your code idle until ArraySubs has booted, and an admin notice explains a missing dependency.
+The header declares the dependencies, the guard keeps your code idle until ArraySubs has booted, and a notice explains a missing dependency.
 
 ```php
 <?php
@@ -288,7 +321,6 @@ The header declares the dependencies, the guards keep your code idle until Array
  * Requires at least: 6.0
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce, arraysubs
- * Author:            Acme
  * License:           GPL-2.0-or-later
  * Text Domain:       acme-members
  */
@@ -296,339 +328,197 @@ The header declares the dependencies, the guards keep your code idle until Array
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Wires the integration once ArraySubs has booted and its API classes exist.
+ * Wires the integration once ArraySubs has booted.
  */
 function acme_members_boot(): void {
     static $booted = false;
 
-    if ( $booted || ! class_exists( '\ArraySubs\Api\Availability' ) ) {
+    if ( $booted || ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
         return;
     }
     $booted = true;
 
-    add_action( 'init', 'acme_members_init', 20 );
+    add_action( 'init', 'acme_members_init', 20 ); // API calls are safe from init priority 11.
     add_action( 'rest_api_init', 'acme_members_register_routes' );
 }
 
-// Normal request: ArraySubs boots on plugins_loaded, after this file is included.
-// Activation request: this file loads after ArraySubs has already booted.
 if ( did_action( 'arraysubs_after_boot' ) ) {
-    acme_members_boot();
+    acme_members_boot(); // This file loaded after ArraySubs booted, for example while it is being activated.
 } else {
     add_action( 'arraysubs_after_boot', 'acme_members_boot' );
 }
 
 /**
- * Shows a notice when ArraySubs did not boot (inactive, or its own requirements failed).
- */
-function acme_members_check_dependencies(): void {
-    if ( did_action( 'arraysubs_after_boot' ) && class_exists( '\ArraySubs\Api\Availability' ) ) {
-        return;
-    }
-
-    add_action( 'admin_notices', 'acme_members_dependency_notice' );
-}
-add_action( 'plugins_loaded', 'acme_members_check_dependencies', 20 );
-
-function acme_members_dependency_notice(): void {
-    if ( ! current_user_can( 'activate_plugins' ) ) {
-        return;
-    }
-
-    printf(
-        '<div class="notice notice-error"><p>%s</p></div>',
-        esc_html__( 'Acme Members Bridge needs WooCommerce and ArraySubs to be active and to meet their requirements.', 'acme-members' )
-    );
-}
-
-/**
- * Declare HPOS compatibility only when all order access uses WooCommerce CRUD or the ArraySubs API.
+ * Explains a missing dependency to administrators.
  */
 add_action(
-    'before_woocommerce_init',
+    'admin_notices',
     static function (): void {
-        if ( class_exists( '\Automattic\WooCommerce\Utilities\FeaturesUtil' ) ) {
-            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+        if ( did_action( 'arraysubs_after_boot' ) || ! current_user_can( 'activate_plugins' ) ) {
+            return;
         }
+
+        printf(
+            '<div class="notice notice-error"><p>%s</p></div>',
+            esc_html__( 'Acme Members Bridge needs WooCommerce and ArraySubs to be active and to meet their requirements.', 'acme-members' )
+        );
     }
 );
 
 function acme_members_init(): void {
-    // Runs on init priority 20: statuses are registered and translations can load.
+    // Read ArraySubs data from here on.
 }
 
 function acme_members_register_routes(): void {
-    // Register your REST routes here. See "Customer REST route with ownership" below.
+    // Register your REST routes here. See "Customer REST route with an ownership check".
 }
 ```
 
-Why each guard matters:
-
-- `Requires Plugins: woocommerce, arraysubs` stops WordPress 6.5 and later from activating your plugin without WooCommerce and ArraySubs. It does not prove ArraySubs booted, and older WordPress versions ignore it.
-- `did_action( 'arraysubs_after_boot' )` plus `class_exists()` prove that ArraySubs passed its own checks and loaded the API.
-- Add `arraysubspro` to `Requires Plugins` only when your plugin cannot work at all without Pro. Even then, check `Availability` at runtime, because a header cannot see the license or module switches.
-- Your `uninstall.php` removes only your own options and meta. ArraySubs data belongs to the merchant's store and stays when you uninstall.
-
-## Pass Identity and Context Explicitly
-
-ArraySubs never guesses who your code is acting for. Pass the subscription ID, user ID or order ID you mean, and decide the permission context yourself.
-
-| Where your code runs | Current WordPress user | What to pass |
-| --- | --- | --- |
-| A customer request (My Account page, your REST route) | The logged-in member | Read `get_current_user_id()` once at the boundary, then pass it as `as_user`. |
-| An admin screen or admin REST route | The administrator, not the member | The IDs from the record you are working on; check `manage_woocommerce` first. |
-| WP-Cron or Action Scheduler job | Usually none (ID 0) | The IDs stored in the job arguments. |
-| An ArraySubs hook callback | Whoever triggered it: a customer, an admin, a gateway webhook or the scheduler | The IDs in the hook arguments or event payload. |
-| A webhook from another service | None (ID 0) | Verify the sender yourself, then map its identifier to a WordPress user or subscription ID. |
-| WP-CLI | None, unless `--user` is passed | The IDs given on the command line. |
-
-### Never rely on the logged-in member in background work
-
-Renewals, retries and scheduled cancellations run from the scheduler, where nobody is logged in. An admin bulk action runs as the admin. Code that calls `get_current_user_id()` deep inside a sync routine therefore acts on the wrong account or on nobody. Queue jobs with explicit IDs and re-read state inside the job (see the background job example below).
-
-The read-only readers follow the same rule: they are created for a context you choose, such as `MemberAccess::for_user( 45 )`, `MemberAccess::for_subscription( 123 )` or `MemberAccess::for_guest()`, and they never read or change the current visitor. See [Check Content Access](./member-access.md).
-
-### Use `as_user` at web boundaries
-
-Every read and mutation accepts an optional `as_user` (int):
-
-- ArraySubs enforces ownership: the subscription's customer must be that user, otherwise the call returns `forbidden`.
-- `data` output becomes customer-safe: private profile fields, feature types and internal fields are removed.
-- Ownership is never inferred from the customer you ask about. A query with `customer_id => 45` and no `as_user` is a trusted, admin-level read.
-
-Take the user ID from the authenticated session (`get_current_user_id()`), never from a request parameter, and only after you have confirmed the visitor is logged in.
-
-### Record who acted on changes
-
-Mutations require a `reason` (1 to 500 characters) and accept an `actor`. The default actor is `[ 'type' => 'integration', 'id' => get_current_user_id() ]`, which is user 0 in background jobs, so pass a label that makes the audit trail readable. Use `dry_run` to validate without writing:
-
-```php
-<?php
-if ( class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
-    $result = \ArraySubs\Api\Subscriptions::cancel(
-        123,
-        [
-            'when'    => 'end_of_period',
-            'reason'  => 'Membership ended in Acme LMS',
-            'actor'   => [ 'type' => 'integration', 'id' => 0, 'label' => 'Acme Members Bridge' ],
-            'dry_run' => true, // Validate only; nothing is written.
-        ]
-    );
-
-    if ( is_wp_error( $result ) ) {
-        error_log( 'Acme Members: cancellation would fail: ' . $result->get_error_code() );
-    }
-}
-```
-
-Mutation arguments and results are documented in [Find and Update Subscriptions](./subscriptions.md).
-
-## Make a Safe First Lookup
-
-### `Subscriptions::get()`
-
-```text
-ArraySubs\Api\Subscriptions::get( int|WP_Post $subscription, array $args = [] ): WP_Post|array|WP_Error
-```
-
-Reads one subscription. Accepts a subscription post ID or the `WP_Post` returned by `arraysubs_get_subscription()`.
-
-| Argument | Type | Default | Description |
-| --- | --- | --- | --- |
-| `output` | string | `object` | `object` returns the `WP_Post`. `data` returns a documented array. |
-| `fields` | string[] | Every group the caller may see | With `output => 'data'`: the field groups to include. |
-| `as_user` | int | not set | Enforce ownership by this user and return customer-safe data. |
-
-Field groups for `data` output (full schema in [Find and Update Subscriptions](./subscriptions.md)):
-
-| Group | Contains |
-| --- | --- |
-| `identity` | `id`, `number`, `created_at`, `parent_order_id` |
-| `status` | `status`, `status_label`, `has_access` |
-| `plan` | `product_id`, `variation_id`, `effective_product_id`, `product_name`, `quantity` |
-| `pricing` | `recurring_amount`, `currency`, `decimals`, `signup_fee`, `line_total`, `price_snapshot_at` |
-| `schedule` | `billing_interval`, `billing_period`, `start_at`, `next_payment_at`, `last_payment_at`, `end_at`, `completed_payments`, `auto_renew`, `gateway` |
-| `trial`, `recovery`, `cancellation`, `pending_switch` | Lifecycle blocks; see [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) |
-| `family`, `orders` | Box/bundle family and related order references |
-| `customer` | `customer_id`, `is_guest`, `email`, `first_name`, `last_name`, `billing`, `shipping` |
-| `modules` | Module blocks such as box, bundle and features (Pro blocks only while Pro is active) |
-
-Every data array includes `id` and `customer_id`, whatever groups you request. Dates are ISO 8601 UTC strings or `null`; money is a decimal string with `currency` and `decimals`.
-
-**Failure values:** `not_found` (404) when the ID is not a subscription; `forbidden` (403) when `as_user` does not own it; `invalid_argument` (400) for an unknown `output` value or field group. **Pagination:** single record. **Permission boundary:** trusted server code; pass `as_user` when the request comes from a customer. **Side effects:** Read only: no writes.
-
-```php
-<?php
-$subscription = \ArraySubs\Api\Subscriptions::get( 123 ); // WP_Post
-
-if ( ! is_wp_error( $subscription ) ) {
-    $summary = \ArraySubs\Api\Subscriptions::get(
-        $subscription,
-        [ 'output' => 'data', 'fields' => [ 'status', 'plan' ] ]
-    );
-}
-```
-
-### `Lifecycle::get_state()`
-
-```text
-ArraySubs\Api\Lifecycle::get_state( int|WP_Post $subscription, array $args = [] ): array|WP_Error
-```
-
-Returns the authoritative stored status plus the computed lifecycle phase. Use it instead of inferring access from a status label.
-
-| Argument | Type | Default | Description |
-| --- | --- | --- | --- |
-| `at` | string or int | now | Evaluation time: ISO 8601 with offset, `Y-m-d H:i:s` (UTC) or a Unix timestamp. |
-| `as_user` | int | not set | Enforce ownership by this user. |
-
-**Returns** an array with these top-level keys:
-
-| Key | Type | Description |
-| --- | --- | --- |
-| `subscription_id` | int | The subscription. |
-| `evaluated_at` | string | ISO 8601 UTC time of the evaluation. |
-| `status` | string | Stored status: `pending`, `trial`, `active`, `paused`, `on-hold`, `cancelled` or `expired`. |
-| `phase` | string | Computed: `pending`, `trial`, `active`, `renewal_due`, `grace`, `on_hold`, `paused`, `cancellation_scheduled`, `cancelled` or `expired`. |
-| `has_access` | bool | Whether the subscription currently entitles the member. |
-| `trial`, `renewal`, `grace`, `retry`, `cancellation`, `pause` | array | Detail blocks. |
-| `plan` | array | The current plan: `product_id`, `variation_id`, `quantity`, `recurring_amount`, `currency`, `billing_interval`, `billing_period`. |
-| `pending_switch` | array or null | A deferred plan switch, reported separately from the current plan. |
-
-```text
-'subscription_id' => 123
-'evaluated_at'    => '2026-10-18T09:30:00+00:00'
-'status'          => 'active'
-'phase'           => 'grace'
-'has_access'      => true
-'renewal'         => [ 'next_payment_at' => '2026-10-15T00:00:00+00:00', 'due' => true, 'pending_order_id' => 1003, ... ]
-'grace'           => [ 'in_grace' => true, 'stage' => 'before_on_hold', 'on_hold_at' => '2026-10-18T00:00:00+00:00', ... ]
-'plan'            => [ 'product_id' => 197, 'variation_id' => 0, 'quantity' => 1, 'recurring_amount' => '19.00', 'currency' => 'USD', ... ]
-'pending_switch'  => null
-```
-
-Every block is documented in [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md).
-
-**Failure values:** `not_found` (404), `forbidden` (403) when `as_user` does not own the subscription, `invalid_argument` (400) for an unreadable `at` value. **Pagination:** single record. **Permission boundary:** trusted server code; pass `as_user` for customer requests. **Side effects:** Read only: no writes. It never converts a trial, advances recovery, runs sweeps or attempts a payment.
-
-## Handle Errors Consistently
-
-Every API method returns `WP_Error` on failure. Check `is_wp_error()` after each call and branch on `get_error_code()`, never on the message text. `get_error_data()` is an array with `status` and, where relevant, `field`, `details`, `current`, `expected`, `retry_after` or `reason`.
-
-| Code | Status | Meaning | Typical handling |
-| --- | --- | --- | --- |
-| `invalid_argument` | 400 | Bad input type or format, unknown field or filter, out-of-range value. | Fix the calling code. |
-| `not_found` | 404 | The subscription, order, customer, product or feature does not exist. | Expected at runtime; stop or clean up your own data. |
-| `ambiguous_match` | 409 | A singular lookup matched several records (`details` lists up to 10 IDs). | Ask for a more specific identifier. |
-| `forbidden` | 403 | `as_user` ownership failed, or a customer context asked for private data. | Answer customers exactly as for `not_found`. |
-| `unsupported_operation` | 422 | Not allowed for this record or state, such as billing a box child (`billing_owner_id` in data). | Run the operation on the record named in the data, or not at all. |
-| `unsupported_entity` | 422 | The reader does not support this entity, such as a non-subscription product. | Filter inputs before calling. |
-| `module_unavailable` | 503 | Pro missing, license inactive, or module or setting off (`reason` in data). | Skip the feature and record the reason. |
-| `validation_failed` | 422 | Domain validation failed (`details` lists field errors). | Show or log the field errors. |
-| `conflict` | 409 | Expected state did not match, a pending plan switch is frozen, a concurrent change happened, or an idempotency key was reused with different parameters (`current`, `expected`). | Re-read, then decide whether to retry. |
-| `provider_rejected` | 502 | The payment provider (PayPal, Paddle, Stripe) refused the change. | Do not retry blindly; report it. |
-| `feature_usage_busy` | 429 | Feature usage lock contention (`retry_after`). | Retry after `retry_after`. |
-| `insufficient_credit` | 422 | Debit larger than the available Store Credit bucket. | Lower the amount or stop. |
-| `currency_mismatch` | 422 | Amount currency differs from the credit currency. | Use the store currency. |
-
-An empty collection is not an error: its `items` is an empty array.
-
-### One error helper for your plugin
-
-Log the full error server side with the WooCommerce logger (**WooCommerce -> Status -> Logs**, source `acme-members`):
-
-```php
-<?php
-function acme_members_log_error( WP_Error $error, string $context ): void {
-    $data   = $error->get_error_data();
-    $status = is_array( $data ) && isset( $data['status'] ) ? (int) $data['status'] : 0;
-
-    $message = sprintf(
-        '%s: %s (%s, status %d)',
-        $context,
-        $error->get_error_message(),
-        $error->get_error_code(),
-        $status
-    );
-
-    if ( function_exists( 'wc_get_logger' ) ) {
-        wc_get_logger()->warning( $message, [ 'source' => 'acme-members' ] );
-    } else {
-        error_log( 'acme-members: ' . $message );
-    }
-}
-```
-
-## Trusted Server Code and Your Own Web Boundaries
-
-The PHP API trusts its caller, like WordPress functions such as `wp_update_post()`. It does not check capabilities, nonces or who is logged in. That keeps it usable from cron jobs, WP-CLI and webhooks, and it makes your REST routes, AJAX handlers and forms responsible for permissions.
-
-| Check | Admin endpoint | Customer endpoint |
-| --- | --- | --- |
-| Authentication | Logged in | Logged in |
-| Capability | `current_user_can( 'manage_woocommerce' )` | None beyond login; ownership decides |
-| Nonce | REST with cookie auth: send a `wp_rest` nonce in `X-WP-Nonce`. AJAX: `check_ajax_referer()`. Forms: `wp_nonce_field()` with `check_admin_referer()` or `wp_verify_nonce()`. | Same |
-| Ownership | Not needed; record the admin as the `actor` on changes | Pass `as_user => get_current_user_id()` |
-| Input | Validate with route `args`, `absint()` and sanitizers | Same; never accept a user ID from the request as the identity |
-| Output | Admin data is acceptable | `output => 'data'` with `as_user`; replace ArraySubs errors with your own generic messages |
-
-- WordPress verifies the `wp_rest` nonce for cookie-authenticated REST requests. Without it, the request runs as logged out; with an invalid nonce WordPress returns `rest_cookie_invalid_nonce` (403).
-- Requests authenticated with Application Passwords need no nonce, but capability checks still apply.
-- Never use `__return_true` as the `permission_callback` of a route that returns subscription or member data.
-
-## Examples
+- `Requires Plugins: woocommerce, arraysubs` stops WordPress 6.5 and later from activating your plugin without WooCommerce and ArraySubs. It does not prove that ArraySubs booted, and older WordPress versions ignore it.
+- `did_action( 'arraysubs_after_boot' )` with `class_exists()` proves that ArraySubs passed its own checks and loaded the API.
+- Add `arraysubspro` to `Requires Plugins` only when your plugin cannot work without Pro. Even then, check availability at runtime: a header cannot see the license or the module switches.
 
 ### First lookup with failure handling
 
-A minimal working read: a guarded function that returns a short summary or a `WP_Error`, and a caller that handles both.
+A guarded function that returns a short summary or a `WP_Error`, and a caller that handles both.
 
 ```php
 <?php
-function acme_members_get_summary( int $subscription_id ): array|WP_Error {
-    if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) || ! class_exists( '\ArraySubs\Api\Lifecycle' ) ) {
+/**
+ * Returns a short summary of one subscription, or a WP_Error.
+ */
+function acme_members_subscription_summary( int $subscription_id ): array|WP_Error {
+    if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
         return new WP_Error( 'acme_members_arraysubs_missing', 'ArraySubs is not loaded.' );
     }
 
-    if ( $subscription_id <= 0 ) {
-        return new WP_Error( 'acme_members_invalid_id', 'A positive subscription ID is required.' );
-    }
-
-    $subscription = \ArraySubs\Api\Subscriptions::get( $subscription_id ); // WP_Post by default.
+    $subscription = \ArraySubs\Developer\Subscriptions::fromId( $subscription_id );
     if ( is_wp_error( $subscription ) ) {
-        return $subscription;
+        return $subscription; // not_found
     }
 
-    $state = \ArraySubs\Api\Lifecycle::get_state( $subscription ); // Read only.
-    if ( is_wp_error( $state ) ) {
-        return $state;
+    $data = $subscription->data( [ 'identity', 'status', 'plan', 'schedule' ] );
+    if ( is_wp_error( $data ) ) {
+        return $data; // invalid_field for a misspelled group name.
     }
 
     return [
-        'subscription_id' => $subscription->ID,
-        'status'          => $state['status'],     // Stored status, for example 'active'.
-        'phase'           => $state['phase'],      // Computed phase, for example 'grace'.
-        'has_access'      => $state['has_access'],
-        'product_id'      => $state['plan']['product_id'],
-        'next_payment_at' => $state['renewal']['next_payment_at'], // ISO 8601 UTC or null.
+        'id'              => $data['identity']['id'],
+        'customer_id'     => $data['identity']['customer_id'],          // null for a guest subscription.
+        'status'          => $data['status']['stored'],                 // For example 'arraysubs-active'.
+        'has_access'      => $data['status']['has_view_entitlement'],
+        'product'         => $data['plan']['name'],
+        'next_payment_at' => $data['schedule']['next_payment_at'],      // UTC Unix timestamp or null.
     ];
 }
 
-$summary = acme_members_get_summary( 123 );
+$summary = acme_members_subscription_summary( 123 );
 
 if ( is_wp_error( $summary ) ) {
     if ( 'not_found' === $summary->get_error_code() ) {
         // Wrong ID, or the subscription was deleted: remove your own copy of it.
-    } else {
-        acme_members_log_error( $summary, 'summary for subscription 123' );
+    } elseif ( function_exists( 'wc_get_logger' ) ) {
+        wc_get_logger()->warning(
+            $summary->get_error_code() . ': ' . $summary->get_error_message(),
+            [ 'source' => 'acme-members' ]
+        );
     }
 } elseif ( $summary['has_access'] ) {
     // Grant your plugin's benefit.
 }
 ```
 
-### Customer REST route with ownership
+`has_view_entitlement` is `true` when the stored status is one that grants content access. For a cancelled subscription the summary looks like `'status' => 'arraysubs-cancelled'`, `'has_access' => false`, `'next_payment_at' => null`. Read-only: no writes.
 
-`GET /wp-json/acme-members/v1/my-subscriptions/123` returns a customer-safe summary only when the logged-in member owns subscription 123. It replaces the `acme_members_register_routes()` stub from the skeleton.
+### Page through a customer's subscriptions
+
+Follow `has_more` and `next_page` until the last page. This collects the IDs of a customer's active and trial subscriptions:
+
+```php
+<?php
+/**
+ * Returns the IDs of a customer's active and trial subscriptions, reading 50 per page.
+ */
+function acme_members_active_subscription_ids( int $customer_id ): array|WP_Error {
+    $ids  = [];
+    $page = 1;
+
+    do {
+        $result = \ArraySubs\Developer\Subscriptions::fromUserId(
+            $customer_id,
+            [
+                'statuses' => [ 'arraysubs-active', 'arraysubs-trial' ],
+                'output'   => 'ids',
+                'page'     => $page,
+                'per_page' => 50,
+            ]
+        );
+        if ( is_wp_error( $result ) ) {
+            return $result; // invalid_query, for example for customer ID 0.
+        }
+
+        $ids  = array_merge( $ids, $result['items'] );
+        $page = $result['next_page']; // null on the last page.
+    } while ( $result['has_more'] );
+
+    return $ids;
+}
+```
+
+With `per_page` 2, the first page of that query looks like `[ 'items' => [ 1001, 1002 ], 'page' => 1, 'per_page' => 2, 'has_more' => true, 'next_page' => 2 ]`. A customer without matching subscriptions returns an empty array, and customer ID `0` returns `invalid_query`. Read-only: no writes.
+
+### Check Pro-backed calls before you use them
+
+Each Pro-backed domain reports its own availability, so test the value that belongs to the call you are about to make:
+
+```php
+<?php
+/**
+ * Reports which Pro-backed parts of the API work on this site right now.
+ */
+function acme_members_pro_report( int $customer_id, int $product_id ): array {
+    $report = [
+        'profile_fields'        => false,
+        'feature_config_update' => false,
+        'login_limits'          => false,
+        'store_credit'          => '',
+    ];
+
+    $customer = \ArraySubs\Developer\Customer::fromUserId( $customer_id );
+    if ( ! is_wp_error( $customer ) ) {
+        $data                     = $customer->data( [ 'profile' ] );
+        $report['profile_fields'] = ! is_wp_error( $data ) && $data['profile']['available'];
+    }
+
+    $features = \ArraySubs\Developer\Features::forProduct( $product_id );
+    if ( ! is_wp_error( $features ) ) {
+        $data                            = $features->data( [ 'availability' ] );
+        $report['feature_config_update'] = ! is_wp_error( $data ) && $data['availability']['configuration_updates'];
+    }
+
+    $limits = \ArraySubs\Developer\LoginLimits::fromUserId( $customer_id );
+    if ( ! is_wp_error( $limits ) ) {
+        $data                   = $limits->data( [ 'availability' ] );
+        $report['login_limits'] = ! is_wp_error( $data ) && $data['availability']['available'];
+    }
+
+    $credit = \ArraySubs\Developer\StoreCredit::fromCustomerId( $customer_id );
+    $data   = is_wp_error( $credit ) ? $credit : $credit->data( [ 'available' ] );
+    if ( is_wp_error( $data ) ) {
+        $report['store_credit'] = $data->get_error_code(); // For example store_credit_unavailable.
+    } else {
+        $report['store_credit'] = $data['available'] ? 'available' : 'read_only';
+    }
+
+    return $report;
+}
+```
+
+With Pro licensed and every module on, the report is `profile_fields`, `feature_config_update` and `login_limits` all `true`, with `store_credit` `available`. Without Pro, or while its license is inactive, they are all `false` and `store_credit` is `store_credit_unavailable`. `feature_config_update` does not include the `manage_woocommerce` check that `updateConfiguration()` also makes. Read-only: no writes.
+
+### Customer REST route with an ownership check
+
+`GET /wp-json/acme-members/v1/my-subscriptions/123` returns a short summary only when the logged-in member owns subscription 123. The skeleton above already hooks `acme_members_register_routes()` to `rest_api_init`; this replaces its stub.
 
 ```php
 <?php
@@ -647,167 +537,104 @@ function acme_members_register_routes(): void {
                     'sanitize_callback' => 'absint',
                 ],
             ],
-            'callback'            => 'acme_members_rest_get_my_subscription',
+            'callback'            => 'acme_members_rest_my_subscription',
         ]
     );
 }
 
-function acme_members_rest_get_my_subscription( WP_REST_Request $request ) {
-    if ( ! class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
+function acme_members_rest_my_subscription( WP_REST_Request $request ) {
+    // One answer for "missing" and "not yours", so other members' IDs are never confirmed.
+    $not_found = new WP_Error( 'acme_members_not_found', __( 'Subscription not found.', 'acme-members' ), [ 'status' => 404 ] );
+
+    if ( ! class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
         return new WP_Error( 'acme_members_unavailable', __( 'Subscriptions are unavailable right now.', 'acme-members' ), [ 'status' => 503 ] );
     }
 
-    $data = \ArraySubs\Api\Subscriptions::get(
-        (int) $request['id'],
+    $subscription = \ArraySubs\Developer\Subscriptions::fromId( (int) $request['id'] );
+    if ( is_wp_error( $subscription ) ) {
+        return $not_found;
+    }
+
+    $data = $subscription->data( [ 'identity', 'status', 'plan' ] );
+    if ( is_wp_error( $data ) ) {
+        return $not_found;
+    }
+
+    // The API does not check ownership: compare with the logged-in user, never with a request value.
+    if ( $data['identity']['customer_id'] !== get_current_user_id() ) {
+        return $not_found;
+    }
+
+    return rest_ensure_response(
         [
-            'output'  => 'data',
-            'fields'  => [ 'identity', 'status', 'plan' ],
-            'as_user' => get_current_user_id(), // Identity from the session, never from the request.
+            'id'      => $data['identity']['id'],
+            'status'  => $data['status']['stored'],
+            'product' => $data['plan']['name'],
         ]
     );
-
-    if ( is_wp_error( $data ) ) {
-        return acme_members_to_rest_error( $data );
-    }
-
-    return rest_ensure_response( $data );
-}
-
-function acme_members_to_rest_error( WP_Error $error ): WP_Error {
-    $data   = $error->get_error_data();
-    $status = is_array( $data ) && isset( $data['status'] ) ? (int) $data['status'] : 500;
-
-    switch ( $error->get_error_code() ) {
-        case 'not_found':
-        case 'forbidden':
-            // One answer for "missing" and "not yours", so other members' IDs are never confirmed.
-            return new WP_Error( 'acme_members_not_found', __( 'Subscription not found.', 'acme-members' ), [ 'status' => 404 ] );
-
-        case 'invalid_argument':
-        case 'validation_failed':
-            return new WP_Error( 'acme_members_invalid', __( 'The request is not valid.', 'acme-members' ), [ 'status' => $status ] );
-
-        case 'module_unavailable':
-            return new WP_Error( 'acme_members_unavailable', __( 'This feature is not available right now.', 'acme-members' ), [ 'status' => 503 ] );
-
-        case 'conflict':
-            return new WP_Error( 'acme_members_retry', __( 'The subscription changed. Reload and try again.', 'acme-members' ), [ 'status' => 409 ] );
-    }
-
-    acme_members_log_error( $error, 'REST my-subscriptions' );
-
-    return new WP_Error( 'acme_members_error', __( 'Something went wrong. Please try again later.', 'acme-members' ), [ 'status' => 500 ] );
 }
 ```
 
-Call it from your front end with the logged-in session and a `wp_rest` nonce (for example `wp_create_nonce( 'wp_rest' )` passed to your script and sent as `X-WP-Nonce`). For an admin route, use `current_user_can( 'manage_woocommerce' )` as the permission check instead of ownership.
-
-### Background job with explicit IDs
-
-React to an ArraySubs lifecycle event by queueing a job that carries the subscription and member IDs, then re-read the authoritative state inside the job. Action Scheduler ships with WooCommerce. The job uses `acme_members_log_error()` from above.
-
-```php
-<?php
-add_action( 'arraysubs_lifecycle_event', 'acme_members_queue_sync', 10, 2 );
-
-function acme_members_queue_sync( string $event, array $payload ): void {
-    $subscription_id = isset( $payload['subscription_id'] ) ? (int) $payload['subscription_id'] : 0;
-    $member_id       = isset( $payload['user_id'] ) ? (int) $payload['user_id'] : 0; // 0 for guest subscriptions.
-
-    if ( $subscription_id > 0 && $member_id > 0 && function_exists( 'as_enqueue_async_action' ) ) {
-        // Unique job: a burst of events for one subscription queues one sync.
-        as_enqueue_async_action( 'acme_members_sync_subscription', [ $subscription_id, $member_id ], 'acme-members', true );
-    }
-}
-
-add_action( 'acme_members_sync_subscription', 'acme_members_sync_subscription', 10, 2 );
-
-function acme_members_sync_subscription( int $subscription_id, int $member_id ): void {
-    if ( ! class_exists( '\ArraySubs\Api\Lifecycle' ) ) {
-        return;
-    }
-
-    // Nobody is logged in here. Ownership is checked against the member ID from the job.
-    $state    = \ArraySubs\Api\Lifecycle::get_state( $subscription_id, [ 'as_user' => $member_id ] );
-    $meta_key = 'acme_members_access_' . $subscription_id; // Your own meta, never ArraySubs meta.
-
-    if ( is_wp_error( $state ) ) {
-        if ( in_array( $state->get_error_code(), [ 'not_found', 'forbidden' ], true ) ) {
-            delete_user_meta( $member_id, $meta_key ); // Deleted, or no longer this member's subscription.
-            return;
-        }
-
-        acme_members_log_error( $state, 'sync subscription ' . $subscription_id );
-        return;
-    }
-
-    update_user_meta( $member_id, $meta_key, $state['has_access'] ? 'yes' : 'no' );
-}
-```
-
-Events can arrive late, twice or out of order, which is why the job reads the current state instead of trusting the event. Each payload also carries a durable `event_id` for deduplication; see [React to Supported Events](./actions-and-filters.md).
+The owner gets HTTP 200 with `id`, `status` and `product`. Another logged-in user, a guest subscription (its `customer_id` is `null`) and a missing ID all get the same 404, and a logged-out request gets WordPress's 401 `rest_forbidden`. Send a `wp_rest` nonce in `X-WP-Nonce` with cookie-authenticated requests; without it WordPress treats the request as logged out. For an admin route, check `current_user_can( 'manage_woocommerce' )` in `permission_callback` instead of comparing owners.
 
 ## Edge Cases and Important Notes
 
 - **`ARRAYSUBS_VERSION` does not mean ArraySubs booted.** It is defined even when WooCommerce is missing. Use `did_action( 'arraysubs_after_boot' )` and `class_exists()`.
-- **`class_exists()` on an `ArraySubsPro\Api\` class is not a license check.** Pro classes autoload whenever Pro passes its own checks; while the license is inactive or the module is off, their methods return `module_unavailable`.
-- **The license is tied to the site's domain.** A copy of the store on another domain (for example a staging site) reports `license_inactive` until a license is activated for that domain. See [License Activation](../getting-started/license-activation.md).
-- **Do not cache availability across requests.** License and module changes take effect on the next request; evaluate `Availability` where you need it.
-- **Unavailable does not always mean unreadable.** Some domains keep reading retained data while their module is off, for example Store Credit balances and history. Each reference page states its own module-off behavior.
-- **Module switches default to on.** `arraysubs_is_module_enabled()` returns `true` for a module the merchant never saved.
-- **Status values are simple names in the API** (`active`, `on-hold`), stored as `arraysubs-<name>` post statuses. Never write post status or meta directly; use the lifecycle operations.
-- **Guest subscriptions** have `customer_id` 0. No logged-in user can own them through `as_user`, so customer routes never expose them.
-- **Deactivating ArraySubs** leaves its data in place. Your guards keep your plugin idle; your jobs should check `class_exists()` before calling the API, as the examples do.
+- **`class_exists()` on an `ArraySubsPro\` class is not a license check.** Pro's classes load whenever Pro boots, licensed or not. Use the availability values above.
+- **Do not cache availability across requests.** A license or module change applies from the next request.
+- **Some factories return a page or an array.** `Subscriptions::fromUserId()` and `fromOrderId()` return a page, and `Customer::fromSubscriptionId()` returns an identity array for guest subscriptions. Check `instanceof \ArraySubs\Developer\Customer` before you call `Customer` methods.
+- **Guest subscriptions** have `identity.customer_id` `null` and `identity.guest` `true`. No member owns them, the member readers' `fromSubscriptionId()` returns `invalid_customer` for them, and `StoreCredit::fromSubscriptionId()` returns `invalid_credit_customer`.
+- **A user ID of 0 is a guest context for the member readers**, which then answer for a logged-out visitor. Other factories need a positive ID.
+- **Never write ArraySubs post meta directly.** The update methods validate, take locks, update the payment gateway where needed and reschedule billing jobs; for example, `setNextPaymentDate()` moves the scheduled renewal jobs too.
+- **Deactivating ArraySubs leaves its data in place.** Keep `class_exists()` guards in background jobs, as the examples do.
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 | --- | --- | --- |
-| Fatal error `Class "ArraySubs\Api\Subscriptions" not found` | Your code runs at include time, before ArraySubs boots, or ArraySubs did not boot | Guard with `class_exists()` and call from `arraysubs_after_boot` or later. |
-| Your boot function never runs right after activation | The activation request includes your file after `arraysubs_after_boot` fired | Use the `did_action( 'arraysubs_after_boot' )` pattern from the skeleton. |
-| Code in a theme's `functions.php` never runs on `arraysubs_after_boot` | Themes load after `plugins_loaded` | Move the code to a plugin, or check `did_action()` and use `init`. |
-| ArraySubs shows "Additional plugins are required" and your notice appears | WooCommerce is missing or older than 9.0, or PHP or WordPress is below the minimum | Meet the requirements in [Before You Launch](../getting-started/before-you-launch.md). |
-| `module_unavailable` with `reason` `pro_missing` | ArraySubs Pro is not active, or did not pass its own checks | Activate Pro or skip the Pro feature. |
-| `module_unavailable` with `reason` `license_inactive` | The Pro license is missing, expired or activated for another domain | Activate the license for this domain. |
-| `module_unavailable` with `reason` `module_disabled` | The module is switched off | Switch it on in **ArraySubs -> Modules**. |
-| `forbidden` for a member's own subscription | The subscription belongs to another account or was bought as a guest | Compare the subscription's `customer_id` with the user ID you passed as `as_user`. |
+| Fatal error `Class "ArraySubs\Developer\Subscriptions" not found` | Your code runs before `plugins_loaded` priority 10, or ArraySubs did not boot | Guard with `class_exists()` and call the API from `init` or later. |
+| Your boot callback never runs | It was added to `arraysubs_after_boot` after the action fired (a theme, or the activation request) | Use the `did_action( 'arraysubs_after_boot' )` pattern from the skeleton. |
+| ArraySubs shows "ArraySubs is not activated, Additional plugins are required:" | WooCommerce is missing or older than 9.0, or PHP or WordPress is below the minimum | Meet the requirements in [Before You Launch](../getting-started/before-you-launch.md). |
+| A `statuses` filter is ignored and every status comes back | The query ran before `init` registered the statuses | Call it from `init` priority 11 or later. |
+| `arraysubs_not_ready` | A `StoreCredit` call ran before `wp_loaded` | Call it from `wp_loaded` or later. |
+| `store_credit_unavailable` | Pro is inactive or unlicensed, or `adjust()` ran with the `store_credit` module off | Activate Pro and its license, or switch the module on in **ArraySubs -> Modules**. |
+| `profile.available` is `false`, or profile calls return `unavailable` | Pro is unlicensed, the `profile_builder` module is off, or the **Enable custom profile fields** setting is off | Activate the license, switch the module on and turn the setting on. |
+| `forbidden` from `updateConfiguration()` in WP-CLI or cron | No current user with `manage_woocommerce` | Run it as a shop manager or administrator, for example with WP-CLI `--user`. |
+| `forbidden` from `Product::fromId()` | The product is not published and the current user cannot read it | Publish it, or call as a user who can read it. |
+| `invalid_query` | `per_page` above 100, `page` below 1, or an unknown option | Correct the arguments. |
+| `invalid_field` | A misspelled field group | Use the group names from [Select field groups](#select-field-groups). |
+| `subscription_conflict` or `conflict` | Your `$expected` values are stale, or another request is updating the record | Read the record again, then decide whether to retry. |
 | Logged-in members get a 401 from your REST route | The request has no `X-WP-Nonce`, so WordPress treats it as logged out | Send a `wp_rest` nonce with cookie-authenticated requests. |
-| Status-based results look wrong or empty during plugin load | The query ran before ArraySubs registered its statuses on `init` | Move the call to `init` priority 11 or later. |
-| "Translation loading was triggered too early" notice | Translated ArraySubs strings were requested before `init` | Move the call to `init` or later. |
-| A background job updates the wrong member, or nobody | It used `get_current_user_id()` in a cron or scheduler context | Pass IDs as job arguments. |
+| A background job updates the wrong member, or nobody | It used `get_current_user_id()` in a scheduler or cron context | Pass IDs as job arguments. |
 
 ## Related Guides
 
-- [Developers](./README.md) - every class, its operations and its edition.
-- [Find and Update Subscriptions](./subscriptions.md) - queries, data output, updates, lifecycle operations and deletion.
-- [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) - phases, grace, trials and pending plan switches.
-- [React to Supported Events](./actions-and-filters.md) - lifecycle events and native hooks.
+- [Developers](./README.md) - the section overview.
+- [Find and Update Subscriptions](./subscriptions.md) - queries, data groups, updates and status changes.
+- [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) - trials, grace, pauses, cancellations and dates.
+- [React to Supported Events](./actions-and-filters.md) - lifecycle events and other hooks.
 - [Extend ArraySubs with a Module](./addon-modules.md) - register your plugin as a module with its own switch.
-- [Verify Your Integration](./errors-and-testing.md) - error, permission and concurrency testing.
+- [Verify Your Integration](./errors-and-testing.md) - error handling and staging tests.
 - [Before You Launch](../getting-started/before-you-launch.md) and [License Activation](../getting-started/license-activation.md) - merchant setup.
 
 ## FAQ
 
 ### Do I need ArraySubs Pro to use the developer API?
 
-No. Subscriptions, lifecycle, relationships, orders, customers, products, Feature Manager reads and usage, Member Access, downloads, discounts, member styling and events are core. Pro, with an active license, is needed for profile fields, login limits, Store Credit and Feature Manager configuration updates.
+No. Subscriptions, orders, customers, products, Feature Manager reads and usage, member access, downloads, discounts and member styling work in core. Pro with an active license adds profile fields, Feature Manager configuration updates, login limits and Store Credit.
 
-### Does the PHP API check the current user's permissions?
+### Does the API check the current user's permissions?
 
-No. It is trusted server code. Check capabilities, nonces and ownership in your own endpoints, and pass `as_user` for customer requests.
-
-### Can I put the integration in my theme's `functions.php`?
-
-It works only if you avoid `arraysubs_after_boot` (it has already fired when themes load) and call the API from `init` or later. A plugin is the better home: it keeps working when the theme changes and can declare `Requires Plugins`.
+Only in the few places listed under [Permissions and Identity](#permissions-and-identity). Check capabilities, nonces and ownership in your own endpoints.
 
 ### Can I call the API from WP-CLI or a cron job?
 
-Yes. Both run after ArraySubs boots. No member is logged in, so pass the subscription and user IDs explicitly.
+Yes. Both run after ArraySubs boots. Nobody is logged in, so pass subscription and user IDs explicitly, and run `updateConfiguration()` as a user who can `manage_woocommerce`.
 
-### Will an ArraySubs update break my integration?
+### Can I put the integration in my theme's `functions.php`?
 
-Not if you use only `ArraySubs\Api\` and `ArraySubsPro\Api\` classes, the documented `arraysubs_*` functions and documented hooks, and keep your code in your own plugin. Other namespaced ArraySubs classes are internal and can change in any update.
+It works if you check `did_action( 'arraysubs_after_boot' )` (it has already fired when themes load) and call the API from `init` or later. A plugin is the better home: it keeps working when the theme changes and can declare `Requires Plugins`.
 
 ### Should I read subscription meta directly?
 
-No. Use `Subscriptions::get()` with `output => 'data'` and `Lifecycle::get_state()`. They return documented, timezone-explicit values and stay consistent with grace, trial and plan-switch rules that raw meta does not show.
+No. `Subscriptions->data()` returns documented groups with UTC timestamps, verified family and order links, and gateway billing-clock information that raw meta does not show.

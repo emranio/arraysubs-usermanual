@@ -1,7 +1,7 @@
 # Info
 - Module: Payment and Shipping Actions
 - Availability: Shared
-- Last updated: 2026-09-02
+- Last updated: 2026-10-18
 
 # Payment and Shipping Actions
 
@@ -20,7 +20,7 @@
 
 ## Overview
 
-The subscription detail page includes payment and shipping controls that help customers keep their billing and delivery information up to date. The free plugin provides a link to manage payment methods and a shipping address update form. The Pro plugin adds gateway-specific card details, an auto-renew toggle, and enhanced payment method update flows.
+The subscription detail page includes payment and shipping controls that help customers keep their billing and delivery information up to date. The free plugin provides a link to manage payment methods, a shipping address update form, and, for subscriptions paid through an automatic payment gateway, the card on file, an auto-renew toggle, and the gateway's payment method update flow. The Pro plugin adds plan-based shipping rules.
 
 ## When to Use This
 
@@ -34,7 +34,8 @@ Refer to this guide when:
 
 - ArraySubs installed and active
 - The subscription must have an associated payment method or shipping address
-- For Pro features: ArraySubs Pro installed and active with an automatic payment gateway configured
+- For card details and the auto-renew toggle: an automatic payment gateway configured
+- For plan-based shipping rules: ArraySubs Pro installed and active
 
 ---
 
@@ -62,9 +63,9 @@ If no payment method is set and the subscription is in a non-active status (such
 
 ---
 
-## Card on File Details **Pro**
+## Card on File Details
 
-With the Pro plugin active and an automatic payment gateway (such as Stripe, PayPal, Paddle, or Mollie) configured, the subscription detail page displays additional card-on-file information directly below the payment method row.
+With an automatic payment gateway (such as Stripe, PayPal, Paddle, or Mollie) configured, the subscription detail page displays additional card-on-file information directly below the payment method row.
 
 ### What the Customer Sees
 
@@ -92,14 +93,13 @@ The **Update payment method** link only appears for gateways that support paymen
 
 ---
 
-## Auto-Renew Toggle **Pro**
+## Auto-Renew Toggle
 
 The auto-renew toggle lets customers control whether their subscription renews automatically or switches to manual invoice mode.
 
 ### When It Appears
 
 The toggle appears in the **Renewals** row immediately after **Recurring Amount** when all of these are true:
-- The Pro plugin is active
 - The **auto-renew toggle** is enabled globally: **General Settings → Automatic Payments → Allow Auto-Renew Toggle**
 - The subscription has an automatic payment gateway configured
 - The subscription status is **Active**, **On-Hold**, or **Trial**
@@ -134,7 +134,7 @@ The behavior also depends on the payment gateway:
 When auto-renew is off and the customer clicks the toggle to re-enable it:
 
 - If the existing payment method is still valid, auto-renew is turned back on.
-- If the payment method has expired or been removed, the toggle shows an error message: **"Auto-renew is off. To turn it back on, refresh your payment method or billing authorization first."** The customer needs to update their payment method before automatic billing can resume. See [Card on File Details](#card-on-file-details-pro) above.
+- If the payment method has expired or been removed, the toggle shows an error message: **"Auto-renew is off. To turn it back on, refresh your payment method or billing authorization first."** The customer needs to update their payment method before automatic billing can resume. See [Card on File Details](#card-on-file-details) above.
 
 ```box class="warning-box"
 Turning off auto-renew does **not** cancel the subscription. The subscription remains active and renewals continue — but the customer must pay each renewal invoice manually. If the customer does not pay, the standard grace period applies.
@@ -227,7 +227,7 @@ When a customer changes plans, Pro Subscription Shipping follows the target plan
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| Customer does not see card-on-file details | The subscription does not use an automatic payment gateway, or the Pro plugin is not active | Verify the payment gateway type and check that ArraySubs Pro is installed |
+| Customer does not see card-on-file details | The subscription does not use an automatic payment gateway, or no payment method is stored on it | Verify the payment gateway type and that the subscription's **Payment Gateway** card shows a card on file |
 | Auto-renew toggle is missing | The toggle is disabled in settings, the subscription uses a manual gateway, or the subscription is in a non-eligible status | Check **General Settings → Automatic Payments → Allow Auto-Renew Toggle** and the payment gateway type |
 | Customer cannot turn auto-renew back on | The stored payment method has expired or been removed | The customer needs to update their payment method first using the gateway's update flow |
 | Shipping update button is hidden | The next payment is within 3 days, or the subscription is in a non-eligible status | Check the next payment date relative to today. The cutoff period blocks updates close to renewal |

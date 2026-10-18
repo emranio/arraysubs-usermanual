@@ -57,7 +57,7 @@ In addition, every product inside the box that is itself a **subscription produc
 Those child subscriptions never bill on their own. The box subscription is their billing owner: every status change on the box (pause, on hold, cancellation, expiry, reactivation) is copied to them, and their next payment date, last payment date, and payment count are refreshed each time a box renewal is paid. Customers cannot manage them separately, so manage billing, pause, skip, and cancellation on the box subscription.
 
 ```box class="warning-box"
-**Deleting a box subscription.** Deleting it from the **ArraySubs -> Subscriptions** list keeps the included subscriptions by design: they stay in the admin and customer lists, still pointing at the deleted box, and stop following it. A developer deleting through the ArraySubs API (`Subscriptions::delete()` or `arraysubs_delete_subscription()`) removes them with the box. Deletion is permanent either way, and linked orders are never deleted. See [Deleting a Subscription](../manage-subscriptions/subscription-operations.md#deleting-a-subscription).
+**Deleting a box subscription.** Deleting it from the **ArraySubs -> Subscriptions** list keeps the included subscriptions by design: they stay in the admin and customer lists, still pointing at the deleted box, and stop following it. A developer deleting through the ArraySubs API (`\ArraySubs\Developer\Subscriptions::fromId( $id )->delete()` or `arraysubs_delete_subscription()`) removes them with the box. Deletion is permanent either way, and linked orders are never deleted. See [Deleting a Subscription](../manage-subscriptions/subscription-operations.md#deleting-a-subscription).
 ```
 
 ```box class="info-box"
