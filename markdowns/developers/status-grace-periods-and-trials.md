@@ -375,7 +375,7 @@ These actions fire synchronously in the request that makes the change; for a Dev
 | `arraysubs_data_waiting_cancellation` | `int $subscription_id, string $reason` | An end-of-period cancellation was scheduled. |
 | `arraysubs_data_cancellation_undone` | `int $subscription_id` | A scheduled cancellation was removed. |
 | `arraysubs_data_cancelled` | `int $subscription_id, WP_Post $subscription, string $cancel_type` | A cancellation took effect: `immediate` or `end_of_period`. After an immediate cancellation the `WP_Post` was read before the status change, so re-read the subscription for its current state. |
-| `arraysubs_data_cancelled_overdue` | `int $subscription_id` | The overdue run cancelled it for non-payment. |
+| `arraysubs_data_cancelled_overdue` | `int $subscription_id, int $overdue_order_id` | The overdue run cancelled it for non-payment. `$overdue_order_id` is the unpaid renewal order that ran out of grace, or `0`. |
 | `arraysubs_pending_switch_cleared` | `int $subscription_id, ?array $previous, string $reason` | A pending plan switch was removed; `$reason` is `cancellation` when a cancellation removed it. |
 | `arraysubs_renewal_payment_failed` | `int $subscription_id, int $order_id, string $error_message` | A renewal charge failed; `$order_id` is `0` when no renewal order could be created. |
 | `arraysubs_payment_retry_scheduled` | `WP_Post $subscription, int $attempt, int $retry_at, int $action_id` | An automatic retry was scheduled. |

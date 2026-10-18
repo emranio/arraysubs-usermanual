@@ -112,7 +112,7 @@ do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 | `grace_entered` | after `renewal_failed` or an unpaid attempt result | The due date has passed and the subscription is still active or trial. | `order_id` |
 | `grace_recovered` | `arraysubs_grace_recovered` | A paid renewal recovers an on-hold subscription, or one whose payment failed after the order was created. | `order_id`, `is_renewal` |
 | `grace_changed` | `arraysubs_grace_terms_updated`, `arraysubs_settings_updated` | `Subscriptions::setGracePolicy()` changes this subscription's grace days, or the site grace settings change for active, trial and on-hold subscriptions that inherit them. | `previous_grace_days_before_on_hold`, `grace_days_before_on_hold`, `previous_grace_days_before_cancel`, `grace_days_before_cancel` |
-| `grace_ended` | `arraysubs_data_cancelled_overdue` | The hourly overdue check cancels the subscription for non-payment. A `cancelled` event follows. | `reason` (`overdue`). `order_id` is `0`: the unpaid renewal order is already cancelled. |
+| `grace_ended` | `arraysubs_data_cancelled_overdue` | The hourly overdue check cancels the subscription for non-payment. A `cancelled` event follows. | `reason` (`overdue`) and `order_id`, the unpaid renewal order that ran out of grace (`0` when there was none). |
 
 ### Trial, plan switch and cancellation events
 
@@ -181,7 +181,7 @@ The `arraysubs_integration_event_context` filter can change `user_id`, the email
   - the order plus the retry number, for `retry_exhausted`;
   - the queued job for `retry_scheduled`, the scheduled date for `cancellation_scheduled`, and the stored switch snapshot for pending-switch events. Paid plan-switch orders use `plan_switch:` plus the switch contract key.
 - **Every attempt and every failure has its own ID.** The attempt number is not the payload's `attempt` key (the retry number). While something listens to `arraysubs_lifecycle_event`, ArraySubs gives each charge attempt the next number from a per-subscription counter it stores with the subscription. Every attempt, result and failure on one renewal order therefore gets its own stable `event_id`, even two manual retries at the same retry number. `grace_entered` keeps one `event_id` per renewal order, because it describes entering grace once.
-- **`identity_scope` `request`.** `event_id` is a new UUID on every emission, for example for status events, `cancelled`, `grace_ended`, trial events and `updated`. You cannot deduplicate these across requests; re-read the current state instead.
+- **`identity_scope` `request`.** `event_id` is a new UUID on every emission, for example for status events, `cancelled`, trial events and `updated`. You cannot deduplicate these across requests; re-read the current state instead.
 - **Per subscription, not per customer.** `granted` and `revoked` describe one subscription. A customer can hold another subscription that still grants the same product, so recompute access from all of the customer's subscriptions before you remove anything (see the examples).
 
 ## Subscription Lifecycle and Status Hooks
@@ -310,7 +310,7 @@ Grace runs in two stages. A subscription stays active (or trial) for the "before
 | `arraysubs_payment_retry_exhausted` | action | `WP_Post $subscription, int $attempts` | A failure arrives after the allowed retries are used. The status does not change; grace continues. Not fired when retries are off or a hard decline stops them. | Core |
 | `arraysubs_grace_recovered` | action | `WP_Post $subscription, WC_Order $order` | Right after `arraysubs_renewal_payment_complete`, when the paid renewal recovered a subscription that was on hold or had a payment failure after the order was created. | Core |
 | `arraysubs_grace_terms_updated` | action | `WP_Post $subscription, array $old, array $new` | `Subscriptions::setGracePolicy()` changed this subscription's grace days. Arrays: `before_on_hold`, `before_on_hold_source`, `before_cancel`, `before_cancel_source` (`subscription` or `site`). | Core |
-| `arraysubs_data_cancelled_overdue` | action | `int $subscription_id` | The hourly overdue check cancelled an on-hold subscription for non-payment, after its end date and reason are saved and unpaid renewal orders are cancelled. `arraysubs_data_cancelled` does not fire on this path. | Core |
+| `arraysubs_data_cancelled_overdue` | action | `int $subscription_id, int $overdue_order_id` | The hourly overdue check cancelled an on-hold subscription for non-payment, after its end date and reason are saved and unpaid renewal orders are cancelled. `arraysubs_data_cancelled` does not fire on this path. | Core |
 
 `arraysubs_data_put_on_hold` (first stage ends) and `arraysubs_is_awaiting_gateway_settlement` (both stages wait for settling payments) are listed above.
 
@@ -509,7 +509,8 @@ ArraySubs sends most emails from native hooks at priority 10 (for example the in
 | `arraysubs_view_subscription_renewal_controls`, `arraysubs_view_subscription_after_payment_method`, `arraysubs_view_subscription_actions`, `arraysubs_view_subscription_actions_locked` | action | `int $subscription_id, array $subscription_data` | Output points on the My Account View Subscription page (the last one replaces the actions when they are locked). | Core |
 | `arraysubs_my_subscriptions_row_product_meta` | action | `int $subscription_id` | Under the product name in the My Account subscriptions list and cards. | Core |
 | `arraysubs_shipping_address_updated_by_customer` | action | `int $subscription_id, array $address` | The customer saved a shipping address through `POST /wp-json/arraysubs/v1/my-subscriptions/{id}/shipping-address`. | Core |
-| `arraysubs_shipping_address_updated` | action | `int $subscription_id, array $old_address, array $new_address, int $customer_id` | The admin route `POST /wp-json/arraysubs/v1/subscriptions/{id}/shipping-address` saved an address (`$customer_id` is `0`). | Pro (Subscription Shipping) |
+| `arraysubs_shipping_address_updated` | action | `int $subscription_id, array $old_address, array $new_address, int $user_id` | A shipping address was saved: by the customer through `POST /wp-json/arraysubs/v1/my-subscriptions/{id}/shipping-address` (`$user_id` is the customer), or by staff through the Pro admin route `POST /wp-json/arraysubs/v1/subscriptions/{id}/shipping-address`. | Core, Pro (Subscription Shipping) |
+| `arraysubs_shipping_address_update_failed` | action | `int $subscription_id, string $message, int $customer_id` | The customer route refused a change (no shipping on the subscription, inside the cutoff before renewal, or an invalid or incomplete address). `$message` is the reason shown to the customer. Requests that fail the ownership check never reach this point. | Core |
 | `arraysubspro_product_redirect_should_redirect` | filter | `bool $should_redirect, int $product_id` | Before a product page redirect or 404 runs. | Pro (Redirect Product Page) |
 | `arraysubspro_product_redirect_url` | filter | `string $url, int $product_id, int $page_id` | The redirect target. | Pro (Redirect Product Page) |
 
