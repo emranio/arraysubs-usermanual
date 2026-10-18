@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Pro
-- Last updated: 2026-07-27
+- Last updated: 2026-10-18
 
 # Subscription Bundles
 
@@ -62,7 +62,7 @@ Each product in the bundle is added to the order as a **zero-priced line item** 
 
 In addition, every product inside the bundle that is itself a **subscription product** gets its own subscription with a **zero** recurring amount, linked to the bundle. Plain (non-subscription) products get no subscription at all. This keeps per-product integrations working unchanged — **Member Access**, **Feature Manager** entitlements, and any third-party code that looks up "does this customer have a subscription for product X".
 
-Those child subscriptions never bill on their own. They mirror the bundle's status and dates, and they are cancelled, expired, or deleted with it.
+Those child subscriptions never bill on their own. The bundle subscription is their billing owner: every status change on the bundle is copied to them, and their next payment date, last payment date, and payment count are refreshed each time a bundle renewal is paid. Customers cannot manage them separately, so manage billing, pause, skip, and cancellation on the bundle subscription.
 
 ```box class="info-box"
 The bundle is **sold individually**: the bundle line always has a quantity of 1 and no quantity box is shown. Unlike a subscription box, adding a bundle does **not** empty the cart.
@@ -251,8 +251,11 @@ Filter the Products list by **Subscription Bundle [ArraySubs]** to see every bun
 - **A bundle that comes to nothing cannot be bought.** A 100% discount, or contents that are all free, makes the total zero and blocks checkout — a zero-value subscription would never bill.
 - **An unavailable product blocks the whole bundle.** If something inside it is out of stock, deleted, or no longer purchasable, the bundle cannot be added to the cart and cannot be checked out. Bundles are all-or-nothing.
 - **Changing the cycle can drop products.** Subscription products that no longer match the new period or interval are offered for removal.
-- **Included subscriptions appear in the subscription lists.** Each zero-value child shows in the admin list and in the customer's account area, marked as part of the bundle.
-- **Deleting a bundle subscription deletes its included subscriptions too**, and switching a subscription off a bundle plan cancels and unlinks them.
+- **Included subscriptions appear in the subscription lists.** Each zero-value child is its own row in the admin list and in the customer's account area. The customer's list marks it as part of the bundle; in the admin, open the subscription to see its **Subscription Bundle** card, which links the bundle it belongs to.
+- **Deleting a bundle subscription depends on where you delete it.** Deleting from the **ArraySubs -> Subscriptions** list keeps the included subscriptions by design: they stay in the lists, still pointing at the deleted bundle, and stop following it. Deleting through the ArraySubs developer API (`Subscriptions::delete()` or `arraysubs_delete_subscription()`) removes them with the bundle. Deletion is permanent either way, and linked orders are never deleted. See [Deleting a Subscription](../manage-subscriptions/subscription-operations.md#deleting-a-subscription).
+- **Switching off a bundle plan** cancels and unlinks the included subscriptions.
+- **Bundle family behavior needs licensed Pro.** While Pro is inactive or unlicensed, included subscriptions stop following their bundle: status changes, renewal dates, and customer locks are no longer applied to them.
+- **Bundle families in code.** Developers resolve a bundle's included subscriptions and their billing owner with [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md), and read bundle product terms with [Read Subscription Product Terms](../developers/subscription-products.md). The API refuses independent billing and lifecycle operations on an included subscription.
 
 ## Troubleshooting
 
@@ -265,6 +268,7 @@ Filter the Products list by **Subscription Bundle [ArraySubs]** to see every bun
 | Customers cannot add the bundle to the cart | Something inside it is unavailable | Check the notice on the product page; restock or swap the product out. |
 | The cart total differs from the sum of the contents | The bundle discount is applied | Check the Discount card in the Bundle Details panel. |
 | The wizard will not let me continue | The current step is incomplete | Read the red banner at the top of the wizard. |
+| Included subscriptions are still listed after the bundle subscription was deleted | It was deleted from the All Subscriptions list, which keeps included subscriptions by design | Delete each included subscription from the list as well (cancel them first if they are still active). |
 
 ## Related Guides
 
@@ -274,6 +278,9 @@ Filter the Products list by **Subscription Bundle [ArraySubs]** to see every bun
 - [Flexible Renewal Sync](../billing-and-renewals/README.md)
 - [Feature Manager](../feature-manager/README.md)
 - [Member Access](../member-access/README.md)
+- [Lifecycle Management](../manage-subscriptions/lifecycle-management.md#box-and-bundle-families) - how included subscriptions follow their bundle through the lifecycle.
+- [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) - developer reference for bundle families and billing owners.
+- [Read Subscription Product Terms](../developers/subscription-products.md) - developer reference for reading bundle product terms.
 
 ## FAQ
 

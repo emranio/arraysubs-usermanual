@@ -1,7 +1,7 @@
 # Info
 - Module: Store Credit
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Store Credit
 
@@ -19,7 +19,7 @@
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ```box class="info-box"
-If a customer sees **"Store credit is not available."**, confirm ArraySubs Pro is active and Store Credit is enabled in [Store Credit Settings](store-credit-settings.md). The same My Account menu location becomes the balance, purchase, expiration, and transaction-history page once the module is available.
+If a customer sees **"Store credit is not available."**, confirm ArraySubs Pro is active and the **Store Credit** module is switched on in **ArraySubs -> Modules** (see [Store Credit Settings](store-credit-settings.md)). The same My Account menu location becomes the balance, purchase, expiration, and transaction-history page once the module is available.
 ```
 
 ## Overview
@@ -31,6 +31,8 @@ Store Credit is a complete virtual-wallet system built into ArraySubs Pro. It le
 Credit flows into customer accounts from several sources — plan downgrades, refund conversions, admin adjustments, promotional grants, and self-service credit purchases. Credit flows out when it is applied to renewal invoices, used at checkout, or when it expires after a configurable period.
 
 Every transaction is logged, every balance is tracked in real time, and customers can view their credit from the My Account area.
+
+The transaction log is an append-only ledger. Entries are permanent and cannot be edited or deleted, every balance change has an entry (including credit from plan switches), and a correction is made by adding a new adjustment.
 
 ## When to Use This
 
@@ -46,12 +48,14 @@ Store Credit operates at two levels:
 
 | Level | Where stored | Purpose |
 |-------|-------------|---------|
-| **Subscription credit** | On the individual subscription | Earned from plan downgrades. Applied first during renewals. |
-| **Customer credit** | On the customer's account | Earned from refunds, purchases, promotions, and admin adjustments. Applied after subscription credit. |
+| **Subscription credit** | On the individual subscription | Earned from plan switches that leave unused value, usually downgrades. Applied to that subscription's renewals first whenever Store Credit is active. |
+| **Customer credit** | On the customer's account | Earned from refunds, purchases, promotions, and admin adjustments. Applied to renewals after subscription credit when **Auto-Apply to Renewals** is on, and at checkout when **Allow at Checkout** is on. |
 
-When credit is applied to an order, the system uses **subscription-level credit first**, then draws from **customer-level credit** for any remaining balance. This priority ensures downgrade credits are consumed by the subscription that generated them before dipping into the customer's general balance.
+When credit is applied to a renewal invoice, the system uses **subscription-level credit first**, then draws from **customer-level credit** for any remaining balance when **Auto-Apply to Renewals** is on. This priority ensures plan-switch credits are consumed by the subscription that generated them before dipping into the customer's general balance.
 
 Credits appear as a negative fee line item on orders, reducing the payment total while keeping full auditability.
+
+Developers can read balances and history and add, remove or adjust credit from PHP through the Store Credit developer API. Every change needs a reason and an idempotency key, so a retried request is applied only once. See [Read and Update Store Credit](../developers/store-credit.md).
 
 ## What's Inside
 
@@ -74,7 +78,7 @@ Every credit transaction is tagged with a source so you can track where credit c
 
 | Source | Direction | When it happens |
 |--------|-----------|-----------------|
-| `Plan Downgrade` | Credit (in) | Customer switches to a cheaper subscription plan. The price difference is granted as subscription-level credit. |
+| `Plan Downgrade` | Credit (in) | A plan switch leaves unused value, usually a switch to a cheaper plan. The excess is granted as subscription-level credit through a ledger entry. Without Store Credit active, the switch is applied at the next renewal instead and no credit is created. |
 | `Refund` | Credit (in) | Admin processes a refund as store credit instead of a gateway refund. |
 | `Admin Adjustment` | Credit (in) or Debit (out) | Admin manually adds or deducts credit from a customer's account. |
 | `Promotional` | Credit (in) | Admin grants promotional credit (manual adjustment with a promotional note). |
@@ -109,7 +113,7 @@ Customers interact with store credit in the **My Account → Store Credit** page
 - See any credits expiring soon (30-day window)
 - Purchase more credit if the merchant has enabled credit purchases
 
-Credit is applied automatically to renewal orders (if enabled) — customers do not need to take action. When credit is used, they receive an email confirmation showing the amount applied and their remaining balance.
+Credit is applied automatically to renewal orders: subscription credit always, and customer credit when **Auto-Apply to Renewals** is on. Customers do not need to take action. When credit is used, they receive an email confirmation showing the amount applied and their remaining balance.
 
 ---
 
@@ -118,6 +122,7 @@ Credit is applied automatically to renewal orders (if enabled) — customers do 
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — How the Store Credit page appears in the customer portal.
 - [Manage Members — Commerce Overview](../member-insight/member-commerce-overview.md) — View a member's credit balance from the admin profile.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How renewals and downgrades interact with credit.
+- [Read and Update Store Credit](../developers/store-credit.md) - Developer reference for balances, history, and ledger-backed credit, debit and adjustment operations.
 
 ---
 
@@ -133,7 +138,10 @@ No. The system never deducts more than the available balance. If a customer has 
 Subscription-level credit remains on the subscription record. Customer-level credit stays in the customer's account and can still be used for other purchases or new subscriptions.
 
 ### Can I disable credit for specific customers?
-There is no per-customer toggle. Credit is enabled or disabled globally through the Store Credit Settings. You can, however, manually deduct a customer's full balance through the Store Credit Management page.
+There is no per-customer toggle. Credit is enabled or disabled globally with the **Store Credit** module on **ArraySubs -> Modules**. You can, however, manually deduct a customer's full balance through the Store Credit Management page.
 
 ### Does credit work with all payment gateways?
 Yes. Store credit is applied as a fee line item that reduces the order total before payment processing. It works with every WooCommerce-compatible gateway.
+
+### Can I delete a credit history entry?
+No. Ledger entries are permanent. To correct a balance, add a new adjustment with **Adjust Credit** on the [Store Credit Management](store-credit-management.md) page. The correction appears as its own entry next to the original.

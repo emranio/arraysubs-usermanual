@@ -1,7 +1,7 @@
 # Info
 - Module: My Account Editor
 - Availability: Pro
-- Last updated: 2026-04-14
+- Last updated: 2026-10-18
 
 # My Account Editor
 
@@ -58,7 +58,7 @@ When you save a configuration:
 
 1. The saved order, labels, and visibility settings are stored in the `arraysubs_myaccount_menu_config` option.
 2. On every My Account page load, the editor reorders and filters the menu according to your saved config.
-3. Any custom endpoint pages are registered as WordPress rewrite endpoints, so they get clean URLs like `/my-account/resources/`.
+3. Any custom endpoint pages are registered as WordPress rewrite endpoints, so they get clean URLs like `/my-account/as-resources/` (ArraySubs adds the `as-` prefix to custom endpoint slugs).
 4. Rewrite rules are automatically flushed after saving changes.
 
 Menu items added by other plugins that are not in your saved config are automatically appended to the end of the menu, so new plugins won't lose their menu entries.
@@ -91,7 +91,7 @@ Turning this off does not delete your saved configuration. You can re-enable it 
 
 ![Menu items editor — drag handles, visibility toggles, and Add Custom Item](my-account-editor.ASSETS/02-menu-items-enabled-annotated.png)
 
-Default items are the standard WooCommerce and ArraySubs menu entries. They cannot be deleted, only reordered, renamed, or hidden.
+Default items are the standard WooCommerce and ArraySubs menu entries. They cannot be deleted, only reordered, renamed, or hidden. **Orders** and **Subscriptions** are required items: they can be reordered and renamed, but not hidden.
 
 ### Reordering Items
 
@@ -114,10 +114,10 @@ Click the toggle button on any item to disable it. Disabled items:
 
 - Appear dimmed in the editor.
 - Do not appear in the customer-facing My Account menu.
-- Keep their WooCommerce functionality intact — they are just hidden from the navigation.
+- Redirect to the My Account dashboard when a customer opens their URL directly. The Dashboard and Logout items are never redirected.
 
 ```box class="warning-box"
-Hiding a menu item does not disable the underlying endpoint. A customer who knows the URL (for example, `/my-account/orders/`) can still access it directly. This feature controls menu visibility only, not access control.
+Hiding a menu item also closes its page while menu customization is enabled: a customer who opens the URL directly (for example, `/my-account/downloads/`) is redirected to the My Account dashboard. **Orders** and **Subscriptions** cannot be hidden.
 ```
 
 ---
@@ -137,7 +137,7 @@ Custom endpoint pages let you place any WordPress page or post inside the My Acc
 | Field | Description | Required |
 |-------|-------------|----------|
 | **Menu Label** | The text shown in the My Account sidebar | Yes |
-| **Endpoint Slug** | The URL segment appended to `/my-account/`. Auto-generated from the label but can be edited manually. Must be lowercase with dashes, no spaces. | Yes |
+| **Endpoint Slug** | The URL segment appended to `/my-account/`. Auto-generated from the label but can be edited manually. Must be lowercase with dashes, no spaces. ArraySubs adds the `as-` prefix, so `resources` opens at `/my-account/as-resources/`. | Yes |
 | **Linked Content** | The WordPress page or post whose content is displayed. Click the search dropdown, type to search, and select a result. | Yes |
 | **Prevent direct access** | When checked, direct visits to the linked page redirect to the My Account endpoint version instead. | No |
 
@@ -160,7 +160,7 @@ The content dropdown searches all public post types on your site (pages, posts, 
 
 ### How Custom Content Is Rendered
 
-When a customer visits a custom endpoint (for example, `/my-account/resources/`), the system uses a WordPress query to fetch the linked page and renders its content inside the My Account wrapper. This means:
+When a customer visits a custom endpoint (for example, `/my-account/as-resources/`), the system uses a WordPress query to fetch the linked page and renders its content inside the My Account wrapper. This means:
 
 - **Page builder content works.** Gutenberg blocks, Elementor widgets, Bricks Builder elements, and other builder plugins render correctly because the system uses the native WordPress post loop.
 - **Theme styling applies.** The content inherits My Account page styles from your theme.
@@ -170,7 +170,7 @@ When a customer visits a custom endpoint (for example, `/my-account/resources/`)
 
 When **Prevent direct access** is checked for a custom item:
 
-- Visits to the linked page's original URL (for example, `/resources/`) are automatically redirected to the My Account endpoint version (`/my-account/resources/`).
+- Visits to the linked page's original URL (for example, `/resources/`) are automatically redirected to the My Account endpoint version (`/my-account/as-resources/`).
 - This is a 302 redirect, so search engines won't index the original page URL.
 - The redirect only applies when the custom item is enabled. If you disable the item, direct access is restored.
 
@@ -185,24 +185,24 @@ When ArraySubs Pro is active and certain features are enabled, additional menu i
 ### My Features *(Pro)*
 
 - **Default label:** My Features
-- **Endpoint:** `features`
-- **Appears when:** Feature Manager is enabled (`feature_manager.enabled = true`) and My Account display is on (`feature_manager.show_in_my_account = true`).
-- **Shows:** A list of the customer's subscription entitlements — feature names, types, values, and usage (if usage tracking is enabled).
+- **Endpoint:** `as-features`
+- **Appears when:** The Feature Manager module is on (**ArraySubs -> Modules**) and **Show in My Account** is on (`feature_manager.show_in_my_account = true`).
+- **Shows:** A list of the customer's subscription entitlements: feature names, values, and usage (if usage display is enabled). Internal feature types are never shown to customers.
 - **Customizable:** Label can be renamed and position can be changed via the My Account Editor.
 
 ### Store Credit *(Pro)*
 
 - **Default label:** Store Credit
-- **Endpoint:** `store-credit`
-- **Appears when:** Store Credit is enabled (`store_credit.enabled = true`).
+- **Endpoint:** `as-store-credit`
+- **Appears when:** The Store Credit module is on (**ArraySubs -> Modules**).
 - **Shows:** The customer's current credit balance, transaction history, and any credits expiring in the next 30 days.
 - **Customizable:** Label can be renamed and position can be changed via the My Account Editor.
 
 ### Subscriptions (Core)
 
 - **Default label:** Subscriptions
-- **Endpoint:** `subscriptions`
-- **Always present:** Added by the core Customer Portal feature.
+- **Endpoint:** `as-subscriptions`
+- **Always present:** Added by the core Customer Portal feature. It is a required item, so it can be renamed and moved but not hidden.
 - **Shows:** The customer's subscription list with status, next payment date, and billing cycle.
 - **Customizable:** Label can be renamed and position can be changed here in the My Account Editor.
 
@@ -220,7 +220,7 @@ A SaaS membership site wants Subscriptions to be the first item customers see. O
 
 ### Use Case 2: Adding a Help Center Inside My Account
 
-A store has a "Help Center" WordPress page with FAQ content built in Gutenberg. Add a custom endpoint with label "Help Center," endpoint slug `help-center`, and link it to the Help Center page. Check **Prevent direct access** so the page is only available inside My Account. Customers now have a Help Center tab in their account sidebar.
+A store has a "Help Center" WordPress page with FAQ content built in Gutenberg. Add a custom endpoint with label "Help Center," endpoint slug `help-center` (it opens at `/my-account/as-help-center/`), and link it to the Help Center page. Check **Prevent direct access** so the page is only available inside My Account. Customers now have a Help Center tab in their account sidebar.
 
 ### Use Case 3: Renaming Menu Items for Clarity
 
@@ -228,7 +228,7 @@ An education platform calls their products "Courses" and their orders "Enrollmen
 
 ### Use Case 4: Hiding Unused Endpoints
 
-A digital-only store has no physical products and no downloadable files. Hide both **Downloads** and **Addresses** from the My Account menu to keep the navigation clean. The endpoints still work if accessed directly, but customers won't see unnecessary links.
+A digital-only store has no physical products and no downloadable files. Hide both **Downloads** and **Addresses** from the My Account menu to keep the navigation clean. Direct visits to those URLs redirect to the dashboard, so customers don't land on unused pages.
 
 ---
 
@@ -251,7 +251,7 @@ A digital-only store has no physical products and no downloadable files. Hide bo
 | Custom endpoint shows a 404 | Rewrite rules not flushed | Go to **Settings → Permalinks** and click **Save Changes** to flush rewrite rules |
 | "Endpoint conflicts with reserved name" error on save | The custom endpoint slug matches an existing WooCommerce endpoint | Choose a different endpoint slug that does not overlap with built-in endpoints like `orders`, `downloads`, or `edit-account` |
 | Custom page content appears unstyled or broken | Page builder content not rendering inside My Account | Ensure the linked page uses standard WordPress content. Most page builders work, but some shortcodes or widgets may behave differently inside the My Account wrapper |
-| Pro menu items (My Features, Store Credit) not appearing | Pro plugin deactivated or feature disabled | Activate ArraySubs Pro and enable the feature in its settings |
+| Pro menu items (My Features, Store Credit) not appearing | Pro plugin deactivated or module switched off | Activate ArraySubs Pro and switch the module on in **ArraySubs -> Modules**. For My Features, also turn on **Show in My Account** in the Feature Manager settings |
 | Direct access redirect not working | The **Prevent direct access** checkbox is off, or the custom item is disabled | Open the custom item in the editor and check that both the item is enabled and **Prevent direct access** is checked |
 | Menu items appear in wrong order after plugin update | Another plugin changed the menu at a higher priority (above 99) | This is rare. Check with the other plugin's documentation. You can re-save the My Account Editor to re-apply your order. |
 
@@ -264,13 +264,14 @@ A digital-only store has no physical products and no downloadable files. Hide bo
 - [Customer Portal — Portal Pages](../customer-portal/portal-pages.md) — The Subscriptions and View Subscription pages in My Account
 - [Store Credit](../store-credit/README.md) — Store Credit customer portal page *(Pro)*
 - [Settings — General Settings](../settings/general-settings.md) — Customer self-service actions, cancellation timing, and portal behavior
+- [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) - Developer reference for customer lookups and validated profile field updates
 
 ---
 
 ## FAQ
 
 ### Does hiding a menu item prevent customers from accessing that endpoint directly?
-No. Hiding an item removes it from the My Account sidebar menu, but the endpoint URL still works. For example, hiding "Orders" means `/my-account/orders/` still loads if a customer types the URL directly. This feature controls visibility, not access.
+Yes, while menu customization is enabled. A customer who opens a hidden item's URL directly (for example, `/my-account/downloads/`) is redirected to the My Account dashboard. **Orders** and **Subscriptions** cannot be hidden, and the Dashboard and Logout items are never redirected.
 
 ### Can I add more than one custom endpoint page?
 Yes. You can add multiple custom endpoints, each linked to a different page or post. Each one gets its own menu item and URL slug.

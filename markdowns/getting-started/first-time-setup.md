@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # First-Time Setup
 
@@ -25,7 +25,7 @@ This guide walks you through the initial setup of ArraySubs. By the end, you wil
 ## Prerequisites
 
 - WordPress 6.0 or higher installed and running.
-- WooCommerce 8.0 or higher installed and activated.
+- WooCommerce 9.0 or higher installed and activated.
 - PHP 8.1 or higher on your hosting environment.
 - Admin or Shop Manager access to the WordPress dashboard.
 - At least one WooCommerce payment method configured (even "Cash on Delivery" or "Check Payments" for testing).
@@ -45,8 +45,14 @@ This guide walks you through the initial setup of ArraySubs. By the end, you wil
 1. Upload the **ArraySubsPro** plugin file through **Plugins → Add New → Upload Plugin**.
 2. Click **Install** and then **Activate**.
 
+3. Open **ArraySubs -> License** and activate your license for this site's domain. Pro features load only while the license is active. See [License Activation](license-activation.md).
+
 ```box class="warning-box"
 Always activate the core plugin first. The Pro addon will not activate without ArraySubs core already running.
+```
+
+```box class="info-box"
+Already running the free plugin on a live store? Keep core installed and active, and follow [Upgrade an Existing Free Store to Pro](license-activation.md#upgrade-an-existing-free-store-to-pro). Do not reinstall core or recreate subscriptions.
 ```
 
 After activation, you will see a new **ArraySubs** menu item in the WordPress admin sidebar.
@@ -279,10 +285,11 @@ Take a quick tour of the ArraySubs admin menu to familiarize yourself with the a
 | **Shortcodes** | Reference page for all available shortcodes |
 | **Help** | Support contact information |
 
-If the Pro addon is active, you will also see:
+If the Pro addon is active and its license is activated, you will also see:
 
 | Menu Item | Purpose |
 |---|---|
+| **License** | Activate and manage the Pro license for this site *(Pro)* |
 | **Manage Members** | Member profiles, insights, and admin tools *(Pro)* |
 | **Store Credit** | Credit management, history, and settings *(Pro)* |
 | **Audits** | Activity audit logs and scheduled job logs *(Pro)* |
@@ -299,6 +306,33 @@ After completing these steps, your store is ready for real customers:
 - The grace period system monitors overdue payments and manages status transitions.
 - Customers can manage their subscriptions from My Account → Subscriptions.
 - All configured email notifications fire at the appropriate lifecycle events.
+
+---
+
+## Upgrade to Pro Later
+
+You can run the store on the free plugin and add Pro when you need Pro modules. Automatic payments are part of the free core, so you do not need Pro for automatic renewals.
+
+1. Back up the site and record your subscription counts by status.
+2. Keep ArraySubs core installed, updated, and active.
+3. Install the current ArraySubs Pro release and activate the license.
+4. Confirm subscriptions, settings, modules, retention offers, and integrations.
+5. Test automatic payments before live use.
+
+Follow the full steps in [Upgrade an Existing Free Store to Pro](license-activation.md#upgrade-an-existing-free-store-to-pro). Never uninstall core or recreate subscriptions to upgrade.
+
+---
+
+## Test on a Staging Site
+
+Before you change gateways, upgrade to Pro, or connect custom code on a store that already has customers, test on a staging copy:
+
+- Stop scheduled jobs on the copy and switch its gateways to test mode before it runs.
+- Keep test emails away from real customers.
+- Activate the Pro license on staging only when the test uses Pro features.
+- Test a checkout, a due automatic renewal, and a failed payment, then apply the results to the live store without copying the staging database over it.
+
+The complete list is in the [Staging Checklist](before-you-launch.md#staging-checklist). Developers connecting a custom plugin can start with [Developers](../developers/README.md).
 
 ---
 
@@ -326,7 +360,7 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 | Subscription is not created after checkout | Order was not marked as paid | Mark the order as Processing or Completed in WooCommerce → Orders |
 | Customer does not see the Subscriptions tab in My Account | Permalink settings need to be refreshed | Go to Settings → Permalinks and click Save Changes (without changing anything) |
 | Email notifications are not arriving | WordPress email is not configured properly | Install an SMTP plugin and check your server's mail configuration |
-| Pro features are not visible | Pro addon is not activated or core plugin is outdated | Verify both plugins are active and ArraySubs core is version 1.0 or higher |
+| Pro features are not visible | Pro is not active, the license is not active for this site's domain, ArraySubs core is older than 2.0.0, or the module is switched off | Activate Pro, activate the license under **ArraySubs -> License**, update core, and check **ArraySubs -> Modules** |
 
 ---
 
@@ -339,13 +373,18 @@ A coaching platform offers Bronze ($29/month), Silver ($49/month), and Gold ($99
 - [Import / Export Settings](import-export-settings.md) — Back up your configuration or migrate settings between sites.
 - [Essential Daily Workflows](essential-daily-workflows.md) — How the lifecycle works day to day and what to verify before going live.
 - [Create and Configure Subscription Products](../subscription-products/create-and-configure.md) — Detailed guide to all subscription billing fields, trials, signup fees, and different renewal pricing (Pro with an active license).
+- [License Activation](license-activation.md) - Upgrade an existing Free store to Pro and set up staging sites.
+- [Developers](../developers/README.md) - Connect a custom plugin to ArraySubs.
 
 ---
 
 ## FAQ
 
 ### Do I need to configure payment gateways before testing?
-Not necessarily. For a basic test, you can use WooCommerce manual payment methods like "Check Payments." For testing automatic recurring charges, you need a supported gateway *(Pro)* like Stripe (test mode), PayPal (sandbox), Paddle, or Mollie (test mode).
+Not necessarily. For a basic test, you can use WooCommerce manual payment methods like "Check Payments." For testing automatic recurring charges, you need a supported gateway such as Stripe (test mode), PayPal (sandbox), Paddle, or Mollie (test mode). Automatic payments are part of the free core.
+
+### Can I start on Free and add Pro later?
+Yes. Keep core active, install Pro, and activate the license. Your subscriptions, orders, and settings stay as they are. See [Upgrade an Existing Free Store to Pro](license-activation.md#upgrade-an-existing-free-store-to-pro).
 
 ### Will the subscription start immediately after checkout?
 The subscription is created at checkout, but its status depends on the order. Once the order is marked as paid (Processing or Completed), the subscription becomes Active (or Trial, if a trial is configured).

@@ -1,7 +1,7 @@
 # Info
 - Module: Credit History
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Credit History
 
@@ -21,11 +21,13 @@
 
 ## Overview
 
-![Credit History admin tab — filter controls and transaction table](../README.ASSETS/02-admin-store-credit-global-history-annotated.png)
+![Credit History admin tab — filter controls and transaction table](README.ASSETS/02-admin-store-credit-global-history-annotated.png)
 
 The Credit History page gives you a bird's-eye view of all store credit activity in your store. Every credit transaction — from admin adjustments and refund conversions to automated renewal applications and expirations — appears here in a single, filterable log.
 
 Use this page to audit credit activity, investigate unusual patterns, or verify that automated processes (like renewal auto-apply and credit expiration) are working as expected.
+
+The log is the store's append-only credit ledger. Entries are permanent: they cannot be edited or deleted, and every balance change has an entry, including credit from plan switches. To correct a balance, add a new adjustment (see [Correct a Balance](#correct-a-balance)).
 
 ## When to Use This
 
@@ -38,7 +40,7 @@ Use this page to audit credit activity, investigate unusual patterns, or verify 
 ## Prerequisites
 
 - ArraySubs Pro active
-- Store Credit enabled in **ArraySubs → Store Credit → Settings**
+- The **Store Credit** module switched on in **ArraySubs -> Modules**
 - Admin or Shop Manager access
 
 ## Steps
@@ -58,7 +60,7 @@ Two filter dropdowns sit above the table:
 | Option | What it shows |
 |--------|--------------|
 | All Sources | Every transaction regardless of source |
-| Plan Downgrade | Credit earned when a customer switches to a cheaper plan |
+| Plan Downgrade | Credit left over from a plan switch, usually a switch to a cheaper plan |
 | Refund | Credit granted from a refund-to-credit conversion |
 | Admin Adjustment | Credit manually added or deducted by an admin |
 | Promotional | Promotional credit grants |
@@ -88,23 +90,21 @@ Select your filters and the table refreshes automatically. A **Total: N transact
 | **Customer** | The customer's display name with their email address shown below. |
 | **Description** | The source label (e.g., "Refund", "Applied to Renewal") plus any note. If the transaction is linked to a subscription, a "Subscription: #123" link appears that opens the subscription detail page. |
 | **Amount** | The credit or debit amount. Credits show a `+` prefix in green; debits show a `-` prefix in red. |
-| **Actions** | A delete button (trash icon) for each entry. |
 
 The table paginates at 20 transactions per page. Use **Prev** and **Next** to navigate.
 
-### Delete a Log Entry
+### Correct a Balance
 
-```box class="warning-box"
-Deleting a log entry removes the **record** only. It does not reverse the credit transaction or change any customer's balance. This action cannot be undone.
-```
+Entries in this log are permanent. There is no delete action, and entries cannot be edited, because balances and credit expiry are calculated from them.
 
-1. Click the trash icon in the **Actions** column for the entry you want to remove.
-2. A confirmation modal appears showing the transaction ID, customer name, and amount.
-3. Click **Delete** to confirm, or **Cancel** to go back.
-4. A success toast confirms the deletion.
+To correct a mistake:
+
+1. Open [Store Credit Management](store-credit-management.md) and select the customer.
+2. Use **Adjust Credit** to add or deduct the difference, with a note that explains the correction.
+3. Return to **Credit History**. The correction appears as a new **Admin Adjustment** entry, and the original entry stays in the log.
 
 ```box class="info-box"
-The warning note at the bottom of the page reminds you: "This log is read-only. Deleting entries only removes the log record, it does not affect actual credit balances."
+The note at the bottom of the page reminds you: "Entries are permanent; correct a balance with Adjust Credit."
 ```
 
 ## Real-Life Use Cases
@@ -137,7 +137,8 @@ You set a 90-day expiration period and want to verify credits are expiring on sc
 
 ## Edge Cases and Important Notes
 
-- **Deleting a log does not affect balances.** The log is an audit trail. Removing an entry does not reverse the underlying credit transaction. To adjust a balance, use the [Store Credit Management](store-credit-management.md) page.
+- **Entries are permanent.** The log is the ledger that balances are calculated from, so entries cannot be deleted or edited. To adjust a balance, use the [Store Credit Management](store-credit-management.md) page; the change is recorded as a new entry.
+- **Plan-switch credit is logged.** When a plan switch leaves unused value, the credit appears as a **Plan Downgrade** entry linked to its subscription.
 - **Subscription links.** Not all transactions are linked to a subscription. Customer-level transactions (admin adjustments, purchases, checkout applications) show no subscription link.
 - **Filters are combined.** Selecting both a source and a type filter narrows results to transactions matching *both* criteria. For example, "Refund" + "Credit (Added)" shows only refund-originated credits.
 - **Pagination resets on filter change.** When you change a filter, the table returns to page 1.
@@ -147,7 +148,7 @@ You set a 90-day expiration period and want to verify credits are expiring on sc
 | Problem | Likely Cause | What to Do |
 |---------|-------------|------------|
 | No transactions appear | Store Credit was just enabled and no credit activity has occurred yet | Grant a test credit via the Management page and verify it appears here |
-| Missing renewal application entries | Auto-apply to renewals is disabled | Enable **Auto-Apply to Renewals** in [Store Credit Settings](store-credit-settings.md) |
+| Missing renewal application entries for customer credit | **Auto-Apply to Renewals** is off. It controls customer credit; subscription credit is applied to its own renewals whenever Store Credit is active | Enable **Auto-Apply to Renewals** in [Store Credit Settings](store-credit-settings.md) |
 | Expiration entries not showing | Expiration days set to 0 (never expire) or the background job has not run yet | Check the **Expiration Period** setting and wait for the next 3:00 AM job cycle |
 | Customer name shows as "Unknown" | The WordPress user account was deleted after the transaction was logged | This is expected behavior — the log retains the entry even if the user no longer exists |
 
@@ -158,16 +159,17 @@ You set a 90-day expiration period and want to verify credits are expiring on sc
 - [Store Credit Management](store-credit-management.md) — Manage individual customer balances and adjustments.
 - [Refund to Credit](refund-to-credit.md) — How refund-sourced credits are created.
 - [Store Credit Settings](store-credit-settings.md) — Configure expiration, auto-apply, and purchase rules.
+- [Read and Update Store Credit](../developers/store-credit.md) - Developer reference for reading history and making ledger-backed adjustments.
 
 ---
 
 ## FAQ
 
 ### Can I export the credit history?
-The credit history does not currently have a built-in export feature. You can use browser-based table copy tools or query the transaction data through the REST API at `arraysubs/v1/credits/history`.
+The credit history does not have a built-in export feature. You can use browser-based table copy tools, query the transaction data through the REST API at `arraysubs/v1/credits/history`, or have a developer read the history page by page with the Store Credit developer API ([Read and Update Store Credit](../developers/store-credit.md)).
 
-### Does deleting a log entry notify the customer?
-No. Log deletion is a silent admin action that only removes the audit record.
+### Can I delete or edit a log entry?
+No. Entries are permanent. To correct a balance, add a new adjustment with **Adjust Credit** on the [Store Credit Management](store-credit-management.md) page.
 
 ### How far back does the history go?
 There is no time limit. The history retains all transactions from the moment Store Credit was enabled. Pagination handles large volumes.

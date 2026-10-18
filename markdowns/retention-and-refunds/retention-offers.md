@@ -1,7 +1,7 @@
 # Info
 - Module: Retention Offers
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Retention Offers
 
@@ -41,7 +41,7 @@ Navigate to **ArraySubs → Retention Flow** and scroll to the **Retention Offer
 - **ArraySubs Pro installed and active**
 - Customer cancellation enabled in **ArraySubs → Settings → General**
 - Cancellation reasons configured on the Retention Flow page (see [Cancellation Setup](cancellation-setup.md))
-- For the Downgrade offer: Plan Switching configured with downgrade paths on your subscription products
+- For the Downgrade offer: **Enable Plan Switching**, **Allow Downgrades** and **Allow Customer-Initiated Switches** turned on in **ArraySubs -> Settings -> Plan Switching**, and downgrade paths configured on your subscription products
 
 ## How It Works
 
@@ -90,7 +90,7 @@ The discount offer gives the customer a percentage reduction on their recurring 
 1. Retention discount metadata is stored on the subscription
 2. The subscription's next renewal (and subsequent renewals up to the cycle limit) will be discounted
 3. If a pending renewal order already exists, the discount is applied to it immediately as a negative fee line item
-4. The pending cancellation (if any) is cleared
+4. The cancel request ends; no cancellation is recorded
 5. A subscription note records the acceptance
 
 **How the discount works on renewals:**
@@ -143,9 +143,9 @@ A subscription can only have one active retention discount at a time. If the cus
 
 ![Pause and Downgrade offer fields — enable switches, duration, and downgrade helper notice](retention-offers.ASSETS/02-pause-downgrade-contact-offer-fields-annotated.png)
 
-The pause offer lets the customer temporarily suspend their subscription instead of cancelling. The subscription moves to On-Hold status and automatically resumes after the configured pause duration.
+The pause offer lets the customer temporarily suspend their subscription instead of cancelling. The subscription moves to Paused status and automatically resumes after the configured pause duration.
 
-**How it appears to the customer:** A card showing the proposed pause duration (in days).
+**How it appears to the customer:** A card showing the offered pause duration (in days).
 
 **What happens when accepted:**
 
@@ -153,7 +153,7 @@ The pause offer lets the customer temporarily suspend their subscription instead
 2. Pause metadata is stored: pause date, duration, scheduled resume date, and a `retention_offer` pause reason
 3. The `_next_payment_date` is shifted forward by the pause duration
 4. An automatic resume is scheduled using Action Scheduler
-5. The pending cancellation (if any) is cleared
+5. The cancel request ends; no cancellation is recorded
 
 **What happens at resume time:**
 
@@ -186,16 +186,27 @@ The pause offer through retention is separate from the standalone pause/skip fea
 
 ### Downgrade Offer
 
-The downgrade offer suggests a cheaper subscription plan as an alternative to cancelling. It leverages the Plan Switching system to present available downgrade options.
+The downgrade offer suggests a cheaper subscription plan as an alternative to cancelling. It uses the downgrade paths configured for Plan Switching and schedules the lower plan for the next renewal.
 
-**How it appears to the customer:** A card that redirects to the plan switching flow where available downgrade products are shown with their pricing.
+**How it appears to the customer:** A card with a **Select a plan** list of the available downgrade plans (each with its name and price) and an **Accept Offer** button. The customer chooses the plan inside the card; there is no redirect to the plan switching screen.
 
 **What happens when accepted:**
 
-1. The system stores a `_pending_plan_switch` meta with the downgrade intent
-2. The customer is redirected to the plan switching modal where available downgrade options are listed
-3. The customer completes the plan switch through the standard plan switching flow
-4. The original subscription is cancelled and replaced with the new lower-tier plan (or the existing subscription is modified, depending on the plan switching configuration)
+1. ArraySubs checks that the chosen plan is an approved downgrade for the current product or variation and that the current quantity fits it.
+2. A pending plan switch to the chosen plan is stored on the subscription (`_pending_switch`). It always uses the **Apply at Next Renewal** rules, whatever your **Default Proration Type** is: nothing is charged or refunded now, and any **Downgrade Fee** you configured is added to the next renewal.
+3. For PayPal and Paddle subscriptions, the provider is updated first. If the provider refuses, the offer is not accepted and the customer sees the reason.
+4. The subscription keeps its current plan, price, status and access until the switch applies. The customer sees "Downgrade scheduled for the next renewal." and a subscription note records the accepted offer.
+5. The next renewal invoice is built on the lower plan. The switch applies when that renewal order is paid, and the subscription continues on the lower plan from then on.
+
+```box class="info-box"
+## The downgrade waits for the next paid renewal
+
+- Until the renewal order is paid, the customer keeps the current plan and its benefits.
+- The customer can undo the switch with **Undo Pending Switch** on the subscription page until the renewal invoice is created (by default 6 hours before the due date). From then on the switch is locked to that invoice.
+- If the renewal is paid late (after retries or during grace), the downgrade applies late too. If the subscription is cancelled first, the downgrade never applies.
+
+Developers can read the pending switch (target plan, expected date, and whether the renewal invoice has locked it) separately from the current plan; see [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md). The `pending_switch_set` and `plan_switched` events are listed in [React to Supported Events](../developers/actions-and-filters.md).
+```
 
 #### Configuration
 
@@ -287,7 +298,7 @@ Checks how many days remain until the subscription's next payment or end date. T
 
 ### Already Used Check
 
-The system checks whether the customer has already accepted the same offer type on this subscription. A customer who already used a discount offer will not see another discount offer on the same subscription.
+The system checks whether the customer has already accepted a retention offer on this subscription. Once any offer (discount, pause, downgrade or another type) has been accepted, that subscription is not shown retention offers again. A customer who already used a discount offer will therefore not see another discount offer on the same subscription.
 
 ---
 
@@ -295,19 +306,19 @@ The system checks whether the customer has already accepted the same offer type 
 
 When a customer accepts a retention offer, the following changes happen universally:
 
-1. **The pending cancellation is cleared** — if the subscription had a waiting cancellation flag, it is removed
+1. **No cancellation is recorded** — offers appear before the cancellation is committed, so accepting one simply ends the cancel request. Offers are never shown for a subscription that already has a scheduled cancellation, and accepting an offer never changes one
 2. **The offer is recorded in history** — metadata stored includes: offer type, offer ID, acceptance date, and offer details
 3. **A subscription note is added** — documenting the accepted offer type and parameters
 4. **An analytics event is logged** — in the `arraysubs_retention_logs` table for reporting
-5. **The subscription remains active** (or transitions to on-hold for pause offers)
+5. **The subscription remains active** (or becomes Paused for pause offers)
 
 ### Offer-Specific Updates
 
 | Offer Type | Status After | Key Changes |
 |---|---|---|
 | **Discount** | Active | Retention discount applied, renewal price reduced for N cycles |
-| **Pause** | On-Hold | Subscription paused, auto-resume scheduled, next payment date shifted |
-| **Downgrade** | Active (on new plan) | Plan switch initiated, customer directed to select a downgrade product |
+| **Pause** | Paused | Subscription paused, auto-resume scheduled, next payment date shifted |
+| **Downgrade** | Active (current plan until the next renewal is paid) | Pending plan switch stored for the plan the customer selected in the offer card; the lower plan applies when the next renewal order is paid |
 | **Contact Support** | Active | Support URL opened, subscription unchanged |
 
 ---
@@ -329,6 +340,10 @@ The discount information updates after each renewal. When the discounted cycles 
 
 The subscription status changes to **Paused** with a note about the scheduled resume date. The customer does not have a manual resume button for retention pauses — the resume happens automatically on the scheduled date. (A retention pause is a real pause: it is verified against the provider's own state before the offer is recorded as accepted, and it is never left as an On Hold.)
 
+### After Downgrade Acceptance
+
+The subscription keeps its current plan, price and status. A banner at the top of the subscription page reads "Plan switch to [plan] scheduled for [date]." and shows the quantity, the future renewal line total and any switch fee, followed by "Until then your current plan continues unchanged." The banner's **Undo Pending Switch** button cancels the downgrade until the renewal invoice is created. After the renewal order is paid, the banner disappears and the subscription shows the lower plan.
+
 ---
 
 ## Edge Cases and Important Notes
@@ -339,6 +354,9 @@ The subscription status changes to **Paused** with a note about the scheduled re
 - **Discount offers are one-time per subscription.** A discount offer cannot be used twice on the same subscription. However, a customer with multiple subscriptions can use discount offers on each one.
 - **Pause duration is fixed.** The customer accepts or declines the configured pause duration — they cannot choose a custom number of days.
 - **Downgrade requires plan switching configuration.** If no downgrade products are configured for the subscription's product, the downgrade offer will not appear even if enabled.
+- **A downgrade does not change the plan right away.** Accepting the downgrade offer stores a pending plan switch; the plan, price and access stay the same until the next renewal order is paid on the lower plan.
+- **Pause and downgrade need a clear renewal state.** These offers cannot be accepted while a plan switch is already pending or while an unpaid renewal invoice exists (for example, within the hours before the due date once the invoice is created). The customer sees a message to resolve it first. The discount offer can still be accepted and is applied to that open invoice.
+- **One accepted offer per subscription.** After any retention offer is accepted, the subscription is not shown retention offers again.
 - **Retention offers are only shown in the customer portal.** Admin-initiated cancellations, system cancellations, and API cancellations bypass the retention flow entirely.
 - **Gateway timing for discount offers.** All four automatic gateways accept a retention amount change. On Stripe, Mollie, and Paddle it applies mid-cycle; on PayPal it applies from the next renewal, and the offer wording says so. If the gateway refuses the change, the offer is not recorded as accepted.
 
@@ -352,6 +370,8 @@ The subscription status changes to **Paused** with a note about the scheduled re
 | Discount offer appears but with wrong percentage | The setting was changed after the offer was configured | Review the **Discount Percentage** field on the Retention Flow page |
 | Pause offer does not appear | Pause offer is disabled, or the trigger reasons don't match the selected cancellation reason | Check the Pause offer toggle and trigger reason configuration |
 | Downgrade offer appears but shows no plans | No downgrade products are configured in the Linked Products tab | Configure downgrade paths on the subscription product under **Product Data → Linked Products** |
+| Customer accepted the downgrade but still has the higher plan | Expected: the downgrade is a pending plan switch that applies when the next renewal order is paid | Check the pending switch banner and date on the subscription. The plan changes once that renewal is paid |
+| Downgrade or pause offer cannot be accepted | A plan switch is already pending, an unpaid renewal invoice exists, or downgrades or customer switches are turned off | Let the open renewal be paid first, or check **Enable Plan Switching**, **Allow Downgrades** and **Allow Customer-Initiated Switches** |
 | Customer already used a discount and wants another one | Each subscription can only use one discount offer. This is by design | Explain to the customer that the discount was already applied. Consider manually adjusting the subscription if necessary |
 | Contact Support URL leads to a broken page | The URL in settings is incorrect or the page was deleted | Update the **Support Hub URL** on the Retention Flow page |
 
@@ -364,6 +384,7 @@ The subscription status changes to **Paused** with a note about the scheduled re
 - [Retention Use Cases](retention-use-cases.md) — 15+ real-life scenarios for using retention offers effectively
 - [Subscription Self-Service Actions](../customer-portal/self-service-actions.md) — The complete customer portal actions guide
 - [Plan Switching and Relationships](../subscription-products/plan-switching-and-relationships.md) — Configure upgrade/downgrade paths for the downgrade offer
+- [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) - Read a pending plan switch separately from the current plan in custom code
 
 ---
 
@@ -388,4 +409,4 @@ The modal heading and intro message are not currently customizable. Individual o
 Existing retention discounts continue to apply until their cycles are exhausted. Disabling retention offers only prevents new offers from being shown — it does not remove active discounts from existing subscriptions.
 
 ### Does the downgrade offer work with variable products?
-Yes. If the customer's current variation has downgrade paths configured through linked products, those downgrade options will be available in the plan switching flow.
+Yes. If the customer's current variation has downgrade paths configured through linked products, those downgrade options are listed in the offer card's **Select a plan** list. The chosen plan is stored as a pending plan switch and applies when the next renewal order is paid.

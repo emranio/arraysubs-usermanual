@@ -1,13 +1,13 @@
 # Info
 - Module: Per-Post Access Restriction
-- Availability: Free (Plan Feature conditions require Pro)
-- Last updated: 2026-09-02
+- Availability: Free (Plan Feature values are set up with Pro Feature Manager)
+- Last updated: 2026-10-18
 
 # Per-Post Access Restriction
 
 > Lock a single post, page, or custom post type entry from the editor itself — no rule builder, no URL pattern, no shortcode.
 
-**Availability:** Free — **Plan Feature** conditions require **Pro** with Feature Manager.
+**Availability:** Free. **Plan Feature** conditions check features that you set up on products with **Pro** Feature Manager.
 
 ## Page Navigation
 
@@ -42,7 +42,7 @@ The rules are the same ones used by the **Restricted Content** Gutenberg block a
 - ArraySubs installed and active
 - **Member Access** enabled (it is on by default)
 - Editor access to the post type you want to protect
-- ArraySubs **Pro** with Feature Manager, only if you plan to use **Plan Feature** conditions
+- ArraySubs **Pro** with Feature Manager, only to add or edit the product features that **Plan Feature** conditions check
 
 ## Where the Control Appears
 
@@ -65,8 +65,8 @@ The configuration is saved with the post. In the block editor it is stored when 
 
 1. A visitor opens the post, page, or CPT entry.
 2. If **Always Show To Admins** is on and the visitor is an administrator, they see the content immediately.
-3. If **Require Login** is on and the visitor is logged out, access is denied before any other rule is checked.
-4. ArraySubs evaluates the access rules you configured, combining them with your chosen **Match Logic** (all rules, or any one rule).
+3. If the login-only toggle (**Only login is required**) is on, login is the only check: logged-in visitors see the content, logged-out visitors get the denied action, and the access rules are skipped.
+4. Otherwise ArraySubs evaluates the access rules you configured, combining them with your chosen **Match Logic** (all rules, or any one rule).
 5. If the visitor qualifies, the page renders normally.
 6. If the visitor does not qualify, the denied action runs — either the content is replaced with your message, or the visitor is redirected.
 
@@ -107,7 +107,7 @@ Choosing **Login state (visibility)** replaces the rule inputs with a single **S
 | **Logged-in users** | Only signed-in visitors. Everyone else gets the denied action. |
 | **Logged-out users** | Only signed-out visitors. Signed-in members get the denied action. |
 
-**Require Login** is hidden in this mode, because the login state *is* the rule.
+The login-only toggle (**Only login is required**) stays available in this mode. When it is on, it overrides **Show To**: every logged-in visitor gets in and logged-out visitors get the denied action.
 
 ## Access Rules Reference
 
@@ -116,11 +116,11 @@ Choosing **Login state (visibility)** replaces the rule inputs with a single **S
 | Field | What It Checks |
 |---|---|
 | **Subscription Status** | The visitor holds a subscription in one of the selected statuses: Active, Trial, Paused, On Hold, Cancelled, Expired, Pending. |
-| **Active Subscription To Products** | The visitor has an active or trial subscription to one of the selected subscription products. |
-| **Active Subscription To Variations** | The visitor has an active or trial subscription to one of the selected subscription variations. |
-| **Purchased Products (any purchase)** | The visitor has bought one of the selected products in any completed order, subscription or not. |
+| **Active Subscription To Products** | The visitor has an active or trial subscription to one of the selected subscription products (paused too when **Content Access** on **Settings -> Skip & Pause** allows viewing). |
+| **Active Subscription To Variations** | The visitor has an active or trial subscription to one of the selected subscription variations (paused too when **Content Access** allows viewing). |
+| **Purchased Products (any purchase)** | The visitor has bought one of the selected products in a paid order (processing or completed), subscription or not. |
 | **User Roles** | The visitor has one of the selected WordPress roles. |
-| **Minimum Lifetime Spend** | The visitor's total completed spend reaches the amount you enter. |
+| **Minimum Lifetime Spend** | The visitor's total spend across paid orders reaches the amount you enter. |
 | **Match Logic** | **Match ALL** requires every filled-in rule to pass. **Match ANY** grants access as soon as one rule passes. |
 
 ```box class="info-box"
@@ -129,11 +129,15 @@ The product, variation, role, and page pickers search on demand. Start typing to
 
 Leave a field empty to skip that rule entirely. Only the fields you fill in are evaluated.
 
+Each rule is checked across all of the visitor's subscriptions and purchases. With **Match ALL**, two rules can pass through different subscriptions: for example, **Subscription Status** Active can come from one plan and **Active Subscription To Products** from a trial of another. When one subscription must meet every rule, check it in code with the subscription context described in [Check Content Access](../developers/member-access.md).
+
 ### Plan Feature *(Pro)*
 
 ![Plan Feature section with a feature selected, a combined-amount check, and the required amount](per-post-access-restriction.ASSETS/05-modal-plan-feature-original.png)
 
 Feature gating checks entitlements defined with Feature Manager on your subscription products (**Product -> Features**). Use it when content should unlock because of what a plan *includes*, not because of which product was bought.
+
+ArraySubs core evaluates the feature values saved on each product, so the check keeps working from that saved data if Pro or the Feature Manager module is later switched off. A variation's own feature list replaces the parent product's defaults, and a variation with an empty list inherits them. Each product or variation counts once, and on/off features count as 1 (Yes) or 0 (No). See [Feature Entitlement Conditions](../shortcodes/content-gating.md#feature-entitlement-conditions-pro) for how values combine across plans.
 
 | How To Check It | Best for | Behavior |
 |---|---|---|
@@ -152,8 +156,8 @@ This is the part that per-post restrictions add on top of the block and shortcod
 
 The visitor stays on the page. The title, header, footer, and comments still render, but **the whole content is replaced** with your message.
 
-- Leave **Restricted Message** empty to fall back to the site-wide default from **Member Access** settings.
-- You can use the merge tags `{site_name}`, `{login_link}`, and `{pricing_link}` inside the message.
+- Leave **Restricted Message** empty to fall back to the site-wide **Default Message** on **ArraySubs -> Settings -> Content Gate**.
+- You can use the merge tags `{site_name}`, `{login_link}`, and `{pricing_link}` inside the message. Per-post messages replace them; the `[arraysubs_restrict]` shortcode does not.
 
 This is what a denied visitor sees:
 
@@ -183,7 +187,7 @@ If you choose **Redirect** but leave the destination empty, no redirect happens 
 
 | Option | What It Does |
 |---|---|
-| **Require Login** | Logged-out visitors are denied before the access rules are checked. Only shown in **Subscription / Role / Purchase** mode. |
+| **Only login is required** | Login becomes the only requirement: any logged-in visitor gets in, every other rule (including **Show To**) is skipped, and logged-out visitors get the denied action. Shown in both restriction types. |
 | **Always Show To Admins** | Administrators bypass the restriction, so a mistaken rule can never lock you out of your own page. Turn it off when you want to test the denied experience while signed in as an administrator. |
 
 ## Reading the Summary
@@ -196,7 +200,7 @@ Once configured, the sidebar or metabox shows the whole rule in plain language �
 | **Subscription status** / **Subscribed to** / **Purchased** / **User roles** / **Lifetime spend** / **Plan feature** | The rules currently configured. |
 | **Visible to** | Shown instead of the rules when the restriction is in **Login state (visibility)** mode. |
 | **If denied** | Whether the visitor gets a message or a redirect, and where the redirect points. |
-| **Login** | Shown as `Required` when **Require Login** is on. |
+| **Access** | Shown as *Logged-in users only; other conditions are skipped.* when **Only login is required** is on. The rule rows are not listed in that case. |
 
 When nothing is configured, the panel reads *"No restriction — everyone can view this content."*
 
@@ -276,7 +280,8 @@ A whole `/premium/` URL pattern is gated by a URL rule, but one page in that sec
 | The redirect does nothing | No destination is set, or the destination resolves to this same page | Pick a page or enter a full URL, and make sure it points somewhere else |
 | A denied visitor sees the default message instead of the redirect | The redirect destination is empty | Set a destination; the modal warns you when one is missing |
 | A Members Access rule seems to be ignored on one page | That page has its own per-post restriction, which wins | Open **Member Access -> Conflicts** to confirm the overlap, then keep whichever rule should be authoritative |
-| Product/role/page pickers show no results | Nothing matches the search yet, or Pro is inactive for feature checks | Type part of the name to search; confirm Pro and Feature Manager are active for **Plan Feature** |
+| Product/role/page pickers show no results | Nothing matches the search yet, or no product has saved features for the **Plan Feature** picker | Type part of the name to search; add features to your subscription products with Pro Feature Manager before using **Plan Feature** |
+| Logged-in visitors who fail the rules still get in | The login-only toggle is on, so the access rules are skipped | Turn off **Only login is required** when the access rules must apply |
 | A logged-out visitor sees stale content | Full-page cache is serving a cached copy | Exclude the page from full-page cache or vary the cache by login state |
 
 ## Related Guides
@@ -287,6 +292,8 @@ A whole `/premium/` URL pattern is gated by a URL rule, but one page in that sec
 - [Content Gate](content-gate.md) — Gate part of a page instead of the whole page, using the Gutenberg block, Elementor, a shortcode, or PHP.
 - [Content Gating Shortcodes](../shortcodes/content-gating.md) — Inline gating with `[arraysubs_restrict]`.
 - [Feature Manager](../feature-manager/README.md) — Define the plan features used by **Plan Feature** conditions.
+- [Check Content Access](../developers/member-access.md) - Read this restriction's decision from PHP, for a member or for one subscription.
+- [Gate Custom PHP Output](../developers/php-templates.md) - Protect custom template output with the post's saved restriction.
 
 ## FAQ
 
@@ -316,3 +323,6 @@ Not while **Always Show To Admins** is on, which is the default. Turn it off onl
 
 ### Do I have to save the post after configuring?
 Yes. **Apply** closes the modal and updates the summary, but the configuration is stored with the post when you press **Save** or **Update**.
+
+### Can my theme or plugin code check this restriction?
+Yes. The post content is filtered automatically. For other output, such as custom fields or download links in a template, follow [Gate Custom PHP Output](../developers/php-templates.md). To read the decision itself, with the reasons, for a member or for one subscription, see [Check Content Access](../developers/member-access.md).

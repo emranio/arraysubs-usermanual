@@ -1,7 +1,7 @@
 # Info
 - Module: Member Access and Restrictions
 - Availability: Shared (Login Limit requires Pro)
-- Last updated: 2026-07-22
+- Last updated: 2026-10-18
 
 # Member Access and Restrictions
 
@@ -72,6 +72,28 @@ Every rule type uses the same set of conditions. You can mix and match these acr
 
 Conditions support **AND/OR logic** at the top level, and you can create **condition groups** with their own AND/OR logic for complex nested requirements. For example: "Has Active Subscription to Product A **AND** (Lifetime Spend >= $500 **OR** User Role is VIP)."
 
+A few details apply to every rule type:
+
+- The AND/OR value is not case-sensitive in saved rules and imports. An empty or unknown value means AND, so a malformed rule denies access instead of granting it.
+- **Has Active Subscription** and **Has Subscription Variation** count active and trial subscriptions. Paused subscriptions also count when **Content Access** on **ArraySubs -> Settings -> Skip & Pause** is set to full access; limited (view-only) access counts them only for viewing protected content.
+- **Feature Value** is evaluated by core from the feature values saved on your products. You add and edit those features with Pro Feature Manager, and saved values keep working if Pro is later switched off.
+
+## How Conditions Combine Across Subscriptions
+
+Member Access evaluates a rule for the visitor as a whole, not for one subscription at a time. Each condition is checked against all of the visitor's subscriptions and purchases, and different conditions can be met by different subscriptions.
+
+For example, a rule that requires **Has Active Subscription** to Gold **AND** a **Feature Value** of `priority_support` passes for a member whose Gold plan does not include priority support, as long as another plan they hold includes it. When several subscriptions qualify, any one of them is enough for a condition.
+
+Developers can read the same decisions from PHP without redirecting or changing anything, through the Member Access API in [Check Content Access](../developers/member-access.md):
+
+| Context | What it evaluates | Use it when |
+|---|---|---|
+| User context | All of the member's subscriptions combined, the same way the rules on these tabs work | You want the decision a visitor gets on your site |
+| Subscription context | Only one subscription | Every condition must be met by that one subscription, for example to grant a benefit tied to it |
+| Guest context | A logged-out visitor | You want to know what the public sees |
+
+The API checks posts, pages and CPT entries, post type archives, taxonomy terms, URLs, product purchases and comments, and it returns which rule decided and why. To gate custom template output instead, see [Gate Custom PHP Output](../developers/php-templates.md).
+
 ## Content Dripping (Schedule)
 
 Any rule that supports scheduling can delay access for a configurable period after the subscription starts. This is ideal for online courses, phased membership programs, or drip-fed content libraries.
@@ -122,6 +144,8 @@ Not every restriction needs a rule. Every post, page, and custom post type entry
 - [Access-Rule Conflicts (Troubleshooting)](../audits-and-logs/access-rule-conflicts.md) — Diagnose overlapping or conflicting Member Access rules.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses (active, on-hold, cancelled, expired, trial) interact with access rules.
 - [Product Experience and Display — Feature Manager](../subscription-products/product-experience.md) — Set up feature entitlements for Feature Value conditions.
+- [Check Content Access](../developers/member-access.md) - Read Member Access conditions and access decisions from PHP, for a member or for one subscription.
+- [Gate Custom PHP Output](../developers/php-templates.md) - Protect custom theme or plugin output with the shortcode or Member Access helpers.
 
 ---
 
@@ -135,6 +159,9 @@ Yes. Every rule supports multiple conditions with AND or OR logic and nested con
 
 ### What happens if multiple rules conflict?
 Resolution depends on the rule type. Comment restrictions use the first targeted rule the visitor fails; per-item discounts use the best (lowest) final price; overlapping per-product limits use the strictest (lowest) maximum; and Login Limit rules use the highest session limit. See [Access-Rule Conflicts](../audits-and-logs/access-rule-conflicts.md) for detailed resolution guidance.
+
+### Do all conditions in a rule have to be met by the same subscription?
+No. Each condition is checked across all of the member's subscriptions and purchases, so different conditions can be met by different subscriptions. When one subscription must meet every condition, check it in code with the subscription context described in [Check Content Access](../developers/member-access.md).
 
 ### Does Member Access work with WooCommerce Block Checkout / Store API?
 Yes. Shop Access and Purchase Limit rules validate WooCommerce Store API requests, including add-to-cart and cart-item quantity changes in block-based flows.

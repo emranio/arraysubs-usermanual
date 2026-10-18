@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-14
+- Last updated: 2026-10-18
 
 # Getting Started
 
@@ -38,13 +38,42 @@ Once all three tasks are complete, you can dismiss the checklist for the whole s
 
 After setup, return to Home to check recurring revenue, review **Action Center**, and see upcoming renewals. The [Home guide](../analytics/home.md) explains the checklist, date ranges, metric cards, Pro insights, and links to individual subscriptions.
 
+## Free-to-Pro Path
+
+ArraySubs core is free and runs the full subscription engine, including automatic payments through supported gateways. Add ArraySubs Pro when you need Pro modules such as store credit, Feature Manager, retention offers, or advanced analytics.
+
+1. **Launch on the free plugin.** Check the [requirements](before-you-launch.md), set up a [system cron](cron-job-setup.md), and complete [First-Time Setup](first-time-setup.md).
+2. **Upgrade when you need Pro.** Back up the site, keep core installed and active, install the Pro addon, and activate the license. Follow [Upgrade an Existing Free Store to Pro](license-activation.md#upgrade-an-existing-free-store-to-pro).
+3. **Confirm and test.** Check that subscriptions, settings, modules, and integrations are unchanged, then test automatic payments before live use.
+
+```box class="warning-box"
+Pro is an addon to the same store. Never uninstall ArraySubs core or recreate subscriptions to upgrade.
+```
+
+## Staging Checklist
+
+Test upgrades, gateway changes, and custom integrations on a staging copy before you change a live store:
+
+1. Create the copy on its own domain from a recent backup.
+2. Stop scheduled jobs on the copy and switch every gateway to test mode before it runs.
+3. Keep staging email away from real customers.
+4. Activate the Pro license on staging only when the test uses Pro features. See [Staging and Development Sites](license-activation.md#staging-and-development-sites).
+5. Test a checkout, a due automatic renewal, and a failed payment with retry.
+6. Apply the results to the live store without copying the staging database over it.
+
+The full list is in the [Staging Checklist](before-you-launch.md#staging-checklist) on Before You Launch.
+
+## For Developers
+
+Building a custom plugin that reads or updates ArraySubs data? Start with [Developers](../developers/README.md) for supported classes, hooks, and testing guidance.
+
 ## In This Section
 
 ### [Home](../analytics/home.md)
 Find the setup checklist and product shortcuts, then use the subscription dashboard for your daily health check. Available with the free plugin; Pro adds report cards.
 
 ### [Before You Launch](before-you-launch.md)
-Requirements, installation, WooCommerce prerequisites, core concepts (products, billing cycles, trials, statuses), and a clear breakdown of Free versus Pro features.
+Requirements, installation, WooCommerce prerequisites, core concepts (products, billing cycles, trials, statuses), a clear breakdown of Free versus Pro features, the Free-to-Pro upgrade path, and the staging checklist.
 
 ### [Cron Job Setup](cron-job-setup.md)
 **Required for production.** Configure a system cron so renewals, scheduled cancellations, and emails fire on time — not just when somebody visits the site. The single most important reliability change.
@@ -56,7 +85,7 @@ Open **ArraySubs → Home → + Subscription Product** for guided product creati
 A step-by-step checklist: configure your store, create your first subscription product, place a test order, and review the customer portal.
 
 ### [License Activation](license-activation.md)
-Activate ArraySubs Pro with your license key, store the local activation details, remove a local license, and understand how Pro update downloads are gated *(Pro)*.
+Upgrade an existing Free store to Pro, activate ArraySubs Pro with your license key, set up staging and development sites, remove a local license, and understand how Pro update downloads and lifetime licenses work *(Pro)*.
 
 ### [1-Minute Setup](easy-setup-wizard.md)
 A nine-step guide to billing, checkout, plan switching, cancellation, refunds, emails, and optional tools. Launch it from Home or 1-Minute Setup, review the loaded settings, and confirm your changes. Completed setups reopen on the next-step cards; **Start Over** lets you review the saved configuration again.
@@ -102,3 +131,6 @@ Download your full ArraySubs configuration as a JSON file or restore a previousl
 
 ### [Essential Daily Workflows](essential-daily-workflows.md)
 How the subscription lifecycle works from checkout to renewal, where merchants manage everything, and what to verify before going live.
+
+### [Developers](../developers/README.md)
+Connect a custom plugin to ArraySubs through supported classes and hooks, and verify the integration on staging.

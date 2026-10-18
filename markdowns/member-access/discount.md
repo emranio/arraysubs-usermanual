@@ -1,13 +1,13 @@
 # Info
 - Module: Discount
-- Availability: Free
-- Last updated: 2026-07-22
+- Availability: Free (Feature Value conditions require Pro)
+- Last updated: 2026-10-18
 
 # Discount
 
 > Offer member-only pricing and free shipping based on subscription conditions.
 
-**Availability:** Free
+**Availability:** Free. The shared **Feature Value** condition checks features defined with Feature Manager, which requires ArraySubs Pro.
 
 ## Page Navigation
 
@@ -18,6 +18,7 @@
 - **Previous guide:** [Content Gate](./content-gate.md)
 - **Next guide:** [Shop Access](./ecommerce.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+- **Developer reference:** [Read Member Discounts](../developers/discounts.md)
 
 ## Overview
 
@@ -31,7 +32,7 @@ Discount rules can:
 - Exclude products or categories from the discount
 - Apply fixed discounts per item or per cart
 - Make every paid shipping method free when a qualifying cart contains a targeted product
-- Use the same condition builder as the rest of Member Access
+- Use the same condition builder as the rest of Member Access (the **Feature Value** condition requires Pro)
 
 ## How Discount Rules Work
 
@@ -105,6 +106,7 @@ The toggle does not create a new WooCommerce shipping method. It converts the cu
 - [Shop Access](ecommerce.md) — Restrict who can see or buy products, not just who gets special pricing.
 - [Downloads](downloads.md) — Gate downloadable resources instead of product prices.
 - [Coupons](../coupons/README.md) — Coupon-specific behavior outside Member Access discounts.
+- [Read Member Discounts](../developers/discounts.md) - Read-only PHP reference for checking which discount rules apply to a member and previewing a product's member price. Reading never changes carts, coupons, prices, or orders.
 
 ## FAQ
 

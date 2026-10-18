@@ -148,7 +148,7 @@ A gateway with blocking issues is deliberately hidden at checkout. That is the s
 
 Expand the gateway card and review the webhook configuration:
 
-- **Stripe:** the official WooCommerce Stripe webhook URL should be configured by WooCommerce Stripe, and the ArraySubs secondary webhook should show as configured automatically. No manual Stripe Dashboard endpoint is normally required for the ArraySubs URL. If the secondary webhook is missing or was deleted in Stripe, open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs** and click **Refresh** to check and recreate it.
+- **Stripe:** the official WooCommerce Stripe webhook URL should be configured by WooCommerce Stripe, and the ArraySubs secondary webhook should show as configured automatically. No manual Stripe Dashboard endpoint is normally required for the ArraySubs URL. If the secondary webhook is missing or was deleted in Stripe, open **WooCommerce -> Settings -> Payments -> ArraySubs Config** and click **Refresh** to check and recreate it.
 - **Mollie:** nothing to configure. ArraySubs sets its own webhook URL on every renewal payment it creates, and your first-payment webhooks keep going to the Mollie plugin as before.
 - **PayPal:** Developer Dashboard → My Apps & Credentials → REST API apps → Webhooks
 - **Paddle:** Vendor Dashboard → Developer Tools → Notifications → New destination
@@ -176,7 +176,7 @@ Periodically check:
 
 ### Post-Setup Verification
 
-After connecting Stripe for the first time, the merchant visits the dashboard, verifies the status shows `Connected (Test Mode)`, confirms the official Woo Stripe webhook and ArraySubs secondary webhook both show configured, sends a test webhook, and confirms it appears in the event log before switching to live mode. If the ArraySubs secondary webhook was deleted from the Stripe Dashboard, the merchant opens **ArraySubs Stripe Configs** and clicks **Refresh** so ArraySubs recreates the endpoint and saves the new signing secret.
+After connecting Stripe for the first time, the merchant visits the dashboard, verifies the status shows `Connected (Test Mode)`, confirms the official Woo Stripe webhook and ArraySubs secondary webhook both show configured, sends a test webhook, and confirms it appears in the event log before switching to live mode. If the ArraySubs secondary webhook was deleted from the Stripe Dashboard, the merchant opens **ArraySubs Config** and clicks **Refresh** so ArraySubs recreates the endpoint and saves the new signing secret.
 
 ### Debugging Missing Renewals
 
@@ -215,7 +215,7 @@ The gateway has not sent any webhooks that ArraySubs has processed. Either no tr
 Events older than 30 days are automatically cleaned. There is no manual clear button — the log is designed as an audit trail.
 
 **The dashboard shows "Needs Setup" but I've configured the gateway — what's wrong?**
-Expand the card and read the blocking issues list. The two most common are a missing **PayPal Webhook ID** and a missing **Paddle webhook secret** — both are credentials, because without them every incoming notification is rejected. For Stripe, confirm the official WooCommerce Stripe gateway is connected in the active test/live mode, then open **WooCommerce -> Settings -> Payments -> ArraySubs Stripe Configs**. If the Webhook status is not `Enabled`, click **Refresh** to check and recreate the ArraySubs secondary endpoint.
+Expand the card and read the blocking issues list. The two most common are a missing **PayPal Webhook ID** and a missing **Paddle webhook secret** — both are credentials, because without them every incoming notification is rejected. For Stripe, confirm the official WooCommerce Stripe gateway is connected in the active test/live mode, then open **WooCommerce -> Settings -> Payments -> ArraySubs Config**. If the Webhook status is not `Enabled`, click **Refresh** to check and recreate the ArraySubs secondary endpoint.
 
 **A gateway is missing from my checkout even though it says Connected — why?**
 It was hidden for that specific cart. A gateway is hidden when it cannot take what is in the cart — a mixed cart on PayPal, mixed billing cycles on Paddle, a coupon that must recur. Expand the gateway card here to see which capabilities it has; the checkout message names the gateway and the reason. ArraySubs never hides the last remaining payment option.

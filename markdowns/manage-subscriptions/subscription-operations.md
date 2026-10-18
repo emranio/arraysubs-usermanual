@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Admin
 - Availability: Shared
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # Subscription Operations
 
@@ -30,7 +30,8 @@ ArraySubs gives you four main screens for working with subscriptions:
 ## Prerequisites
 
 - At least one subscription product published in your store.
-- Admin or Shop Manager access (**manage_woocommerce** or **manage_options** capability).
+- Admin or Shop Manager access (**manage_woocommerce** or **manage_options** capability) to view, edit, and export subscriptions.
+- Creating a subscription with **Add New** requires the **manage_options** capability (administrators).
 
 ---
 
@@ -73,7 +74,9 @@ Use the status tabs at the top of the list to narrow results:
 
 ### Searching
 
-The search bar accepts customer name, email address, or username. Type at least a few characters and press Enter to refresh the list with matching records.
+The search bar accepts a subscription ID (`123` or `#123`), a customer's name, email address, or username, or a product or variation name. Type at least a few characters and press Enter to refresh the list with matching records.
+
+Very broad terms are capped: a search checks at most the first 100 matching customers and the first 100 matching products. If a record you expect is missing, search by its subscription ID or a more specific customer email or product name.
 
 ### Row Actions
 
@@ -83,10 +86,35 @@ Hover over any subscription row (or use the action column) to see:
 |--------|--------------|
 | **View Details** | Opens the read-only detail screen with full subscription information, timeline, orders, and notes |
 | **Edit** | Opens the edit form where you can update the invoice email, addresses, and status-related details |
-| **Delete** | Permanently removes the subscription — only available for Pending, On Hold, Cancelled, and Expired subscriptions |
+| **Delete Permanently** | Permanently removes the subscription. Offered for Pending, On Hold, Cancelled, and Expired subscriptions. |
 
 ```box class="warning-box"
-You cannot delete Active or Trial subscriptions. Cancel the subscription first, then delete it if needed.
+The row action is not offered for Active, Trial, or Paused subscriptions. Cancel the subscription first, then delete it if you still need the record gone.
+```
+
+### Deleting a Subscription
+
+Deletion removes the subscription record for good. Subscriptions have no trash, so there is nothing to restore afterwards.
+
+| Item | What happens when you delete from this list |
+|------|---------------------------------------------|
+| The subscription record | Permanently deleted |
+| Scheduled renewal, reminder, and status jobs | Removed |
+| Subscription notes | Deleted with the record |
+| Linked WooCommerce orders | Kept. Orders are never deleted with a subscription. |
+| The customer account | Kept |
+| Included box or bundle subscriptions | Kept by design. They stay in the admin and customer lists, still pointing at the deleted box or bundle, and no longer follow it. |
+
+Deleting does not cancel billing at the payment provider, and integrations that listen for ArraySubs lifecycle events are not told about a deletion made from this list. Cancel first when the customer should stop being charged or lose access; cancellation runs the full lifecycle, emails, and events. Then delete only if you no longer need the record.
+
+To remove a whole box or bundle family, cancel the box or bundle subscription (its included subscriptions are cancelled with it), delete it, then delete each included subscription from the list as well.
+
+```box class="warning-box"
+**The bulk action skips the status check.** **Bulk actions -> Delete Permanently** deletes every selected subscription, including Active, Trial, and Paused ones. Check the status of your selection before you click **Apply**.
+```
+
+```box class="info-box"
+**Deleting from code removes included subscriptions.** A developer who deletes a subscription through the ArraySubs API (`Subscriptions::delete()` or `arraysubs_delete_subscription()`) also deletes its box or bundle's included subscriptions, removes their jobs and notes, and reports what was removed. Linked orders are kept on that path too. See [Find and Update Subscriptions](../developers/subscriptions.md).
 ```
 
 ### Exporting Subscriptions
@@ -102,6 +130,12 @@ See [Subscription Data Export](subscription-data-export.md) for the full column 
 ### Pagination
 
 The list shows 20 subscriptions per page. Use the page controls at the bottom to navigate.
+
+Included box and bundle subscriptions are listed as their own rows with a zero recurring amount. Open **View Details** to see the box or bundle they belong to.
+
+```box class="info-box"
+For scripts and custom plugins, the developer API returns pages of up to 100 subscriptions with a continuation cursor, and lets you request full records, selected field groups, or IDs only. See [Find and Update Subscriptions](../developers/subscriptions.md).
+```
 
 ---
 
@@ -286,25 +320,29 @@ When you click **Cancel Subscription**, a modal appears with:
 
 ### Information Cards
 
-The detail screen displays up to 16 card sections in this order:
+The detail screen displays up to 17 card sections in this order:
 
 | # | Card | Always Visible? |
 |---|------|-----------------|
 | 1 | [Subscription Info](#subscription-info-card) | Yes |
 | 2 | [Cancellation Details](subscription-detail-cards.md#cancellation-details-card) | Only if the subscription has cancellation data |
-| 3 | [Skip & Pause](subscription-detail-cards.md#skip-and-pause-card) | Yes (shows disabled state if features not enabled) |
-| 4 | [Customer Information](#customer-information-card) | Yes |
-| 5 | [Product](#product-card) | Yes |
-| 6 | [Billing Information](#billing-information-card) | Yes |
-| 7 | [Checkout Builder Fields](subscription-detail-cards.md#checkout-builder-custom-fields-card) | Only if custom checkout fields exist (**Pro**) |
-| 8 | [Coupon Discount](subscription-detail-cards.md#coupon-discount-card) | Only if a coupon is applied |
-| 9 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card) | Only if an automatic payment gateway is attached (**Pro**) |
-| 10 | [Billing Address](#billing-address-card) | Yes |
-| 11 | [Shipping Address](#shipping-address-card) | Yes |
-| 12 | [Subscription Shipping](subscription-detail-cards.md#subscription-shipping-card) | Only if the product requires shipping (**Pro**) |
-| 13 | [Order History](#order-history-card) | Yes |
-| 14 | [Payment Timeline](#payment-timeline) | Yes |
-| 15 | [Subscription Notes](#subscription-notes) | Yes |
+| 3 | [Pending Plan Switch](subscription-detail-cards.md#pending-plan-switch-card) | Only if a plan switch is waiting for the next renewal |
+| 4 | [Skip & Pause](subscription-detail-cards.md#skip-and-pause-card) | Yes (shows disabled state if features not enabled) |
+| 5 | [Customer Information](#customer-information-card) | Yes |
+| 6 | [Product](#product-card) | Yes |
+| 7 | [Billing Information](#billing-information-card) | Yes |
+| 8 | [Checkout Builder Fields](subscription-detail-cards.md#checkout-builder-custom-fields-card-pro) | Only if custom checkout fields exist (**Pro**) |
+| 9 | [Coupon Discount](subscription-detail-cards.md#coupon-discount-card) | Only if a coupon is applied |
+| 10 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card-pro) | Only if an automatic payment gateway is attached (**Pro**) |
+| 11 | [Billing Address](#billing-address-card) | Yes |
+| 12 | [Shipping Address](#shipping-address-card) | Yes |
+| 13 | [Subscription Shipping](subscription-detail-cards.md#subscription-shipping-card-pro) | Only if the product requires shipping (**Pro**) |
+| 14 | [Box or Bundle](#box-or-bundle-card) | Only for a box or bundle subscription and the subscriptions included in it |
+| 15 | [Order History](#order-history-card) | Yes |
+| 16 | [Payment Timeline](#payment-timeline) | Yes |
+| 17 | [Subscription Notes](#subscription-notes) | Yes |
+
+The **Subscription Info** and **Billing Information** cards always show the plan the subscription bills on now. A plan switch waiting for the next renewal appears separately, in the **Pending Plan Switch** card and as a **Plan switch at next renewal** badge in the header, and the current plan does not change until that renewal is paid.
 
 Each conditional card is covered in detail in the [Subscription Detail Cards](subscription-detail-cards.md) guide. The always-visible cards are described below.
 
@@ -364,9 +402,20 @@ Shows the full formatted billing address: name, company, street address, city, s
 
 Shows the full formatted shipping address (same layout as billing, without phone).
 
+### Box or Bundle Card
+
+This card appears on subscriptions that belong to a subscription box (core) or a subscription bundle (**Pro**) family. Its title is **Box Contents** or **Bundle Contents** on the box or bundle subscription, and **Subscription Box** or **Subscription Bundle** on a subscription included in one.
+
+| Shown on | What It Shows |
+|----------|---------------|
+| The box or bundle subscription | The contents frozen at purchase (item, quantity, unit price, line total, and any **Free gift**), the subtotal, the box or bundle discount, the total, any answers the customer gave, and an **Included subscriptions** list linking to each included subscription with its status |
+| An included subscription | A **Part of:** link to the box or bundle subscription that bills for it |
+
+The box or bundle subscription is the billing owner. Make billing and lifecycle changes there: its status changes are copied to the included subscriptions, and their dates and payment count are refreshed each time a box or bundle renewal is paid. The admin screens do not stop you from changing an included subscription directly, but the next status change on its box or bundle overwrites it.
+
 ### Order History Card
 
-A table showing every order linked to this subscription:
+A table of the orders recorded on this subscription, newest first: the initial order, renewal orders (including renewal invoices that are still unpaid), and manual payment orders.
 
 | Column | What It Shows |
 |--------|---------------|
@@ -375,8 +424,10 @@ A table showing every order linked to this subscription:
 | **Status** | WooCommerce order status (Processing, Completed, etc.) |
 | **Total** | Order total with currency |
 | **Refunded** | Refund amount (red text), or a dash if no refunds |
-| **Type** | "Initial" for the signup order, "Renewal" for all subsequent orders |
+| **Type** | "Renewal" for renewal orders, "Initial" for every other listed order, including manual payment orders |
 | **Actions** | "View Order" link to the WooCommerce order |
+
+Orders created for an immediate plan switch are not listed in this card; find them under **WooCommerce -> Orders**. A subscription included in a box or bundle lists its initial order and the box or bundle renewals that were paid. Developers can read every related order with its type (initial, renewal, switch, early renewal, or manual) through [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md).
 
 When an order has refunds, each refund appears as an indented sub-row below the parent order showing the refund ID, date, amount, and reason.
 
@@ -442,8 +493,9 @@ A customer asks to stop their subscription but wants to keep access until their 
 
 | Problem | Likely Cause | What to Do |
 |---------|--------------|------------|
-| Cannot find a subscription in the list | Wrong status filter selected, or searching by product name instead of customer | Switch to the **All** tab and search by customer name, email, or username |
-| Cannot delete a subscription | The subscription is Active or in Trial | Cancel the subscription first, then delete it |
+| Cannot find a subscription in the list | Wrong status tab selected, or a search term so broad that it hits the 100-customer or 100-product cap | Switch to the **All** tab and search by subscription ID, the customer's email, or a more specific product name |
+| Cannot delete a subscription | The subscription is Active, Trial, or Paused | Cancel the subscription first, then delete it |
+| Included box or bundle subscriptions are still listed after deleting the box or bundle | Deleting from the list keeps included subscriptions by design | Delete each included subscription as well (cancel them first if they are still active) |
 | Product fields do not auto-fill when selecting a product | The product does not have subscription data configured | Verify the product is a subscription product with billing period, interval, and price set |
 | Status change to Active does not schedule renewals | The scheduler is not running, or the subscription billing configuration is invalid | Check **WooCommerce → Status → Scheduled Actions**, confirm the billing interval and period are correct, and verify the detail screen shows a valid automatically calculated next payment date |
 
@@ -457,6 +509,9 @@ A customer asks to stop their subscription but wants to keep access until their 
 - [Lifecycle Management](lifecycle-management.md) — the complete status transition system
 - [Subscription Products — Create and Configure](../subscription-products/create-and-configure.md) — setting up products before creating subscriptions
 - [Settings — General Settings](../settings/general-settings.md) — grace periods, email timing, and customer portal options
+- [Find and Update Subscriptions](../developers/subscriptions.md) - developer reference for querying, reading, updating, and deleting subscriptions
+- [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) - developer reference for box and bundle families and related orders
+- [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) - developer reference for the customer behind a subscription
 
 ---
 
@@ -478,4 +533,10 @@ Yes. The export matches whatever the list is showing, so switch to the status ta
 It opens the store frontend in a new session logged in as that customer. This requires the Login as User module to be enabled. The button includes a back-URL so you can return to the admin dashboard.
 
 ### Why is the Delete button missing on some subscriptions?
-Active and Trial subscriptions cannot be deleted directly. Cancel the subscription first, then the delete action will become available.
+Active, Trial, and Paused subscriptions cannot be deleted from the row action. Cancel the subscription first, then the **Delete Permanently** action becomes available.
+
+### Can I restore a deleted subscription?
+No. Subscriptions have no trash, and deletion is permanent. Linked WooCommerce orders are kept, but the subscription record, its notes, and its scheduled jobs are gone. Cancel instead when you only want billing and access to stop.
+
+### Does deleting a box or bundle subscription delete its included subscriptions?
+Not when you delete from the All Subscriptions list: the included subscriptions are kept by design and stay listed. Deleting through the developer API removes them together with the box or bundle. See [Deleting a Subscription](#deleting-a-subscription).

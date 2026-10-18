@@ -1,7 +1,7 @@
 # Info
 - Module: General Settings
 - Availability: Shared (one section requires Pro)
-- Last updated: 2026-06-03
+- Last updated: 2026-10-18
 
 # General Settings
 
@@ -20,7 +20,7 @@
 
 ## Overview
 
-![Settings — General tab active with Settings tabs row](../README.ASSETS/01-settings-general-tabs-overview-annotated.png)
+![Settings — General tab active with Settings tabs row](README.ASSETS/01-settings-general-tabs-overview-annotated.png)
 
 The General Settings page is the first place to visit after installing ArraySubs. It collects the store-wide rules that shape how subscriptions behave during checkout, renewal, and day-to-day management.
 
@@ -456,7 +456,7 @@ A subscription box store wants to give customers plenty of time to resolve payme
 - **Auto Migrate requires exactly one match.** If a customer has multiple active subscriptions and tries to purchase a new plan, checkout migration will not kick in. The customer must manage the switch manually.
 - **Guest checkout is never available for subscriptions.** Even when WooCommerce allows guest checkout, subscription purchases always require an account.
 - **Disabling "Allow Cancellation" hides the button but does not remove admin's ability** to cancel subscriptions from the admin panel.
-- **Grace period changes apply to future renewals only.** Subscriptions already in a grace phase use the timing values that were active when their grace period started.
+- **Grace period changes apply on the next hourly check.** The overdue check reads the current values every time it runs, so subscriptions already in a grace phase move to On Hold or Cancelled using the new values. A per-subscription override set through the [developer API](../developers/status-grace-periods-and-trials.md) takes precedence over these store-wide values.
 - **Auto-renew toggle (Pro) does not cancel the subscription.** It only switches future renewals from automatic to manual invoice mode. The subscription remains active.
 
 ---
@@ -490,7 +490,7 @@ A subscription box store wants to give customers plenty of time to resolve payme
 Yes. These settings are store-wide defaults. Individual product configurations (like trial length or billing period) are set on the product edit screen, but cart rules, checkout behavior, grace periods, and customer actions are global.
 
 ### What happens if I change the grace period while subscriptions are in a grace phase?
-Subscriptions already in a grace phase keep the values that were active when the phase started. New grace periods triggered after the change will use the updated values.
+The new values apply from the next hourly overdue check, including to subscriptions that are already in a grace phase. The check reads the current settings each time it runs.
 
 ### Can I allow cancellation for some products but not others?
 Not from this screen. The Customer Actions toggles apply globally to all subscription products. Per-product or per-plan action controls would need to be managed through the Retention Flow or conditional hooks.

@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Admin
 - Availability: Free, some cards and tools require Pro
-- Last updated: 2026-09-09
+- Last updated: 2026-10-18
 
 # Manage Subscriptions
 
@@ -38,7 +38,7 @@ This section covers five main areas:
 
 - You need to look up a customer's subscription status or billing details.
 - You want to create a subscription manually (for phone orders, migrations, or exceptions).
-- You need to reschedule a renewal, update an address, or change a subscription's status.
+- You need to move a renewal with skip or pause, update an address, or change a subscription's status.
 - You want to review payment history, refund records, or admin notes for a specific subscription.
 - You need subscription data outside WordPress — a shipping label sheet, a revenue spreadsheet, or a file for a fulfilment partner.
 - You need to understand what happens at each stage of a subscription's life.
@@ -61,6 +61,27 @@ See [Subscription Products](../subscription-products/README.md) for the full pro
 
 Navigate to **ArraySubs → Subscriptions** in the WordPress admin sidebar. This opens the All Subscriptions list. From there, every subscription operation is one or two clicks away.
 
+## Good to Know Before You Change Records
+
+- **Deleting is permanent.** Subscriptions have no trash, so a deleted subscription cannot be restored. Cancel instead when you only want billing and access to stop. See [Deleting a Subscription](subscription-operations.md#deleting-a-subscription).
+- **Deleting from the list keeps box and bundle members.** A box or bundle subscription is the billing owner of the zero-value subscriptions included in it. Deleting the box or bundle from the All Subscriptions list keeps those included subscriptions by design; deleting it through the developer API removes them too.
+- **Manage a family through its billing owner.** Pause, skip, cancel, and reactivate the box or bundle subscription. Its included subscriptions follow it, and customers cannot manage them separately.
+- **Lists, exports, and the API return different amounts of data.** The list shows 20 subscriptions per page. **Export CSV** writes every matching subscription into one file. The developer API returns pages of up to 100 subscriptions with a continuation cursor, and you choose full records, selected field groups, or IDs only. See [Subscription Data Export](subscription-data-export.md#full-partial-and-paged-data).
+
+## For Developers
+
+Custom plugins read and change subscriptions through the ArraySubs developer API instead of editing subscription meta. Start with these references:
+
+| Task | Reference |
+|------|-----------|
+| Find subscriptions by ID, customer, email, product, or order; read full, selected, or paged data; make allowlisted updates; run lifecycle operations; delete | [Find and Update Subscriptions](../developers/subscriptions.md) |
+| Resolve box and bundle families, billing owners, and related orders | [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) |
+| Read the stored status, the computed lifecycle phase, grace, trials, the current plan, and a pending plan switch | [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) |
+| Find the customer behind a subscription and update profile fields | [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) |
+| Read the catalog terms of a subscription product | [Read Subscription Product Terms](../developers/subscription-products.md) |
+
+The [Developers](../developers/README.md) overview lists every class with its Core (Free) or Pro availability.
+
 ---
 
 ## Related Guides
@@ -69,3 +90,6 @@ Navigate to **ArraySubs → Subscriptions** in the WordPress admin sidebar. This
 - [Getting Started — Essential Daily Workflows](../getting-started/essential-daily-workflows.md)
 - [Subscription Products — Create and Configure](../subscription-products/create-and-configure.md)
 - [Settings — General Settings](../settings/general-settings.md)
+- [Developers](../developers/README.md) - the developer API overview
+- [Find and Update Subscriptions](../developers/subscriptions.md) - query, read, update, and delete subscriptions in code
+- [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) - box and bundle families and related orders in code

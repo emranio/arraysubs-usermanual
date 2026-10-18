@@ -1,7 +1,7 @@
 # Info
 - Module: Profile Builder and My Account Customization
 - Availability: Pro (Profile Form, My Account Editor); Shortcodes stays Free
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Profile Builder and My Account Customization
 
@@ -52,6 +52,10 @@ The Profile Builder menu lives in the main ArraySubs admin panel:
 
 ![My Account editor — menu customization toggle](README.ASSETS/02-my-account-editor-overview-annotated.png)
 
+## For Developers
+
+Custom code can find a customer by account email, username, user ID, subscription or a profile field value, and read or update profile fields from PHP. Updates are checked against the field settings on the Profile Form page before they are saved, and a lookup that must return one customer reports an ambiguous match instead of picking the first one. See [Find Members and Update Profiles](../developers/customers-and-profile-fields.md). Profile field lookups and updates require ArraySubs Pro.
+
 ## Guides in This Section
 
 - [Profile Form](profile-form.md) *(Pro)* — Custom fields, avatar settings, field types, and where data appears
@@ -65,3 +69,4 @@ The Profile Builder menu lives in the main ArraySubs admin panel:
 - [Customer Portal](../customer-portal/README.md) — How customers interact with subscriptions in My Account
 - [Settings — Toolkit](../settings/toolkit-settings.md) — Login page hiding, admin bar, and wp-admin access settings
 - [Store Credit](../store-credit/README.md) — Store Credit My Account page *(Pro)*
+- [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) - Developer reference for customer lookups and validated profile field updates

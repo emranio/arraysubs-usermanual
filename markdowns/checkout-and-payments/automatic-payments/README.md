@@ -1,13 +1,13 @@
 # Info
 - Module: Automatic Payments
-- Availability: Pro
-- Last updated: 2026-08-17
+- Availability: Free
+- Last updated: 2026-10-18
 
 # Gateway Overview and Architecture
 
 > How ArraySubs connects to payment gateways for automatic recurring billing — the two billing models, supported gateways, capability matrix, and payment method lifecycle.
 
-**Availability:** Pro
+**Availability:** Free (ArraySubs core). Automatic payments do not require ArraySubs Pro. Stripe and Mollie also need their official WooCommerce gateway plugins.
 
 ## Page Navigation
 
@@ -20,9 +20,11 @@
 
 ## Overview
 
-ArraySubs Pro integrates with four payment gateways — **Stripe**, **PayPal**, **Paddle**, and **Mollie** — to process subscription payments automatically. Each gateway handles initial checkout payments, stores customer payment methods, and charges renewal invoices without merchant or customer intervention.
+ArraySubs integrates with four payment gateways — **Stripe**, **PayPal**, **Paddle**, and **Mollie** — to process subscription payments automatically. Each gateway handles initial checkout payments, stores customer payment methods, and charges renewal invoices without merchant or customer intervention.
 
 Stripe and Mollie ride the gateway plugin you already use for checkout: ArraySubs adds the recurring half rather than replacing your payment provider. PayPal and Paddle are ArraySubs' own checkout gateways.
+
+Automatic payments are part of the free ArraySubs core plugin. You do not need ArraySubs Pro to charge renewals automatically through any of these gateways. Before launch, prove a real scheduled renewal on staging with [Test Automatic Renewals on Staging](stripe.md#test-automatic-renewals-on-staging).
 
 
 The architecture supports two fundamentally different billing models, and understanding which model your gateway uses is essential for configuring your store correctly.
@@ -174,6 +176,25 @@ Hiding incapable gateways at checkout can be switched off entirely with `arraysu
 
 ---
 
+## Automatic Renewal or Manual Invoice
+
+For ArraySubs-managed billing (Stripe and Mollie) and for manual gateways, ArraySubs creates each renewal order as an unpaid invoice shortly before the due date (**Generate Invoice Before Due** in **ArraySubs -> Settings -> General**). At the due time, the scheduled `arraysubs_process_renewal` action either charges the stored payment method automatically or leaves the invoice for the customer to pay:
+
+| Situation at the due time | Result |
+|---|---|
+| The subscription uses an enabled automatic gateway, auto-renew is on, the gateway status is **Connected**, and a payment method is stored | **Auto-renew:** the gateway charges the stored payment method off-session, with no customer action |
+| The customer turned auto-renew off | **Manual fallback:** the invoice stays unpaid and the customer pays it from the payment link |
+| The gateway is disabled or unavailable, the gateway status is not **Connected** (for example **Detached** or **Error**), or no payment method is stored | **Manual fallback**, and a gateway log entry records why no charge was attempted |
+| The subscription was bought with a manual gateway, such as bank transfer, cheque, or cash on delivery | Manual invoice every cycle |
+
+PayPal and Paddle charge on their own schedule, so ArraySubs records those payments from their webhooks instead of charging. Unpaid manual invoices follow the same grace period as failed automatic charges. See [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) for the customer toggle and what it changes at each provider.
+
+## Test Automatic Renewals Before Launch
+
+A successful first checkout does not prove that renewals charge automatically. Before launch, run a real scheduled renewal on a staging site in Stripe test mode: [Test Automatic Renewals on Staging](stripe.md#test-automatic-renewals-on-staging) covers safe copies of a live site, which plugin receives which webhook, a due renewal, a failed renewal with retry and grace, and the return to live. Developers can follow the same run with [Verify Your Integration](../../developers/errors-and-testing.md) and the renewal, retry, and grace events in [React to Supported Events](../../developers/actions-and-filters.md).
+
+---
+
 ## Payment Method Lifecycle
 
 Every subscription that uses a gateway stores payment method details as metadata on the subscription record.
@@ -229,7 +250,7 @@ https://yoursite.com/wp-json/arraysubs/v1/webhooks/{gateway_slug}
 ```
 
 For example:
-- Stripe: official WooCommerce Stripe Gateway webhook URL for core payment events, plus an ArraySubs secondary endpoint `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe` for ArraySubs-specific payment-method, card, and reconciliation events. ArraySubsPro creates or repairs this secondary endpoint automatically through the active WooCommerce Stripe API connection.
+- Stripe: official WooCommerce Stripe Gateway webhook URL for core payment events, plus an ArraySubs secondary endpoint `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_stripe` for ArraySubs-specific payment-method, card, and reconciliation events. ArraySubs creates or repairs this secondary endpoint automatically through the active WooCommerce Stripe API connection.
 - PayPal: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal`
 - Paddle: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle`
 - Mollie: `https://yoursite.com/wp-json/arraysubs/v1/webhooks/mollie` — set automatically on every renewal payment ArraySubs creates, so there is nothing to configure at Mollie
@@ -303,10 +324,16 @@ A digital course seller uses Paddle as Merchant of Record. Paddle handles all ta
 - [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) — Customer toggle and manual payment flow
 - [Gateway Health Dashboard](../../gateway-health/README.md) — Monitoring and webhook event log
 - [Cron Job Setup](../../getting-started/cron-job-setup.md) — Required for automatic retries and scheduled jobs to fire reliably
+- [Test Automatic Renewals on Staging](stripe.md#test-automatic-renewals-on-staging) - Stripe test-mode walkthrough for a real scheduled renewal
+- [React to Supported Events](../../developers/actions-and-filters.md) - Renewal, retry, and grace events for developers
+- [Verify Your Integration](../../developers/errors-and-testing.md) - Developer error handling and staging checks
 
 ---
 
 ## FAQ
+
+**Do automatic payments require ArraySubs Pro?**
+No. Automatic payments, including Stripe renewals through the official WooCommerce Stripe Gateway, are part of the free ArraySubs core plugin.
 
 **Can I use multiple gateways at the same time?**
 Yes. All four gateways can be enabled simultaneously. Customers choose their preferred gateway at checkout. Each subscription is tied to the gateway used for its initial purchase.
@@ -318,7 +345,7 @@ The renewal engine has a fallback: if no webhook confirms payment within the gra
 Not directly. You would need to detach the current gateway (converting to manual payments) and then have the customer pay a renewal invoice with the new gateway. The new gateway's payment method is then stored for future renewals.
 
 **Do I need to configure webhooks manually?**
-For Stripe, normally no. Configure and connect the official WooCommerce Stripe Gateway first; ArraySubsPro uses that official connection to create or repair its secondary ArraySubs Stripe webhook automatically for the active test/live mode. PayPal and Paddle still require their webhook details to be configured in their provider dashboards. Mollie needs no dashboard webhook at all — ArraySubs sends the webhook URL with every renewal payment it creates. Paddle also requires a Default Payment Link in Paddle Dashboard -> Checkout -> Checkout settings before transaction checkout can open.
+For Stripe, normally no. Configure and connect the official WooCommerce Stripe Gateway first; ArraySubs uses that official connection to create or repair its secondary ArraySubs Stripe webhook automatically for the active test/live mode. PayPal and Paddle still require their webhook details to be configured in their provider dashboards. Mollie needs no dashboard webhook at all — ArraySubs sends the webhook URL with every renewal payment it creates. Paddle also requires a Default Payment Link in Paddle Dashboard -> Checkout -> Checkout settings before transaction checkout can open.
 
 **What if a customer's card expires?**
 ArraySubs now warns the customer itself, on every gateway that stores a card expiry — Stripe, Mollie, Paddle, and card-funded PayPal subscriptions. A daily sweep checks the expiry date already stored on each subscription and emails the customer **30 days** and **7 days** before the card stops working, once each. Replacing the card re-arms the warning for the new expiry date. On Stripe and Paddle the card network may also update a reissued card automatically, in which case no warning is needed. A subscription paid from a PayPal wallet balance or a SEPA mandate has no card to expire and produces no warning.

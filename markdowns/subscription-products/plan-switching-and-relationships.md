@@ -1,13 +1,13 @@
 # Info
 - Module: Plan Switching / Fixed Period Membership
-- Availability: Shared (plan switching: Free, fixed-period membership: Pro)
-- Last updated: 2026-09-09
+- Availability: Shared (plan switching and auto-downgrade: Free; plan-switch credit: Pro Store Credit; fixed-period membership: Pro)
+- Last updated: 2026-10-18
 
 # Plan Switching and Product Relationships
 
 > Configure upgrade, downgrade, and crossgrade paths between subscription products. Set automatic fallback plans and fixed membership periods.
 
-**Availability:** Free (plan switching), Pro (fixed-period membership)
+**Availability:** Free (plan switching and auto-downgrade); Pro with the Store Credit module on (plan-switch credit); Pro (fixed-period membership)
 
 ## Page Navigation
 
@@ -52,8 +52,8 @@ Open the Linked Products tab and scroll to the **Subscription Plan Switching** s
 | Field | Type | Description |
 |---|---|---|
 | **Upgrade to** | Multi-select (product search) | Products customers can upgrade to. Upgrades are higher-priced plans. A prorated order is created for the price difference. |
-| **Downgrade to** | Multi-select (product search) | Products customers can downgrade to. Downgrades are lower-priced plans. The customer may receive store credit for the remaining balance. |
-| **Crossgrade to** | Multi-select (product search) | Products customers can crossgrade to. Crossgrades are lateral switches between plans of similar value. No proration or credit is applied by default. |
+| **Downgrade to** | Multi-select (product search) | Products customers can downgrade to. Downgrades are lower-priced plans. Unused value on the current plan can become [plan-switch credit](#plan-switch-credit) *(Pro Store Credit)*; without Store Credit the downgrade waits for the next renewal. |
+| **Crossgrade to** | Multi-select (product search) | Products customers can crossgrade to. Crossgrades are lateral switches between plans of similar value. They follow the same proration rules, so a small charge or credit is possible. |
 | **Auto-downgrade to** | Single-select (product search) | Automatically switch to this product when the subscription expires or is cancelled. Useful for falling back to a free tier. Timing is controlled in the plan switching settings. |
 
 All fields use AJAX product search — type to search for subscription products by name or SKU.
@@ -105,7 +105,7 @@ The proration method is controlled in the plan switching settings (**ArraySubs �
 | Days remaining | Days left until the next scheduled payment |
 | Credit amount | Value of unused time on the current plan |
 | New plan charge | Price of the new plan (prorated for the remaining period, if applicable) |
-| Net amount | Charge minus credit — this is what the customer pays (or receives as credit for downgrades) |
+| Net amount | Charge minus credit, plus any switch fee. This is what the customer pays now. When the credit is larger than the charge, the excess becomes [plan-switch credit](#plan-switch-credit). |
 | Switch fee | Optional per-direction fee added on top of the proration |
 
 ### Switch Fees
@@ -119,6 +119,19 @@ You can configure a flat fee for each switch direction:
 | Crossgrade fee | $0 | Additional charge when crossgrading |
 
 For immediate switches, the fee is shown as part of the proration order. For Apply at Renewal switches, the fee is stored with the pending switch and added to the next renewal invoice. This means a later settings change does not unexpectedly change the fee already shown to the customer.
+
+### Plan-Switch Credit
+
+Under **Prorate immediately**, the value of unused time on the current plan can be larger than the charge for the new plan, most often on a downgrade. What happens to that excess depends on Store Credit:
+
+| Store | What happens |
+|---|---|
+| ArraySubs Pro with the **Store Credit** module on | The switch applies right away. The excess is added to that subscription's store credit as a Store Credit ledger entry with the plan switch as its source, the credit-added email is sent, and the credit is applied to that subscription's renewal invoices before any customer-level credit. |
+| No Store Credit (free plugin only, Pro unlicensed, or the Store Credit module off) | No credit is created. The switch is handled like **Apply at renewal** instead: it is stored as a pending plan switch, and the new plan and price start with the next renewal. The customer's preview shows it as a change at renewal, with no credit line. |
+
+If Store Credit is switched on or off between the customer's preview and their confirmation, the customer is asked to confirm the updated terms again.
+
+Ledger entries are permanent: a correction is a new entry, never an edit or a deletion. See [Store Credit](../store-credit/README.md) for balances and history, and [Read and Update Store Credit](../developers/store-credit.md) for the developer reference.
 
 ### Pending Switch Details
 
@@ -135,6 +148,22 @@ Admins and customers can see:
 - who requested the change and when
 
 If a customer tries to schedule another Apply at Renewal switch while one is already pending, ArraySubs asks for explicit confirmation before replacing it. The existing future change is not silently overwritten.
+
+### Current Plan and Pending Plan Switch
+
+A subscription with a pending plan switch has two plans on record, and they mean different things:
+
+| | Current plan | Pending plan switch |
+|---|---|---|
+| What it is | The product or variation, quantity, price, and schedule the subscription bills on now | A stored future change: the target plan, its price, any switch fee, and the renewal date it is expected to apply on |
+| What applies today | Access, Feature Manager entitlements, and the product and price shown on the subscription | Nothing yet. The admin shows a **Plan switch at next renewal** badge and the customer portal shows the pending change. |
+| When it changes | When a pending switch applies, on an immediate switch, or on an auto-downgrade | It applies when the renewal order built on the target plan is paid. It is removed when it applies, when it is cancelled, or when an admin or the customer cancels the subscription. |
+
+The renewal invoice for the switch date is built on the target plan, with any switch fee as its own line. From the moment that invoice exists, the pending switch is frozen: it can no longer be replaced or cancelled, and paying the invoice applies it. Until then, the subscription stays on its current plan, including through the grace flow if the invoice goes unpaid.
+
+Auto-downgrade is separate from a pending plan switch. It changes the plan at once when its trigger fires and never waits for a renewal.
+
+In the admin, see the [Pending Plan Switch card](../manage-subscriptions/subscription-detail-cards.md#pending-plan-switch-card). Developers read the two separately (the current plan and the pending switch are different blocks of the lifecycle state) through [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md), and react to applied switches through [React to Supported Events](../developers/actions-and-filters.md).
 
 ### Rounding
 
@@ -165,16 +194,17 @@ The global setting `auto_downgrade_timing` determines when the auto-downgrade fi
 | Timing | Behavior |
 |---|---|
 | **On expire** | Auto-downgrade when the subscription reaches its end date. This is the default. |
-| **On cancel** | Auto-downgrade when an end-of-period cancellation takes effect. Does not apply to immediate cancellations. |
-| **On trial expire** | Auto-downgrade when a trial ends, before the subscription would convert to paid. Useful for forcing trial users to a free tier unless they choose to upgrade. |
+| **On cancel** | Auto-downgrade when an end-of-period cancellation takes effect, or when an overdue subscription is cancelled at the end of its grace period. Does not apply to immediate cancellations, or when the customer accepted a retention offer. |
+| **On trial expire** | Auto-downgrade when the daily trial-conversion job finds a trial still unconverted after its trial end, instead of converting it. A trial whose first payment is made at trial end converts normally. Useful for moving trial users who did not pay to a free tier. |
 
 ### How Auto-Downgrade Works
 
 1. The triggering event occurs (expiration, cancellation, or trial end).
 2. ArraySubs checks if the current product has an auto-downgrade target configured.
 3. If the customer already has an active subscription to the target product, the system **reuses** that existing subscription instead of creating a duplicate.
-4. The subscription's product, pricing, and billing schedule are updated to match the target product.
-5. A subscription note is added documenting the auto-downgrade.
+4. The subscription's product, pricing, and billing schedule are updated to match the target product. The quantity is reset to 1 and the billing cycle restarts from the moment of the switch.
+5. Any billing agreement at the payment gateway is cancelled, and the automatic payment details are detached from the subscription.
+6. A subscription note is added documenting the auto-downgrade.
 
 ```box class="info-box"
 Auto-downgrade does not create a proration order. The subscription simply switches to the target product at no cost. This makes it ideal for free-tier fallback scenarios where no payment is expected.
@@ -320,9 +350,11 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 
 - **Bidirectional paths are not automatic.** If Product A can upgrade to Product B, Product B does not automatically get a downgrade path to Product A. You must configure paths on both products.
 - **Auto-downgrade reuses existing subscriptions.** If the customer already has an active subscription to the fallback product, the system reuses it instead of creating a duplicate.
-- **Plan switch orders.** When proration creates an order, it is recorded with type `plan_switch` and includes metadata tracking the old product, new product, switch type, and full proration calculation.
+- **Plan switch orders.** When proration creates an order, it is recorded with type `plan_switch` and includes metadata tracking the old product, new product, switch type, and full proration calculation. These orders are not listed in the subscription's Order History card; find them under **WooCommerce -> Orders**.
 - **Checkout migration is always immediate.** If a customer buys a replacement subscription product through WooCommerce checkout while they already have a live subscription, ArraySubs treats that checkout as an immediate paid replacement. It does not defer the change even when the global proration type is Apply at Renewal.
-- **Pending switches clear on cancellation.** If the subscription is cancelled before the next renewal, any pending switch is removed because there will no longer be a renewal where it can apply.
+- **Pending switches clear on cancellation.** When an admin or the customer cancels the subscription before the next renewal, any pending switch is removed because there will no longer be a renewal where it can apply. An overdue cancellation at the end of the grace period leaves the stored pending switch in place, so review the Pending Plan Switch card before reactivating such a subscription.
+- **Plan-switch credit needs Store Credit.** Without the Store Credit module, a switch that would leave the customer with credit waits for the next renewal and creates no credit. See [Plan-Switch Credit](#plan-switch-credit).
+- **Switching away from a box or bundle.** When a subscription switches from a box or bundle product to a plan that is not a box or bundle, its included subscriptions are cancelled and unlinked.
 - **Fixed period + plan switching.** If a customer switches from a fixed-period product to a non-fixed product, the fixed-period metadata is cleared. If they switch to another fixed-period product, the end date is recalculated from the switch date.
 - **Gateway interactions.** When a plan switch occurs, automatic payment metadata stays aligned so future renewals continue through the correct gateway path. Gateway behavior depends on each gateway's capabilities.
 - **Shipping interactions (Pro).** If Subscription Shipping is active, immediate switches recalculate shipping settings from the target product. Apply at Renewal switches use the target product's shipping rules on the renewal invoice before the subscription is permanently switched.
@@ -341,6 +373,8 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 | Fixed Period fields not visible | Pro plugin is not active | Install and activate ArraySubs Pro |
 | Product is unpurchasable | Enrollment window has closed or absolute end date has passed | Check the enrollment window dates and fixed end date |
 | Proration order has unexpected amount | Rounding method or switch fee is configured differently than expected | Review proration type, rounding method, and switch fees in Settings |
+| A downgrade waits for the next renewal although the proration type is Prorate immediately | The switch would leave the customer with credit, and Store Credit is not available | Expected without the Store Credit module. Turn on Store Credit (Pro) if such switches should apply right away with a credit |
+| A pending switch can no longer be cancelled or replaced | The renewal invoice for the switch date already exists, so the switch is frozen | Expected. The switch applies when that invoice is paid |
 
 ---
 
@@ -349,6 +383,11 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up the products that your switching paths will connect.
 - [Product Experience and Display](product-experience.md) — How pricing and plan details appear to customers.
 - [General Settings](../settings/general-settings.md) — Grace period and customer portal settings that affect plan switching behavior.
+- [Store Credit](../store-credit/README.md) - Balances, history, and renewal use of plan-switch credit *(Pro)*.
+- [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md) - The Pending Plan Switch card in the admin.
+- [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) - Developer reference for the current plan and a pending plan switch.
+- [Read Subscription Product Terms](../developers/subscription-products.md) - Developer reference for reading plan-switch targets on a product.
+- [Read and Update Store Credit](../developers/store-credit.md) - Developer reference for the Store Credit ledger *(Pro)*.
 
 ---
 
@@ -361,7 +400,13 @@ Yes. You can configure switching paths between individual variations of a variab
 The coupon tracking is carried over to the new plan. If the coupon still has remaining cycles, it continues to apply to renewals of the switched subscription.
 
 ### Does auto-downgrade work with immediate cancellations?
-No. Auto-downgrade with "On cancel" timing only applies to **end-of-period** cancellations. Immediate cancellations do not trigger auto-downgrade.
+No. Auto-downgrade with "On cancel" timing only applies to **end-of-period** cancellations and to overdue cancellations at the end of the grace period. Immediate cancellations do not trigger auto-downgrade.
+
+### What does the customer get when a downgrade leaves unused value?
+With ArraySubs Pro and the Store Credit module on, the excess is added to that subscription's store credit as a ledger entry and is used on its next renewal invoices. Without Store Credit, no credit is created: the downgrade is stored as a pending plan switch and starts with the next renewal. See [Plan-Switch Credit](#plan-switch-credit).
+
+### Does a pending plan switch change the customer's plan right away?
+No. The customer stays on the current plan, with its access and entitlements, until the renewal order built on the target plan is paid. See [Current Plan and Pending Plan Switch](#current-plan-and-pending-plan-switch).
 
 ### Can I configure different proration types for different products?
 No. The proration type is a global setting that applies to all plan switches across your store. You cannot set per-product proration methods.

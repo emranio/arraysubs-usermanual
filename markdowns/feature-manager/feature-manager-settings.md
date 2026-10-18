@@ -1,7 +1,7 @@
 # Info
 - Module: Feature Manager — Settings
 - Availability: Pro
-- Last updated: 2026-04-04
+- Last updated: 2026-10-18
 
 # Feature Manager Settings
 
@@ -26,6 +26,8 @@ Feature Manager settings control the entire module: whether it's active, how fea
 
 All settings are located at **ArraySubs → Settings → Feature Manager**.
 
+The module itself is switched on or off on the **ArraySubs -> Modules** screen.
+
 ![Feature Manager settings](README.ASSETS/01-feature-manager-settings-annotated.png)
 
 ## Settings Reference
@@ -34,8 +36,8 @@ All settings are located at **ArraySubs → Settings → Feature Manager**.
 
 | Property | Value |
 |----------|-------|
-| **Setting key** | `feature_manager.enabled` |
-| **Type** | Toggle (on/off) |
+| **Where** | **ArraySubs -> Modules** -> **Feature Manager** module card (this settings page has no on/off switch of its own) |
+| **Type** | Module switch (on/off) |
 | **Default** | On |
 | **Effect** | Master switch for the entire Feature Manager module. When off, the product editor tab, storefront display, My Account page, REST endpoints, and all Feature Manager behavior are disabled. |
 
@@ -45,7 +47,7 @@ Turning this off does not delete any existing feature data on products. Features
 
 ### Display Settings
 
-These settings control where and how features appear. They are only visible when **Enable Feature Manager** is on.
+These settings control where and how features appear. They are only available while the Feature Manager module is on.
 
 #### Show on Product Page
 
@@ -54,7 +56,7 @@ These settings control where and how features appear. They are only visible when
 | **Setting key** | `feature_manager.show_on_product_page` |
 | **Type** | Toggle (on/off) |
 | **Default** | On |
-| **Effect** | When on, a "What's Included" section appears on the storefront single product page listing the product's enabled features. Only applies to simple subscription products — variable products do not display features at the product level. |
+| **Effect** | When on, a "What's Included" section appears on the storefront single product page listing the product's enabled features. A variable product shows its default feature list only while none of its variations has features of its own. |
 
 #### Show in My Account
 
@@ -63,17 +65,7 @@ These settings control where and how features appear. They are only visible when
 | **Setting key** | `feature_manager.show_in_my_account` |
 | **Type** | Toggle (on/off) |
 | **Default** | On |
-| **Effect** | When on, a "My Features" menu item and page appear in the customer's WooCommerce My Account area. The page shows all feature entitlements from the customer's active subscriptions. |
-
-#### My Account Page Title
-
-| Property | Value |
-|----------|-------|
-| **Setting key** | `feature_manager.my_account_page_title` |
-| **Type** | Text field |
-| **Default** | Empty (displays "My Features") |
-| **Effect** | Sets a custom heading for the My Features page in My Account. Leave blank to use the default "My Features" title. |
-| **Visibility** | Only shown when **Show in My Account** is on. |
+| **Effect** | When on, a "My Features" menu item and page appear in the customer's WooCommerce My Account area. The page shows all feature entitlements from the customer's active subscriptions. To rename or move the menu item, use the [My Account Editor](../profile-builder/my-account-editor.md). |
 
 #### Show Usage Count in My Account
 
@@ -82,7 +74,7 @@ These settings control where and how features appear. They are only visible when
 | **Setting key** | `feature_manager.show_usage_count_in_my_account` |
 | **Type** | Toggle (on/off) |
 | **Default** | On |
-| **Effect** | When on, an extra **Usage** column appears in the customer's My Features tables for number-type features. Shows consumption progress (e.g., "3 / 10"). Usage data must be populated by your site's code or integrations. |
+| **Effect** | When on, an extra **Usage** column appears in the customer's My Features tables for number-type features. Shows consumption progress (e.g., "3 / 10") and, for features with a reset period, when usage resets. Usage is recorded by your site's code or integrations through the Feature Manager developer API (see [Read and Update Feature Data](../developers/feature-manager.md)). |
 | **Visibility** | Only shown when **Show in My Account** is on. |
 
 #### Show Usage Count in Admin
@@ -93,15 +85,6 @@ These settings control where and how features appear. They are only visible when
 | **Type** | Toggle (on/off) |
 | **Default** | On |
 | **Effect** | When on, the admin Feature Log view shows a **Usage** column alongside feature entitlements. This is independent of the customer-facing usage toggle. |
-
-#### Enable Feature Comparison
-
-| Property | Value |
-|----------|-------|
-| **Setting key** | `feature_manager.show_comparison` |
-| **Type** | Toggle (on/off) |
-| **Default** | Off |
-| **Effect** | Reserved for a future plan-switching experience that shows a side-by-side comparison of current vs. new plan features before the customer confirms a switch. The setting is present but not yet connected to an active UI flow. |
 
 ### Aggregation Settings
 
@@ -120,6 +103,7 @@ This section controls how features from multiple subscriptions are grouped.
 |--------|-------|-------------|
 | `per_subscription` | Per Subscription | Show features separately for each active subscription. Each subscription gets its own feature table. |
 | `combine` | Combine | Sum numeric values and OR boolean values across all subscriptions into a single table. |
+| `max` | Highest value | Show the highest value of each feature across all active subscriptions in a single table. |
 
 **When to choose Per Subscription:**
 Use this when customers may have multiple subscriptions with overlapping features and need to see what each one provides individually. This is the clearest option for stores with diverse product lines.
@@ -127,18 +111,33 @@ Use this when customers may have multiple subscriptions with overlapping feature
 **When to choose Combine:**
 Use this when customers should see a single, unified view of all their entitlements. Number values are summed (e.g., 10 downloads from Plan A + 20 from Plan B = 30 total). Toggle values are OR'd (if any subscription grants "Yes", the combined value is "Yes"). Best for stores where subscriptions stack.
 
+**When to choose Highest value:**
+Use this when a customer's best plan should decide each limit and extra subscriptions should not add up. Number values use the highest value (e.g., 10 downloads from Plan A and 20 from Plan B = 20). Toggle values are "Yes" if any subscription grants "Yes". Best for tiered plans where a customer may hold more than one tier at the same time.
+
+**How each mode treats values:**
+
+| Value | Per Subscription | Combine | Highest value |
+|-------|------------------|---------|---------------|
+| Numbers | Shown per subscription | Added together | Highest value wins |
+| Unlimited | Shown per subscription | Unlimited wins | Unlimited wins |
+| Toggle (Yes/No) values | Shown per subscription | "Yes" if any subscription grants it | "Yes" if any subscription grants it |
+| Text values | Shown per subscription | Longest value | Longest value |
+| Usage | Separate counter per subscription | Used amounts and limits are added together; the earliest reset date is shown | Usage of the subscription that provides the highest value |
+
+For example, a customer with Plan A (Seats 5, Priority Support Yes) and Plan B (Seats 10, Priority Support No) sees Seats 15 and Priority Support Yes under **Combine**, Seats 10 and Priority Support Yes under **Highest value**, and two separate tables under **Per Subscription**.
+
+The setting is saved as `per_subscription`, `combine` or `max`. Any other saved or imported value is treated as `per_subscription`. Developers can also read a customer's features in a specific mode; see [Read and Update Feature Data](../developers/feature-manager.md).
+
 ## Settings Summary Table
 
 | Setting | Key | Type | Default | Depends On |
 |---------|-----|------|---------|------------|
-| Enable Feature Manager | `feature_manager.enabled` | Toggle | On | — |
-| Show on Product Page | `feature_manager.show_on_product_page` | Toggle | On | Enabled = On |
-| Show in My Account | `feature_manager.show_in_my_account` | Toggle | On | Enabled = On |
-| My Account Page Title | `feature_manager.my_account_page_title` | Text | (empty) | Show in My Account = On |
+| Feature Manager module | ArraySubs -> Modules | Module switch | On | - |
+| Show on Product Page | `feature_manager.show_on_product_page` | Toggle | On | Module on |
+| Show in My Account | `feature_manager.show_in_my_account` | Toggle | On | Module on |
 | Show Usage in My Account | `feature_manager.show_usage_count_in_my_account` | Toggle | On | Show in My Account = On |
-| Show Usage in Admin | `feature_manager.show_usage_count_in_admin` | Toggle | On | Enabled = On |
-| Feature Comparison | `feature_manager.show_comparison` | Toggle | Off | Enabled = On |
-| Aggregation Mode | `feature_manager.aggregation_mode` | Radio | Per Subscription | Enabled = On |
+| Show Usage in Admin | `feature_manager.show_usage_count_in_admin` | Toggle | On | Module on |
+| Aggregation Mode | `feature_manager.aggregation_mode` | Radio (`per_subscription`, `combine`, `max`) | Per Subscription | Module on |
 
 ---
 
@@ -150,14 +149,14 @@ Go to **ArraySubs → Settings** in your WordPress admin, then select the **Feat
 **Can I have usage visible to customers but hidden from admins?**
 Yes. The "Show Usage Count in My Account" and "Show Usage Count in Admin" toggles are independent. You can enable one without the other.
 
-**What does "Enable Feature Comparison" do right now?**
-This setting is reserved for a future feature. Currently, toggling it on has no visible effect. It will eventually power a comparison table during plan switching.
-
 **If I disable Feature Manager, are my features deleted?**
 No. Disabling the module hides the feature UI, storefront display, and My Account page, but all feature data stored on products remains in the database. Re-enabling the module brings everything back.
 
 **Does the aggregation mode affect the admin Feature Log?**
-Yes. The admin Feature Log respects the same aggregation mode setting. In per-subscription mode, the admin sees separate tables per subscription. In combined mode, the admin sees a single merged table.
+Yes. The admin Feature Log respects the same aggregation mode setting. In per-subscription mode, the admin sees separate tables per subscription. In combined mode, the admin sees a single merged table. In Highest value mode, the admin sees a single table with the highest value of each feature. The table heading changes with the mode.
+
+**Does the aggregation mode change how usage limits work?**
+Yes. Under Combine, used amounts and limits from all subscriptions are added together. Under Highest value, usage is counted against the subscription that provides the highest value. Under Per Subscription, each subscription keeps its own counter. See [Read and Update Feature Data](../developers/feature-manager.md) for how custom code records usage in each mode.
 
 ---
 
@@ -166,3 +165,4 @@ Yes. The admin Feature Log respects the same aggregation mode setting. In per-su
 - [Defining Product Features](defining-product-features.md) — How to add features to products and variations.
 - [Customer and Storefront Display](customer-and-storefront-display.md) — How features appear to customers.
 - [General Settings](../settings/general-settings.md) — Store-wide subscription settings.
+- [Read and Update Feature Data](../developers/feature-manager.md) - Developer reference for effective features, usage, and the aggregation modes.

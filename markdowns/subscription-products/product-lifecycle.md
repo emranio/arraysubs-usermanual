@@ -1,7 +1,7 @@
 # Info
 - Module: Product Lifecycle
 - Availability: Free
-- Last updated: 2026-04-01
+- Last updated: 2026-10-18
 
 # Product Lifecycle and Test Links
 
@@ -30,7 +30,9 @@ Subscription products may outlive the product listing that created them. ArraySu
 
 ![ArraySubs subscriptions list — active subscriptions using Basic Monthly product with status badges](product-lifecycle.ASSETS/03-active-subscriptions-product-usage-annotated.png)
 
-When a subscription product is trashed or permanently deleted, **active subscriptions are not affected**. They continue to operate normally — renewals are processed, the billing schedule continues, and the customer portal still displays the subscription. This is possible because ArraySubs caches product data on every subscription at the time of creation.
+When a subscription product is **trashed**, active subscriptions are not affected. They continue to operate normally - renewals are processed, the billing schedule continues, and the customer portal still displays the subscription. ArraySubs caches product data on every subscription at the time of creation.
+
+When a subscription product is **permanently deleted**, the next renewal cannot be built: renewal order creation fails with "Subscription product not found" and the subscription moves to **On Hold**. To retire a plan, set the product to draft or move it to the trash instead of deleting it permanently.
 
 ### Cached Product Data
 
@@ -50,7 +52,7 @@ This cached data is stored once at subscription creation and is not updated if t
 | Aspect | Before deletion | After deletion |
 |---|---|---|
 | Subscription status | Active | Active (unchanged) |
-| Renewal processing | Normal | Normal (continues) |
+| Renewal processing | Normal | Continues while trashed; fails and moves the subscription to On Hold after permanent deletion |
 | Customer portal | Shows product name | Shows product name with "(deleted)" suffix |
 | Admin subscription detail | Links to product | Shows cached name, product link removed |
 | New purchases | Product is purchasable | Product is not purchasable |
@@ -60,7 +62,7 @@ This cached data is stored once at subscription creation and is not updated if t
 | Action | Effect | Reversible? |
 |---|---|---|
 | **Trash** | Product moves to WooCommerce trash. Subscriptions continue with cached data. The product can be restored. | Yes — restoring the product removes the deletion metadata. |
-| **Permanent delete** | Product is removed from the database entirely. Subscriptions continue with cached data. | No — the product cannot be recovered. |
+| **Permanent delete** | Product is removed from the database entirely. The cached name still displays, but the next renewal fails and the subscription moves to On Hold. | No - the product cannot be recovered. |
 
 When a trashed product is restored (**untrashed**), the subscription is updated to reflect that the product is available again. The "(deleted)" suffix is removed from the display name.
 
@@ -175,7 +177,7 @@ No need to navigate through the shop, find the product, and add it to cart manua
 | Problem | Likely Cause | What to Do |
 |---|---|---|
 | Subscription shows "Unknown Product" | Subscription was created before product caching was implemented, and the product was deleted | The subscription still works, but the display name cannot be recovered. Admin can check the `_product_id` meta for the original product ID. |
-| Admin warning about active subscriptions | Expected behavior when editing a product with active subscriptions | This is informational. You can safely continue editing or even delete the product — subscriptions will not break. |
+| Admin warning about active subscriptions | Expected behavior when editing a product with active subscriptions | This is informational. You can keep editing, set the product to draft or trash it. Do not delete it permanently: the next renewal of each linked subscription fails and moves it to On Hold. |
 | Test link adds wrong product to cart | Product data needs to be saved first | Save or update the product before using the test links. The links are generated from the saved product data. |
 | Post-deletion notice keeps appearing | Transient has not expired yet | The notice appears once or twice after deletion and clears automatically. |
 | Restored product still shows "(deleted)" on subscriptions | Cache not refreshed | The "(deleted)" indicator should clear when the product is untrashed. If it persists, the subscription may need to be re-saved from admin. |

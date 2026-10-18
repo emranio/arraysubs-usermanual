@@ -1,7 +1,7 @@
 # Info
 - Module: Audits and Logs
 - Availability: Free + Pro
-- Last updated: 2026-06-24
+- Last updated: 2026-10-18
 
 # Access-Rule Conflicts
 
@@ -163,13 +163,11 @@ If the site uses page caching, object caching, or a CDN, the access check result
 
 When multiple rules could apply to the same content, this is the evaluation priority from most specific to least specific:
 
-1. **Per-post restriction** (set in the individual post editor)
-2. **Specific URL rule** (exact URL match)
-3. **URL pattern rule** (wildcard or prefix match)
-4. **Post type rule** (applies to all posts of a type)
-5. **Taxonomy rule** (applies to all posts in a taxonomy/term)
+1. **Per-post restriction** (set in the individual post editor) takes precedence over site-wide Post Types rules for that post.
+2. **URL rules** and **Post Types rules** (including taxonomy targets) are evaluated separately; each kind must allow access.
+3. Within one rule type, when several rules match, the matching rule lowest in the list (the highest rule number) decides.
 
-The first matching rule wins. If no rule matches, content is unrestricted by default.
+If no rule matches, content is unrestricted by default. Developers can inspect the deciding rule and any overridden rules with the [MemberAccess API](../developers/member-access.md).
 
 ![Access rule conflict detector overview](access-rule-conflicts.ASSETS/01-conflict-detector-overview-annotated.png)
 
@@ -199,7 +197,7 @@ The first matching rule wins. If no rule matches, content is unrestricted by def
 
 ### Do access rules apply to admin users?
 
-Admin users with `manage_options` or `manage_woocommerce` capabilities can access all content regardless of access rules. Rules only apply to regular subscribers and non-admin users.
+It depends on the rule type. URL rules and Post Types rules have no administrator bypass, so test them with a non-admin account. Per-post restrictions, Shop Access and Comments rules have their own admin settings, and the `[arraysubs_restrict]` shortcode lets administrators through by default (`show_to_admins`).
 
 ### What happens if no access rule matches?
 

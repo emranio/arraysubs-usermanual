@@ -1,7 +1,7 @@
 # Info
 - Module: URL
 - Availability: Free
-- Last updated: 2026-06-27
+- Last updated: 2026-10-18
 
 # URL
 
@@ -36,8 +36,10 @@ Use this tab for:
 1. Define who qualifies using **IF** conditions.
 2. Choose how to match the path in the **TARGET** section.
 3. Configure the denial behavior in the **THEN** section.
-4. Lower priority numbers run first.
-5. The first failing matching rule decides what happens.
+4. When several enabled rules match the same path, the rule with the highest number (the one lowest in the list) decides. Its conditions and schedule decide access.
+5. If the visitor fails that rule, its **THEN** action runs. Move the rule you want to win lower in the list, then save.
+
+Conditions are checked across all of the visitor's subscriptions and purchases, so different conditions in one rule can be met by different subscriptions. See [How Conditions Combine Across Subscriptions](README.md#how-conditions-combine-across-subscriptions).
 
 ## Pattern Types
 
@@ -58,7 +60,7 @@ Use this tab for:
 |---|---|
 | **Pattern Type** | Controls how the path is matched |
 | **URL Pattern** | The path or regex to protect |
-| **Priority** | Lower number = evaluated earlier |
+| **Rule order** | When several enabled rules match the same path, the highest-numbered rule (lowest in the list) decides |
 | **Exclusions** | Paths that should stay public even if the pattern matches |
 
 4. Set the **IF conditions**.
@@ -89,12 +91,20 @@ A restriction set directly on a post or page — the **Access Restriction** pane
 
 If a URL rule matches a post that carries its own restriction, the URL rule is skipped for that post, including its **THEN** action. Overlaps are listed on **Member Access -> Conflicts**.
 
+## Check URL Access From Code
+
+Developers can ask whether a member may open a URL without visiting it. The Member Access API returns the same decision these rules produce, including which rule decided and why, without redirecting, showing a message or changing the current user. See [Check Content Access](../developers/member-access.md).
+
+- **User context** combines all of the member's subscriptions, like a real visit.
+- **Subscription context** evaluates one subscription only. Use it when one subscription must meet every condition.
+
 ## Related Guides
 
 - [Per-Post Access Restriction](per-post-access-restriction.md) — Gate one post or page from the editor; takes priority over these rules.
 - [Post Types](post-types.md) — Restrict posts and pages by content type instead of raw URL pattern.
 - [Conflicts](conflicts.md) — Review Members Access rules that overlap higher-priority per-post restrictions.
 - [Access-Rule Conflicts](../audits-and-logs/access-rule-conflicts.md) — Deeper troubleshooting guide.
+- [Check Content Access](../developers/member-access.md) - Check URL, post and other access decisions from PHP.
 
 ## FAQ
 
@@ -103,3 +113,6 @@ Yes. Choose the regex pattern type and enter a standard expression.
 
 ### Do URL rules affect REST API endpoints?
 No. They are designed for frontend path access, not wp-admin or REST API traffic.
+
+### Which rule wins when two URL rules match the same path?
+The enabled rule with the highest number, which is the one lowest in the list. Move the rule you want to win lower in the list, then save.

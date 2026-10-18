@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Free
-- Last updated: 2026-09-14
+- Last updated: 2026-10-18
 
 # Subscription Boxes
 
@@ -54,7 +54,11 @@ Each product the customer chose is added to the order as a **zero-priced line it
 
 In addition, every product inside the box that is itself a **subscription product** gets its own subscription with a **zero** recurring amount, linked to the box. Plain (non-subscription) products get no subscription at all. This keeps per-product integrations working unchanged — **Member Access**, **Feature Manager** entitlements, and any third-party code that looks up "does this customer have a subscription for product X".
 
-Those child subscriptions never bill on their own. They mirror the box's status and dates and are cancelled or expired with it.
+Those child subscriptions never bill on their own. The box subscription is their billing owner: every status change on the box (pause, on hold, cancellation, expiry, reactivation) is copied to them, and their next payment date, last payment date, and payment count are refreshed each time a box renewal is paid. Customers cannot manage them separately, so manage billing, pause, skip, and cancellation on the box subscription.
+
+```box class="warning-box"
+**Deleting a box subscription.** Deleting it from the **ArraySubs -> Subscriptions** list keeps the included subscriptions by design: they stay in the admin and customer lists, still pointing at the deleted box, and stop following it. A developer deleting through the ArraySubs API (`Subscriptions::delete()` or `arraysubs_delete_subscription()`) removes them with the box. Deletion is permanent either way, and linked orders are never deleted. See [Deleting a Subscription](../manage-subscriptions/subscription-operations.md#deleting-a-subscription).
+```
 
 ```box class="info-box"
 The box is **sold individually** and owns the whole cart. Adding a box empties the cart first, and the box line always has a quantity of 1.
@@ -460,6 +464,8 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 - **Switching the product type away** from Subscription Box drops the box marker but keeps the configuration, so switching back restores your work.
 - **Boxes never use Lifetime Deal.** A box always renews, so only Day, Week, Month, and Year are offered.
 - **Renewal-sync gateway support.** Segment plans work with manual payment gateways and Stripe.
+- **Included subscriptions cannot be managed on their own.** Customers see them in their account, but cancel, pause, skip, and reactivate are locked for them. The admin screens do not block changes to an included subscription, but the next status change on its box overwrites them.
+- **Box families in code.** Developers resolve a box's included subscriptions and their billing owner with [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md), and read the box product's terms with [Read Subscription Product Terms](../developers/subscription-products.md). The API refuses independent billing and lifecycle operations on an included subscription.
 
 ---
 
@@ -467,7 +473,8 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 
 | Problem | Likely Cause | What to Do |
 |---|---|---|
-| **Subscription Box [ArraySubs]** is missing from the product type dropdown | ArraySubs Pro is inactive or unlicensed | Confirm the Pro add-on is installed, active, and licensed |
+| **Subscription Box [ArraySubs]** is missing from the product type dropdown | The **Subscription Box** module is switched off | Switch it on from the ArraySubs **Modules** screen. While it is off, box products are kept in draft and the type is hidden for new products, but existing box subscriptions keep renewing |
+| Included subscriptions are still listed after the box subscription was deleted | It was deleted from the All Subscriptions list, which keeps included subscriptions by design | Delete each included subscription from the list as well (cancel them first if they are still active) |
 | The General tab shows nothing about boxes | The product type is not set to Subscription Box, or the admin script failed to load | Re-select the product type; check the browser console for JavaScript errors |
 | "No box configuration yet. Customers cannot purchase this box until steps are configured." | The box has no steps | Open **Configure Box** and add at least one step with a product or category element |
 | Admin error on save: "add at least one box step…" | The product was saved with an empty configuration | Configure the box, then save again |
@@ -496,13 +503,19 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 - [Product Experience and Display](./product-experience.md) — How subscription pricing renders on the storefront.
 - [Feature Manager](../feature-manager/README.md) — Product entitlements that keep working for the subscriptions inside a box.
 - [Member Access](../member-access/README.md) — Product-keyed access rules that keep working for the subscriptions inside a box.
+- [Lifecycle Management](../manage-subscriptions/lifecycle-management.md#box-and-bundle-families) - How included subscriptions follow their box through the lifecycle.
+- [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) - Developer reference for box families and billing owners.
+- [Read Subscription Product Terms](../developers/subscription-products.md) - Developer reference for reading box product terms.
 
 ---
 
 ## FAQ
 
 ### Is the subscription box available in the free plugin?
-No. The **Subscription Box [ArraySubs]** product type ships with ArraySubs Pro only. Without Pro the product type does not appear in the dropdown.
+Yes. The **Subscription Box [ArraySubs]** product type is part of the core (free) plugin. It is controlled by the **Subscription Box** module on the ArraySubs **Modules** screen, which is on by default.
+
+### Can I cancel or pause one subscription inside a box?
+Not on its own. The included subscriptions follow the box subscription, so pause, skip, or cancel the box instead. See [Lifecycle Management](../manage-subscriptions/lifecycle-management.md#box-and-bundle-families).
 
 ### Can a box contain variable products?
 No. Only simple products are eligible. If you need variations inside a box, publish the relevant variations as separate simple products.

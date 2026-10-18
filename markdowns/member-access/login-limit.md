@@ -1,13 +1,13 @@
 # Info
 - Module: Login Limit
 - Availability: Pro
-- Last updated: 2026-06-27
+- Last updated: 2026-10-18
 
 # Login Limit
 
 > Limit concurrent login sessions per account, set a global fallback, and create rule-based session overrides.
 
-**Availability:** ArraySubs Pro
+**Availability:** ArraySubs Pro. The **Login Limit** tab appears only while Pro is active with a valid license. Without it, saved Login Limit rules stay stored but are not enforced.
 
 ## Page Navigation
 
@@ -18,6 +18,7 @@
 - **Previous guide:** [Conflicts](./conflicts.md)
 - **Next guide:** [Checkout and Payments](../checkout-and-payments/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+- **Developer reference:** [Read Login-Limit Policy](../developers/login-limits.md)
 
 ## Overview
 
@@ -38,7 +39,7 @@ The top card controls the default behavior for every user who does not match a m
 |---|---|
 | **Enable Multi-Login Prevention** | Turns concurrent-session enforcement on or off |
 | **Default max sessions per user** | Fallback session cap |
-| **Apply to administrators** | Includes admins in session enforcement |
+| **Apply to administrators** | Includes admins in session enforcement. Administrators (users who can manage site options) are exempt unless this is enabled. |
 
 ![Multi-Login Prevention settings and Login Limit rule builder](multi-login-prevention.ASSETS/02-login-limit-rule-builder-annotated.png)
 
@@ -88,6 +89,7 @@ There can be a short delay before the logged-out browser visibly redirects becau
 
 - [Role Mapping](role-mapping.md) — Uses the same condition builder style for role automation.
 - [Login as User](../login-as-user/README.md) — Impersonated sessions are intentionally excluded.
+- [Read Login-Limit Policy](../developers/login-limits.md) - Read-only PHP reference for a user's effective session limit, exemptions, and active session count. Reading never exposes session tokens or logs anyone out.
 
 ## FAQ
 

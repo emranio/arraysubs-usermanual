@@ -1,13 +1,13 @@
 # Info
 - Module: Commerce and Benefit Rules
-- Availability: Free
-- Last updated: 2026-04-02
+- Availability: Free (Feature Value conditions require Pro)
+- Last updated: 2026-10-18
 
 # Commerce and Benefit Rules
 
 > Give subscribers automatic discounts, control who can browse and buy products, and provision downloadable files — all managed through Member Access rules.
 
-**Availability:** Free
+**Availability:** Free. The shared **Feature Value** condition checks features defined with Feature Manager, which requires ArraySubs Pro.
 
 ## Page Navigation
 
@@ -18,6 +18,7 @@
 - **Previous guide:** [access-rules](./access-rules.md)
 - **Next guide:** [Scheduled / Drip Access](./scheduled-drip-access.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
+- **Developer reference:** [Read Member Discounts](../developers/discounts.md), [Check Content Access](../developers/member-access.md), [Read Download Benefits](../developers/downloads.md)
 
 ## Overview
 
@@ -27,7 +28,7 @@ Commerce and Benefit Rules extend Member Access into WooCommerce's product catal
 |-----------|-----------------|
 | **Discount Rules** | Member-exclusive pricing — percentage or fixed discounts applied per-item or per-cart |
 | **Shop Access Rules** | Product visibility and purchase restrictions for non-qualifying visitors |
-| **Download Rules** | Subscription-gated downloadable files shown on the customer's My Account → Downloads page |
+| **Download Rules** | Subscription-gated downloadable files, with optional per-file download limits and expiry, shown on the customer's My Account → Downloads page |
 
 All three are configured from **ArraySubs → Member Access**, each on its own tab.
 
@@ -211,7 +212,7 @@ Download Rules let you provision downloadable files to qualifying subscribers. F
 1. You define rules with conditions and attach files to each rule.
 2. When a logged-in customer visits **My Account → Downloads**, the system evaluates all enabled Download Rules.
 3. For each rule where the customer meets the conditions (and any schedule delay has passed), the associated files appear in the downloads list.
-4. Customers download files via signed URLs with nonce verification.
+4. Customers download files through signed links. Each request checks login, conditions, schedule, and the file's download limit and expiry.
 
 Download Rules are completely separate from WooCommerce's native downloadable product system — they do not interfere with product-level downloads. The two systems coexist on the same Downloads page.
 
@@ -226,10 +227,11 @@ Download Rules are completely separate from WooCommerce's native downloadable pr
    - Enter a **Display name** (what the customer sees).
    - Click the upload icon to open the WordPress Media Library and select a file.
    - Add as many files as needed. Drag and drop or use the arrow buttons to reorder.
+   - Optionally set **Download limit** and **Download expiry** below the file list. See [Download Limits and Expiry](#download-limits-and-expiry).
 
 4. Set the **IF conditions** (e.g., Has Active Subscription to "Pro Plan").
 5. Optionally enable a **Schedule** to delay file availability (e.g., 30 days after subscription start).
-6. Click **Save**.
+6. Click **Save Settings**.
 
 ### File Management
 
@@ -247,22 +249,30 @@ Each Download Rule can have multiple files. File order in the rule determines th
 1. Customer logs in and navigates to **My Account → Downloads**.
 2. Member Access downloads appear in the list alongside any WooCommerce product downloads.
 3. Customer clicks the download link.
-4. The system verifies login status, nonce, conditions, and schedule.
+4. The system verifies the signed link, login status, conditions, schedule, and the file's download limit and expiry.
 5. If the customer qualifies, the file is served directly (for local files) or the customer is redirected to the external URL.
 
-### Download Usage Tracking
+### Download Limits and Expiry
 
-For rules that have download limits configured in the backend, the system tracks download counts per customer:
+Each Download Rule has two optional fields below its file list. Both apply to every file in the rule, and ArraySubs tracks them separately for each file and each customer:
 
-- **Limit periods** — Tracking can be by `day`, `week`, `month`, `year`, or `lifetime`.
-- **Automatic reset** — Counts automatically reset when a new period boundary is crossed (e.g., a new month starts).
-- **Renewal reset** — If configured, counts can reset when a subscription renewal payment completes.
-- **My Account display** — Customers see their download usage (used/remaining count and a progress bar) on their **My Account → Downloads** page. A warning indicator appears when usage reaches 90%.
+| Field | Values | Effect |
+|-------|--------|--------|
+| **Download limit** | Blank (Unlimited), `0`, or a whole number | Downloads allowed per file, per customer. Blank means unlimited; `0` blocks downloads. |
+| **Download expiry** | Blank or `0` (Never), or a whole number of days | Days the customer can download each file, counted from when the file first becomes available to them (for example, the first time it is listed on their Downloads page). Blank or `0` means no expiry. |
+
+- **Per-file tracking** - Downloading one file never uses another file's allowance, and one customer's downloads never affect another customer. Simultaneous requests cannot go over the limit.
+- **My Account display** - The **Downloads remaining** and **Expires** columns on **My Account -> Downloads** show each file's remaining downloads and expiry date.
+- **When access ends** - When a file's limit is used up or its expiry date passes, the file leaves the customer's list and its link stops working for that customer.
+- **Renewals** - Renewals do not reset download counts or restart expiry. A customer who later qualifies again keeps their earlier count and original expiry date.
+- **Changing values** - New limit and expiry values also apply to downloads already counted. To give files different allowances, put them in separate rules.
+
+See [Downloads](downloads.md#download-limit-and-expiry) for more detail.
 
 ### Edge Cases
 
-- **File security** — Downloads are served through signed URLs with WordPress nonce verification. Direct file URLs are not exposed to customers.
-- **External files** — Files hosted on external URLs (CDN, cloud storage) are served as redirects rather than direct downloads.
+- **File security** — Downloads are served through signed links that work only for logged-in customers who still qualify. Direct file URLs are not exposed to customers.
+- **External files** — Files hosted on external URLs (CDN, cloud storage) are served as redirects rather than direct downloads. ArraySubs uses a WordPress safe redirect, so the external domain must be in WordPress's allowed redirect hosts.
 - **Expired subscriptions** — When a subscription ends, files from rules that required that subscription are immediately removed from the customer's download list. In-progress downloads continue, but subsequent download attempts are blocked.
 - **Schedule interaction** — If a Download Rule has a 30-day schedule and the subscriber signs up on January 1, the files become available on January 31. This combines with conditions — both the schedule and the conditions must be satisfied.
 
@@ -275,8 +285,8 @@ For rules that have download limits configured in the backend, the system tracks
 | Member discount is not showing on product page | Subscriber is not logged in, or conditions don't match | Verify the customer is logged in and has an active subscription matching the rule conditions |
 | Two discounts seem to apply to the same product | Both per-item and per-cart rules match | This is by design. Per-cart discounts offset per-item savings to prevent double-discounting. Check the cart fee line for the net cart discount |
 | Product is still visible despite 404 shop access rule | Page cache is serving a stale version | Clear your page cache. Enable **Cache Compatibility** in Member Access settings. See [Scheduled / Drip Access — Cache Compatibility](scheduled-drip-access.md#cache-compatibility) |
-| Customer cannot see their subscription downloads | Conditions or schedule not met | Verify the subscription status is active, the rule conditions match, and any schedule delay has elapsed since the subscription start date |
-| Download link returns an error | Nonce expired or conditions changed | Have the customer refresh the Downloads page to get a fresh download link |
+| Customer cannot see their subscription downloads | Conditions or schedule not met, or the file's download limit is used up or its access has expired | Verify the subscription status is active, the rule conditions match, and any schedule delay has elapsed since the subscription start date. Raise the rule's **Download limit** or **Download expiry** if the customer should still have access |
+| Download link returns an error | The customer is logged out, no longer qualifies, has used the file's download limit, or the file's access has expired | Ask the customer to log in, then check the **Downloads remaining** and **Expires** columns on **My Account -> Downloads** and the rule settings |
 | Shop Access rule blocks admin from viewing product | Admin does not meet the rule conditions | Core shop access restrictions apply to all frontend visitors. Admin users can still see the product in wp-admin |
 
 ---
@@ -289,6 +299,9 @@ For rules that have download limits configured in the backend, the system tracks
 - [Coupon Integration](../coupons/README.md) — How coupons interact with member discounts.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — Where customers access their downloads.
 - [Use Cases](use-cases.md) — Real-world discount, shop access, and download rule examples.
+- [Read Member Discounts](../developers/discounts.md) - Read-only PHP reference for member discount rules and member price previews.
+- [Check Content Access](../developers/member-access.md) - Check from PHP whether a member can view content or buy a product under Shop Access rules.
+- [Read Download Benefits](../developers/downloads.md) - Read-only PHP reference for download eligibility, remaining downloads, and expiry.
 
 ---
 
@@ -304,7 +317,10 @@ Yes, by default. A subscriber can receive a member discount and apply a coupon t
 Currently, Shop Access Rules apply at the product level. If you restrict a variable product, all its variations are restricted. To differentiate access by variation, use the **Has Subscription Variation** condition type so that only subscribers to a specific variation meet the rule conditions.
 
 ### Are download files protected from direct URL access?
-Yes. Download files are served through nonce-signed URLs. The original file URLs in the Media Library are not exposed to customers. However, for maximum security with sensitive files, consider storing files outside the public web root or using a cloud storage solution with signed URLs.
+Yes. Download files are served through signed URLs that require login. The original file URLs in the Media Library are not exposed to customers. However, for maximum security with sensitive files, consider storing files outside the public web root or using a cloud storage solution with signed URLs.
+
+### Do subscription renewals reset download limits?
+No. Download limits and expiry are tracked per file and per customer, and renewals do not reset them. To give more access, raise the rule's **Download limit** or **Download expiry**; the new values also apply to downloads already counted.
 
 ### What happens to member discounts when a subscription is paused?
 Paused subscriptions are not considered "active" for condition evaluation. If your discount rule requires an active subscription, the discount will not apply while the subscription is paused. It resumes automatically when the subscription is resumed.

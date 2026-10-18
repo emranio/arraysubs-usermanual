@@ -1,7 +1,7 @@
 # Info
 - Module: Store Credit Settings
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Store Credit Settings
 
@@ -23,7 +23,7 @@
 
 The Store Credit Settings page is the central control panel for every aspect of the credit system. From here you decide whether credit is active, how it is consumed, when it expires, and whether customers can buy it directly.
 
-Settings are organized into four sections: General, Credit Application, Credit Expiration, and Credit Purchase.
+Settings are organized into three sections: Credit Application, Credit Expiration, and Credit Purchase. The Store Credit system itself is switched on or off with the **Store Credit** module on **ArraySubs -> Modules** (see [General Settings](#general-settings)).
 
 ## When to Use This
 
@@ -36,6 +36,7 @@ Settings are organized into four sections: General, Credit Application, Credit E
 ## Prerequisites
 
 - ArraySubs Pro active
+- The **Store Credit** module switched on in **ArraySubs -> Modules**
 - Admin or Shop Manager access
 
 ## Steps
@@ -46,16 +47,16 @@ Settings are organized into four sections: General, Credit Application, Credit E
 
 ## Settings Reference
 
-![Store Credit Settings tab — Enable switch, Auto-Apply, and Minimum Order Amount](../README.ASSETS/03-store-credit-settings-overview-annotated.png)
+![Store Credit Settings tab — Enable switch, Auto-Apply, and Minimum Order Amount](README.ASSETS/03-store-credit-settings-overview-annotated.png)
 
 ### General Settings
 
 | Setting | Type | Default | What it controls |
 |---------|------|---------|-----------------|
-| **Enable Store Credit System** | Toggle | On | Master switch for the entire Store Credit feature. When disabled, no credit is tracked, applied, or displayed anywhere — including the customer portal and admin pages. |
+| **Store Credit** module (on **ArraySubs -> Modules**, not on this page) | Module switch | On | Master switch for the entire Store Credit feature. When off, credit is not applied or spent, the customer portal page and the admin credit pages are unavailable, credit expiry pauses, and new manual or developer adjustments are refused. Balances and history are kept, and developers can still read them. |
 
 ```box class="warning-box"
-Disabling Store Credit does not delete existing balances or transaction logs. It only hides the feature from the UI and stops all automated processing. Re-enabling it restores everything.
+Disabling Store Credit does not delete existing balances or transaction logs. It only hides the feature from the UI and stops all automated processing. Expiry clocks pause while it is off and resume, shifted by the time it was off, when you switch it back on. Re-enabling it restores everything.
 ```
 
 ### Credit Application
@@ -64,15 +65,22 @@ These settings control how and when credit is consumed.
 
 | Setting | Type | Default | What it controls |
 |---------|------|---------|-----------------|
-| **Auto-Apply to Renewals** | Toggle | On | When enabled, the system automatically applies available credit to every subscription renewal invoice. Subscription-level credit is used first, followed by customer-level credit. |
+| **Auto-Apply to Renewals** | Toggle | On | When enabled, available customer credit is also applied to subscription renewal invoices, after that subscription's own credit. Subscription-level credit is applied to its subscription's renewals first whenever Store Credit is active, even when this toggle is off. |
 | **Allow at Checkout** | Toggle | Off | When enabled, credit is automatically applied to new subscription purchases at checkout. Only applies to orders that contain subscription products. |
 | **Minimum Order Amount** | Number | 0 | Credit can only be applied to orders above this amount. Set to `0` to allow credit on any order regardless of total. Accepts decimal values (e.g., `25.00`). |
 
 ```box class="info-box"
-**Auto-Apply to Renewals** is the most impactful setting here. When it is on, customers with credit never need to take action — their credit silently reduces each renewal total. When it is off, credit accumulates but is only consumed if you manually apply it or if **Allow at Checkout** is enabled for new purchases.
+**Auto-Apply to Renewals** is the most impactful setting here. When it is on, customers with credit never need to take action — their credit silently reduces each renewal total. When it is off, customer credit accumulates and is only spent at checkout when **Allow at Checkout** is enabled for new purchases. Subscription credit from plan switches is still applied to that subscription's renewals.
 ```
 
 **How the minimum order amount works:** If you set this to `$50.00` and a renewal invoice is `$35.00`, credit will **not** be applied to that invoice. The full $35.00 is charged through the normal payment method. This prevents credit from being consumed on small recurring charges where you prefer full payment.
+
+**Which credit pays a renewal:**
+
+| Credit | Applied to renewal invoices when |
+|--------|----------------------------------|
+| Subscription credit (from plan switches) | Always, to that subscription's own renewals and before any customer credit, whenever Store Credit is active |
+| Customer credit | Only when **Auto-Apply to Renewals** is on, after the subscription's own credit |
 
 ### Credit Expiration
 
@@ -85,7 +93,7 @@ When expiration is active:
 - Each new credit transaction is stamped with an expiration date calculated as `issue date + expiration days`.
 - A background job runs **daily at 3:00 AM** (server time) to process expired credits.
 - **7 days before** a credit expires, the customer receives a **Credit Expiring** email notification (if enabled).
-- When a credit expires, the balance is automatically deducted and the customer receives a **Credit Expired** email notification (if enabled).
+- When a credit expires, only the part of it that has not been spent is deducted from the balance, and the customer receives a **Credit Expired** email notification (if enabled).
 - Expired credits appear in the Credit History with an "Expired" source label.
 
 ```box class="info-box"
@@ -104,7 +112,7 @@ The expiration period applies only to **new credits** issued after the setting i
 
 ### Credit Purchase
 
-![Credit purchase settings — Enable Credit Purchases switch and amount controls](../purchase-product.ASSETS/01-store-credit-purchase-settings-annotated.png)
+![Credit purchase settings — Enable Credit Purchases switch and amount controls](purchase-product.ASSETS/01-store-credit-purchase-settings-annotated.png)
 
 These settings control whether customers can buy store credit directly.
 
@@ -124,7 +132,7 @@ The min/max/default amounts apply to **custom-amount** credit products (where th
 ## What Happens After Saving
 
 - Changes take effect immediately for all future credit operations.
-- **Enabling Auto-Apply to Renewals** means the next renewal invoice processed will check for available credit and apply it.
+- **Enabling Auto-Apply to Renewals** means the next renewal invoice processed will also apply available customer credit, after the subscription's own credit.
 - **Enabling Allow at Checkout** means the next checkout that includes a subscription product will check for credit.
 - **Changing the expiration period** only affects credits issued after the change. Previously issued credits keep their original expiration date (or lack of one).
 - **Enabling Credit Purchases** makes the Store Credit product type available in WooCommerce but does not create a product. You need to create one manually.
@@ -177,13 +185,14 @@ Then create a Store Credit product with a bonus percentage (see [Purchase Produc
 - **Credit applied as a negative fee.** On the WooCommerce order, credit appears as a fee line item with a negative value. This keeps the original order total intact for reporting.
 - **Minimum order amount affects both renewals and checkout.** If set to $50, neither a $30 renewal nor a $30 checkout order will have credit applied.
 - **Expiration job timing.** The daily expiration batch runs at 3:00 AM server time. Credits that expire mid-day are not processed until the next batch run.
-- **Subscription credit vs. customer credit.** These settings control customer-level credit behavior. Subscription-level credit (from downgrades) is always applied to that subscription's renewals regardless of these settings, as long as the system is enabled.
+- **Subscription credit vs. customer credit.** **Auto-Apply to Renewals** and **Allow at Checkout** control customer-level credit. Subscription-level credit (from plan switches) is always applied to that subscription's renewals first, whether or not **Auto-Apply to Renewals** is on, as long as the Store Credit module is on.
+- **Plan-switch credit is a ledger entry.** When a plan switch leaves unused value, the excess is added to the subscription's credit as a permanent ledger entry (source **Plan Downgrade**). The customer gets one **Credit Added** email, and the expiration period counts from the moment the credit is created. Without Store Credit active, such a switch is applied at the next renewal instead and no credit is created.
 
 ## Troubleshooting
 
 | Problem | Likely Cause | What to Do |
 |---------|-------------|------------|
-| Credit is not applied to renewals | Auto-Apply to Renewals is off, or the order total is below the minimum order amount | Enable the toggle and check the minimum order amount |
+| Credit is not applied to renewals | For customer credit, Auto-Apply to Renewals is off. For any credit, the Store Credit module is off or the order total is below the minimum order amount | Enable the toggle, confirm the module is on in **ArraySubs -> Modules**, and check the minimum order amount |
 | Credit is not applied at checkout | Allow at Checkout is off, or the cart does not contain a subscription product | Enable the toggle and verify the cart contents |
 | No expiration emails sent | Expiration days is set to 0, or the email is disabled in WooCommerce settings | Set an expiration period and enable the Credit Expiring email in **WooCommerce → Settings → Emails** |
 | Credit purchase products not visible | Enable Credit Purchases is off, or no Store Credit product has been created | Enable the toggle and create a product (see [Purchase Product](purchase-product.md)) |
@@ -197,6 +206,7 @@ Then create a Store Credit product with a bonus percentage (see [Purchase Produc
 - [Purchase Product](purchase-product.md) — Create a WooCommerce product for selling credit.
 - [Emails](emails.md) — Configure the four credit email notifications.
 - [Refund to Credit](refund-to-credit.md) — Process refunds as store credit.
+- [Read and Update Store Credit](../developers/store-credit.md) - Developer reference for balances, expiring credit, and ledger-backed adjustments.
 
 ---
 
@@ -213,3 +223,6 @@ Before. The system checks if the order total (before credit) exceeds the minimum
 
 ### What happens if I change the expiration period?
 Only new credits receive the new expiration date. Existing credits keep their original expiration date. Credits that were issued with no expiration (when the setting was 0) will not retroactively gain an expiration date.
+
+### Is subscription credit used when Auto-Apply to Renewals is off?
+Yes. Subscription credit, such as credit from a plan switch, is always applied to that subscription's renewal invoices first while Store Credit is active. **Auto-Apply to Renewals** only decides whether customer credit is applied as well.

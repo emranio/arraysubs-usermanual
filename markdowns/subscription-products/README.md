@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Shared
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # Manage Subscription Products
 
@@ -63,9 +63,26 @@ For a **Simple product**, check **Subscription [AS]** and click **Configure subs
 | Coupon settings | WooCommerce → Coupons → coupon edit → ArraySubs Subscription Settings |
 | Test links | Product editor → General tab → Helper Links |
 
+## Catalog Terms and Purchased Terms
+
+Editing a subscription product changes what new customers buy. Each existing subscription keeps the price, schedule, length, and trial terms that were copied onto it at purchase, so product edits never reprice live subscriptions. A subscription changes plan only through a plan switch, an auto-downgrade, or an admin change, and a plan switch waiting for the next renewal is stored separately from the plan the subscription bills on now. See [Plan Switching and Product Relationships](plan-switching-and-relationships.md#current-plan-and-pending-plan-switch).
+
+## For Developers
+
+Custom plugins read product terms, plan relationships, and families through the ArraySubs developer API. Product reads are read only; product settings are changed in the product editor.
+
+| Task | Reference |
+|---|---|
+| Resolve a subscription product by ID, slug, or product URL, select a variation, and read pricing, schedule, trial, signup fee, lifetime, plan-switch targets, and box or bundle terms | [Read Subscription Product Terms](../developers/subscription-products.md) |
+| Read the plan a subscription bills on now, separately from a pending plan switch | [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) |
+| Resolve box and bundle families: the billing owner and its included subscriptions | [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) |
+| Read a subscription's purchased terms and family summary | [Find and Update Subscriptions](../developers/subscriptions.md) |
+
 ---
 
 ## Related Guides
 
 - [First-Time Setup](../getting-started/first-time-setup.md) — Create your first subscription product step by step.
 - [General Settings](../settings/general-settings.md) — Store-wide subscription behavior including trials, grace periods, and customer portal.
+- [Read Subscription Product Terms](../developers/subscription-products.md) - Developer reference for reading subscription product terms.
+- [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) - Developer reference for box and bundle families.

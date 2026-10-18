@@ -1,13 +1,13 @@
 # Info
 - Module: Member Styling
 - Availability: Free (Feature Value conditions require Pro)
-- Last updated: 2026-07-22
+- Last updated: 2026-10-18
 
 # Member Styling
 
 > Give members, guests, plans, roles, and customer segments a different presentation with conditional body classes and custom CSS.
 
-**Availability:** Free. The shared **Feature Value** condition requires ArraySubs Pro and Feature Manager.
+**Availability:** Free. The shared **Feature Value** condition checks features defined with Feature Manager, which requires ArraySubs Pro. Feature values already saved on products keep being evaluated if Pro or the Feature Manager module is later turned off, but they cannot be edited.
 
 ## Page Navigation
 
@@ -17,6 +17,7 @@
 - **Previous guide:** [Member Access](../member-access/README.md)
 - **Next guide:** [Profile Builder](../profile-builder/README.md)
 - **Related conditions:** [Member Access condition system](../member-access/README.md#condition-types)
+- **Developer reference:** [Read Member Styling Rules](../developers/member-styling.md)
 
 ## Overview
 
@@ -68,6 +69,7 @@ Member Styling uses the shared ArraySubs condition builder.
 | **Purchased Product** | Customers who purchased any selected product |
 | **Purchased Variation** | Customers who purchased any selected variation |
 | **Purchased from Category/Tag** | Customers whose purchase history includes a selected product term |
+| **Subscription Status** | Logged-in customers with at least one subscription in any selected status, such as Active, Trial, Paused, or On Hold |
 | **Has Active Subscription** | Customers with an active or trial subscription, optionally for selected products |
 | **Has Subscription Variation** | Customers with an active or trial subscription to a selected variation |
 | **User Login Status** | Either logged-in visitors or visitors who are not logged in |
@@ -152,6 +154,7 @@ Use **User Role** for the relevant staff role, add an admin-safe class and CSS, 
 - [Member Access](../member-access/README.md) — The shared rule model and condition reference.
 - [Profile Builder](../profile-builder/README.md) — Change profile and My Account structure rather than conditional presentation.
 - [Feature Manager](../feature-manager/README.md) *(Pro)* — Define entitlements used by Feature Value conditions.
+- [Read Member Styling Rules](../developers/member-styling.md) - Read-only PHP reference for the configured rules and the classes that apply to a member. Reading never prints or enqueues CSS.
 
 ## FAQ
 

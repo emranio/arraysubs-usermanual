@@ -150,7 +150,7 @@ A customer paying via PayPal clicks "Cancel at end of period" on the 5th of the 
 
 ### Review Stripe recovery configuration
 
-1. Go to **WooCommerce → Settings → Payments → ArraySubs Stripe Configs**.
+1. Go to **WooCommerce → Settings → Payments → ArraySubs Config**.
 2. Confirm the secondary webhook endpoint is healthy. The page shows:
    - Webhook status (`Enabled` or `Disabled`) from a live Stripe-side check.
    - **Refresh** link for checking and repairing the endpoint.
@@ -234,7 +234,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 | Sync from Gateway shows "no remote subscription linked" | The subscription was created without a gateway, was detached, or the gateway IDs are missing | Check `_payment_gateway` meta; if empty, sync isn't applicable |
 | Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and Pro gateway capabilities |
 | Sync changes look wrong | Gateway's webhook had not yet landed; you synced too quickly | Wait a few minutes and re-sync, or check the gateway dashboard directly |
-| Stripe secondary webhook shows Disabled | The auto-created endpoint was deleted/disabled in Stripe, points to the wrong URL, is missing required events, or ArraySubs no longer has the signing secret | Open **WooCommerce → Settings → Payments → ArraySubs Stripe Configs** and click **Refresh**. Then send or wait for a Stripe test event and confirm Gateway Health updates |
+| Stripe secondary webhook shows Disabled | The auto-created endpoint was deleted/disabled in Stripe, points to the wrong URL, is missing required events, or ArraySubs no longer has the signing secret | Open **WooCommerce → Settings → Payments → ArraySubs Config** and click **Refresh**. Then send or wait for a Stripe test event and confirm Gateway Health updates |
 | PayPal undo cancellation log shows "must re-authorize" but customer says they didn't cancel | Multiple admins/agents may have acted on the same subscription; check the subscription's notes for who scheduled the cancel | Confirm with the customer whether a fresh authorization is needed |
 | Paddle pending-cancel didn't roll back on undo | Paddle's `update` call failed (network error, API change) | Check the subscription notes for the error; if needed, manually reverse via the Paddle dashboard |
 

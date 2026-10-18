@@ -1,7 +1,7 @@
 # Info
 - Module: Store Credit Management
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Store Credit Management
 
@@ -35,7 +35,7 @@ This is where support teams handle credit adjustments, where store owners grant 
 ## Prerequisites
 
 - ArraySubs Pro active
-- Store Credit enabled in **ArraySubs → Store Credit → Settings**
+- The **Store Credit** module switched on in **ArraySubs -> Modules**
 - Admin or Shop Manager access (`manage_woocommerce` or `manage_options`)
 
 ## How It Works
@@ -55,7 +55,7 @@ The page is divided into two sections: a **customer lookup panel** on the left a
 
 ### View Balance and History
 
-![Store Credit management — selected customer with live balance and adjustment form](../README.ASSETS/01-admin-store-credit-customer-management-annotated.png)
+![Store Credit management — selected customer with live balance and adjustment form](README.ASSETS/01-admin-store-credit-customer-management-annotated.png)
 
 Once a customer is selected, the right panel shows:
 
@@ -81,7 +81,7 @@ History is paginated at 10 transactions per page. Use the **Prev** and **Next** 
 3. Optionally enter a reason in the **Note** field (e.g., "Goodwill credit for delayed shipment").
 4. Click **Apply Adjustment**.
 
-The customer's balance updates immediately, a new transaction is logged, and the customer receives a **Credit Added** email notification (if enabled in WooCommerce email settings).
+The customer's balance updates immediately, a new transaction is logged, and the customer receives a **Credit Added** email notification (if enabled in WooCommerce email settings). Each adjustment is a new, permanent ledger entry.
 
 ### Deduct Credit
 
@@ -120,6 +120,8 @@ A batch import accidentally added $100 in promotional credit to the wrong custom
 3. Set **Deduct** → **$100.00** → Note: "Correction — promotional credit assigned to wrong account".
 4. Click **Apply Adjustment**.
 
+The original $100 entry stays in the history. The deduction is a new entry that brings the balance back to the correct amount.
+
 ### Use Case 3: Investigating a Customer's Credit History
 
 A customer asks "Why was $15 deducted from my credit?" You can:
@@ -135,9 +137,9 @@ If you also see a matching **Reversal** entry for the same amount on a later dat
 
 | Setting | What it controls | Default |
 |---------|-----------------|---------|
-| **Store Credit enabled** | Whether the entire Store Credit system is active. If disabled, this page will not function. | Enabled |
+| **Store Credit** module (on **ArraySubs -> Modules**) | Whether the entire Store Credit system is active. If it is off, this page will not function. | On |
 
-No additional settings are specific to this page. The management page inherits the global Store Credit enabled/disabled toggle from [Store Credit Settings](store-credit-settings.md).
+No additional settings are specific to this page. The management page follows the **Store Credit** module switch on **ArraySubs -> Modules**. Credit behavior is configured in [Store Credit Settings](store-credit-settings.md).
 
 ## Edge Cases and Important Notes
 
@@ -146,7 +148,9 @@ No additional settings are specific to this page. The management page inherits t
 - **Adjustments are admin-only.** Customers cannot adjust their own credit — they can only view their balance and history.
 - **All adjustments are logged.** Every add or deduct action creates a transaction record with the admin's note, visible in both this page and the global Credit History page.
 - **The "Add" adjustment uses the `admin` source.** This means it appears as "Admin Adjustment" in transaction logs and email notifications.
-- **Balance is customer-level only.** This page manages account-wide credit. Subscription-level credit (from downgrades) is managed at the subscription level and is separate from the balance shown here.
+- **Balance is customer-level only.** This page manages account-wide credit. Subscription-level credit (from plan switches) belongs to one subscription and is separate from the balance shown here. It is applied to that subscription's renewal invoices first whenever Store Credit is active, before any customer credit; **Auto-Apply to Renewals** decides whether customer credit is also applied. Plan-switch credit is recorded as a ledger entry (source **Plan Downgrade**) that appears in [Credit History](credit-history.md).
+- **Entries are permanent.** Ledger entries cannot be edited or deleted. To correct a mistake, apply an opposite adjustment; both entries stay in the history.
+- **Custom code uses the Store Credit API.** Developers add, remove or adjust credit through [Read and Update Store Credit](../developers/store-credit.md). Each call needs a reason and an idempotency key, so a retried request is applied only once, and a debit larger than the balance is refused instead of being reduced.
 
 ## Troubleshooting
 
@@ -154,7 +158,7 @@ No additional settings are specific to this page. The management page inherits t
 |---------|-------------|------------|
 | Search returns no results | Customer has not placed an order or does not have a WordPress account | Verify the customer exists in **Users** or **WooCommerce → Customers** |
 | "Cannot deduct more than available balance" error | Deduction amount exceeds the current balance | Reduce the deduction amount to match or fall below the displayed balance |
-| Balance shows $0 but customer claims they have credit | Credit may be at the subscription level (from a downgrade), not the customer account level | Check the customer's subscription detail page for subscription-level credit |
+| Balance shows $0 but customer claims they have credit | Credit may be at the subscription level (from a plan switch), not the customer account level | Filter [Credit History](credit-history.md) by **Plan Downgrade** and open the linked subscription |
 | Adjustment succeeds but no email sent | The Credit Added email is disabled in WooCommerce settings | Go to **WooCommerce → Settings → Emails** and enable the "Store Credit Added" email |
 
 ---
@@ -164,6 +168,7 @@ No additional settings are specific to this page. The management page inherits t
 - [Credit History](credit-history.md) — View all transactions across all customers.
 - [Store Credit Settings](store-credit-settings.md) — Enable/disable the system and configure credit behavior.
 - [Manage Members — Commerce Overview](../member-insight/member-commerce-overview.md) — View credit balances from the member profile.
+- [Read and Update Store Credit](../developers/store-credit.md) - Developer reference for balances, history, and ledger-backed adjustments.
 
 ---
 
@@ -173,10 +178,10 @@ No additional settings are specific to this page. The management page inherits t
 Yes, if the **Store Credit Added** email is enabled in WooCommerce email settings. The customer receives an email showing the credited amount, their new balance, and the source label "Admin Adjustment".
 
 ### Can I see who made a credit adjustment?
-The current transaction log does not display the admin user who performed the adjustment. The **Note** field is the best way to track context.
+The tables on this page and in Credit History do not show the admin user. Every ledger entry records who created it, and developers can read it as the entry's actor through the Store Credit API ([Read and Update Store Credit](../developers/store-credit.md)). Use the **Note** field to record context your team can see here.
 
 ### Does adding credit here also add subscription-level credit?
-No. This page manages customer-level credit only. Subscription-level credit is created automatically during plan downgrades and is managed separately on the subscription's detail page.
+No. This page manages customer-level credit only. Subscription-level credit is created automatically when a plan switch leaves unused value, as a ledger entry linked to that subscription, and is spent on that subscription's renewals.
 
 ### Can I bulk-adjust credit for multiple customers at once?
-Not from this page. Bulk adjustments would require individual searches and adjustments for each customer.
+Not from this page. Bulk adjustments would require individual searches and adjustments for each customer. Developers can script bulk adjustments with the Store Credit API, using a unique idempotency key for each customer so a rerun does not apply the same credit twice.

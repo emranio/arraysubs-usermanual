@@ -1,7 +1,7 @@
 # Info
 - Module: Profile Form
 - Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-18
 
 # Profile Form
 
@@ -28,7 +28,7 @@ The Profile Form settings page lets you create custom fields that appear on two 
 
 You can also enable avatar upload, letting customers replace their Gravatar with a custom profile photo.
 
-All profile data is stored as WordPress user meta with the prefix `arraysubs_pf_`, and changes are tracked in the activity audit log.
+All profile data is stored as WordPress user meta with the prefix `arraysubs_pf_`, and changes are tracked in the activity audit log. Custom code reads and updates these values through the customer profile API ([Find Members and Update Profiles](../developers/customers-and-profile-fields.md)), which applies the field settings on this page.
 
 ## When to Use This
 
@@ -39,7 +39,7 @@ All profile data is stored as WordPress user meta with the prefix `arraysubs_pf_
 
 ## Prerequisites
 
-- ArraySubs installed and active.
+- ArraySubs and ArraySubs Pro installed and active, with an active Pro license.
 - WooCommerce My Account page set up (default WooCommerce behavior).
 - Admin or Shop Manager access.
 
@@ -72,7 +72,7 @@ The avatar section controls whether customers can upload a profile photo from th
 
 1. Toggle **Enable avatar upload** to on.
 2. Set the **Max File Size (MB)** — the maximum file size customers can upload. Accepts values from 1 to 20 MB. Default is `2` MB.
-3. Set the **Allowed File Types** — a comma-separated list of file extensions customers can upload. Default is `jpg, jpeg, png, gif, webp`.
+3. Avatar images must be JPG, JPEG, PNG, GIF or WebP files. These formats are fixed, and each upload is checked to confirm it is a real image.
 4. Click **Save Configuration**.
 
 ### What Customers See
@@ -105,9 +105,9 @@ On the **WordPress Admin → Users → Edit User** screen, a section titled **Ar
 
 | Setting | What It Controls | Default | Accepted Values |
 |---------|-----------------|---------|-----------------|
-| Enable avatar upload | Whether the avatar section appears for customers and admins | On | On / Off |
+| Enable avatar upload | Whether the avatar section appears for customers and admins | Off | On / Off |
 | Max File Size (MB) | Maximum upload size per avatar file | 2 | 1 – 20 |
-| Allowed File Types | File extensions customers can upload | jpg, jpeg, png, gif, webp | Any valid image extensions, comma-separated |
+| Image formats (fixed) | File types customers can upload as an avatar | jpg, jpeg, png, gif, webp | Not configurable |
 
 ---
 
@@ -141,7 +141,7 @@ Every field has these common properties:
 | **Type** | The kind of input (see field types below). | Yes |
 | **Placeholder / Description** | Hint text shown inside the field (for text, textarea, date) or descriptive label (for checkbox). | No |
 | **Help Text** | Additional guidance shown below the field. | No |
-| **Required** | Whether the field must be filled in before saving. | No |
+| **Required** | Whether the field must be filled in before saving. Enforced when customers save **My Account -> Account Details**; on the admin user screen only the browser's required check applies. | No |
 
 ### Field Types
 
@@ -169,7 +169,7 @@ A multi-line text area. Best for longer entries like bios, notes, or description
 
 A dropdown menu with predefined options. Best for controlled choices like departments, industries, or plan reasons.
 
-- Requires at least one option.
+- Add at least one option. A select with no options cannot store a value.
 - Each option has a **Value** (stored) and a **Label** (displayed).
 - Add options using the **Add Option** button in the field editor.
 - The stored value is validated against the defined options.
@@ -200,8 +200,8 @@ A file input for document or image uploads. Best for ID verification, signed agr
 - The field editor shows two extra settings:
   - **Allowed File Types** — Comma-separated extensions. Validated against a whitelist of safe types: `jpg, jpeg, png, gif, webp, pdf, doc, docx, xls, xlsx, csv, txt, zip`.
   - **Max File Size (MB)** — From 1 to 100 MB. Default is `5` MB.
-- Uploaded files are stored in `wp-uploads/arraysubs-profiles/{user_id}/`.
-- The directory is protected with `.htaccess` (deny all direct access).
+- Uploaded files are stored in `wp-uploads/arraysubs-profiles/{user_id}/{token}/`, where the token is a random folder name for each user.
+- The folders get `.htaccess` deny rules and an `index.php` file. The `.htaccess` rules only work on Apache. On nginx or Caddy, the random folder name is the protection, so anyone who has a file's URL can open it.
 - Only the filename is stored in user meta.
 - On the admin screen, existing files show a download link and a **Remove file** checkbox.
 - On the customer account page, existing files show the filename and a remove button.
@@ -224,7 +224,7 @@ Each field row in the editor shows:
 
 - Auto-generated from the label: lowercase, non-alphanumeric characters replaced with underscores, max 40 characters.
 - Can be manually edited after creation, but changing a key after data has been collected creates a new meta key (old data remains under the old key).
-- Keys must be unique across all fields.
+- Keys must be unique across all fields. The Profile Form editor checks this when you save.
 - Stored as `arraysubs_pf_{key}` in user meta. For example, a field with key `company_name` is stored as `arraysubs_pf_company_name`.
 
 ---
@@ -235,7 +235,7 @@ Each field row in the editor shows:
 
 Custom fields appear on **My Account → Account Details**, below the standard WooCommerce account fields (first name, last name, display name, email, password). The avatar section appears above the custom fields.
 
-Customers fill in the fields and click **Save changes** (the standard WooCommerce button). Validation errors appear inline — for example, if a required field is empty.
+Customers fill in the fields and click **Save changes** (the standard WooCommerce button). Validation errors appear as WooCommerce notices, for example when a required field is empty, and the account details are not saved until the errors are fixed.
 
 ### Admin User Profile
 
@@ -243,7 +243,7 @@ Custom fields appear on **WordPress Admin → Users → Edit User** (and on the 
 
 Admins can view and edit all fields for any user. Fields are saved when the admin clicks **Update User** (or **Update Profile** on their own profile).
 
-Fields also appear on the **Add New User** page, letting admins set initial values when creating users.
+Fields also appear on the **Add New User** page, letting admins set initial values when creating users. File upload fields cannot upload files on that page; add files after the user is created.
 
 ### Admin User Create Page
 
@@ -275,11 +275,13 @@ A food subscription box needs dietary information. Add a select field with optio
 
 - **Disabling a field does not delete data.** Toggling a field off hides it from forms but keeps existing user meta values intact. Re-enabling the field shows the previously saved data.
 - **Deleting a field does not delete user data.** If you delete a field definition and later create a new field with the same key, the old data will appear again.
-- **File upload fields require multipart form encoding.** The system automatically adds `enctype="multipart/form-data"` to the account form and admin user form when profile fields are active.
+- **File upload fields require multipart form encoding.** The system automatically adds `enctype="multipart/form-data"` to the account form and the admin **Edit User** form when profile fields are active. The **Add New User** form does not get it, so files cannot be uploaded there.
 - **Avatar files are site-specific.** In a WordPress multisite environment, avatars are stored per site, not shared across the network.
 - **Gravatar is the fallback.** When no custom avatar is set, the system falls back to the user's Gravatar. If the user has no Gravatar, WordPress displays the default avatar configured in **Settings → Discussion**.
 - **Audit logging.** All changes to profile fields (including avatar changes and address updates) are tracked in the ArraySubs activity audit log. The system records the old and new values, the field label, and who made the change.
-- **Avatar directory security.** The `arraysubs-avatars/` directory is protected with `.htaccess` rules and an `index.php` file to prevent directory listing, but avatar URLs are accessible by direct link. Do not use this for sensitive documents — use file upload fields instead, which store files in a directory with `deny all` rules.
+- **Write profile values through the API.** Custom code should update profile fields through the customer profile API ([Find Members and Update Profiles](../developers/customers-and-profile-fields.md)), which checks each value against the field's settings before it is saved. Writing `arraysubs_pf_*` user meta directly, or through the WooCommerce REST API `meta_data`, skips those checks.
+- **Lookups by profile field.** Developers can find customers by a profile field value with comparisons that match the field type. File upload fields cannot be searched, and a lookup that must return one customer reports an ambiguous match instead of picking the first user.
+- **Avatar directory security.** The `arraysubs-avatars/` directory is protected with `.htaccess` rules and an `index.php` file to prevent directory listing, but avatar URLs are accessible by direct link. Do not use avatars for sensitive documents. File upload fields store files in a random per-user folder with `deny all` rules, which Apache enforces; on nginx or Caddy anyone with a file's URL can open it, so add server-level protection before collecting highly sensitive documents.
 
 ---
 
@@ -290,9 +292,9 @@ A food subscription box needs dietary information. Add a select field with optio
 | Custom fields do not appear on the customer account page | Feature is disabled or no fields are enabled | Check that **Enable custom profile fields** is on and at least one field is toggled to enabled |
 | Avatar upload button does not appear | Avatar feature is disabled | Toggle **Enable avatar upload** on in Profile Form settings |
 | Customer sees "File size exceeds limit" error | File is larger than the configured max size | Increase **Max File Size** in Avatar Settings, or ask the customer to compress the image |
-| Customer sees "Invalid file type" error | File extension is not in the allowed list | Add the extension to **Allowed File Types** in Avatar Settings |
+| Customer sees "Invalid file type" error | The avatar is not a JPG, PNG, GIF or WebP image, or a file upload field's file type is not allowed | For avatars, ask the customer to upload a JPG, PNG, GIF or WebP image. For a file upload field, add the extension to that field's **Allowed File Types** |
 | Field data does not save on the admin user profile | Nonce verification failed or field key changed | Refresh the admin page and try again. If the key was changed, the old data is under the old key |
-| Upload field shows "Remove file" but no download link on admin | The file was deleted from disk but meta remains | The customer or another admin may have removed the file. The meta clears on next save |
+| Upload field links to a file that no longer opens | The file was deleted from disk but the stored filename remains | Tick **Remove file** and save, or upload a new file, to clear the stored filename |
 | Fields appear in wrong order | The field list was reordered after initial save | Re-open Profile Form, drag fields to the desired order, and save again |
 
 ---
@@ -303,6 +305,7 @@ A food subscription box needs dietary information. Add a select field with optio
 - [Shortcodes](../shortcodes/README.md) — Display user data and gated content with shortcodes
 - [Customer Portal — Portal Pages](../customer-portal/portal-pages.md) — What customers see in their subscriptions area
 - [Manage Members — Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — View member profiles from the admin panel
+- [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) - Developer reference for customer lookups, profile field reads, and validated profile field updates
 
 ---
 
@@ -315,7 +318,7 @@ No. Profile fields are designed for the **My Account → Account Details** page 
 No. Avatar upload is optional by design. You can encourage customers to upload a photo, but the system does not block account saves when no avatar is set.
 
 ### What happens if I change a field's key after collecting data?
-Changing a key creates a new user meta entry. Existing data stays under the old key and will no longer appear in the field. If you need to rename a key, consider exporting user data first and updating meta manually.
+Changing a key creates a new user meta entry. Existing data stays under the old key and will no longer appear in the field. If you need to rename a key, ask a developer to copy the values to the new key with the customer profile API ([Find Members and Update Profiles](../developers/customers-and-profile-fields.md)), which validates each value against the new field's settings.
 
 ### Can customers see fields from other customers?
 No. Each customer can only view and edit their own profile fields on the account page. Field data is private user meta.
@@ -324,10 +327,10 @@ No. Each customer can only view and edit their own profile fields on the account
 No. It only hides the fields from the account page and admin profile. All stored user meta values remain unchanged.
 
 ### Where are uploaded files stored?
-Avatar images are stored in `wp-uploads/arraysubs-avatars/`. File upload field attachments are stored in `wp-uploads/arraysubs-profiles/{user_id}/`. Both directories have security protections, but file upload directories use stricter `deny all` access rules.
+Avatar images are stored in `wp-uploads/arraysubs-avatars/`. File upload field attachments are stored in `wp-uploads/arraysubs-profiles/{user_id}/{token}/`, where the token is a random folder name for each user. Both directories have security protections, but file upload directories use stricter `deny all` access rules, which only Apache enforces.
 
 ### Can I use profile field data in emails?
-Profile field values are stored as standard WordPress user meta. Any email system that supports user meta placeholders can access them using the key format `arraysubs_pf_{field_key}`.
+Profile field values are stored as standard WordPress user meta. Any email system that supports user meta placeholders can access them using the key format `arraysubs_pf_{field_key}`. Custom code can read them with the customer profile API ([Find Members and Update Profiles](../developers/customers-and-profile-fields.md)).
 
 ### Is there a limit to how many fields I can create?
 There is no hard limit. However, too many fields on the account page can create a poor customer experience. Keep the form focused on essential information.

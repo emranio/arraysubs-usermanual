@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # Before You Launch
 
@@ -20,9 +20,9 @@
 
 ## Overview
 
-ArraySubs is a WooCommerce subscription engine that adds recurring billing, a self-service customer portal, and membership access control to any WooCommerce store. It works as two plugins: a free core plugin that covers all essential subscription functionality, and an optional Pro addon that adds automatic payments, advanced analytics, store credit, checkout customization, and more.
+ArraySubs is a WooCommerce subscription engine that adds recurring billing, a self-service customer portal, and membership access control to any WooCommerce store. It works as two plugins: a free core plugin that covers all essential subscription functionality, including automatic payments through supported gateways, and an optional Pro addon that adds retention offers, advanced analytics, store credit, checkout customization, and more.
 
-This guide covers everything you need to know before installing: system requirements, core concepts, subscription statuses, and the full feature map.
+This guide covers everything you need to know before installing: system requirements, core concepts, subscription statuses, the full feature map, the Free-to-Pro upgrade path, and a staging checklist.
 
 ![ArraySubs admin area](README.ASSETS/01-arraysubs-admin-overview-annotated.png)
 
@@ -34,7 +34,8 @@ Before installing, make sure your hosting environment and WordPress setup meet t
 |---|---|
 | PHP | 8.1 or higher |
 | WordPress | 6.0 or higher |
-| WooCommerce | 8.0 or higher |
+| WooCommerce | 9.0 or higher |
+| ArraySubs core (required by Pro) | 2.0.0 or higher |
 
 ```box class="info-box"
 ArraySubs declares full compatibility with WooCommerce High-Performance Order Storage (HPOS). No special configuration is required.
@@ -48,7 +49,9 @@ If you are installing both plugins:
 2. Install and activate **ArraySubs** (the core plugin).
 3. Install and activate **ArraySubsPro** (the Pro addon).
 
-The Pro addon checks for the core plugin at startup. If ArraySubs core is missing or below version 1.0, the Pro addon will show an admin notice and will not activate.
+The Pro addon requires ArraySubs core 2.0.0 or higher. WordPress 6.5 and later will not activate Pro while core is missing or inactive. If core is older than 2.0.0, Pro shows an admin notice and does not load. If core itself cannot load (for example, WooCommerce is missing or too old), Pro does not load either; fix the notice that core shows.
+
+Already running the free plugin? Do not reinstall anything. Follow [Upgrade from Free to Pro](#upgrade-from-free-to-pro).
 
 ```box class="warning-box"
 Always activate the core plugin before the Pro addon. Activating Pro without the core plugin installed results in a dependency error notice and the Pro features will not load.
@@ -235,7 +238,7 @@ Depending on your settings, customers can perform actions like:
 | Cancel their subscription | Change their subscription plan |
 | Undo a scheduled cancellation | Skip upcoming renewals |
 | Pause and resume their subscription | Reactivate a cancelled subscription |
-| Update their payment method *(Pro)* | Toggle automatic renewal on/off *(Pro)* |
+| Update their payment method | Toggle automatic renewal on/off |
 
 The available self-service actions are configurable in **ArraySubs → Settings → General**. The **Subscriptions** tab label and its menu order are managed separately in **ArraySubs → Profile Builder → My Account**.
 
@@ -274,8 +277,8 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | [Shortcodes](../shortcodes/README.md) | Free shortcodes with one Pro store-credit shortcode |
 | [Member Access](../member-access/README.md) | Free core with Pro login-limit extension |
 | [Member Styling](../member-styling/README.md) | Free conditional body classes and CSS; Feature Value conditions require Pro |
-| [Checkout and Payments](../checkout-and-payments/README.md) | Free checkout flow with Pro automatic payments |
-| [Billing and Renewals](../billing-and-renewals/README.md) | Free renewal engine with Pro automatic collection |
+| [Checkout and Payments](../checkout-and-payments/README.md) | Free checkout flow and automatic payments, with Pro checkout customization |
+| [Billing and Renewals](../billing-and-renewals/README.md) | Free renewal engine and automatic collection, with Pro renewal extensions such as different renewal pricing |
 | [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) | Free core (cancellation timing, undo, core refunds) with Pro cancellation reasons, retention offers, retention analytics, and store-credit refund extension |
 | [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md) | Free troubleshooting with Pro audit/log screens |
 
@@ -316,8 +319,8 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | Renewal invoice generation | ✅ | ✅ |
 | Grace period system (active + on-hold) | ✅ | ✅ |
 | Manual renewal payments | ✅ | ✅ |
-| Automatic gateway payments (Stripe, PayPal, Paddle, Mollie) | — | ✅ |
-| Auto-renew customer toggle | — | ✅ |
+| Automatic gateway payments (Stripe, PayPal, Paddle, Mollie) | ✅ | ✅ |
+| Auto-renew customer toggle | ✅ | ✅ |
 | Gateway health dashboard | — | ✅ |
 
 ### Customer Portal and Self-Service
@@ -332,8 +335,8 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | Skip next renewal | ✅ | ✅ |
 | Pause and resume subscription | ✅ | ✅ |
 | Reactivate cancelled subscription | ✅ | ✅ |
-| Update payment method | — | ✅ |
-| Toggle auto-renew on/off | — | ✅ |
+| Update payment method | ✅ | ✅ |
+| Toggle auto-renew on/off | ✅ | ✅ |
 | Update shipping address | — | ✅ |
 
 ### Retention and Cancellation
@@ -341,8 +344,8 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 | Feature | Free | Pro |
 |---|---|---|
 | Cancellation reasons (require reason, predefined list) | ✅ | ✅ |
-| Retention offers (discount, pause, downgrade, contact support) | ✅ | ✅ |
-| Retention analytics (churn rate, offer performance, trends) | ✅ | ✅ |
+| Retention offers (discount, pause, downgrade, contact support) | — | ✅ |
+| Retention analytics (churn rate, offer performance, trends) | — | ✅ |
 | Refund processing (immediate, end-of-period, prorated) | ✅ | ✅ |
 | Refund to store credit | — | ✅ |
 
@@ -436,20 +439,78 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 
 ---
 
+## Upgrade from Free to Pro
+
+You can launch on the free plugin and add Pro at any time. Pro is an addon to the same store: it reads the subscriptions, orders, customers, and settings that core already stores, so nothing is migrated or recreated.
+
+1. Back up the database and files.
+2. Record subscription counts by status and a few sample subscriptions.
+3. Keep ArraySubs core installed, updated, and active.
+4. Install the current ArraySubs Pro release from the ArrayHash portal.
+5. Activate the license for this site's domain.
+6. Confirm subscriptions, settings, modules, retention offers, and integrations.
+7. Test automatic payments before live use.
+
+The full steps are in [Upgrade an Existing Free Store to Pro](license-activation.md#upgrade-an-existing-free-store-to-pro).
+
+| Area | After the Upgrade |
+|---|---|
+| Subscriptions, orders, and customers | The same records and IDs. Nothing is copied or recreated. |
+| Settings | Kept. Pro screens add their own settings. |
+| Automatic payments | Still handled by core with the same gateway connections. |
+| Pro modules | Available once the license is active. Module switches start on; switch off any module you do not use on **ArraySubs -> Modules**. |
+| Retention offers | Shown to customers who cancel from My Account. Review **ArraySubs -> Retention Flow** first. |
+| License lapses or the domain changes | Pro features stop on the next page load. Data stays, and core features keep running. |
+
+```box class="warning-box"
+Never uninstall ArraySubs core or recreate subscriptions to move to Pro. Recreated subscriptions lose their order history and renewal schedule, and the originals can still renew, which risks charging customers twice.
+```
+
+---
+
+## Staging Checklist
+
+Test upgrades, gateway changes, and custom integrations on a staging copy before you change the live store. A copy of a live store carries live gateway settings, scheduled renewals, and real customer email addresses, so make it safe before it runs.
+
+1. **Create the copy on its own domain** from a recent backup. Keep the live site unchanged while you test.
+2. **Stop scheduled jobs on the copy before it serves any page.** Add `define('DISABLE_WP_CRON', true);` to the staging `wp-config.php` and do not add a system cron yet. This stops renewals from running on the copy. See [Cron Job Setup](cron-job-setup.md).
+3. **Switch every payment gateway on the copy to test or sandbox mode** with test credentials. Never leave live keys on a staging site.
+4. **Point gateway webhooks for the copy to test mode only.** Live gateway events must keep going to the live site. Follow the gateway guide, such as [Stripe Gateway](../checkout-and-payments/automatic-payments/stripe.md).
+5. **Keep customer email inside your team.** Route staging mail to a test inbox or a mail-catching tool so customers do not receive test renewal or payment emails.
+6. **Decide whether staging needs Pro.** Core features, including automatic renewals, do not need a license. When the test uses Pro features, activate the license for the staging domain. See [Staging and Development Sites](license-activation.md#staging-and-development-sites).
+7. **Turn scheduled jobs back on** with a system cron once the gateways are in test mode, so renewals run on time during the test.
+8. **Run the tests:** a checkout with a test payment method, a due automatic renewal, a failed payment with retry and grace, customer portal actions, and any custom code. Check orders, subscription dates, notes, and **WooCommerce -> Status -> Scheduled Actions**.
+9. **Rehearse the Free-to-Pro upgrade** when you plan one: compare subscription counts and sample subscriptions before and after.
+10. **Apply the results to the live store.** Repeat the configuration on live, or move ArraySubs settings with [Import / Export Settings](import-export-settings.md). Gateway credentials are not exported. Never copy the staging database over the live site, because it would overwrite live orders and subscriptions created in the meantime.
+11. **Retire the copy.** Revoke a public staging domain in the ArrayHash portal when you no longer need it.
+
+Developers can find integration contracts and testing guidance in [Developers](../developers/README.md).
+
+---
+
 ## Related Guides
 
 - [First-Time Setup](first-time-setup.md) — Create your first subscription product and place a test order.
 - [Essential Daily Workflows](essential-daily-workflows.md) — How the subscription lifecycle works day to day.
+- [License Activation](license-activation.md) - Upgrade an existing Free store, activate the license, and set up staging sites.
+- [Cron Job Setup](cron-job-setup.md) - Run scheduled jobs reliably on live and staging sites.
+- [Developers](../developers/README.md) - Connect a custom plugin to ArraySubs and verify it on staging.
 
 ---
 
 ## FAQ
 
 ### Do I need the Pro addon to run a subscription store?
-No. The free core plugin includes everything you need for subscription products, recurring billing, a customer portal, retention offers, member access control, and email notifications. The Pro addon adds automatic payments, advanced analytics, store credit, checkout customization, and other premium features.
+No. The free core plugin includes subscription products, recurring billing with automatic payments through supported gateways, a customer portal, member access control, and email notifications. The Pro addon adds retention offers, advanced analytics, store credit, checkout customization, and other premium features.
 
 ### Can I install the Pro addon without the core plugin?
-No. The Pro addon requires the core ArraySubs plugin (version 1.0 or higher) to be installed and activated. It checks for this on every page load.
+No. The Pro addon requires the core ArraySubs plugin (version 2.0.0 or higher) to be installed and activated. It checks for this on every page load.
+
+### Can I upgrade from Free to Pro without losing data?
+Yes. Keep core active, install Pro, and activate the license. Pro uses the subscriptions, orders, and settings that core already stores. Back up first, and never uninstall core or recreate subscriptions. See [Upgrade from Free to Pro](#upgrade-from-free-to-pro).
+
+### Should I test on a staging site first?
+Yes, for upgrades, gateway changes, and custom integrations. Follow the [Staging Checklist](#staging-checklist) so the copy cannot charge real customers or send them email.
 
 ### Does ArraySubs work with WooCommerce block checkout?
 Yes. ArraySubs supports both the classic WooCommerce checkout and the block-based checkout (Store API). Subscriptions are created through whichever checkout method your store uses.

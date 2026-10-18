@@ -185,5 +185,26 @@
         "audits-and-logs/portal-action-failures.md",
         "audits-and-logs/access-rule-conflicts.md",
         "audits-and-logs/payment-and-shipping-issues.md"
+    ],
+    [
+        "developers/README.md",
+        "developers/getting-started.md",
+        "developers/subscriptions.md",
+        "developers/subscription-relationships-and-orders.md",
+        "developers/status-grace-periods-and-trials.md",
+        "developers/customers-and-profile-fields.md",
+        "developers/subscription-products.md",
+        "developers/feature-manager.md",
+        "developers/member-access.md",
+        "developers/downloads.md",
+        "developers/discounts.md",
+        "developers/login-limits.md",
+        "developers/member-styling.md",
+        "developers/store-credit.md",
+        "developers/actions-and-filters.md",
+        "developers/addon-modules.md",
+        "developers/php-templates.md",
+        "developers/integration-recipes.md",
+        "developers/errors-and-testing.md"
     ]
 ]

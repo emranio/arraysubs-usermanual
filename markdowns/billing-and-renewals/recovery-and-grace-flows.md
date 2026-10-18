@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free
-- Last updated: 2026-06-21
+- Last updated: 2026-10-18
 
 # Recovery and Grace Flows
 
@@ -16,6 +16,7 @@
 - **Where to open skip/pause settings:** WordPress Admin -> ArraySubs -> Settings -> Skip & Pause
 - **Direct skip/pause route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/settings/skip-pause`
 - **Where to inspect a renewal:** WordPress Admin -> ArraySubs -> Subscriptions -> open a subscription
+- **Developer reference:** [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md)
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
 - **Next guide:** [renewal-communication](./renewal-communication.md)
@@ -36,16 +37,18 @@ Not every renewal payment arrives on time. When a customer misses a payment, Arr
 
 ### The two-phase grace period
 
-When a renewal invoice remains unpaid past the due date, the subscription progresses through two phases before cancellation. Both phase durations are configurable in settings.
+When a renewal invoice remains unpaid past the due date, the subscription progresses through two phases before cancellation. Both phase durations are configurable in settings (see [Grace period configuration](#grace-period-configuration)).
 
-**Phase 1 — Active grace (default: 3 days)**
-The subscription stays **Active** after the payment due date. The customer retains full access to all subscription benefits. This gives time for payment to process, for bank transfers to clear, or for the customer to notice the invoice email and pay.
+There is no separate "grace" status. During the first phase the stored status stays **Active** (or **Trial**); the overdue check works out the phase from the due date, the unpaid renewal order and the grace settings.
 
-**Phase 2 — On-hold grace (default: 7 days)**
+**Phase 1 — Active grace (Days Active After Due, default: 3 days)**
+The subscription stays **Active** after the payment due date. The customer retains full access to all subscription benefits. This gives time for payment to process, for bank transfers to clear, or for the customer to notice the invoice email and pay. Automatic payment retries run in this phase (see [Payment retries during grace](#payment-retries-during-grace)).
+
+**Phase 2 — On-hold grace (Days On-Hold Before Cancel, default: 7 days)**
 After the active grace period expires, the subscription moves to **On-Hold**. Access is restricted based on your member access rules. The customer can still pay the outstanding invoice to restore their subscription.
 
 **After both phases expire — Cancellation**
-If the total grace period passes (default: 10 days total) without payment, the subscription is automatically **Cancelled** with the reason "overdue payment."
+If the total grace period passes (default: 10 days total) without payment, the subscription is automatically **Cancelled** with the reason "overdue payment." If **Auto-Downgrade Timing** is set to **On Cancellation** and the product has an **Auto-downgrade to** target, the subscription moves to that fallback plan instead (see [Plan Switching and Relationships](../subscription-products/plan-switching-and-relationships.md)).
 
 ### Grace period timeline
 
@@ -65,7 +68,7 @@ Payment Due Date
 ├─ Day 10: CANCELLED
 │  └─ Status set to Cancelled (reason: overdue payment)
 │  └─ All future renewals unscheduled
-│  └─ Pending renewal orders cancelled
+│  └─ Unpaid renewal orders cancelled (except payments still settling at the gateway)
 │
 └─ Payment received at ANY point before Day 10:
    └─ Subscription restored to ACTIVE
@@ -80,20 +83,44 @@ Payment Due Date
 If the customer pays the outstanding invoice during the active grace phase, the on-hold phase, or even moments before the cancellation deadline, the subscription is immediately restored to **Active**. The grace period resets, the next payment date advances by one billing cycle, and billing continues normally.
 ```
 
+### Two paths that skip the active grace days
+
+Two failures move a subscription to **On-Hold** at once, without the **Days Active After Due** window:
+
+1. **The first (checkout) payment fails.** When the initial order is marked Failed or Cancelled, every linked Pending, Active or Trial subscription moves to On-Hold immediately. No automatic retry is scheduled. If the customer later pays that same order, the subscription activates. This also applies when an admin later sets a paid parent order to Failed or Cancelled.
+2. **The renewal order cannot be created.** If no unpaid renewal order exists at the due time and ArraySubs cannot build one, the subscription moves to On-Hold immediately, the failure is recorded, and a payment retry is scheduled.
+
+From there the normal on-hold phase applies: the subscription is cancelled once its next payment date is older than both grace windows combined. For a failed first payment the next payment date is still in the future, so that cancellation comes later than for a missed renewal.
+
+### Payment retries during grace
+
+For automatic payments that ArraySubs charges itself (Stripe and Mollie), a failed renewal charge is retried on the store's retry ladder: by default three retries, 24 hours apart. Retries are configured with the `payment_retry.enabled`, `payment_retry.interval_hours` and `payment_retry.stop_on_hard_decline` settings; see [Payment Recovery Tools](../checkout-and-payments/automatic-payments/payment-recovery.md) for the full reference.
+
+- **Retries run inside the grace window.** They do not extend it. The overdue check moves the subscription to On-Hold on schedule even if retries are left.
+- **Moving to On-Hold drops queued retries.** Any automatic retry still waiting is removed when the subscription goes On-Hold. The customer can still pay the invoice, and the customer or an admin can still use **Retry Payment** while the subscription is On-Hold.
+- **Running out of retries does not end grace.** When the last retry fails, no more retries are scheduled, but the status does not change; the grace phases continue to their normal end.
+- **Hard declines are not retried** while `stop_on_hard_decline` is on (for example, an expired or invalid card).
+- **PayPal and Paddle retry on their side.** They switch local retries off and run their own dunning schedule.
+- **Manual payments are never retried.** The customer pays the invoice; grace runs as usual.
+
 ### How overdue detection works
 
 A background job called **Check Overdue Renewals** runs **every hour** and performs three checks in sequence:
 
 **Check 1 — Active subscriptions past the active grace period**
-Finds subscriptions that are Active (or Trial) with a next payment date more than `grace_days_before_on_hold` (default: 3) days in the past and an unpaid renewal order. These subscriptions are moved to On-Hold.
+Finds subscriptions that are Active (or Trial) with a next payment date more than **Days Active After Due** (`renewals.grace_days_before_on_hold`, default: 3) days in the past and moves them to On-Hold. Three guards can delay the move:
+
+- If no unpaid renewal order exists yet, the check creates the renewal invoice first and moves the subscription on a later run.
+- The move waits at least one hour after the subscription's scheduled charge time (renewals are spread over a short window, so the charge can run a few hours after the due date).
+- While a payment is still settling at the gateway (for example, a PayPal or Paddle payment in progress, or a Mollie SEPA debit), the move waits until that settlement window ends.
 
 **Check 2 — On-hold subscriptions past the on-hold grace period**
-Finds subscriptions that are On-Hold with a next payment date more than `grace_days_before_on_hold + grace_days_before_cancel` (default: 10) days in the past. An additional safety check verifies the `on_hold_date` is more than 7 days old. These subscriptions are cancelled.
+Finds subscriptions that are On-Hold with a next payment date more than **Days Active After Due + Days On-Hold Before Cancel** (`renewals.grace_days_before_on_hold` + `renewals.grace_days_before_cancel`, default: 10) days in the past. When an on-hold date is recorded, the check also waits until **Days On-Hold Before Cancel** days have passed since that date. The same settlement guard applies. These subscriptions are cancelled.
 
 **Check 3 — Subscriptions waiting for end-of-period cancellation**
-Finds Active or Trial subscriptions with a scheduled cancellation date that has passed (end-of-period cancellations requested by the customer). These are cancelled with the reason stored at the time of the cancellation request.
+End-of-period cancellations normally run at their exact scheduled time. This hourly check is a safety net: it finds Active or Trial subscriptions whose scheduled cancellation date has passed and cancels them with the reason stored at the time of the cancellation request.
 
-If ArraySubs cannot resolve a valid future scheduled-cancellation date when the customer requests end-of-period cancellation, the request fails safely instead of cancelling immediately.
+When a customer requests end-of-period cancellation and the period end has already passed, the subscription is cancelled immediately. If ArraySubs cannot resolve a valid cancellation date at all, the request fails without cancelling.
 
 ![Scheduled-Job Logs with hourly overdue and upcoming renewal checks](recovery-and-grace-flows.ASSETS/04-overdue-renewal-job-logs-annotated.png)
 
@@ -102,9 +129,9 @@ If ArraySubs cannot resolve a valid future scheduled-cancellation date when the 
 - Status changes to **Cancelled**
 - End date and cancelled date are recorded
 - Cancelled by is set to "system" with reason "overdue_payment"
-- All pending renewal orders are cancelled
+- Unpaid renewal orders are cancelled, except orders whose payment is still settling at the gateway
 - All future renewal actions are unscheduled
-- Any pending plan switch is cleared
+- A pending plan switch is not cleared on this path; it stays on the cancelled record and never applies, because a cancelled subscription has no further renewals
 - A **Subscription Cancelled** email is sent to the customer
 - An **Admin Subscription Cancelled** email is sent to the store admin
 
@@ -114,15 +141,17 @@ If ArraySubs cannot resolve a valid future scheduled-cancellation date when the 
 
 Configure the grace period at **ArraySubs -> Settings -> General -> Grace Period**.
 
-| Setting | What it controls | Default | Recommended range |
-|---|---|---|---|
-| **Generate Invoice Before Due** + **Unit** | How far in advance the renewal invoice is created | 6 hours | 1-48 hours or 1-2 days |
-| **Days Active After Due** | Days the subscription stays Active after the due date with an unpaid invoice | 3 | 1-7 days |
-| **Days On-Hold Before Cancel** | Days the subscription stays On-Hold before automatic cancellation | 7 | 3-14 days |
+| Setting | Setting key | What it controls | Default | Allowed values | Recommended range |
+|---|---|---|---|---|---|
+| **Generate Invoice Before Due** + **Unit** | `renewals.invoice_before_due_value` + `renewals.invoice_before_due_unit` | How far in advance the renewal invoice is created. A value as long as the billing cycle or longer falls back to 6 hours | 6 hours | 1-30, Hours or Days | 1-30 hours or 1-2 days |
+| **Days Active After Due** | `renewals.grace_days_before_on_hold` | Days the subscription stays Active after the due date with an unpaid invoice | 3 | 0-30 | 1-7 days |
+| **Days On-Hold Before Cancel** | `renewals.grace_days_before_cancel` | Days the subscription stays On-Hold before automatic cancellation | 7 | 1-60 | 3-14 days |
 
 The total grace period before cancellation is the sum: **Days Active After Due + Days On-Hold Before Cancel** (default: 3 + 7 = 10 days).
 
 Your store can use different values from the defaults. For example, a strict recovery setup may use **Days Active After Due = 1** and **Days On-Hold Before Cancel = 3** so overdue subscriptions progress faster.
+
+These settings are the site-wide grace policy. A developer can give an individual subscription its own two values through the developer API; the overdue check then uses that subscription's values for the current and future overdue cycles until the override is cleared. An override never reverses an On-Hold or a cancellation that has already happened. See [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md).
 
 ![Grace Period settings with the recovery timeline note](recovery-and-grace-flows.ASSETS/01-grace-period-settings-annotated.png)
 
@@ -131,6 +160,12 @@ Your store can use different values from the defaults. For example, a strict rec
 
 Setting the active grace period too short may move subscriptions to On-Hold before customers have a chance to pay (especially for manual payment subscriptions). Setting the on-hold period too long keeps cancelled-bound subscriptions in limbo. Balance customer flexibility with business needs.
 ```
+
+### Grace state for developers
+
+Custom code should not guess the grace phase from the status label. `ArraySubs\Api\Lifecycle::get_state()` returns the stored status together with the computed phase (`renewal_due`, `grace`, `on_hold` and others), the grace stage (`before_on_hold` or `before_cancel`), the projected On-Hold and cancellation dates, the policy in use (site or subscription) and the retry state. It also reports the two paths above as skipped grace. Reading it never moves a subscription between phases.
+
+To react to changes, listen for the lifecycle events `grace_started`, `grace_changed`, `grace_recovered`, `grace_ended`, `on_hold`, `cancelled`, `payment_retry_scheduled`, `payment_retry_attempted` and `payment_retry_exhausted`, or the matching native actions such as `arraysubs_grace_period_started` and `arraysubs_payment_retry_exhausted`. See [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) and [React to Supported Events](../developers/actions-and-filters.md).
 
 ---
 
@@ -142,7 +177,7 @@ The skip and pause features directly affect when renewal invoices are generated 
 
 ### How skip affects renewals
 
-When a customer skips one or more renewal cycles, the billing engine **blocks invoice generation** for those cycles. No renewal invoice is created, no payment is attempted, and the next payment date shifts forward.
+When a customer skips one or more renewal cycles, the next payment date **shifts forward immediately** by the skipped cycles. No renewal invoice is created and no payment is attempted for the skipped cycles.
 
 **Date shift logic:**
 ```
@@ -154,7 +189,7 @@ New next payment date = Original next payment date + (billing interval × skippe
 - New date: March 15 (shifted forward by 2 months)
 - No invoices are generated for January or February
 
-**How the block works:** The SkipRenewal feature hooks into the `arraysubs_should_generate_renewal_invoice` filter. When the billing engine is about to create an invoice, the filter checks if the subscription has remaining skip cycles. If yes, it returns `false` and the invoice is not created.
+**How the skip works:** Because the next payment date has already moved, nothing is due during the skipped cycles. The SkipRenewal feature also hooks into the `arraysubs_should_generate_renewal_invoice` filter: when the shifted date arrives, the filter marks the skip as complete and normal billing resumes from that date.
 
 **Key skip behaviors:**
 
@@ -188,11 +223,11 @@ When a subscription is paused it moves to its own **Paused** status and all rene
 - Subscription status changes to **Paused**
 - All pending renewal actions are unscheduled
 - No new renewal invoices are generated
-- The next payment date is preserved (not changed during pause)
+- The next payment date (and the end date, if any) moves forward by the requested pause length right away, so the subscription shows when billing will continue
 
 **On resume:**
 - The subscription status returns to its pre-pause status (usually Active)
-- The next payment date shifts forward by the **actual elapsed pause time**, not the duration originally requested — resume early and you get back only the days you actually used
+- The next payment date is recalculated as the original date plus the **actual elapsed pause time**, not the duration originally requested — resume early and you get back only the days you actually used
 - If the subscription has an end date, it shifts by the same amount
 - Renewal actions are rescheduled
 
@@ -230,17 +265,16 @@ Turning **Allow Resume** off does not trap anyone. Auto-resume still fires on th
 | Status during | Stays **Active** | Changes to **Paused** |
 | Customer access | Full access continues | Set by **Content Access** — none, view-only, or full |
 | How date shifts | Forward by skipped billing cycles | Forward by actual days paused |
-| Invoice generation | Blocked by filter | Blocked by status (Paused) |
+| Invoice generation | None until the shifted date | Blocked by status (Paused) |
 | Automatic resumption | Cycles decrement automatically | Resumes on pause end date |
 | Undo available | Yes (restores original date) | Yes (manual resume at any time, if Allow Resume is on) |
 
-### Interaction with automatic payments (Pro)
+### Interaction with automatic payments
 
-When a subscription is paused and it uses automatic gateway billing:
+Automatic payments are part of the free core plugin. When a subscription is paused and it uses automatic gateway billing:
 
-- The pause state is synced to the remote gateway (Stripe, PayPal, or Paddle). Mollie has no remote billing object to pause — ArraySubs owns the schedule, so simply not charging is the pause
-- The gateway marks the subscription as paused on its side
-- On resume, the gateway resumes the remote billing context
+- **PayPal and Paddle** own their billing schedule, so the pause is sent to the provider, which marks the subscription as paused on its side. On resume, the provider's billing resumes
+- **Stripe and Mollie** have no remote billing object to pause. ArraySubs owns the schedule, so simply not charging is the pause
 
 This ensures the gateway does not attempt to charge the customer during the pause period.
 
@@ -281,10 +315,12 @@ A gym membership subscriber wants to pause during summer vacation. They pause fo
 
 - **Grace period only starts when an invoice exists.** If no renewal invoice was generated (e.g., because the subscription was skipped or paused), the grace period does not activate.
 - **Paused and On-Hold are separate statuses.** A paused subscription is **Paused** and carries pause metadata (`_pause_start_date`, `_pause_end_date`); an overdue one is **On Hold** and carries grace metadata (`_on_hold_date`, `_pending_renewal_order_id`). The overdue checker only processes the latter, so a paused member is never swept into the cancel-for-non-payment path.
-- **Pausing during the grace period.** If a subscription is On Hold for an unpaid invoice and a pause is initiated, the pause takes precedence and the status becomes Paused. The on-hold timer resets when the subscription resumes.
+- **Pausing during the grace period.** A pause is refused for an On-Hold subscription and for any subscription that has an unpaid renewal invoice. The invoice must be paid (or cancelled) first.
+- **Admin holds are cancelled for non-payment too.** The on-hold check does not distinguish why a subscription is On Hold. A subscription an admin put On Hold is cancelled with the reason "overdue payment" once its next payment date is older than both grace windows combined.
+- **Running out of retries does not end grace.** Grace ends only when the subscription is paid, moved to On-Hold by the overdue check, or cancelled at the end of the on-hold phase.
 - **Resume is pause-only.** Resume acts on a Paused subscription. It will not clear an On-Hold caused by a failed payment — that needs the payment resolved, not a resume — and the API refuses the attempt rather than silently reactivating an unpaid subscription.
-- **Active grace for trial subscriptions.** Trial subscriptions are included in the overdue checker. If a trial's next payment date passes without conversion or payment, the same grace period rules apply.
-- **Background job timing.** The overdue checker runs hourly, not in real-time. Status transitions may occur up to an hour after the exact grace period boundary.
+- **Active grace for trial subscriptions.** Trial subscriptions are included in the overdue checker. In practice, a trial whose trial-end renewal is unpaid is usually handled first by the daily trial conversion job, which converts it (or auto-downgrades it) and moves its next payment date forward. See [Trial Management](trial-management.md).
+- **Background job timing.** The overdue checker runs hourly, not in real-time. Status transitions may occur up to an hour after the exact grace period boundary, and the guards described in [How overdue detection works](#how-overdue-detection-works) can postpone them further.
 
 ---
 
@@ -292,7 +328,9 @@ A gym membership subscriber wants to pause during summer vacation. They pause fo
 
 | Problem | Likely cause | What to do |
 |---|---|---|
-| Subscription cancelled earlier than expected | Grace period settings are shorter than intended | Check **Settings -> General -> Grace Period** for Days Active After Due and Days On-Hold Before Cancel values. |
+| Subscription cancelled earlier than expected | Grace period settings are shorter than intended | Check **Settings -> General -> Grace Period** for Days Active After Due and Days On-Hold Before Cancel values. A developer-set per-subscription override can also shorten or lengthen one subscription's windows. |
+| Subscription went On-Hold with no active grace days | The first (checkout) payment failed, or the renewal order could not be created | Check the parent order status and the subscription notes. See [Two paths that skip the active grace days](#two-paths-that-skip-the-active-grace-days). |
+| Subscription moved to On-Hold later than the grace setting suggests | No unpaid invoice existed yet, the renewal charge time was spread a few hours after the due date, or a gateway payment was still settling | Wait for the next hourly check; check the renewal order for a pending gateway payment. |
 | Subscription stuck on On-Hold | Invoice is pending but the grace period has not expired | Check the subscription detail for a pending renewal order. A paused subscription is **not** On Hold — it shows Paused |
 | Subscription shows Paused and is not resuming | Auto-resume has not fired, or Allow Resume is off so the customer has no button | Verify the auto-resume date, then check **Scheduled-Job Logs** (Pro). An admin can resume from the subscription screen regardless of the customer setting |
 | Customer still has access after moving to On-Hold | Member access rules do not restrict On-Hold status | Review your access rules at **ArraySubs → Member Access** to ensure On-Hold subscriptions are restricted appropriately |
@@ -310,23 +348,26 @@ A gym membership subscriber wants to pause during summer vacation. They pause fo
 - [Renewal Communication](renewal-communication.md) for emails sent during the grace period (On-Hold, Payment Failed)
 - [Self-Service Actions](../customer-portal/self-service-actions.md) for the customer experience of skip and pause
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) for the complete status transition reference
-- [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) **(Pro)** for how gateways handle pause syncing and payment retries
+- [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) for how gateways handle pause syncing and payment retries
+- [Payment Recovery Tools](../checkout-and-payments/automatic-payments/payment-recovery.md) for the retry ladder, hard declines and the Retry Payment button
+- [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) for reading grace and retry state in code and setting per-subscription grace overrides
+- [React to Supported Events](../developers/actions-and-filters.md) for grace, on-hold, retry and cancellation events and hooks
 
 ---
 
 ## FAQ
 
 ### How long does a customer have before their subscription is cancelled for non-payment?
-By default, 10 days: 3 days of active grace + 7 days of on-hold. Both values are configurable in General Settings.
+By default, 10 days: 3 days of active grace + 7 days of on-hold. Both values are configurable in General Settings, and a developer can override them for an individual subscription.
 
 ### Can I disable the grace period entirely?
-You can set both grace period values to 0, which means the subscription moves to On-Hold immediately on the due date and gets cancelled the same day. This is not recommended for most stores.
+Not completely. **Days Active After Due** accepts 0, which moves an overdue subscription to On-Hold at the first hourly check after the due date (once the renewal invoice exists). **Days On-Hold Before Cancel** has a minimum of 1 day, so a subscription always spends at least one day On-Hold before automatic cancellation.
 
 ### Does the grace period apply to automatic payment subscriptions?
-Yes. The grace period applies regardless of payment method. For automatic payments, the system attempts to charge the gateway. If the charge fails, the grace period starts. Payment retries (if configured) happen within the grace window.
+Yes. The grace period applies regardless of payment method. For automatic payments, the system attempts to charge the gateway. If the charge fails, the subscription stays in the active grace phase while retries (if configured) run within the grace window. Retries do not extend the window, and retries still queued when the subscription moves to On-Hold are dropped.
 
 ### What happens if a customer skips and then pauses?
-If a skip is active and the customer initiates a pause, the skip is deactivated and the pause takes over. The subscription moves to **Paused** and billing is fully suspended until the pause ends.
+The customer portal hides the **Pause** button while a skip is active, so the customer must undo the skip first. A pause started another way (for example, by an admin) does not remove the skip.
 
 ### Can a subscription be paused more than once?
 Yes, up to the configured limit (default: 2 pauses per subscription). There is also a minimum cooldown period between pauses (default: 30 days).
@@ -335,4 +376,7 @@ Yes, up to the configured limit (default: 2 pauses per subscription). There is a
 Yes. The customer receives a **Renewal Invoice** email when the invoice is created (before the due date), and may receive a **Payment Failed** email if an automatic payment attempt fails. The **Subscription On-Hold** email is sent when the status actually changes.
 
 ### What if I change the grace period settings after subscriptions are already in the grace period?
-Changes apply to future overdue checks. A subscription already in the On-Hold phase will be evaluated against the new on-hold grace days during the next hourly check. Shortening the grace period can cause immediate cancellation of subscriptions that have already exceeded the new window.
+Changes apply to future overdue checks. A subscription already in the On-Hold phase will be evaluated against the new on-hold grace days during the next hourly check. Shortening the grace period can cause immediate cancellation of subscriptions that have already exceeded the new window. Subscriptions with a per-subscription grace override keep their own values.
+
+### Is there a "graced" subscription status?
+No. A subscription in the active grace phase keeps its Active (or Trial) status, and one in the on-hold phase is On Hold. Reports and integrations that need the exact phase should use the developer lifecycle reader described in [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md).

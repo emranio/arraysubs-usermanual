@@ -1,7 +1,7 @@
 # Info
 - Module: Shortcodes
 - Availability: Free (one shortcode requires Pro)
-- Last updated: 2026-06-27
+- Last updated: 2026-10-18
 
 # Shortcodes
 
@@ -77,6 +77,8 @@ Each shortcode category has its own guide:
 - **Caching.** Shortcodes that produce user-specific output (login state, user name, restricted content) may show stale results if your site uses full-page caching. Exclude pages with these shortcodes from cache, or use a caching plugin that supports fragment caching.
 - **Nesting.** You can nest shortcodes freely. For example, place `[arraysubs_login]` inside `[arraysubs_visibility]`, or nest `[arraysubs_visibility]` inside `[arraysubs_restrict]`.
 - **Security.** Restricted content is never rendered in the page source when a visitor does not meet the conditions. It is not simply hidden with CSS — the server omits it entirely.
+- **Content gating defaults.** `[arraysubs_restrict]` is registered while Member Access is enabled (the default). With no conditions it shows its content to every visitor, including guests; `login_required="true"` makes login the only requirement; administrators bypass the gate unless you add `show_to_admins="false"`. See [Content Gating Shortcodes](content-gating.md) for every attribute.
+- **PHP templates.** To use a gate from theme or plugin PHP, follow [Gate Custom PHP Output](../developers/php-templates.md). Always check that the shortcode is registered before calling `do_shortcode()`, because an unregistered shortcode prints its enclosed content unchanged.
 
 ---
 
@@ -88,6 +90,8 @@ Each shortcode category has its own guide:
 - [Store Credit — Purchase Product](../store-credit/purchase-product.md) — Configuring store credit products for `[arraysubs_buy_credits]`
 - [Profile Builder](../profile-builder/README.md) — Custom profile fields and My Account customization
 - [Customer Portal](../customer-portal/README.md) — What customers see in their account area
+- [Gate Custom PHP Output](../developers/php-templates.md) - Use the content gating shortcode and Member Access helpers in PHP templates
+- [Check Content Access](../developers/member-access.md) - Read Member Access decisions from your own plugin code
 
 ---
 
@@ -107,6 +111,9 @@ No. When a visitor does not meet the conditions, the server omits the content en
 
 ### Do shortcodes work with full-page caching?
 Shortcodes that depend on user state (login, subscription, etc.) may show incorrect results with aggressive full-page caching. Exclude those pages from cache or use fragment caching.
+
+### Can I use these shortcodes in a PHP template?
+Yes. Run them through `do_shortcode()` after checking that the shortcode is registered. [Gate Custom PHP Output](../developers/php-templates.md) shows guarded examples, including helper-based checks that do not need a shortcode.
 
 ### Can I create my own shortcodes using the ArraySubs registry?
 Developers can register additional shortcodes using the `arraysubs_shortcode_registry` filter. Registered shortcodes appear automatically in the admin catalog page.

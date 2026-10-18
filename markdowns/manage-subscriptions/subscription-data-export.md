@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Admin
 - Availability: Free
-- Last updated: 2026-09-03
+- Last updated: 2026-10-18
 
 # Subscription Data Export
 
@@ -116,18 +116,18 @@ Your selection is saved to **your own WordPress user account** a moment after yo
 | Product Name | The subscribed product, including the variation name where there is one |
 | Quantity | How many units the subscription covers |
 | Recurring Amount | The renewal price as a plain number, with no currency symbol |
-| Currency | Three-letter currency code, e.g. `USD` |
+| Currency | Three-letter currency code, e.g. `USD`. Subscriptions created manually with **Add New** store no currency, so they show `USD`. |
 | Billing Cycle | Interval and period together, e.g. `1 month` |
 | Start Date | When the subscription started |
 | Next Payment Date | The next scheduled renewal |
 | Last Payment Date | The most recent successful payment |
 | End Date | When the subscription ended — blank while it is still running |
 | Trial End Date | When the free trial ends — blank when there is no trial |
-| Total Payments | Count of completed renewal payments |
+| Total Payments | Count of paid payments: the initial order when its total was above zero, plus each paid renewal. A subscription included in a box or bundle shows its box or bundle's count. |
 | Payment Method | The payment method title shown to the customer, e.g. `Direct bank transfer` |
 | Payment Gateway | The gateway's internal ID, e.g. `stripe` — useful for filtering in a spreadsheet |
 | Parent Order ID | The order the subscription was bought on |
-| Created Date | When the subscription record was created |
+| Created Date | When the subscription record was created, in your site's time zone |
 
 ### Customer
 
@@ -296,13 +296,30 @@ Each row comes back as an object keyed by column name. The endpoint requires the
 
 ---
 
+## Full, Partial, and Paged Data
+
+The export and the developer API answer different questions. Pick the one that matches the job:
+
+| You need | Use | Size and shape |
+|----------|-----|----------------|
+| Every matching subscription in one file, for a spreadsheet or a partner | **Export CSV** | All matching rows in one download, one row per subscription, only the columns you picked |
+| The same rows for a one-off script | The JSON endpoint above | All matching rows in one response, built in memory before it is sent |
+| Records for a custom plugin or a sync job | The developer API: [Find and Update Subscriptions](../developers/subscriptions.md) | Pages of up to 100 subscriptions with a continuation cursor; full records, selected field groups, or IDs only |
+| The orders or included subscriptions of one subscription | The developer API: [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) | Separate paged lists for each subscription |
+
+A "full" subscription record from the API holds the subscription's own data plus summaries such as the initial order ID and the renewal order count. It does not embed every related order or included subscription; read those as their own paged lists. Neither the export nor the API writes anything while it reads.
+
+---
+
 ## Edge Cases and Important Notes
 
 - **Guest subscriptions** leave **Customer ID** and **Customer Username** blank. Name and email still come through from the billing address.
 - **Subscriptions with no address anywhere** — usually digital-only records — export empty shipping cells rather than being skipped. Sort by **Shipping Address 1** in your spreadsheet to spot them.
 - **Recurring Amount has no currency symbol** so spreadsheets treat it as a number. Use the **Currency** column if you sell in more than one currency.
-- **Dates are exported as stored** (`YYYY-MM-DD HH:MM:SS`, UTC), not in your site's display format, so they sort and filter correctly in a spreadsheet.
-- **Large stores**: the file is built in batches as it downloads, so a store with tens of thousands of subscriptions still exports in one request. Very large exports simply take longer to start.
+- **Dates are exported as stored** (`YYYY-MM-DD HH:MM:SS`), not in your site's display format, so they sort and filter correctly in a spreadsheet. Every date is in UTC except **Created Date**, which uses your site's time zone.
+- **Large stores**: the CSV file is built in batches as it downloads, so a store with tens of thousands of subscriptions still exports in one request. Very large exports simply take longer to start. The JSON endpoint builds its whole response in memory, so prefer CSV, or page through records with the developer API, on very large stores.
+- **Included box and bundle subscriptions are separate rows** with a recurring amount of 0. The file has no column naming their box or bundle; open the subscription in the admin (its **Subscription Box** or **Subscription Bundle** card links the parent), or resolve families with the developer API.
+- **Deleted subscriptions are gone from every export.** Deletion is permanent, so export first if you need a record of a subscription before deleting it.
 - **Changing your column selection does not change past files.** Exports already downloaded keep the layout they had.
 
 ---
@@ -329,6 +346,9 @@ Each row comes back as an object keyed by column name. The endpoint requires the
 - [Subscription Shipping](../subscription-shipping/README.md) *(Pro)* — shipping methods, recurring shipping charges, and delivery address handling
 - [Customer Portal — Self-Service Actions](../customer-portal/self-service-actions.md) — how customers update their own delivery address
 - [Analytics — Reports Hub](../analytics/reports-hub.md) — built-in reporting when you want charts rather than a raw file
+- [Find and Update Subscriptions](../developers/subscriptions.md) - developer reference for paged, full, and selected subscription data
+- [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md) - developer reference for related orders and box or bundle families
+- [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) - developer reference for customer and profile data
 
 ---
 
@@ -350,10 +370,10 @@ Yes. Pagination affects only what you see on screen. The export always covers ev
 Not from the picker. Columns are always written in catalogue order so repeat exports stay consistent. Reorder them in your spreadsheet after opening the file.
 
 ### Is there a limit on how many subscriptions can be exported?
-There is no fixed limit. Rows are written in batches as the file downloads, so large stores export in a single request.
+There is no fixed limit. Rows are written in batches as the CSV file downloads, so large stores export in a single request. The JSON endpoint also returns every matching row at once; for very large stores, developers can page through records with the developer API instead. See [Full, Partial, and Paged Data](#full-partial-and-paged-data).
 
 ### Does the export include renewal orders?
-No. Each row is one subscription. For order-level data use WooCommerce's own order export, or the **Total Payments** and **Last Payment Date** columns for a summary.
+No. Each row is one subscription. For order-level data use WooCommerce's own order export, or the **Total Payments** and **Last Payment Date** columns for a summary. Developers can read each subscription's related orders, with their type, through [Work with Subscription Families and Orders](../developers/subscription-relationships-and-orders.md).
 
 ### Who can export subscription data?
 Users with the **manage_woocommerce** or **manage_options** capability — administrators and shop managers. Customers and other roles cannot reach the export at all.

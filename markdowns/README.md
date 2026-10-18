@@ -1,7 +1,7 @@
 # Info
 - Module: User Manual Hub
 - Availability: Shared
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # ArraySubs User Manual
 
@@ -29,6 +29,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Reporting and communication:** [Analytics](analytics/README.md) → [Retention Analytics](retention-analytics/README.md) *(Pro)* → [Refund Analytics](refund-analytics/README.md) *(Pro)* → [Emails and Notifications](emails/README.md)
 - **Toolkit and gateway modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Gateway Health](gateway-health/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
+- **Developers:** [Developers overview](developers/README.md), [Connect Your Custom Plugin](developers/getting-started.md), [React to Supported Events](developers/actions-and-filters.md), [Gate Custom PHP Output](developers/php-templates.md)
 
 ## Dedicated Module Count
 
@@ -309,3 +310,27 @@ Track every subscription action, monitor scheduled jobs and gateway health, and 
 - [Portal Action Failures](audits-and-logs/portal-action-failures.md) — Troubleshoot cancellation, pause, skip, plan switch, and reactivation errors.
 - [Access-Rule Conflicts](audits-and-logs/access-rule-conflicts.md) — Resolve overlapping membership rules and content restriction problems.
 - [Payment Method and Shipping Update Issues](audits-and-logs/payment-and-shipping-issues.md) — Fix auto-renew toggle, card update, gateway detach, and shipping address errors.
+
+## Developers
+
+Integrate a custom plugin or theme with ArraySubs through its supported public functions, hooks, shortcodes and REST routes, without editing plugin files.
+
+- [Developers](developers/README.md) - Which API to use for each task, with the Core and Pro matrix.
+- [Connect Your Custom Plugin](developers/getting-started.md) - Load at the right time, detect ArraySubs and Pro, and make a first lookup.
+- [Find and Update Subscriptions](developers/subscriptions.md) - Read, query, update and delete subscription records.
+- [Work with Subscription Families and Orders](developers/subscription-relationships-and-orders.md) - Parent and child subscriptions and their WooCommerce orders.
+- [Read Lifecycle State and Manage Its Dates](developers/status-grace-periods-and-trials.md) - Statuses, grace periods, retries, trials and pending plan switches.
+- [Find Members and Update Profiles](developers/customers-and-profile-fields.md) - Customer identity and Profile Builder fields.
+- [Read Subscription Product Terms](developers/subscription-products.md) - Subscription product data without modifying products.
+- [Read and Update Feature Data](developers/feature-manager.md) - Feature entitlements and usage.
+- [Check Content Access](developers/member-access.md) - Member Access conditions and access decisions.
+- [Read Download Benefits](developers/downloads.md) - Member download rules and limits.
+- [Read Member Discounts](developers/discounts.md) - Member discount rules.
+- [Read Login-Limit Policy](developers/login-limits.md) - Login limit rules and session counts.
+- [Read Member Styling Rules](developers/member-styling.md) - Member styling rules.
+- [Read and Update Store Credit](developers/store-credit.md) - Store Credit balances, history and adjustments.
+- [React to Supported Events](developers/actions-and-filters.md) - Actions, filters and normalized lifecycle events.
+- [Extend ArraySubs with a Module](developers/addon-modules.md) - The module system for addons.
+- [Gate Custom PHP Output](developers/php-templates.md) - Shortcode and helper-based gates in PHP templates.
+- [Connect Membership Workflows](developers/integration-recipes.md) - End-to-end integration recipes.
+- [Verify Your Integration](developers/errors-and-testing.md) - Errors, permissions, concurrency and staging tests.
