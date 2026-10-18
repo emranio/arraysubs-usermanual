@@ -421,6 +421,25 @@ pre.mermaid {
     max-width: 100%;
     height: auto;
   }
+
+  // Mermaid renders labels as HTML paragraphs inside the SVG; keep them
+  // on the docs text colour so they stay visible on light node fills.
+  .nodeLabel,
+  .nodeLabel p,
+  .edgeLabel,
+  .edgeLabel p,
+  .cluster-label,
+  .cluster-label p,
+  .label,
+  .label p,
+  foreignObject p {
+    color: var(--docs-text) !important;
+  }
+
+  text,
+  tspan {
+    fill: var(--docs-text) !important;
+  }
 }
 
 // ------------------------------------
