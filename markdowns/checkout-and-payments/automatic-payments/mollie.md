@@ -228,25 +228,22 @@ Mollie then reports the result to the ArraySubs webhook and the order is complet
 Clicking **Run** on these actions before the Next Payment date does nothing: ArraySubs checks that the renewal is actually due before it creates or charges anything. Wait for the date, or bring it forward as shown below.
 ```
 
-Developers can bring the date forward on staging with `Subscriptions::update()` (see [Find and Update Subscriptions](../../developers/subscriptions.md)). The change realigns both scheduled actions. Run it on staging only, for example with `wp eval-file`:
+Developers can bring the date forward on staging with the `setNextPaymentDate()` method of the `ArraySubs\Developer\Subscriptions` API. The new date must be in the future, and the change realigns both scheduled actions. Run it on staging only, for example with `wp eval-file`:
 
 ```php
 <?php
 // Staging only: make subscription 123 due for renewal in 15 minutes.
-if ( class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
-	$result = \ArraySubs\Api\Subscriptions::update(
-		123,
-		array( 'next_payment_date' => time() + 15 * MINUTE_IN_SECONDS ),
-		array( 'reason' => 'Staging renewal test' )
-	);
+if ( class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( 123 );
+	$result       = is_wp_error( $subscription )
+		? $subscription
+		: $subscription->setNextPaymentDate( time() + 15 * MINUTE_IN_SECONDS );
 
 	if ( is_wp_error( $result ) ) {
 		echo esc_html( $result->get_error_code() . ': ' . $result->get_error_message() ), "\n";
 	} else {
-		echo esc_html( 'Changed: ' . implode( ', ', $result['changed'] ) ), "\n";
+		echo esc_html( 'Renewal date updated.' ), "\n";
 	}
-} else {
-	echo "The ArraySubs developer API is not available on this site. Wait for the due date instead.\n";
 }
 ```
 
@@ -271,9 +268,10 @@ A successful renewal leaves the renewal order paid, the subscription **Active**,
 2. When the renewal order shows **Pending payment**, use the payment's `changePaymentState` link to set it to failed instead of paid. Mollie's [testing guide](https://docs.mollie.com/reference/testing) also explains how to test specific card failure reasons.
 3. Record the failure:
    - Mollie reports the result to the ArraySubs webhook. The renewal order changes to **Failed** with a note that Mollie reported the renewal payment as failed, and the customer receives the **[ArraySubs] Renewal Payment Failed** email.
-   - By default, ArraySubs schedules no automatic retry for a Mollie payment that ends as failed, canceled, or expired. See [Hard declines are not retried](payment-recovery.md#hard-declines-are-not-retried).
+   - For a failure that can resolve itself, such as insufficient funds, or a payment that ended as canceled or expired, a subscription note reads `Scheduled retry 1 of 3 at ...` and a new **Pending** `arraysubs_process_renewal` action appears at the retry time. This is the same whether Mollie declined the payment right away or reported the failure later.
+   - For an expired or invalid card, or a closed or blocked bank account, no retry is scheduled and a note records why. See [Hard declines are not retried](payment-recovery.md#hard-declines-are-not-retried).
    - The grace flow starts: the subscription stays **Active** for **Days Active After Due**, moves to **On-Hold** (members lose access), and is **Cancelled** after **Days On-Hold Before Cancel**. See [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
-4. Recover: click **Retry Payment** on the subscription detail page. The first retry after a failed Mollie payment only closes that payment, so the order stays **Failed** and a note says the previous Mollie payment ended as failed. Click **Retry Payment** again: ArraySubs creates a new recurring payment against the same mandate. Set that payment to paid with its `changePaymentState` link, as in Step 5.
+4. Recover: click **Retry Payment** on the subscription detail page. ArraySubs sets the failed Mollie payment aside and creates a new recurring payment against the same mandate in the same click. Set that payment to paid with its `changePaymentState` link, as in Step 5.
 5. Expected: the renewal order is paid, the subscription is **Active** again (an **On-Hold** subscription returns to **Active**), **Next Payment** moves forward, and access returns.
 
 ### Step 7: Return to Live Safely

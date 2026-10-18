@@ -263,7 +263,7 @@ ArraySubs cannot make PayPal decline a payment, and this guide does not cover fo
 
 1. PayPal sends `BILLING.SUBSCRIPTION.PAYMENT.FAILED` (or `PAYMENT.SALE.DENIED`), which appears in the **Webhook Event Log**.
 2. The renewal order is marked **Failed**, a subscription note reads "PayPal payment failed: ..." with PayPal's reason, the payment-failed email is triggered, and the **Payment Gateway** card shows **Error**.
-3. ArraySubs schedules no retry of its own. PayPal retries on its own schedule; a later successful retry arrives as `PAYMENT.SALE.COMPLETED`, marks the renewal order paid, and returns the subscription to **Active**.
+3. ArraySubs schedules no retry of its own. PayPal retries on its own schedule; a later successful retry arrives as `PAYMENT.SALE.COMPLETED`, marks the renewal order paid, returns the subscription to **Active**, and sets the **Payment Gateway** card back to **Connected**.
 4. During the 5-day window the subscription stays **Active**. After that, the grace flow runs: **On-Hold** once **Days Active After Due** has passed (members lose access), then **Cancelled** after **Days On-Hold Before Cancel**, which also cancels the PayPal subscription. See [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
 5. After 3 failed payments PayPal suspends the subscription and sends `BILLING.SUBSCRIPTION.SUSPENDED`. The **Payment Gateway** card shows **Paused**, and a note reads "PayPal subscription suspended. Automatic renewals are on hold until it is reactivated."
 

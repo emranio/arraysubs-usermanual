@@ -210,22 +210,21 @@ ArraySubs runs every renewal through two scheduled actions. Both use the subscri
 Clicking **Run** on these actions before the Next Payment date does nothing: ArraySubs checks that the renewal is actually due before it creates or charges anything. Wait for the date, or bring it forward as shown below.
 ```
 
-Developers can bring the date forward on staging with `Subscriptions::update()` (see [Find and Update Subscriptions](../../developers/subscriptions.md)). The change realigns both scheduled actions. Run it on staging only, for example with `wp eval-file`:
+Developers can bring the date forward on staging with the `setNextPaymentDate()` method of the `ArraySubs\Developer\Subscriptions` API. The new date must be in the future, and the change realigns both scheduled actions. Run it on staging only, for example with `wp eval-file`:
 
 ```php
 <?php
 // Staging only: make subscription 123 due for renewal in 15 minutes.
-if ( class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
-	$result = \ArraySubs\Api\Subscriptions::update(
-		123,
-		array( 'next_payment_date' => time() + 15 * MINUTE_IN_SECONDS ),
-		array( 'reason' => 'Staging renewal test' )
-	);
+if ( class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
+	$subscription = \ArraySubs\Developer\Subscriptions::fromId( 123 );
+	$result       = is_wp_error( $subscription )
+		? $subscription
+		: $subscription->setNextPaymentDate( time() + 15 * MINUTE_IN_SECONDS );
 
 	if ( is_wp_error( $result ) ) {
 		echo esc_html( $result->get_error_code() . ': ' . $result->get_error_message() ), "\n";
 	} else {
-		echo esc_html( 'Changed: ' . implode( ', ', $result['changed'] ) ), "\n";
+		echo esc_html( 'Renewal date updated.' ), "\n";
 	}
 }
 ```
