@@ -25,11 +25,11 @@ Connect your store to Stripe, PayPal, Paddle, or Mollie for hands-free recurring
 
 ![Customer subscription page with Stripe payment method, retry, and auto-renew](README.ASSETS/07-customer-payment-method-management-annotated.png)
 
-- [Automatic Payments](automatic-payments/README.md) — Choose a gateway, the five setup steps, webhook URLs, and what each gateway supports.
+- [Automatic Payments](automatic-payments/README.md) — Choose a gateway, the six setup steps, the staging renewal test, webhook URLs, and what each gateway supports.
 - [Stripe Gateway](automatic-payments/stripe.md) — Step-by-step setup with the official WooCommerce Stripe Gateway, plus a staging renewal test.
-- [PayPal Gateway](automatic-payments/paypal.md) — Step-by-step setup of the built-in PayPal (ArraySubs) gateway.
-- [Paddle Gateway](automatic-payments/paddle.md) — Step-by-step setup of the built-in Paddle (ArraySubs) gateway.
-- [Mollie Gateway](automatic-payments/mollie.md) — Step-by-step setup with the official Mollie Payments for WooCommerce plugin.
+- [PayPal Gateway](automatic-payments/paypal.md) — Step-by-step setup of the built-in PayPal (ArraySubs) gateway, plus a staging renewal test.
+- [Paddle Gateway](automatic-payments/paddle.md) — Step-by-step setup of the built-in Paddle (ArraySubs) gateway, plus a staging renewal test.
+- [Mollie Gateway](automatic-payments/mollie.md) — Step-by-step setup with the official Mollie Payments for WooCommerce plugin, plus a staging renewal test.
 - [Auto-Renew and Manual Fallback](automatic-payments/auto-renew-and-manual-fallback.md) — Customer-facing auto-renew toggle, what happens when auto-renew is turned off, and the manual invoice collection flow.
 - [Gateway Health Dashboard](../gateway-health/README.md) — Gateway status cards, subscription counts, webhook URL configuration, event log, and monitoring.
 

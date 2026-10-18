@@ -95,7 +95,7 @@ Back on the **PayPal (ArraySubs)** settings screen:
 All three values must come from the same PayPal app, in the same mode as the sandbox setting. PayPal stays hidden at checkout until **Client ID**, **Client Secret**, and **Webhook ID** are all saved.
 
 ```box class="info-box"
-While sandbox mode is on, anyone who picks PayPal at checkout is sent to PayPal's sandbox, and no real money moves. Test on a staging copy of your store if you can.
+While sandbox mode is on, anyone who picks PayPal at checkout is sent to PayPal's sandbox, and no real money moves. Test on a staging copy of your store if you can - see [Test Automatic Renewals on Staging](#test-automatic-renewals-on-staging).
 ```
 
 ### Step 5: Check the Connection
@@ -138,6 +138,144 @@ The test worked when:
 - **PayPal handles failed payments.** PayPal retries on its own schedule, so ArraySubs adds no retries of its own; it records each failure and triggers the payment-failed email. After 3 failed payments, PayPal suspends the subscription and automatic renewals go on hold. See [Payment Recovery Tools](payment-recovery.md).
 - **Customers change their payment method at PayPal.** The card or bank behind the subscription belongs to the customer's PayPal account, so they update it there and PayPal keeps billing the same subscription.
 - **PayPal's billing date cannot move.** Pause and resume work through PayPal, but skipping a renewal or changing the next payment date is refused. Plan switches take effect from the next billing cycle.
+
+## Test Automatic Renewals on Staging
+
+Use this walkthrough to prove that PayPal collects a scheduled renewal and that ArraySubs records it before you rely on PayPal in production. Everything runs in PayPal's sandbox on a separate staging site, so no real money moves.
+
+```box class="warning-box"
+**A successful checkout is not proof of automatic renewal.** The first payment is taken while the customer is at PayPal approving the subscription. Automatic renewal is proven only when PayPal charges the next cycle on its own schedule and ArraySubs records that payment on a renewal order, with no customer action.
+```
+
+### Step 1: Prepare a Separate Staging Site
+
+- Use a staging site with its own URL, such as `https://staging.example.com`. Do not run renewal tests on your live store.
+- Use PayPal sandbox mode, a sandbox REST API app, and a sandbox webhook on staging. Your live site keeps its live app, its live webhook, and its real subscriptions.
+- The renewal test needs only the free ArraySubs core plugin. If the staging site also runs ArraySubs Pro, add and activate the staging domain as described in [License Activation](../../getting-started/license-activation.md).
+
+If you build staging by copying your live site, the copy contains your live **Client ID**, **Client Secret**, and **Webhook ID**, real customer subscriptions linked to live PayPal subscriptions, and their queued scheduled actions. Make the copy safe before it runs any scheduled job. First, add these lines to the staging `wp-config.php` only (above the "That's all, stop editing!" line):
+
+```php
+<?php
+// Staging only: stop scheduled jobs and mark the site as non-production.
+define( 'DISABLE_WP_CRON', true );
+define( 'WP_ENVIRONMENT_TYPE', 'staging' );
+```
+
+With `DISABLE_WP_CRON` set, ArraySubs also turns off Action Scheduler's background request runner, so actions copied from live stay queued. If your host runs WP-Cron for you from a server cron job, pause that for the staging site too. `WP_ENVIRONMENT_TYPE` marks the site as staging for WordPress and other plugins, but PayPal (ArraySubs) does not read it: only sandbox mode keeps staging away from your live PayPal account.
+
+Then:
+
+1. Switch **PayPal (ArraySubs)** to sandbox mode with sandbox details (Step 3) before you open or act on any subscription. While the live details are in place, a cancel, pause, resume, plan switch, or refund on a copied subscription changes the customer's real PayPal subscription, and so does any scheduled job that cancels or resumes one. In sandbox mode those calls go to PayPal's sandbox, where your live PayPal subscriptions do not exist.
+2. Make sure staging email cannot reach real customers, for example by routing it to a mail-capture tool.
+3. Do not use subscriptions copied from live for renewal tests. Their PayPal subscriptions belong to your live PayPal account, which keeps billing them and reports to your live site, not to staging. Create new test subscriptions through checkout (Step 4).
+
+### Step 2: Check the Prerequisites
+
+| Requirement | What to confirm |
+|---|---|
+| WooCommerce and ArraySubs core | Both are active, with WooCommerce 9.0 or later. PayPal (ArraySubs) is part of the free core plugin, so no other payment plugin is needed. |
+| Scheduled jobs | After Step 3, run a real system cron every minute as described in [Cron Job Setup](../../getting-started/cron-job-setup.md). In **WooCommerce > Status > Scheduled Actions**, past-due **Pending** actions should be processed within a minute or two. |
+| Webhook delivery | PayPal must reach the staging site over public HTTPS. Password protection, an IP allowlist, or a firewall in front of staging blocks its notifications. |
+| PayPal sandbox | A sandbox REST API app (client ID and secret) and a sandbox buyer (personal) account to pay with, both from the PayPal Developer Dashboard. |
+| ArraySubs Pro | Not needed for PayPal renewals. Add it only when your integration uses Pro features. |
+
+Test the Free-to-Pro upgrade as its own check. Complete this walkthrough with core only first. Then install ArraySubs Pro while core stays installed and active, activate the license as described in [License Activation](../../getting-started/license-activation.md), confirm that existing subscriptions, orders, and settings are unchanged, and repeat Steps 5 and 6. Do not uninstall core or recreate subscriptions to upgrade.
+
+Optional settings in **ArraySubs > Settings > General**:
+
+| Setting | Card | Default | On staging |
+|---|---|---|---|
+| **Generate Invoice Before Due** and **Unit** | **Grace Period** | 6 hours | Keep the default or match your live value |
+| **Days Active After Due** and **Days On-Hold Before Cancel** | **Grace Period** | 3 and 7 | Keep, or shorten them to watch the grace flow sooner. For PayPal, the move to **On-Hold** also waits until the 5-day confirmation window in Step 5 has closed. |
+
+### Step 3: Configure Sandbox Mode and Callbacks
+
+1. On staging, go to **WooCommerce > Settings > Payments** and click **Manage** on the **PayPal (ArraySubs)** row.
+2. Tick **Enable PayPal Sandbox mode**.
+3. In the PayPal Developer Dashboard, switch to sandbox and open (or create) a sandbox REST API app for staging. Copy its client ID and secret.
+4. In that same sandbox app, add a webhook for the staging site's **Webhook URL**, for example `https://staging.example.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal`, and select all 12 events listed under **Required webhook events**. Copy that webhook's ID.
+5. Paste the sandbox **Client ID**, **Client Secret**, and **Webhook ID**, tick **Enable this payment gateway**, and click **Save changes**.
+6. Go to **ArraySubs > Audits [beta]**, open the **Gateway Logs** tab, and expand the **PayPal** card. **Status** reads **Connected (Test Mode)**, and **Webhook ID configured** reads **Configured**.
+
+Which callback goes where:
+
+| Callback | URL on staging | Handled by | Used for |
+|---|---|---|---|
+| PayPal webhook | `https://staging.example.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal` | ArraySubs core | The 12 events: activation, payments, failures, suspension, cancellation, plan updates, refunds, and disputes |
+| Approval return | Your order-received page, for example `https://staging.example.com/checkout/order-received/123/?key=...` | ArraySubs core, when the customer comes back from PayPal | Confirms the first payment right away if PayPal has already taken it |
+| Approval cancel | Your checkout page, for example `https://staging.example.com/checkout/` | WooCommerce | Where PayPal sends a customer who cancels instead of approving |
+| PayPal API (outgoing) | None | ArraySubs, using the sandbox **Client ID** and **Client Secret** | Creating plans and subscriptions, the six-hourly charge check, cancel, pause, resume, plan changes, and refunds |
+
+ArraySubs sends the return and cancel addresses to PayPal with every checkout, built from the site's own URL, so they need no setup in PayPal. Only the webhook needs the staging URL entered by hand, and only the ID of that staging webhook belongs in **Webhook ID**.
+
+### Step 4: Place a Test Subscription Checkout
+
+1. Create a test subscription product with **Billing Interval** `1` and **Billing Period** **Day**, without a free trial. See [Create and Configure Subscription Products](../../subscription-products/create-and-configure.md). ArraySubs builds a daily PayPal plan from it, so the first renewal falls due one day after checkout.
+2. Log in as a test customer, for example `member@example.com`, add only that product to the cart, and choose **PayPal** at checkout.
+3. At PayPal's sandbox site, sign in with your sandbox buyer account and approve the subscription. Never use a real PayPal login or card on staging.
+4. Leave auto-renew on. Turning it off cancels the PayPal subscription (see [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md)).
+
+Expected result:
+
+- The parent order is paid (**Processing** or **Completed**).
+- The new subscription is **Active** and linked to that order. Its **Next Payment** date is PayPal's next billing date, one day after checkout.
+- On the subscription detail page, the **Payment Gateway** card shows **Connected** with **Card on File** and **Customer ID**, and the subscription notes include "PayPal subscription ... activated".
+- On **Gateway Logs**, the **Webhook Event Log** lists `BILLING.SUBSCRIPTION.ACTIVATED` and `PAYMENT.SALE.COMPLETED` for PayPal.
+
+If the order stays **Pending payment** and **Last Webhook** reads **Never**, PayPal's notifications are not reaching staging. Recheck the webhook URL, its events, and the **Webhook ID** before you continue.
+
+### Step 5: Run a Due Renewal
+
+PayPal owns the billing clock, so a PayPal renewal happens on PayPal's schedule, around the **Next Payment** date that ArraySubs copied from PayPal. ArraySubs cannot bring that date forward: skipping a renewal and changing the next payment date are both refused for PayPal subscriptions.
+
+Around the due date, ArraySubs runs its usual renewal steps but never charges PayPal itself:
+
+| When | Action hook (group) | What happens |
+|---|---|---|
+| **Generate Invoice Before Due** ahead of the **Next Payment** date | `arraysubs_generate_renewal_invoice` (`arraysubs-billing`) | Creates the renewal order as an unpaid invoice (**Pending payment**) |
+| At the **Next Payment** date, or up to **Spread Renewals Over (Hours)** later | `arraysubs_process_renewal` (`arraysubs-renewals`) | Sends no charge. Adds the note "Awaiting PayPal automatic renewal payment for subscription ..." and opens a 5-day window for PayPal to confirm the payment |
+| When PayPal charges | None: PayPal sends `PAYMENT.SALE.COMPLETED` | Marks the renewal order paid (creating one if PayPal charged first) and copies PayPal's next billing date |
+| Every six hours | `arraysubs_gateway_reconcile` (`arraysubs-gateway`) | Checks PayPal's transaction history for renewal orders still waiting and completes any that PayPal already charged |
+| After the 5-day window | The same six-hourly check | Marks a renewal that PayPal never confirmed as **Failed**, and the grace flow takes over |
+
+1. Wait for the **Next Payment** date. With the daily plan from Step 4, that is about one day after checkout. PayPal decides exactly when to bill; if no payment arrives after the date, check PayPal's sandbox documentation.
+2. Watch the **Webhook Event Log** on **Gateway Logs** for `PAYMENT.SALE.COMPLETED`, then refresh the subscription.
+
+Running these actions early from **WooCommerce > Status > Scheduled Actions** does not make PayPal charge: PayPal bills only on its own schedule.
+
+A successful renewal leaves the renewal order paid, the subscription **Active**, and **Next Payment** set to PayPal's next billing date.
+
+### Step 6: Record What You Observe
+
+| What to check | Where | Expected after a paid renewal |
+|---|---|---|
+| Order and payment | **WooCommerce > Orders** and the subscription's notes | A new renewal order linked to the subscription, paid, with PayPal's sale ID as the transaction ID. A note reads "PayPal renewal payment received". |
+| Dates | Subscription detail page | **Next Payment** moved to PayPal's next billing date, one billing period later |
+| Webhook entries | **Webhook Event Log** on **Gateway Logs**, filtered to **PayPal** | A `PAYMENT.SALE.COMPLETED` entry with a **Processed At** time for this renewal, and no errors for `arraysubs_paypal` in **WooCommerce > Status > Logs**. With ArraySubs Pro, the **Scheduled-Job Logs** and **Renewal Failures** tabs add more detail. |
+| Scheduled actions | **WooCommerce > Status > Scheduled Actions** | This cycle's `arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal` show **Complete**, and new **Pending** actions exist for the next cycle |
+| Subscription state | Subscription detail page and the customer's My Account | **Active** on the same product and amount, the **Payment Gateway** card still **Connected**, and member content still visible to the customer |
+| Lifecycle events | Your integration code | `arraysubs_lifecycle_event` fired `renewed`. See [React to Supported Events](../../developers/actions-and-filters.md). |
+
+#### When a PayPal Renewal Fails
+
+ArraySubs cannot make PayPal decline a payment, and this guide does not cover forcing a failure in PayPal's sandbox - check PayPal's sandbox documentation for that. When a PayPal renewal does fail, on staging or live, look for this:
+
+1. PayPal sends `BILLING.SUBSCRIPTION.PAYMENT.FAILED` (or `PAYMENT.SALE.DENIED`), which appears in the **Webhook Event Log**.
+2. The renewal order is marked **Failed**, a subscription note reads "PayPal payment failed: ..." with PayPal's reason, the payment-failed email is triggered, and the **Payment Gateway** card shows **Error**.
+3. ArraySubs schedules no retry of its own. PayPal retries on its own schedule; a later successful retry arrives as `PAYMENT.SALE.COMPLETED`, marks the renewal order paid, and returns the subscription to **Active**.
+4. During the 5-day window the subscription stays **Active**. After that, the grace flow runs: **On-Hold** once **Days Active After Due** has passed (members lose access), then **Cancelled** after **Days On-Hold Before Cancel**, which also cancels the PayPal subscription. See [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
+5. After 3 failed payments PayPal suspends the subscription and sends `BILLING.SUBSCRIPTION.SUSPENDED`. The **Payment Gateway** card shows **Paused**, and a note reads "PayPal subscription suspended. Automatic renewals are on hold until it is reactivated."
+
+### Step 7: Return to Live Safely
+
+- Keep staging and live separate: separate PayPal apps, webhooks, Webhook IDs, customers, and records. Never copy the staging database or its PayPal settings over your live site.
+- Sandbox subscriptions exist only in PayPal's sandbox. They cannot be charged in live mode or moved to live; real customers subscribe through checkout on the live site.
+- On the live site, confirm that **Enable PayPal Sandbox mode** is off and that **Client ID**, **Client Secret**, and **Webhook ID** come from your live app, whose webhook points at the live **Webhook URL**.
+- In the PayPal Developer Dashboard, delete the sandbox webhook for the staging URL once testing ends, and confirm that no live webhook points at the staging URL.
+- When testing ends, delete the staging copy or keep `DISABLE_WP_CRON` set on it. If you activated ArraySubs Pro there, manage that site activation as described in [License Activation](../../getting-started/license-activation.md).
+
+For integration checks such as error handling, retries, and permissions, see [Verify Your Integration](../../developers/errors-and-testing.md).
 
 ## Troubleshooting
 

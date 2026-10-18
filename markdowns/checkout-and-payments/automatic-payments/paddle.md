@@ -96,7 +96,7 @@ Success looks like this:
 - The subscription's **Payment Gateway** card shows **Connected**, with a **Customer ID** and **Last Transaction** from Paddle. See [Payment Gateway Card](../../manage-subscriptions/subscription-detail-cards.md#payment-gateway-card).
 - On the **Paddle** card in **Gateway Logs**, **Last Webhook** shows the time of your test.
 
-To see a renewal as well, test with a product that renews every day, and check the subscription the next day for a paid renewal order.
+A paid first checkout does not prove renewals. Before launch, follow [Test Automatic Renewals on Staging](#test-automatic-renewals-on-staging).
 
 ### Step 6: Go Live
 
@@ -114,8 +114,139 @@ Sandbox and live have separate Paddle catalogs. ArraySubs creates the live produ
 - **Paid renewals:** when Paddle charges a renewal, it notifies your store and ArraySubs marks the renewal order as paid.
 - **Missed notifications:** if that notification never arrives, ArraySubs checks Paddle's transactions every six hours, for up to five days, and completes the order if Paddle took the payment.
 - **Failed payments:** Paddle retries the payment and emails the customer itself. ArraySubs records the failure but runs no retries of its own, and your grace period settings decide what happens to the subscription. See [Payment Recovery](payment-recovery.md) and [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
-- **Changes you make in ArraySubs:** cancelling a subscription also cancels it at Paddle. Skips, pauses, resumes, and next payment date changes go to Paddle first and are saved only when Paddle accepts them.
+- **Changes you make in ArraySubs:** cancelling a subscription also cancels it at Paddle. Skips, pauses, resumes, and anything else that moves the next payment date go to Paddle first and are saved only when Paddle accepts them.
 - **New card:** customers click **Update payment method** on their subscription in My Account, which opens Paddle's customer portal.
+
+## Test Automatic Renewals on Staging
+
+Use this walkthrough to prove that Paddle bills a renewal on its own schedule and that ArraySubs records it, before you rely on it in production. Everything runs in Paddle's sandbox on a separate staging site, so no real card is charged.
+
+```box class="warning-box"
+## A successful checkout is not proof of automatic renewal
+
+The first checkout only shows that the customer paid Paddle once. Automatic renewal is proven when Paddle bills the next cycle by itself and ArraySubs records that payment on a renewal order, with no customer action.
+```
+
+### Step 1: Prepare a Separate Staging Site
+
+- Use a staging site with its own URL, such as `https://staging.example.com`. Do not run renewal tests on your live store.
+- Use Paddle's sandbox on staging: a sandbox API key, client-side token, notification destination, and webhook secret. Your live site keeps its live credentials, its live notification destination, and its real subscriptions.
+- The test needs only the free ArraySubs core plugin. If the staging site also runs ArraySubs Pro, add and activate the staging domain as described in [License Activation](../../getting-started/license-activation.md).
+
+If you build staging by copying your live site, the copy contains your live Paddle credentials, real subscriptions that hold live Paddle IDs, and their queued renewal actions. Make the copy safe before anything runs. First, add these lines to the staging `wp-config.php` only (above the "That's all, stop editing!" line):
+
+```php
+<?php
+// Staging only: stop scheduled jobs and mark the site as non-production.
+define( 'DISABLE_WP_CRON', true );
+define( 'WP_ENVIRONMENT_TYPE', 'staging' );
+```
+
+With `DISABLE_WP_CRON` set, ArraySubs also turns off Action Scheduler's background request runner, so actions copied from live stay queued. If your host runs WP-Cron for you, pause that for the staging site too. `WP_ENVIRONMENT_TYPE` marks the copy as staging for WordPress and for plugins that check it. ArraySubs does not read it, so it does not replace the next step.
+
+Then:
+
+1. Switch **Paddle (ArraySubs)** to the sandbox before any admin action that talks to Paddle. Open **WooCommerce > Settings > Payments**, click **Manage** next to **Paddle (ArraySubs)**, tick **Enable Paddle Sandbox mode**, replace **API Key**, **Client-Side Token**, and **Webhook Secret** with your sandbox values (Step 3 shows where the sandbox secret comes from), and click **Save changes**. Saving this screen does not call Paddle. Until you do it, the copy uses your live credentials: skipping, pausing, resuming, or cancelling a copied subscription, refunding one of its orders, or saving a subscription product would change your real Paddle records.
+2. Make sure staging email cannot reach real customers, for example by routing it to a mail-capture tool.
+3. Do not use subscriptions copied from live for tests. Their Paddle customer and subscription IDs belong to your live account and do not exist in the sandbox. Create new test subscriptions through checkout (Step 4).
+
+### Step 2: Check the Prerequisites
+
+| Requirement | What to confirm |
+|---|---|
+| WooCommerce and ArraySubs core | Both are active. Paddle (ArraySubs) and its automatic renewals are part of the free core plugin. |
+| Scheduled jobs | After Step 3, run a real system cron every minute as described in [Cron Job Setup](../../getting-started/cron-job-setup.md). In **WooCommerce > Status > Scheduled Actions**, past-due **Pending** actions should be processed within a minute or two. |
+| Public HTTPS | Paddle must reach the staging site over public HTTPS. Password protection, IP allowlists, or a firewall in front of staging block its notifications. |
+| Paddle sandbox account | A sandbox account (sandbox-vendors.paddle.com) with an API key and a client-side token, created as in [Step 2](#step-2-add-your-sandbox-credentials) of the setup. |
+| Default payment link | In the sandbox account, the default payment link is the staging checkout URL, for example `https://staging.example.com/checkout/`. The sandbox accepts a staging domain. |
+| ArraySubs Pro | Not needed for Paddle renewals. Add it only when your integration uses Pro features. |
+
+Test the Free-to-Pro upgrade as its own check. Complete this walkthrough with core only first. Then install ArraySubs Pro while core stays installed and active, activate the license as described in [License Activation](../../getting-started/license-activation.md), confirm that existing subscriptions, orders, and settings are unchanged, and repeat Steps 5 and 6. Do not uninstall core or recreate subscriptions to upgrade.
+
+Optional settings in **ArraySubs > Settings > General**:
+
+| Setting | Card | Default | On staging |
+|---|---|---|---|
+| **Generate Invoice Before Due** and **Unit** | Grace Period | 6 hours | Keep the default or match your live value. It sets when ArraySubs creates the renewal order, not when Paddle charges. |
+| **Days Active After Due** and **Days On-Hold Before Cancel** | Grace Period | 3 and 7 | Keep, or shorten them to watch the grace flow sooner in the failure check |
+
+### Step 3: Configure Sandbox Mode and Callbacks
+
+1. In the Paddle sandbox dashboard, open Checkout > Checkout settings and set the default payment link to the staging checkout URL shown under **Default Payment Link** on the staging settings screen.
+2. Open Developer Tools > Notifications and add a notification destination with the staging **Webhook URL**, for example `https://staging.example.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle`, and the nine events from [Step 3](#step-3-connect-paddle-to-your-store) of the setup. Copy the destination's secret key.
+3. On staging, open **Paddle (ArraySubs)**. Check that **Enable Paddle Sandbox mode** is ticked and the sandbox **API Key** and **Client-Side Token** are in place, paste the secret key into **Webhook Secret**, and click **Save changes**.
+4. In **ArraySubs > Audits [beta] > Gateway Logs**, the **Paddle** card should say **Connected (Test Mode)**, and **Webhook secret configured** should say **Configured**.
+
+What each callback does:
+
+| Callback | URL on staging | Received by | Used for |
+|---|---|---|---|
+| Paddle notifications | `https://staging.example.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle` | ArraySubs core | Paid and failed payments (`transaction.*`), subscription changes (`subscription.*`), and refunds and chargebacks (`adjustment.*`) |
+| Default payment link | `https://staging.example.com/checkout/` | Your WooCommerce checkout page | Paddle adds `_ptxn` to this URL, and ArraySubs opens the Paddle checkout overlay there |
+| Paddle API calls (outgoing) | None | ArraySubs, with the sandbox API key | Creating products, prices, customers, and checkout transactions, and pausing, resuming, cancelling, or moving the date of Paddle subscriptions. ArraySubs sends no renewal charges unless **Allow early renewal** is on. |
+
+Sandbox and live keep separate keys, notification destinations, and secrets.
+
+### Step 4: Place a Test Subscription Checkout
+
+1. Create a simple subscription product that renews every day: on the **Subscription Billings [AS]** tab, set **Billing Period** to **Day** and **Billing Interval** to `1`, with no free trial. Set its **Paddle tax category** and publish it. See [Create and Configure Subscription Products](../../subscription-products/create-and-configure.md).
+2. Log in as a test customer, for example `member@example.com`, add the product to the cart, and choose **Paddle** at checkout.
+3. Pay in the Paddle checkout with a test card from Paddle's developer documentation. Never use a real card on staging.
+
+Expected result:
+
+- The parent order is paid: **Completed** for a subscription that needs no shipping, **Processing** when it needs shipping.
+- A new subscription is **Active** and linked to that order. Its **Next Payment** date is Paddle's next billing date, one day after checkout.
+- On the subscription detail page, the **Payment Gateway** card shows **Connected** with **Card on File** (for a card payment), **Customer ID**, and **Last Transaction**.
+- In **Gateway Logs**, the **Webhook Event Log** filtered to **Paddle** lists `transaction.completed` and `subscription.created` for the checkout.
+
+If the order stays pending or the card does not show **Connected**, Paddle's notifications are not reaching staging. Recheck Step 3 and the [Troubleshooting](#troubleshooting) table before you continue.
+
+### Step 5: Run a Due Renewal
+
+Paddle owns the billing clock, so the renewal happens when Paddle bills, not when an ArraySubs job runs. You cannot bring a Paddle renewal forward from ArraySubs: the admin screens do not accept manual next payment date changes, and the date changes ArraySubs does send to Paddle, such as a skip, move it later. Those changes never bill a proration, and Paddle refuses dates in the past. With the daily plan from Step 4, Paddle bills about 24 hours after checkout.
+
+What happens around the due date:
+
+| Order | What runs | When | What it does for a Paddle subscription |
+|---|---|---|---|
+| 1 | `arraysubs_generate_renewal_invoice` (group `arraysubs-billing`) | **Generate Invoice Before Due** ahead of the **Next Payment** date | Creates the renewal order as an unpaid invoice |
+| 2 | `arraysubs_process_renewal` (group `arraysubs-renewals`) | At the **Next Payment** date, delayed by up to **Spread Renewals Over (Hours)** | Charges nothing. Adds a note that the order is waiting for Paddle and puts the order on the missed-notification check |
+| 3 | Paddle's `transaction.completed` notification | When Paddle bills | Marks the renewal order paid and moves **Next Payment** to Paddle's next billing date. If no renewal order exists yet, ArraySubs creates one |
+| 4 | `arraysubs_gateway_reconcile` (group `arraysubs-gateway`) | Every six hours | For up to five days, asks Paddle whether it took the payment for a renewal order that is still waiting, and completes the order if it did |
+
+Both renewal actions use the subscription ID as their only argument, for example `[123]`, so you can find them in **WooCommerce > Status > Scheduled Actions**. If Paddle has still not confirmed the payment after five days, the order is marked **Failed** and the grace period takes over.
+
+### Step 6: Record What You Observe
+
+| What to check | Where | Expected after a paid renewal |
+|---|---|---|
+| Order and payment | **WooCommerce > Orders**, and your Paddle sandbox account | A new renewal order linked to the subscription, paid, with a Paddle transaction ID that starts with `txn_`. In Paddle, a completed transaction for the subscription. |
+| Dates | Subscription detail page | **Next Payment** moved to Paddle's next billing date, one billing period later |
+| Scheduled actions | **WooCommerce > Status > Scheduled Actions** | This cycle's `arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal` show **Complete**, and new **Pending** ones exist for the next cycle |
+| Webhooks | **ArraySubs > Audits [beta] > Gateway Logs** | **Last Webhook** on the **Paddle** card shows the renewal time, and the **Webhook Event Log**, filtered to **Paddle**, lists `transaction.completed` |
+| Subscription | Subscription detail page and the customer's My Account | **Active**, with the same product and recurring amount. The **Payment Gateway** card is still **Connected** and shows the renewal's **Last Transaction**. |
+
+If the six-hour check completed the order instead of a notification, the order notes say "Reconciled from the gateway: this renewal settled but no notification arrived." Fix the notification destination before you go live.
+
+#### Check a Failed Renewal
+
+ArraySubs cannot make a Paddle renewal fail, and Paddle decides how its sandbox handles declines. Paddle's developer documentation lists its sandbox test cards. Run this check only if it offers a way to make a later renewal of a sandbox subscription fail, then let that renewal come due as in Step 5. Expected:
+
+- Paddle's `transaction.payment_failed` notification marks the renewal order **Failed** and adds the reason as an order note and a subscription note.
+- The customer receives the **[ArraySubs] Renewal Payment Failed** email.
+- ArraySubs schedules no retries of its own. Paddle retries the payment on its own schedule.
+- The grace flow starts: the subscription stays **Active** for **Days Active After Due**, moves to **On Hold**, and is **Cancelled** after **Days On-Hold Before Cancel**. See [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
+- Recovery: when one of Paddle's retries succeeds, its `transaction.completed` notification marks the same renewal order paid, and the subscription returns to **Active**. The customer can change the card with **Update payment method** in My Account, which opens Paddle's customer portal.
+
+### Step 7: Return to Live Safely
+
+- Keep staging and live separate: separate Paddle accounts, keys, client-side tokens, notification destinations, and secrets. Never copy the staging database or its Paddle settings over your live site.
+- Sandbox customers and subscriptions exist only in your Paddle sandbox account. They cannot be moved to live. Real customers subscribe through checkout on the live site.
+- On the live site, confirm that **Enable Paddle Sandbox mode** is off, that the live **API Key**, **Client-Side Token**, and **Webhook Secret** are in place, and that the **Paddle** card in **Gateway Logs** says **Connected**.
+- In the live Paddle account, the notification destination points at the live **Webhook URL** with the nine events, and the default payment link is the live checkout URL on a domain Paddle has approved.
+- Remove the staging notification destination from the sandbox account when you no longer need it, and make sure no destination in the live account points at a staging URL.
+- When testing ends, delete the staging copy or keep `DISABLE_WP_CRON` set on it. If you activated ArraySubs Pro there, manage that site activation as described in [License Activation](../../getting-started/license-activation.md).
 
 ## Troubleshooting
 

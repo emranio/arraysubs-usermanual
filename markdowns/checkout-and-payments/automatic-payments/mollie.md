@@ -119,6 +119,172 @@ If the subscription has no **Payment Gateway** card, Mollie did not save a manda
 - **A mandate that stops working** (for example, one the customer revoked) turns the **Payment Gateway** card badge to **Error**, and renewals [fall back to manual invoices](auto-renew-and-manual-fallback.md#when-renewals-fall-back-to-manual-invoices).
 - **Expiring cards:** Mollie does not update cards automatically, so ArraySubs emails the customer 30 days and 7 days before a saved card expires.
 
+## Test Automatic Renewals on Staging
+
+Use this walkthrough to prove that a real scheduled renewal is charged against the customer's Mollie mandate before you rely on it in production. Everything runs with your Mollie test API key on a separate staging site, so no real money moves.
+
+```box class="warning-box"
+**A successful checkout is not proof of automatic renewal.** The Mollie plugin takes the first payment while the customer is present. Automatic renewal is proven only when ArraySubs creates the renewal order on schedule and charges the saved mandate with no customer action.
+```
+
+### Step 1: Prepare a Separate Staging Site
+
+- Use a staging site with its own URL, such as `https://staging.example.com`. Do not run renewal tests on your live store.
+- Use only your Mollie test API key on staging. Your live site keeps its live key and stays the only site that charges real customers.
+- The renewal test needs only the free ArraySubs core plugin. If the staging site also runs ArraySubs Pro, add and activate the staging domain as described in [License Activation](../../getting-started/license-activation.md).
+
+If you build staging by copying your live site, the copy contains your saved live Mollie API key, real customer subscriptions with live Mollie mandates, and their queued renewal actions. Make the copy safe before it runs any scheduled job. First, add these lines to the staging `wp-config.php` only (above the "That's all, stop editing!" line):
+
+```php
+<?php
+// Staging only: stop scheduled jobs and mark the site as non-production.
+define( 'DISABLE_WP_CRON', true );
+define( 'WP_ENVIRONMENT_TYPE', 'staging' );
+```
+
+With `DISABLE_WP_CRON` set, ArraySubs also turns off Action Scheduler's background request runner, so renewal actions copied from live stay queued instead of charging. If your host runs WP-Cron for you, pause that for the staging site too.
+
+Then, before any scheduled job runs and before you click any subscription or payment action:
+
+1. Delete the saved live key from the staging database, for example with WP-CLI: `wp option delete mollie-payments-for-woocommerce_live_api_key`. Setting **Mollie Payment Mode** to **Test API** is not enough on its own: ArraySubs charges each renewal with the key for the mode the subscription was created in, so a copied live subscription would still be charged to a real customer with a saved live key. Emptying the **Live API key** field on the settings page does not delete a saved key.
+2. Go to **WooCommerce > Settings > Mollie Settings**, set **Mollie Payment Mode** to **Test API**, paste your test key into **Test API key**, and click **Save changes**.
+3. Make sure staging email cannot reach real customers, for example by routing it to a mail-capture tool. Copied subscriptions still come due on staging and can send renewal and payment-failed emails.
+4. Do not use subscriptions copied from live for renewal tests. Their Mollie customers and mandates belong to your live account and cannot be charged with a test key. Create new test subscriptions through checkout ([Step 4](#step-4-place-a-test-subscription-checkout)).
+
+### Step 2: Check the Prerequisites
+
+| Requirement | What to confirm |
+|---|---|
+| WooCommerce and ArraySubs core | Both are active. Mollie automatic renewals are part of the free core plugin. |
+| Mollie Payments for WooCommerce | Version 7.0 or later, active, with **Mollie Payment Mode** set to **Test API** and only a test key saved. ArraySubs shows a notice on the WooCommerce settings screens when the plugin is too old. |
+| **Store customer details at Mollie** | Ticked on the **Advanced settings** tab. It is on by default. |
+| A renewal-capable method | **Credit card** enabled on the **Payment methods** tab, as in [setup Step 5](#step-5-enable-a-payment-method-that-can-renew). |
+| Scheduled jobs | Once the copy is safe (Step 1), run a real system cron every minute as described in [Cron Job Setup](../../getting-started/cron-job-setup.md). In **WooCommerce > Status > Scheduled Actions**, past-due **Pending** actions should be processed within a minute or two. |
+| Webhook delivery | Mollie must reach the staging site over public HTTPS. Password protection, IP allowlists, or a firewall in front of staging block it. ArraySubs sends its webhook URL with every renewal payment, so there is nothing to register at Mollie. |
+| ArraySubs Pro | Not needed for Mollie renewals. Add it only when your integration uses Pro features. |
+
+Test the Free-to-Pro upgrade as its own check. Complete this walkthrough with core only first. Then install ArraySubs Pro while core stays installed and active, activate the license as described in [License Activation](../../getting-started/license-activation.md), confirm that existing subscriptions, orders, and settings are unchanged, and repeat Steps 5 and 6. Do not uninstall core or recreate subscriptions to upgrade.
+
+Optional settings for a faster test, in **ArraySubs > Settings > General**:
+
+| Setting | Card | Default | On staging |
+|---|---|---|---|
+| **Generate Invoice Before Due** and **Unit** | Grace Period | 6 hours | Keep the default or match your live value |
+| **Spread Renewals Over (Hours)** | Renewal Performance | 6 | `0`, so the charge runs at the due time instead of up to six hours later |
+| **Days Active After Due** and **Days On-Hold Before Cancel** | Grace Period | 3 and 7 | Keep, or shorten them to watch the grace flow sooner |
+
+### Step 3: Confirm Test Mode and Callbacks
+
+1. On **WooCommerce > Settings > Mollie Settings**, check that **Mollie Connection Status** reads **Successfully connected with Test API**.
+2. On the **Advanced settings** tab, click **Test Webhook Connection** to check that Mollie can reach the staging site.
+3. In **ArraySubs > Audits [beta] > Gateway Logs**, expand the **Mollie** card. **Status** should read **Connected (Test Mode)**, with no **Needs attention before this gateway can take payments** box.
+
+Which plugin receives which callback:
+
+| Callback | URL on staging | Received by | Used for |
+|---|---|---|---|
+| Mollie plugin webhook | `https://staging.example.com/wp-json/mollie/v1/webhook` (the plugin adds it, with a secret parameter, to each checkout payment) | Mollie Payments for WooCommerce | Checkout payments and their status changes |
+| ArraySubs Mollie webhook | `https://staging.example.com/wp-json/arraysubs/v1/webhooks/mollie` | ArraySubs core | The final status of each renewal payment ArraySubs creates (paid, failed, canceled, or expired), plus refunds and chargebacks on those payments |
+| Renewal charge (outgoing) | None | ArraySubs, calling the Mollie API with the key for the subscription's mode | Recurring payments against the customer's mandate for scheduled renewals and retries |
+
+Neither URL has to be entered in your Mollie account: each one travels with the payment it belongs to.
+
+### Step 4: Place a Test Subscription Checkout
+
+1. Create a test subscription product with **Billing Period** set to **Day**, **Billing Interval** set to 1, and **Trial Length** set to 0. See [Create and Configure Subscription Products](../../subscription-products/create-and-configure.md). A daily plan brings the first renewal due within 24 hours.
+2. Log in as a test customer, for example `member@example.com`, add the product to the cart, and choose **Credit card** at checkout.
+3. Complete the payment on Mollie's test checkout as a successful payment. Mollie's [testing guide](https://docs.mollie.com/reference/testing) lists test card numbers. Never use a real card on staging.
+4. Leave auto-renew on. If it is turned off, the renewal becomes a manual invoice (see [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md)).
+
+Expected result:
+
+- The parent order is paid: **Completed** for a non-shipping subscription, **Processing** when it needs shipping.
+- A new subscription is **Active** and linked to that order. Its **Next Payment** date is one billing period after checkout.
+- On the subscription detail page, the **Payment Gateway** card shows **Connected**, **Gateway:** Mollie, the saved card under **Card on File**, and a **Customer ID** that starts with `cst_`. Mollie saved a mandate, so the subscription can renew automatically.
+
+If the subscription has no **Payment Gateway** card, Mollie saved no mandate and renewals would fall back to manual invoices. Check **Store customer details at Mollie** and the payment method you used before you continue.
+
+### Step 5: Run a Due Renewal
+
+ArraySubs runs every renewal through two scheduled actions. Both use the subscription ID as their only argument, for example `[123]`.
+
+| Order | Action hook | Group | When it runs | What it does |
+|---|---|---|---|---|
+| 1 | `arraysubs_generate_renewal_invoice` | `arraysubs-billing` | **Generate Invoice Before Due** ahead of the Next Payment date | Creates the renewal order as an unpaid invoice |
+| 2 | `arraysubs_process_renewal` | `arraysubs-renewals` | At the Next Payment date, plus the renewal spread | Charges the customer's Mollie mandate; the schedule advances once the payment is paid |
+
+1. Wait until the renewal is due. With the daily plan from Step 4 and default settings, the invoice appears about 18 hours after checkout and the charge runs at the 24-hour mark (later when **Spread Renewals Over (Hours)** is above `0`).
+2. Open **WooCommerce > Status > Scheduled Actions**, search for `arraysubs_process_renewal`, and find the row with your subscription ID. When it shows **Complete**, open the renewal order.
+3. If the order is paid, go to Step 6. If it shows **Pending payment**, Mollie is waiting for the payment's final state. In test mode, a recurring payment carries a `changePaymentState` link for setting that state (see Mollie's [testing guide](https://docs.mollie.com/reference/testing)). The renewal order's transaction ID is the Mollie payment ID, which starts with `tr_`. Look the payment up with your test key, open the `changePaymentState` link under `_links` in the response, and set the payment to paid:
+
+```bash
+curl -s https://api.mollie.com/v2/payments/tr_YOUR_PAYMENT_ID \
+  -H "Authorization: Bearer YOUR_TEST_API_KEY"
+```
+
+Mollie then reports the result to the ArraySubs webhook and the order is completed. If that report never arrives, ArraySubs asks Mollie again every six hours. While a payment is pending, ArraySubs pauses the grace flow: it waits up to 3 days for a card payment and up to 21 days for a SEPA Direct Debit payment, then fails the renewal if Mollie has not confirmed it.
+
+```box class="info-box"
+Clicking **Run** on these actions before the Next Payment date does nothing: ArraySubs checks that the renewal is actually due before it creates or charges anything. Wait for the date, or bring it forward as shown below.
+```
+
+Developers can bring the date forward on staging with `Subscriptions::update()` (see [Find and Update Subscriptions](../../developers/subscriptions.md)). The change realigns both scheduled actions. Run it on staging only, for example with `wp eval-file`:
+
+```php
+<?php
+// Staging only: make subscription 123 due for renewal in 15 minutes.
+if ( class_exists( '\ArraySubs\Api\Subscriptions' ) ) {
+	$result = \ArraySubs\Api\Subscriptions::update(
+		123,
+		array( 'next_payment_date' => time() + 15 * MINUTE_IN_SECONDS ),
+		array( 'reason' => 'Staging renewal test' )
+	);
+
+	if ( is_wp_error( $result ) ) {
+		echo esc_html( $result->get_error_code() . ': ' . $result->get_error_message() ), "\n";
+	} else {
+		echo esc_html( 'Changed: ' . implode( ', ', $result['changed'] ) ), "\n";
+	}
+} else {
+	echo "The ArraySubs developer API is not available on this site. Wait for the due date instead.\n";
+}
+```
+
+A successful renewal leaves the renewal order paid, the subscription **Active**, and **Next Payment** one billing period later.
+
+### Step 6: Record What You Observe
+
+| What to check | Where | Expected after a paid renewal |
+|---|---|---|
+| Order and payment | **WooCommerce > Orders** | A new renewal order linked to the subscription, paid, with the Mollie payment ID (`tr_...`) as its transaction ID and a paid date. The Mollie payment's description is "Renewal for order" plus the order number. |
+| Dates | Subscription detail page | **Next Payment** moved forward by exactly one billing period. It follows the schedule, not the moment the charge ran. |
+| Scheduled actions | **WooCommerce > Status > Scheduled Actions** | This cycle's `arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal` show **Complete**, and new **Pending** actions exist for the next cycle. |
+| Notes | Subscription detail page | A private note that ArraySubs created a Mollie recurring payment for the renewal order |
+| Logs | **ArraySubs > Audits [beta] > Gateway Logs** (Mollie webhook events such as `payment.paid`); **WooCommerce > Status > Logs** (source `arraysubs-gateway`, plus the Mollie plugin's own log when its **Debug Log** setting is on); with Pro, also **Scheduled-Job Logs** and **Renewal Failures** | Mollie payment and webhook entries for the renewal, with no errors |
+| Lifecycle events | Your integration code | `arraysubs_lifecycle_event` fired `renewed`. See [React to Supported Events](../../developers/actions-and-filters.md). |
+| Plan and access | Subscription detail page and the customer's My Account | Same product, variation, quantity, and recurring amount. The subscription is **Active** and the customer still sees member content. |
+| Payment method | **Payment Gateway** card | Still **Connected**, with the same **Card on File** |
+
+#### Test a Failed Renewal and Recovery
+
+1. Place another test checkout as in Step 4 and let its renewal come due as in Step 5.
+2. When the renewal order shows **Pending payment**, use the payment's `changePaymentState` link to set it to failed instead of paid. Mollie's [testing guide](https://docs.mollie.com/reference/testing) also explains how to test specific card failure reasons.
+3. Record the failure:
+   - Mollie reports the result to the ArraySubs webhook. The renewal order changes to **Failed** with a note that Mollie reported the renewal payment as failed, and the customer receives the **[ArraySubs] Renewal Payment Failed** email.
+   - By default, ArraySubs schedules no automatic retry for a Mollie payment that ends as failed, canceled, or expired. See [Hard declines are not retried](payment-recovery.md#hard-declines-are-not-retried).
+   - The grace flow starts: the subscription stays **Active** for **Days Active After Due**, moves to **On-Hold** (members lose access), and is **Cancelled** after **Days On-Hold Before Cancel**. See [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
+4. Recover: click **Retry Payment** on the subscription detail page. The first retry after a failed Mollie payment only closes that payment, so the order stays **Failed** and a note says the previous Mollie payment ended as failed. Click **Retry Payment** again: ArraySubs creates a new recurring payment against the same mandate. Set that payment to paid with its `changePaymentState` link, as in Step 5.
+5. Expected: the renewal order is paid, the subscription is **Active** again (an **On-Hold** subscription returns to **Active**), **Next Payment** moves forward, and access returns.
+
+### Step 7: Return to Live Safely
+
+- Keep staging and live separate: separate API keys, customers, and records. Never copy the staging database or its Mollie settings over your live site, and never add your live key to the staging site.
+- Test customers and mandates exist only in Mollie's test mode. They cannot be charged in live mode, and test subscriptions cannot be moved to live. Real customers subscribe through checkout on the live site.
+- On the live site, confirm that **Mollie Payment Mode** is **Live API** and **Mollie Connection Status** reads **Successfully connected with Live API**. In **Gateway Logs**, the **Mollie** card should read **Connected**.
+- When testing ends, delete the staging copy or keep `DISABLE_WP_CRON` set on it. If you activated ArraySubs Pro there, manage that site activation as described in [License Activation](../../getting-started/license-activation.md).
+
+For integration checks such as error handling, retries, and permissions, see [Verify Your Integration](../../developers/errors-and-testing.md).
+
 ## Troubleshooting
 
 | Problem | Fix |

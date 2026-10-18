@@ -215,11 +215,11 @@ Everything about how subscriptions are purchased, billed, and collected — from
 
 - [Overview](checkout-and-payments/README.md) — Section overview, prerequisites, and quick reference.
 - [Subscription Checkout](checkout-and-payments/subscription-checkout.md) — Cart rules, one-click checkout, trial handling, plan switching at checkout, and subscription creation.
-- [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) — Choose a gateway, the five setup steps, webhook URLs, and what each gateway supports.
+- [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) — Choose a gateway, the six setup steps, the staging renewal test, webhook URLs, and what each gateway supports.
 - [Stripe](checkout-and-payments/automatic-payments/stripe.md) — Step-by-step setup with the official WooCommerce Stripe Gateway, plus a staging renewal test.
-- [PayPal](checkout-and-payments/automatic-payments/paypal.md) — Step-by-step setup of the built-in PayPal (ArraySubs) gateway, credentials, and webhook.
-- [Paddle](checkout-and-payments/automatic-payments/paddle.md) — Step-by-step setup of the built-in Paddle (ArraySubs) gateway, credentials, webhook, and tax categories.
-- [Mollie](checkout-and-payments/automatic-payments/mollie.md) — Step-by-step setup with the official Mollie Payments for WooCommerce plugin.
+- [PayPal](checkout-and-payments/automatic-payments/paypal.md) — Step-by-step setup of the built-in PayPal (ArraySubs) gateway, credentials, webhook, and a staging renewal test.
+- [Paddle](checkout-and-payments/automatic-payments/paddle.md) — Step-by-step setup of the built-in Paddle (ArraySubs) gateway, credentials, webhook, tax categories, and a staging renewal test.
+- [Mollie](checkout-and-payments/automatic-payments/mollie.md) — Step-by-step setup with the official Mollie Payments for WooCommerce plugin, plus a staging renewal test.
 - [Payment Recovery](checkout-and-payments/automatic-payments/payment-recovery.md) — Retry failed payments, recover overdue invoices, and coordinate gateway events with renewal recovery.
 - [Auto-Renew and Manual Fallback](checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md) — Customer toggle, manual invoice collection, and payment method requirements.
 - [Gateway Health Dashboard](gateway-health/README.md) — Gateway status cards, webhook event log, and troubleshooting.

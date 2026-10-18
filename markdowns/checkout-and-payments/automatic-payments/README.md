@@ -35,13 +35,14 @@ All four appear in **WooCommerce > Settings > Payments** once they are installed
 
 ## Set Up a Gateway
 
-Every gateway follows the same five steps. The gateway guides walk through each one with screenshots.
+Every gateway follows the same six steps. The gateway guides walk through each one with screenshots.
 
 1. **Install or enable the gateway.** For Stripe or Mollie, install and activate the official plugin. For PayPal or Paddle, go to **WooCommerce > Settings > Payments** and click **Manage** next to **PayPal (ArraySubs)** or **Paddle (ArraySubs)**.
 2. **Connect your account in test mode.** Use the provider's sandbox or test keys first, so no real money moves while you check the setup.
 3. **Connect the webhook.** Webhooks tell ArraySubs when a payment succeeds or fails. See [Webhook URLs](#webhook-urls) for what each gateway needs.
 4. **Place a test subscription order.** Open the new subscription in ArraySubs. Its **Payment Gateway** card should show **Connected** with a saved payment method.
-5. **Switch to live mode.** Enter your live keys, check the webhook again, and confirm the gateway shows as connected in **ArraySubs > Audits [beta] > Gateway Logs**.
+5. **Test a real renewal on a staging site.** A paid first order does not prove that renewals charge automatically. Follow [Test on a Staging Site Before Launch](#test-on-a-staging-site-before-launch).
+6. **Switch to live mode.** Enter your live keys, check the webhook again, and confirm the gateway shows as connected in **ArraySubs > Audits [beta] > Gateway Logs**.
 
 Gateway guides:
 
@@ -76,14 +77,14 @@ The biggest difference between gateways is who decides when the next charge happ
 | Stripe | ArraySubs | ArraySubs keeps the next payment date and charges the saved payment method on that date. |
 | Mollie | ArraySubs | Same as Stripe. Mollie holds a payment mandate, not a schedule. |
 | PayPal | PayPal | PayPal charges on its own schedule. ArraySubs records each payment PayPal reports. |
-| Paddle | Paddle | Paddle charges on its own schedule. ArraySubs can move Paddle's next billing date, so skips and date changes still work. |
+| Paddle | Paddle | Paddle charges on its own schedule. ArraySubs can push a skip to Paddle, so skips still work. |
 
-When PayPal or Paddle owns the clock, any action that changes a payment date (**Skip**, **Pause**, a manual date change) is sent to the provider first. ArraySubs saves the change only after the provider accepts it, and refuses the action with a reason when the provider cannot do it.
+When PayPal or Paddle owns the clock, any action that changes a payment date (**Skip** or **Pause**) is sent to the provider first. ArraySubs saves the change only after the provider accepts it, and refuses the action with a reason when the provider cannot do it.
 
 ```box class="warning-box"
 ## PayPal cannot move a payment date
 
-On PayPal, **Skip** and manual next payment date changes are refused, because PayPal has no way to move the next billing date. Pause and resume work, because PayPal can suspend and reactivate a subscription.
+On PayPal, **Skip** is refused, because PayPal has no way to move the next billing date. Pause and resume work, because PayPal can suspend and reactivate a subscription.
 ```
 
 ## What Each Gateway Supports
@@ -96,7 +97,7 @@ On PayPal, **Skip** and manual next payment date changes are refused, because Pa
 | Several subscriptions in one checkout | Yes | No | Yes | Yes |
 | Different billing cycles in one checkout | Yes | No | No | Yes |
 | Coupons that keep applying to renewals | Yes | No (first payment only) | Yes | Yes |
-| Skip a renewal or change the date | Yes | No | Yes | Yes |
+| Skip a renewal | Yes | No | Yes | Yes |
 | Pause and resume | Yes | Yes | Yes | Yes |
 | Plan switching | Yes | Next cycle only | Yes | Yes |
 | Refunds, including partial refunds | Yes | Yes | Yes | Yes |
@@ -115,10 +116,19 @@ When a cart needs something a gateway cannot do, ArraySubs handles it for you:
 - **Failed payments:** ArraySubs retries soft declines and then follows your grace period. See [Payment Recovery](payment-recovery.md) and [Recovery and Grace Flows](../../billing-and-renewals/recovery-and-grace-flows.md).
 - **Missed webhooks:** every six hours ArraySubs asks the provider about renewal orders that are still waiting for a webhook, and completes or fails them from the answer.
 
-```box class="info-box"
-## Test a renewal before launch
+## Test on a Staging Site Before Launch
 
-A successful first checkout does not prove that renewals charge automatically. Run one real scheduled renewal on a staging site first: [Test Automatic Renewals on Staging](stripe.md#test-automatic-renewals-on-staging).
+A successful first checkout only proves the first payment. Before you take real customers, set the gateway up in test or sandbox mode on a separate staging site and let one real scheduled renewal run there. Each gateway guide has a step-by-step walkthrough: preparing a safe staging copy, test credentials and webhooks, a test checkout, a due renewal, a failed payment, and the switch back to live.
+
+- [Stripe: Test Automatic Renewals on Staging](stripe.md#test-automatic-renewals-on-staging)
+- [PayPal: Test Automatic Renewals on Staging](paypal.md#test-automatic-renewals-on-staging)
+- [Paddle: Test Automatic Renewals on Staging](paddle.md#test-automatic-renewals-on-staging)
+- [Mollie: Test Automatic Renewals on Staging](mollie.md#test-automatic-renewals-on-staging)
+
+```box class="warning-box"
+## Copied your live site to make staging?
+
+The copy holds your live gateway keys, real customer subscriptions, and their queued renewals. Before anything runs on the copy, stop its scheduled jobs and switch every gateway to test or sandbox mode, exactly as the first step of each walkthrough shows. Otherwise the staging site can charge or change real customers.
 ```
 
 ## Troubleshooting
