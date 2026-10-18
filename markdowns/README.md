@@ -70,7 +70,7 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | **ArraySubs → Checkout Builder** *(Pro)* | Design custom subscription checkout fields and steps | [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) |
 | **ArraySubs → Retention Flow** *(Pro)* | Configure cancellation reasons and save-the-sale offers — cancellation timing itself stays free (Settings → General) | [Cancellation Setup](retention-and-refunds/cancellation-setup.md) |
 | **ArraySubs → Reports** | Review subscription reporting entry points and open Retention Analytics *(Pro)* | [Reports Hub](analytics/reports-hub.md) |
-| **ArraySubs → Settings → Payment Gateways** *(Pro)* | Monitor gateway status, webhook URLs, and webhook event logs | [Gateway Health](gateway-health/README.md) |
+| **ArraySubs → Audits [beta] → Gateway Logs** | Monitor gateway status, webhook URLs, and webhook event logs | [Gateway Health](gateway-health/README.md) |
 | **ArraySubs → Audits [beta]** *(Pro)* | Diagnose activity, scheduled jobs, gateway events, renewals, portal actions, and access conflicts | [Audits and Logs](audits-and-logs/README.md) |
 
 Each rewritten page starts with **Page Navigation** so you can jump directly to the screen, related setup guide, and next troubleshooting page.
@@ -113,7 +113,7 @@ View, create, edit, and manage every subscription in your store.
 - [Subscription Operations](manage-subscriptions/subscription-operations.md) — All Subscriptions list, creating and editing subscriptions, and the detail screen.
 - [Subscription Data Export](manage-subscriptions/subscription-data-export.md) — CSV export, the column picker, and shipping-address columns for bulk label printing.
 - [Admin Tools and Records](manage-subscriptions/admin-tools-and-records.md) — Subscription notes, feature log *(Pro)*, and related orders and refund history.
-- [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) — Cancellation, skip & pause, coupon, gateway *(Pro)*, checkout fields *(Pro)*, and shipping *(Pro)* cards.
+- [Subscription Detail Cards](manage-subscriptions/subscription-detail-cards.md) — Cancellation, skip & pause, coupon, gateway, checkout fields *(Pro)*, and shipping *(Pro)* cards.
 - [Lifecycle Management](manage-subscriptions/lifecycle-management.md) — Status transitions, renewal flow, grace periods, cancellation, expiration, trials, and email triggers.
 
 ## Member Access and Restriction Rules
@@ -156,7 +156,7 @@ Your subscribers' self-service hub in the WooCommerce My Account area.
 - [Overview](customer-portal/README.md) — Section overview, quick reference tables, and portal page summary.
 - [Customer Portal Pages](customer-portal/portal-pages.md) — My Subscriptions list, View Subscription detail, My Features page *(Pro)*, and Store Credit page *(Pro)*.
 - [Subscription Self-Service Actions](customer-portal/self-service-actions.md) — Cancel, undo cancel, retention offers, change plan, skip, pause, resume, and reactivate.
-- [Payment and Shipping Actions](customer-portal/payment-and-shipping.md) — Payment methods, card on file *(Pro)*, auto-renew toggle *(Pro)*, and shipping address updates.
+- [Payment and Shipping Actions](customer-portal/payment-and-shipping.md) — Payment methods, card on file, auto-renew toggle, and shipping address updates.
 
 ## Member Insight *(Pro)*
 
@@ -215,13 +215,14 @@ Everything about how subscriptions are purchased, billed, and collected — from
 
 - [Overview](checkout-and-payments/README.md) — Section overview, prerequisites, and quick reference.
 - [Subscription Checkout](checkout-and-payments/subscription-checkout.md) — Cart rules, one-click checkout, trial handling, plan switching at checkout, and subscription creation.
-- [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) *(Pro)* — Gateway architecture, billing models, webhook pipeline, and capability comparison.
-- [Stripe](checkout-and-payments/automatic-payments/stripe.md) *(Pro)* — Setup, PaymentIntents, SCA/3DS, card auto-update, and dispute handling.
-- [PayPal](checkout-and-payments/automatic-payments/paypal.md) *(Pro)* — Billing Agreements, Smart Payment Buttons, limitations, and webhook setup.
-- [Paddle](checkout-and-payments/automatic-payments/paddle.md) *(Pro)* — Merchant of Record, catalog sync, native pause, automatic tax, and webhook setup.
-- [Payment Recovery](checkout-and-payments/automatic-payments/payment-recovery.md) *(Pro)* — Retry failed payments, recover overdue invoices, and coordinate gateway events with renewal recovery.
-- [Auto-Renew and Manual Fallback](checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md) *(Pro)* — Customer toggle, manual invoice collection, and payment method requirements.
-- [Gateway Health Dashboard](gateway-health/README.md) *(Pro)* — Gateway status cards, webhook event log, and troubleshooting.
+- [Automatic Payments Overview](checkout-and-payments/automatic-payments/README.md) — Choose a gateway, the five setup steps, webhook URLs, and what each gateway supports.
+- [Stripe](checkout-and-payments/automatic-payments/stripe.md) — Step-by-step setup with the official WooCommerce Stripe Gateway, plus a staging renewal test.
+- [PayPal](checkout-and-payments/automatic-payments/paypal.md) — Step-by-step setup of the built-in PayPal (ArraySubs) gateway, credentials, and webhook.
+- [Paddle](checkout-and-payments/automatic-payments/paddle.md) — Step-by-step setup of the built-in Paddle (ArraySubs) gateway, credentials, webhook, and tax categories.
+- [Mollie](checkout-and-payments/automatic-payments/mollie.md) — Step-by-step setup with the official Mollie Payments for WooCommerce plugin.
+- [Payment Recovery](checkout-and-payments/automatic-payments/payment-recovery.md) — Retry failed payments, recover overdue invoices, and coordinate gateway events with renewal recovery.
+- [Auto-Renew and Manual Fallback](checkout-and-payments/automatic-payments/auto-renew-and-manual-fallback.md) — Customer toggle, manual invoice collection, and payment method requirements.
+- [Gateway Health Dashboard](gateway-health/README.md) — Gateway status cards, webhook event log, and troubleshooting.
 - [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) *(Pro)* — Builder interface, multi-step checkout, sections, design panel, data flow, and settings.
 - [Field Types Reference](checkout-and-payments/checkout-builder/field-types.md) *(Pro)* — All 27 field types: standard, advanced, and layout elements.
 - [Checkout Builder Use Cases](checkout-and-payments/checkout-builder/use-cases.md) *(Pro)* — 18 real-world examples: subscription boxes, SaaS, gyms, wine clubs, B2B, nonprofits, and more.
@@ -294,7 +295,7 @@ Automated emails for every subscription lifecycle event — configure, customize
 
 [Redirect Product Page](redirect-product-page/README.md) controls whether direct subscription product URLs redirect to a sales page or return a 404.
 
-## Gateway Health *(Pro)*
+## Gateway Health
 
 [Gateway Health](gateway-health/README.md) is the dedicated gateway monitoring module for payment gateway status, subscription counts, webhook URLs, capabilities, and webhook events.
 
@@ -305,7 +306,7 @@ Track every subscription action, monitor scheduled jobs and gateway health, and 
 - [Overview](audits-and-logs/README.md) — Section overview and navigation.
 - [Activity Audits](audits-and-logs/activity-audits.md) *(Pro)* — Searchable, filterable log of every action across the subscription lifecycle.
 - [Scheduled-Job Logs](audits-and-logs/scheduled-job-logs.md) *(Pro)* — Execution history for all Action Scheduler jobs with success/failure status.
-- [Gateway Health](gateway-health/README.md) *(Pro)* — Dedicated gateway status and webhook monitoring module.
+- [Gateway Health](gateway-health/README.md) — Dedicated gateway status and webhook monitoring module.
 - [Renewal Failures and Billing Issues](audits-and-logs/renewal-failures.md) — Diagnose missing invoices, failed payments, grace period behavior, and automatic cancellation.
 - [Portal Action Failures](audits-and-logs/portal-action-failures.md) — Troubleshoot cancellation, pause, skip, plan switch, and reactivation errors.
 - [Access-Rule Conflicts](audits-and-logs/access-rule-conflicts.md) — Resolve overlapping membership rules and content restriction problems.

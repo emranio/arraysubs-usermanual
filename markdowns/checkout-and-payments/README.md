@@ -1,7 +1,7 @@
 # Info
 - Module: Checkout and Payments
 - Availability: Shared
-- Last updated: 2026-06-21
+- Last updated: 2026-10-18
 
 # Checkout and Payments
 
@@ -19,17 +19,17 @@ The core checkout engine handles everything from cart validation to subscription
 
 ![ArraySubs General settings covering global checkout behavior](README.ASSETS/02-checkout-general-settings-annotated.png)
 
-### Automatic Payments *(Pro)*
+### Automatic Payments
 
 Connect your store to Stripe, PayPal, Paddle, or Mollie for hands-free recurring billing. Each gateway processes initial payments, stores payment methods, and handles renewals automatically — with webhook-based event routing, dispute tracking, and a live health dashboard.
 
 ![Customer subscription page with Stripe payment method, retry, and auto-renew](README.ASSETS/07-customer-payment-method-management-annotated.png)
 
-- [Gateway Overview and Architecture](automatic-payments/README.md) — How ArraySubs-managed and gateway-managed billing work, gateway comparison matrix, and payment method lifecycle.
-- [Stripe Gateway](automatic-payments/stripe.md) — PaymentIntents, SetupIntents, Checkout Sessions, SCA/3D Secure, card auto-update, and dispute handling.
-- [PayPal Gateway](automatic-payments/paypal.md) — Billing Agreements, PayPal-managed renewal schedule, and Smart Payment Buttons.
-- [Paddle Gateway](automatic-payments/paddle.md) — Merchant of Record model, Paddle.js overlay, automatic tax/VAT handling, and native pause/resume.
-- [Mollie Gateway](automatic-payments/mollie.md) — Mandate-based renewals for card and SEPA Direct Debit, with delayed-settlement tracking for bank debits.
+- [Automatic Payments](automatic-payments/README.md) — Choose a gateway, the five setup steps, webhook URLs, and what each gateway supports.
+- [Stripe Gateway](automatic-payments/stripe.md) — Step-by-step setup with the official WooCommerce Stripe Gateway, plus a staging renewal test.
+- [PayPal Gateway](automatic-payments/paypal.md) — Step-by-step setup of the built-in PayPal (ArraySubs) gateway.
+- [Paddle Gateway](automatic-payments/paddle.md) — Step-by-step setup of the built-in Paddle (ArraySubs) gateway.
+- [Mollie Gateway](automatic-payments/mollie.md) — Step-by-step setup with the official Mollie Payments for WooCommerce plugin.
 - [Auto-Renew and Manual Fallback](automatic-payments/auto-renew-and-manual-fallback.md) — Customer-facing auto-renew toggle, what happens when auto-renew is turned off, and the manual invoice collection flow.
 - [Gateway Health Dashboard](../gateway-health/README.md) — Gateway status cards, subscription counts, webhook URL configuration, event log, and monitoring.
 
@@ -54,7 +54,7 @@ Replace the default WooCommerce classic checkout form with a fully customizable,
 | Topic | Availability | What It Controls |
 |---|---|---|
 | Subscription Checkout | Free | Cart rules, one-click checkout, trial validation, plan switching at checkout, subscription creation |
-| Automatic Payments | **Pro** | Stripe, PayPal, Paddle, Mollie gateways, auto-renewal charging, webhook routing, payment method storage |
+| Automatic Payments | Free | Stripe, PayPal, Paddle, Mollie gateways, auto-renewal charging, webhook routing, payment method storage |
 | Checkout Builder | **Pro** | Custom classic checkout forms, multi-step navigation, 28 element types, conditional logic, design customization |
 
 ## Prerequisites
@@ -62,7 +62,7 @@ Replace the default WooCommerce classic checkout form with a fully customizable,
 - WooCommerce installed and active
 - ArraySubs core plugin installed and active
 - At least one subscription product created
-- For Automatic Payments: ArraySubs Pro plugin active, gateway API credentials configured in WooCommerce payment settings
+- For Automatic Payments: a supported gateway set up as described in its guide (Stripe and Mollie also need their official WooCommerce plugins)
 - For Checkout Builder: ArraySubs Pro plugin active
 
 ## Related Docs

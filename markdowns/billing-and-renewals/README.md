@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free core billing engine; Pro for different renewal pricing
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # Billing and Renewals
 
@@ -86,7 +86,7 @@ These jobs work together to keep every subscription on schedule without manual i
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) for the complete status transition reference
 - [Customer Emails](../emails/customer-emails.md) for all billing-related email templates and placeholders
 - [Self-Service Actions](../customer-portal/self-service-actions.md) for how skip and pause affect the billing timeline from the customer's perspective
-- [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) **(Pro)** for gateway-managed billing and payment method lifecycle
+- [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) for gateway-managed billing and payment method lifecycle
 
 ---
 

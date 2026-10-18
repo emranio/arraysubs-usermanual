@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free core renewal engine; Pro for different renewal pricing
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # Renewal Operations
 
@@ -281,7 +281,7 @@ When the **Fixed Period Membership** feature is enabled, subscriptions can have 
 - [Recovery and Grace Flows](recovery-and-grace-flows.md) for what happens when payment is not received on time
 - [Trial Management](trial-management.md) for how trials interact with the first renewal
 - [Renewal Communication](renewal-communication.md) for all emails sent during the billing cycle
-- [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) **(Pro)** for gateway-managed automatic billing
+- [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) for gateway-managed automatic billing
 - [Subscription Checkout](../checkout-and-payments/subscription-checkout.md) for how billing terms are established at purchase
 - [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md) for admin-visible pricing cards
 

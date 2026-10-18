@@ -1,298 +1,157 @@
 # Info
 - Module: Mollie Gateway
-- Availability: Pro
-- Last updated: 2026-08-17
+- Availability: Free
+- Last updated: 2026-10-18
 
 # Mollie Gateway
 
-> Automatic renewals against the Mollie mandate created at checkout — credit card and SEPA Direct Debit, with delayed-settlement tracking for bank debits.
+> Set up Mollie so ArraySubs can take subscription payments and charge renewals automatically.
 
-**Availability:** Pro
+**Availability:** Free (ArraySubs core). You also need a Mollie account and the official **Mollie Payments for WooCommerce** plugin, version 7.0 or newer.
 
 ## Page Navigation
 
 - **Current guide:** Mollie Gateway
 - **Where to open it:** WordPress Admin -> WooCommerce -> Settings -> Mollie Settings
 - **Section overview:** [Open overview](./README.md)
-- **Previous guide:** [paddle](./paddle.md)
-- **Next guide:** [payment-recovery](./payment-recovery.md)
+- **Previous guide:** [Paddle Gateway](./paddle.md)
+- **Next guide:** [Payment Recovery](./payment-recovery.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
-## Requirements
+## Before You Start
 
-Mollie automatic renewals need the official **Mollie Payments for WooCommerce** plugin installed and connected. ArraySubs does not take Mollie payments on its own — it rides the plugin you already use for checkout and adds the recurring half.
+- **A Mollie account** with the payment methods you want switched on for your website profile. For subscriptions, activate at least **Credit card**.
+- **SEPA Direct Debit** activated in Mollie if customers should start subscriptions with iDEAL, Bancontact, or another bank method. Their renewals are collected as SEPA debits, which work in EUR only.
+- **WooCommerce and ArraySubs** active, plus the official **Mollie Payments for WooCommerce** plugin, version 7.0 or newer.
+- **A public HTTPS site.** Mollie reports payment results by calling your site, so a local or password-protected site never hears back.
+- **Working WP-Cron** or a server cron job. ArraySubs creates and charges renewals with scheduled tasks.
 
-| Requirement | Detail |
-|---|---|
-| Host plugin | Mollie Payments for WooCommerce, version 7.0 or newer (verified against 8.1.9) |
-| Mollie profile | SEPA Direct Debit and/or credit card enabled, as Mollie requires for recurring payments |
-| Mollie plugin setting | **Store customer details at Mollie** must be on — without it Mollie never creates the mandate a renewal charges against |
-| Enabled gateway | At least one mandate-capable method enabled: Credit Card, iDEAL, or Bancontact |
+## Set Up Mollie
 
-```box class="warning-box"
-If **Store customer details at Mollie** is off, ArraySubs marks Mollie as misconfigured and shows a notice on the WooCommerce and ArraySubs settings screens. Subscriptions still sell, but every renewal falls back to a manual invoice.
-```
+### Step 1: Install the Mollie Plugin
 
-## Overview
+1. Go to **Plugins > Add Plugin**.
+2. Search for **Mollie Payments for WooCommerce**, click **Install Now**, then click **Activate**.
+3. A new **Mollie Settings** tab appears under **WooCommerce > Settings**.
 
-Mollie uses the **ArraySubs-managed billing** model, the same as Stripe. ArraySubs owns the schedule, raises each renewal order, and charges it against the customer's Mollie **mandate** — the standing authorization Mollie stores when the first payment is taken.
+ArraySubs works through this plugin: Mollie takes the checkout payment, and ArraySubs charges the renewals. There is no separate Mollie gateway to switch on in ArraySubs.
 
-ArraySubs never creates a Mollie Subscription object. Everything about the cycle — trials, plan switches, proration, grace periods, dunning — stays under ArraySubs' control and behaves exactly as it does on any other automatic gateway.
+### Step 2: Create Your API Keys in Mollie
 
-## Current Capability Snapshot
+1. Log in to your Mollie Dashboard and go to **Developers > API access tokens**.
+2. Click **+ Create access token**, select **Standard API key**, choose your payment profile and the Test API mode, then click **Create access token**. Copy the key. It starts with `test_`.
+3. Repeat in Live mode to get a key that starts with `live_`. You can do this later, before you go live.
 
-| Capability | Mollie Behavior in ArraySubsPro |
-|---|---|
-| Automatic renewals | Yes. Charged against the customer's mandate with `sequenceType=recurring`. |
-| Checkout type | Mollie's own hosted checkout, through the Mollie plugin. |
-| Required credentials | None of your own — ArraySubs reads the API key the Mollie plugin already stores. |
-| Webhook URL | `wp-json/arraysubs/v1/webhooks/mollie` |
-| Test mode | Follows the order's own mode, so a test subscription keeps using the test key after you go live. |
-| Mixed carts | Supported. |
-| Multiple subscriptions in one checkout | Supported. |
-| Different billing cycles in one checkout | Supported. |
-| Native pause/resume | Not needed — Mollie holds no billing agreement to pause, so pausing is a purely local decision. |
-| Cancel at end of period | Supported, and reversible. It is a local scheduling decision. |
-| Payment method update | Supported. The subscription is **rebound** to the customer's new mandate. |
-| Card auto-update | Not supported — Mollie publishes no account-updater service. |
-| Card expiry notices | **Supported** for card mandates, from the expiry Mollie already reports. |
-| Free trials | **Supported on card and PayPal.** Other Mollie methods cannot start a trial and are hidden while one is in the cart. |
-| Refunds and chargebacks | Refunds go through the Mollie plugin, including partial refunds; chargebacks are recorded for review. |
-| Renewal Sync | Supported. ArraySubs owns the schedule, so it can prorate the signup charge and move the first renewal to the synced date. |
-| Early renew | Supported. The mandate is charged off-session ahead of the due date. |
-| Retention discount amounts | Supported. Each renewal is charged at whatever amount the offer sets. |
+These steps match the instructions printed on the **Mollie Settings** page. Keep both keys private.
 
-```box class="info-box"
-**Renewal Sync and small prorated charges.** Mollie enforces a per-method minimum charge. When a prorated signup amount falls under it, ArraySubs raises the charge to Mollie's own minimum for that method and currency — read live from Mollie's Methods API and cached for 12 hours — instead of letting checkout fail. If the minimum can't be read (no API key yet, or Mollie is unreachable), the prorated amount is left untouched.
-```
+### Step 3: Connect the Plugin to Mollie
 
-## Which Mollie Methods Can Renew
+Go to **WooCommerce > Settings > Mollie Settings**, then:
 
-A Mollie method can only carry a subscription if it can hold a **mandate**.
+1. Set **Mollie Payment Mode** to **Test API**.
+2. Paste your test key into **Test API key**, and your live key into **Live API key** if you already have one.
+3. Click **Save changes**. **Mollie Connection Status** should change to **Successfully connected with Test API**.
 
-| Method | Renewals | Notes |
-|---|---|---|
-| Credit Card | Yes | Always mandate-capable. Renewals usually settle immediately. |
-| iDEAL | Yes | The first payment converts into a SEPA Direct Debit mandate. Requires SEPA Direct Debit enabled at Mollie. |
-| Bancontact | Yes | Same as iDEAL. |
-| SEPA Direct Debit | Renewal-time only | Not shown at checkout; it is the method renewals are charged on after an iDEAL or Bancontact first payment. |
-| Everything else | No | iDEAL-style one-off methods with no mandate, and wallets whose recurring behaviour is not verified. |
+![Mollie Settings page with the Mollie Payment Mode menu, the Live API key and Test API key fields, and the Save changes button marked in order](mollie.ASSETS/01-mollie-api-keys-annotated.png)
 
-```box class="info-box"
-When a customer pays with iDEAL or Bancontact, Mollie issues a **new SEPA mandate** with a different ID. ArraySubs follows the change automatically and writes a note on the subscription recording the switch, so renewals continue on the new instrument.
-```
+Until a key connects, this is the only screen the Mollie plugin shows. The **Payment methods** and **Advanced settings** tabs appear after a successful connection.
 
-## Free Trials on Mollie
+### Step 4: Keep Customer Details Stored at Mollie
 
-A trial needs a payment method that can authorise future charges **without taking money now**. Mollie supports that through a zero-amount first payment, but only on some methods.
-
-| Method | Can start a trial | Why |
-|---|---|---|
-| Credit Card | Yes | Accepts Mollie's zero-amount first payment |
-| PayPal (via Mollie) | Yes | Same |
-| iDEAL | No | Needs a real first payment to create the mandate |
-| Bancontact | No | Same |
-| SEPA Direct Debit | No | Same |
-
-When a trial product is in the cart, ArraySubs **removes the Mollie methods that cannot start it** from the checkout, so the shopper sees a correct list instead of picking iDEAL and hitting a failure at the end.
-
-```box class="info-box"
-Being on the list is not enough on its own. The method must also be live, enabled, and mandate-capable on your Mollie profile — several methods only become mandate-capable once SEPA Direct Debit is enabled there. ArraySubs asks your actual gateway objects, not a hardcoded list, so what the shopper sees matches your account. The Gateway Health screen shows both your mandate-capable and trial-capable methods.
-```
-
-If a trial setup produces no mandate, the subscription is refused rather than reported as set up — the failure surfaces at checkout, not weeks later at the first renewal.
-
----
-
-## How Mollie Payments Work
-
-### Initial Checkout
-
-1. The customer picks a Mollie method and pays through Mollie's hosted checkout
-2. ArraySubs tells the Mollie plugin this payment starts a subscription, so Mollie takes it as a **first payment** and mints a mandate
-3. When the payment completes, ArraySubs reads the payment back from the Mollie API and stores the customer ID, the mandate ID, the method, and the card details it can display
-4. If no mandate was created, the subscription is marked as needing a payment method immediately — at checkout, not weeks later at the first renewal
-
-### Renewal Payments
-
-1. The ArraySubs schedule fires and creates the renewal order
-2. ArraySubs confirms the mandate is still valid, then creates a Mollie payment with `sequenceType=recurring`
-3. A card renewal normally comes back paid straight away and the order is completed
-4. A SEPA Direct Debit renewal comes back **pending** — the money has not moved yet
-
-### Delayed Settlement (SEPA Direct Debit)
-
-SEPA debits take days to clear. ArraySubs treats them as money in flight:
-
-- The renewal order stays pending and is **not** marked paid
-- The subscription is not extended until Mollie confirms the payment
-- Mollie's webhook completes or fails the order when it settles
-- If nothing arrives within **21 days**, the renewal is failed and normal dunning takes over
+1. On **WooCommerce > Settings > Mollie Settings**, open the **Advanced settings** tab.
+2. Make sure **Store customer details at Mollie** is ticked. It is on by default.
+3. If you changed it, click **Save changes**.
 
 ```box class="warning-box"
-Your grace-period settings should allow for this. With the default 3-day on-hold and 7-day cancel windows, a SEPA renewal can still be settling when the subscription is put on hold. If you sell to SEPA customers, raise the grace days under **Settings -> General** to comfortably exceed your typical settlement time.
+Mollie only saves a reusable payment authorization (a mandate) for a stored customer, and every renewal is charged against that mandate. If **Store customer details at Mollie** is off, ArraySubs shows a warning on the WooCommerce settings screens. Subscriptions still sell, but their renewals fall back to manual invoices.
 ```
 
----
+### Step 5: Enable a Payment Method That Can Renew
 
-## Payment Method Updates
+1. Open the **Payment methods** tab. Methods that are active in your Mollie account appear under **Currently Active Payment Methods**.
+2. Click **Manage Payment Method** next to **Credit card**, tick **Enable Credit card**, and click **Save changes**. Repeat for any other method you want to offer.
+3. Methods under **Inactive Payment Methods** are not active in your Mollie account yet. Activate them in your Mollie dashboard before customers can use them.
 
-Mollie has no customer portal to send people to. A payment-method update is a **new mandate**, and ArraySubs then **rebinds** the subscription to it:
-
-1. The customer adds a payment method through their WooCommerce account, or through the ArraySubs portal
-2. Mollie authorises it and issues a mandate
-3. ArraySubs points the subscription at the new mandate, refreshes the stored card details, resets the dunning attempt counter, and clears any card-expiry warning that belonged to the old card
-
-ArraySubs never mints a mandate of its own here — it rebinds to one Mollie created, resolved through the same mandate lookup the renewal path uses.
-
-```box class="info-box"
-If Mollie is unreachable during the rebind, that is treated as "unknown", never as "this customer has no mandate". A working mandate is left exactly where it is — the opposite behaviour would stop renewals on a perfectly healthy subscription.
-```
-
-### Revoking a Mandate (Admin)
-
-Cancelling a subscription does **not** revoke the customer's Mollie mandate, and that is deliberate — one mandate often backs several subscriptions, and revoking it would break the others.
-
-For the cases where you do want it gone, there is an admin-only, two-step action:
-
-1. The first step names **every other subscription** that mandate is currently backing
-2. Only after you confirm is the mandate revoked at Mollie, and the binding cleared on all of them
-
-Those subscriptions then report "needs a payment method" at their next renewal, which is the honest outcome — rather than a payment failure nobody can explain.
-
----
-
-## Refunds
-
-Refunds are issued the normal WooCommerce way, on the renewal order. ArraySubs writes the Mollie payment reference onto every renewal order it charges, so the Mollie plugin can find and refund it.
-
-Two cases ArraySubs warns you about on the order:
-
-| Situation | What happens |
-|---|---|
-| The payment is authorized but not captured | Mollie accepts the refund request without moving any money. ArraySubs adds a warning note telling you to capture or cancel the payment in your Mollie dashboard instead. |
-| The order was paid in test mode but the store is now live | Mollie cannot find the payment. ArraySubs blocks the attempt and explains the mode mismatch on the order. |
-
-A SEPA renewal that has not settled yet **cannot** be refunded — Mollie only refunds paid payments. Wait for it to settle, or cancel it at Mollie.
-
----
-
-## Chargebacks
-
-Mollie reports a chargeback on the payment webhook rather than as a separate event. When one arrives:
-
-- The chargeback is recorded as a note and as meta on the order and subscription
-- The order's **status is deliberately left unchanged**
-- The subscription is **not** cancelled — that decision stays yours
-- A chargeback that does not clearly belong to the order it names is ignored rather than acted on
-
-```box class="warning-box"
-The order status is left alone on purpose. Moving an already-paid renewal order out of its paid status makes the renewal engine treat it as an unpaid invoice for the next cycle — and billing stops. Chargebacks are recorded for review; they never re-open a settled order.
-```
-
-Mollie has no "you lost the dispute" event. A chargeback that is never reversed is a chargeback you lost.
-
----
-
-## Limitations
-
-| Feature | Status | Why |
+| Mollie method | Renews automatically | Can start a free trial |
 |---|---|---|
-| Free trials | Card and PayPal only | Those two accept Mollie's zero-amount first payment. Other methods are hidden while a trial is in the cart. |
-| Pause / Resume at Mollie | Not applicable | Mollie holds no billing agreement to pause. ArraySubs owns the schedule, so pausing works and is purely local. |
-| Cancel at period end | Supported | A purely local scheduling decision, and reversible — there is no Mollie object holding a scheduled cancellation. |
-| Card auto-update | Not supported | Mollie publishes nothing about running a card-updater service. Claiming otherwise would tell you a reissued card keeps working when it may not. |
-| Card expiry notice | Supported | Computed locally from the card details Mollie reports on the mandate, warned at 30 and 7 days. |
-| Customer portal | Not supported | Mollie has no self-service portal; updates go through your store. |
-| Product sync | Not applicable | Mollie has no product or plan catalogue. |
-| SEPA in non-EUR | Not supported | Mollie SEPA Direct Debit is EUR-only, so a non-EUR renewal on a SEPA mandate is refused before it is attempted. |
+| Credit card, PayPal | Yes | Yes |
+| Apple Pay | Yes | No |
+| iDEAL, Bancontact, EPS, Belfius Direct Net, KBC/CBC Payment Button, Pay by Bank, Trustly | Only when SEPA Direct Debit is active in Mollie. Renewals are then SEPA debits in EUR. | No |
+| Any other Mollie method | No. The subscription renews by manual invoice. | No |
 
-Every one of these is shown in plain language on the **Gateway Health** screen, under the Mollie card — open **ArraySubs -> Audits -> Gateway Logs** and expand Mollie.
+While a trial product is in the cart, ArraySubs hides the Mollie methods that cannot start a trial, so shoppers only see methods that work.
 
-![Gateway Logs with the Mollie card expanded, showing the webhook URL, capabilities, and the reasons for each unavailable capability](mollie.ASSETS/02-mollie-gateway-health-capability-notes-original.png)
+### Step 6: Check Mollie in Gateway Health
 
----
+1. Go to **ArraySubs > Audits [beta] > Gateway Logs** and click the arrow on the **Mollie** card.
+2. If a **Needs attention before this gateway can take payments** box appears, fix each item it lists.
+3. Check the rows below it: **API key configured** and **Customer storage enabled** should both say **Configured**, and **Mandate-capable methods** should list at least one method, such as `mollie_wc_gateway_creditcard`.
 
-## Webhooks
+![Gateway Logs with the Mollie card expanded, marking the expand arrow, the Needs attention box, and the API key, customer storage, and method rows](mollie.ASSETS/02-mollie-gateway-health-annotated.png)
 
-### Webhook URL
+The screenshot shows a store before setup, so its **Status** reads **Disabled**. When the steps above are done, it reads **Connected (Test Mode)**, or **Connected** after you go live.
 
-```
-https://yoursite.com/wp-json/arraysubs/v1/webhooks/mollie
-```
+### Step 7: Test a Subscription Checkout
 
-ArraySubs sets this on every renewal payment it creates — **you do not need to configure anything at Mollie.** Your first-payment webhooks continue to go to the Mollie plugin as they always have.
+1. Keep **Mollie Payment Mode** on **Test API**.
+2. In a private browser window, buy a subscription product as a customer. Log in or create an account at checkout.
+3. Choose **Credit card** and complete the test payment. Test payments are not real and carry no fee.
+4. Go to **ArraySubs > Subscriptions** and open the new subscription.
+5. On the **Payment Gateway** card, look for the **Connected** badge, **Gateway:** Mollie, and the saved card under **Card on File**, for example "Visa ending in 1234".
 
-### How Mollie Webhooks Are Verified
+If the subscription has no **Payment Gateway** card, Mollie did not save a mandate for it. Re-check Steps 4 and 5, then place a new test order.
 
-Mollie's webhook is unsigned by design: it posts only a payment ID. ArraySubs verifies authenticity the way Mollie documents — it fetches that payment from the Mollie API using your own secret key. A payment that does not resolve in your account is rejected, and a payment that does not belong to the order it names is ignored.
+### Step 8: Go Live
 
-### Missed Webhooks
+1. In Mollie, make sure the methods you offer are active for live payments, plus **SEPA Direct Debit** if you rely on bank methods.
+2. Go to **WooCommerce > Settings > Mollie Settings**, check that **Live API key** is filled in, set **Mollie Payment Mode** to **Live API**, and click **Save changes**. **Mollie Connection Status** should read **Successfully connected with Live API**.
+3. Open the **Payment methods** tab and confirm that your renewal-capable methods are listed and enabled.
+4. Leave the **Test API key** in place. Subscriptions created during testing keep renewing in test mode with that key, so cancel them when you are done with them.
+5. Check the **Mollie** card in **Gateway Logs** again. Its **Status** should read **Connected**.
+6. If you like, place one small real order with your own card, then refund it from the WooCommerce order.
 
-A webhook can be lost to a firewall or an outage. Every six hours ArraySubs re-checks renewals that are still waiting, asks Mollie what actually happened, and either completes the order or fails it once the settlement window has passed. Nothing is left pending forever.
+## How Renewals Work
 
----
-
-## Mollie Settings
-
-There are no ArraySubs-specific Mollie settings. Everything is read from the Mollie plugin's own configuration under **WooCommerce -> Settings -> Mollie Settings**:
-
-| Setting | Where it found | Why it matters |
-|---|---|---|
-| Live API key / Test API key | Mollie Settings | Used for renewals, matched to the mode the subscription was created in |
-| Mollie Payment Mode (Live / Test API) | Mollie Settings | Determines which key a new subscription uses |
-| Store customer details at Mollie | Mollie Settings -> Advanced | **Required.** Without it Mollie strips the customer from every payment and no mandate is created |
-| Enabled payment methods | WooCommerce -> Settings -> Payments | Determines which methods can carry a subscription |
-
-![Mollie Settings with connection status, payment mode, and live and test API keys](mollie.ASSETS/01-mollie-api-keys-and-customer-storage-original.png)
-
-```box class="info-box"
-Until a valid API key is saved, the Mollie plugin registers **no payment gateways at all** — so ArraySubs reports Mollie as needing setup and no Mollie method appears at checkout. Connect the API key first, then enable the methods you want.
-```
-
----
+- **ArraySubs keeps the billing schedule.** For each renewal it creates the renewal order and charges the customer's Mollie mandate. Nothing is set up as a subscription in your Mollie account; each charge shows there as "Renewal for order" plus the order number.
+- **No webhook setup is needed.** ArraySubs sends its own notification address (`https://yoursite.com/wp-json/arraysubs/v1/webhooks/mollie`) with every renewal charge, and re-checks unconfirmed renewals every six hours in case a notification gets lost.
+- **Card renewals** usually complete right away. **SEPA Direct Debit** renewals stay pending for several business days. ArraySubs waits for Mollie's answer instead of putting the subscription on hold, and fails the renewal if nothing is confirmed within 21 days.
+- **Failed renewals** follow your [Payment Recovery](payment-recovery.md) settings.
+- **A mandate that stops working** (for example, one the customer revoked) turns the **Payment Gateway** card badge to **Error**, and renewals [fall back to manual invoices](auto-renew-and-manual-fallback.md#when-renewals-fall-back-to-manual-invoices).
+- **Expiring cards:** Mollie does not update cards automatically, so ArraySubs emails the customer 30 days and 7 days before a saved card expires.
 
 ## Troubleshooting
 
-| Problem | Likely Cause | Solution |
-|---|---|---|
-| Every Mollie subscription renews manually | **Store customer details at Mollie** is off, or no mandate-capable method is enabled | Turn the setting on and enable Credit Card, iDEAL, or Bancontact |
-| Gateway Health shows Mollie as disabled | No mandate-capable Mollie gateway is enabled in WooCommerce | Enable one under WooCommerce -> Settings -> Payments |
-| Subscription says it needs a payment method right after checkout | The payment was taken as a one-off, so no mandate exists | Check the customer paid with a mandate-capable method and that customer storage is on |
-| SEPA renewal stuck pending for days | Normal — SEPA settles over several business days | Leave it; ArraySubs completes or fails it automatically within 21 days |
-| Subscription went on hold while a SEPA renewal was still settling | Grace period shorter than settlement time | Raise the grace days under Settings -> General |
-| Refund does nothing | The payment is authorized, not captured | Capture or cancel it in the Mollie dashboard |
-| *"The customer has no valid Mollie mandate"* | The mandate was revoked or expired | The customer must add a new payment method |
-
----
-
-## Related Docs
-
-- [Gateway Overview](README.md) — Architecture and capability comparison
-- [Payment Recovery](payment-recovery.md) — Dunning and retry behaviour
-- [Gateway Health Dashboard](../../gateway-health/README.md) — Webhook status and capability notes
-
----
+| Problem | Fix |
+|---|---|
+| The **Payment methods** and **Advanced settings** tabs are missing | The Mollie plugin shows them only after a key connects. Paste the key for the selected **Mollie Payment Mode** again and save. |
+| Gateway Health says no Mollie API key is configured for the store's current mode | Save a key that matches the mode: a **Test API key** for **Test API**, a **Live API key** for **Live API**. |
+| Gateway Health says no enabled Mollie method can hold a mandate | Enable **Credit card**, **PayPal**, or **Apple Pay**, or activate SEPA Direct Debit in Mollie so iDEAL and Bancontact can renew. |
+| A warning says ArraySubs needs **Store customer details at Mollie** | Tick it on the **Advanced settings** tab and click **Save changes**. |
+| A new subscription has no **Payment Gateway** card | Mollie saved no mandate. The customer paid with a method that cannot renew, or customer storage was off. That subscription renews by manual invoice; new checkouts with a method from Step 5 renew automatically. |
+| A SEPA renewal has been pending for days | That is normal for bank debits. ArraySubs completes it when Mollie confirms, and fails it after 21 days without an answer. |
+| Refunding a test order fails after going live | Mollie only refunds a payment with the key of the mode it was taken in. Refund test orders before you switch to **Live API**. |
 
 ## FAQ
 
-**Do I need my own Mollie API keys in ArraySubs?**
-No. ArraySubs uses the keys the Mollie plugin already stores, and picks the live or test key based on how the subscription was originally paid.
+**Do I need ArraySubs Pro to use Mollie?**
+No. Mollie support is part of the free ArraySubs plugin.
 
-**What happens to subscriptions I already had on Mollie before this?**
-They keep working as manual renewals — the customer gets an invoice email each cycle exactly as before. They become automatic only once a mandate is captured, which happens the next time the customer pays through Mollie.
+**Do I have to add a webhook in my Mollie dashboard?**
+No. The Mollie plugin handles checkout notifications on its own, and ArraySubs sends its webhook address with each renewal charge.
 
-**Can a customer pay a renewal invoice by hand?**
-Yes, and it does not disturb the subscription. ArraySubs deliberately does not create a second mandate from a manually paid renewal.
+**Can I offer free trials with Mollie?**
+Yes, with **Credit card** and **PayPal**. ArraySubs hides the other Mollie methods at checkout while a trial product is in the cart.
 
-**Can I offer a free trial on Mollie?**
-Yes, on **credit card and PayPal** — the two Mollie methods that accept a zero-amount first payment. The others need a real first payment to create a mandate, so they are hidden at checkout while a trial is in the cart rather than failing at the end of it. They must also be enabled and mandate-capable on your Mollie profile; the Gateway Health screen lists which of your methods qualify.
+**Does cancelling a subscription remove the customer's Mollie mandate?**
+No. Cancelling stops ArraySubs from charging it, but the mandate stays at Mollie because it can back other subscriptions from the same customer.
 
-**Does ArraySubs warn customers before their card expires on Mollie?**
-Yes. Mollie sends no expiry event, so ArraySubs computes it from the card details Mollie already reports on the mandate and emails the customer 30 days and 7 days before the card stops working, once each. A SEPA mandate has no card and produces no warning.
+**Can SEPA Direct Debit renewals use a currency other than EUR?**
+No. ArraySubs stops a non-EUR renewal on a SEPA mandate before it reaches Mollie, and that subscription falls back to manual invoices.
 
-**Does cancelling a subscription revoke the customer's Mollie mandate?**
-No, and deliberately so — one mandate often backs several subscriptions. An administrator can revoke it explicitly through a two-step action that first names every other subscription that mandate is holding up.
+## Related Docs
 
-**Which currency can SEPA renewals use?**
-EUR only. A non-EUR renewal against a SEPA mandate is refused before it reaches Mollie, and the subscription is flagged for a new payment method.
+- [Automatic Payments Overview](README.md)
+- [Gateway Health](../../gateway-health/README.md)
+- [Payment Recovery](payment-recovery.md)
+- [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md)
+- [Subscription Checkout](../subscription-checkout.md)

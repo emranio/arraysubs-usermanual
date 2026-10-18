@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Checkout
 - Availability: Free
-- Last updated: 2026-09-15
+- Last updated: 2026-10-18
 
 # Subscription Checkout
 
@@ -88,13 +88,12 @@ Prevents a logged-in customer who has ever had a subscription (including cancell
 Guest users are not subject to the trial restriction because their purchase history cannot be tracked. Once they create an account during checkout, the restriction applies to future purchases.
 ```
 
-### Gateway Cart Restrictions *(Pro)*
+### Gateway Cart Restrictions
 
-When Automatic Payments is active, enabled gateways may impose additional cart restrictions. The most restrictive gateway wins:
+Some gateways cannot take every cart, for example PayPal cannot take a mixed cart and Paddle cannot take subscriptions with different billing cycles. ArraySubs checks this in two places:
 
-- If any enabled gateway does not support mixed carts, mixed carts are blocked
-- If any enabled gateway does not support multiple subscriptions, only one is allowed
-- If any enabled gateway does not support different billing cycles, all subscriptions must share the same schedule
+- **In the cart:** the cart is blocked only when every enabled gateway refuses it. One capable gateway is enough to let it through.
+- **At checkout:** gateways that cannot take the current cart are hidden, and if the shopper picks one anyway, checkout shows a message naming the gateway and what it cannot do.
 
 See [Gateway Overview](automatic-payments/README.md) for the capability comparison matrix.
 

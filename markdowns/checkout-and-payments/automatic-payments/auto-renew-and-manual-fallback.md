@@ -14,8 +14,8 @@
 - **Current guide:** Auto-Renew and Manual Fallback
 - **Where to open it:** My Account -> Subscriptions (customer) and WordPress Admin -> ArraySubs -> Settings -> General -> Automatic Payments
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [trial-management](../../billing-and-renewals/trial-management.md)
-- **Next guide:** [Gateway Health](../../gateway-health/README.md)
+- **Previous guide:** [Payment Recovery](./payment-recovery.md)
+- **Next guide:** [Checkout Builder](../checkout-builder/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
 ## Overview

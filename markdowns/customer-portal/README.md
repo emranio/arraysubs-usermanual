@@ -1,7 +1,7 @@
 # Info
 - Module: Customer Portal
 - Availability: Shared
-- Last updated: 2026-09-02
+- Last updated: 2026-10-18
 
 # Customer Portal
 
@@ -72,7 +72,7 @@ The portal respects your store's settings. Renewal controls such as auto-renew a
 | Pause subscription | Active, Trial | **General Settings → Pause Subscription** |
 | Resume subscription | On-Hold (paused) | Automatic when paused |
 | Update shipping address | Active, On-Hold, Trial | Automatic for shippable subscriptions |
-| Auto-renew toggle | Active, On-Hold, Trial | **General Settings → Automatic Payments** *(Pro)* |
+| Auto-renew toggle | Active, On-Hold, Trial | **General Settings → Automatic Payments** |
 | Update payment method | Active, On-Hold, Trial | Requires automatic payment gateway *(Pro)* |
 
 ## Related Guides

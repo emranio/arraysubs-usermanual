@@ -1,13 +1,13 @@
 # Info
 - Module: General Settings
-- Availability: Shared (one section requires Pro)
+- Availability: Free
 - Last updated: 2026-10-18
 
 # General Settings
 
 > Configure subscription cart rules, checkout behavior, free trials, renewal sync, grace periods, email reminder timing, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
 
-**Availability:** Free (the Automatic Payments section requires **Pro**)
+**Availability:** Free
 
 ## Page Navigation
 
@@ -387,11 +387,11 @@ End-of-period cancellation is sometimes called "scheduled cancellation." Custome
 
 ---
 
-## Automatic Payments **Pro**
+## Automatic Payments
 
 ![Automatic Payments — Allow Customers to Turn Off Auto-Renew switch and manual invoice warning](general-settings.ASSETS/09-automatic-payments-pro-controls-annotated.png)
 
-This section is relevant when the **ArraySubs Pro** plugin is active and at least one automatic payment gateway (Stripe, PayPal, Paddle, or Mollie) is configured.
+This section is relevant when at least one automatic payment gateway (Stripe, PayPal, Paddle, or Mollie) is set up.
 
 ### Allow Customers to Turn Off Auto-Renew
 
@@ -435,7 +435,7 @@ Customers who turn off auto-renew will receive manual renewal invoices by email.
 | Allow Customers to Pause | Off | Toggle | **Skip & Pause** (moved from Customer Actions) |
 | Allow Resume | On | Toggle | **Skip & Pause** (moved from Customer Actions, was "Allow Reactivation") |
 | Cancel Immediately | On | Toggle | Cancellation Settings |
-| Allow Customers to Turn Off Auto-Renew | Off | Toggle | Automatic Payments *(Pro)* |
+| Allow Customers to Turn Off Auto-Renew | Off | Toggle | Automatic Payments |
 
 ---
 
@@ -457,7 +457,7 @@ A subscription box store wants to give customers plenty of time to resolve payme
 - **Guest checkout is never available for subscriptions.** Even when WooCommerce allows guest checkout, subscription purchases always require an account.
 - **Disabling "Allow Cancellation" hides the button but does not remove admin's ability** to cancel subscriptions from the admin panel.
 - **Grace period changes apply on the next hourly check.** The overdue check reads the current values every time it runs, so subscriptions already in a grace phase move to On Hold or Cancelled using the new values. A per-subscription override set through the [developer API](../developers/status-grace-periods-and-trials.md) takes precedence over these store-wide values.
-- **Auto-renew toggle (Pro) does not cancel the subscription.** It only switches future renewals from automatic to manual invoice mode. The subscription remains active.
+- **Auto-renew toggle does not cancel the subscription.** It only switches future renewals from automatic to manual invoice mode. The subscription remains active.
 
 ---
 

@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-09-14
+- Last updated: 2026-10-18
 
 # Essential Daily Workflows
 
@@ -66,7 +66,7 @@ If the customer cancels during the trial, the subscription is cancelled. If the 
 Once a subscription is active, the renewal engine handles all recurring billing:
 
 1. **Invoice generation** — The system creates a pending WooCommerce renewal order (invoice) **6 hours before** the payment due date.
-2. **Payment processing** — With automatic payments *(Pro)*, the system charges the customer's saved payment method. With manual renewals, the customer receives an invoice email and pays through the order payment link.
+2. **Payment processing** — With automatic payments, the system charges the customer's saved payment method. With manual renewals, the customer receives an invoice email and pays through the order payment link.
 3. **Successful payment** — The renewal order is marked as paid, the subscription's next payment date advances to the next billing cycle, and the completed payments counter increments.
 4. **Failed payment** — The subscription enters the grace period (see below).
 
@@ -261,7 +261,7 @@ Run through this checklist before opening your store to real customers:
 ![Gateway Health dashboard](../gateway-health/README.ASSETS/01-gateway-health-dashboard-original.png)
 
 - [ ] Your payment gateway is configured and connected.
-- [ ] Gateway health shows a healthy status in **Audits → Gateway Logs** *(Pro)*. For Stripe, confirm the official WooCommerce Stripe connection is active and the ArraySubs secondary webhook shows as auto-provisioned for the current test/live mode.
+- [ ] Gateway health shows a healthy status in **Audits → Gateway Logs**. For Stripe, confirm the official WooCommerce Stripe connection is active and the ArraySubs secondary webhook shows as auto-provisioned for the current test/live mode.
 - [ ] A test automatic renewal processes successfully.
 
 ---

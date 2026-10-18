@@ -1,13 +1,13 @@
 # Info
 - Module: Subscription Detail
 - Availability: Shared
-- Last updated: 2026-06-04
+- Last updated: 2026-10-18
 
 # Subscription Detail Cards
 
 > A deep dive into every conditional information card on the subscription detail screen.
 
-**Availability:** Free (Cancellation, Skip & Pause, Coupon); Pro (Payment Gateway, Checkout Builder Fields, Subscription Shipping)
+**Availability:** Free (Cancellation, Skip & Pause, Coupon, Payment Gateway); Pro (Checkout Builder Fields, Subscription Shipping)
 
 ## Page Navigation
 
@@ -32,7 +32,7 @@ The detail screen is intentionally read-heavy. Use it when support needs to unde
 | [Pending Plan Switch](#pending-plan-switch-card) | The subscription has an Apply at Renewal plan switch waiting |
 | [Skip & Pause](#skip-and-pause-card) | Always shown, but displays a disabled state if skip/pause features are turned off |
 | [Coupon Discount](#coupon-discount-card) | A coupon is applied to the subscription |
-| [Payment Gateway](#payment-gateway-card) | An automatic payment gateway is attached (**Pro**) |
+| [Payment Gateway](#payment-gateway-card) | An automatic payment gateway is attached |
 | [Checkout Builder Fields](#checkout-builder-custom-fields-card) | The subscription has custom checkout fields (**Pro**) |
 | [Subscription Shipping](#subscription-shipping-card) | The subscription product requires shipping (**Pro**) |
 
@@ -212,9 +212,9 @@ The card shows when the coupon was captured (applied) to this subscription.
 
 ---
 
-## Payment Gateway Card **Pro**
+## Payment Gateway Card
 
-This card appears **only when an automatic payment gateway (Stripe, PayPal, Paddle, Mollie) is attached to the subscription**. It is part of the **Automatic Payments** Pro module.
+This card appears **only when an automatic payment gateway (Stripe, PayPal, Paddle, Mollie) is attached to the subscription**. It is part of the free **Automatic Payments** module in ArraySubs core.
 
 ```box class="info-box"
 **Manual gateways do not show this card.** If the subscription was paid through Bank Transfer (BACS), Cheque, Cash on Delivery, or any other manual gateway, there is no remote state to surface — the gateway slug is already shown in the Order Summary card. The Payment Gateway card, its status badge, and the Detach / Resync actions all stay hidden.

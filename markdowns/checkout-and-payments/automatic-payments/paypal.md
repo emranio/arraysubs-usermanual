@@ -1,378 +1,177 @@
 # Info
 - Module: PayPal Gateway
-- Availability: Pro
-- Last updated: 2026-08-17
+- Availability: Free
+- Last updated: 2026-10-18
 
 # PayPal Gateway
 
-> PayPal integration using Billing Subscriptions for recurring payments — gateway-managed billing schedule, Smart Payment Buttons, pause and resume, next-cycle plan changes, and reconciliation for missed notifications.
+> Set up PayPal (ArraySubs) so customers can subscribe with PayPal and every renewal is collected automatically.
 
-**Availability:** Pro
+**Availability:** Free (ArraySubs core). No extra WordPress plugin is needed - just a PayPal account that can create REST API apps in the PayPal Developer Dashboard.
 
 ## Page Navigation
 
 - **Current guide:** PayPal Gateway
-- **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
+- **Where to open it:** **WooCommerce > Settings > Payments**, then **Manage** on the **PayPal (ArraySubs)** row
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [payment-recovery](./payment-recovery.md)
-- **Next guide:** [README](./README.md)
+- **Previous guide:** [Stripe Gateway](./stripe.md)
+- **Next guide:** [Paddle Gateway](./paddle.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
-## Overview
+## Before You Start
 
-PayPal uses the **gateway-managed billing** model. ArraySubs creates a PayPal Billing Plan and Subscription during checkout, and PayPal handles all future charges on its own schedule. When PayPal processes a payment, it sends a webhook to ArraySubs, which creates the corresponding renewal order and updates the subscription.
+- **Use PayPal (ArraySubs)**, the gateway built into ArraySubs - not WooCommerce's **PayPal Payments** plugin (see Step 1).
+- WooCommerce 9.0 or later with ArraySubs active.
+- A PayPal account that can sign in to the PayPal Developer Dashboard. You test with a sandbox app and take real payments with a live app.
+- Your site on public HTTPS. PayPal must reach your site to report payments, so a local site or one behind a password prompt cannot receive its notifications.
+- WP-Cron (or a server cron job) running, so renewal orders are created and missed PayPal notifications are checked on time.
+- A store currency that PayPal supports. ArraySubs sends your WooCommerce currency to PayPal as it is.
+- One subscription per PayPal order. PayPal cannot take a cart that mixes a subscription with regular products, holds more than one subscription, or uses a coupon that keeps discounting renewals, so ArraySubs hides PayPal at checkout for those carts. PayPal (ArraySubs) also takes subscription orders only, so keep another payment method for one-time products.
 
-This model is simpler than ArraySubs-managed billing but gives you less direct control over renewal timing, retry behavior, and grace periods.
+## Set Up PayPal
 
-## Current Capability Snapshot
+### Step 1: Open the PayPal (ArraySubs) Settings
 
-| Capability | PayPal Behavior in ArraySubsPro |
-|---|---|
-| Automatic renewals | Yes. PayPal charges on its own schedule and ArraySubs records notification-confirmed payments. |
-| Checkout type | PayPal Smart Payment Buttons through the PayPal JS SDK, on both classic checkout and the WooCommerce Checkout block. |
-| Required credentials | Client ID, Client Secret, **and Webhook ID**. All three are required — without the Webhook ID no notification can be verified, so PayPal stays hidden at checkout. |
-| Webhook URL | `wp-json/arraysubs/v1/webhooks/arraysubs_paypal` |
-| Sandbox mode | Supported through the gateway settings. |
-| Mixed carts | Not supported. |
-| Multiple subscriptions in one checkout | Not supported. |
-| Different billing cycles in one checkout | Not supported. |
-| Customer-chosen schedule (flexible duration) | Supported. Each chosen interval gets its own PayPal plan. |
-| Quantity above one | Supported. The plan price is per unit and PayPal multiplies it. |
-| Signup fee | Supported, as the plan's setup fee. |
-| Recurring shipping | Supported, as a subscription-level shipping amount PayPal adds to every cycle. |
-| Coupons | First payment only. A discount that must recur is declined at checkout. |
-| Free trials | Supported, as a trial cycle on the PayPal plan. |
-| Pause / Resume | **Supported.** PayPal is suspended and reactivated through its own API. |
-| Plan switching | Supported for the **next cycle**. A switch that would need a payment now is refused. |
-| Retention discount | Supported, taking effect at the **next renewal**. |
-| Skip a renewal / change the date | Not supported. PayPal exposes no call that moves its next billing date. |
-| Early renewal | Not supported. |
-| Payment method update | Supported by creating a new billing agreement. |
-| Card expiry notices | Supported for card-funded subscriptions. A wallet-funded subscription has no card to warn about. |
-| Refunds | Supported, including partial refunds. |
-| Disputes | Recorded as notes and subscription meta. A paid order is never re-opened by a dispute. |
-| Charge reconciliation | Supported. A renewal whose notification never arrived is resolved from PayPal's own transaction list. |
+1. Go to **WooCommerce > Settings > Payments**.
+2. Find the **PayPal (ArraySubs)** row. It shows **Action needed** until setup is complete.
+3. Click **Manage**. The **PayPal (ArraySubs)** settings screen opens.
 
 ```box class="warning-box"
-PayPal covers **one subscription plan per checkout**. Mixed carts, several plans in one order, and mixed billing cycles are limits of PayPal's Billing Subscriptions API. ArraySubs hides PayPal at checkout for a cart it cannot take, rather than failing at the end of the payment flow.
+The same list also offers **PayPal Payments** with an **Install** button. That is WooCommerce's official PayPal plugin, not the ArraySubs gateway. ArraySubs cannot charge renewals through it: a subscription paid with it gets a manual renewal invoice every cycle. Use **PayPal (ArraySubs)** for subscriptions.
 ```
 
-## How PayPal Payments Work
+Keep this screen open in a browser tab. You copy the webhook URL from it in Step 3 and paste your PayPal details into it in Step 4.
 
-### Initial Checkout
+### Step 2: Create a REST API App in PayPal
 
-1. Customer selects PayPal at checkout and clicks the **Smart Payment Button**
-2. ArraySubs creates a **PayPal Billing Plan** with the subscription's billing cycle, price, and any trial configuration
-3. A **PayPal Subscription** is created with the billing plan, and the customer is redirected to PayPal for approval
-4. The customer logs into PayPal and approves the Billing Agreement
-5. PayPal sends a `BILLING.SUBSCRIPTION.ACTIVATED` webhook
-6. ArraySubs captures the PayPal subscription ID, payer ID, and payment context
+1. Sign in to the PayPal Developer Dashboard with your PayPal account.
+2. Switch the dashboard to sandbox. Test with sandbox details first; you repeat this step in live mode when you go live.
+3. Open your REST API app, or create one for your store.
+4. Copy the app's client ID and secret.
 
-### Renewal Payments
+You do not need to create products or plans in PayPal. ArraySubs creates them at checkout.
 
-1. PayPal charges the customer according to its own billing schedule
-2. When a payment succeeds, PayPal sends a `PAYMENT.SALE.COMPLETED` webhook
-3. ArraySubs creates a renewal order, marks it as paid, and updates the subscription's next payment date
-4. If payment fails, PayPal sends `BILLING.SUBSCRIPTION.PAYMENT.FAILED` and ArraySubs triggers the failure flow
+### Step 3: Add the Webhook in PayPal
+
+PayPal reports every payment, failure, and refund to your store through a webhook. This step is required: without a **Webhook ID**, ArraySubs cannot verify PayPal's notifications, so PayPal stays hidden at checkout.
+
+1. On the **PayPal (ArraySubs)** settings screen, copy the address under **Webhook URL**. It looks like `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal`.
+2. In the PayPal Developer Dashboard, open the same app as in Step 2 and add a webhook. Paste the URL and select all 12 events listed under **Required webhook events**.
+3. Save the webhook, then copy the webhook ID that PayPal shows for it.
+
+![Required webhook events list and Webhook URL on the PayPal (ArraySubs) settings screen](paypal.ASSETS/01-webhook-url-and-events-annotated.png)
+
+These are the 12 events to select:
+
+```text
+BILLING.SUBSCRIPTION.ACTIVATED
+BILLING.SUBSCRIPTION.CANCELLED
+BILLING.SUBSCRIPTION.EXPIRED
+BILLING.SUBSCRIPTION.SUSPENDED
+BILLING.SUBSCRIPTION.UPDATED
+BILLING.SUBSCRIPTION.PAYMENT.FAILED
+PAYMENT.SALE.COMPLETED
+PAYMENT.SALE.DENIED
+PAYMENT.SALE.REFUNDED
+PAYMENT.SALE.REVERSED
+CUSTOMER.DISPUTE.CREATED
+CUSTOMER.DISPUTE.RESOLVED
+```
+
+Leave none out. Each event reports a change your store needs to know about, so a skipped event means that change is missed - for example, without `PAYMENT.SALE.REFUNDED` a refund you issue in PayPal never reaches the WooCommerce order.
+
+### Step 4: Enter Your Sandbox Details and Enable PayPal
+
+Back on the **PayPal (ArraySubs)** settings screen:
+
+1. Tick **Enable this payment gateway**.
+2. Keep **Enable PayPal Sandbox mode** ticked while you test.
+3. Paste the sandbox **Client ID**, **Client Secret**, and **Webhook ID**.
+4. Optional: change the **Title** and **Description** that customers see at checkout. The defaults are "PayPal" and "Pay securely via PayPal."
+5. Click **Save changes**.
+
+![PayPal (ArraySubs) settings with the Enable checkbox, sandbox mode, and the Client ID, Client Secret, and Webhook ID fields marked](paypal.ASSETS/02-credentials-and-sandbox-annotated.png)
+
+All three values must come from the same PayPal app, in the same mode as the sandbox setting. PayPal stays hidden at checkout until **Client ID**, **Client Secret**, and **Webhook ID** are all saved.
 
 ```box class="info-box"
-When the ArraySubs renewal engine fires for a PayPal subscription, **no local charge is sent**. The system recognizes PayPal as gateway-managed and waits for PayPal's webhook to confirm any payment.
+While sandbox mode is on, anyone who picks PayPal at checkout is sent to PayPal's sandbox, and no real money moves. Test on a staging copy of your store if you can.
 ```
 
-### Trial Setup
+### Step 5: Check the Connection
 
-PayPal does not support trials in the same way as Stripe. Trial handling is configured through the **Billing Plan** itself — the plan includes a trial cycle with a $0 charge for the specified duration. This is managed automatically by PayPal's billing system.
+Go to **ArraySubs > Audits [beta]**, open the **Gateway Logs** tab, and click the arrow on the **PayPal** card (the card uses your checkout **Title**). Then check:
 
----
+1. **Status** reads **Connected (Test Mode)**. After your first test order, **Last Webhook** shows a recent time.
+2. **Webhook ID configured** reads **Configured**, and the red **Needs attention before this gateway can take payments** box is gone.
 
-## Smart Payment Buttons
+![PayPal card on the Gateway Logs screen before setup, with the Status and Last Webhook row and the Webhook ID check marked](paypal.ASSETS/03-gateway-logs-card-annotated.png)
 
-The PayPal integration uses Smart Payment Buttons at checkout. These are PayPal's modern payment buttons that adapt to the customer's device and region, showing options like:
+This screen confirms that your settings are complete. It does not contact PayPal, so the test checkout in Step 6 is what proves your details work.
 
-- Pay with PayPal account
-- Pay with PayPal Credit (where available)
-- Pay with Venmo (US only, where available)
+### Step 6: Test a Subscription Checkout
 
-The button is rendered at checkout using PayPal's JavaScript SDK. Customers complete the entire payment flow in a popup or redirect without leaving your site (popup) or via a redirect to PayPal's hosted page.
+1. In a private browser window, add one subscription product to the cart. Pick one without a free trial, so PayPal takes a payment straight away.
+2. At checkout, choose **PayPal** (or your own **Title**) and place the order. You are sent to PayPal's sandbox site.
+3. Sign in with a PayPal sandbox buyer account, not your real PayPal login, and approve the subscription.
+4. PayPal sends you back to the order-received page.
 
-PayPal appears on **both** checkout experiences: classic WooCommerce checkout and the WooCommerce **Checkout block**. No extra configuration is needed for the block.
+The test worked when:
 
----
+- The order is paid (**Processing** or **Completed**). If it still shows **Pending payment**, give PayPal a minute to send its payment notification, then reload the order.
+- Under **ArraySubs > Subscriptions**, the new subscription is **Active**, and its **Payment Gateway** card shows **Connected** with **Card on File** (PayPal, or a card brand and its last four digits), **Customer ID**, and **Last Transaction** filled in.
+- On **Gateway Logs**, the PayPal card's **Last Webhook** shows the time of your test.
 
-## What the PayPal Plan Carries
+### Step 7: Go Live
 
-ArraySubs builds a PayPal plan from the subscription's own pricing and reuses it for every customer who buys the same thing on the same terms. That plan carries more than the base price:
+1. While sandbox mode is still on, cancel the test subscriptions you created, so ArraySubs also cancels them in PayPal's sandbox.
+2. In the PayPal Developer Dashboard, switch to live mode and open (or create) a live REST API app. Copy its client ID and secret.
+3. Add the same webhook to the live app: the same **Webhook URL** and all 12 events. Copy the live webhook ID.
+4. In **PayPal (ArraySubs)**, untick **Enable PayPal Sandbox mode**, replace the **Client ID**, **Client Secret**, and **Webhook ID** with the live values, and click **Save changes**.
+5. On **Gateway Logs**, confirm that **Status** reads **Connected**, without "(Test Mode)".
+6. Place a small real subscription order with your own PayPal account. Once it is paid, refund the order and cancel the subscription.
 
-| Cart element | How PayPal receives it |
-|---|---|
-| **Quantity** | The plan price is **per unit** and the subscription carries the quantity. PayPal bills quantity × unit price. |
-| **Signup fee** | The plan's setup fee, charged once with the first payment. |
-| **Recurring shipping** | A subscription-level shipping amount that PayPal adds to **every** cycle, on top of the plan price. It is sent as the gross amount, so the shipping tax matches what WooCommerce charges. One-time shipping is deliberately not repeated. |
-| **Trial** | A trial cycle on the plan at zero, for the configured duration. |
-| **Coupon** | A single discounted first cycle baked into the plan. |
+## How Renewals Work
 
-Because shipping is supported, **Subscription Boxes are sellable on PayPal.**
-
-```box class="info-box"
-When shipping applies, the order's address is sent to PayPal and PayPal is told not to ask the customer for one. Without that, PayPal would collect an address it then ignores.
-```
-
-### Coupons: First Payment Only
-
-PayPal has no coupon object. ArraySubs models a checkout discount as a discounted **first cycle** on the plan.
-
-That means:
-
-- A one-off "first month 50% off" coupon works.
-- A coupon that must keep applying to renewals — including one limited to a set number of renewals — **cannot** be modelled, so the cart is refused on PayPal at checkout rather than the discount being silently dropped and the customer overcharged.
-
-If you sell with recurring discounts, offer Stripe, Mollie, or Paddle alongside PayPal.
-
----
-
-## Pause and Resume
-
-PayPal subscriptions can be paused and resumed for real, through PayPal's own suspend and activate calls.
-
-1. ArraySubs reads the subscription's current status at PayPal first
-2. It sends the suspend (or activate) request
-3. It **re-reads** the subscription to confirm the change actually landed
-4. Only then is the local status committed
-
-A lost response or an ambiguous error is resolved by asking PayPal what its state is — never by assuming. PayPal's own status notification coming back afterwards is recognised as an echo of your action, not as something the customer did.
-
-A pause has a duration in ArraySubs; PayPal's suspend does not. The scheduled auto-resume is what calls PayPal to reactivate.
-
----
-
-## Plan Changes (Upgrade and Downgrade)
-
-A PayPal subscription can move to a different plan, taking effect at the **next cycle**.
-
-1. ArraySubs revises the PayPal subscription onto the new plan
-2. If PayPal requires the customer to approve the change, ArraySubs holds the switch as **pending** and gives the customer the PayPal approval link
-3. The switch commits only when PayPal confirms it — either through the subscription-updated notification, or a verified re-read
-4. An approval that never happens expires and the pending switch rolls back cleanly
-
-```box class="warning-box"
-A switch that would require a payment **right now** is refused on PayPal, with the reason shown. PayPal does not prorate, so there is no correct amount to charge mid-cycle. Schedule the change for the next cycle, or move the subscription to a gateway that prorates.
-```
-
-The switch is never committed just because the customer returned from PayPal. Coming back from a redirect is not proof that PayPal accepted anything.
-
----
-
-## Retention Discounts
-
-A retention offer that lowers the recurring amount is applied by revising the subscription onto a cheaper plan. PayPal cannot change an amount mid-cycle, so:
-
-- The discount takes effect at the **next renewal**, not immediately
-- The retention screen says so, per gateway, instead of implying an instant change
-- If PayPal refuses the revision, the offer is **not** recorded as accepted — the customer is not told they got a discount the provider never applied
-
----
-
-## Card Expiry Warnings
-
-PayPal reports the funding card's expiry on a card-funded subscription. ArraySubs stores it and warns the customer **30 days** and **7 days** before it expires, once each, from a daily sweep.
-
-A subscription funded from a PayPal balance or a bank account has no card to expire and produces no warning — that is expected, not a fault.
-
----
-
-## Reconciliation: When a Notification Goes Missing
-
-Every PayPal renewal order carries a deadline. A sweep every six hours picks up any that are still waiting and asks PayPal directly.
-
-A PayPal transaction is only matched to an order when:
-
-- the amount matches exactly, **and**
-- the currency matches exactly, **and**
-- no other order has already claimed that transaction
-
-If PayPal cannot be reached, the answer is *inconclusive* — the renewal is left alone rather than being failed on the strength of a lookup that did not complete.
-
----
-
-## Payment Method Updates
-
-When a customer needs to update their PayPal payment method:
-
-1. A new Billing Agreement is created
-2. The customer is redirected to PayPal to approve the new agreement
-3. PayPal confirms the new agreement via `BILLING.SUBSCRIPTION.ACTIVATED` webhook
-4. ArraySubs switches the subscription to the new PayPal subscription ID
-
-This is essentially a re-authorization — the customer agrees to a new billing relationship with PayPal.
-
----
-
-## Refunds
-
-Refunds are issued the normal WooCommerce way, on the renewal order, and **partial refunds are supported**.
-
-Each refund attempt carries its own key derived from the WooCommerce refund ID. That matters: without it, two identical partial refunds look like the same request to PayPal, and PayPal returns the first one twice while ArraySubs records two — money that never actually left. With the key, two identical refunds are two refunds.
-
-A refund issued directly in the PayPal dashboard is picked up and turned into a real WooCommerce refund on the order, so your store's totals match PayPal's. It is recorded once, no matter how many times PayPal reports it.
-
----
-
-## Dispute Handling
-
-PayPal notifies ArraySubs of disputes through webhooks:
-
-| PayPal Event | ArraySubs Action |
-|---|---|
-| `CUSTOMER.DISPUTE.CREATED` | Records the dispute as a subscription note and meta |
-| `CUSTOMER.DISPUTE.RESOLVED` | Records the resolution outcome |
-
-```box class="info-box"
-A dispute **never** changes the status of an order that has already been paid. A settled order stays settled, so the next renewal cycle cannot mistake it for an unpaid invoice and reuse it. Disputes are still managed in the PayPal Resolution Center; ArraySubs records them and leaves the decision to you.
-```
-
-ArraySubs does not automatically cancel subscriptions when a dispute is opened.
-
----
-
-## Limitations
-
-These are real limits of PayPal's Billing Subscriptions API, not settings you can turn on:
-
-| Feature | Status | Detail |
-|---|---|---|
-| Mixed carts | Not supported | Subscription + regular products cannot be in the same cart |
-| Multiple subscriptions | Not supported | Only one subscription plan per checkout |
-| Different billing cycles | Not supported | Cannot process subscriptions with different schedules in one order |
-| Recurring coupons | Not supported | PayPal has no coupon object; only the first payment can be discounted |
-| Mid-cycle price change | Not supported | PayPal does not prorate, so a retention discount starts at the next renewal |
-| Skip a renewal / change the date | Not supported | No PayPal call moves the subscription's next billing date |
-| Early renewal | Not supported | PayPal owns the schedule and exposes no arbitrary off-cycle charge |
-| Reverse a scheduled cancellation | Not supported | Once a PayPal agreement is cancelled it cannot be reinstated |
-| Card auto-update | Not supported | PayPal manages payment methods internally |
-| Customer portal | Not applicable | Payment method changes happen through a new agreement |
-| SCA / 3D Secure | N/A | Handled internally by PayPal |
-
-When PayPal is enabled, these restrictions are enforced automatically at checkout — even if your General Settings allow mixed carts or multiple subscriptions.
-
-```box class="info-box"
-**Cancel at end of period** works on PayPal, but through ArraySubs rather than PayPal: the agreement is cancelled immediately and local access is kept until the scheduled date. PayPal has no scheduled-cancel call, and once an agreement is cancelled it cannot be reinstated — so the cancellation cannot be reversed afterwards.
-```
-
----
-
-## Webhook Events
-
-PayPal notifications are the only way ArraySubs learns that money moved, so all twelve events below must be subscribed in the PayPal Developer Dashboard (**My Apps & Credentials → your REST app → Webhooks**). The same list is printed on the PayPal gateway settings screen for copying.
-
-| PayPal Event | ArraySubs Handler |
-|---|---|
-| `BILLING.SUBSCRIPTION.ACTIVATED` | Captures initial payment context |
-| `BILLING.SUBSCRIPTION.CANCELLED` | Handles remote cancellation |
-| `BILLING.SUBSCRIPTION.EXPIRED` | Handles remote cancellation |
-| `BILLING.SUBSCRIPTION.SUSPENDED` | Confirms a pause, or triggers the payment failure flow |
-| `BILLING.SUBSCRIPTION.UPDATED` | Commits a pending plan change |
-| `BILLING.SUBSCRIPTION.PAYMENT.FAILED` | Triggers payment failure flow |
-| `PAYMENT.SALE.COMPLETED` | Marks renewal as paid |
-| `PAYMENT.SALE.DENIED` | Triggers payment failure flow |
-| `PAYMENT.SALE.REFUNDED` | Records refund |
-| `PAYMENT.SALE.REVERSED` | Records refund |
-| `CUSTOMER.DISPUTE.CREATED` | Records dispute |
-| `CUSTOMER.DISPUTE.RESOLVED` | Records resolution |
-
-```box class="warning-box"
-`BILLING.SUBSCRIPTION.UPDATED` is what commits a plan change the customer approved at PayPal. Leave it out and an approved upgrade never takes effect locally.
-```
-
-An event ArraySubs does not handle is accepted and logged rather than rejected — PayPal disables an endpoint that keeps failing, and that would take down every event that does matter.
-
-### Webhook URL
-
-```
-https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal
-```
-
-### Signature Verification
-
-PayPal uses API-based verification instead of HMAC signatures. Each incoming webhook is verified by calling PayPal's `/v1/notifications/verify-webhook-signature` endpoint with the webhook ID and payload.
-
----
-
-## PayPal-Specific Settings
-
-PayPal gateway settings are configured in **WooCommerce → Settings → Payments → ArraySubs PayPal**:
-
-| Setting | Description |
-|---|---|
-| Enable/Disable | Turn the gateway on or off |
-| Title | Payment method name shown at checkout |
-| Description | Text shown below the payment method |
-| Client ID | PayPal REST API Client ID (live and sandbox) |
-| Client Secret | PayPal REST API Client Secret (live and sandbox) |
-| Webhook ID | PayPal webhook ID for verification. **Required** — treated as a credential |
-| Sandbox Mode | Enable to use PayPal's sandbox environment |
-
-![PayPal (ArraySubs) gateway settings with sandbox, credentials, and webhook ID](paypal.ASSETS/01-paypal-gateway-settings-original.png)
-
-```box class="warning-box"
-**The Webhook ID is a credential, not an optional extra.** Without it every incoming PayPal notification fails verification and is rejected — so no renewal is ever recorded, while the gateway would otherwise look perfectly healthy. ArraySubs therefore reports PayPal as **Needs Setup** and keeps it hidden at checkout until the Webhook ID is saved.
-```
-
-The settings screen also lists the twelve events to subscribe in the PayPal Developer Dashboard, so you can set the webhook up without leaving the page.
-
-The same information appears on the **Gateway Health** screen, where an unset Webhook ID is reported as a blocking issue alongside PayPal's capability tags and the reason behind each capability it does not have:
-
-![PayPal card expanded on Gateway Health, showing the blocking-issues notice, Webhook ID status, required events, capabilities, and the reasons for unavailable capabilities](paypal.ASSETS/02-paypal-gateway-health-capabilities-original.png)
-
----
+- **PayPal runs the billing clock.** At checkout, ArraySubs builds a PayPal plan from the product's price, billing period, trial, signup fee, and recurring shipping. PayPal then charges the customer on that schedule.
+- **Each renewal is recorded from PayPal's notification.** ArraySubs marks the matching renewal order paid (creating it if PayPal charged first) and copies PayPal's next billing date to the subscription. If a notification never arrives, ArraySubs checks PayPal's transaction history every six hours. A renewal that PayPal never confirms is marked failed about 5 days after it was due.
+- **PayPal handles failed payments.** PayPal retries on its own schedule, so ArraySubs adds no retries of its own; it records each failure and triggers the payment-failed email. After 3 failed payments, PayPal suspends the subscription and automatic renewals go on hold. See [Payment Recovery Tools](payment-recovery.md).
+- **Customers change their payment method at PayPal.** The card or bank behind the subscription belongs to the customer's PayPal account, so they update it there and PayPal keeps billing the same subscription.
+- **PayPal's billing date cannot move.** Pause and resume work through PayPal, but skipping a renewal or changing the next payment date is refused. Plan switches take effect from the next billing cycle.
 
 ## Troubleshooting
 
-| Problem | Likely Cause | Solution |
-|---|---|---|
-| Smart Payment Button not appearing | JavaScript SDK not loaded | Check for JavaScript errors in the browser console; verify Client ID is correct |
-| PayPal shows as **Needs Setup** with credentials filled in | The Webhook ID is empty | Enter the Webhook ID from the PayPal Developer Dashboard. Without it every notification is rejected |
-| PayPal is missing from the checkout payment methods | The cart needs something PayPal cannot do — a mixed cart, several plans, mixed cycles, or a recurring coupon | Check the Gateway Health screen for the reason, then adjust the cart or offer another gateway |
-| Customer approves but subscription not created | Webhook not arriving | Verify the webhook URL in PayPal Developer Dashboard |
-| Renewal order not created after payment | `PAYMENT.SALE.COMPLETED` event not configured | Add this event to your PayPal webhook config. The six-hourly reconciliation sweep also recovers these once the credentials work |
-| An approved upgrade never takes effect | `BILLING.SUBSCRIPTION.UPDATED` not subscribed | Add the event; the pending switch commits only when PayPal confirms it |
-| *"Cannot process subscription and regular products together"* | PayPal mixed cart restriction | Remove regular products from cart or switch to a gateway that supports mixed carts |
-| Plan change refused with "needs a payment now" | PayPal cannot prorate | Schedule the change for the next cycle, or use a gateway that prorates |
-| Skip or a manual date change is refused | PayPal owns the billing date and exposes no call to move it | Not fixable on PayPal. Pause and resume are the available equivalents |
-| Refund issued but not reflected | `PAYMENT.SALE.REFUNDED` not configured | Add this event to PayPal webhooks |
-| No card expiry warning for a subscription | It is funded from a PayPal balance or bank account, not a card | Expected. There is no card to expire |
-
----
-
-## Related Docs
-
-- [Gateway Overview](README.md) — Architecture and capability comparison
-- [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) — What happens when auto-renew is toggled off
-- [Gateway Health Dashboard](../../gateway-health/README.md) — Monitoring PayPal connection and webhooks
-
----
+| Problem | Fix |
+|---|---|
+| **PayPal (ArraySubs)** shows **Action needed**, or **Gateway Logs** shows **Needs Setup** | **Client ID**, **Client Secret**, or **Webhook ID** is empty. Fill in all three and click **Save changes**. |
+| PayPal is missing at checkout | Check that **Enable this payment gateway** is ticked and all three values are saved. PayPal is also hidden for carts it cannot take: regular products next to a subscription, more than one subscription, or a coupon that keeps discounting renewals. |
+| Checkout shows **Payment setup failed. Please try again.** | PayPal refused the request. Usually the details do not match the mode (sandbox details with sandbox mode off, or live details with it on), or PayPal does not support the store currency. Check **WooCommerce > Status > Logs** for `arraysubs_paypal` entries. |
+| Customers paid at PayPal, but orders stay **Pending payment** and **Last Webhook** reads **Never** | PayPal's notifications are not getting through. Check that the webhook uses the exact **Webhook URL**, has all 12 events, and belongs to the same app and mode as your **Client ID**, and that no firewall or security plugin blocks `/wp-json/`. Look for "Webhook signature verification failed" in the `arraysubs-gateway` log. |
+| Shoppers buying only regular products get **PayPal (ArraySubs) only supports subscription products.** | PayPal (ArraySubs) takes subscription orders only. Keep another payment method enabled for one-time purchases. |
+| A customer cannot pay a manual renewal invoice with PayPal | Paying an invoice through PayPal (ArraySubs) would create a new recurring agreement, so it is refused. The customer pays the invoice with another payment method. |
+| Skipping a renewal or changing the next payment date is refused | Expected on PayPal, which has no way to move its billing date. Offer a pause instead. |
 
 ## FAQ
 
-**Can I use PayPal as the only payment gateway?**
-Yes, but be aware of the limitations: no mixed carts, no multiple subscriptions per checkout, and no different billing cycles. These restrictions may limit your product catalog design.
+**What does the customer see at checkout?**
+Your PayPal **Title** and **Description**. When they place the order, they are sent to PayPal to sign in and approve the subscription, then return to your order-received page. This works on both the classic checkout and the checkout block.
 
-**Does PayPal support test/sandbox mode?**
-Yes. Enable sandbox mode in the PayPal gateway settings and use sandbox API credentials from the PayPal Developer Dashboard.
+**Do I need to create products or plans in PayPal?**
+No. ArraySubs creates them at checkout and reuses the same PayPal plan for every customer who buys on the same terms.
 
-**What happens if PayPal suspends the billing agreement?**
-PayPal sends a `BILLING.SUBSCRIPTION.SUSPENDED` webhook. If ArraySubs asked for that suspension — a pause — it is recognised as the echo of your own action. An unexpected suspension is treated as a payment failure and follows the grace period flow.
+**Do coupons work with PayPal?**
+A coupon that discounts the first payment works. A coupon that keeps discounting renewals cannot be built into a PayPal plan, so PayPal is hidden at checkout for that cart.
 
-**Can customers pause a PayPal subscription?**
-Yes. Unlike the earlier behaviour, this is a real suspension at PayPal, not just ArraySubs declining to charge. The pause duration is held locally and the scheduled resume reactivates the PayPal subscription.
+**What happens when a PayPal customer cancels at the end of the period?**
+ArraySubs cancels the PayPal subscription right away, so no further charge is taken, and the customer keeps access until the end date. PayPal cannot reinstate a cancelled subscription, so this cancellation cannot be reversed at PayPal.
 
-**Why can't I skip a renewal on PayPal?**
-PayPal owns the billing date and gives no way to move it. A local skip would leave ArraySubs and PayPal on two different schedules, and PayPal would charge on the original date anyway — so it is refused with that reason instead. Pause is the workable alternative.
+**Can I sell subscription boxes with recurring shipping on PayPal?**
+Yes. Recurring shipping is added to every PayPal charge.
 
-**Can I sell a Subscription Box on PayPal?**
-Yes. Recurring shipping is sent as a subscription-level shipping amount that PayPal adds to every cycle, so box products with recurring shipping now work.
+## Related Docs
 
-**Does a coupon work on PayPal?**
-A first-payment discount does. A discount that keeps applying to renewals does not — PayPal has no coupon object — so that cart is declined on PayPal at checkout rather than the discount being dropped without telling anyone.
-
-**Can customers pay with Venmo or PayPal Credit?**
-Smart Payment Buttons automatically show available payment options based on the customer's location and device. Venmo and PayPal Credit appear when eligible without additional configuration.
+- [Automatic Payments Overview](README.md) - how the gateways compare
+- [Auto-Renew and Manual Fallback](auto-renew-and-manual-fallback.md) - what turning auto-renew off does on PayPal
+- [Payment Recovery Tools](payment-recovery.md) - failed payments, resync, and pending cancellations
+- [Gateway Health](../../gateway-health/README.md) - the Gateway Logs screen in detail
+- [Subscription Detail Cards](../../manage-subscriptions/subscription-detail-cards.md) - the Payment Gateway card on each subscription

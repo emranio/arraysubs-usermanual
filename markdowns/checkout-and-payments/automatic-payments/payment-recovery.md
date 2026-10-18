@@ -1,26 +1,26 @@
 # Info
 - Module: Checkout and Payments
-- Availability: Pro
-- Last updated: 2026-06-29
+- Availability: Free
+- Last updated: 2026-10-18
 
 # Payment Recovery Tools
 
 > Automatic retries, manual retry buttons, gateway sync, and gateway-side handling of pending cancellations — the operational tools that keep automatic billing reliable when something goes wrong.
 
-**Availability:** Pro
+**Availability:** Free (ArraySubs core)
 
 ## Page Navigation
 
 - **Current guide:** Payment Recovery Tools
 - **Where to open it:** Storefront checkout and WordPress Admin -> ArraySubs -> Checkout Builder
 - **Section overview:** [Open overview](../README.md)
-- **Previous guide:** [mollie](./mollie.md)
-- **Next guide:** [paypal](./paypal.md)
+- **Previous guide:** [Mollie Gateway](./mollie.md)
+- **Next guide:** [Auto-Renew and Manual Fallback](./auto-renew-and-manual-fallback.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../../audits-and-logs/README.md)
 
 ## Overview
 
-Automatic recurring billing fails sometimes. A card declines, a customer's bank flags the charge, a webhook is missed during a brief outage, a network hiccup interrupts a charge attempt. This page documents the four tools ArraySubs Pro provides to keep things on track:
+Automatic recurring billing fails sometimes. A card declines, a customer's bank flags the charge, a webhook is missed during a brief outage, a network hiccup interrupts a charge attempt. This page documents the four tools ArraySubs provides to keep things on track:
 
 1. **Automatic retry** — failed renewals retry on a configurable ladder, with pre-retry charge verification to avoid double-charging.
 2. **Manual retry button** — admin and customer can both trigger an immediate retry without waiting for the scheduled retry.
@@ -232,7 +232,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 | Manual retry returns "no failed renewal to retry" | The renewal order is already paid (recent webhook landed) or has been cancelled | No action needed — the subscription is current |
 | Retries keep failing with the same decline code | The card itself is the problem (expired, blocked, fraud flag) | Ask customer to update payment method via the customer portal; retry will then succeed |
 | Sync from Gateway shows "no remote subscription linked" | The subscription was created without a gateway, was detached, or the gateway IDs are missing | Check `_payment_gateway` meta; if empty, sync isn't applicable |
-| Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and Pro gateway capabilities |
+| Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and the gateway's capabilities on the **Gateway Logs** screen |
 | Sync changes look wrong | Gateway's webhook had not yet landed; you synced too quickly | Wait a few minutes and re-sync, or check the gateway dashboard directly |
 | Stripe secondary webhook shows Disabled | The auto-created endpoint was deleted/disabled in Stripe, points to the wrong URL, is missing required events, or ArraySubs no longer has the signing secret | Open **WooCommerce → Settings → Payments → ArraySubs Config** and click **Refresh**. Then send or wait for a Stripe test event and confirm Gateway Health updates |
 | PayPal undo cancellation log shows "must re-authorize" but customer says they didn't cancel | Multiple admins/agents may have acted on the same subscription; check the subscription's notes for who scheduled the cancel | Confirm with the customer whether a fresh authorization is needed |

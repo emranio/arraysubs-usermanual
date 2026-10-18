@@ -1,13 +1,13 @@
 # Info
 - Module: Gateway Health
-- Availability: Pro
-- Last updated: 2026-08-17
+- Availability: Free
+- Last updated: 2026-10-18
 
 # Gateway Health
 
 > Monitor payment gateway connections, track subscription counts per gateway, find webhook URLs, review gateway capabilities, and browse the webhook event log — all from one admin screen.
 
-**Availability:** Pro
+**Availability:** Free (ArraySubs core)
 
 ## Page Navigation
 
@@ -102,7 +102,7 @@ An honest "no, and here is why" is more useful than a missing badge, and it stop
 | `Connected (Test Mode)` | Gateway is working but using sandbox credentials | Switch to live keys before going live |
 | `Needs Setup` | Gateway is enabled but missing required configuration | Enter API keys in WooCommerce payment settings. For PayPal, also the Webhook ID; for Paddle, also the webhook secret. For Stripe, connect WooCommerce Stripe first so ArraySubsPro can create/repair its secondary webhook automatically |
 | `Disabled` | Gateway is not enabled in WooCommerce | Enable in WooCommerce → Settings → Payments if you want to use it |
-| `Unavailable` | Gateway extension or class is missing | Ensure ArraySubs Pro is active and the gateway class is loaded |
+| `Unavailable` | Gateway extension or class is missing | For Stripe or Mollie, install and activate the official WooCommerce gateway plugin. For PayPal or Paddle, enable the gateway in **WooCommerce > Settings > Payments** |
 
 ---
 
