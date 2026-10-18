@@ -258,7 +258,11 @@
             secondBkg: surfaceMuted,
             primaryColor: accent,
             primaryBorderColor: accent,
-            primaryTextColor: "#ffffff",
+            // Nodes are filled with the light surface colour (mainBkg), so
+            // their labels must use the dark text colour to stay readable.
+            primaryTextColor: getCssVar("--docs-text", "#12002b"),
+            nodeTextColor: getCssVar("--docs-text", "#12002b"),
+            nodeBorder: accent,
             lineColor: getCssVar("--docs-text-muted", "#526377"),
             textColor: getCssVar("--docs-text", "#12002b"),
             tertiaryColor: accentSoft,
