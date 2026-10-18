@@ -191,9 +191,7 @@ function renderPageLink(page, currentPage, className = "docs-nav__link") {
   const href = relativePageHref(currentPage, page);
   const isCurrent = page.outputRelativePath === currentPage.outputRelativePath;
   const currentClass = isCurrent ? " is-current" : "";
-  // Developers pages document mixed Core/Pro APIs; keep their menu items unbadged.
-  const isDevelopersPage = page.sourceRelativePath.startsWith("developers/");
-  const badge = page.isPro && !isDevelopersPage
+  const badge = page.isPro
     ? '<span class="docs-badge docs-badge--pro">Pro</span>'
     : "";
   const currentAttribute = isCurrent ? ' aria-current="page"' : "";

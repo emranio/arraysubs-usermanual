@@ -479,7 +479,10 @@ async function parseMarkdownFile(filePath, options) {
     body,
     metadata.module || filenameFallback || parentDirectoryTitle,
   );
-  const isPro = isProPage(metadata);
+  // Developers pages document mixed Core/Pro APIs, so they never carry the
+  // Pro badge (menu item or page title).
+  const isPro =
+    isProPage(metadata) && !sourceRelativePath.startsWith("developers/");
   const title = choosePageTitle({
     defaultIndexTitle: "Home",
     filenameFallback,
