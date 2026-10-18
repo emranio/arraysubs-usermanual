@@ -86,10 +86,6 @@ async function renderPageHtml(options) {
     page.outputRelativePath,
     `assets/${options.config.logoFilename}`,
   );
-  const releaseArtworkHref = relativeAssetPath(
-    page.outputRelativePath,
-    "assets/arraysubs-release-live-september-2026.png",
-  );
   const homeHref = relativeAssetPath(page.outputRelativePath, "index.html");
   const hasLogo =
     options.allowSourceAssets === true ||
@@ -150,7 +146,6 @@ async function renderPageHtml(options) {
     pageBadge: proBadge,
     pageTitle: escapeHtml(pageTitle),
     pageUrl: escapeHtml(canonicalUrl),
-    releaseArtworkHref: escapeHtml(releaseArtworkHref),
     breadcrumb,
     scriptHref: escapeHtml(scriptHref),
     sidebar,
