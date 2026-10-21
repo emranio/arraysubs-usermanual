@@ -83,7 +83,7 @@ Bundles are all-or-nothing. If a product inside it is out of stock, deleted, or 
 
 ### In the Cart
 
-The cart shows **one line** for the bundle at the bundle total, with the contents listed underneath it:
+The cart shows **one line** for the bundle. The line charges the bundle total or, when the bundle's renewal sync charges a prorated first amount today, that prorated amount (a plan switch at checkout charges the plan-change amount), which matches **Today's charge**; renewals bill the full bundle total. The contents are listed underneath the line:
 
 - **Bundle contents** — every included product with its quantity and unit price.
 - **Bundle discount** — the saving, as a percentage or a fixed amount.
@@ -188,6 +188,7 @@ Every renewal order reproduces the exact bundle the customer bought:
 - **Editing a live bundle does not change existing subscriptions**, only new purchases and anything currently sitting in a cart.
 - **A bundle worth nothing cannot be bought.** A 100% discount blocks checkout, because a zero-value subscription would never bill.
 - **Coupons apply on top at checkout** and follow your normal coupon rules; the bundle discount is part of the bundle price itself.
+- **Member discounts apply to the products inside a bundle.** A member sees and pays the bundle total built from the member prices of its contents, with the bundle discount on top. The member discount is never applied to the bundle total a second time. Rule targets and exclusions are checked against each included product. When the member prices lower the bundle total, the member sees the bundle as on sale (WooCommerce's **Sale!** badge), and coupons set to **Exclude sale items** do not apply to it, the same as for other member-priced products. Customers without a member discount see no sale badge for the bundle discount alone.
 
 ## Troubleshooting
 

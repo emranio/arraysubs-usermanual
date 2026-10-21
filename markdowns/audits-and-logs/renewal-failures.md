@@ -74,7 +74,7 @@ The grace period durations are configurable in **ArraySubs → Settings → Gene
 
 **Symptoms:** The renewal order was created but payment was declined. The order shows `Failed` status.
 
-**First place to look:** the subscription notes now include a customer-readable failure note alongside the raw gateway log — for example *"Renewal payment failed: insufficient funds on the card. Gateway message: 'Your card has insufficient funds.'."*. The same classified reason is stored in the `_last_payment_failure_category` subscription meta and shown in the **Renewal Payment Failed** customer email's reason callout. Use the category to triage quickly:
+**First place to look:** the subscription notes now include a customer-readable failure note alongside the raw gateway log — for example *"Renewal payment failed: insufficient funds. Gateway message: 'Your card has insufficient funds.'."*. The same classified reason is stored in the `_last_payment_failure_category` subscription meta and shown in the **Renewal Payment Failed** customer email's reason callout. Use the category to triage quickly:
 
 | Category | What it usually means | Fix path |
 |---|---|---|

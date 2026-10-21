@@ -295,6 +295,7 @@ Create three Download Rules:
 - Gold members see a **-$25.00 Member Discount** fee line in their cart and checkout.
 - The discount applies to the entire cart automatically.
 - If per-item discounts from other rules also apply, the per-cart discount is offset by existing per-item savings to prevent double-discounting.
+- The discount never exceeds what the cart's products still cost after coupons. A free-trial product counts as $0, because it costs nothing today.
 
 ```box class="info-box"
 For a minimum cart total requirement ($100), developers can add custom validation using the `arraysubs_member_cart_discount_amount` filter to return `0` when the cart subtotal is below the threshold.

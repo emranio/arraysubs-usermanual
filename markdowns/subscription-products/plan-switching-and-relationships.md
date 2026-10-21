@@ -103,7 +103,7 @@ The proration method is controlled in the plan switching settings (**ArraySubs â
 | Current plan daily rate | Current price divided by the number of days in the billing cycle |
 | Days used | Days elapsed since the last payment or subscription start |
 | Days remaining | Days left until the next scheduled payment |
-| Credit amount | Value of unused time on the current plan |
+| Credit amount | Value of unused time on the current plan, never more than what is left, after refunds, of the amount paid for this subscription in its last paid order. When that order held several subscriptions, this is the subscription's own part of it, after its share of any order discount. |
 | New plan charge | Price of the new plan (prorated for the remaining period, if applicable) |
 | Net amount | Charge minus credit, plus any switch fee. This is what the customer pays now. When the credit is larger than the charge, the excess becomes [plan-switch credit](#plan-switch-credit). |
 | Switch fee | Optional per-direction fee added on top of the proration |

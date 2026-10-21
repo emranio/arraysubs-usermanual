@@ -114,10 +114,13 @@ If the subscription has no **Payment Gateway** card, Mollie did not save a manda
 
 - **ArraySubs keeps the billing schedule.** For each renewal it creates the renewal order and charges the customer's Mollie mandate. Nothing is set up as a subscription in your Mollie account; each charge shows there as "Renewal for order" plus the order number.
 - **No webhook setup is needed.** ArraySubs sends its own notification address (`https://yoursite.com/wp-json/arraysubs/v1/webhooks/mollie`) with every renewal charge, and re-checks unconfirmed renewals every six hours in case a notification gets lost.
-- **Card renewals** usually complete right away. **SEPA Direct Debit** renewals stay pending for several business days. ArraySubs waits for Mollie's answer instead of putting the subscription on hold, and fails the renewal if nothing is confirmed within 21 days.
+- **Card renewals** usually complete right away. **SEPA Direct Debit** renewals stay pending for several business days. ArraySubs waits for Mollie's answer instead of putting the subscription on hold. A failure Mollie reports follows your Payment Recovery settings even when its notification gets lost, because the six-hourly check records it. If nothing is confirmed within 21 days (3 days for a card), the renewal is failed. While a renewal payment is pending, the customer cannot pay or cancel that renewal another way: its Pay page says a payment is already being processed and offers no payment methods. If Mollie reports the payment failed, the renewal can be paid again.
+- **A payment Mollie took for a renewal that is not marked paid with it** is never failed or reported to the customer as a failure. This happens when the order was switched to another payment method while its SEPA debit was settling, for example. The order gets a note. Mark the order paid if you keep the Mollie payment, or refund the payment in your Mollie dashboard. Until then, the subscription is not put on hold or cancelled for non-payment, and the customer cannot pay the renewal again or cancel it from My Account: its Pay page tells the customer that the payment was already received. Once the payment is refunded in full, or the customer's bank charges it back, the renewal awaits payment again and your usual grace period applies.
+- **Refunds you make in the Mollie dashboard** are copied to a renewal order only when that Mollie payment paid the order: the order is paid, its transaction ID is that payment, and the payment still matches the order. Otherwise nothing is refunded in WooCommerce. A paid order stays paid and gets a note, so refund it in WooCommerce yourself if it should be refunded too. A Mollie payment that was refunded or charged back in full never completes a renewal.
 - **Failed renewals** follow your [Payment Recovery](payment-recovery.md) settings.
 - **A mandate that stops working** (for example, one the customer revoked) turns the **Payment Gateway** card badge to **Error**, and renewals [fall back to manual invoices](auto-renew-and-manual-fallback.md#when-renewals-fall-back-to-manual-invoices).
 - **Expiring cards:** Mollie does not update cards automatically, so ArraySubs emails the customer 30 days and 7 days before a saved card expires.
+- **No payment method update link:** a Mollie mandate can only be replaced by a new first payment, which ArraySubs does not take for an existing subscription, so the customer portal shows the card on file without an **Update payment method** link. When a renewal cannot be charged, the customer pays it from the renewal invoice's payment link.
 
 ## Test Automatic Renewals on Staging
 
@@ -222,7 +225,7 @@ curl -s https://api.mollie.com/v2/payments/tr_YOUR_PAYMENT_ID \
   -H "Authorization: Bearer YOUR_TEST_API_KEY"
 ```
 
-Mollie then reports the result to the ArraySubs webhook and the order is completed. If that report never arrives, ArraySubs asks Mollie again every six hours. While a payment is pending, ArraySubs pauses the grace flow: it waits up to 3 days for a card payment and up to 21 days for a SEPA Direct Debit payment, then fails the renewal if Mollie has not confirmed it.
+Mollie then reports the result to the ArraySubs webhook and the order is completed. If that report never arrives, ArraySubs asks Mollie again every six hours. While a payment is pending, ArraySubs pauses the grace flow: it waits up to 3 days for a card payment and up to 21 days for a SEPA Direct Debit payment, then fails the renewal if Mollie has not confirmed it. A failure Mollie reports is recorded at the next check even when its notification never arrives. A payment Mollie took for a renewal whose order was not marked paid with it is left for you to decide instead of being failed.
 
 ```box class="info-box"
 Clicking **Run** on these actions before the Next Payment date does nothing: ArraySubs checks that the renewal is actually due before it creates or charges anything. Wait for the date, or bring it forward as shown below.
@@ -292,7 +295,8 @@ For integration checks such as error handling, retries, and permissions, see [Ve
 | Gateway Health says no enabled Mollie method can hold a mandate | Enable **Credit card**, **PayPal**, or **Apple Pay**, or activate SEPA Direct Debit in Mollie so iDEAL and Bancontact can renew. |
 | A warning says ArraySubs needs **Store customer details at Mollie** | Tick it on the **Advanced settings** tab and click **Save changes**. |
 | A new subscription has no **Payment Gateway** card | Mollie saved no mandate. The customer paid with a method that cannot renew, or customer storage was off. That subscription renews by manual invoice; new checkouts with a method from Step 5 renew automatically. |
-| A SEPA renewal has been pending for days | That is normal for bank debits. ArraySubs completes it when Mollie confirms, and fails it after 21 days without an answer. |
+| A SEPA renewal has been pending for days | That is normal for bank debits. ArraySubs completes it when Mollie confirms, records a failure Mollie reports within six hours even if the notification is lost, and fails it after 21 days without an answer. Meanwhile the customer cannot pay the renewal another way, so it is not paid twice. |
+| A renewal order has a note that Mollie took payment, but the order is not paid | The order's payment details changed while its Mollie payment was settling. Mark the order paid if you keep that payment, or refund it in your Mollie dashboard. Until then the subscription is not put on hold for non-payment, and the customer cannot pay the order again. |
 | Refunding a test order fails after going live | Mollie only refunds a payment with the key of the mode it was taken in. Refund test orders before you switch to **Live API**. |
 
 ## FAQ

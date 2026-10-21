@@ -94,10 +94,10 @@ From there the normal on-hold phase applies: the subscription is cancelled once 
 
 ### Payment retries during grace
 
-For automatic payments that ArraySubs charges itself (Stripe and Mollie), a failed renewal charge is retried on the store's retry ladder: by default three retries, 24 hours apart. Retries are configured with the `payment_retry.enabled`, `payment_retry.interval_hours` and `payment_retry.stop_on_hard_decline` settings; see [Payment Recovery Tools](../checkout-and-payments/automatic-payments/payment-recovery.md) for the full reference.
+For automatic payments that ArraySubs charges itself (Stripe and Mollie), a failed renewal charge is retried on the store's retry ladder: by default three retries, 24 hours apart. Set the schedule in **ArraySubs > Settings > General > Payment Retries** (stored as `payment_retry.enabled`, `payment_retry.interval_hours` and `payment_retry.stop_on_hard_decline`); see [Payment Recovery Tools](../checkout-and-payments/automatic-payments/payment-recovery.md) for the full reference.
 
 - **Retries run inside the grace window.** They do not extend it. The overdue check moves the subscription to On-Hold on schedule even if retries are left.
-- **Moving to On-Hold drops queued retries.** Any automatic retry still waiting is removed when the subscription goes On-Hold. The customer can still pay the invoice, and the customer or an admin can still use **Retry Payment** while the subscription is On-Hold.
+- **Moving to On-Hold drops queued retries.** Any automatic retry still waiting is removed when the subscription goes On-Hold. The move waits for a retry that your schedule places inside the **Days Active After Due** window, even when it runs a few hours late: the first charge can run hours after the due date (**Spread Renewals Over (Hours)**), and each retry counts from when the attempt before it finished. The customer can still pay the invoice, and the customer or an admin can still use **Retry Payment** while the subscription is On-Hold.
 - **Running out of retries does not end grace.** When the last retry fails, no more retries are scheduled, but the status does not change; the grace phases continue to their normal end.
 - **Hard declines are not retried** while `stop_on_hard_decline` is on (for example, an expired or invalid card).
 - **PayPal and Paddle retry on their side.** They switch local retries off and run their own dunning schedule.
@@ -112,7 +112,7 @@ Finds subscriptions that are Active (or Trial) with a next payment date more tha
 
 - If no unpaid renewal order exists yet, the check creates the renewal invoice first and moves the subscription on a later run.
 - The move waits at least one hour after the subscription's scheduled charge time (renewals are spread over a short window, so the charge can run a few hours after the due date).
-- While a payment is still settling at the gateway (for example, a PayPal or Paddle payment in progress, or a Mollie SEPA debit), the move waits until that settlement window ends.
+- While a payment is still settling at the gateway (for example, a PayPal or Paddle payment in progress, a Mollie SEPA debit, or a bank debit or card payment held for review that the customer made on a Stripe renewal's Pay page), the move waits until that settlement window ends. For a Stripe Pay-page payment the window is at least 7 days, longer for slower bank debits.
 
 **Check 2 — On-hold subscriptions past the on-hold grace period**
 Finds subscriptions that are On-Hold with a next payment date more than **Days Active After Due + Days On-Hold Before Cancel** (`renewals.grace_days_before_on_hold` + `renewals.grace_days_before_cancel`, default: 10) days in the past. When an on-hold date is recorded, the check also waits until **Days On-Hold Before Cancel** days have passed since that date. The same settlement guard applies. These subscriptions are cancelled.

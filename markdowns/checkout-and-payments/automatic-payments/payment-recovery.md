@@ -44,15 +44,17 @@ The retry counter is tracked in `_payment_retry_attempts` meta and visible in th
 
 ### Configuring the retry ladder
 
-The ladder is a store-level setting rather than a per-gateway one, because ArraySubs is the thing doing the retrying:
+The ladder is a store-level setting rather than a per-gateway one, because ArraySubs is the thing doing the retrying. Set it in **ArraySubs > Settings > General > Payment Retries** (the card appears while the Automatic Payments module is on):
 
 | Setting | What it controls | Default |
 |---|---|---|
-| `enabled` | Whether failed renewals are retried at all | On |
-| `interval_hours` | **One entry per retry**, in hours. The number of entries *is* the number of retries | `[24, 24, 24]` — three retries, a day apart |
-| `stop_on_hard_decline` | Skip retrying a failure that cannot resolve itself | On |
+| **Retry Failed Payments Automatically** (`enabled`) | Whether failed renewals are retried at all | On |
+| **Retry Schedule (Hours)** (`interval_hours`) | **One entry per retry**, in hours, typed as a comma-separated list. The number of entries *is* the number of retries. Each entry must be 1 to 720 hours, with at most 10 entries | `24, 24, 24`: three retries, a day apart |
+| **Don't Retry Cards That Can't Be Charged** (`stop_on_hard_decline`) | Skip retrying a failure that cannot resolve itself | On |
 
-Because the interval list is per attempt, a widening ladder is just a longer list — `[6, 48, 168]` retries after 6 hours, then 2 days, then a week.
+Because the interval list is per attempt, a widening ladder is just a longer list. `6, 48, 168` retries after 6 hours, then 2 days, then a week.
+
+Retries run inside the grace period. When the subscription moves to On-Hold (**Days Active After Due**), any retry still waiting is removed, so keep the whole schedule inside that window.
 
 ```box class="info-box"
 These values live in the ArraySubs settings store and travel with **Import/Export Settings**. Gateways can also publish their own policy on the `arraysubs_payment_retry_config` filter, which is how PayPal and Paddle switch local retries off entirely.
@@ -67,10 +69,17 @@ With `stop_on_hard_decline` on (the default), a failure in one of these categori
 - `incorrect_cvc`
 - `card_declined`
 - `authentication_required`
+- `missing_payment_method`
 
-A subscription note records why. The reasoning is simple: an expired card does not start working because you asked again tomorrow. Retrying burns the ladder and delays the dunning email that actually tells the customer to fix their payment method. `insufficient_funds` is deliberately **not** in this list — that one genuinely can resolve itself by the next attempt.
+A subscription note records why. If another attempt for the renewal was already waiting (for example, the planned retry when a manual retry is the one that hard-declined), it is removed too, unless the customer has switched to another payment method since, or the renewal is not due yet (an early renewal whose payment failed keeps the renewal's regular charge on its due date). The same happens when retries are turned off or the last retry has been used, and when the failure is reported later (a bank debit that fails days after it was started, say). When an attempt stays queued after a decline that will not resolve on its own, or with retries turned off, the note says so; at the retry limit a queued attempt writes the limit note only if it fails too. The reasoning is simple: an expired card does not start working because you asked again tomorrow. Retrying burns the ladder and delays the dunning email that actually tells the customer to fix their payment method. `insufficient_funds` is deliberately **not** in this list — that one genuinely can resolve itself by the next attempt.
 
 The list can be changed with the `arraysubs_hard_payment_decline_categories` filter.
+
+For Stripe, ArraySubs reads the card issuer's specific decline reason, not only Stripe's general "card declined" code. A plain issuer decline such as `generic_decline`, `do_not_honor` or `insufficient_funds` is retried. A lost, stolen or fraud-flagged card, or a decline that Stripe advises not to try again, is not. When Stripe advises trying again later, the failure is retried. A saved card that no longer exists in your Stripe account counts as no usable payment method; a card that exists only in the other Stripe mode (test or live) does not, so a mode switch made by mistake does not stop retries. If Stripe cannot be reached, or rejects your API keys, nothing is charged: a first attempt counts as a temporary error and follows the retry schedule, and a retry that cannot check its earlier payment is tried again every hour for up to a day.
+
+If a retry finds that the customer started paying on the Pay page and did not finish, including a second payment WooCommerce Stripe starts when the customer comes back to the Pay page, it waits until 30 minutes after the customer last submitted the Pay page, then cancels every unfinished payment for that renewal (no money is taken) and charges the payment method on file.
+
+A Stripe bank debit (ACH, SEPA and similar) can fail days after the renewal was charged. That failure is handled like a declined card: the reason is recorded, the customer gets the failed-payment email once, and the next retry is scheduled on the same renewal order (or none, as above, when the failure will not resolve on its own). While the debit is processing, ArraySubs waits for the bank's usual settlement time (for example 7 days for ACH and 21 for SEPA) before treating it as unconfirmed. When the debit stays unconfirmed, the renewal order stays the one to pay (no second renewal order is created for the same renewal), and Retry Payment, where it is offered, checks the earlier payment before it charges again. While the debit is processing, the customer cannot pay that renewal another way or cancel it from My Account. My Account shows no **Pay** or **Cancel** button for it, the subscription page shows **Payment in progress**, and its Pay page lists no payment methods and says that a payment for this renewal is already being processed. As soon as Stripe reports the debit failed, the renewal can be paid again, also when the failure does not count as a renewal failure (for example after the subscription moved to another payment method). If that notification is lost, this happens at the next reconciliation check, also after the subscription moved to another payment method. A debit that is still processing when its settlement window ends gets more time at the next reconciliation check, up to 30 days after the charge, instead of being marked failed. Until that check, the renewal stays closed for payment (at most a day). A renewal waiting for 3-D Secure and one whose payment failed stay payable.
 
 ### PayPal and Paddle: no local retries
 
@@ -80,26 +89,26 @@ PayPal and Paddle run their own dunning on their own schedule, so they publish a
 
 Both admins and customers can click a button to retry a failed renewal immediately. The button:
 - Runs the **same pre-retry charge verification** as the automatic flow, so it's safe even if the customer is unsure whether the previous attempt charged them.
-- Forces the retry counter to at least 1 so the verification always runs.
+- Always runs the pre-retry charge verification, without changing the retry counter, so a manual retry made before any automatic retry was scheduled does not use up one of the configured retries.
 - Logs a private subscription note recording who initiated the retry.
-- Returns a clear message indicating success, the specific failure reason (e.g. "card declined"), or "no failed renewal to retry" if the subscription is already current.
+- Returns a clear message indicating success, the specific failure reason (e.g. "card declined"), or "no failed renewal to retry" if the subscription is already current. When the retry could not ask for a payment at all (the renewal is not due yet, a payment for it is still processing, or the subscription cannot be charged in its state), it says "No payment was attempted…" instead of repeating an earlier decline.
 
 ### Failure reason in customer notifications
 
 When a renewal fails, the plugin classifies the gateway error code into a stable category and shows the **customer-friendly reason** in two places:
 
-1. **The "Renewal Payment Failed" email** displays the reason in a highlighted callout above the order details — for example *"Reason: insufficient funds on the card."* or *"Reason: the bank requires customer authentication (3D Secure)."*
+1. **The "Renewal Payment Failed" email** displays the reason in a highlighted callout above the order details — for example *"Reason: insufficient funds."* or *"Reason: the bank requires customer authentication (3D Secure)."*
 2. **The subscription notes** include both the human reason and the raw gateway message — for example *"Renewal payment failed: the card has expired. Gateway message: 'Your card has expired.'"*
 
 Categories the plugin recognizes:
 
 | Category | Customer-facing text |
 |---|---|
-| `insufficient_funds` | insufficient funds on the card |
-| `card_declined` | the card was declined by the issuer |
+| `insufficient_funds` | insufficient funds |
+| `card_declined` | the card issuer or bank refused the payment |
 | `expired_card` | the card has expired |
 | `incorrect_cvc` | the card security code (CVC) was incorrect |
-| `invalid_card` | the card details on file are invalid |
+| `invalid_card` | the payment details on file are invalid |
 | `authentication_required` | the bank requires customer authentication (3D Secure) |
 | `processing_error` | a temporary processing error occurred at the gateway |
 | `generic_decline` | the card was declined |
@@ -213,7 +222,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 
 ## Edge Cases / Important Notes
 
-- **Pre-retry verification only runs when the retry counter is > 0.** Manual retries force the counter to at least 1 so the check always runs.
+- **Pre-retry verification runs before every automatic retry (retry counter above 0) and before every manual retry.** A manual retry does not change the retry counter.
 - **The verification uses `metadata.subscription_id` and `metadata.order_id` on Stripe PaymentIntents** to find a match. These metadata keys are written by the plugin at PaymentIntent creation, so the match is exact. PaymentIntents created by other tools or older plugin versions will not be matched and will trigger a fresh charge.
 - **The retry counter resets to 0 on a successful charge.** If a customer's first retry fails but the second succeeds, the counter resets and they start fresh on the next renewal cycle.
 - **Manual retry uses the same verification path as automatic retry.** Even when support staff starts the retry, the plugin checks Stripe first to avoid duplicate charges.
@@ -230,6 +239,11 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 |---|---|---|
 | Customer sees "Retry Payment" but the click does nothing | Last-payment-failure meta is set but the renewal order is missing or already paid | Run **Sync from Gateway** first; the failure flag may be stale |
 | Manual retry returns "no failed renewal to retry" | The renewal order is already paid (recent webhook landed) or has been cancelled | No action needed — the subscription is current |
+| Manual retry says "The renewal payment is not complete yet" | A payment for the renewal is still processing (a bank debit can take days), the customer is paying it on the Pay page, or the retry itself just started a bank debit | Do not collect the renewal another way; wait for the payment provider to confirm the payment |
+| Manual retry says the payment must be confirmed with the bank or card issuer | The card issuer asked for authentication (3-D Secure) | The customer pays the renewal order from the email link or My Account to confirm the payment |
+| Manual retry says "No payment was attempted because…" | The renewal is not due yet (for example after the subscription was put on hold and reactivated), a payment for it is still processing, or the subscription cannot be charged in its current state | Nothing was charged or declined. If a payment for the renewal is still processing, wait for the payment provider to confirm it and do not collect the renewal another way. Otherwise the renewal order can be paid directly, or the renewal is charged when it is due |
+| The customer's Pay page says "A payment for this renewal is already being processed or confirmed" | An automatic charge for the renewal is running, the customer is paying it in another tab, a charge stopped before its result was known and is confirmed once its lock expires, the renewal's own automatic payment is still settling at the gateway (a Mollie SEPA debit, a Stripe ACH or SEPA debit, or a payment WooCommerce Stripe holds while it settles), or PayPal or Paddle is about to charge the renewal on its own schedule | The customer checks back later and pays the order then if it is still unpaid. While a payment settles, the Pay page lists no payment methods and My Account shows no Pay or Cancel button. Both come back when the gateway reports the payment failed, when a PayPal or Paddle subscription is suspended, paused or cancelled, or when the settlement window ends. A Stripe payment is checked once more at the next reconciliation check first, at most a day later. To let the customer pay another way while WooCommerce Stripe holds a renewal on hold, move the order back to Pending payment |
+| The customer's Pay page says "A payment for this renewal has already been received, but it has not been applied to this order yet" | Stripe or Mollie took the renewal's own payment, but the order could not be marked paid with it, for example because the order total or the subscription's payment method changed after the payment started. The order has a note naming the payment | Check the payment in your Stripe or Mollie dashboard. Mark the order paid if you keep the payment; with Stripe, set the order to Processing or Completed, with Stripe as its payment method and no other transaction ID, and the payment is then recorded on the order so you can refund it from there. Otherwise refund the payment in full in that dashboard: once the gateway reports the refund, the customer can pay the renewal again. With Stripe the refund is not recorded on the order (Refund via Stripe on the order is refused unless the order was marked paid with that payment), and an order on hold goes back to Pending payment. Until then, the customer cannot pay or cancel the renewal, the subscription is not put on hold or cancelled for non-payment, and the order is not marked failed when its settlement window ends |
 | Retries keep failing with the same decline code | The card itself is the problem (expired, blocked, fraud flag) | Ask customer to update payment method via the customer portal; retry will then succeed |
 | Sync from Gateway shows "no remote subscription linked" | The subscription was created without a gateway, was detached, or the gateway IDs are missing | Check `_payment_gateway` meta; if empty, sync isn't applicable |
 | Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and the gateway's capabilities on the **Gateway Logs** screen |

@@ -282,7 +282,7 @@ Sent when a renewal payment attempt fails.
 
 - Personalized greeting
 - Warning that the payment could not be processed
-- **Reason callout** explaining *why* the charge failed — e.g. *"Reason: insufficient funds on the card."* or *"Reason: the bank requires customer authentication (3D Secure)."* — only shown when the gateway returned a recognizable error code
+- **Reason callout** explaining *why* the charge failed — e.g. *"Reason: insufficient funds."* or *"Reason: the bank requires customer authentication (3D Secure)."* — only shown when the gateway returned a recognizable error code
 - Subscription details:
   - Subscription status (Active or On Hold)
   - Order number and total
@@ -300,11 +300,11 @@ The plugin classifies the gateway error code (Stripe `decline_code` / `error.cod
 
 | Category | Reason text shown to the customer |
 |---|---|
-| `insufficient_funds` | insufficient funds on the card |
-| `card_declined` | the card was declined by the issuer |
+| `insufficient_funds` | insufficient funds |
+| `card_declined` | the card issuer or bank refused the payment |
 | `expired_card` | the card has expired |
 | `incorrect_cvc` | the card security code (CVC) was incorrect |
-| `invalid_card` | the card details on file are invalid |
+| `invalid_card` | the payment details on file are invalid |
 | `authentication_required` | the bank requires customer authentication (3D Secure) |
 | `processing_error` | a temporary processing error occurred at the gateway |
 | `generic_decline` | the card was declined |

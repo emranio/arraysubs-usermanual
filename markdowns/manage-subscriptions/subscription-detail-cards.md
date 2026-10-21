@@ -293,7 +293,7 @@ This card appears when the subscription product requires shipping. It is part of
 | Field | What It Shows |
 |-------|---------------|
 | **Shipping Type** | A badge indicating the shipping model: "One-time (first order only)" or "Recurring (every renewal)" |
-| **Shipping Method** | The selected shipping method name (e.g., "Flat Rate", "Free Shipping"), or "Not set" |
+| **Shipping Method** | The shipping method renewals use: the method chosen at checkout (e.g., "Flat rate", "Free shipping"), "Subscription Shipping" when the checkout shipping cost nothing and renewals charge shipping (for example from a product shipping override), or "Not set" |
 | **Initial Shipping** | The shipping cost charged on the first order |
 | **Renewal Shipping** | The shipping cost charged on each renewal (only shown for recurring shipping) |
 | **Initial Shipping Paid** | "Yes" or "No" — whether the initial shipping charge has been collected |

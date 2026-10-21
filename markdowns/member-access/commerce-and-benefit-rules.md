@@ -46,8 +46,8 @@ Discount Rules let you offer automatic pricing benefits to qualifying subscriber
 
 When a qualifying subscriber views a product or adds items to their cart, the Discount Engine evaluates all enabled Discount Rules:
 
-1. **Per-item discounts** modify the displayed price and the price used in cart calculations. If multiple rules match the same product, the rule that produces the **lowest price wins** (best deal for the customer). Discounts do not stack — only the best one applies.
-2. **Per-cart discounts** are applied after cart totals are calculated. The discount appears as a negative fee in the cart/checkout summary. Per-cart discounts are offset by any per-item savings already applied, preventing double-discounting.
+1. **Per-item discounts** modify the displayed price and the price used in cart calculations. If multiple rules match the same product, the rule that produces the **lowest price wins** (best deal for the customer). Discounts do not stack — only the best one applies. Subscription lines keep their first-charge amount ($0 for a free trial, the prorated first charge of a renewal-sync or segment plan, or a checkout plan change), and that amount is already based on the member price.
+2. **Per-cart discounts** are applied after cart totals are calculated. The discount appears as a negative fee in the cart/checkout summary. Per-cart discounts are offset by any per-item savings already applied, preventing double-discounting, and never exceed what the targeted lines still charge after coupons (a free-trial line counts as $0).
 
 Discounts are evaluated in real-time, per request. They do not modify the product's stored price — the original pricing remains intact for non-qualifying visitors.
 
@@ -105,6 +105,8 @@ Discounts are evaluated in real-time, per request. They do not modify the produc
 **Price display:**
 - Discounted prices are shown on product pages, archive pages, and in the cart.
 - The original price and the member price are both displayed so customers see the value of their membership.
+- Subscription products keep their billing period beside the member price (for example "/ month"), and member prices follow the store's tax display setting.
+- ArraySubs Pro subscription bundles show the total built from the member prices of their contents; the member discount is not applied to the bundle total again. Bundle prices are shown as entered, without the tax display setting applied. Discount rules target the products inside a bundle, not the bundle itself. A member sees the bundle's **Sale!** badge when those member prices lower it.
 
 ### Edge Cases
 

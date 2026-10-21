@@ -167,7 +167,7 @@ Refunds the entire remaining balance of a specific order.
 
 **Available from:** The WooCommerce order edit page, or via the REST API endpoint `POST /arraysubs/v1/orders/{order_id}/full-refund`.
 
-When the refunded order is linked to a subscription and the refund covers the remaining order balance, ArraySubs cancels the linked subscription immediately.
+When the refunded order is linked to a subscription and the refund covers the remaining order balance, ArraySubs cancels the linked subscription immediately. An order that paid for a plan switch at checkout (One Subscription Per Customer with Auto Migrate) is an exception: its refund never cancels the subscription, because the order paid only for the plan change. The refund of an applied switch is recorded on the subscription.
 
 ### Partial Order Refund
 
@@ -270,7 +270,7 @@ For the full guide, see [Refund to Credit](../store-credit/refund-to-credit.md) 
 
 ## Subscription Behavior After Full Refund
 
-When a linked subscription order is fully refunded, ArraySubs cancels the subscription immediately:
+When a linked subscription order is fully refunded, ArraySubs cancels the subscription immediately, unless the order paid for a plan switch at checkout, which never cancels the subscription:
 
 ### Immediate Cancellation
 
@@ -286,12 +286,14 @@ End-of-period refund policy is separate: when a subscription is already schedule
 
 ## Edge Cases and Important Notes
 
-- **Only full refunds of linked subscription orders trigger subscription behavior changes.** Partial refunds and refunds for orders that are not linked to the subscription do not trigger automatic cancellation.
+- **Only full refunds of linked subscription orders trigger subscription behavior changes.** Partial refunds and refunds for orders that are not linked to the subscription do not trigger automatic cancellation. A refund of a plan switch at checkout never cancels the subscription.
 - **Prorated refund calculations use 30 days for monthly periods.** This is an approximation. Months with 28, 29, or 31 days will have slightly different daily rates in practice.
 - **Minimum refund amount applies to all refund types.** If the prorated calculation results in an amount below the minimum, the refund will not be processed.
 - **Gateway refunds require gateway support.** Not all WooCommerce payment gateways support the refund API. If the gateway doesn't support refunds, they must be processed manually through the gateway's dashboard.
 - **Refund history is stored on the subscription.** Even if the associated WooCommerce order is deleted, the refund record remains in the subscription's `_refund_history` meta.
 - **Store credit refunds and gateway refunds can be mixed.** On the same order, you could issue part as a gateway refund and part as store credit, as long as the total doesn't exceed the order's refundable balance.
+- **One order, several subscriptions.** A subscription can be refunded up to its own part of the order: its line after coupons with tax, plus its signup fee and shipping, minus its part of any shared discount. A discount larger than one subscription's own price is counted against the other products it applies to, the same way checkout's Today's charge shows it, so a subscription's refund limit is never more than was paid for it. A subscription whose part came to 0 has nothing to refund and does not make a partial refund of the order ambiguous.
+- **Plan-switch orders are not listed in the Order History card.** The subscription's Order History card lists the orders that paid billing cycles. A refund of a plan switch made at checkout counts in its Total Refunded figure and appears in the refund history, but that order itself is not listed in the card.
 - **The Two-Way Sync Guard prevents double-processing.** When you refund locally on a gateway-managed subscription, the webhook from the gateway will not create a duplicate refund. This works for Stripe, PayPal, Paddle, and Mollie.
 
 ---

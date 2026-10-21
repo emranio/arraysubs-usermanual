@@ -193,12 +193,13 @@ When a customer with an existing subscription purchases a new subscription produ
 
 All of the following must be true:
 
-1. The customer has **exactly one** active subscription (status: Active, On-Hold, Trial, or Pending)
+1. The customer is logged in and has **exactly one** live subscription, on their own account, and it is Active or in its trial. An On-Hold, Paused or Pending subscription still counts for One Subscription per Customer, but checkout cannot switch it. A subscription bought without a customer account (as a guest) is never replaced at checkout, even when its email is typed. One Subscription per Customer still counts it: the classic and the block checkout refuse the order and ask the customer to contact the store before an account is created.
 2. **Plan Switching** is enabled in General Settings
 3. The correct switch direction is allowed (upgrades, downgrades, or crossgrades)
 4. The new product is listed as an allowed switch target on the current product's **Linked Products** tab
 5. **One subscription per customer** is enabled
 6. **Auto-migrate on checkout** is enabled
+7. The current subscription is not billed by PayPal or Paddle. These providers have to approve a plan change, so checkout shows a message asking the customer to change the plan from the subscription screen.
 
 When all conditions are met, the checkout automatically applies prorated pricing and marks the order as a plan switch.
 
@@ -206,22 +207,43 @@ When all conditions are met, the checkout automatically applies prorated pricing
 
 Instead of the regular subscription price, the checkout shows:
 
-- The **prorated amount due today** (based on the proration method configured in General Settings)
+- The **prorated amount due today**. Checkout always prorates immediately, whatever proration method is configured in General Settings
 - Context about the switch: *"Replaces your current [Current Product] subscription"*
 - The **new recurring price** that will apply after the switch
 
+```box class="info-box"
+A plan switch at checkout never starts a free trial, even when the new plan has one. Checkout asks for the amount due today and offers the payment methods available for a one-time payment: card, Mollie (including iDEAL, Bancontact and SEPA Direct Debit), bank transfer and similar. PayPal and Paddle are not offered for a plan switch at checkout, including when the order is paid later from its Pay for order page in the classic or block checkout, because they would start a second recurring agreement for the subscription being replaced. Paying for the switch with Stripe or Mollie does not change the card or mandate the subscription renews with. **One Trial Per Customer** does not block the switch. A switch that costs nothing today, for example during the current subscription's free trial, completes without payment.
+```
+
 ### What Happens After Payment
 
+The switch is applied as soon as WooCommerce marks the order paid: when an online payment completes, or, for Direct bank transfer, Check payments and other manual methods, when you set the order to **Processing** or **Completed**. It is applied once; later status changes on the same order do not apply it again. If another update is holding the subscription or the order at that moment, the switch is retried a few minutes later.
+
 1. The existing subscription's product and pricing are updated to the new plan
-2. The switch order is linked to the subscription as a related order
-3. An order note is added: *"Existing subscription updated from checkout migration"*
-4. The billing schedule resets according to the new product's configuration
+2. The switch order is linked to the subscription on the order, so the order screen shows the subscription. A subscription note names the order: *"Existing subscription updated from checkout migration (order #123)"*. The order is not listed in the subscription's Order History. Later plan changes and prorated refunds are priced from the billing cycle the customer paid for. The plan-switch payment itself is not credited again if the plan changes once more in the same billing cycle.
+3. An order note is added: *"Existing subscription updated from checkout migration."*
+4. The renewal date follows the switch shown at checkout: a plan on the same billing cycle keeps the current renewal date, and a plan on a different billing cycle starts a new cycle from the switch
 
 No new subscription is created — the existing one is modified in place.
 
+The plan is not changed, and the order gets a note that starts with *"Checkout migration failed:"*, when:
+
+- the subscription changed between checkout and payment (for example a renewal was processed while a bank transfer was pending, or the subscription was cancelled);
+- another paid order already applied the same change (*"The subscription is already on this plan; order #123 applied the change, so this payment did not change it. Review this payment: refunding this order does not change the subscription."*);
+- the subscription moved to PayPal or Paddle billing before the payment arrived;
+- the subscription does not belong to the customer who placed the order.
+
+If another update keeps the subscription locked through five retries (about 30 minutes in all), the order gets the note *"Checkout migration could not be completed because another update kept the subscription locked. Change the plan from the subscription screen."* instead.
+
+Change the plan from the subscription screen if the change is still wanted, or refund the order. Refunding it does not change the subscription.
+
+### Refunding a Plan Switch Order
+
+Refunding a plan-switch order in full or in part returns the plan-change payment. The subscription is not cancelled and keeps its plan. The refund of an applied switch is recorded in the subscription's refund history and counts in the Total Refunded figure of its Order History card, although the order itself is not listed in that card. To undo the plan change, change the plan back from the subscription screen.
+
 ### Proration Methods
 
-The amount charged today depends on the proration type set in **General Settings → Plan Switching**:
+Checkout migration always charges the **Prorate immediately** amount, whatever proration type is set in **General Settings → Plan Switching**. That setting decides the amount for switches made from the subscription screen:
 
 | Method | Behavior |
 |---|---|
@@ -230,7 +252,7 @@ The amount charged today depends on the proration type set in **General Settings
 | No proration | The full new plan price is charged today with no credit for unused time. |
 
 ```box class="info-box"
-Plan switching at checkout only works when the customer has exactly one live subscription. If they have two or more, checkout proceeds normally and creates a new subscription instead.
+Plan switching at checkout only works when the customer has exactly one live subscription. If they have two or more, checkout stops and asks them to manage the correct subscription from the subscription screen first.
 ```
 
 For more details on plan configuration, see [Plan Switching and Product Relationships](../subscription-products/plan-switching-and-relationships.md).
@@ -255,16 +277,20 @@ Every checkout page that includes a subscription product displays a detailed sum
 | Signup fee | *"$10.00 one-time fee"* | Signup fee > 0 |
 | Free trial | *"7 days"* | Trial length > 0 |
 | Duration | *"12 billing cycles"* or *"Continues until cancelled"* | Always |
-| Today's charge calculation | *"$29.99 + $10.00 signup = $39.99"* | Always (varies by trial/fee combo) |
+| Today's charge | *"$29.99 + $10.00 signup = $39.99"*, or *"$227.60 (incl. VAT)"* | Always (varies by trial/fee combo) |
 | Next charge date | *"April 16, 2026"* | Always (except lifetime deals) |
 | Synced renewal note | *"First full renewal: July 1, 2026 ($30.00)"* | Renewal Sync is enabled for the checkout |
 | Authorization notice | *"By completing this purchase, you authorize us to charge..."* | Always |
 
+**Today's charge** is what checkout charges for that subscription line: its price after coupons, with tax, signup fee and shipping included. With one subscription and nothing else in the cart it equals the order total. A coupon that applies to the first payment only lowers Today's charge, while the recurring price stays the full price. When the cart shows prices excluding tax, the amount is labelled *(incl. VAT)* or your store's tax label. Recurring and next charge amounts are shown the way the cart shows prices, with or without tax. With several subscriptions in one checkout, each row names its product, and when the cart holds only subscriptions their Today's charge amounts add up to the order total.
+
+Today's charge is split into plan and signup fee (*"$29.99 + $10.00 signup = $39.99"*) only when those two make up the whole amount. When shipping, other fees, store credit or a cart discount are part of a paid plan's amount, or tax is listed separately from a signup fee, it shows the total alone. A discount larger than one line's price leaves that line at *Free today*; the rest of it comes off the other lines the same discount covers first, and only what those lines cannot take comes off the rest of the cart, so the amounts still add up to the order total. When the order is placed, each subscription's part of the payment is recorded by the same rule, so no subscription is recorded below 0, and its refund limit and plan-switch credit are based on what was actually paid for it.
+
 **Special cases:**
 
 - **Lifetime subscriptions** show: *"Lifetime Deal — No recurring charges"* instead of a next charge date
-- **Trial + no fee** shows: *"Free (trial starts today)"* as today's charge
-- **Plan switch at checkout** shows the prorated amount and switch context instead of the regular summary
+- **Trial + no fee** shows: *"Free today"* as today's charge
+- **Plan switch at checkout** shows the switch context. Today's charge is the plan-change amount, and Next charge is the subscription's renewal date after the switch. The line shows no free trial or renewal-sync wording, in the cart cells and the block cart too, because the switch keeps the subscription's renewal date
 - **Renewal Sync** can show a prorated first charge today, then the full recurring amount on the synced first renewal date
 
 ### Order Details Page
@@ -405,10 +431,16 @@ A customer on the Basic plan ($9/mo) visits the Pro plan product page ($29/mo) a
 | *"Only one subscription plan can be checked out at a time"* | Multiple subscriptions in cart is disabled | Enable *Allow multiple subscriptions in cart* in General Settings, or remove one product from cart |
 | *"This order cannot contain subscription and regular products together"* | Mixed cart is disabled | Enable *Allow mixed cart* in General Settings, or separate the order |
 | *"You have already used a free trial"* | One-trial-per-customer is enabled and the customer has a past subscription | Disable the restriction or create a coupon-based discount instead of a trial |
+| *"This order has not been placed yet. Return to checkout to place it."* on a Pay for order page | The order holds a subscription and is a block checkout draft that was never placed, for example because checkout refused it | The customer returns to checkout and places the order there, where the usual checkout checks, such as One Trial Per Customer, apply |
 | Subscription not created after checkout | Order payment not yet confirmed | Check the order status — subscriptions are created when the order is paid, not when it is placed |
 | Subscription is Active but the order is Processing | Payment succeeded, but WooCommerce is waiting for fulfillment or shipping | Check whether the product needs shipping or whether subscription shipping is enabled. Complete the order after fulfillment, or remove shipping from digital subscription products. |
 | Digital subscription order does not complete | Product or renewal still has shipping work, or the product is virtual but WooCommerce still considers it processable | Confirm the product does not need shipping and remove recurring shipping rules if the subscription is fully digital. Future non-shipping subscription orders complete automatically. |
-| Plan switch did not trigger | Eligibility not met | Verify all 6 eligibility conditions listed above. The most common miss is that *Auto-migrate on checkout* is disabled |
+| Plan switch did not trigger | Eligibility not met | Verify all 7 eligibility conditions listed above. The most common miss is that *Auto-migrate on checkout* is disabled |
+| Customer paid for a plan switch but the subscription kept its old plan | A manual payment that is not marked paid yet, or the reason given in an order note that starts with *"Checkout migration failed:"* or *"Checkout migration could not be completed"* | Set a received manual payment to Processing or Completed. Otherwise follow the order note: change the plan from the subscription screen or refund the payment |
+| PayPal or Paddle is missing from the payment methods at checkout | The cart is a plan switch at checkout | Pay with another method, or change the plan from the subscription screen |
+| Checkout says the current subscription is billed by its payment provider | The subscription is billed by PayPal or Paddle | Change the plan from the subscription screen, where the provider approves the change |
+| Checkout says the email already has a live subscription that is not linked to a customer account | The subscription was bought as a guest with that email | Link the subscription to the customer's account, or change its plan as an admin. A guest subscription is never replaced at checkout |
+| Checkout says the order total was calculated before checkout matched it to the subscription | The customer's account or details changed while the order was being placed | Reload checkout, check the new total (the plan-change price) and place the order again |
 | One-click not redirecting to checkout | Product uses AJAX add-to-cart | ArraySubs disables AJAX for one-click products automatically. Check for theme or plugin conflicts that re-enable it |
 
 ---

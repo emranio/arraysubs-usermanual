@@ -195,7 +195,7 @@ Below the subscription information, a **Related Orders** table shows all orders 
 | **Date** | The order creation date |
 | **Status** | The WooCommerce order status (Processing, Completed, Pending Payment, etc.) |
 | **Total** | The order total, formatted in the store currency |
-| **Actions** | **View** link to the order, **Invoice** link (if a PDF invoice plugin is installed), and **Pay** link (if the order still needs payment) |
+| **Actions** | **View** link to the order, **Invoice** link (if a PDF invoice plugin is installed), and **Pay** link (if the order still needs payment). While an automatic payment for a renewal is still settling, such as a bank debit or the charge PayPal or Paddle takes on its own schedule, the row shows **Payment in progress** instead of **Pay**. When the payment gateway already took the renewal's payment but it is not applied to the order yet, the row shows **Payment received** instead. |
 
 The **Pay** link is especially important for manual renewal invoices. When a renewal order is created but the customer has not yet paid, this link takes them directly to the WooCommerce payment page to complete payment.
 
@@ -343,4 +343,4 @@ No. Each tab only appears when its corresponding Pro feature is enabled in the A
 This appears when the subscription's billing period is set to `lifetime`. Lifetime subscriptions have no renewal date because they do not recur.
 
 ### What is the Pay link in Related Orders?
-When a renewal invoice has been generated but not yet paid, the **Pay** link takes the customer to the WooCommerce checkout payment page for that specific order. This is the primary way customers pay manual renewal invoices.
+When a renewal invoice has been generated but not yet paid, the **Pay** link takes the customer to the WooCommerce checkout payment page for that specific order. This is the primary way customers pay manual renewal invoices. The link is replaced by **Payment in progress** while an automatic payment for that renewal is still settling (a SEPA or ACH bank debit, or a PayPal or Paddle renewal charge, for example). It comes back as soon as the gateway reports that payment failed, or when its settlement window ends. It is replaced by **Payment received** when the gateway already took the payment but it is not applied to the order yet; contact the store about that order.

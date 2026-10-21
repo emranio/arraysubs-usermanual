@@ -52,10 +52,12 @@ A calculation is a product-level estimate, not a checkout total: per-cart rules,
 
 1. Only qualifying **Per item** rules that match the product count. Exclusions are checked first: **Exclude products** matches the product or its parent, and **Exclude categories** uses the parent product's categories. Then **Apply discount to** must match: a product target matches the product or its parent, and category and tag targets use the parent product's terms.
 2. Each matching rule produces a candidate price from the product's regular price. A percentage is capped at 100; a fixed amount is capped at the price. The lowest candidate wins; rules never add up.
-3. When the product is on sale and the sale price is lower than or equal to the best member price, the sale price wins and no member discount applies. A callback on `arraysubs_member_discount_stack_with_sale` that returns `true` calculates the candidates from the sale price instead.
+3. When the product is on sale and the sale price is lower than or equal to the best member price, the sale price wins and no member discount applies. A callback on `arraysubs_member_discount_stack_with_sale` that returns `true` calculates the candidates from the sale price instead. "On sale" follows WooCommerce: a sale price below the regular price, $0 included, within the sale dates. A sale whose end date has passed still counts while WooCommerce keeps charging it.
 4. The winning price passes through `arraysubs_member_discount_price` and is rounded to the store's price decimals, never below 0.
 
 A product without a positive regular price, such as a variable parent, gets no member discount; pass a variation ID instead. Prices are the stored WooCommerce prices, never a storefront price that already contains a member discount.
+
+**Subscription bundles (ArraySubs Pro).** A bundle is priced from the products inside it, so the rules are never applied to the bundle itself. Each included product gets its own member price by the steps above, with targets and exclusions checked against that product, and then the bundle discount applies. `member_unit_price` is that bundle total, which is what the member is charged for the bundle. `catalog_unit_price` is the bundle total at the included products' stored prices. For example, a bundle of 2 × 5.00 and 2 × 10.00 with 5.00 off returns `catalog_unit_price` `25`. Under a 15% rule it returns `member_unit_price` `20.5`.
 
 Worked examples for a product with a regular price of 29.99:
 
@@ -65,6 +67,8 @@ Worked examples for a product with a regular price of 29.99:
 | 20.00 | 10% and 5.00 fixed | `20` | `null` (the sale price beats 24.99) |
 | 20.00 | 40% | `20` | `17.99` |
 | 20.00, stack with sale on | 10% and 5.00 fixed | `20` | `15` (5.00 off the sale price) |
+| 0.00 | 10% and 5.00 fixed | `0` | `null` (a $0 sale price wins) |
+| 20.00, starting next week | 10% and 5.00 fixed | `29.99` | `24.99` (the sale has not started) |
 
 ## Create a Reader
 
@@ -195,15 +199,15 @@ $quote = [
 | --- | --- | --- |
 | `product_id`, `quantity` | int | The values you passed. |
 | `currency` | string | The store currency (`get_woocommerce_currency()`). |
-| `catalog_unit_price` | float | The product's stored active price without member pricing: the sale price while on sale, otherwise the regular price. |
-| `member_unit_price` | float or null | The member unit price, rounded to the store's price decimals, or `null` when no member discount applies. |
+| `catalog_unit_price` | float | The product's stored active price without member pricing: the sale price while on sale, otherwise the regular price. For an ArraySubs Pro subscription bundle: the bundle total at its products' stored prices. |
+| `member_unit_price` | float or null | The member unit price, rounded to the store's price decimals, or `null` when no member discount applies. For a subscription bundle: the bundle total with each included product at its member price, or `null` when that is not lower than `catalog_unit_price`. |
 | `line_price` | float | `member_unit_price` (or `catalog_unit_price` without a discount) times `quantity`, rounded to the store's price decimals. |
 | `discount_applies` | bool | `true` when a member discount applies. `false` for a logged-out context, while Members Access is off, without a matching per-item rule, when the product has no positive regular price, or when the sale price wins. |
 | `assumptions` | array | Always the values shown: stored prices, no tax recalculation (amounts are as entered in WooCommerce, with or without tax per the store setting), no coupons, the best matching discount only, and not a checkout total. |
 
 **Side effects:** read only. Nothing is added to a cart, and the prices shown in the current request do not change.
 
-The reader runs the same discount filters as the storefront: `arraysubs_discount_rules`, `arraysubs_member_discount_qualifying`, `arraysubs_member_discount_rule_matches_product`, `arraysubs_member_discount_amount`, `arraysubs_member_discount_stack_with_sale` and `arraysubs_member_discount_price`. Keep those callbacks free of side effects, and use their `$user_id` argument instead of `get_current_user_id()`, because a reader can evaluate a customer who is not the current user. The `arraysubs_member_discount_applied` action and the coupon filter `arraysubs_member_discount_stack_with_coupons` belong to the storefront and checkout and do not run.
+The reader runs the same discount filters as the storefront: `arraysubs_discount_rules`, `arraysubs_member_discount_qualifying`, `arraysubs_member_discount_rule_matches_product`, `arraysubs_member_discount_amount`, `arraysubs_member_discount_stack_with_sale` and `arraysubs_member_discount_price`. Keep those callbacks free of side effects, and use their `$user_id` argument instead of `get_current_user_id()`, because a reader can evaluate a customer who is not the current user. The `arraysubs_member_discount_applied` action and the coupon filter `arraysubs_member_discount_stack_with_coupons` belong to the storefront and checkout and do not run. The reader also runs `arraysubs_member_discount_priced_from_contents` for each product, and `arraysubs_member_discount_contents_unit_price` for a product priced from its contents, such as a subscription bundle.
 
 ## `data()`
 
@@ -361,6 +365,9 @@ These errors carry no error data.
 
 - **Not a checkout total.** Per-cart rules, coupons, shipping, fees and address-based tax are left out. Use the WooCommerce cart for real totals.
 - **Storefront and admin differ.** The storefront applies member prices only on front-end, AJAX and REST requests, so in wp-admin and WP-CLI `$product->get_price()` returns the normal price. The reader calculates in any context.
+- **Subscription cart lines.** In the cart, a subscription line keeps the price the cart set for today's charge ($0 for a free trial, the prorated first amount of a renewal-sync or segment plan, or a checkout plan change), and that amount is already based on the member price. Its sale price is capped at that amount. `calculateProduct()` returns the catalogue member price, not that first charge.
+- **Price HTML.** On the storefront the member price replaces a product's price HTML at priority 19 of `woocommerce_get_price_html`, before the subscription billing suffix is added at priority 20, and the **Member Price** badge is appended at priority 100. A product priced from its contents, such as an ArraySubs Pro subscription bundle, gets no member price HTML or badge from ArraySubs and keeps its own price HTML, as does any product type that prints its own price HTML after priority 19.
+- **Products priced from their contents.** A product type whose price is built from other products' prices returns `true` on `arraysubs_member_discount_priced_from_contents`. Member rules then apply only to the products inside it. ArraySubs gives the product itself no member price, sale price or **Member Price** badge, so its storefront and Store API prices are its own, built from its contents' prices, which carry their member prices. It counts as on sale for a member whose member prices lower it, comparing its price from `arraysubs_member_discount_contents_unit_price` for that member and with no member pricing. WooCommerce's **Sale!** badge, the Store API `on_sale` flag and coupons set to **Exclude sale items** then treat it like any other member-priced product. `calculateProduct()` gets its price from the same filter. ArraySubs Pro subscription bundles do both.
 - **Members Access off.** `effective` is `false` for every rule and `discount_applies` is `false`, while `qualifies` still shows each rule's own evaluation.
 - **One currency.** Amounts use the store currency. Convert them yourself if you run a currency switcher.
 - **Renewal amounts.** The reader does not predict renewal charges. Read a subscription's recurring amount with [Find and Update Subscriptions](./subscriptions.md).

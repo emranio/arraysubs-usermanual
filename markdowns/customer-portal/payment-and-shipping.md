@@ -84,6 +84,7 @@ When the customer clicks **Update payment method**, the behavior depends on the 
 - **Stripe:** Redirects the customer to a Stripe-hosted session where they can enter a new card. After completion, the customer is redirected back to the subscription detail page.
 - **PayPal:** Redirects the customer to PayPal to update their billing agreement.
 - **Paddle:** Redirects the customer to the Paddle update payment portal.
+- **Mollie:** No link. A Mollie mandate can only be replaced by a new first payment, which ArraySubs does not take for an existing subscription. When a Mollie renewal cannot be charged, the customer pays it from the renewal invoice's payment link.
 
 After a successful update, the subscription's stored payment method is replaced with the new one. The card details shown on the subscription page update accordingly.
 
@@ -218,7 +219,7 @@ When a customer changes plans, Pro Subscription Shipping follows the target plan
 
 ## Edge Cases and Important Notes
 
-- **Payment method update requires a redirect.** Unlike other portal actions that complete in-page, updating a payment method may redirect the customer to a third-party gateway portal (Stripe, PayPal, Paddle, or Mollie). The customer is returned to the subscription detail page after completing the update.
+- **Payment method update requires a redirect.** Unlike other portal actions that complete in-page, updating a payment method may redirect the customer to a third-party gateway portal (Stripe, PayPal, or Paddle). The customer is returned to the subscription detail page after completing the update.
 - **Auto-renew off does not delay renewals.** When auto-renew is turned off, renewal invoices are still generated on the normal schedule. The only difference is that the payment is not automatically collected — the customer must pay manually.
 - **Shipping updates only affect future orders.** Changing the shipping address does not modify orders that have already been placed. The new address applies starting with the next renewal order.
 - **Country changes may affect tax and shipping costs.** If the customer changes their shipping country, future renewal orders may have different tax and shipping amounts applied by WooCommerce.

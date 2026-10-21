@@ -52,7 +52,11 @@ The settings appear in the product editor when the product is a subscription and
 | Recurring | Shipping is charged | Shipping is charged again |
 | One-time | Shipping is charged | Shipping is not charged |
 
-If an override is blank, WooCommerce shipping calculation is used. If an override is set, ArraySubs stores that amount with the subscription and uses it during renewal order creation.
+If an override is blank or 0, WooCommerce shipping calculation is used: the product editor saves a blank override as 0, and only an amount above 0 overrides. A blank renewal override uses the initial shipping amount. If an override is set, ArraySubs stores that amount with the subscription and uses it during renewal order creation.
+
+When a customer switches to another plan, renewal shipping follows the new product. If the new product has an override, renewals charge that amount. If it has none, renewals charge the shipping the customer chose at checkout, not an override from the previous plan. For example, a customer who paid $10 Flat rate at checkout keeps paying $10, and a customer who chose free shipping pays no renewal shipping. If that checkout shipping cannot be determined, for example on an order created without shipping lines, the subscription keeps its current renewal shipping; a one-time shipping charge is never repeated on renewals.
+
+When the customer chooses free shipping at checkout, or another shipping option that costs nothing, the subscription stores that shipping method with a shipping amount of 0.00, so its renewals have no shipping line. If the product has a shipping override, the subscription charges the override instead and names it **Subscription Shipping**: renewal orders show a Subscription Shipping line for the override amount, and the subscription shows Subscription Shipping as its shipping method. When the customer paid for shipping at checkout, renewal orders keep the name of the shipping method they chose, even when an override sets the amount.
 
 ## Subscription Detail Card
 
@@ -89,7 +93,7 @@ A digital membership includes a one-time welcome package. Set Shipping Type to O
 
 ### Renewal Shipping Override
 
-A store uses live carrier rates at checkout but wants a fixed $5.99 renewal shipping charge. Set the renewal override to `5.99`.
+A store uses live carrier rates at checkout but wants a fixed $5.99 renewal shipping charge. Set the renewal override to `5.99`. Renewal orders then charge $5.99 under the shipping method the customer chose at checkout, or under **Subscription Shipping** when that method cost nothing, such as free shipping.
 
 ## Related Guides
 
@@ -104,7 +108,7 @@ A store uses live carrier rates at checkout but wants a fixed $5.99 renewal ship
 The product must be a subscription and must require shipping. Virtual or downloadable products do not show these controls.
 
 ### Does this support variations?
-Yes. Each variation can have its own shipping behavior and override amounts.
+Yes. Each variation can have its own shipping behavior and override amounts. A variation whose override is 0 uses WooCommerce (cart) shipping, as its field says; it does not inherit an override from the parent product.
 
 ### Does one-time shipping remove the shipping address?
 No. The subscription can still store a shipping address. One-time shipping only controls whether renewal orders include shipping charges.

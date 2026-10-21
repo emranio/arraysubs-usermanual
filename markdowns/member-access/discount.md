@@ -89,14 +89,17 @@ The toggle does not create a new WooCommerce shipping method. It converts the cu
 ## Pricing Behavior
 
 - **Per-item discounts** change the displayed storefront price and cart calculation price.
-- **Per-cart discounts** appear during cart or checkout totals and do not stack on top of existing per-item savings.
+- **Subscription first charges keep their amount.** A member still pays $0 today for a free trial, the prorated first amount for a renewal-sync or segment-plan product, and the plan-change amount when checkout replaces their current subscription. These amounts are worked out from the member price, and the member price applies to every renewal.
+- **How members see the price.** Product and shop pages show the member price beside the struck-through regular price, with a **Member Price** badge and the percentage saved. Subscription products keep their billing period (for example "/ month"), and member prices follow your WooCommerce tax display setting, so the price shown is the price charged.
+- **Subscription bundles (ArraySubs Pro).** A bundle is priced from the member prices of the products inside it, then the bundle discount applies. The bundle shows and charges that total; like every bundle price, it is shown as entered, without your tax display setting applied. The member discount is not applied to the bundle total again, so a bundle shows no **Member Price** badge. Rule targets and exclusions are checked against each product inside the bundle, never against the bundle itself. A member whose member prices lower the bundle sees it as on sale, like any other member-priced product, so coupons set to **Exclude sale items** do not apply to it for that member.
+- **Per-cart discounts** appear during cart or checkout totals and do not stack on top of existing per-item savings. The discount never exceeds what the targeted products still cost today after coupons, so it never comes off products the rule does not target. A free-trial product counts as $0, because it costs nothing today.
 - If multiple per-item rules match, the customer gets the **lowest final price**.
 - Discounts do not overwrite the product's stored WooCommerce price for everyone else.
 
 ## Compatibility Notes
 
 - Guests do not receive member pricing.
-- Existing WooCommerce sale prices are not automatically stacked with member pricing.
+- Existing WooCommerce sale prices are not automatically stacked with member pricing: while a product is on sale, members pay the lower of the sale price and their member price. A product on sale for $0 stays free for members, and a sale scheduled to start later does not change the member price until it starts.
 - WooCommerce coupons can coexist with member discounts unless custom development changes that behavior.
 - Variable products are supported at the variation level.
 - Shipping rules are evaluated per package; a targeted product in one package does not automatically make unrelated packages free.

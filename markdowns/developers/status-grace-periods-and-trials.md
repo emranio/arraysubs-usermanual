@@ -61,7 +61,7 @@ The hourly overdue run (`arraysubs_check_overdue_renewals`) then works in three 
 
 Both grace stages wait while a gateway is still settling a renewal payment (`recovery.awaiting_gateway_settlement`). The thresholds use the subscription's own override when `setGracePolicy()` set one, otherwise the store values:
 
-- `hold_eligible_at` is the later of `due_at` + `before_on_hold` days and `due_at` + the subscription's renewal spread offset + 1 hour.
+- `hold_eligible_at` is the later of `due_at` + `before_on_hold` days and `due_at` + the subscription's renewal spread offset + 1 hour. While an automatic retry is queued whose planned position in the retry schedule (the sum of its first N intervals, N = `retry_attempts`) is within `before_on_hold` days + 1 hour, `hold_eligible_at` is also at least 1 hour after that retry, so the hold does not remove a retry the schedule places inside the window, however late the queue runs it.
 - `cancel_eligible_at` is `due_at` + (`before_on_hold` + `before_cancel`) days, and never earlier than `on_hold_at` + `before_cancel` days.
 
 Both are earliest moments: the change happens on the first hourly run after them. The run reads the policy in force at that moment, so a policy change also reaches subscriptions already in grace. A subscription you suspend with `suspend()` stays in this run: once its next payment date has passed and `cancel_eligible_at` arrives, it is cancelled for non-payment unless it is reactivated first.
@@ -160,7 +160,7 @@ $data = [
 | `unpaid_renewal_order_id` | int or null | The unpaid (pending, failed or on-hold) renewal order. |
 | `awaiting_gateway_settlement` | bool | A gateway is still settling a renewal payment; both grace stages wait. |
 | `can_enter_on_hold`, `can_cancel_overdue` | bool | The next overdue run would move it to on-hold, or cancel it. |
-| `retry_attempts`, `next_retry_at` | int, int or null | The retry counter for the open renewal and the time of the last scheduled retry. `next_retry_at` keeps its value after that retry ran or was removed (for example by a move to on-hold), so compare it with the current time. |
+| `retry_attempts`, `next_retry_at` | int, int or null | The retry counter for the open renewal and the time the queued retry will run. `next_retry_at` is null when no retry is waiting: retries are off, the limit is reached, the decline is hard, or the queued retry was removed (for example by a move to on-hold). While the retry is running it is the current time. |
 | `last_failure_at`, `failure_category` | int or null, string or null | The last failed charge and its classified reason. |
 
 | `phase` | Status | Meaning |

@@ -72,6 +72,10 @@ The signup fee is not part of the product price. It is added as a WooCommerce ca
 
 The WooCommerce mini-cart (widget cart) also displays subscription information next to the item quantity. Each subscription item receives the CSS class `arraysubs-mini-cart-item` for styling purposes.
 
+Below the subtotal, the classic mini-cart lists each signup fee in the cart on its own row (Subscription Signup Fee, Box Signup Fee, and Bundle Signup Fee with ArraySubs Pro), followed by a **Due Today** row with the cart total. Signup fee rows follow your cart tax display setting, just like the fee rows in the cart and at checkout: with tax when the cart shows prices including tax, without tax otherwise. When the cart shows prices excluding tax, Due Today still includes tax and says so, for example "$30.23 (incl. VAT)". Due Today is the amount checkout charges, so coupons and shipping are already counted in it even though the mini-cart does not list them.
+
+When the mini-cart refreshes in the background, for example after a shopper adds a product from a shop page, ArraySubs prices the cart first. Each subscription line then shows what checkout charges today: $0.00 during a free trial, the prorated first charge when renewals are synced, the plan-change amount when checkout replaces the customer's current plan, the box total for a subscription box, or the chosen amount for a custom store credit purchase (ArraySubs Pro).
+
 ### Checkout
 
 ![Checkout order summary — subscription metadata block and initial payment total](product-experience.ASSETS/06-checkout-subscription-summary-annotated.png)

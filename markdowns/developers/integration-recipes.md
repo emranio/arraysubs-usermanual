@@ -218,7 +218,7 @@ Notes:
 | `arraysubs_renewal_payment_complete` | `int $subscription_id, int $order_id` | A renewal order is paid and processed. ArraySubs processes each order once. |
 | `arraysubs_renewal_payment_failed` | `int $subscription_id, int $order_id, string $error_message` | An automatic renewal charge or a retry fails, the gateway reports a failure later, or the renewal order could not be created (`$order_id` is 0 and the subscription moves to on-hold). |
 | `arraysubs_payment_retry_scheduled` | `WP_Post $subscription, int $attempt, int $next_attempt_at, int $action_id` | An automatic retry is queued. `$next_attempt_at` is a UTC timestamp. |
-| `arraysubs_payment_retry_exhausted` | `WP_Post $subscription, int $attempts` | The retry limit in the gateway's retry settings is reached. |
+| `arraysubs_payment_retry_exhausted` | `WP_Post $subscription, int $attempts` | A charge fails after the last retry in the store's retry schedule (**ArraySubs > Settings > General > Payment Retries**). |
 | `arraysubs_grace_recovered` | `WP_Post $subscription, WC_Order $order` | A renewal is paid after a failure, or while the subscription was on hold. |
 
 **Step 1: register the hooks and keep them fast.** These hooks run inside payment requests, webhooks and scheduled jobs, so the listeners only queue work with Action Scheduler.

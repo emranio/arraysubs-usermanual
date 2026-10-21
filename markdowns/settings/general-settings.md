@@ -67,7 +67,9 @@ Turn this **off** when customers should check out one subscription plan at a tim
 |---|---|
 | **Type:** Toggle (on/off) | **Default:** Off |
 
-When enabled, a customer who already has an active, trial, on-hold, or pending subscription is blocked from purchasing another one. The check runs at add-to-cart for logged-in users and again at checkout for guests or returning email addresses.
+When enabled, a customer who already has an active, trial, on-hold, paused, or pending subscription is blocked from purchasing another one. The check counts the customer's own subscriptions: those on their account, and those bought as a guest (without an account) with the checkout email. It runs at add-to-cart for logged-in users and again at checkout. A subscription on another account is never counted, even when that account's email is typed at checkout.
+
+Paying an existing order from its Pay for order page, in the classic or block checkout, is checked against that order, never against the shopper's cart. This setting never refuses a renewal invoice, a plan-switch charge or an order for regular products. An unpaid subscription order can be paid when it would be the customer's only live subscription; a subscription box or bundle counts as one subscription. It is refused when paying it would give the customer more than one live subscription, for example an order placed before this setting was turned on while the customer now has another live subscription. The customer is asked to manage the existing subscription or contact the store. If the customer changes the billing email while paying, the email the order had before is checked too.
 
 ```box class="info-box"
 When enabled, customers can only move forward with one live subscription relationship at a time — unless Auto Migrate is also enabled (see below).
@@ -81,6 +83,8 @@ When enabled, customers can only move forward with one live subscription relatio
 | **Visible when:** One Subscription Per Customer is **on** | |
 
 Instead of blocking checkout, this option lets the system replace the customer's existing subscription with the new plan they are purchasing. Pricing is adjusted using the plan switching proration rules for upgrades, downgrades, and crossgrades.
+
+The existing subscription switches to the new plan when the order is paid; with a manual payment method such as Direct bank transfer, that is when you set the order to Processing or Completed. Only a subscription on the customer's own account is replaced: a subscription bought as a guest is never replaced at checkout, and checkout asks the customer to contact the store instead. A switch at checkout never starts the new plan's free trial: checkout charges the plan change shown. PayPal and Paddle are not offered to pay for it, and a subscription billed by PayPal or Paddle has to be changed from the subscription screen instead.
 
 ```box class="warning-box"
 Checkout migration only works when ArraySubs can match **exactly one** existing subscription for the customer and the new product is configured as an allowed switch target. If the customer has multiple matching subscriptions, checkout will stop and ask them to manage the switch manually.
@@ -194,13 +198,15 @@ When enabled, customers must provide payment details even for free trials. This 
 
 When disabled, customers can start trials without entering payment information. You will need to collect payment details before the trial ends.
 
+This applies only to checkouts that start a free trial. A plan switch at checkout (Auto Migrate), a plan-switch charge or a renewal invoice is charged the amount shown, whatever this setting says.
+
 ### One Trial Per Customer
 
 | | |
 |---|---|
 | **Type:** Toggle (on/off) | **Default:** On |
 
-Prevents customers from signing up for multiple free trials of the same product. Helps prevent trial abuse by blocking repeat trial sign-ups from the same account.
+Prevents customers from signing up for multiple free trials of the same product. Helps prevent trial abuse by blocking repeat trial sign-ups from the same account. A plan switch at checkout (Auto Migrate) starts no trial, so this limit does not block it.
 
 ---
 
@@ -467,6 +473,7 @@ A subscription box store wants to give customers plenty of time to resolve payme
 |---------|-------------|------------|
 | Customer cannot add a second subscription to the cart | **Allow Multiple Subscriptions in Cart** is off, or **One Subscription Per Customer** is on | Check both settings and adjust to match your store policy |
 | Checkout blocks a returning customer | **One Subscription Per Customer** is on and the customer already has an active subscription | Enable **Auto Migrate** to allow automatic plan switching, or disable the per-customer limit |
+| Customer cannot pay an unpaid subscription order on its Pay for order page | **One Subscription Per Customer** is on and paying the order would give the customer more than one live subscription | Cancel the order or the customer's other subscription, whichever matches your store policy, or turn the per-customer limit off |
 | Subscription cancelled too quickly after missed payment | Grace period values are too short | Increase **Days Active After Due** and **Days On-Hold Before Cancel** |
 | Renewal invoices arrive too late for customers to pay | **Generate Invoice Before Due** is set too low | Increase the advance notice window (e.g., from 6 hours to 2 days) |
 | Customer cannot cancel from their account | **Allow Cancellation** is turned off | Re-enable it in Customer Actions |
