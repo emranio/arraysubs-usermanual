@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-23
 
 # Find Members and Update Profiles
 
@@ -14,7 +14,7 @@
 - **Current guide:** Find Members and Update Profiles
 - **Where to open it:** Your custom plugin or theme code (PHP)
 - **Section overview:** [Developers](./README.md)
-- **Previous guide:** [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md)
+- **Previous guide:** [Activate a Paid Subscription After Verification](./deferred-subscription-activation.md)
 - **Next guide:** [Read Subscription Product Terms](./subscription-products.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 

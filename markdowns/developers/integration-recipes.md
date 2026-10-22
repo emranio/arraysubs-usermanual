@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-23
 
 # Connect Membership Workflows
 
@@ -38,6 +38,8 @@ ArraySubs gives you trusted reads, validated writes and lifecycle hooks. Your pl
 | 10 | [Add store credit exactly once](#recipe-10-add-store-credit-exactly-once-pro) | `StoreCredit::fromCustomerId()`, `adjust()` | Pro | One ledger entry |
 
 All examples use synthetic IDs (customer 45, subscriptions 123 and 124, product 197, order 1001) and an `acme_` prefix for your own code.
+
+For a paid subscription that must wait for IMEI registration or service provisioning, use the separate [Activate a Paid Subscription After Verification](./deferred-subscription-activation.md) recipe. It covers the initial-status filter, saved checkout fields, a provisioning email and authenticated manual approval without changing the purchase's billing dates.
 
 ## Before You Start
 

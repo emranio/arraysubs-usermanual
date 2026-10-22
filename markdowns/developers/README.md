@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-23
 
 # Developers
 
@@ -74,6 +74,7 @@ If you are setting up products, payments or access rules, start with the merchan
 | Find a member's subscriptions or a subscription by ID or order | [Find and Update Subscriptions](./subscriptions.md) |
 | Change a subscription's plan terms, quantity or addresses | [Find and Update Subscriptions](./subscriptions.md) |
 | Read status, trial, grace and cancellation state, or pause, resume, cancel or move a renewal date | [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) |
+| Keep a paid subscription pending until IMEI verification or service provisioning finishes | [Activate a Paid Subscription After Verification](./deferred-subscription-activation.md) |
 | Find the subscription that bills a box or bundle, or the orders of a subscription | [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) |
 | Find a customer or search by a profile field | [Find Members and Update Profiles](./customers-and-profile-fields.md) |
 | Read a product's billing terms or its upgrade and downgrade targets | [Read Subscription Product Terms](./subscription-products.md) |

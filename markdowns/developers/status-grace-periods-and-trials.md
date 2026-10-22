@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-23
 
 # Read Lifecycle State and Manage Its Dates
 
@@ -15,7 +15,7 @@
 - **Where to open it:** Your custom plugin or theme code (PHP)
 - **Section overview:** [Developers](./README.md)
 - **Previous guide:** [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md)
-- **Next guide:** [Find Members and Update Profiles](./customers-and-profile-fields.md)
+- **Next guide:** [Activate a Paid Subscription After Verification](./deferred-subscription-activation.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 
 ## Overview
@@ -215,12 +215,13 @@ expire( array $expected = [] )
 - **`$expected`:** optional field => value pairs that must still match before anything is written, such as `[ 'status' => 'arraysubs-on-hold' ]`. Keys are `status` or one of the editable fields that `update()` accepts (plus `currency`). A mismatch or an unknown key returns `subscription_conflict`.
 - **Refusals:** a paused subscription returns `paused_transition_requires_resume` (use `resume()` or `cancel()`). When the target differs from the current status: PayPal and Paddle subscriptions return `provider_rejection` unless the target is `arraysubs-cancelled`; a pending plan switch returns `pending_switch_conflict` unless the target is `arraysubs-cancelled`; a settling gateway payment returns `gateway_settlement_pending`; a box or bundle child returns `parent_billed_subscription`. `arraysubs-trial` from another status returns `unsupported_operation`.
 - **Same status:** nothing changes, and the call still returns `data()`.
+- **Deferred initial approval:** if the subscription has an explicit fixed end date that has already passed, activation returns `deferred_activation_expired`. Review its membership terms; approval never extends the end date automatically.
 - **Trial to active:** converts the trial exactly like `endTrial()`, with the same guards.
 - **To cancelled:** runs the immediate cancellation described under `cancel()`, but records the actor as `admin:<current user ID>`. A failure returns `cancel_failed`.
 - **Other targets:** update the post status. `suspend()` also stamps the hold time (`recovery.on_hold_at`).
 - **What the status change triggers:**
-  - To `arraysubs-active` from on-hold, cancelled or expired: a next payment date that is empty or in the past is recalculated from now, renewal jobs are scheduled, and `arraysubs_data_reactivated` fires. From pending, the date set at checkout is kept.
-  - To `arraysubs-on-hold`: renewal jobs and queued retries are removed. The overdue run can still cancel it for non-payment.
+  - To `arraysubs-active` from ordinary on-hold, cancelled or expired: a next payment date that is empty or in the past is recalculated from now, renewal jobs are scheduled, and `arraysubs_data_reactivated` fires. From pending, the date set at checkout is kept. A subscription deliberately deferred after its initial paid order has separate approval handling: its dates always remain anchored to the purchase, including an overdue date, and approval queues catch-up billing and announces initial activation. See [Activate a Paid Subscription After Verification](./deferred-subscription-activation.md).
+  - To `arraysubs-on-hold`: renewal jobs and queued retries are removed. The overdue run can still cancel an ordinary on-hold subscription for non-payment. Initial-payment deferral marks the subscription separately so non-payment dunning does not cancel it while provisioning approval is outstanding.
   - To `arraysubs-cancelled` or `arraysubs-expired`: every scheduled job for the subscription is removed and the next payment date is cleared. `expire()` does not fire `arraysubs_data_expired`; that hook belongs to the scheduled expiry.
   - When the product has an auto-downgrade target and **Auto-Downgrade Timing** is **On Expiration** or **On Cancellation**, the same call can end with the subscription active on the fallback plan. Check `status.stored` in the returned data.
   - A customer-visible note records the change, and the usual status emails are sent.
@@ -341,6 +342,7 @@ The Developer API does not change store settings. Merchants set these values; yo
 | `pending_switch_conflict` | Status changes (except to cancelled), date changes, `endTrial()` | A plan switch is waiting for the next renewal. |
 | `payment_pending` | Date changes, `endTrial()` | A renewal order is unpaid or a renewal payment is settling. |
 | `gateway_settlement_pending` | Status changes | A gateway payment is still settling. |
+| `deferred_activation_expired` | `activate()` or a status change to active | An initially deferred subscription's explicit fixed membership end date has passed. Review its membership terms before approval. |
 | `provider_rejection` | Status changes (except to cancelled), `endTrial()` | PayPal or Paddle owns the billing clock. |
 | `remote_billing_date_unsupported` | Date changes | The provider cannot move its billing date (PayPal). |
 | `remote_billing_date_failed` | Date changes | The provider rejected the date; the message carries its reason. |
@@ -452,6 +454,7 @@ Events also carry the extra fields listed below.
 
 | Filter | Arguments | Effect |
 | --- | --- | --- |
+| `arraysubs_initial_payment_subscription_status` | `string $default_status, WP_Post $subscription, WC_Order $order, array $context` | Before initial activation, choose the default, pending or on hold for eligible non-trial subscriptions with a local billing clock. Does not filter renewals. New feature; not stock 2.0.9. See the [deferral guide](./deferred-subscription-activation.md). |
 | `arraysubs_member_access_statuses` | `array $statuses, string $scope, string $mode` | Statuses that grant access per scope; drives `status.has_view_entitlement`. |
 | `arraysubs_integration_access_statuses` | `array $statuses` | Statuses that count as entitled for `granted` and `revoked` (default: active and trial, plus paused with full pause access). |
 | `arraysubs_integration_event_context` | `array $context, int $subscription_id` | Adjusts the customer and product fields copied into every normalized event. |

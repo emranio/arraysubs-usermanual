@@ -192,6 +192,7 @@
         "developers/subscriptions.md",
         "developers/subscription-relationships-and-orders.md",
         "developers/status-grace-periods-and-trials.md",
+        "developers/deferred-subscription-activation.md",
         "developers/customers-and-profile-fields.md",
         "developers/subscription-products.md",
         "developers/feature-manager.md",

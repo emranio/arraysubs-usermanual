@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-23
 
 # React to Supported Events
 
@@ -27,7 +27,7 @@ ArraySubs announces changes through WordPress actions and lets you adjust select
 | Native hooks, for example `arraysubs_renewal_payment_complete` | Positional arguments: IDs, `WP_Post` subscriptions, `WC_Order` objects, amounts and status slugs | Work that must run in the same request and needs the live objects |
 | The normalized action `arraysubs_lifecycle_event` | One event name and one flat payload of scalars, with an `event_id` | Integrations that store, queue or forward lifecycle changes (memberships, CRMs, LMS, commissions) |
 
-This page lists the normalized events first, then the native hooks by topic. Every hook name, argument and timing on this page was checked against the shipped code.
+This page lists the normalized events first, then the native hooks by topic. The initial-payment deferral hooks described below require a build containing that feature; they are not available in stock ArraySubs 2.0.9. See [Activate a Paid Subscription After Verification](./deferred-subscription-activation.md) for the version requirement and complete workflow.
 
 ## When to Use This
 
@@ -81,7 +81,7 @@ do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 
 | Event | Native source | Fires when | Extra payload keys |
 | --- | --- | --- | --- |
-| `activated` | `arraysubs_data_activated` | A paid initial order is processed, also for trial subscriptions. | `order_id` |
+| `activated` | `arraysubs_data_activated` | Initial activation is completed after payment, also for trial subscriptions. A deferred subscription announces activation only when it is approved. | `order_id` |
 | `status_changed` | `arraysubs_data_status_changed` | Any status change to a subscription status. Skipped when the new status is `trash`, `draft`, `auto-draft`, `inherit`, `new`, `future` or `request-pending`. | none |
 | `granted` | `arraysubs_data_status_changed`, `arraysubs_settings_updated` | This subscription moves from a status without access to one with access (see `arraysubs_integration_access_statuses`), or Access During Pause changes to `full` while it is paused. | `pause_access_mode_changed`, `previous_pause_access_mode`, `pause_access_mode` (setting change only) |
 | `revoked` | `arraysubs_data_status_changed`, `arraysubs_settings_updated` | This subscription moves from a status with access to one without, or Access During Pause changes away from `full` while it is paused. | same as `granted` |
@@ -191,7 +191,10 @@ The `arraysubs_integration_event_context` filter can change `user_id`, the email
 | `arraysubs_data_created` | action | `int $subscription_id, WP_Post $post` | After a new subscription post and its meta are saved (`wp_after_insert_post`), on every creation path. Checkout subscriptions are usually still `arraysubs-pending` here. | Core |
 | `arraysubs_data_status_changed` | action | `int $subscription_id, string $new_status, string $old_status` | Every status change, inside the status write. Full slugs; `$old_status` can be `new` or `auto-draft` on creation. | Core |
 | `arraysubs_data_status_{$old_status}_to_{$new_status}` | action | `int $subscription_id, string $new_status, string $old_status` | Right after the generic status hook, for example `arraysubs_data_status_arraysubs-active_to_arraysubs-on-hold`. | Core |
-| `arraysubs_data_activated` | action | `int $subscription_id, int $order_id` | A paid initial order is processed: status set (trial subscriptions stay in trial), payment context stored, first renewal scheduled. | Core |
+| `arraysubs_data_activated` | action | `int $subscription_id, int $order_id` | Initial activation is completed: status set (trial subscriptions stay in trial), payment context stored, renewal work scheduled when applicable. For a deferred initial subscription this waits until approval and uses the original paid order ID. | Core |
+| `arraysubs_initial_payment_subscription_status` | filter | `string $default_status, WP_Post $subscription, WC_Order $order, array $context` | Before the initial paid subscription is activated. Return the default, `arraysubs-pending` or `arraysubs-on-hold`. Deferral supports non-trial subscriptions whose billing clock belongs to ArraySubs; unsupported decisions retain the default. Never runs for renewal payment. New feature; not stock 2.0.9. | Core |
+| `arraysubs_initial_payment_checkout_fields` | filter | `array $fields, WP_Post $subscription, WC_Order $order` | Builds saved checkout context before the initial status decision. Add a checkout integration's saved order meta while preserving the full fields array. New feature; not stock 2.0.9. | Core; Checkout Builder field contribution requires Pro |
+| `arraysubs_subscription_activation_deferred` | action | `WP_Post $subscription, WC_Order $order, array $context` | After successful-payment bookkeeping and the deferred status are saved. Ordinary paid-order replay does not repeat it. Use for provisioning emails or queued work. New feature; not stock 2.0.9. | Core |
 | `arraysubs_data_reactivated` | action | `int $subscription_id, string $old_status` | The status changes to `arraysubs-active` from on-hold, cancelled or expired (not on the first activation), after the next payment date is recalculated and renewals rescheduled. | Core |
 | `arraysubs_data_put_on_hold` | action | `int $subscription_id` | Only when the hourly overdue check puts an unpaid subscription on hold. Other on-hold paths fire only the status hooks. | Core |
 | `arraysubs_should_expire_subscription` | filter | `bool $should_expire, int $subscription_id` | Before the scheduled expiry job expires a subscription with a fixed end date. Return `false` to keep it. Not applied to expiry by payment count. | Core |
@@ -222,6 +225,8 @@ The `arraysubs_integration_event_context` filter can change `user_id`, the email
 | `arraysubs_box_child_subscriptions_created` | action | `int $subscription_id, int[] $child_ids, int $order_id` | After a box subscription's child subscriptions are created (only when new children were created). `$child_ids` is the full list. | Core (Subscription Box) |
 | `arraysubspro_bundle_child_subscriptions_created` | action | `int $subscription_id, int[] $child_ids, int $order_id` | Same, for a bundle. | Pro (Subscription Bundle) |
 | `arraysubs_subscription_externally_billed` | filter | `bool $externally_billed, int $subscription_id` | Every invoice and charge path. `true` means another subscription pays for this one, so ArraySubs never invoices or charges it. Box and bundle children answer `true`. | Core |
+
+For initial-payment deferral, `$context['gateway']` contains `id`, `title` and `transaction_id`; `$context['checkout_fields']` contains `billing`, `shipping`, `order_notes`, `additional` and `custom`. Additional fields retain their namespaced IDs under `billing`, `shipping` or `other`; Checkout Builder custom fields retain exact `_arraysubs_cf_*` keys. Read the [complete context and examples](./deferred-subscription-activation.md#saved-checkout-and-gateway-data). Billing dates stay unchanged while approval waits; an overdue approval queues catch-up billing.
 
 ## Renewal and Payment Hooks
 
