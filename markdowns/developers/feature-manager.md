@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (configuration updates and REST routes require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-24
 
 # Read and Update Feature Data
 
@@ -242,8 +242,8 @@ Other keys are ignored. A customer context always spends in its own mode.
 4. The usage is read again under the lock. When the current plan has no enabled numeric row with that name, the call returns `feature_not_defined`.
 5. An `operation_id` already recorded for this subscription and feature returns the current usage unchanged.
 6. The new count is worked out (`reset()` 0, `set()` the amount, `increment()` and `consume()` the current count plus the amount) and never goes below 0. An increase above the limit returns `feature_usage_limit_exceeded` unless `allow_overage` is honored. Unlimited features skip the check.
-7. The counter is saved for the current period together with the operation ID, and the lock is released. Then `arraysubs_feature_usage_changed` fires. For `set()` and `reset()` by a user with `manage_woocommerce`, a private subscription note records the feature name, the new count and your reason.
-8. The call returns a fresh usage block.
+7. The counter is saved for the current period together with the operation ID. ArraySubs captures the committed usage snapshot before releasing the lock, then fires `arraysubs_feature_usage_changed`. A successful non-no-op mutation that persists a new period also fires `arraysubs_feature_usage_period_reset`. For `set()` and `reset()` by a user with `manage_woocommerce`, a private note records the feature, count and reason.
+8. The call returns the committed usage snapshot. A listener that changes usage again cannot rewrite the earlier mutation's payload or return value.
 
 ### Customer consume: all or nothing
 
@@ -259,7 +259,7 @@ Other keys are ignored. A customer context always spends in its own mode.
    - `max`: from the winning subscription only (`source_subscription_id`).
    - `combine`: from the subscription that resets soonest first (subscriptions without a reset date last, a tie by lower ID), each up to its own `remaining`. An Unlimited subscription takes whatever is left.
 7. Every changed counter is saved inside one database transaction, which is rolled back on failure (`feature_usage_save_failed`). Either all counters change or none do.
-8. The locks are released and `arraysubs_feature_usage_changed` fires once for each subscription the call spent from.
+8. The committed usage snapshots are captured before every lock is released. Then `arraysubs_feature_usage_changed` fires once per subscription spent from, with a period-reset notification when a new period was persisted.
 9. The call returns the customer usage block after the write.
 
 ### Retry-safe operation IDs
@@ -350,7 +350,7 @@ do_action( 'arraysubs_feature_usage_changed', $subscription, $feature_key, $usag
 | --- | --- | --- |
 | `$subscription` | `WP_Post` | The subscription whose counter changed. |
 | `$feature_key` | string | The exact feature name. |
-| `$usage` | array | The subscription usage block after the change, read again. |
+| `$usage` | array | The immutable committed usage block, captured while the quota lock was held. |
 | `$previous` | array | The subscription usage block before the change. |
 | `$operation` | string | `set`, `increment`, `reset` or `consume`. |
 | `$context` | array | `reason` (sanitized text), `operation_id` (string, empty when none) and `actor_id` (the current user ID; 0 in WP-CLI and cron). |
@@ -359,6 +359,42 @@ do_action( 'arraysubs_feature_usage_changed', $subscription, $feature_key, $usag
 - It fires after the counter is saved and every usage lock is released, once per subscription that changed. A `combine` consume that spends from two subscriptions fires twice.
 - It fires for every successful write, including one that leaves the count where it was, such as `set()` to the current value.
 - It does not fire for reads, for a period that ended without a write, for replayed operation IDs, or for failed writes.
+
+### arraysubs_feature_usage_period_reset
+
+```text
+do_action( 'arraysubs_feature_usage_period_reset', WP_Post $subscription, string $feature_key, array $usage, array $previous_period, array $context )
+```
+
+This core action takes 5 accepted arguments. It reports a lazy billing or calendar rollover when a successful non-no-op mutation saves usage in the new period. `$usage` is the committed new-period snapshot; `$previous_period` contains the stored `period_key`, `used`, `last_reset` and `updated_at` from the old period. `$context` includes `reason`, `operation_id`, `actor_id`, `operation`, `reset_reason` (`period_rollover`), `previous_period_key` and `current_period_key`.
+
+Time passing, a usage read, a rejected write or a replay never emits this action. A manual `reset()` uses `arraysubs_feature_usage_changed` with operation `reset`; it is not a period rollover.
+
+```php
+add_action( 'arraysubs_feature_usage_period_reset', function ( $subscription, $name, $usage, $previous_period, $context ) {
+	// Queue your own report with the old-period total and the new-period key.
+	// $previous_period['used'] remains the old total even if another listener writes.
+}, 20, 5 );
+```
+
+### Product, template and access events (Pro)
+
+Pro's Feature Manager emits these actions after successful changes. Register each callback with 4 accepted arguments:
+
+| Action | Arguments in order |
+| --- | --- |
+| `arraysubs_product_features_changed` | `int $product_id, array $current, array $previous, array $context` |
+| `arraysubs_product_feature_added`, `arraysubs_product_feature_updated`, `arraysubs_product_feature_removed` | `int $product_id, array $feature, array $previous, array $context` |
+| `arraysubs_feature_template_created`, `arraysubs_feature_template_updated`, `arraysubs_feature_template_deleted` | `string $template_id, array $template, array $previous, array $context` |
+| `arraysubs_subscription_feature_access_changed` | `WP_Post $subscription, array $features, string $effect, array $context` |
+
+Assignment events cover product-editor, REST and developer API saves. Context includes the event identity, UTC time, actor and source hook. Variation events also include `variation`, `parent_product_id` and `inherits_parent`; an empty variation assignment can restore parent inheritance. A removed row or deleted template remains available in both row arguments. Arrays omit internal feature types.
+
+Access events report the enabled features this subscription grants or revokes (`$effect` is `grant` or `revoke`). Another subscription may still grant the same customer benefit. Plan switches report removed and added allowances. Editing a product emits configuration events, without sending one access event for each subscriber. `source_event_id` links the access change to its originating lifecycle event.
+
+On an active subscription's customer reassignment, the old identity receives a revocation and the new identity receives a grant. Read `affected_user_id` and `affected_customer_email` from context to find the affected recipient: the subscription object already belongs to its current owner. Guests may have user ID 0 and a usable email. Email-only changes also report both sides.
+
+The [FlowMattic bridge](./flowmattic.md) maps these to feature configuration, template, grant, revocation, usage, reset and exhaustion triggers. In its access payload, `user_id` and `customer_email` identify the affected recipient; `subscription_customer_id` and `subscription_customer_email` identify the current owner. Reads and usage writes keep working in free ArraySubs alone; Pro supplies configuration and access publishers.
 
 ### arraysubs_developer_feature_availability
 
@@ -715,6 +751,7 @@ Every error is a `WP_Error` without data (`get_error_data()` returns `null`), so
 - [Read Subscription Product Terms](./subscription-products.md)
 - [Check Content Access](./member-access.md)
 - [React to Supported Events](./actions-and-filters.md)
+- [FlowMattic Hooks and Actions](./flowmattic.md)
 - [Verify Your Integration](./errors-and-testing.md)
 - [Feature Manager](../feature-manager/README.md)
 - [Defining Product Features](../feature-manager/defining-product-features.md)

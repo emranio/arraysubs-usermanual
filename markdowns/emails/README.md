@@ -1,13 +1,13 @@
 # Info
 - Module: Emails and Notifications
-- Availability: Shared (core emails are Free; Store Credit and gateway emails require Pro)
-- Last updated: 2026-10-18
+- Availability: Free (25 core email classes); Pro adds four Store Credit emails
+- Last updated: 2026-10-24
 
 # Emails and Notifications
 
 > ArraySubs sends automated emails at every key point of the subscription lifecycle — from signup to renewal, cancellation, and beyond.
 
-**Availability:** Free (core emails) / Pro (Store Credit emails, gateway emails)
+**Availability:** Free (25 core email classes); Pro adds four Store Credit emails.
 
 ## Page Navigation
 
@@ -22,9 +22,11 @@
 
 ArraySubs includes a full email notification system built on top of the WooCommerce email framework. Every email inherits your store's design, can be toggled on or off, and supports rich placeholders that pull live subscription data into the subject line and body. No custom mailer setup is needed — everything works through the same **WooCommerce → Settings → Emails** page your store already uses.
 
+ArraySubs registers 25 core emails: 21 for customers and four for store administrators. ArraySubs Pro adds four Store Credit emails. Each message still needs its matching event: Retention Discount Accepted requires Pro's Cancellation Flow, while card-expiry and Stripe verification emails do not require ArraySubs Pro.
+
 The system covers three audiences:
 
-- **Customer emails** — 17 emails about subscription status, billing, trials, retention, card expiry, and gateway verification events
+- **Customer emails** - 21 emails about subscription status, billing, trials, skip and pause changes, retention, card expiry, and renewal verification
 - **Admin emails** — 4 emails that alert the store admin about new subscriptions, payment failures, scheduled cancellations, and completed cancellations
 - **Store Credit emails** *(Pro)* — 4 emails about credit balance changes, usage, and expiration
 
@@ -86,10 +88,14 @@ Emails are triggered automatically by subscription lifecycle events:
 | Subscription expired | Subscription Expired (customer) |
 | Fixed-length subscription ending soon | Subscription Expiring Soon (customer) |
 | Subscription reactivated | Subscription Reactivated (customer) |
+| Renewal cycles skipped | Renewal Skipped (customer) |
+| Scheduled renewal skip removed | Renewal Skip Removed (customer) |
+| Subscription paused | Subscription Paused (customer) |
+| Paused subscription resumed | Subscription Resumed (customer) |
 | Plan auto-downgraded | Auto-Downgrade (customer) |
 | Retention discount accepted | Retention Discount Accepted (customer) |
-| Saved Stripe card expiring | Card Expiring (customer) |
-| Renewal requires 3D Secure/SCA verification | Renewal Requires Verification (customer) |
+| Saved card expiring on a supported gateway | Card Expiring (customer) |
+| Stripe renewal requires 3D Secure/SCA verification | Renewal Requires Verification (customer) |
 | Store credit added *(Pro)* | Credit Added (customer) |
 | Store credit applied to order *(Pro)* | Credit Used (customer) |
 | Store credit expiring soon *(Pro)* | Credit Expiring (customer) |
@@ -97,7 +103,7 @@ Emails are triggered automatically by subscription lifecycle events:
 
 ### Email Reminder Schedule
 
-Three emails use timed scheduling rather than immediate delivery. You configure the timing in **ArraySubs → Settings → General Settings** under the **Email Reminder Schedule** card:
+The **Email Reminder Schedule** card in **ArraySubs > Settings > General Settings** contains these timing settings:
 
 ![Email Reminder Schedule settings with day inputs](README.ASSETS/03-email-reminder-schedule-annotated.png)
 
@@ -108,8 +114,16 @@ Three emails use timed scheduling rather than immediate delivery. You configure 
 | **Expiring Soon Reminder (Days Before)** | How many days before the subscription expiration the Expiring Soon email is sent | 7 | 1 – 60 |
 
 ```box class="info-box"
-The Renewal Reminder is the only scheduled reminder that is fully active in the current release. Trial Ending and Expiring Soon reminders have their settings exposed but are not yet wired to a sending implementation.
+Renewal Reminder and Subscription Expiring Soon both have active sending implementations. Trial Ending has a timing setting but no separate registered email or send implementation in this release.
 ```
+
+### Watch Email Send Results in Your Workflows
+
+Use the [FlowMattic integration](../integrations/flowmattic.md) to trigger a workflow after an ArraySubs email send succeeds or fails. This covers all 25 core emails and, when available, the four Pro Store Credit emails. Filter by `email_id` so the workflow responds to the message you intended.
+
+A successful send means your mail service accepted the message; it does not confirm arrival in the inbox. Disabled emails and other paths that stop before sending do not produce a send result. Avoid a workflow that resends an email in response to that same email's result.
+
+Developers can use the shared email-delivery hook described in [Actions and Filters](../developers/actions-and-filters.md).
 
 ---
 
@@ -184,6 +198,15 @@ Some emails include additional placeholders beyond the base set:
 | `{cancellation_reason}` | Subscription Pending Cancellation, Subscription Cancelled, Admin Subscription Pending Cancellation, Admin Subscription Cancelled | Customer-provided cancellation reason |
 | `{expiration_date}` | Subscription Expired | When the subscription expired |
 | `{subscription_end_date}` | Subscription Expiring Soon | When the fixed-length subscription ends |
+| `{skipped_cycles}` | Renewal Skipped | Number of renewal cycles skipped |
+| `{skip_reason}` | Renewal Skipped | Supplied skip reason |
+| `{cycles_undone}` | Renewal Skip Removed | Number of renewal cycles restored |
+| `{pause_date}` | Subscription Paused | Pause start date |
+| `{resume_date}` | Subscription Paused | Planned resume date, or Indefinite |
+| `{pause_duration}` | Subscription Paused | Planned pause duration, or Indefinite |
+| `{pause_reason}` | Subscription Paused | Supplied pause reason |
+| `{paused_duration}` | Subscription Resumed | Time spent paused |
+| `{resume_type}` | Subscription Resumed | Automatic or Manual |
 
 #### Retention and Plan Change Emails
 
@@ -270,7 +293,7 @@ For the plain text version:
 
 ### Template File Reference
 
-**Core Customer Email Classes / Templates (17 emails):**
+**Core Customer Email Classes / Templates (21 emails):**
 
 Subscription Expiring Soon uses the Renewal Reminder template files with a different reminder context.
 
@@ -288,6 +311,10 @@ Subscription Expiring Soon uses the Renewal Reminder template files with a diffe
 | `customer-subscription-cancelled.php` | Subscription Cancelled |
 | `customer-subscription-expired.php` | Subscription Expired |
 | `customer-subscription-reactivated.php` | Subscription Reactivated |
+| `customer-subscription-skipped.php` | Renewal Skipped |
+| `customer-skip-undone.php` | Renewal Skip Removed |
+| `customer-subscription-paused.php` | Subscription Paused |
+| `customer-subscription-resumed.php` | Subscription Resumed |
 | `customer-auto-downgrade.php` | Auto-Downgrade |
 | `customer-retention-discount-accepted.php` | Retention Discount Accepted |
 | `customer-card-expiring.php` | Card Expiring |
@@ -331,7 +358,7 @@ Every HTML template has a matching plain text version in a `plain/` subdirectory
 
 ## Related Guides
 
-- [Customer Emails](customer-emails.md) — Detailed reference for all 17 customer-facing subscription emails.
+- [Customer Emails](customer-emails.md) - Detailed reference for all 21 core customer email classes.
 - [Admin Emails](admin-emails.md) — Detailed reference for the 4 admin notification emails.
 - [Store Credit Emails](store-credit-emails.md) — Detailed reference for the 4 Store Credit emails *(Pro)*.
 - [General Settings](../settings/general-settings.md) — Configure the email reminder schedule.
@@ -363,4 +390,4 @@ No. The four Store Credit emails (Credit Added, Credit Used, Credit Expiring, Cr
 Yes. Copy the template file to your theme's `woocommerce/` folder for core emails, or `woocommerce/emails/` for Store Credit emails (see the "How to Override Templates" section above), and edit it. The overridden template takes priority over the plugin default.
 
 ### What happens if the Pro plugin is deactivated?
-The 4 Store Credit emails will stop appearing in WooCommerce settings and will no longer be sent. All 21 core subscription/admin emails continue to work normally.
+The four Store Credit emails stop appearing in WooCommerce settings and are no longer sent. All 25 core subscription and admin email classes remain available. Messages that depend on a Pro feature, such as Retention Discount Accepted, need that feature's event to send.

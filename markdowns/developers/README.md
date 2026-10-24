@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-23
+- Last updated: 2026-10-24
 
 # Developers
 
@@ -86,6 +86,7 @@ If you are setting up products, payments or access rules, start with the merchan
 | Show how many devices a member may sign in on | [Read Login-Limit Policy](./login-limits.md) |
 | Read or add store credit | [Read and Update Store Credit](./store-credit.md) |
 | Run code when a subscription renews, fails, changes status or is deleted | [React to Supported Events](./actions-and-filters.md) |
+| Connect subscription, email, credit and feature events to FlowMattic | [FlowMattic Hooks and Actions](./flowmattic.md) |
 | Add your own module to the ArraySubs Modules screen | [Extend ArraySubs with a Module](./addon-modules.md) |
 | Hide theme output from non-members, or override ArraySubs email templates | [Gate Custom PHP Output](./php-templates.md) |
 | Copy a complete integration pattern | [Connect Membership Workflows](./integration-recipes.md) |
@@ -112,6 +113,8 @@ Every class follows the same rules. [Connect Your Custom Plugin](./getting-start
 - [Feature Manager](../feature-manager/README.md)
 - [Store Credit](../store-credit/README.md)
 - [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) - includes the staging renewal walkthroughs for each gateway
+- [Integrations](../integrations/README.md)
+- [FlowMattic setup](../integrations/flowmattic.md)
 
 ## FAQ
 

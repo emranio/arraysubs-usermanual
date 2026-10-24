@@ -1,7 +1,7 @@
 # Info
 - Module: User Manual Hub
 - Availability: Shared
-- Last updated: 2026-10-18
+- Last updated: 2026-10-24
 
 # ArraySubs User Manual
 
@@ -27,13 +27,14 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Customer and account experience:** [Customer Portal](customer-portal/README.md) → [Member Insight](member-insight/README.md) *(Pro)* → [Store Credit](store-credit/README.md) *(Pro)* → [Shortcodes](shortcodes/README.md) → [Profile Builder](profile-builder/README.md) *(Pro)* → [Feature Manager](feature-manager/README.md) *(Pro)*
 - **Checkout and lifecycle:** [Checkout and Payments](checkout-and-payments/README.md) → [Cart Info Editor](cart-info-editor/README.md) *(Pro)* → [Billing and Renewals](billing-and-renewals/README.md) → [Retention, Cancellation, and Refunds](retention-and-refunds/README.md)
 - **Reporting and communication:** [Analytics](analytics/README.md) → [Retention Analytics](retention-analytics/README.md) *(Pro)* → [Refund Analytics](refund-analytics/README.md) *(Pro)* → [Emails and Notifications](emails/README.md)
+- **Connect your other plugins:** [Integrations](integrations/README.md) - courses, CRM tags, affiliate renewals, sales funnels, license keys, and FlowMattic workflows.
 - **Toolkit and gateway modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Gateway Health](gateway-health/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
 - **Developers:** [Developers overview](developers/README.md), [Connect Your Custom Plugin](developers/getting-started.md), [React to Supported Events](developers/actions-and-filters.md), [Gate Custom PHP Output](developers/php-templates.md)
 
 ## Dedicated Module Count
 
-The manual now tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **19 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **10 modules** require ArraySubs Pro.
+The manual now tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started**, **Settings**, **Integrations**, and **Developers** are not included in this count. **19 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional extensions. **10 modules** require ArraySubs Pro.
 
 | Count | Module Group |
 |---|---|
@@ -62,6 +63,7 @@ Most ArraySubs work happens in WordPress Admin under **ArraySubs**:
 | **ArraySubs → Subscriptions → Detail → Subscription Notes** | Review system notes, admin notes, customer-visible notes, gateway notes, and lifecycle history | [Subscription Notes](subscription-notes/README.md) |
 | **ArraySubs → Member Access** | Build role, URL, post type, discount/free-shipping, shop, download, comment, purchase-limit, and content-gate rules | [Member Access Overview](member-access/README.md) |
 | **ArraySubs → Member Styling** | Add conditional body classes and CSS on the frontend or in wp-admin | [Member Styling](member-styling/README.md) |
+| **ArraySubs -> Integrations** | Connect subscriptions to other plugins and workflows | [Integrations](integrations/README.md) |
 | **Marketing → Coupons** | Configure subscription-aware coupon discounts and renewal cycle limits | [Coupons](coupons/README.md) |
 | **ArraySubs → Manage Members** *(Pro)* | Search customers and open the Member Insight profile | [Member Insight](member-insight/README.md) |
 | **ArraySubs → Store Credit** *(Pro)* | Manage balances, adjustments, and transaction history | [Store Credit Management](store-credit/store-credit-management.md) |
@@ -225,7 +227,6 @@ Everything about how subscriptions are purchased, billed, and collected — from
 - [Gateway Health Dashboard](gateway-health/README.md) — Gateway status cards, webhook event log, and troubleshooting.
 - [Checkout Builder Overview](checkout-and-payments/checkout-builder/README.md) *(Pro)* — Builder interface, multi-step checkout, sections, design panel, data flow, and settings.
 - [Field Types Reference](checkout-and-payments/checkout-builder/field-types.md) *(Pro)* — All 27 field types: standard, advanced, and layout elements.
-- [Checkout Builder Use Cases](checkout-and-payments/checkout-builder/use-cases.md) *(Pro)* — 18 real-world examples: subscription boxes, SaaS, gyms, wine clubs, B2B, nonprofits, and more.
 
 ## Billing and Renewals
 
@@ -271,9 +272,24 @@ Track subscription revenue, growth, churn, and customer behavior — from a dedi
 Automated emails for every subscription lifecycle event — configure, customize, and troubleshoot the full notification system.
 
 - [Email Overview](emails/README.md) — How ArraySubs emails work, WooCommerce integration, placeholder reference, template overrides, and reminder scheduling.
-- [Customer Emails](emails/customer-emails.md) — 17 customer-facing emails: new subscription, trials, renewals, payments, status changes, auto-downgrade, retention, card expiry, and gateway verification.
+- [Customer Emails](emails/customer-emails.md) - 21 customer emails covering subscription status, payments, trials, pauses, skips, reminders, and supported gateway events.
 - [Admin Emails](emails/admin-emails.md) — 4 admin notifications: new subscription, payment failed, scheduled cancellation, and subscription cancelled.
 - [Store Credit Emails](emails/store-credit-emails.md) *(Pro)* — 4 credit balance emails: added, used, expiring, and expired.
+
+## Integrations
+
+Connect your other plugins to subscription events. Each guide explains the requirements, setup, and what happens after you turn on the connection.
+
+- [Integrations overview](integrations/README.md) - Choose and enable a connection.
+- [FlowMattic](integrations/flowmattic.md) - Build workflows around subscriptions, email results, store credit, and features.
+- [LearnPress](integrations/learnpress.md) - Restrict course access through subscriptions.
+- [Affiliates Manager](integrations/affiliates-manager.md) - Credit affiliate commissions on paid renewals.
+- [CartFlows](integrations/cartflows.md) - Create subscriptions from accepted one-click offers.
+- [WP Fusion](integrations/wp-fusion.md) - Keep CRM tags in step with subscription access.
+- [FluentCRM](integrations/fluentcrm.md) - Start email automations from subscription events.
+- [Tutor LMS](integrations/tutor-lms.md) - Manage subscription-based course enrollment.
+- [Academy LMS](integrations/academy-lms.md) - Link course enrollment to subscription access.
+- [License Manager for WooCommerce](integrations/license-manager.md) - Update issued license keys as subscriptions change.
 
 ## Admin Bar Visibility
 
@@ -331,6 +347,7 @@ Integrate a custom plugin or theme with ArraySubs through the `ArraySubs\Develop
 - [Read Member Styling Rules](developers/member-styling.md) - Member styling rules.
 - [Read and Update Store Credit](developers/store-credit.md) - Store Credit balances, history and adjustments.
 - [React to Supported Events](developers/actions-and-filters.md) - Actions, filters and the `arraysubs_lifecycle_event` action.
+- [FlowMattic Hooks and Actions](developers/flowmattic.md) - Event hooks, workflow inputs, and subscription, credit, email, and usage actions.
 - [Extend ArraySubs with a Module](developers/addon-modules.md) - The module system for addons.
 - [Gate Custom PHP Output](developers/php-templates.md) - Member-only gates in PHP output and email template overrides.
 - [Connect Membership Workflows](developers/integration-recipes.md) - End-to-end integration recipes.

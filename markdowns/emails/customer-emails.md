@@ -1,13 +1,13 @@
 # Info
 - Module: Customer Emails
-- Availability: Free (gateway-specific trigger events require Pro gateway integrations)
-- Last updated: 2026-04-02
+- Availability: Free (21 core customer email classes; triggers depend on the configured features and gateway)
+- Last updated: 2026-10-24
 
 # Customer Emails
 
-> Seventeen automated emails keep your customers informed throughout the entire subscription lifecycle — from activation and trials to renewals, payment issues, status changes, retention offers, saved-card expiry, and gateway verification.
+> Twenty-one core customer email classes cover signup, billing, trials, cancellations, skip and pause changes, retention discounts, saved-card expiry, and renewal verification.
 
-**Availability:** Free (gateway-specific trigger events require Pro gateway integrations)
+**Availability:** Free (21 core customer email classes). Retention Discount Accepted needs Pro's Cancellation Flow; card-expiry and Stripe verification emails do not require ArraySubs Pro.
 
 ## Page Navigation
 
@@ -534,6 +534,62 @@ The Reactivated email always fires regardless of the email settings toggles — 
 
 ---
 
+## Renewal Skipped
+
+Sent after one or more renewal cycles are skipped. The email confirms the number of cycles skipped, the updated next payment date, and the supplied reason.
+
+**WooCommerce email ID:** `arraysubs_subscription_skipped`
+
+**Trigger:** `arraysubs_cycles_skipped`
+
+**Templates:** `customer-subscription-skipped.php` and `plain/customer-subscription-skipped.php`.
+
+**Specific placeholders:** `{skipped_cycles}`, `{skip_reason}`, and `{next_payment_date}`.
+
+---
+
+## Renewal Skip Removed
+
+Sent when a scheduled renewal skip is undone. The email confirms the restored renewal schedule and how many cycles were restored.
+
+**WooCommerce email ID:** `arraysubs_skip_undone`
+
+**Trigger:** `arraysubs_skip_undone`
+
+**Templates:** `customer-skip-undone.php` and `plain/customer-skip-undone.php`.
+
+**Specific placeholders:** `{cycles_undone}` and `{next_payment_date}`.
+
+---
+
+## Subscription Paused
+
+Sent after a subscription is paused. The email shows the pause start, planned resume date, duration, and supplied reason. An open-ended pause is shown as indefinite.
+
+**WooCommerce email ID:** `arraysubs_subscription_paused`
+
+**Trigger:** `arraysubs_subscription_paused`
+
+**Templates:** `customer-subscription-paused.php` and `plain/customer-subscription-paused.php`.
+
+**Specific placeholders:** `{pause_date}`, `{resume_date}`, `{pause_duration}`, and `{pause_reason}`.
+
+---
+
+## Subscription Resumed
+
+Sent when a paused subscription resumes, either manually or at its scheduled resume time. The email confirms the next payment date, time spent paused, and whether the resume was automatic or manual.
+
+**WooCommerce email ID:** `arraysubs_subscription_resumed`
+
+**Trigger:** `arraysubs_subscription_resumed`
+
+**Templates:** `customer-subscription-resumed.php` and `plain/customer-subscription-resumed.php`.
+
+**Specific placeholders:** `{next_payment_date}`, `{paused_duration}`, and `{resume_type}`.
+
+---
+
 ## Auto-Downgrade
 
 Sent when a subscription is automatically switched to a lower-tier plan.
@@ -585,7 +641,7 @@ Sent when a customer accepts a retention discount offer during the cancellation 
 
 **Default heading:** `Your subscription discount is now active`
 
-**Trigger:** Fires on the `arraysubs_retention_offer_accepted` hook when the Cancellation Flow feature processes an accepted discount offer.
+**Trigger:** Fires on `arraysubs_retention_offer_accepted` when Pro's Cancellation Flow processes an accepted discount offer. The email class is registered in free ArraySubs, but this event needs ArraySubs Pro and its enabled Cancellation Flow module.
 
 ### What the Email Contains
 
@@ -670,7 +726,7 @@ Sent when an automatic renewal needs customer authentication such as Strong Cust
 
 **Default heading:** `Your renewal needs verification`
 
-**Trigger:** Fires on the `arraysubs_renewal_requires_verification` hook. The core email class is registered with WooCommerce, and the event is dispatched by the Pro Stripe gateway integration when a renewal payment intent requires customer action.
+**Trigger:** Fires on `arraysubs_renewal_requires_verification` when the free ArraySubs Stripe integration needs the customer to authenticate an automatic renewal. A working connection through the official WooCommerce Stripe Payment Gateway is required. Follow the [Stripe setup guide](../checkout-and-payments/automatic-payments/stripe.md); ArraySubs Pro is not required.
 
 Notifies customers with a link to complete the verification step before the renewal grace period ends.
 
@@ -717,6 +773,8 @@ A fixed-length 12-month subscription nearing expiration sends the **Subscription
 ## Related Guides
 
 - [Email Overview](README.md) — How ArraySubs emails work, placeholder reference, and template overrides.
+- [FlowMattic Integration](../integrations/flowmattic.md) - Build workflows from successful and failed email send results. A successful send means mail-service acceptance, not inbox delivery. Disabled emails and other paths that stop before sending emit no result.
+- [Actions and Filters](../developers/actions-and-filters.md) - Developer hooks for email send outcomes.
 - [Admin Emails](admin-emails.md) — Admin notification emails for new subscriptions, payment failures, and cancellations.
 - [Store Credit Emails](store-credit-emails.md) — Store Credit notification emails *(Pro)*.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Subscription status transitions that trigger these emails.
@@ -742,4 +800,4 @@ The **Trial Converted** email. The **New Subscription** email is not sent for tr
 Not directly from the ArraySubs settings. However, WooCommerce email settings pages include a preview link that shows the HTML template with placeholder data.
 
 ### Are Card Expiring and SCA Authentication emails available now?
-Yes. Both email classes are registered in WooCommerce. They are sent when the Pro Stripe gateway dispatches the corresponding card-expiry or renewal-verification event.
+Yes. Both are registered in free ArraySubs. Card Expiring needs a supported gateway with stored card-expiry details. Renewal Requires Verification is sent by the free Stripe integration when a renewal needs customer action. See the [Stripe setup guide](../checkout-and-payments/automatic-payments/stripe.md).

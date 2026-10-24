@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-24
 
 # Read and Update Store Credit
 
@@ -295,7 +295,37 @@ $result = [
 
 ## Hooks
 
-Each new ledger row fires one of these actions, whatever wrote it: `adjust()`, the admin screens, renewal and checkout use, refunds to credit, purchases, plan-switch credit, expiry and reversals. Repeated `adjust()` calls do not fire them again.
+Use `arraysubs_store_credit_transaction` when you need the complete identity and committed balances of a credit change:
+
+```text
+do_action( 'arraysubs_store_credit_transaction', WP_Post|null $subscription, array $transaction )
+```
+
+Register it with 2 accepted arguments. It fires after the published ledger row and balance are verified, and after the bucket lock is released. Customer-only credit passes `null` for the subscription. The transaction snapshot includes:
+
+| Keys | Meaning |
+| --- | --- |
+| `id`, `log_id`, `transaction_id` | The published ledger row ID. |
+| `customer_id`, `subscription_id`, `bucket` | The owner; a customer bucket has subscription ID 0. |
+| `type`, `amount`, `signed_amount` | Credit or debit; `amount` is positive, `signed_amount` is negative for a debit. |
+| `balance_before`, `balance_after`, `currency` | The exact balances recorded for this mutation. |
+| `source`, `source_id`, `reference_id` | Why the change was made and its related record. |
+| `actor_id`, `operation_key`, `operation_id` | The actor and recorded operation identity. |
+| `note`, `reason`, `expires_at` | The recorded reason and expiry date when present. |
+| `event_id`, `event_time` | `credit-transaction:` plus the ledger ID, and the ledger's UTC timestamp. |
+
+The snapshot is captured under the lock and stays unchanged if a listener adjusts credit again. An idempotent replay emits no new transaction event. Recovery of an already committed operation can notify while new spending is disabled. Notifications are reserved before dispatch and are not a durable queue: a process crash can lose a notification. Reconcile critical external balances with `data()` and `history()`.
+
+```php
+add_action( 'arraysubs_store_credit_transaction', function ( $subscription, $transaction ) {
+	// Use $transaction['customer_id'] even when $subscription is null.
+	// Queue the transaction ID and committed balances for your own reconciliation.
+}, 20, 2 );
+```
+
+The [FlowMattic bridge](./flowmattic.md) maps this action to `credit_added` or `credit_deducted`. It also exposes expiry, expiring-soon, purchase, order application, reversal and refund events. Choose the transaction event or the semantic event that matches your workflow; one credit operation can produce both.
+
+Each new ledger row also fires one of the existing actions below, whatever wrote it: `adjust()`, the admin screens, renewal and checkout use, refunds to credit, purchases, plan-switch credit, expiry and reversals. Repeated `adjust()` calls do not fire them again.
 
 | Action | Arguments | Fires when |
 | --- | --- | --- |

@@ -160,6 +160,18 @@
         "emails/store-credit-emails.md"
     ],
     [
+        "integrations/README.md",
+        "integrations/flowmattic.md",
+        "integrations/learnpress.md",
+        "integrations/affiliates-manager.md",
+        "integrations/cartflows.md",
+        "integrations/wp-fusion.md",
+        "integrations/fluentcrm.md",
+        "integrations/tutor-lms.md",
+        "integrations/academy-lms.md",
+        "integrations/license-manager.md"
+    ],
+    [
         "admin-bar-visibility/README.md"
     ],
     [
@@ -203,6 +215,7 @@
         "developers/member-styling.md",
         "developers/store-credit.md",
         "developers/actions-and-filters.md",
+        "developers/flowmattic.md",
         "developers/addon-modules.md",
         "developers/php-templates.md",
         "developers/integration-recipes.md",

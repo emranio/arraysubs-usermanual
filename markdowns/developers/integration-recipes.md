@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-23
+- Last updated: 2026-10-24
 
 # Connect Membership Workflows
 
@@ -41,6 +41,8 @@ All examples use synthetic IDs (customer 45, subscriptions 123 and 124, product 
 
 For a paid subscription that must wait for IMEI registration or service provisioning, use the separate [Activate a Paid Subscription After Verification](./deferred-subscription-activation.md) recipe. It covers the initial-status filter, saved checkout fields, a provisioning email and authenticated manual approval without changing the purchase's billing dates.
 
+To build these follow-ups in FlowMattic, use [FlowMattic Hooks and Actions](./flowmattic.md). It covers the documented Plugin Actions trigger, the PHP Functions action, email outcomes, Store Credit and feature events. The [merchant setup guide](../integrations/flowmattic.md) covers enabling the integration and capturing a real sample.
+
 ## Before You Start
 
 - WordPress, WooCommerce and ArraySubs core are active. Put the code in your own small plugin, as described in [Connect Your Custom Plugin](./getting-started.md). Never edit ArraySubs files.
@@ -68,6 +70,11 @@ ArraySubs builds the payload only while at least one callback is attached to `ar
 | Status | `status_changed`, `on_hold`, `trial_ended`, `paused`, `resumed`, `cancellation_scheduled`, `cancellation_undone`, `cancelled` |
 | Billing | `renewal_invoice_created`, `renewal_payment_attempted`, `renewal_payment_result`, `renewal_failed`, `retry_scheduled`, `retry_attempted`, `retry_succeeded`, `retry_pending`, `retry_failed`, `retry_exhausted`, `grace_entered`, `grace_recovered`, `grace_ended` |
 | Terms | `updated`, `trial_changed`, `grace_changed`, `pending_switch_set`, `pending_switch_replaced`, `pending_switch_cleared`, `pending_switch_cancelled`, `pending_switch_applied`, `auto_downgraded` |
+| Creation and identity | `created`, `activation_deferred`, `reactivated`, `customer_changed` |
+| Skips and refunds | `skipped`, `skip_undone`, `skip_modified`, `cycle_skipped`, `skip_completed`, `refunded`, `fully_refunded` |
+| Payment details | `payment_method_changed`, `payment_method_attached`, `saved_payment_method_updated`, `auto_renew_changed`, `manual_payment_recorded`, `payment_skipped`, `payment_succeeded`, `payment_failed`, `payment_verification_required`, `card_expiring`, `payment_credential_rebound`, `payment_method_required`, `payment_authorisation_revoked` |
+| Billing and product operations | `billing_suspended`, `billing_resumed`, `gateway_subscription_cancelled`, `payment_disputed`, `shipping_address_updated`, `product_removed`, `product_restored`, `deletion_completed` |
+| Pro workflows | `early_renewal_started`, `early_renewal_processed`, `retention_offer_accepted` |
 
 Payload keys present on every event:
 
@@ -88,6 +95,8 @@ Payload keys present on every event:
 Every payload also carries `error_message`, `switch_type`, `old_product_id`, `new_product_id`, `is_renewal` and `force_delete`, filled only where they apply (`renewal_failed`, `plan_switched` and `auto_downgraded`, billing events, `deleted`). Some events add keys of their own: `attempt` and `result` (payment attempts and retries), `scheduled_at` and `action_id` (`retry_scheduled`), `scheduled_date` and `reason` (`cancellation_scheduled`), `cancellation_mode` (`cancelled`), `duration_days` and `reason` (`paused`), `automatic` (`resumed`), and `changed_fields` with `previous_*` and `current_*` values (`updated`).
 
 The payload is a snapshot of the moment the event fired. For any decision that matters, re-read the subscription when you act, as the recipes do. The full catalog of native hooks is in [React to Supported Events](./actions-and-filters.md).
+
+`deleted` supports entitlement cleanup before removal; use `deletion_completed` when a remote record must be marked permanently deleted. Both cover native WordPress permanent deletion, while trashing is not completion. Email outcomes use `arraysubs_email_delivery_result` (3 arguments), credit transactions use `arraysubs_store_credit_transaction` (2), and usage changes use `arraysubs_feature_usage_changed` (6). They are separate from the subscription lifecycle stream. Their complete signatures and Pro configuration/access hooks are in [React to Supported Events](./actions-and-filters.md).
 
 ## Recipe 1: Find a Customer's Active Subscriptions
 
@@ -463,7 +472,7 @@ add_action(
  * @param array  $payload Flat, scalar-only event payload.
  */
 function acme_crm_queue_sync( $event, $payload ) {
-	$watched = array( 'activated', 'trial_started', 'trial_converted', 'renewed', 'status_changed', 'plan_switched', 'cancellation_scheduled', 'cancellation_undone', 'cancelled', 'expired', 'deleted' );
+	$watched = array( 'created', 'activated', 'activation_deferred', 'trial_started', 'trial_converted', 'renewed', 'status_changed', 'updated', 'customer_changed', 'plan_switched', 'cancellation_scheduled', 'cancellation_undone', 'cancelled', 'expired', 'deletion_completed' );
 
 	$subscription_id = isset( $payload['subscription_id'] ) ? absint( $payload['subscription_id'] ) : 0;
 	if ( ! $subscription_id || ! in_array( $event, $watched, true ) || ! function_exists( 'as_enqueue_async_action' ) ) {
@@ -552,7 +561,7 @@ Notes:
 
 - The CRM record is keyed by the subscription ID, so every job is an idempotent upsert. Do not use `event_id` as a durable de-duplication key here: it is stable only when `identity_scope` is `operation`, and `status_changed` and `cancelled` events are request-scoped.
 - `status_changed` covers every real status move, including on-hold, pause, resume and reactivation. A move into trash or draft emits no `status_changed`.
-- `deleted` fires just before a permanent deletion, so the queued job finds `not_found` and marks the record deleted.
+- `deletion_completed` confirms permanent deletion, so the queued job finds `not_found` and marks the record deleted. `deleted` is an earlier entitlement-cleanup notification and does not prove removal succeeded.
 - Events fired while your plugin was inactive are not replayed. Run the same job nightly for every subscription, paging with recipe 8, to catch anything you missed.
 - Guest subscriptions have `customer_id` `null` in `data()` (and `user_id` 0 in the event payload). Key the contact by email in that case.
 
@@ -649,13 +658,20 @@ add_action(
 				$user_id = isset( $payload['user_id'] ) ? absint( $payload['user_id'] ) : 0;
 				$effect  = isset( $payload['effect'] ) ? (string) $payload['effect'] : 'none';
 				$plan    = in_array( $event, array( 'plan_switched', 'auto_downgraded', 'pending_switch_applied' ), true );
+				$owner_change = 'customer_changed' === $event;
 
-				if ( ! $user_id || ( 'none' === $effect && ! $plan ) ) {
-					return; // A guest, or an event that does not change entitlement.
+				if ( 'none' === $effect && ! $plan && ! $owner_change ) {
+					return;
 				}
 
-				// "deleted" fires just before the subscription is removed: leave it out of the count.
-				acme_sync_benefit( $user_id, 'deleted' === $event ? absint( $payload['subscription_id'] ) : 0 );
+				$user_ids = array( $user_id );
+				if ( $owner_change ) {
+					$user_ids[] = absint( $payload['previous_user_id'] ?? 0 );
+				}
+				foreach ( array_unique( array_filter( $user_ids ) ) as $affected_user_id ) {
+					// Before removal, exclude this subscription from access checks.
+					acme_sync_benefit( $affected_user_id, 'deleted' === $event ? absint( $payload['subscription_id'] ) : 0 );
+				}
 			},
 			10,
 			2
@@ -1298,8 +1314,9 @@ The recipes handle the codes below. The complete list, with the methods that ret
 - [Check Content Access](./member-access.md)
 - [Read and Update Store Credit](./store-credit.md)
 - [React to Supported Events](./actions-and-filters.md)
+- [FlowMattic Hooks and Actions](./flowmattic.md)
 - [Verify Your Integration](./errors-and-testing.md)
-- Merchant setup: [Recovery and Grace Flows](../billing-and-renewals/recovery-and-grace-flows.md), [Subscription Box](../subscription-products/subscription-box.md), [Subscription Bundle](../subscription-products/subscription-bundle.md), [Defining Product Features](../feature-manager/defining-product-features.md), [Access Rules](../member-access/access-rules.md), [Profile Form](../profile-builder/profile-form.md) and [Store Credit Management](../store-credit/store-credit-management.md)
+- Merchant setup: [Recovery and Grace Flows](../billing-and-renewals/recovery-and-grace-flows.md), [Subscription Box](../subscription-products/subscription-box.md), [Subscription Bundle](../subscription-products/subscription-bundle.md), [Defining Product Features](../feature-manager/defining-product-features.md), [Member Access](../member-access/README.md), [Profile Form](../profile-builder/profile-form.md) and [Store Credit Management](../store-credit/store-credit-management.md)
 
 ## FAQ
 

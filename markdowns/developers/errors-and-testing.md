@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-24
 
 # Verify Your Integration
 
@@ -288,9 +288,10 @@ ArraySubs hooks are WordPress actions that run inside the request that made the 
 - `event_id` is stable across requests only when `identity_scope` is `operation` (events tied to an order, a payment failure or charge attempt on that order, a retry action, a scheduled cancellation date or a pending switch). With `request`, it is a new random UUID in every request.
 - Payment events are identified per failure and per attempt. Every failed attempt on one renewal order fires its own `renewal_failed` with its own `event_id`, and every charge attempt (`renewal_payment_attempted`, `retry_attempted`) and its result event get their own ID, even when two manual retries share the same `attempt` number. `grace_entered` keeps one ID per renewal order, because it describes entering grace once.
 - `granted` and `revoked` describe one subscription's transition. Before removing anything, check the member's other subscriptions, as in [Connect Membership Workflows](./integration-recipes.md).
-- `deleted` fires just before a permanent deletion, while the subscription can still be read. A job that runs later gets `not_found`.
+- `deleted` is a pre-removal entitlement-cleanup notification; it does not prove deletion succeeded. `deletion_completed` confirms permanent deletion and carries the customer/product context saved before metadata disappeared. A later read gets `not_found`. Both cover native WordPress permanent deletion; trashing is not completion.
 - The payload is a snapshot of one moment. Re-read the subscription before acting on delayed work, and treat jobs as upserts of the current state.
 - Events are not replayed for a plugin that was inactive. Pair every listener with a periodic reconciliation.
+- Credit and feature notifications use committed snapshots captured under their mutation locks, then call listeners after unlocking. The payload stays unchanged when another listener writes again. Their notifications have no durable delivery queue; reconcile critical external state with current reads.
 - Test listeners by calling your own handler functions with synthetic payloads or real staging IDs. Do not fire ArraySubs hooks by hand: ArraySubs' own listeners and other integrations on the site react to them too.
 
 ## Test on Staging
@@ -347,6 +348,23 @@ The checklist below covers what your integration must prove on top of those walk
 | Feature Manager module switched off | `updateConfiguration()` returns `unavailable`. Stored features stay readable, and usage counters keep working |
 
 Switching a module off never deletes its data. Re-run the smoke test after every change to see the new state.
+
+### Verify FlowMattic workflows
+
+The [FlowMattic reference](./flowmattic.md) lists the hooks, action schemas and return shapes. Check the installed workflow builder as well as your PHP calls:
+
+1. Activate FlowMattic and enable its ArraySubs integration. Capture a real test event through Plugin Actions, then map the argument using your installed builder's sample.
+2. Subscribe the workflow to either `arraysubs_flowmattic_event` or its named hook. Using both receives the same event twice. Filter the complete stream by `event` before sending messages or changing anything.
+3. Run a PHP Functions step with `arraysubs_flowmattic_action` and Single Array parameters. Check `success` before later steps. Failures return `success` false, a readable `error`, an exact `code` and `data` null; `is_wp_error()` does not inspect this envelope.
+4. Test the required inputs, an unknown input, an invalid owner and unavailable Pro functionality. Test a synchronous run and a delayed/background run; no logged-in administrator is required.
+5. Retry credit and usage operations with the same operation ID and unchanged intent. Verify that no second mutation or transaction notification occurs. Keep workflow retries away from manual email sends: a retry can send another message.
+6. Check an enabled email's accepted and failed transport paths, then a disabled or suppressed email. Only an actual send attempt emits `email_sent` or `email_failed`; acceptance does not prove inbox delivery.
+7. With Pro, check customer-only credit, product/variation configuration changes, and access on a plan or owner change. Verify the affected old and new identities, including an email-only change. Another subscription may still grant the same benefit.
+8. Test feature period rollover with a read first, then a successful usage mutation. The read emits nothing; the mutation reports the old-period total and the committed new-period snapshot. A manual reset has its own event.
+9. Repeat with free ArraySubs alone, Pro active, and the relevant Pro module off. Core subscription/email events and stored feature usage still work; Pro credit, configuration and access events depend on their publishers.
+10. Check FlowMattic history and the final result in the destination. PHP contract checks do not verify the installed builder's mapping or licensed workflow execution.
+
+Common facade codes include `arraysubs_not_ready`, `flowmattic_unavailable`, `invalid_action`, `missing_argument`, `invalid_argument`, `invalid_identity`, `invalid_fields`, `invalid_amount`, `invalid_operation_id` and `recursive_action`. Domain codes such as `store_credit_unavailable`, `feature_usage_busy`, `email_context_required` or `invalid_order` keep their names in `code`. Re-read or correct the input according to that code; do not retry every failure blindly.
 
 ## Examples
 
@@ -553,6 +571,7 @@ The same shape works for dates: read `schedule.next_payment_at`, then call `setN
 - [Read and Update Feature Data](./feature-manager.md)
 - [Read and Update Store Credit](./store-credit.md)
 - [React to Supported Events](./actions-and-filters.md)
+- [FlowMattic Hooks and Actions](./flowmattic.md)
 - [Connect Membership Workflows](./integration-recipes.md)
 - Gateway staging walkthroughs: [Stripe](../checkout-and-payments/automatic-payments/stripe.md#test-automatic-renewals-on-staging), [PayPal](../checkout-and-payments/automatic-payments/paypal.md#test-automatic-renewals-on-staging), [Paddle](../checkout-and-payments/automatic-payments/paddle.md#test-automatic-renewals-on-staging) and [Mollie](../checkout-and-payments/automatic-payments/mollie.md#test-automatic-renewals-on-staging)
 - Merchant guides: [Recovery and Grace Flows](../billing-and-renewals/recovery-and-grace-flows.md), [Payment Recovery Tools](../checkout-and-payments/automatic-payments/payment-recovery.md), [Gateway Health](../gateway-health/README.md), [Cron Job Setup](../getting-started/cron-job-setup.md), [License Activation](../getting-started/license-activation.md), [Before You Launch](../getting-started/before-you-launch.md) and [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)

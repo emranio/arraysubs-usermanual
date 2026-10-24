@@ -1,13 +1,13 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-23
+- Last updated: 2026-10-24
 
 # React to Supported Events
 
 > Listen to ArraySubs actions and filters, including the normalized `arraysubs_lifecycle_event`, to keep your own systems in step with subscriptions and to adjust selected decisions.
 
-**Availability:** Core (Free). Every hook on this page is fired by ArraySubs core unless its row says Pro. Pro rows need ArraySubs Pro with an active license. Store Credit, Feature Manager and Subscription Bundle rows also need that module switched on.
+**Availability:** Core (Free). Every hook on this page is fired by ArraySubs core unless its row says Pro. Pro rows need ArraySubs Pro and their owning module. Feature Manager and Subscription Bundle also need an active license; Store Credit's retained ledger reads and recovery paths remain available as described below.
 
 ## Page Navigation
 
@@ -15,7 +15,7 @@
 - **Where to open it:** Your custom plugin or theme code (PHP)
 - **Section overview:** [Developers](./README.md)
 - **Previous guide:** [Read and Update Store Credit](./store-credit.md)
-- **Next guide:** [Extend ArraySubs with a Module](./addon-modules.md)
+- **Next guide:** [FlowMattic Hooks and Actions](./flowmattic.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 
 ## Overview
@@ -52,9 +52,9 @@ To read the current state of a subscription instead of listening for changes, us
 ### Timing and delivery
 
 - **Synchronous.** Every hook runs inside the request that made the change: a checkout or payment request, an admin request, a My Account or REST request, an Action Scheduler job, or a gateway webhook request. A slow listener slows that request.
-- **After the save, except status hooks.** Native hooks fire after the change is saved. `arraysubs_data_status_changed` and its dynamic variant run inside the status write (`transition_post_status`), so meta that an operation saves after the status flip is not visible yet.
+- **Check the persistence stage.** Most action notifications follow a saved change. `arraysubs_data_status_changed` and its dynamic variant run inside the status write (`transition_post_status`), so metadata saved after the status flip is not visible yet. Pre-delete hooks and `deleted` run before removal; `deletion_completed` follows confirmed permanent deletion.
 - **Priorities.** Built-in listeners mostly use priority 10 (scheduling, emails, notes, Pro features) and 20 (auto-downgrade, the bundled Affiliates Manager commission). The dispatcher that emits `arraysubs_lifecycle_event` listens at 30 (31 for its detailed status events, 10 for deletion). Use 20 to 29 on a native hook to run before the normalized event, 31 or later to run after it.
-- **At least once.** The same change can reach you more than once in different requests: ArraySubs replays paid-order processing after lock contention or an error, and providers redeliver webhooks. Within one request, the dispatcher suppresses a repeat of the same event for the same subscription and status pair.
+- **Repeated observations.** The same change can reach you more than once in different requests: ArraySubs replays paid-order processing after lock contention or an error, and providers redeliver webhooks. Within one request, the dispatcher suppresses a repeat of the same event for the same subscription and status pair. These hooks have no durable delivery queue or guarantee that your listener receives every event.
 - **Exceptions.** Paid renewal processing catches any exception, including one from your listener on `arraysubs_renewal_payment_complete`, adds an order note and replays the processing about 15 seconds later, so listeners can run again. On `/wp-json/arraysubs/v1/webhooks/{gateway_slug}`, an exception makes the endpoint answer HTTP 500 and release the event so the provider redelivers it. Catch your own exceptions.
 - **No redelivery for your failures.** If your listener fails, ArraySubs does not call it again. Queue work, retry it yourself, and reconcile with the read APIs.
 
@@ -81,7 +81,10 @@ do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 
 | Event | Native source | Fires when | Extra payload keys |
 | --- | --- | --- | --- |
+| `created` | `arraysubs_data_created` | A subscription and its initial metadata have been saved. It may still be pending. | none |
 | `activated` | `arraysubs_data_activated` | Initial activation is completed after payment, also for trial subscriptions. A deferred subscription announces activation only when it is approved. | `order_id` |
+| `activation_deferred` | `arraysubs_subscription_activation_deferred` | An initial paid subscription is saved in its deferred status. | `order_id` |
+| `reactivated` | `arraysubs_data_reactivated` | A subscription returns to active from on-hold, cancelled or expired. | `previous_status` |
 | `status_changed` | `arraysubs_data_status_changed` | Any status change to a subscription status. Skipped when the new status is `trash`, `draft`, `auto-draft`, `inherit`, `new`, `future` or `request-pending`. | none |
 | `granted` | `arraysubs_data_status_changed`, `arraysubs_settings_updated` | This subscription moves from a status without access to one with access (see `arraysubs_integration_access_statuses`), or Access During Pause changes to `full` while it is paused. | `pause_access_mode_changed`, `previous_pause_access_mode`, `pause_access_mode` (setting change only) |
 | `revoked` | `arraysubs_data_status_changed`, `arraysubs_settings_updated` | This subscription moves from a status with access to one without, or Access During Pause changes away from `full` while it is paused. | same as `granted` |
@@ -89,7 +92,8 @@ do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 | `paused` | `arraysubs_subscription_paused` | The subscription is paused. | `duration_days`, `actor_id`, `reason` |
 | `resumed` | `arraysubs_subscription_resumed` | A paused subscription resumes, manually or automatically. | `actor_id`, `automatic` |
 | `expired` | `arraysubs_data_expired` | A fixed end date is reached. Expiry by payment count produces only `status_changed` and `revoked`. | none |
-| `deleted` | `arraysubs_before_delete_subscription` | `arraysubs_delete_subscription()` or `ArraySubs\Developer\Subscriptions::delete()` deletes the subscription, before the record is removed. | `force_delete` |
+| `deleted` | `arraysubs_before_delete_subscription`, `before_delete_post` | Entitlement cleanup before removal, while metadata can still be read. Also covers permanent deletion through native WordPress paths. It does not confirm successful deletion. | `force_delete` |
+| `deletion_completed` | `deleted_post` | WordPress confirms permanent deletion. Customer, product and billing context was captured before metadata disappeared. Trashing does not emit this event. | `force_delete` (`true`) |
 | `updated` | `arraysubs_subscription_terms_updated`, `arraysubs_data_updated` | The admin subscription editor or `Subscriptions::update()` changed tracked fields, or your code called `arraysubs_update_subscription()`. | `changed_fields`, `previous_state_available`, `previous_{field}`, `current_{field}` |
 
 `updated` tracks only these fields: `customer_id`, `product_id`, `variation_id`, `status`, `quantity`, `billing_period`, `billing_interval`, `subscription_length`, `subscription_price`, `recurring_amount`, `signup_fee`, `currency`, `trial_length`, `trial_period`, `enable_different_renewal_price`, `different_renewal_price`, `different_renewal_price_after`, `next_payment_date`, `start_date` and `end_date`. `changed_fields` is a comma-separated list. From `arraysubs_update_subscription()`, `previous_state_available` is `false` and the `previous_*` values are `null`.
@@ -134,6 +138,45 @@ do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 | `cancelled` | `arraysubs_data_cancelled`, `arraysubs_data_cancelled_overdue` | The cancellation helpers cancel the subscription, a scheduled cancellation takes effect, or it is cancelled for non-payment. | `cancellation_mode` (`immediate`, `end_of_period` or `overdue`) |
 
 One change can produce several events. A non-payment cancellation emits `status_changed`, `revoked`, `grace_ended` and `cancelled`; applying a pending switch emits `pending_switch_cleared`, `pending_switch_applied` and `plan_switched`. Do not rely on the order between events of different names.
+
+### Other subscription operations
+
+These events also use `arraysubs_lifecycle_event`. Pro publishers run only when their owning module is available.
+
+| Event | Native source | Extra payload keys |
+| --- | --- | --- |
+| `skipped` | `arraysubs_cycles_skipped` | `cycles`, `actor_id`, `previous_next_payment_date`, `next_payment_date`, `reason` |
+| `skip_undone` | `arraysubs_skip_undone` | `actor_id`, `cycles`, `next_payment_date` |
+| `skip_modified` | `arraysubs_skip_modified` | `previous_cycles`, `cycles`, `actor_id` |
+| `cycle_skipped` | `arraysubs_cycle_skipped_processed` | `previous_cycles_remaining`, `cycles_remaining` |
+| `skip_completed` | `arraysubs_skip_cycles_completed` | none |
+| `refunded` | `arraysubs_subscription_order_refunded` | `order_id`, `refund_id`, `refund_amount`, `reason` |
+| `fully_refunded` | `arraysubs_subscription_fully_refunded` | `order_id` |
+| `shipping_address_updated` | `arraysubs_shipping_address_updated` | `actor_id`, `shipping_*`, `previous_shipping_*` |
+| `payment_method_changed` | `arraysubs_payment_method_changed` | `payment_method`, `previous_payment_method` |
+| `payment_method_attached` | `arraysubs_payment_method_attached` | `order_id`, `payment_method`, `payment_method_title` |
+| `saved_payment_method_updated` | `arraysubs_payment_method_updated` | Current and `previous_*` values for `gateway_slug`, `brand`, `last4`, `expiry_month`, `expiry_year`, `payment_method_type` |
+| `auto_renew_changed` | `arraysubs_auto_renew_toggled` | `auto_renew_enabled`, `gateway` |
+| `manual_payment_recorded` | `arraysubs_manual_payment_recorded` | `order_id`, `payment_amount` |
+| `payment_skipped` | `arraysubs_payment_skipped` | none |
+| `payment_succeeded` | `arraysubs_gateway_payment_succeeded` | `order_id`, `gateway` |
+| `payment_failed` | `arraysubs_gateway_payment_failed` | `order_id`, `gateway`, `error_message` |
+| `payment_verification_required` | `arraysubs_renewal_requires_verification` | `order_id`, `gateway` |
+| `card_expiring` | `arraysubs_card_expiring` | `gateway`, `expiry_month`, `expiry_year`, `expires_at_gmt`, `days_remaining`, `stage_days`, `last4`, `brand` |
+| `customer_changed` | `arraysubs_subscription_customer_identity_changed` | `previous_user_id`, `previous_customer_email`, `user_id`, `customer_email`, `source` |
+| `payment_credential_rebound` | `arraysubs_gateway_payment_credential_rebound` | `gateway`; credential identifiers stay private |
+| `payment_method_required` | `arraysubs_gateway_payment_method_required` | `gateway` |
+| `payment_authorisation_revoked` | `arraysubs_payment_authorisation_revoked` | `gateway` |
+| `billing_suspended`, `billing_resumed` | `arraysubs_gateway_billing_suspended_externally`, `arraysubs_gateway_billing_resumed_externally` | `gateway` |
+| `gateway_subscription_cancelled` | `arraysubs_gateway_subscription_cancelled` | `gateway` |
+| `payment_disputed` | `arraysubs_gateway_dispute_created` | `order_id`, `gateway`; raw provider data stays private |
+| `product_removed` | `arraysubs_product_removed` | `removed_product_id`, `product_removal_action` |
+| `product_restored` | `arraysubs_product_restored` | `restored_product_id` |
+| `early_renewal_started` (Pro) | `arraysubspro_early_renewal_started` | `order_id`, `actor_id`, `is_renewal` |
+| `early_renewal_processed` (Pro) | `arraysubspro_early_renewal_processed` | `order_id`, `is_renewal` |
+| `retention_offer_accepted` (Pro) | `arraysubs_retention_offer_accepted` | `offer_type` |
+
+A gateway payment notification and `renewed` can refer to the same payment. Use `renewed` for one paid renewal, and a gateway event for the gateway observation. Email, credit and feature events below have their own native hooks; they are not names on `arraysubs_lifecycle_event`. [Build FlowMattic Workflows](./flowmattic.md) combines these streams into one workflow contract.
 
 ### Payload keys
 
@@ -276,6 +319,7 @@ Gateway slugs in these hooks are the subscription's stored gateway: for example 
 | `arraysubs_renewal_requires_verification` | action | `int $subscription_id, int $order_id, string $intent_id, string $gateway_slug` | A Stripe renewal needs customer authentication. Core sends the verification email from it. | Core (Stripe) |
 | `arraysubs_gateway_payment_method_required` | action | `int $subscription_id, string $gateway_slug` | Mollie returned no reusable mandate, so renewals cannot be charged automatically. | Core (Mollie) |
 | `arraysubs_gateway_payment_credential_rebound` | action | `int $subscription_id, string $credential_id, string $gateway_slug` | A Mollie subscription was rebound to a new mandate when ArraySubs re-read the customer's mandates at Mollie (the customer's rebind request). | Core (Mollie) |
+| `arraysubs_payment_authorisation_revoked` | action | `WP_Post $subscription, string $gateway_slug` | The gateway's saved payment authorisation is revoked. Use 2 accepted arguments. | Core |
 | `arraysubs_gateway_context_captured` | action | `int $subscription_id, int $order_id, array $context` | After the initial order's payment method is stored on the subscription. `$context`: `payment_method`, `payment_method_title`, `order_id`. | Core |
 | `arraysubs_payment_method_attached` | action | `int $subscription_id, array $method` | Right after, with the same keys. | Core |
 | `arraysubs_gateway_context_persist_failed` | action | `int $subscription_id, int $order_id, WP_Error $error` | Gateway context could not be stored for a paid order. Never retry payment from it or serialize the error. | Core |
@@ -419,15 +463,32 @@ The access scopes used by `arraysubs_member_access_statuses` are `view`, `intera
 | Hook | Type | Arguments (in order) | When it runs | Fired by |
 | --- | --- | --- | --- | --- |
 | `arraysubs_feature_usage_changed` | action | `WP_Post $subscription, string $feature, array $usage, array $previous, string $operation, array $context` | After a usage counter changed (`set`, `increment`, `reset` or `consume`) and its locks are released. `$usage` and `$previous`: `defined`, `reset_period`, `used`, `limit`, `remaining`, `percentage`, `is_unlimited`, `is_exhausted`, `last_reset`, `updated_at`, `period_key`, `period_start`, `resets_at`. `$context`: `reason`, `operation_id`, `actor_id`. A repeated `operation_id` changes nothing and fires nothing; a customer-level consume fires once per changed subscription. | Core (features are configured with Pro Feature Manager) |
+| `arraysubs_feature_usage_period_reset` | action | `WP_Post $subscription, string $feature, array $usage, array $previous_period, array $context` | After a successful non-no-op mutation persists a new billing or calendar period. `$previous_period` has `period_key`, `used`, `last_reset`, `updated_at`; `$context` adds `operation`, `reset_reason` (`period_rollover`), `previous_period_key`, `current_period_key`. Use 5 accepted arguments. | Core |
 
-See [Read and Update Feature Data](./feature-manager.md). Feature types are internal configuration and are not part of this hook.
+Both usage snapshots are captured under the quota locks before listeners run. A read or elapsed time never writes usage or emits a period reset. Manual resets use `arraysubs_feature_usage_changed` with operation `reset`. See [Read and Update Feature Data](./feature-manager.md).
+
+### Feature configuration and access hooks (Pro)
+
+These hooks need Pro's Feature Manager. Every row takes 4 accepted arguments. Feature arrays omit internal configuration types.
+
+| Hook | Arguments (in order) | When it runs |
+| --- | --- | --- |
+| `arraysubs_product_features_changed` | `int $product_id, array $current, array $previous, array $context` | A product or variation's saved assignment list changes through WooCommerce, REST or the developer API. |
+| `arraysubs_product_feature_added`, `arraysubs_product_feature_updated`, `arraysubs_product_feature_removed` | `int $product_id, array $feature, array $previous, array $context` | One assignment is added, updated or removed. On removal, both feature arguments contain the removed row. |
+| `arraysubs_feature_template_created`, `arraysubs_feature_template_updated`, `arraysubs_feature_template_deleted` | `string $template_id, array $template, array $previous, array $context` | A saved reusable template changes. On deletion, both template arguments contain the deleted template. |
+| `arraysubs_subscription_feature_access_changed` | `WP_Post $subscription, array $features, string $effect, array $context` | This subscription grants or revokes enabled features. `$effect` is `grant` or `revoke`; `$context['source_event_id']` links to the originating lifecycle observation. |
+
+Configuration context includes `event_id`, `event_time`, `actor_id`, `source_hook`; product changes also include `variation`, `parent_product_id` and `inherits_parent`. Clearing variation rows can restore parent inheritance. A product edit emits configuration events instead of one access event for every subscriber.
+
+An access event describes this subscription's contribution. Another subscription may still grant the same feature. Plan changes report the removed and added allowances. On customer reassignment, `affected_user_id` and `affected_customer_email` name the recipient of that grant or revocation; the subscription object already holds the current owner. Email-only identity changes and guests are supported. In FlowMattic, `user_id` and `customer_email` identify the affected recipient, while `subscription_customer_id` and `subscription_customer_email` retain the current owner.
 
 ## Store Credit Hooks *(Pro)*
 
-All rows need ArraySubs Pro with an active license. Most fire only while the Store Credit module is on; paid credit purchases and order reversals are still honored, and fire their hooks, while it is off. Credit sources include `admin`, `promotional`, `purchase`, `refund`, `downgrade`, `renewal_applied`, `order_applied` and `expired`.
+These hooks need ArraySubs Pro. Most fire while the Store Credit module is on; paid credit purchases, order reversals and recovery of committed operations can still fire while new spending is off. Credit sources include `admin`, `promotional`, `purchase`, `refund`, `downgrade`, `renewal_applied`, `order_applied` and `expired`.
 
 | Hook | Type | Arguments (in order) | When it runs | Fired by |
 | --- | --- | --- | --- | --- |
+| `arraysubs_store_credit_transaction` | action | `WP_Post\|null $subscription, array $transaction` | After a verified published ledger row and balance change, after releasing the bucket lock. Customer-only credit passes `null`. Immutable before/after balances, signed amount and transaction identity; use 2 accepted arguments. | Pro (Store Credit) |
 | `arraysubs_customer_credit_added`, `arraysubs_customer_credit_deducted` | action | `int $customer_id, float $amount, float $balance_after, string $source` | Once per new customer-balance ledger entry (credit or debit). `$amount` is positive. | Pro (Store Credit) |
 | `arraysubs_subscription_credit_added`, `arraysubs_subscription_credit_deducted` | action | `int $subscription_id, float $amount, float $balance_after, string $source` | Once per new subscription-balance ledger entry. | Pro (Store Credit) |
 | `arraysubs_credits_applied_to_order` | action | `WC_Order $order, float $amount, ?int $subscription_id` | After credit is spent on a checkout or renewal order. | Pro (Store Credit) |
@@ -443,6 +504,18 @@ Ledger reads and adjustments from your code go through [Read and Update Store Cr
 ## Email Hooks
 
 ArraySubs emails are WooCommerce emails (`WC_Email`), so WooCommerce's own per-email filters work with their IDs. WooCommerce fires these filters; ArraySubs passes no `$object` (it is `null`), and once an email is triggered its subscription ID is in `$email->placeholders['{subscription_id}']`.
+
+Listen to `arraysubs_email_delivery_result` with 3 accepted arguments for every actual send attempt across all 25 core emails and four Pro Store Credit emails:
+
+```php
+add_action( 'arraysubs_email_delivery_result', function ( $email, $sent, $context ) {
+	// $email is a WC_Email; store only the scalar context you need.
+	// $context['email_id'] is the full ID, for example arraysubs_payment_failed.
+	// $context['event_id'] identifies this send attempt.
+}, 20, 3 );
+```
+
+The arguments are `WC_Email $email, bool $sent, array $context`. Context includes `email_id`, `subscription_id`, `user_id`, `order_id`, `recipient`, `is_customer_email`, `event_id` and `event_time`, plus email-specific scalar references. `sent` means transport acceptance, not inbox delivery. Disabled or suppressed emails and missing recipients produce no result because no send is attempted. A transport exception produces a failed result with `error_code` `send_exception`, then preserves the original exception. Nested sends keep their own context. Never serialize the email object, and avoid resending an email from its own outcome event.
 
 | Hook | Type | Arguments (in order) | When it runs | Fired by |
 | --- | --- | --- | --- | --- |
@@ -576,13 +649,14 @@ function example_queue_member_sync( $event, $payload ): void {
 		return;
 	}
 
-	$user_id = absint( $payload['user_id'] ?? 0 );
-	if ( $user_id <= 0 ) {
-		return; // Guest subscription: no WordPress account to update.
+	$user_ids = [ absint( $payload['user_id'] ?? 0 ) ];
+	if ( 'customer_changed' === $event ) {
+		$user_ids[] = absint( $payload['previous_user_id'] ?? 0 );
 	}
-
-	if ( ! as_has_scheduled_action( 'example_sync_member', [ $user_id ], 'example-membership' ) ) {
-		as_enqueue_async_action( 'example_sync_member', [ $user_id ], 'example-membership' );
+	foreach ( array_unique( array_filter( $user_ids ) ) as $user_id ) {
+		if ( ! as_has_scheduled_action( 'example_sync_member', [ $user_id ], 'example-membership' ) ) {
+			as_enqueue_async_action( 'example_sync_member', [ $user_id ], 'example-membership' );
+		}
 	}
 }
 
@@ -757,13 +831,13 @@ Only the customer cancellation email gains the `Bcc` header; every other email k
 
 - **Narrow native hooks.** `arraysubs_data_put_on_hold` (overdue check only), `arraysubs_data_expired` (fixed end date only), `arraysubs_trial_converted` (not for a paid trial-end renewal), `arraysubs_data_cancelled` (not for non-payment) and `arraysubs_data_reactivated` (not for the first activation) do not cover every path. Use `arraysubs_data_status_changed` or the `status_changed`, `on_hold`, `trial_ended` and `cancelled` events for full coverage.
 - **Raw status writes.** A plain `wp_update_post()` status change fires the status hooks and the status events, but skips ArraySubs' lifecycle operations, so hooks such as `arraysubs_data_waiting_cancellation` never fire. Change subscriptions through `ArraySubs\Developer\Subscriptions`; see [Find and Update Subscriptions](./subscriptions.md).
-- **Deleting from the admin list.** It uses the WordPress REST route for the subscription post type: only `arraysubs_subscription_children_deleted` fires, box and bundle children are kept and no `deleted` event is emitted. Reconcile if an external system must forget deleted subscriptions.
+- **Deleting from the admin list.** Native WordPress permanent deletion now emits the pre-removal `deleted` event and the confirmed `deletion_completed` event. Use the latter to mark a remote record deleted. Trashing alone is not permanent deletion. `arraysubs_subscription_children_deleted` still refers to notes and scheduled jobs, not box or bundle subscriptions.
 - **Box and bundle children.** They never bill (`arraysubs_subscription_externally_billed`), do not fire renewal payment hooks, and produce their own status-driven events with their own product IDs.
 - **Provider-owned billing.** PayPal and Paddle decide billing dates and run their own dunning: ArraySubs schedules no retries for them, so retry hooks and events do not fire, and their payments arrive in webhook requests (`actor_id` `0`).
 - **Pending plan switch.** The target in a pending switch is not the active plan. Grant its benefits on `plan_switched`, never on `pending_switch_set`.
 - **`arraysubspro_` names fired by core.** `arraysubspro_auto_renew_toggled` and some gateway filters keep a Pro-era name but are fired by core.
 - **Personal data.** The normalized payload contains `customer_email`, and `arraysubs_gateway_webhook_received` passes the raw webhook body. Do not log or forward them without a legal basis.
-- **Pro boundaries.** Pro hooks stop while the license is inactive or the module is off; core hooks keep firing.
+- **Pro boundaries.** Publishers follow their owning module's availability. Feature configuration/access publishers need Pro Feature Manager. Store Credit recovery can notify while new spending is disabled. Core hooks keep firing without Pro.
 
 ## Troubleshooting
 
@@ -793,6 +867,7 @@ Only the customer cancellation email gains the `Bcc` header; every other email k
 - [Read and Update Store Credit](./store-credit.md)
 - [Extend ArraySubs with a Module](./addon-modules.md)
 - [Connect Membership Workflows](./integration-recipes.md)
+- [FlowMattic Hooks and Actions](./flowmattic.md)
 - [Verify Your Integration](./errors-and-testing.md)
 - [Lifecycle management](../manage-subscriptions/lifecycle-management.md)
 - [Recovery and grace flows](../billing-and-renewals/recovery-and-grace-flows.md)
@@ -804,7 +879,7 @@ Only the customer cancellation email gains the `Bcc` header; every other email k
 No. ArraySubs receives provider webhooks; it does not send lifecycle webhooks. Listen in PHP, queue the work and send your own requests, using `event_id` as the idempotency key when `identity_scope` is `operation`.
 
 **Is every event delivered exactly once?**
-No. Delivery is in-process and at least once across requests. Deduplicate operation-scoped events with `event_id`, and re-read the current state for request-scoped ones.
+No. Hooks run in process, may repeat across requests, and have no durable delivery queue. Deduplicate operation-scoped events with `event_id`, re-read current state for request-scoped ones, and reconcile important external state.
 
 **Should I use native hooks or `arraysubs_lifecycle_event`?**
 Use the normalized event for integrations that store or forward state: one listener, one flat payload, no objects. Use a native hook when you need the live `WP_Post` or `WC_Order`, a filter, or a change that has no event.

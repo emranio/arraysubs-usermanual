@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-24
 
 # Extend ArraySubs with a Module
 
@@ -14,7 +14,7 @@
 - **Current guide:** Extend ArraySubs with a Module
 - **Where to open it:** Your custom plugin or theme code (PHP)
 - **Section overview:** [Developers](./README.md)
-- **Previous guide:** [React to Supported Events](./actions-and-filters.md)
+- **Previous guide:** [FlowMattic Hooks and Actions](./flowmattic.md)
 - **Next guide:** [Gate Custom PHP Output](./php-templates.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 

@@ -1,7 +1,7 @@
 # Info
 - Module: Manual Planning
 - Availability: Internal reference
-- Last updated: 2026-06-27
+- Last updated: 2026-10-24
 
 # User Manual Hub Index Plan
 
@@ -162,6 +162,18 @@
   - Admin Emails
   - Store Credit Emails *(Pro)*
 
+- Integrations - done
+  - Integrations overview
+  - FlowMattic
+  - LearnPress
+  - Affiliates Manager
+  - CartFlows
+  - WP Fusion
+  - FluentCRM
+  - Tutor LMS
+  - Academy LMS
+  - License Manager for WooCommerce
+
 - Admin Bar Visibility - done
   - Hide the frontend WordPress toolbar for non-admin customers
   - Preserve normal shortcuts for administrators
@@ -199,7 +211,32 @@
   - Access Rule Conflicts
   - Payment Method and Shipping Update Issues
 
+- Developers - done
+  - Developers
+  - Connect Your Custom Plugin
+  - Find and Update Subscriptions
+  - Work with Subscription Families and Orders
+  - Read Lifecycle State and Manage Its Dates
+  - Activate a Paid Subscription After Verification
+  - Find Members and Update Profiles
+  - Read Subscription Product Terms
+  - Read and Update Feature Data
+  - Check Content Access
+  - Read Download Benefits
+  - Read Member Discounts
+  - Read Login-Limit Policy
+  - Read Member Styling Rules
+  - Read and Update Store Credit
+  - React to Supported Events
+  - FlowMattic Hooks and Actions
+  - Extend ArraySubs with a Module
+  - Gate Custom PHP Output
+  - Connect Membership Workflows
+  - Verify Your Integration
+
 ## Notes For Content Production
+
+- The **Integrations** group follows **Emails** in `menu.json`. Its setup pages are for store owners; PHP hooks and workflow action inputs are documented under **Developers -> FlowMattic Hooks and Actions**.
 
 - Keep the hub at a **maximum 3-level hierarchy** when creating real pages.
 - Keep the hub and `index-plan.md` aligned with `markdowns/menu.json`.
