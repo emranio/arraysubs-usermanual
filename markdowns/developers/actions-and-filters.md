@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-26
 
 # React to Supported Events
 
@@ -544,6 +544,7 @@ ArraySubs sends most emails from native hooks at priority 10 (for example the in
 | `arraysubs_order_item_subscription_data` | filter | `array $data, WC_Order_Item_Product $item, ?WC_Order $order` | Terms for one order line; checkout creates the subscription from them. | Core |
 | `arraysubs_add_to_cart_subscription_data` | filter | `?array $data, int $product_id` | While an add-to-cart is checked against the cart's billing cycles. | Core |
 | `arraysubs_subscription_cart_item_data` | filter | `array $details, array $cart_item, array $data, int $quantity, string $context` | The subscription rows under a cart line; `$context` is `cart` or `email_snapshot`. | Core |
+| `arraysubs_order_item_name_shows_schedule` | filter | `bool $shows_schedule, WC_Order_Item_Product $item` | Before core adds the billing schedule, such as *(Every month)*, after a subscription order line's name. Return `false` where the screen already shows the schedule. Core leaves it off on its own for the order-received and My Account order screens and for purchase lines whose trial changes to another plan. Pro's Cart Info Editor returns `false` in an initial order email that shows the line's subscription rows. | Core |
 | `arraysubs_is_subscription_checkout_product` | filter | `bool $is_subscription, int $product_id` | Whether a product uses subscription checkout rules such as one-click checkout. | Core |
 | `arraysubs_skip_subscription_for_order_item` | filter | `bool $skip, WC_Order_Item $item, WC_Order $order` | Return `true` to create no subscription for an order line. | Core |
 | `arraysubs_data_created_from_order` | action | `int $subscription_id, int $order_id, WC_Order_Item_Product $item, WC_Order $order` | After checkout created a subscription for an order line and saved its schedule. Use the `$order` passed in; do not reload it. | Core |

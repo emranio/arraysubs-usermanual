@@ -1,7 +1,7 @@
 # Info
 - Module: Billing and Renewals
 - Availability: Free global Renewal Sync; Pro Flexible Renewal Sync and automatic gateway extensions
-- Last updated: 2026-09-09
+- Last updated: 2026-10-26
 
 # Renewal Sync
 
@@ -122,7 +122,7 @@ For variable products, configure the same feature inside the relevant variation'
 
 ## What customers see
 
-The cart and checkout summary explain the first charge and the next synced charge. This lets customers understand whether they are paying a prorated first amount, a full first amount, or a full amount that covers the next billing cycle.
+In the cart and at checkout, the line's price is the first charge: a prorated first amount, a full first amount, or a full amount that covers the next billing cycle. The **Next charge** row under the product name shows the synced renewal date. When a product's Flexible Renewal Sync segment charges a full amount that covers the next billing cycle, a **First billing cycle** row shows when that paid cycle starts, for example *"Starts August 1, 2026"*.
 
 ![Checkout order summary showing full first charge and synced next charge](renewal-sync.ASSETS/03-renewal-sync-checkout-summary-annotated.png)
 
@@ -145,7 +145,7 @@ Product-level Flexible Renewal Sync is the right choice when different signup wi
 ## Testing checklist
 
 - Add the product to the cart from a logged-out or test customer session.
-- Confirm checkout shows **Today's charge** and **Next charge** correctly.
+- Confirm the checkout line's price is the expected first charge and the **Next charge** row shows the synced date.
 - Confirm unsupported automatic gateways do not appear for the synced cart.
 - Place a test order with a supported gateway.
 - Open the created subscription and verify the **Next Payment Date** is the synced boundary.

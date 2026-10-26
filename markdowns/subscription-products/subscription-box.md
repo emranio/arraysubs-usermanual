@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Subscription Boxes
 
@@ -110,7 +110,7 @@ Once steps exist, the panel shows three fact cards and two summary tables.
 
 | Fact card | Possible values | Meaning |
 |---|---|---|
-| **Billing** | "every month · until cancelled", "every 2 weeks · 6 cycles" | The box schedule and how long it runs |
+| **Billing** | "Fixed · every month", "Fixed · every 2 weeks · 6 cycles" | The subscription type, the box schedule, and, for a fixed number of billing cycles, how long it runs |
 | **Signup fees** | **Summed from box contents** / **Not charged** | Whether **Keep signup fees** is on |
 | **Flexible renewal sync** | **Custom segment plan** / **Store default** | Whether this box has its own segment plan |
 

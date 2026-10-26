@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Shipping
 - Availability: Pro
-- Last updated: 2026-09-09
+- Last updated: 2026-10-26
 
 # Subscription Shipping
 
@@ -45,12 +45,14 @@ The settings appear in the product editor when the product is a subscription and
 
 ## Shipping Behavior
 
-![Checkout order summary — renewal shipping note and recurring charge](README.ASSETS/02-checkout-shipping-summary-annotated.png)
+![Checkout order review with the Shipping row under the subscription line](README.ASSETS/02-checkout-shipping-summary-annotated.png)
 
 | Shipping Type | Initial Order | Renewal Orders |
 |---|---|---|
 | Recurring | Shipping is charged | Shipping is charged again |
 | One-time | Shipping is charged | Shipping is not charged |
+
+In the cart, checkout, and mini-cart, each physical subscription line shows a **Shipping** row under the product name: *Every renewal* for Recurring, or *First order only* for One-time. The shipping amount itself appears in the totals; an **Initial Shipping Override** appears there as its own fee line, named **Shipping: [product name]**. [Cart Info Editor](../cart-info-editor/README.md) can hide the row.
 
 If an override is blank or 0, WooCommerce shipping calculation is used: the product editor saves a blank override as 0, and only an amount above 0 overrides. A blank renewal override uses the initial shipping amount. If an override is set, ArraySubs stores that amount with the subscription and uses it during renewal order creation.
 

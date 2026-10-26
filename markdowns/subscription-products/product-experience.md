@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products / Product Experience
 - Availability: Shared (standard pricing display: Free; different renewal pricing, redirect/features/shipping: Pro)
-- Last updated: 2026-09-15
+- Last updated: 2026-10-26
 
 # Product Experience and Display
 
@@ -40,7 +40,8 @@ On the single product page, subscription information appears below the product t
 | Signup fee | When fee > 0 | **+ $9.99 signup fee** |
 | Trial info | When trial length > 0 | **14-day free trial** |
 | Subscription length | When length > 0 | **5 billing cycles** |
-| (no length note) | When length = 0 | Continues until cancelled (no text shown) |
+
+A plan without a fixed length shows no length text.
 
 ![Simple product page — recurring price, signup fee, and billing schedule display](product-experience.ASSETS/01-simple-product-page-subscription-pricing-annotated.png)
 
@@ -50,17 +51,18 @@ For **variable products**, the subscription info area starts empty. When the cus
 
 ### Cart
 
-![Cart subscription line item — Subscription Details metadata block and initial payment row](product-experience.ASSETS/04-cart-subscription-line-item-annotated.png)
+![Cart subscription line item with its subscription rows under the product name](product-experience.ASSETS/04-cart-subscription-line-item-annotated.png)
 
 In the cart, subscription information is integrated into the standard WooCommerce cart display:
 
 | Location | What changes |
 |---|---|
-| Item price column | Shows price with billing schedule (e.g., "$29.99 / month") |
-| Item subtotal | Shows detailed subscription info with renewal details |
-| Item name | Adds a billing schedule badge |
-| Item metadata | Adds structured subscription details (period, trial, signup fee) as cart meta rows |
+| Price, Subtotal, and Quantity columns | Show only the amounts WooCommerce calculates. The line's price is what checkout charges today, for example $0.00 during a free trial |
+| Item name | The product name as WooCommerce shows it, with no billing schedule badge |
+| Item metadata | Short subscription rows under the product name, one per fact: **Free trial**, **After trial** or **Renewals**, **First charge** or **Next charge**, and **Duration** for fixed-length plans |
 | Fees section | Signup fee appears as a separate fee line labeled "Subscription Signup Fee" |
+
+See [Subscription Details at Checkout](../checkout-and-payments/subscription-checkout.md#subscription-details-at-checkout) for every row and when it appears.
 
 ```box class="info-box"
 The signup fee is not part of the product price. It is added as a WooCommerce cart fee, which means it appears in the fees section of the cart totals — not in the line item price.
@@ -68,9 +70,9 @@ The signup fee is not part of the product price. It is added as a WooCommerce ca
 
 ### Mini-Cart
 
-![Mini-cart drawer — Subscription Details list and recurring totals](product-experience.ASSETS/05-mini-cart-subscription-details-annotated.png)
+![Mini-cart drawer with the subscription rows under the product name](product-experience.ASSETS/05-mini-cart-subscription-details-annotated.png)
 
-The WooCommerce mini-cart (widget cart) also displays subscription information next to the item quantity. Each subscription item receives the CSS class `arraysubs-mini-cart-item` for styling purposes.
+The WooCommerce mini-cart (widget cart) lists the same subscription rows under the product name, and leaves the quantity and price as WooCommerce shows them. Each subscription item receives the CSS class `arraysubs-mini-cart-item` for styling purposes.
 
 Below the subtotal, the classic mini-cart lists each signup fee in the cart on its own row (Subscription Signup Fee, Box Signup Fee, and Bundle Signup Fee with ArraySubs Pro), followed by a **Due Today** row with the cart total. Signup fee rows follow your cart tax display setting, just like the fee rows in the cart and at checkout: with tax when the cart shows prices including tax, without tax otherwise. When the cart shows prices excluding tax, Due Today still includes tax and says so, for example "$30.23 (incl. VAT)". Due Today is the amount checkout charges, so coupons and shipping are already counted in it even though the mini-cart does not list them.
 
@@ -78,21 +80,13 @@ When the mini-cart refreshes in the background, for example after a shopper adds
 
 ### Checkout
 
-![Checkout order summary — subscription metadata block and initial payment total](product-experience.ASSETS/06-checkout-subscription-summary-annotated.png)
+![Checkout order review with the subscription rows under the product name](product-experience.ASSETS/06-checkout-subscription-summary-annotated.png)
 
-At checkout, subscription details appear in two places:
-
-1. **Order review table** — Item names, prices, and subtotals include billing schedule information, matching the cart display.
-2. **Subscription summary section** — A dedicated summary block appears after the order total, showing:
-   - Recurring amount and billing schedule
-   - Different renewal price and threshold (if set)
-   - Signup fee (if set)
-   - Trial duration (if set)
-   - Total duration (if subscription length > 0)
+At checkout, the order review table shows the same subscription rows under each subscription line as the cart, and its amount columns hold only amounts. Classic checkout adds one recurring-payment authorization notice below the order total when the cart holds a subscription that renews.
 
 ### Order Confirmation
 
-After checkout, the order confirmation (thank you) page includes a **Subscriptions** table showing all subscriptions created from that order:
+After checkout, the order confirmation (thank you) page includes a **Related Subscriptions** table showing all subscriptions created from that order:
 
 | Column | Content |
 |---|---|
@@ -103,7 +97,11 @@ After checkout, the order confirmation (thank you) page includes a **Subscriptio
 
 ### Order Item Display
 
-On WooCommerce order pages (admin and customer-facing), the subscription billing schedule is appended to the item name in parentheses (e.g., "Monthly Membership (Every month)").
+On WooCommerce order pages (admin and customer-facing) and in order emails, the billing schedule follows the item name in parentheses (e.g., "Monthly Membership (Every month)") where nothing else on that screen shows it. It is left off:
+
+- On the order confirmation page and the My Account order view, which list the order's subscriptions with their schedules below the items.
+- On purchase lines whose free trial changes to another plan when it ends, because the plan bought never renews on its own schedule.
+- In order emails when ArraySubs Pro's [Cart Info Editor](../cart-info-editor/README.md) shows the line's subscription rows.
 
 ---
 
@@ -259,8 +257,8 @@ If a WooCommerce sale is active (within the sale schedule dates), the product pa
 ### Can I customize the subscription price format?
 The price format follows your WooCommerce currency settings (currency symbol, position, decimal places). The billing schedule text (e.g., "/ month", "Every 3 weeks") is generated automatically from the billing period and interval.
 
-### Does the subscription summary appear on the Block Checkout?
-Yes. ArraySubs supports both the classic WooCommerce checkout and the Block Checkout (Store API). Subscription summary information is displayed in both.
+### Do the subscription details appear on the Block Checkout?
+Yes. ArraySubs supports both the classic WooCommerce checkout and the Block Checkout (Store API). The subscription rows under each line item are displayed in both.
 
 ### Can I hide the Feature Manager "What's Included" section on the product page?
 Yes. The storefront display is controlled by a Feature Manager setting. When disabled, features are still available in the customer portal — they just don't display on the product page.

@@ -1,7 +1,7 @@
 # Info
 - Module: Refund Management
 - Availability: Shared (Free core + Pro store credit)
-- Last updated: 2026-04-02
+- Last updated: 2026-10-26
 
 # Refund Management
 
@@ -292,7 +292,7 @@ End-of-period refund policy is separate: when a subscription is already schedule
 - **Gateway refunds require gateway support.** Not all WooCommerce payment gateways support the refund API. If the gateway doesn't support refunds, they must be processed manually through the gateway's dashboard.
 - **Refund history is stored on the subscription.** Even if the associated WooCommerce order is deleted, the refund record remains in the subscription's `_refund_history` meta.
 - **Store credit refunds and gateway refunds can be mixed.** On the same order, you could issue part as a gateway refund and part as store credit, as long as the total doesn't exceed the order's refundable balance.
-- **One order, several subscriptions.** A subscription can be refunded up to its own part of the order: its line after coupons with tax, plus its signup fee and shipping, minus its part of any shared discount. A discount larger than one subscription's own price is counted against the other products it applies to, the same way checkout's Today's charge shows it, so a subscription's refund limit is never more than was paid for it. A subscription whose part came to 0 has nothing to refund and does not make a partial refund of the order ambiguous.
+- **One order, several subscriptions.** A subscription can be refunded up to its own part of the order: its line after coupons with tax, plus its signup fee and shipping, minus its part of any shared discount. A discount larger than one subscription's own price is counted against the other products it applies to, the same way checkout splits the payment, so a subscription's refund limit is never more than was paid for it. A subscription whose part came to 0 has nothing to refund and does not make a partial refund of the order ambiguous.
 - **Plan-switch orders are not listed in the Order History card.** The subscription's Order History card lists the orders that paid billing cycles. A refund of a plan switch made at checkout counts in its Total Refunded figure and appears in the refund history, but that order itself is not listed in the card.
 - **The Two-Way Sync Guard prevents double-processing.** When you refund locally on a gateway-managed subscription, the webhook from the gateway will not create a duplicate refund. This works for Stripe, PayPal, Paddle, and Mollie.
 

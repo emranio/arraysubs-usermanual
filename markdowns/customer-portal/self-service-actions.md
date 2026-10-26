@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Self-Service Actions
 - Availability: Shared
-- Last updated: 2026-09-02
+- Last updated: 2026-10-26
 
 # Subscription Self-Service Actions
 
@@ -96,6 +96,7 @@ When **Cancel Immediately** is disabled:
 - Any pending plan switch is cleared
 - The customer continues to have access until the period ends
 - The customer sees: **"Subscription scheduled for cancellation at the end of your current billing period."**
+- From then on, the subscription page shows a **Pending cancellation** badge next to the status, a **Cancels On** row with the date, and the **Undo Scheduled Cancellation** button under **Manage Your Subscription**
 
 ### Cancellation Reasons
 
@@ -305,8 +306,8 @@ Both permissions live on the **Skip & Pause** page and are only visible while **
 
 ### While Paused
 
-When the subscription is paused, the detail page shows:
-- An icon (⏸) with "Subscription Paused"
+When the subscription is paused, the **Vacation Mode** card shows:
+- A pause icon (⏸)
 - The pause start date
 - The scheduled resume date
 - A **Resume Now** button
@@ -332,7 +333,7 @@ Early Renew lets customers pay their next renewal **before** its scheduled due d
 
 **Availability:** Pro
 
-![Renew Early helper text and compact action in the Renewals row](self-service-actions.ASSETS/07-early-renew-action-original.png)
+![Renew Early button in the Renewals row](self-service-actions.ASSETS/07-early-renew-action-original.png)
 
 ### When It Appears
 
@@ -345,7 +346,7 @@ The **Renew Early** button appears in the **Renewals** row of the subscription o
 - There is no unpaid renewal invoice already waiting, and no skipped renewal scheduled
 - The subscription's gateway supports early renewal — see **Gateway support** below
 
-The helper text above the compact button spells out the current due date and where the next payment moves to, so the customer knows exactly what will happen before they click.
+Early Renew adds only the button to the row. The amount and dates appear in the confirmation dialog, before anything is charged.
 
 ### Gateway Support
 
@@ -363,7 +364,7 @@ PayPal and Paddle manage the recurring billing date on their own systems and giv
 ### Flow
 
 1. The customer clicks **Renew Early**.
-2. A confirmation dialog opens, showing the amount, the original due date, and the new next-payment date.
+2. A confirmation dialog opens, showing the amount, the original due date, and, when it is known, the new next-payment date.
 
 ![Renew Early confirmation dialog showing amount and dates](self-service-actions.ASSETS/08-early-renew-confirm-original.png)
 
@@ -443,7 +444,7 @@ This table summarizes which actions are available based on subscription status:
 | Customer cannot see the Change Plan button | Plan switching is disabled, the subscription is not Active, or no linked products are configured | Check **General Settings → Customer Actions → Allow Plan Switching**, verify the subscription is Active, and confirm that upgrade/downgrade products are linked on the product |
 | Skip or Pause section is missing | Skip or pause features are disabled in settings, or the subscription is not in Active/Trial status | Check **General Settings → Skip & Renewal** and **Pause Subscription** settings |
 | Retention offers are not appearing | The Retention Flow feature is disabled, or no offers are configured, or the subscription does not meet offer eligibility conditions | Check the **Retention Flow** admin page for enabled offers and their eligibility rules |
-| Customer cancelled but subscription is still Active | End-of-period cancellation is configured (not immediate cancellation) | The subscription is scheduled to cancel at the end of the billing period. The customer will see a pending cancellation flag |
+| Customer cancelled but subscription is still Active | End-of-period cancellation is configured (not immediate cancellation) | The subscription is scheduled to cancel at the end of the billing period. The customer sees a **Pending cancellation** badge and a **Cancels On** row with the date |
 | Renew Early button is missing | Early renew is disabled, the subscription is on PayPal/Paddle, it is a trial/lifetime/pending-cancel subscription, the renewal is already due, or an unpaid invoice is already waiting | Check **General Settings → Customer Actions → Allow Early Renew**, confirm the subscription is Active on Stripe, Mollie or a manual gateway, and confirm the next payment date is still in the future |
 
 ## Related Guides

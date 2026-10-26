@@ -1,7 +1,7 @@
 # Info
 - Module: Customer Portal Pages
 - Availability: Shared
-- Last updated: 2026-09-02
+- Last updated: 2026-10-26
 
 # Customer Portal Pages
 
@@ -34,17 +34,37 @@ The **My Subscriptions** page is the main entry point. Customers reach it by cli
 
 ### What Customers See
 
-The page shows a table of all subscriptions belonging to the logged-in customer, sorted by newest first.
+The page lists all subscriptions belonging to the logged-in customer, sorted by newest first. **Subscription List View in 'My Account'** in General Settings picks the layout: **Insightful Cards** (the default) or **Compact Table**.
+
+#### Cards
+
+Each card shows the product name with the subscription ID, a status badge (plus a **Pending cancellation** badge when a cancellation is scheduled), and short rows. Each fact appears once, and a row with nothing new to show is left out:
+
+| Row | What It Shows |
+|---|---|
+| **Price / Billing** | The recurring amount and billing schedule, for example "$29.99 Every month". A lifetime subscription shows its price followed by "Lifetime Deal" |
+| **Start Date** | The date the subscription began |
+| **Next Renewal** | The next renewal date of an Active, Trial, or On-Hold subscription. Hidden when a cancellation is scheduled, for paused, lifetime, and ended subscriptions, and when there is no date |
+| **Access Expiry** | The date an Active subscription's access ends, when that date is still ahead (a fixed end date or a scheduled cancellation) |
+| **Paused Since**, **On Hold Since**, **Expired On**, **Access Ended** | The date a Paused, On-Hold, Expired, or Cancelled subscription reached that state |
+
+A trial that changes to another plan when it ends shows $0.00 with no billing schedule, and a **Trial Ends** row with the date and the plan, for example "April 16, 2026, then changes to Basic". While that trial is paused, the row reads **After Trial** with the plan name.
+
+With the Pro Feature Manager on, an **Access Scope** list shows the plan's features. **View Details** opens the subscription, and **View Initial Order** opens its first order.
+
+#### Compact Table
 
 | Column | What It Shows |
 |---|---|
 | **Product** | Subscription ID (as a link to the detail page) and the product name |
 | **Status** | A colored status badge — Active, On-Hold, Trial, Cancelled, Expired, or Pending |
 | **Next Payment** | The next renewal date for active and on-hold subscriptions. Shows "—" for cancelled, expired, or pending subscriptions |
-| **Total** | The recurring amount with the billing schedule shown below (for example, "$29.99" with "every 1 month" beneath it) |
+| **Total** | The recurring amount with the billing schedule shown below (for example, "$29.99" with "Every month" beneath it) |
 | **Actions** | A **View** button that opens the subscription detail page |
 
-The recurring amount displayed here reflects any active retention discounts. If the customer accepted a retention offer, the discounted amount is shown instead of the base price.
+For a trial that changes to another plan when it ends, **Next Payment** reads "Trial ends [date]" with "Changes to [plan]" beneath it, and **Total** shows $0.00.
+
+In both layouts, the recurring amount reflects any active retention discounts. If the customer accepted a retention offer, the discounted amount is shown instead of the base price.
 
 ### Pagination
 
@@ -83,16 +103,19 @@ The top section shows a detailed information table:
 
 | Row | What It Shows | Visibility |
 |---|---|---|
-| **Status** | Colored status badge | Always |
+| **Status** | Colored status badge, plus a **Pending cancellation** badge when a cancellation is scheduled | Always |
 | **Product** | Product name (with variation name if applicable) | Always |
 | **Start Date** | The date the subscription began | Always |
-| **Next Payment** | The next renewal date, or "Lifetime Deal — No recurring payment" for lifetime subscriptions | Active and On-Hold only |
+| **Cancels On** | The scheduled cancellation date, or "End of current billing period" | Only when a cancellation is scheduled |
+| **Next Payment** | The next renewal date | Active, Trial, Paused, and On-Hold subscriptions with a renewal date. Not shown for lifetime subscriptions or when a cancellation is scheduled |
 | **End Date** | The date the subscription will end | Only if an end date is set |
-| **Recurring Amount** | The effective price per billing cycle with the billing schedule | Always |
-| **Renewals** | Auto-renew status and toggle, plus Renew Early details and action when available | When at least one renewal control is available |
+| **Recurring Amount** | The effective price per billing cycle with the billing schedule. For a lifetime subscription the row is labelled **Price** and reads, for example, "$199.00 Lifetime Deal" | Always, except for the trial described below |
+| **Renewals** | The auto-renew toggle and its status, and the **Renew Early** button when available | When at least one renewal control is available |
 | **Coupon Discount** | Applied coupon code, discount type, and remaining cycles | Only if a recurring coupon is active |
 | **Payment Method** | Payment method name with a link to manage payment methods | If a payment method is on file |
 | **Card on File** | Saved card summary, expiry, and Update payment method link | When supported by the automatic gateway |
+
+A trial that changes to another plan when it ends shows **Trial Ends** (the date) and **After Trial** (the plan) in place of **Next Payment**. It has no **End Date** or **Recurring Amount** row and no auto-renew toggle.
 
 ### Recurring Amount with Discounts
 
@@ -127,7 +150,7 @@ Below the overview table, **Manage Your Subscription** groups each available cus
 
 | Action | When It Appears |
 |---|---|
-| **Change Plan** | Appears in its own guidance card when the subscription is Active, plan switching is enabled, and the product has linked upgrade/downgrade/crossgrade products |
+| **Change Plan** | Appears as a button in its own card when the subscription is Active, plan switching is enabled, and the product has linked upgrade/downgrade/crossgrade products |
 | **Cancel Subscription** | Appears as a compact text link in the final card when customer cancellation is enabled, the subscription is eligible, and no cancellation is already scheduled |
 | **Undo Scheduled Cancellation** | Appears when an end-of-period cancellation is waiting |
 | **Retry Payment** | Appears when the latest renewal charge failed and the subscription can still be charged |
@@ -157,7 +180,7 @@ This section appears when **Pause Subscription** is enabled in General Settings 
 ```
 
 - **When not paused:** A **Pause Subscription** button appears. Clicking it prompts the customer for a pause duration (in days) and optionally a reason.
-- **When paused:** A status message shows "Subscription Paused" with the pause date and the scheduled resume date, plus a **Resume Now** button.
+- **When paused:** The card shows "Paused on: [date]" and "Scheduled resume: [date]", plus a **Resume Now** button.
 
 ---
 
@@ -339,8 +362,8 @@ The portal verifies subscription ownership on every page load. If the subscripti
 ### Are the My Features and Store Credit tabs always visible?
 No. Each tab only appears when its corresponding Pro feature is enabled in the ArraySubs settings. If the Feature Manager or Store Credit module is disabled, the tab is automatically hidden from the My Account navigation.
 
-### Why does a subscription show "Lifetime Deal — No recurring payment"?
-This appears when the subscription's billing period is set to `lifetime`. Lifetime subscriptions have no renewal date because they do not recur.
+### Why does a lifetime subscription have no Next Payment row?
+Lifetime subscriptions do not recur, so they have no renewal date. Their price row reads "Lifetime Deal" after the amount, for example "Price: $199.00 Lifetime Deal" on the detail page.
 
 ### What is the Pay link in Related Orders?
 When a renewal invoice has been generated but not yet paid, the **Pay** link takes the customer to the WooCommerce checkout payment page for that specific order. This is the primary way customers pay manual renewal invoices. The link is replaced by **Payment in progress** while an automatic payment for that renewal is still settling (a SEPA or ACH bank debit, or a PayPal or Paddle renewal charge, for example). It comes back as soon as the gateway reports that payment failed, or when its settlement window ends. It is replaced by **Payment received** when the gateway already took the payment but it is not applied to the order yet; contact the store about that order.

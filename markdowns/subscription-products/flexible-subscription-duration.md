@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Pro
-- Last updated: 2026-09-09
+- Last updated: 2026-10-26
 
 # Flexible Subscription Duration
 
@@ -83,10 +83,10 @@ When you select **Flexible Length**:
 |---|---|
 | 6 | 1 to 6 billing cycles |
 | 12 | 1 to 12 billing cycles |
-| 0 | 1 to 365 billing cycles (no merchant cap) |
+| 0 | 0 to 365 billing cycles (no merchant cap). 0 renews until cancelled |
 
 ```box class="info-box"
-A **Maximum Length of 0** means you are not setting an upper cap. The customer can still choose a finite number of cycles (up to a system limit of 365), or leave it at the default. Set a specific maximum whenever you want a hard ceiling.
+A **Maximum Length of 0** means you are not setting an upper cap. The length field starts at **0**, which keeps the subscription renewing until it is cancelled, and the customer can enter a finite number of cycles instead (up to a system limit of 365). The field's hint reads only *"Number of billing cycles"*. Set a specific maximum whenever you want a hard ceiling.
 ```
 
 ### Full Flexible Mode
@@ -128,13 +128,12 @@ On the storefront, the flexible options appear only after the customer selects a
 
 ### On the Product Page
 
-![Product page — Subscription options block with a Billing Period dropdown, a Subscription Length input, and a live summary line](flexible-subscription-duration.ASSETS/04-product-page-flexible-options-annotated.png)
+![Product page with a Billing Period dropdown and a Subscription Length input](flexible-subscription-duration.ASSETS/04-product-page-flexible-options-annotated.png)
 
-A **Subscription options** block appears inside the add-to-cart form:
+The subscription options appear inside the add-to-cart form:
 
-- In **Full Flexible** mode, a **Billing Period** dropdown lists the periods you allowed.
-- A **Subscription Length** number field lets the customer enter how many billing cycles to buy, within the allowed range.
-- A live summary line (for example, *"Billed every week · for 4 billing cycles"*) updates as the customer changes the fields, so they can confirm their choice before adding to the cart.
+- In **Full Flexible** mode, a **Billing Period** dropdown lists the periods you allowed. Choosing a period updates the price suffix, for example from "/ month" to "/ week".
+- A **Subscription Length** number field lets the customer enter how many billing cycles to buy, within the allowed range. Its hint reads *"Number of billing cycles"*, or *"Number of billing cycles (max 12)"* when you set a Maximum Length.
 
 For **Flexible Length** products, only the Subscription Length field appears — the billing period is fixed by the merchant.
 

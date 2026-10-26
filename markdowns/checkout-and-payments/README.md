@@ -1,7 +1,7 @@
 # Info
 - Module: Checkout and Payments
 - Availability: Shared
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Checkout and Payments
 
@@ -15,7 +15,7 @@ The core checkout engine handles everything from cart validation to subscription
 
 ![Storefront subscription checkout with order summary and trial](README.ASSETS/01-subscription-checkout-summary-annotated.png)
 
-- [Subscription Checkout](subscription-checkout.md) — Cart validation rules, one-click checkout, trial behavior, auto-account creation, plan switching at checkout, and the subscription summary display.
+- [Subscription Checkout](subscription-checkout.md) — Cart validation rules, one-click checkout, trial behavior, auto-account creation, plan switching at checkout, and the subscription details shown under each line.
 
 ![ArraySubs General settings covering global checkout behavior](README.ASSETS/02-checkout-general-settings-annotated.png)
 

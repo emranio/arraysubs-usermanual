@@ -1,7 +1,7 @@
 # Info
 - Module: Cancellation Setup
 - Availability: Free (cancellation timing, undo); Pro (cancellation reasons editor, Retention Flow admin page, retention offers)
-- Last updated: 2026-04-02
+- Last updated: 2026-10-26
 
 # Cancellation Setup
 
@@ -218,7 +218,7 @@ If the customer declines all offers (or if offers are not enabled), the cancella
 | Mode | Status shown | Access | Undo option |
 |---|---|---|---|
 | Immediate | **Cancelled** | Revoked immediately | None |
-| End-of-period | **Active** with "Scheduled for cancellation" notice | Continues until period ends | **Undo Cancellation** button visible |
+| End-of-period | **Active** with a **Pending cancellation** badge and a **Cancels On** row | Continues until period ends | **Undo Cancellation** button visible |
 
 ---
 

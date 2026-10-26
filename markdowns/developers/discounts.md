@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Read Member Discounts
 
@@ -365,7 +365,7 @@ These errors carry no error data.
 
 - **Not a checkout total.** Per-cart rules, coupons, shipping, fees and address-based tax are left out. Use the WooCommerce cart for real totals.
 - **Storefront and admin differ.** The storefront applies member prices only on front-end, AJAX and REST requests, so in wp-admin and WP-CLI `$product->get_price()` returns the normal price. The reader calculates in any context.
-- **Subscription cart lines.** In the cart, a subscription line keeps the price the cart set for today's charge ($0 for a free trial, the prorated first amount of a renewal-sync or segment plan, or a checkout plan change), and that amount is already based on the member price. Its sale price is capped at that amount. `calculateProduct()` returns the catalogue member price, not that first charge.
+- **Subscription cart lines.** In the cart, a subscription line keeps the price the cart set for what checkout charges today ($0 for a free trial, the prorated first amount of a renewal-sync or segment plan, or a checkout plan change), and that amount is already based on the member price. Its sale price is capped at that amount. `calculateProduct()` returns the catalogue member price, not that first charge.
 - **Price HTML.** On the storefront the member price replaces a product's price HTML at priority 19 of `woocommerce_get_price_html`, before the subscription billing suffix is added at priority 20, and the **Member Price** badge is appended at priority 100. A product priced from its contents, such as an ArraySubs Pro subscription bundle, gets no member price HTML or badge from ArraySubs and keeps its own price HTML, as does any product type that prints its own price HTML after priority 19.
 - **Products priced from their contents.** A product type whose price is built from other products' prices returns `true` on `arraysubs_member_discount_priced_from_contents`. Member rules then apply only to the products inside it. ArraySubs gives the product itself no member price, sale price or **Member Price** badge, so its storefront and Store API prices are its own, built from its contents' prices, which carry their member prices. It counts as on sale for a member whose member prices lower it, comparing its price from `arraysubs_member_discount_contents_unit_price` for that member and with no member pricing. WooCommerce's **Sale!** badge, the Store API `on_sale` flag and coupons set to **Exclude sale items** then treat it like any other member-priced product. `calculateProduct()` gets its price from the same filter. ArraySubs Pro subscription bundles do both.
 - **Members Access off.** `effective` is `false` for every rule and `discount_applies` is `false`, while `qualifies` still shows each rule's own evaluation.

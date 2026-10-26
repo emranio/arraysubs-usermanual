@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Essential Daily Workflows
 
@@ -228,7 +228,7 @@ Run through this checklist before opening your store to real customers:
 
 - [ ] At least one subscription product is published and visible in the store catalog.
 - [ ] The product page shows the correct billing schedule and price.
-- [ ] The cart shows the subscription summary (recurring total, trial info, signup fee if applicable).
+- [ ] The cart shows the subscription rows under the product name (trial, renewal amount, next charge) and the signup fee as a fee line, if applicable.
 - [ ] Checkout completes successfully and creates a subscription.
 
 ### Subscription Creation

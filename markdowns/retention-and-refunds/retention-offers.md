@@ -1,7 +1,7 @@
 # Info
 - Module: Retention Offers
 - Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Retention Offers
 
@@ -342,7 +342,7 @@ The subscription status changes to **Paused** with a note about the scheduled re
 
 ### After Downgrade Acceptance
 
-The subscription keeps its current plan, price and status. A banner at the top of the subscription page reads "Plan switch to [plan] scheduled for [date]." and shows the quantity, the future renewal line total and any switch fee, followed by "Until then your current plan continues unchanged." The banner's **Undo Pending Switch** button cancels the downgrade until the renewal invoice is created. After the renewal order is paid, the banner disappears and the subscription shows the lower plan.
+The subscription keeps its current plan, price and status. A banner at the top of the subscription page reads "Plan switch to [plan] scheduled for [date]." and shows the quantity, the future renewal line total and the switch fee. The banner's **Undo Pending Switch** button cancels the downgrade until the renewal invoice is created. After the renewal order is paid, the banner disappears and the subscription shows the lower plan.
 
 ---
 

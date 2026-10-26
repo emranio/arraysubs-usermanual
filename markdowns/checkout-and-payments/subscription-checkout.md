@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Checkout
 - Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Subscription Checkout
 
@@ -20,7 +20,7 @@
 
 ## Overview
 
-When a customer adds a subscription product to the cart, ArraySubs takes over several parts of the WooCommerce checkout experience. It validates the cart against your store rules, displays a detailed subscription summary, handles account creation for guest purchasers, detects plan-switching eligibility, and — once the order is paid — creates the subscription record with all its billing schedule, trial, and pricing data locked in.
+When a customer adds a subscription product to the cart, ArraySubs takes over several parts of the WooCommerce checkout experience. It validates the cart against your store rules, lists each subscription's terms under the product name, handles account creation for guest purchasers, detects plan-switching eligibility, and — once the order is paid — creates the subscription record with all its billing schedule, trial, and pricing data locked in.
 
 Both **Classic Checkout** (shortcode-based) and **Block Checkout** (WooCommerce Store API) are fully supported. Cart validation, subscription creation, and plan-switching logic work identically in both flows.
 
@@ -30,7 +30,7 @@ The checkout engine runs in three phases:
 
 **Phase 1 — Cart validation.** Every time a subscription product is added to the cart, rules are checked against your General Settings: can this customer have multiple subscriptions? Is a mixed cart allowed? Are billing cycles compatible? Has this customer already had a trial?
 
-**Phase 2 — Checkout display and account handling.** The checkout page shows a subscription summary inside the order review table — recurring price, trial period, signup fee, today's charge, next payment date, and an authorization notice. If the customer is a guest and auto-create-account is enabled, WooCommerce shows the registration form.
+**Phase 2 — Checkout display and account handling.** Each subscription line in the order review table lists its terms as short rows under the product name, such as the free trial, the renewal amount, and the next charge date. The signup fee is a fee line in the totals, and classic checkout adds a recurring-payment authorization notice below the order total. If the customer is a guest and auto-create-account is enabled, WooCommerce shows the registration form.
 
 **Phase 3 — Subscription creation.** After payment completes, ArraySubs creates one subscription record per subscription line item in the order. Prices are locked at the checkout amount (sale prices, coupons, and signup fees apply at this moment and never change retroactively). The subscription starts in `Trial` status if a trial is configured, or `Pending` if not.
 
@@ -141,7 +141,7 @@ Subscription products with a trial period behave differently during checkout.
 
 ### How Trials Affect the Order
 
-| Scenario | Today's Charge | Subscription Status |
+| Scenario | Charged at Checkout | Subscription Status |
 |---|---|---|
 | Trial only (no signup fee) | Free — no charge today | `Trial` |
 | Trial + signup fee | Signup fee only | `Trial` |
@@ -207,9 +207,9 @@ When all conditions are met, the checkout automatically applies prorated pricing
 
 Instead of the regular subscription price, the checkout shows:
 
-- The **prorated amount due today**. Checkout always prorates immediately, whatever proration method is configured in General Settings
-- Context about the switch: *"Replaces your current [Current Product] subscription"*
-- The **new recurring price** that will apply after the switch
+- The **prorated amount due today** as the line's price. Checkout always prorates immediately, whatever proration method is configured in General Settings
+- A **Checkout action** row: *"Replaces your current [Current Product] subscription"*, plus a **Credit applied** row when unused time on the current plan is credited
+- The **new recurring price** that will apply after the switch, in the **Renewals** row
 
 ```box class="info-box"
 A plan switch at checkout never starts a free trial, even when the new plan has one. Checkout asks for the amount due today and offers the payment methods available for a one-time payment: card, Mollie (including iDEAL, Bancontact and SEPA Direct Debit), bank transfer and similar. PayPal and Paddle are not offered for a plan switch at checkout, including when the order is paid later from its Pay for order page in the classic or block checkout, because they would start a second recurring agreement for the subscription being replaced. Paying for the switch with Stripe or Mollie does not change the card or mandate the subscription renews with. **One Trial Per Customer** does not block the switch. A switch that costs nothing today, for example during the current subscription's free trial, completes without payment.
@@ -259,39 +259,50 @@ For more details on plan configuration, see [Plan Switching and Product Relation
 
 ---
 
-## Checkout Subscription Summary
+## Subscription Details at Checkout
 
-Every checkout page that includes a subscription product displays a detailed summary inside the order review table. This summary updates via AJAX as the customer changes quantities, coupons, or shipping options.
+Every subscription line in the cart, checkout, and mini-cart lists its terms as short rows under the product name. The rows update via AJAX as the customer changes quantities, coupons, or shipping options. The Price, Subtotal, Total, and Quantity columns show only the amounts WooCommerce calculates. A line's price is what checkout charges for it today, for example $0.00 during a free trial.
 
 ![Live subscription checkout with order summary and payment options](subscription-checkout.ASSETS/01-live-subscription-checkout-summary-annotated.png)
 
 ### What's Displayed
 
-**For every subscription line item:**
+**Under each subscription line item:**
 
-| Detail | Example | Shown When |
+| Row | Example | Shown When |
 |---|---|---|
-| Product name + quantity | *"Premium Plan (x2)"* | Always |
-| Recurring price + schedule | *"$29.99 every month"* | Always |
-| Different renewal price tiers (Pro) | *"$29.99 monthly for the first 3 payments, then $19.99 monthly"* | Product has different renewal price enabled and licensed Pro is active |
-| Signup fee | *"$10.00 one-time fee"* | Signup fee > 0 |
-| Free trial | *"7 days"* | Trial length > 0 |
-| Duration | *"12 billing cycles"* or *"Continues until cancelled"* | Always |
-| Today's charge | *"$29.99 + $10.00 signup = $39.99"*, or *"$227.60 (incl. VAT)"* | Always (varies by trial/fee combo) |
-| Next charge date | *"April 16, 2026"* | Always (except lifetime deals) |
-| Synced renewal note | *"First full renewal: July 1, 2026 ($30.00)"* | Renewal Sync is enabled for the checkout |
-| Authorization notice | *"By completing this purchase, you authorize us to charge..."* | Always |
+| Free trial | *"7 days"* | The line starts with a free trial |
+| After trial | *"$29.99 every month"* | The line has a free trial |
+| Renewals | *"$29.99 every month"* | The line has no free trial |
+| Subscription | *"Lifetime Deal — No recurring charges"* | Lifetime products |
+| First charge | *"April 16, 2026"* | The line has a free trial |
+| Next charge | *"May 2, 2026"* | The line has no free trial |
+| Trial ends | *"April 16, 2026"* | The trial changes to another plan when it ends, in place of First charge |
+| Duration | *"12 billing cycles"* | The plan runs for a fixed number of billing cycles |
+| Checkout action | *"Replaces your current Basic subscription"* | Plan switch at checkout |
+| Credit applied | *"$4.50"* | Plan switch at checkout that credits unused time on the current plan |
+| First billing cycle | *"Starts August 1, 2026"* | Flexible Renewal Sync charges a full amount that covers the next billing cycle |
+| Shipping (Pro) | *"Every renewal"* or *"First order only"* | Physical subscription products with Subscription Shipping |
 
-**Today's charge** is what checkout charges for that subscription line: its price after coupons, with tax, signup fee and shipping included. With one subscription and nothing else in the cart it equals the order total. A coupon that applies to the first payment only lowers Today's charge, while the recurring price stays the full price. When the cart shows prices excluding tax, the amount is labelled *(incl. VAT)* or your store's tax label. Recurring and next charge amounts are shown the way the cart shows prices, with or without tax. With several subscriptions in one checkout, each row names its product, and when the cart holds only subscriptions their Today's charge amounts add up to the order total.
+With different renewal pricing (Pro with an active license), the **After trial** or **Renewals** row carries both prices, for example *"$29.99 every month for the first 3 payments, then $19.99 every month"* or *"$29.99 first payment, then $19.99 every month"*. Renewal amounts follow the cart's tax display, with or without tax. Subscription box and bundle lines add their contents rows. See [Subscription Box Customer Experience](../subscription-products/subscription-box-customer-experience.md) and [Subscription Bundle Customer Experience](../subscription-products/subscription-bundle-customer-experience.md).
 
-Today's charge is split into plan and signup fee (*"$29.99 + $10.00 signup = $39.99"*) only when those two make up the whole amount. When shipping, other fees, store credit or a cart discount are part of a paid plan's amount, or tax is listed separately from a signup fee, it shows the total alone. A discount larger than one line's price leaves that line at *Free today*; the rest of it comes off the other lines the same discount covers first, and only what those lines cannot take comes off the rest of the cart, so the amounts still add up to the order total. When the order is placed, each subscription's part of the payment is recorded by the same rule, so no subscription is recorded below 0, and its refund limit and plan-switch credit are based on what was actually paid for it.
+Each fact appears once. The charge dates show the date only, because the amount is already on the renewal row. The signup fee is not a row: it appears in the totals as the **Subscription Signup Fee** line. A plan with no fixed length has no **Duration** row, and product names carry no billing schedule badge.
+
+**Authorization notice.** Classic checkout shows one notice below the order total when the cart holds a subscription that renews: *"By completing this purchase, you authorize us to charge your payment method for the recurring subscription amounts on the scheduled dates."* A cart whose only subscriptions are lifetime deals does not show it.
+
+**Block cart and checkout.** A free-trial line shows only its $0.00 price, without WooCommerce's struck-through regular price or **Save** badge.
 
 **Special cases:**
 
-- **Lifetime subscriptions** show: *"Lifetime Deal — No recurring charges"* instead of a next charge date
-- **Trial + no fee** shows: *"Free today"* as today's charge
-- **Plan switch at checkout** shows the switch context. Today's charge is the plan-change amount, and Next charge is the subscription's renewal date after the switch. The line shows no free trial or renewal-sync wording, in the cart cells and the block cart too, because the switch keeps the subscription's renewal date
-- **Renewal Sync** can show a prorated first charge today, then the full recurring amount on the synced first renewal date
+- **Lifetime subscriptions** show only the **Subscription** row and no charge date
+- **Free trial** lines are priced at $0.00. A signup fee is still charged today, as its fee line
+- **Trials that change to another plan when they end** show *After trial* with the plan they change to and its price, for example *"Basic ($5.00 every month)"*, and a **Trial ends** row with the date. The plan being tried is never charged, so its price is not shown. A **Duration** row, when present, is the length of the plan it changes to
+- **Plan switch at checkout** prices the line at the plan-change amount and adds the **Checkout action** row. **Next charge** is the subscription's renewal date after the switch. In both the classic and block cart, the line shows no free trial or first billing cycle row, because the switch keeps the subscription's renewal date
+- **Renewal Sync** can price the line at a prorated first charge, and **Next charge** shows the synced renewal date
+
+### How Checkout Splits the Payment
+
+When the order is placed, each subscription's part of the payment is recorded: its line price after coupons, with tax, plus its signup fee and shipping. A coupon that applies to the first payment only lowers that part, while the recurring price stays the full price. A discount larger than one line's price brings that line to 0. The rest of it comes off the other lines the same discount covers first, and only what those lines cannot take comes off the rest of the cart, so the parts still add up to the order total. No subscription is recorded below 0, and its refund limit and plan-switch credit are based on what was actually paid for it.
 
 ### Order Details Page
 
@@ -301,6 +312,8 @@ After checkout, the order confirmation and My Account order detail pages display
 - Status badge (color-coded: green for Active, blue for Trial, yellow for Pending, etc.)
 - Next payment date
 - Recurring total with billing schedule
+
+Because this table shows each schedule, the order's item names on these pages carry no billing schedule after the product name.
 
 ---
 
@@ -411,7 +424,7 @@ An online course platform enables one-click checkout for subscription items. A s
 
 ### Upgrade at Checkout
 
-A customer on the Basic plan ($9/mo) visits the Pro plan product page ($29/mo) and adds it to cart. ArraySubs detects the existing subscription, applies prorated pricing (crediting the unused portion of the Basic plan), and shows the difference as today's charge. After payment, the Basic subscription becomes a Pro subscription — no second subscription is created.
+A customer on the Basic plan ($9/mo) visits the Pro plan product page ($29/mo) and adds it to cart. ArraySubs detects the existing subscription, applies prorated pricing (crediting the unused portion of the Basic plan), and charges the difference today as the line's price. After payment, the Basic subscription becomes a Pro subscription — no second subscription is created.
 
 ---
 
@@ -457,7 +470,7 @@ A customer on the Basic plan ($9/mo) visits the Pro plan product page ($29/mo) a
 ## FAQ
 
 **Does ArraySubs support Block Checkout (the new WooCommerce checkout)?**
-Yes. Cart validation, subscription creation, plan switching, and all checkout hooks work identically in both Classic Checkout and Block Checkout (Store API). The subscription summary inside the order review table is also displayed in Block Checkout.
+Yes. Cart validation, subscription creation, plan switching, and all checkout hooks work identically in both Classic Checkout and Block Checkout (Store API). The subscription rows under each line item are also displayed in the Cart and Checkout blocks.
 
 **What happens if a customer uses a coupon at checkout?**
 The coupon discount is applied to the checkout total as usual. If the coupon is configured as a recurring coupon with a cycle limit, it is captured at checkout and continues to apply to future renewal invoices for the specified number of cycles.

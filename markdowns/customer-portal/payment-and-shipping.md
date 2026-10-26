@@ -1,7 +1,7 @@
 # Info
 - Module: Payment and Shipping Actions
 - Availability: Shared
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Payment and Shipping Actions
 
@@ -106,6 +106,7 @@ The toggle appears in the **Renewals** row immediately after **Recurring Amount*
 - The subscription status is **Active**, **On-Hold**, or **Trial**
 - The subscription does not have a pending cancellation
 - The subscription's billing period is not `lifetime`
+- The subscription is not a trial that changes to another plan when it ends. Its **Trial Ends** and **After Trial** rows already say what happens, so it gets no toggle and no auto-renew text
 
 ### What the Customer Sees
 

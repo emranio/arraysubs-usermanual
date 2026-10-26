@@ -1,11 +1,11 @@
 # Info
 - Module: Cart Info Editor
 - Availability: Pro
-- Last updated: 2026-07-16
+- Last updated: 2026-10-26
 
 # Cart Info Editor
 
-> Hide selected subscription explanations throughout the purchase experience without changing the prices, schedules, shipping charges, or subscription rules behind them.
+> Hide selected subscription details throughout the purchase experience without changing the prices, schedules, shipping charges, or subscription rules behind them.
 
 **Availability:** Pro
 
@@ -21,15 +21,15 @@
 
 ## Overview
 
-Cart Info Editor is a global display-control page in ArraySubs Pro. It lets you hide first-billing-cycle, shipping-charge, and subscription-duration explanations when those details would otherwise appear during a purchase.
+Cart Info Editor is a global display-control page in ArraySubs Pro. It lets you hide the first billing cycle, shipping, and duration rows that would otherwise appear under a subscription line during a purchase.
 
 The controls work across WooCommerce block and classic cart experiences, block and classic checkout, mini-cart or flying-cart displays, and newly generated emails that include the relevant item details.
 
 ## When to Use This
 
-- Your cart or checkout feels crowded with subscription explanations.
+- Your cart or checkout feels crowded with subscription details.
 - A landing page already explains the first billing period or fixed duration.
-- You want customers to see the actual shipping amount without an additional recurring or one-time shipping note.
+- You want customers to see the actual shipping amount without an additional recurring or one-time shipping row.
 - You want the same streamlined presentation across block and classic WooCommerce layouts.
 
 ## How It Works
@@ -42,15 +42,15 @@ All three settings are off by default. Turning one on changes presentation only.
 
 ### Compact Digital Membership Checkout
 
-A membership site explains its billing terms on the pricing page and wants a shorter checkout summary. The merchant hides the first-billing-cycle and duration information while keeping the price, today's charge, renewals, and next charge visible.
+A membership site explains its billing terms on the pricing page and wants shorter checkout lines. The merchant hides the first-billing-cycle and duration rows while keeping the price, renewals, and next charge visible.
 
 ### Physical Subscription With Separate Shipping Copy
 
-A subscription-box store explains shipping in its delivery policy. The merchant hides the shipping charge explanation while WooCommerce continues to calculate and display the actual shipping amount.
+A subscription-box store explains shipping in its delivery policy. The merchant hides the shipping row while WooCommerce continues to calculate and display the actual shipping amount.
 
 ### Fixed-Term Program
 
-A course sells a fixed number of billing cycles but explains the full program timeline during enrollment. The merchant hides the duration row from cart and checkout summaries without changing when the subscription ends.
+A course sells a fixed number of billing cycles but explains the full program timeline during enrollment. The merchant hides the duration row from cart and checkout lines without changing when the subscription ends.
 
 ## How to Configure It
 
@@ -71,9 +71,9 @@ Use **Discard Changes** before saving when you want to restore the form to its l
 
 | Setting | Default | What It Hides | What It Does Not Change |
 |---|---|---|---|
-| **Hide First billing cycle info** | Off | The first-cycle coverage explanation produced by Flexible Renewal Sync when it uses next-cycle mode | Initial payment calculation, billing schedule, or next charge date |
-| **Hide shipping charge info** | Off | Explanatory recurring or one-time shipping copy, including the related checkout note | Shipping method, shipping address, rate calculation, or shipping amount |
-| **Hide Duration info** | Off | The displayed duration, whether it is a fixed number of billing cycles or "Continues until cancelled" | Stored subscription length, renewal schedule, expiration, or cancellation behavior |
+| **Hide First billing cycle info** | Off | The **First billing cycle** row (for example *"Starts August 1, 2026"*) that Flexible Renewal Sync adds when it uses next-cycle mode | Initial payment calculation, billing schedule, or next charge date |
+| **Hide shipping charge info** | Off | The **Shipping** row that says whether shipping is charged on every renewal or on the first order only | Shipping method, shipping address, rate calculation, or shipping amount |
+| **Hide Duration info** | Off | The **Duration** row, which appears only for plans with a fixed number of billing cycles | Stored subscription length, renewal schedule, expiration, or cancellation behavior |
 
 ## Supported Surfaces
 
@@ -90,7 +90,7 @@ A setting only hides information that the product or billing configuration would
 
 - The settings apply globally on the next render or page refresh.
 - Each enabled setting removes only its matching information.
-- Other purchase details remain visible, including the product price, renewals, today's charge, next charge, order total, and actual shipping amount.
+- Other purchase details remain visible, including the product price, renewals, next charge, order total, and actual shipping amount.
 - Existing subscription data and previously sent emails are not rewritten.
 
 ## Important Notes
@@ -99,13 +99,14 @@ A setting only hides information that the product or billing configuration would
 - The settings are global rather than per-product.
 - Some side carts cache their open state in the browser. Close and reopen the cart, or refresh the page, after changing a setting.
 - Third-party cart widgets that bypass standard WooCommerce item data may require their own integration.
+- In order emails for new purchases, Cart Info Editor shows each subscription line's rows under the product, so the item name carries no billing schedule such as "(Every month)". Renewal order emails keep the schedule after the item name.
 
 ## Testing Checklist
 
 1. Add subscription products that produce the information you want to test:
    - A plan using Flexible Renewal Sync in next-cycle mode for first-billing-cycle information.
    - A physical subscription for shipping information.
-   - A fixed-length or unlimited subscription for duration information.
+   - A fixed-length subscription for duration information.
 2. Confirm the relevant details appear while the settings are off.
 3. Enable one setting and click **Save Settings**.
 4. Refresh the cart, checkout, and mini-cart and confirm only that detail is hidden.
@@ -118,8 +119,8 @@ A setting only hides information that the product or billing configuration would
 | Problem | Likely Cause | What to Do |
 |---|---|---|
 | An enabled detail still appears | The setting was not saved, or the page or side cart is showing cached markup | Click **Save Settings**, refresh the page, and reopen the mini-cart |
-| Shipping still appears in the totals | The setting hides explanatory shipping copy, not the real WooCommerce shipping charge | Confirm the explanatory note is gone and leave the calculated total visible |
-| A detail is absent while its toggle is off | The current product or billing configuration does not generate that row | Test with Flexible Renewal Sync in next-cycle mode, a physical subscription, or a fixed-length or unlimited subscription |
+| Shipping still appears in the totals | The setting hides the **Shipping** row, not the real WooCommerce shipping charge | Confirm the row is gone and leave the calculated total visible |
+| A detail is absent while its toggle is off | The current product or billing configuration does not generate that row. A plan without a fixed length has no duration row | Test with Flexible Renewal Sync in next-cycle mode, a physical subscription, or a fixed-length subscription |
 | Cart Info Editor is missing from the menu | ArraySubs Pro is not active or does not include this feature version | Activate or update ArraySubs Pro |
 | An older email still contains previous content | Sent emails are historical and are not rewritten | Generate a new test order and inspect the new email |
 
@@ -134,11 +135,11 @@ A setting only hides information that the product or billing configuration would
 
 ### Does Cart Info Editor change the renewal schedule or amount?
 
-No. It only hides selected explanatory information. Prices, dates, and renewal processing stay unchanged.
+No. It only hides selected subscription rows. Prices, dates, and renewal processing stay unchanged.
 
 ### Does Hide shipping charge info remove the actual shipping charge?
 
-No. WooCommerce still calculates and displays the real shipping amount. The setting removes only the related subscription shipping explanation.
+No. WooCommerce still calculates and displays the real shipping amount. The setting removes only the subscription line's **Shipping** row.
 
 ### Does this work with block and classic themes?
 

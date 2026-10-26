@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Free
-- Last updated: 2026-09-14
+- Last updated: 2026-10-26
 
 # Subscription Box Customer Experience
 
@@ -51,7 +51,7 @@ Three rules explain almost every behavior on this page:
 
 ### Use Case 1: The Weekly Coffee Club
 
-A customer opens "Build Your Weekly Coffee Box". The product page says *"Billed: Every week"*. They click **Create Subscription Box**, pick two bags of coffee and one bag of decaf on step 1, choose "Filter" from a **Grind** dropdown and type a delivery note on step 2, and watch the footer say *"You save $4.20"* and *"Add $8.00 more to unlock: 10% off"*. They add one more bag, the discount kicks in, and they check out.
+A customer opens "Build Your Weekly Coffee Box". The product page shows *"Priced by your selection / week"*. They click **Create Subscription Box**, pick two bags of coffee and one bag of decaf on step 1, choose "Filter" from a **Grind** dropdown and type a delivery note on step 2, and watch the footer say *"You save $4.20"* and *"Add $8.00 more to unlock: 10% off"*. They add one more bag, the discount kicks in, and they check out.
 
 The store gets one weekly subscription for the box, three zero-value subscriptions (one per coffee, because those are subscription products), an order that lists the box at the full price with the three coffees beneath it at $0.00, and a fulfilment note carrying the grind choice. Every week, the same order is reproduced automatically.
 
@@ -63,9 +63,9 @@ The store gets one weekly subscription for the box, three zero-value subscriptio
 
 The box product page replaces WooCommerce's normal add-to-cart form with a small launcher:
 
-![Subscription box product page with the billing line and the Create Subscription Box button](subscription-box-customer-experience.ASSETS/15-product-page-launcher-annotated.png)
+![Subscription box product page with the price label and the Create Subscription Box button](subscription-box-customer-experience.ASSETS/15-product-page-launcher-annotated.png)
 
-- A billing line: **"Billed: Every month"**, or **"Billed: Every month for 6 cycles"** when the box has a fixed subscription length.
+- A single line such as **"6 billing cycles"**, only when the box runs for a fixed number of billing cycles. The price label already states how often the box bills.
 - A **Create Subscription Box** button.
 
 Where WooCommerce normally shows a price, a box shows **"Priced by your selection / month"** — because the price depends entirely on what the customer puts inside.
@@ -187,7 +187,7 @@ That happens when a chosen product went out of stock, was unpublished, lost its 
 
 ### At Checkout
 
-The checkout order review repeats the same single box line with the same **Box contents**, **Free gift**, **Box discount**, and customer-input rows, plus the usual subscription terms and next-payment date. The recurring amount shown is the box total; the signup fee, when present, is a one-time line.
+The checkout order review repeats the same single box line with the same **Box contents**, **Free gift**, **Box discount**, and customer-input rows, plus the usual **Renewals** and **Next charge** rows, and **Duration** when the box runs for a fixed number of billing cycles. The renewal amount shown is the box total; the signup fee, when present, is a one-time fee line in the totals.
 
 ![Checkout order review showing the box line and the same box contents rows](subscription-box-customer-experience.ASSETS/21-checkout-order-review-annotated.png)
 
@@ -201,6 +201,8 @@ On the order-received page and in the order emails, the order contains:
 - one **zero-priced line item per included product**, prefixed with an arrow so they read as box contents;
 - one zero-priced line per freebie, tagged **Free gift**;
 - the customer's answers as item meta on the box line, with any uploaded file rendered as a link.
+
+Where an order email shows subscription rows under the box line (ArraySubs Pro), the only box row is **Box discount**, so the contents, free gifts, and answers appear once, as the lines and item meta above.
 
 ### On the Admin Order Screen
 
@@ -273,8 +275,7 @@ Opening a child subscription shows the same details, but no action buttons at al
 ![Read-only child subscription with a zero recurring amount and the Manage subscription box button](subscription-box-customer-experience.ASSETS/25-portal-child-subscription-annotated.png)
 
 - a **Part of:** row linking to the box, labelled with the box name and ID;
-- a panel titled **Included in a subscription box** explaining that renewals, payments, and cancellation are handled there;
-- a **Manage subscription box** button that opens the box subscription.
+- a **Manage subscription box** button that opens the box subscription, in place of the action buttons.
 
 Skip, pause, cancel, reactivate, the payment-method link, and the shipping-address controls are all hidden for a child.
 

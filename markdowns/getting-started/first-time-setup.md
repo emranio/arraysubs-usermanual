@@ -1,7 +1,7 @@
 # Info
 - Module: Getting Started
 - Availability: Free + Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # First-Time Setup
 
@@ -166,7 +166,7 @@ A **Configure subscription billings** link appears below **Regular price**, and 
 | Field | Recommended value | Description |
 |---|---|---|
 | Billing Period | Month | How often the customer is charged |
-| Billing Interval | 1 | Charge every 1 month |
+| Billing Interval | 1 | Charge every month |
 | Subscription Length | 0 | Never expires (0 = unlimited) |
 | Trial Length | 0 | No trial for a first test (set to 0) |
 | Trial Period | Day | Unit for trial length (irrelevant when trial is 0) |

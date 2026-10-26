@@ -1,7 +1,7 @@
 # Info
 - Module: Plan Switching / Fixed Period Membership
 - Availability: Shared (plan switching and auto-downgrade: Free; plan-switch credit: Pro Store Credit; fixed-period membership: Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Plan Switching and Product Relationships
 
@@ -303,6 +303,8 @@ When fixed period membership is enabled, the product page shows additional infor
 - **Enrollment window:** the open and close dates (when set)
 
 For variable products, this information updates dynamically when the customer selects a variation.
+
+In the cart and at checkout, the end date appears once, as a **Membership ends** row under the product name, followed by **Renewal: Auto-renews into next period** when the period end is set to Renew. A product whose free trial changes to another plan before that end date shows no end date on the product page, in the cart, or at checkout, because the plan change clears it.
 
 ```box class="warning-box"
 When fixed period membership is enabled, the **Subscription Length** field is ignored. The subscription length is determined entirely by the fixed end date. The standard length field is cleared to 0 automatically.

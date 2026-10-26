@@ -284,7 +284,6 @@ An e-commerce rule set to show a 404 uses your theme's normal 404 template inste
 | `arraysubs_view_subscription_actions_locked` | action | `int $subscription_id, array $subscription_data` | In place of every customer control when the subscription is locked. |
 | `arraysubs_customer_subscription_actions_locked` | filter | `bool $locked, int $subscription_id, array $subscription_data` | Return `true` to show a subscription read-only: no buttons, no skip or pause controls, no renewal controls. It changes what the page renders; it does not protect REST routes. |
 | `arraysubs_shipping_address_cutoff_days` | filter | `int $days` (default `3`) | Days before the next payment during which the customer cannot change the shipping address. The page and the customer REST route both read it. |
-| `arraysubs_box_billing_description` | filter | `string $description, WC_Product $box` | The billing line of the Subscription Box builder. Printed as plain text. |
 | `arraysubs_box_add_to_cart_text` | filter | `string $text, WC_Product $box` | The builder button label. Printed as plain text. |
 | `arraysubs_box_billing_suffix` | filter | `string $suffix, WC_Product $box` | The text after the builder total. Printed as plain text. |
 | `arraysubs_box_before_steps` | action | `WC_Product $box` | Top of the builder form, before the first step. |

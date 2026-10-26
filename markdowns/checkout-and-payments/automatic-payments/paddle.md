@@ -1,7 +1,7 @@
 # Info
 - Module: Paddle Gateway
 - Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-26
 
 # Paddle Gateway
 
@@ -88,7 +88,7 @@ ArraySubs sends Paddle the order total that WooCommerce calculated, tax included
 1. In a private browser window, add one subscription product to the cart and go to checkout.
 2. Choose **Paddle** (the **Title** from Step 2) and place the order.
 3. Paddle's checkout opens on top of the page. Pay with one of the sandbox test cards listed in Paddle's developer documentation.
-4. You land on the order received page. It can say "Your Paddle transaction is being processed" for a few seconds, until Paddle's notification arrives.
+4. You land on the order received page. Until Paddle's notification arrives, usually within a few seconds, it says "Your order has been received and Paddle is confirming the payment." Opened from **My Account > Orders**, the same pending order shows the notice "Paddle is still confirming the payment for this order."
 
 Success looks like this:
 
@@ -255,7 +255,7 @@ ArraySubs cannot make a Paddle renewal fail, and Paddle decides how its sandbox 
 | Paddle is missing at checkout | Check the **Paddle** card in **Gateway Logs**. **Disabled** means **Enable this payment gateway** is unticked. **Needs Setup** means **API Key**, **Client-Side Token**, or **Webhook Secret** is empty. If the status starts with **Connected**, the cart needs something Paddle cannot do (different billing cycles, a schedule the customer picks, or a member or dynamic recurring price), so ArraySubs hid Paddle for that cart. |
 | Checkout says the Paddle account "has no Default Payment Link set" | Set the default payment link in the Paddle account that matches your mode, sandbox or live. See [Step 3](#step-3-connect-paddle-to-your-store). |
 | Checkout says "Paddle rejected the Sandbox API key" (customers see "Paddle payments are currently unavailable") | The key is expired, revoked, missing permissions, or from the other environment. Create a key in the same environment as your **Enable Paddle Sandbox mode** setting and paste it again. |
-| The customer paid, but the order stays pending ("Your Paddle transaction is being processed") | Paddle's notifications are not getting through. Check the destination URL and events in Paddle, make sure **Webhook Secret** holds that destination's secret for the same environment, and make sure your server clock is correct: ArraySubs rejects notifications signed more than five minutes away from its own time. Errors are logged in **WooCommerce > Status > Logs** under the `arraysubs_paddle` source. |
+| The customer paid, but the order stays pending ("Paddle is confirming the payment") | Paddle's notifications are not getting through. Check the destination URL and events in Paddle, make sure **Webhook Secret** holds that destination's secret for the same environment, and make sure your server clock is correct: ArraySubs rejects notifications signed more than five minutes away from its own time. Errors are logged in **WooCommerce > Status > Logs** under the `arraysubs_paddle` source. |
 | Saving a product shows "Paddle catalogue synchronization failed" | Click **Review the Paddle sync log** in the notice, fix the cause (often the API key), and save the product again. |
 | The **Paddle tax category** field is missing on a product | It appears only while **Paddle (ArraySubs)** is enabled, and only on simple products (**General** tab) and on each variation of a variable product. |
 

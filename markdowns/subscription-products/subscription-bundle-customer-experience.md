@@ -1,7 +1,7 @@
 # Info
 - Module: Subscription Products
 - Availability: Pro
-- Last updated: 2026-07-27
+- Last updated: 2026-10-26
 
 # Subscription Bundle Customer Experience
 
@@ -59,13 +59,13 @@ A bundle appears in the shop like any other product. When a bundle discount appl
 
 ### The Product Page
 
-The product page shows a **What's included** panel between the price and the Add to Cart button:
+The price shows the bundle total with the billing suffix, with the pre-discount subtotal struck through when a bundle discount applies, the same as in the shop. A **Review details** panel sits between the price and the Add to Cart button:
 
-- A **Billed every …** pill stating the bundle's cycle.
-- One row per included product with its quantity and unit price.
-- **Subtotal**, **Bundle discount**, and **Bundle total** with the billing suffix.
+- One row per included product with its quantity, unit price, and line amount.
+- A payments pill, such as **6 payments**, when the bundle runs for a fixed number of billing cycles (**Up to 6 payments** when the customer chooses the length).
+- A **One-time signup fee** row when the bundle charges one.
 
-![Welcome Bundle product page with the What's included panel and the Subscribe Now button](subscription-bundle-customer-experience.ASSETS/15-product-page-annotated.png)
+![Welcome Bundle product page with the Review details panel and the Subscribe Now button](subscription-bundle-customer-experience.ASSETS/15-product-page-annotated.png)
 
 The button text comes from your subscription button setting under **Settings → General** — "Subscribe Now" by default — so a bundle reads exactly like your other subscription products. No quantity box is shown: a bundle is sold one per order.
 
@@ -83,11 +83,11 @@ Bundles are all-or-nothing. If a product inside it is out of stock, deleted, or 
 
 ### In the Cart
 
-The cart shows **one line** for the bundle. The line charges the bundle total or, when the bundle's renewal sync charges a prorated first amount today, that prorated amount (a plan switch at checkout charges the plan-change amount), which matches **Today's charge**; renewals bill the full bundle total. The contents are listed underneath the line:
+The cart shows **one line** for the bundle. The line's price is what checkout charges for it today: the bundle total or, when the bundle's renewal sync charges a prorated first amount, that prorated amount (a plan switch at checkout charges the plan-change amount). Renewals bill the full bundle total. The contents are listed underneath the line:
 
 - **Bundle contents** — every included product with its quantity and unit price.
 - **Bundle discount** — the saving, as a percentage or a fixed amount.
-- The standard subscription rows: renewal amount, today's charge, next charge, duration, shipping, and the first billing-cycle explanation.
+- The standard subscription rows: **Renewals**, **Next charge**, and, when they apply, **Duration** for a fixed number of billing cycles, **Shipping**, and **First billing cycle**.
 
 ![Cart showing the single bundle line with Bundle contents and Bundle discount rows](subscription-bundle-customer-experience.ASSETS/16-cart-bundle-line-annotated.png)
 
@@ -115,6 +115,8 @@ Both the block checkout and the classic checkout are supported.
 ### The Order Confirmation
 
 The order-received page lists the bundle and its included products, with the contents at $0.00.
+
+Order emails list the same lines. Where an email shows subscription rows under the bundle line, the only bundle row is **Bundle discount**, so the contents appear once, as the zero-priced lines.
 
 ![Order received page listing the bundle and its zero-priced contents](subscription-bundle-customer-experience.ASSETS/18-order-received-annotated.png)
 
@@ -159,9 +161,9 @@ The customer's subscription view lists **Bundle Contents**, the discount that wa
 
 ### Included Subscriptions Are Read-Only
 
-An included subscription opens with a **Part of** row, a **$0.00** recurring amount, and an **Included in a subscription bundle** panel in place of every action, with a **Manage subscription bundle** link back to the bundle.
+An included subscription opens with a **Part of** row naming the bundle and a **$0.00** recurring amount. In place of every action it shows a single **Manage subscription bundle** button that opens the bundle.
 
-![Customer portal included subscription showing the read-only panel and the link back to the bundle](subscription-bundle-customer-experience.ASSETS/20-portal-included-subscription-annotated.png)
+![Customer portal included subscription showing the Part of row and the Manage subscription bundle button](subscription-bundle-customer-experience.ASSETS/20-portal-included-subscription-annotated.png)
 
 Requests that try to change an included subscription directly are refused server-side, not just hidden in the interface.
 
