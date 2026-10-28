@@ -132,5 +132,8 @@ Download your full ArraySubs configuration as a JSON file or restore a previousl
 ### [Essential Daily Workflows](essential-daily-workflows.md)
 How the subscription lifecycle works from checkout to renewal, where merchants manage everything, and what to verify before going live.
 
+### [Translations](translations.md)
+Built-in text ships with Spanish language files you can edit in Loco Translate; text you type yourself is translated in place with TranslatePress or Polylang.
+
 ### [Developers](../developers/README.md)
 Connect a custom plugin to ArraySubs through supported classes and hooks, and verify the integration on staging.

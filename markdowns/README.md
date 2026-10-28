@@ -88,6 +88,7 @@ New to ArraySubs? Start here.
 - [Import and Export Settings](getting-started/import-export-settings.md) — Move ArraySubs settings between sites or keep a backup of your configuration.
 - [Essential Daily Workflows](getting-started/essential-daily-workflows.md) — How the subscription lifecycle works, where merchants manage everything, and what to check before going live.
 - [1-Minute Setup](getting-started/easy-setup-wizard.md) — Guided first configuration, recommended defaults, and import/export access.
+- [Translations](getting-started/translations.md) — Built-in text ships translated and is edited in Loco Translate; text you type is translated in place with TranslatePress or Polylang.
 
 ## Settings
 

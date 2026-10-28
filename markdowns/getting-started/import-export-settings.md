@@ -16,7 +16,7 @@
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [first-time-setup](./first-time-setup.md)
-- **Next guide:** [README](./README.md)
+- **Next guide:** [translations](./translations.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
