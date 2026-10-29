@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-29
 
 # Connect Membership Workflows
 
@@ -14,7 +14,7 @@
 - **Current guide:** Connect Membership Workflows
 - **Where to open it:** Your custom plugin or theme code (PHP)
 - **Section overview:** [Developers](./README.md)
-- **Previous guide:** [Gate Custom PHP Output](./php-templates.md)
+- **Previous guide:** [Customize Storefront Templates in a Child Theme](./template-overrides.md)
 - **Next guide:** [Verify Your Integration](./errors-and-testing.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 

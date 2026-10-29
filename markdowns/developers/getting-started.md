@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-29
 
 # Connect Your Custom Plugin
 
@@ -301,6 +301,7 @@ Renewals, retries and scheduled cancellations run from the scheduler, where nobo
 | [React to Supported Events](./actions-and-filters.md) | ArraySubs actions and filters, including `arraysubs_lifecycle_event` | Core and Pro |
 | [Extend ArraySubs with a Module](./addon-modules.md) | The `arraysubs_modules` filter and `arraysubs_is_module_enabled()` | Core |
 | [Gate Custom PHP Output](./php-templates.md) | Server-side checks before member-only theme or plugin output renders | Core |
+| [Customize Storefront Templates in a Child Theme](./template-overrides.md) | Source-to-theme paths for storefront PHP views, partials, and fallback rules | Core and Pro |
 | [Connect Membership Workflows](./integration-recipes.md) | End-to-end recipes that combine these classes | Core and Pro |
 | [Verify Your Integration](./errors-and-testing.md) | Error codes and staging tests | Core and Pro |
 

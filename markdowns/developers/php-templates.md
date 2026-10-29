@@ -1,11 +1,11 @@
 # Info
 - Module: Developers
 - Availability: Free (some templates require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-29
 
 # Gate Custom PHP Output
 
-> Decide on the server whether member-only theme or plugin output should render, and customize the PHP templates ArraySubs renders: override its email templates and the access-denied page from your theme, and use hooks for the templates a theme cannot override.
+> Decide on the server whether member-only theme or plugin output should render. Customize ArraySubs storefront views and emails from your child theme, or add output through the hooks in the bundled templates.
 
 **Availability:** Core (Free). The gating helpers and `[arraysubs_restrict]` need the Members Access setting (`members_access.enabled`, on by default). The Store Credit emails and the Store Credit, My Features, fixed-period, flexible-length and avatar templates ship with ArraySubs Pro.
 
@@ -15,7 +15,7 @@
 - **Where to open it:** Your custom plugin or theme code (PHP)
 - **Section overview:** [Developers](./README.md)
 - **Previous guide:** [Extend ArraySubs with a Module](./addon-modules.md)
-- **Next guide:** [Connect Membership Workflows](./integration-recipes.md)
+- **Next guide:** [Customize Storefront Templates in a Child Theme](./template-overrides.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 
 ## Overview
@@ -23,7 +23,7 @@
 This page covers two jobs that meet in your templates:
 
 - **Gate your own output.** Before a theme or plugin prints a member-only download link, custom field or panel, ask ArraySubs whether the visitor qualifies: with the `[arraysubs_restrict]` shortcode, a condition array, a post's saved Members Access rules, or one subscription through `ArraySubs\Developer\MemberAccess`.
-- **Customize ArraySubs' own templates.** ArraySubs emails are WooCommerce emails, so your theme can override their template files. A theme `403.php` replaces the access-denied page. Every other front-end template (the My Account subscription pages, product page terms, the Subscription Box builder and the Pro My Account pages) is included straight from the plugin folder: a theme cannot override it, so you change it with the hooks it fires and with CSS.
+- **Customize ArraySubs' own templates.** Storefront PHP views support child-theme and parent-theme overrides under `arraysubs/` and `arraysubspro/`. Emails keep WooCommerce's template paths. Use [Customize Storefront Templates in a Child Theme](./template-overrides.md) for the source-to-theme file map and a subscription-details example; the email paths and useful hooks are below.
 
 ## When to Use This
 
@@ -145,26 +145,17 @@ The full reference is [Check Content Access](./member-access.md).
 
 ## ArraySubs Templates
 
-### Templates and how to customize them
+### Choose the template system
 
-| Template file | Where it renders | Theme override | Customize with |
-| --- | --- | --- | --- |
-| `arraysubs/src/Features/Emails/templates/*.php` and `plain/*.php` | The 25 ArraySubs emails | Yes: `yourtheme/woocommerce/<file>` and `yourtheme/woocommerce/plain/<file>` | [Override an email template](#override-an-email-template), the email settings in **WooCommerce -> Settings -> Emails** |
-| `arraysubspro/src/Features/StoreCredit/templates/emails/*.php` and `emails/plain/*.php` *(Pro)* | The four Store Credit emails | Yes: `yourtheme/woocommerce/emails/<file>` and `yourtheme/woocommerce/emails/plain/<file>` | Same as above |
-| `arraysubs/src/Features/MembersAccess/views/access-denied.php` | The 403 page of a URL or post type rule whose action is 403, and of an e-commerce rule whose redirect cannot run | Yes: a theme `403.php` replaces it | [Replace the access-denied page](#replace-the-access-denied-page) |
-| `arraysubs/src/Features/CustomerPortal/views/my-account-subscriptions.php` with `subscription-cards.php` and `cancellation-contact-notice.php` | **My Account -> Subscriptions** (`woocommerce_account_subscriptions_endpoint`) | No | `arraysubs_my_subscriptions_row_product_meta`, CSS |
-| `arraysubs/src/Features/CustomerPortal/views/view-subscription.php` with `cancellation-contact-notice.php` | One subscription in My Account (`woocommerce_account_view-subscription_endpoint`), shown only to its owner | No | The `arraysubs_view_subscription_*` hooks, CSS |
-| `arraysubs/src/Features/SubscriptionCheckout/views/order-subscriptions.php` | The subscriptions table under order details, on the thank-you page and **My Account -> Orders** (`woocommerce_order_details_after_order_table`) | No | CSS |
-| `arraysubs/src/Features/SubscriptionProducts/views/product-subscription-info.php` and `variable-product-subscription-info.php` | Subscription terms on the product page (`woocommerce_single_product_summary` priority 11, or after the Product Price block in block themes) | No | CSS |
-| `arraysubs/src/Features/SubscriptionBox/views/box-builder.php` | The Subscription Box builder on the box product page and in shop loops | No | The `arraysubs_box_*` hooks, CSS |
-| `arraysubs/src/Features/MembersAccess/views/comment-restricted.php` | The comments area of a post or product under a comment rule (`comments_template` filter, priority 20) | No | Members Access comment rules |
-| `arraysubspro/src/Features/StoreCredit/templates/my-account-store-credit.php` *(Pro)* | **My Account -> Store Credit** (`woocommerce_account_store-credit_endpoint`) | No. Its file header names `yourtheme/woocommerce/myaccount/store-credit.php`, but that file is never loaded. | CSS |
-| `arraysubspro/src/Features/FeatureManager/views/my-account-features.php` *(Pro)* | **My Account -> My Features** (`woocommerce_account_features_endpoint`) | No | `woocommerce_endpoint_features_title` (heading), CSS |
-| `arraysubspro/src/Features/FixedPeriodMembership/views/product-info.php` *(Pro)* | Fixed end date on the product page (`woocommerce_single_product_summary` priority 12) | No | CSS |
-| `arraysubspro/src/Features/FlexibleSubscription/views/product-options.php` *(Pro)* | Length and billing choices in the add-to-cart form (`woocommerce_before_add_to_cart_button` priority 15) and the box review step | No | CSS |
-| `arraysubspro/src/Features/ProfileFields/views/avatar-section.php` *(Pro)* | Avatar upload on **My Account -> Account details** (`woocommerce_edit_account_form` priority 5) | No | CSS |
+| Output | Theme location | Guide |
+| --- | --- | --- |
+| Core My Account pages, product terms, order subscriptions, box builder, and Members Access views | `your-child-theme/arraysubs/<feature>/<file>.php` | [Core storefront template paths](./template-overrides.md#find-a-core-template) |
+| Pro My Features, Store Credit, avatar, fixed-period membership, and flexible subscription views | `your-child-theme/arraysubspro/<feature>/<file>.php` | [Premium storefront template paths](./template-overrides.md#find-a-premium-template) |
+| Core subscription emails | `your-child-theme/woocommerce/<file>.php` and `woocommerce/plain/<file>.php` | [Override an email template](#override-an-email-template) |
+| Pro Store Credit emails | `your-child-theme/woocommerce/emails/<file>.php` and `woocommerce/emails/plain/<file>.php` | [Override an email template](#override-an-email-template) |
+| Full access-denied page | `arraysubs/members-access/access-denied.php`, then a theme `403.php` | [Replace the access-denied page](#replace-the-access-denied-page) |
 
-The other files in the plugins' `views/` folders are admin screens (product editor fields, user profile fields, the admin app shell) or are not loaded at all. They cannot be overridden either. Templates that cannot be overridden are not looked up through `locate_template()` or `wc_get_template()`, so a copy in your theme is ignored. To add output around a whole My Account page, hook the same WooCommerce endpoint action at a priority below or above 10, where ArraySubs prints its content.
+Storefront templates resolve the child-theme copy first, then the parent-theme copy, then the bundled file. Admin views are outside this system. Use the exact paths in the [storefront override guide](./template-overrides.md); copying the plugin's internal directory structure into your theme will not replace a view.
 
 ### Override an email template
 
@@ -241,7 +232,7 @@ Keep the `woocommerce_email_header` and `woocommerce_email_footer` calls in HTML
 
 ### Replace the access-denied page
 
-When a rule shows the 403 page, ArraySubs sends a 403 status and no-cache headers, enqueues the `arraysubs-members-access-denied` stylesheet, and then looks for `403.php` in the child theme, then the parent theme, with `locate_template()`. If it finds one, it includes that file instead of its own view and stops the request. The resolved message (safe HTML, without `wpautop()`) is in the global `$arraysubs_restricted_message`. Your file prints the whole document.
+When a rule shows the 403 page, ArraySubs sends a 403 status and no-cache headers and enqueues the `arraysubs-members-access-denied` stylesheet. It checks `arraysubs/members-access/access-denied.php` in the child theme, then the parent theme. If neither exists, it checks child-theme `403.php`, then parent-theme `403.php`, then its bundled view. The resolved message (safe HTML, without `wpautop()`) is in the global `$arraysubs_restricted_message`. Your file prints the whole document. See the [complete storefront lookup rules](./template-overrides.md#replace-an-access-denied-page-or-comments-view).
 
 ```php
 <?php
@@ -273,7 +264,7 @@ global $arraysubs_restricted_message;
 
 An e-commerce rule set to show a 404 uses your theme's normal 404 template instead.
 
-### Hooks in templates a theme cannot override
+### Hooks for extending storefront templates
 
 | Hook | Type | Arguments | Where it runs |
 | --- | --- | --- | --- |
@@ -522,7 +513,7 @@ add_action(
 | `MemberAccess::fromUserId()` | `invalid_customer` | The user does not exist. |
 | `$access->check()` | `unsupported_entity`, `invalid_target`, `invalid_field` | Entity other than `post`, `url`, `product` or `comments`; a missing target; an unknown field group. |
 | `Subscriptions::fromUserId()` | `invalid_query` | For example a guest (`0`) or an unknown status. |
-| Email and 403 overrides | No error | WooCommerce or WordPress falls back to the plugin file when your copy is not found. |
+| Template lookup | Bundled fallback | A missing storefront override falls through to the parent theme, then the plugin file. The 403 page also checks theme `403.php`. Emails use WooCommerce lookup. |
 
 ## Troubleshooting
 
@@ -538,7 +529,7 @@ add_action(
 | A core email override is ignored | The copy is in `woocommerce/emails/`, or a persistent object cache still holds the old path | Move it to `yourtheme/woocommerce/<file>` and clear the template cache. |
 | A Store Credit email override is ignored | The copy is not in `woocommerce/emails/` | Use `yourtheme/woocommerce/emails/<file>`. |
 | The renewal reminder override also changed the Subscription Expiring Soon email | Both emails use `customer-renewal-reminder.php` | Branch on `$arraysubs_reminder_context` in your copy. |
-| A copy of a My Account template in the theme does nothing | Only emails and the 403 page can be overridden | Use the hooks in the table above, or CSS. |
+| A copy of a My Account template in the theme does nothing | Wrong directory, inactive child theme, or a page cache | Check the exact [storefront override path](./template-overrides.md), active theme, and page cache. |
 | Your `arraysubs_view_subscription_actions` output never shows | The **Manage Your Subscription** card is not rendered for this subscription, or it is locked | Use `arraysubs_view_subscription_after_payment_method` for output that must always show. |
 
 ## Related Guides
@@ -550,9 +541,10 @@ add_action(
 - [Content Gating Shortcodes](../shortcodes/content-gating.md) - merchant reference for `[arraysubs_restrict]`.
 - [Per-Post Access Restriction](../member-access/per-post-access-restriction.md) - the saved per-post gate.
 - [Post Types](../member-access/post-types.md) - site-wide post type, taxonomy and specific-post rules.
-- [Session and Frontend Controls](../member-access/session-and-frontend-controls.md) - content access during a pause.
+- [Member Access Conditions](../member-access/README.md#condition-types) - content access during a pause.
 - [Emails](../emails/README.md) - the email list and email settings.
 - [Customer Portal](../customer-portal/README.md) - the My Account pages these hooks extend.
+- [Customize Storefront Templates in a Child Theme](./template-overrides.md) - every supported storefront view and its theme path.
 
 ## FAQ
 
@@ -566,7 +558,7 @@ Yes, when the check runs before the markup is printed. The shortcode and the hel
 
 ### Can my theme override the My Account subscription pages?
 
-No. Those templates are included straight from the plugin. Add your output with the `arraysubs_view_subscription_*` and `arraysubs_my_subscriptions_row_product_meta` hooks, or around the whole page with the WooCommerce endpoint action at another priority, and style the existing markup with CSS.
+Yes. Copy the installed `view-subscription.php` to `your-child-theme/arraysubs/customer-portal/view-subscription.php`, or copy the subscription list and its partials using the [storefront template map](./template-overrides.md). The child theme wins over the parent theme and bundled file. You can also keep a smaller customization in the `arraysubs_view_subscription_*` and `arraysubs_my_subscriptions_row_product_meta` hooks.
 
 ### Do I have to copy both the HTML and the plain-text email template?
 

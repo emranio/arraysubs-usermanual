@@ -219,6 +219,7 @@
         "developers/flowmattic.md",
         "developers/addon-modules.md",
         "developers/php-templates.md",
+        "developers/template-overrides.md",
         "developers/integration-recipes.md",
         "developers/errors-and-testing.md"
     ]

@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-29
 
 # Developers
 
@@ -89,6 +89,7 @@ If you are setting up products, payments or access rules, start with the merchan
 | Connect subscription, email, credit and feature events to FlowMattic | [FlowMattic Hooks and Actions](./flowmattic.md) |
 | Add your own module to the ArraySubs Modules screen | [Extend ArraySubs with a Module](./addon-modules.md) |
 | Hide theme output from non-members, or override ArraySubs email templates | [Gate Custom PHP Output](./php-templates.md) |
+| Change storefront PHP markup without editing plugin files | [Customize Storefront Templates in a Child Theme](./template-overrides.md) |
 | Copy a complete integration pattern | [Connect Membership Workflows](./integration-recipes.md) |
 | Handle errors and test on staging | [Verify Your Integration](./errors-and-testing.md) |
 
