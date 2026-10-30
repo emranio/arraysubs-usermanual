@@ -14,7 +14,7 @@
 - **Current guide:** FlowMattic Hooks and Actions
 - **Where to open it:** Your FlowMattic workflow and custom PHP code
 - **Section overview:** [Developers](./README.md)
-- **Previous guide:** [React to Supported Events](./actions-and-filters.md)
+- **Previous guide:** [Receive Subscription Events with Webhooks](./webhooks.md)
 - **Next guide:** [Extend ArraySubs with a Module](./addon-modules.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md#verify-flowmattic-workflows)
 

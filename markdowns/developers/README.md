@@ -1,13 +1,13 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 
 # Developers
 
 > Connect your own plugin or theme to ArraySubs through the supported PHP API in the `ArraySubs\Developer` namespace and the actions and filters ArraySubs fires.
 
-**Availability:** Core (Free) for subscriptions, lifecycle operations, families and orders, customers, products, feature reads and usage, content access, downloads, discounts and member styling. ArraySubs Pro with an active license is needed for profile fields, Feature Manager configuration updates and REST routes, login-limit policy data, Store Credit, and Subscription Bundle families. Each guide says what the core API returns without Pro.
+**Availability:** Core (Free) for subscriptions, lifecycle operations, families and orders, customers, products, feature reads and usage, content access, downloads, discounts and member styling. ArraySubs Pro with an active license is needed for profile fields, Feature Manager configuration updates and REST routes, login-limit policy data, Store Credit, Subscription Bundle families, and outgoing webhooks (the **Webhooks** module). Each guide says what the core API returns without Pro.
 
 ## Page Navigation
 
@@ -32,7 +32,7 @@ if ( ! is_wp_error( $subscription ) ) {
 
 Use it to find the right subscription, customer, order or product, read its current state, make the changes the API allows, and react when something changes, without editing ArraySubs files or writing its database records yourself. Where ArraySubs Pro adds data, such as profile fields or store credit, the same core classes return it while Pro is active.
 
-The API runs inside WordPress as PHP. An external system reaches it through a REST route or webhook receiver that you build and secure yourself.
+The API runs inside WordPress as PHP. To push subscription events to an external system, switch on the ArraySubs Pro **Webhooks** module: it sends signed HTTP requests to your URL, with retries, so you only build the receiver (see [Receive Subscription Events with Webhooks](./webhooks.md)). When an external system needs to read or change ArraySubs data, build and secure your own REST route on top of the API.
 
 ## Who This Is For
 
@@ -46,7 +46,7 @@ If you are setting up products, payments or access rules, start with the merchan
 
 1. **Connect your plugin:** [Connect Your Custom Plugin](./getting-started.md) shows when ArraySubs is loaded, how to check what this site can use, and the conventions every class shares.
 2. **Find the guide for your task:** use [Pick a Guide by Task](#pick-a-guide-by-task).
-3. **React to changes:** [React to Supported Events](./actions-and-filters.md) lists the actions and filters you can rely on.
+3. **React to changes:** [React to Supported Events](./actions-and-filters.md) lists the actions and filters you can rely on. To receive changes outside WordPress, use [Receive Subscription Events with Webhooks](./webhooks.md) *(Pro)*.
 4. **Test before launch:** [Verify Your Integration](./errors-and-testing.md) lists the errors you can get and how to test on staging.
 
 ## Classes at a Glance
@@ -86,6 +86,7 @@ If you are setting up products, payments or access rules, start with the merchan
 | Show how many devices a member may sign in on | [Read Login-Limit Policy](./login-limits.md) |
 | Read or add store credit | [Read and Update Store Credit](./store-credit.md) |
 | Run code when a subscription renews, fails, changes status or is deleted | [React to Supported Events](./actions-and-filters.md) |
+| Send subscription, renewal, refund and store credit events to an external app as signed HTTP requests *(Pro)* | [Receive Subscription Events with Webhooks](./webhooks.md) |
 | Connect subscription, email, credit and feature events to FlowMattic | [FlowMattic Hooks and Actions](./flowmattic.md) |
 | Add your own module to the ArraySubs Modules screen | [Extend ArraySubs with a Module](./addon-modules.md) |
 | Hide theme output from non-members, or override ArraySubs email templates | [Gate Custom PHP Output](./php-templates.md) |

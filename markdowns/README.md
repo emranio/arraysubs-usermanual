@@ -30,7 +30,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Connect your other plugins:** [Integrations](integrations/README.md) - courses, CRM tags, affiliate renewals, sales funnels, license keys, and FlowMattic workflows.
 - **Toolkit and gateway modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Redirect Product Page](redirect-product-page/README.md) *(Pro)* → [Gateway Health](gateway-health/README.md) *(Pro)*
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)
-- **Developers:** [Developers overview](developers/README.md), [Connect Your Custom Plugin](developers/getting-started.md), [React to Supported Events](developers/actions-and-filters.md), [Gate Custom PHP Output](developers/php-templates.md)
+- **Developers:** [Developers overview](developers/README.md), [Connect Your Custom Plugin](developers/getting-started.md), [React to Supported Events](developers/actions-and-filters.md), [Receive Subscription Events with Webhooks](developers/webhooks.md) *(Pro)*, [Gate Custom PHP Output](developers/php-templates.md)
 
 ## Dedicated Module Count
 
@@ -348,6 +348,7 @@ Integrate a custom plugin or theme with ArraySubs through the `ArraySubs\Develop
 - [Read Member Styling Rules](developers/member-styling.md) - Member styling rules.
 - [Read and Update Store Credit](developers/store-credit.md) - Store Credit balances, history and adjustments.
 - [React to Supported Events](developers/actions-and-filters.md) - Actions, filters and the `arraysubs_lifecycle_event` action.
+- [Receive Subscription Events with Webhooks](developers/webhooks.md) *(Pro)* - Signed HTTP events for subscriptions, renewals, refunds and store credit, with retries and a delivery log.
 - [FlowMattic Hooks and Actions](developers/flowmattic.md) - Event hooks, workflow inputs, and subscription, credit, email, and usage actions.
 - [Extend ArraySubs with a Module](developers/addon-modules.md) - The module system for addons.
 - [Gate Custom PHP Output](developers/php-templates.md) - Member-only gates in PHP output and email template overrides.

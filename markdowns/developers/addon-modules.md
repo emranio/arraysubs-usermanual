@@ -127,7 +127,7 @@ Built-in module IDs are reserved. Do not reuse, change or remove them:
 | ID | Edition | Card |
 | --- | --- | --- |
 | `subscription_box` | Free | Switch |
-| `store_credit`, `feature_manager`, `checkout_builder`, `subscription_bundle`, `cancellation_flow`, `profile_builder`, `audits` | Pro | Switch while ArraySubs Pro runs with an active license; otherwise a lock that says "Requires ArraySubs Pro.", "Activate your ArraySubs Pro license to use this module." or, when the installed Pro release lacks that module, "Update ArraySubs Pro to use this module." |
+| `store_credit`, `feature_manager`, `checkout_builder`, `subscription_bundle`, `cancellation_flow`, `profile_builder`, `audits`, `webhooks` | Pro | Switch while ArraySubs Pro runs with an active license; otherwise a lock that says "Requires ArraySubs Pro.", "Activate your ArraySubs Pro license to use this module." or, when the installed Pro release lacks that module, "Update ArraySubs Pro to use this module." |
 | `subscription_products`, `automatic_payments`, `skip_pause`, `member_access`, `emails`, `analytics`, `toolkit` | Core | Always on |
 
 ### `arraysubs_module_badges` filter

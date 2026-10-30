@@ -1,7 +1,7 @@
 # Info
 - Module: Developers
 - Availability: Free (some sections require Pro)
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # React to Supported Events
 
@@ -15,7 +15,7 @@
 - **Where to open it:** Your custom plugin or theme code (PHP)
 - **Section overview:** [Developers](./README.md)
 - **Previous guide:** [Read and Update Store Credit](./store-credit.md)
-- **Next guide:** [FlowMattic Hooks and Actions](./flowmattic.md)
+- **Next guide:** [Receive Subscription Events with Webhooks](./webhooks.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 
 ## Overview
@@ -124,7 +124,7 @@ do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 | --- | --- | --- | --- |
 | `trial_started` | `arraysubs_trial_started` | The initial order of a trial subscription is paid. Once per subscription. | none |
 | `trial_changed` | `arraysubs_trial_terms_updated` | A running trial's end date, or the trial length or period, changes. | `previous_trial_end_at`, `trial_end_at`, `previous_trial_length`, `trial_length`, `previous_trial_period`, `trial_period` (`null` when not part of the change) |
-| `trial_converted` | `arraysubs_trial_converted` | The trial conversion job, `Subscriptions::endTrial()` or an admin change from trial to active converts the trial. | none |
+| `trial_converted` | `arraysubs_trial_converted` | The trial conversion job, `Subscriptions::endTrial()` or an admin change from trial to active converts the trial. | Fills the base keys `order_id` (the paying order, `0` when no order paid) and `is_renewal` (`true` when an order paid) |
 | `trial_ended` | `arraysubs_data_status_changed` | The status leaves `arraysubs-trial` for any subscription status, including active after a paid trial-end renewal. | `result` (the new status) |
 | `plan_switched` | `arraysubs_plan_switch_completed` | The plan changed: an immediate switch, a pending switch applied at renewal, a paid plan-switch order, an auto-downgrade or a checkout migration. | `old_product_id`, `new_product_id`, `switch_type`; `event_id` and `event_time` from paid plan-switch orders |
 | `pending_switch_set` | `arraysubs_pending_switch_set` | A pending plan switch is stored and none existed. | `new_product_id`, `switch_type` |
@@ -222,9 +222,10 @@ The `arraysubs_integration_event_context` filter can change `user_id`, the email
   - the order plus the recorded failure time, for `renewal_failed`, plus the attempt number when the failure happened in the same request as the charge attempt (a random key only when neither is available);
   - the order plus the attempt number, for `renewal_payment_attempted` and `retry_attempted`, and also the result, for `renewal_payment_result`, `retry_succeeded`, `retry_pending` and `retry_failed`;
   - the order plus the retry number, for `retry_exhausted`;
-  - the queued job for `retry_scheduled`, the scheduled date for `cancellation_scheduled`, and the stored switch snapshot for pending-switch events. Paid plan-switch orders use `plan_switch:` plus the switch contract key.
+  - the subscription, for `trial_converted`, which fires once per trial;
+  - the queued job for `retry_scheduled`, each scheduling for `cancellation_scheduled` (the scheduled date plus an ID stored when the cancellation is scheduled, so scheduling again after an undo gets a new `event_id` even for the same date), and the stored switch snapshot for pending-switch events. Paid plan-switch orders use `plan_switch:` plus the switch contract key.
 - **Every attempt and every failure has its own ID.** The attempt number is not the payload's `attempt` key (the retry number). While something listens to `arraysubs_lifecycle_event`, ArraySubs gives each charge attempt the next number from a per-subscription counter it stores with the subscription. Every attempt, result and failure on one renewal order therefore gets its own stable `event_id`, even two manual retries at the same retry number. `grace_entered` keeps one `event_id` per renewal order, because it describes entering grace once.
-- **`identity_scope` `request`.** `event_id` is a new UUID on every emission, for example for status events, `cancelled`, trial events and `updated`. You cannot deduplicate these across requests; re-read the current state instead.
+- **`identity_scope` `request`.** `event_id` is a new UUID on every emission, for example for status events, `cancelled`, `trial_started`, `trial_ended` and `updated`. You cannot deduplicate these across requests; re-read the current state instead.
 - **Per subscription, not per customer.** `granted` and `revoked` describe one subscription. A customer can hold another subscription that still grants the same product, so recompute access from all of the customer's subscriptions before you remove anything (see the examples).
 
 ## Subscription Lifecycle and Status Hooks
@@ -868,6 +869,7 @@ Only the customer cancellation email gains the `Bcc` header; every other email k
 - [Read and Update Store Credit](./store-credit.md)
 - [Extend ArraySubs with a Module](./addon-modules.md)
 - [Connect Membership Workflows](./integration-recipes.md)
+- [Receive Subscription Events with Webhooks](./webhooks.md)
 - [FlowMattic Hooks and Actions](./flowmattic.md)
 - [Verify Your Integration](./errors-and-testing.md)
 - [Lifecycle management](../manage-subscriptions/lifecycle-management.md)
@@ -877,7 +879,7 @@ Only the customer cancellation email gains the `Bcc` header; every other email k
 ## FAQ
 
 **Does ArraySubs send webhooks to my external URL?**
-No. ArraySubs receives provider webhooks; it does not send lifecycle webhooks. Listen in PHP, queue the work and send your own requests, using `event_id` as the idempotency key when `identity_scope` is `operation`.
+Yes, with ArraySubs Pro. Switch on the **Webhooks** module in **ArraySubs -> Modules**, then add your URL in **ArraySubs -> Settings -> Webhooks**. ArraySubs sends signed JSON for subscription lifecycle, renewal, payment, refund and store credit events, and retries failed deliveries; see [Receive Subscription Events with Webhooks](./webhooks.md). Without Pro, listen in PHP, queue the work and send your own requests, using `event_id` as the idempotency key when `identity_scope` is `operation`.
 
 **Is every event delivered exactly once?**
 No. Hooks run in process, may repeat across requests, and have no durable delivery queue. Deduplicate operation-scoped events with `event_id`, re-read current state for request-scoped ones, and reconcile important external state.

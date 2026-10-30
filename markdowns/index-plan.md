@@ -228,6 +228,7 @@
   - Read Member Styling Rules
   - Read and Update Store Credit
   - React to Supported Events
+  - Receive Subscription Events with Webhooks *(Pro)*
   - FlowMattic Hooks and Actions
   - Extend ArraySubs with a Module
   - Gate Custom PHP Output

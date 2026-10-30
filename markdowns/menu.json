@@ -216,6 +216,7 @@
         "developers/member-styling.md",
         "developers/store-credit.md",
         "developers/actions-and-filters.md",
+        "developers/webhooks.md",
         "developers/flowmattic.md",
         "developers/addon-modules.md",
         "developers/php-templates.md",
