@@ -1,14 +1,12 @@
 # Info
 
 -   Module: Checkout Builder — Use Cases
--   Availability: Pro
 -   Last updated: 2026-06-21
 
 # Checkout Builder Use Cases
 
 > 18 real-world examples showing how subscription stores use the Checkout Builder to collect the right data, reduce friction, and create checkout flows tailored to their business.
 
-**Availability:** Pro
 
 ## Page Navigation
 

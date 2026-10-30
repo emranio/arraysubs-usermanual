@@ -1,13 +1,11 @@
 # Info
 - Module: Account Shortcodes
-- Availability: Free
-- Last updated: 2026-04-04
+- Last updated: 2026-10-30
 
 # Account Shortcodes
 
 > Display login links, logout links, and personalized user information based on visitor authentication state.
 
-**Availability:** Free
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some templates require Pro)
-- Last updated: 2026-10-29
+- Last updated: 2026-10-31
 
 # Gate Custom PHP Output
 
 > Decide on the server whether member-only theme or plugin output should render. Customize ArraySubs storefront views and emails from your child theme, or add output through the hooks in the bundled templates.
 
-**Availability:** Core (Free). The gating helpers and `[arraysubs_restrict]` need the Members Access setting (`members_access.enabled`, on by default). The Store Credit emails and the Store Credit, My Features, fixed-period, flexible-length and avatar templates ship with ArraySubs Pro.
 
 ## Page Navigation
 
@@ -112,6 +110,7 @@ The shortcode checks the administrator bypass, then the login-only override, the
 
 ```php
 <?php
+// Withhold protected HTML if the gate is unavailable; otherwise let the shortcode decide who may see it.
 if (
 	! function_exists( 'arraysubs_is_members_access_enabled' )
 	|| ! arraysubs_is_members_access_enabled()
@@ -131,7 +130,7 @@ Keep the `shortcode_exists()` guard: `do_shortcode()` leaves an unregistered tag
 
 ### One subscription for every clause
 
-`ArraySubs\Developer\MemberAccess` (core) evaluates in an explicit context. Created with `MemberAccess::fromSubscriptionId()`, it looks at that subscription only: status, product, variation and feature clauses must all be met by it, and feature amounts come from its plan alone. Purchase, lifetime spend, role and login clauses still look at the customer.
+`ArraySubs\Developer\MemberAccess` evaluates in an explicit context. Created with `MemberAccess::fromSubscriptionId()`, it looks at that subscription only: status, product, variation and feature clauses must all be met by it, and feature amounts come from its plan alone. Purchase, lifetime spend, role and login clauses still look at the customer.
 
 | Method | Arguments | Returns | Notes |
 | --- | --- | --- | --- |
@@ -171,7 +170,7 @@ ArraySubs renders each email with `wc_get_template_html()`, using WooCommerce's 
 | Emails | Template name | Theme copy for the HTML version |
 | --- | --- | --- |
 | Core ArraySubs emails | `customer-new-subscription.php`, `plain/customer-new-subscription.php`, ... | `yourtheme/woocommerce/customer-new-subscription.php` |
-| Store Credit emails *(Pro)* | `emails/credit-added.php`, `emails/plain/credit-added.php`, ... | `yourtheme/woocommerce/emails/credit-added.php` |
+| Store Credit emails | `emails/credit-added.php`, `emails/plain/credit-added.php`, ... | `yourtheme/woocommerce/emails/credit-added.php` |
 
 ```box class="warning-box"
 Core ArraySubs email templates are not looked up in `woocommerce/emails/`. The header comment in most core template files mentions `yourtheme/woocommerce/emails/<file>`, but a copy there is never loaded. Put core copies directly in `yourtheme/woocommerce/`, and plain-text copies in `yourtheme/woocommerce/plain/`.
@@ -183,7 +182,7 @@ Core ArraySubs email templates are not looked up in `woocommerce/emails/`. The h
 | --- | --- | --- |
 | `arraysubs_new_subscription` | `customer-new-subscription.php` | none |
 | `arraysubs_renewal_reminder` | `customer-renewal-reminder.php` | `$arraysubs_days_before`, `$arraysubs_reminder_context` (`renewal`, `trial` or `expiring`), `$arraysubs_context_date`, `$arraysubs_context_date_label` |
-| `arraysubs_expiring_soon` | `customer-renewal-reminder.php` (shared) | The same four; `$arraysubs_reminder_context` is `expiring` |
+| `arraysubs_expiring_soon` | `customer-renewal-reminder.php` | The same four; `$arraysubs_reminder_context` is `expiring` |
 | `arraysubs_renewal_invoice` | `customer-renewal-invoice.php` | `$arraysubs_order_pay_url` |
 | `arraysubs_payment_successful` | `customer-payment-successful.php` | none |
 | `arraysubs_payment_failed` | `customer-payment-failed.php` | `$arraysubs_retry_url`, `$arraysubs_failure_reason_text` |
@@ -226,7 +225,7 @@ Every core email template receives the shared set (WooCommerce extracts the arra
 | `$arraysubs_sent_to_admin`, `$arraysubs_plain_text` | Booleans: admin email, plain-text version |
 | `$arraysubs_email` | The `WC_Email` object; pass it to the `woocommerce_email_header` and `woocommerce_email_footer` actions |
 
-The Store Credit emails *(Pro)* receive `$arraysubs_customer_id`, `$arraysubs_email_heading`, `$arraysubs_additional_content`, `$arraysubs_sent_to_admin`, `$arraysubs_plain_text` and `$arraysubs_email`, plus: credit added `$arraysubs_credit_amount`, `$arraysubs_new_balance`, `$arraysubs_credit_source`, `$arraysubs_source_label`; credit used `$arraysubs_credit_used`, `$arraysubs_remaining_balance`, `$arraysubs_order_id`; credit expiring `$arraysubs_expiring_amount`, `$arraysubs_expires_at`; credit expired `$arraysubs_expired_amount`.
+The Store Credit emails receive `$arraysubs_customer_id`, `$arraysubs_email_heading`, `$arraysubs_additional_content`, `$arraysubs_sent_to_admin`, `$arraysubs_plain_text` and `$arraysubs_email`, plus: credit added `$arraysubs_credit_amount`, `$arraysubs_new_balance`, `$arraysubs_credit_source`, `$arraysubs_source_label`; credit used `$arraysubs_credit_used`, `$arraysubs_remaining_balance`, `$arraysubs_order_id`; credit expiring `$arraysubs_expiring_amount`, `$arraysubs_expires_at`; credit expired `$arraysubs_expired_amount`.
 
 Keep the `woocommerce_email_header` and `woocommerce_email_footer` calls in HTML copies: they print WooCommerce's own email header and footer, which follow **WooCommerce -> Settings -> Emails** and can themselves be overridden in `yourtheme/woocommerce/emails/`. To ship a template from a plugin instead of a theme, return your file from WooCommerce's `wc_get_template` filter when `$template_name` matches.
 
@@ -242,6 +241,7 @@ When a rule shows the 403 page, ArraySubs sends a 403 status and no-cache header
 
 defined( 'ABSPATH' ) || exit;
 
+// The gate supplies this message; sanitize it below before rendering the access-denied page.
 global $arraysubs_restricted_message;
 ?>
 <!DOCTYPE html>
@@ -279,7 +279,7 @@ An e-commerce rule set to show a 404 uses your theme's normal 404 template inste
 | `arraysubs_box_billing_suffix` | filter | `string $suffix, WC_Product $box` | The text after the builder total. Printed as plain text. |
 | `arraysubs_box_before_steps` | action | `WC_Product $box` | Top of the builder form, before the first step. |
 | `arraysubs_box_review_details_end` | action | `WC_Product $box` | End of the builder's review step. |
-| `woocommerce_endpoint_features_title` *(Pro)* | filter | `string $title, string $endpoint, string $action` | Heading of **My Account -> My Features**. |
+| `woocommerce_endpoint_features_title` | filter | `string $title, string $endpoint, string $action` | Heading of **My Account -> My Features**. |
 
 `$subscription_data` holds raw stored values: `id`, `product_id`, `variation_id`, `customer_id`, `customer_email`, `start_date`, `end_date`, `next_payment_date`, `trial_end_date`, `billing_period`, `billing_interval`, `recurring_amount`, `base_recurring_amount`, `effective_recurring_amount`, `active_retention_discount`, `subscription_price`, `signup_fee`, `currency`, `payment_method`, `payment_method_title`, `is_waiting_cancellation`, `scheduled_cancel_date` and `can_undo_cancellation`. The view hooks fire only for the subscription's owner. The view's renewal and action hooks do not fire for locked subscriptions.
 
@@ -289,6 +289,7 @@ An e-commerce rule set to show a 404 uses your theme's normal 404 template inste
 
 ```php
 <?php
+// Render this partial only for a logged-in member who matches both rules.
 if (
 	! function_exists( 'arraysubs_is_members_access_enabled' )
 	|| ! arraysubs_is_members_access_enabled()
@@ -297,6 +298,7 @@ if (
 	return; // Withhold the protected output when the gate is unavailable.
 }
 
+// AND requires both an active/trial status and an access-granting subscription to product 123.
 $conditions = array(
 	'logic' => 'and',
 	'rules' => array(
@@ -328,6 +330,7 @@ Members Access already filters `the_content` of gated posts. Use this for protec
 
 ```php
 <?php
+// Use this post's saved access rules before rendering its protected template part.
 if (
 	! function_exists( 'arraysubs_is_members_access_enabled' )
 	|| ! arraysubs_is_members_access_enabled()
@@ -336,6 +339,7 @@ if (
 	return;
 }
 
+// Stop if there is no current post; do not substitute an unrelated post ID.
 $post_id = absint( get_the_ID() );
 if ( 0 === $post_id ) {
 	return;
@@ -386,6 +390,7 @@ $page = \ArraySubs\Developer\Subscriptions::fromUserId(
 	)
 );
 
+// Require a single subscription to pass every clause; do not combine seats from different plans.
 $allowed = false;
 
 if ( ! is_wp_error( $page ) ) {

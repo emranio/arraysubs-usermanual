@@ -1,13 +1,11 @@
 # Info
 - Module: Admin Emails
-- Availability: Free
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
 # Admin Emails
 
 > Four automated notifications alert you to the subscription events that need your attention — new signups, payment failures, scheduled cancellations, and completed cancellations.
 
-**Availability:** Free
 
 ## Page Navigation
 

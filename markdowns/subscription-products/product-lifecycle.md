@@ -1,13 +1,11 @@
 # Info
 - Module: Product Lifecycle
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Product Lifecycle and Test Links
 
 > What happens when a subscription product is deleted or trashed, how cached product data keeps subscriptions running, and how to use test links for quick checkout testing.
 
-**Availability:** Free
 
 ## Page Navigation
 

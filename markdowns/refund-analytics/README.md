@@ -1,13 +1,11 @@
 # Info
 - Module: Refund Analytics
-- Availability: Pro
-- Last updated: 2026-09-04
+- Last updated: 2026-10-30
 
 # Refund Analytics
 
 > See how much money leaves the store through refunds, which products, reasons and customers drive it, and how long customers wait before asking — from a dedicated report inside WooCommerce Analytics.
 
-**Availability:** Pro
 
 ## Page Navigation
 

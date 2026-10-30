@@ -1,13 +1,11 @@
 # Info
 - Module: Scheduled / Drip Access
-- Availability: Free
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
 # Scheduled / Drip Access
 
 > Configure how restricted content is blocked, what messages visitors see, how per-post restrictions work, and how to handle page caching for gated content.
 
-**Availability:** Free
 
 ## Page Navigation
 

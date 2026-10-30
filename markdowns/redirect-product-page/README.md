@@ -1,13 +1,11 @@
 # Info
 - Module: Redirect Product Page
-- Availability: Pro
-- Last updated: 2026-07-26
+- Last updated: 2026-10-30
 
 # Redirect Product Page
 
 > Send direct subscription product URLs to a custom sales page or return a 404 while keeping checkout links and backend product management working.
 
-**Availability:** Pro
 
 ## Page Navigation
 

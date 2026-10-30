@@ -1,13 +1,11 @@
 # Info
 - Module: Member Insight
-- Availability: Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Member Lookup and Profiles
 
 > Search for any customer by name, username, or email, then view their complete profile with contact info, roles, lifetime stats, and one-click admin impersonation.
 
-**Availability:** Pro
 
 ## Page Navigation
 
@@ -166,7 +164,7 @@ If the Login as Customer button appears grayed out, hover over it to see the rea
 - [Member Commerce Overview](member-commerce-overview.md) — Subscription history, purchased products, store credit, and addresses.
 - [Member Operations](member-operations.md) — Quick links, admin shortcuts, and insight metrics.
 - [Toolkit Settings](../settings/toolkit-settings.md) — Configure Login as User and other administration tools.
-- [Advanced Analytics — Customers Report](../analytics/woocommerce-analytics-extension.md#customers-report) *(Pro)* — Member details quick link in WooCommerce Analytics.
+- [Advanced Analytics — Customers Report](../analytics/woocommerce-analytics-extension.md#customers-report) — Member details quick link in WooCommerce Analytics.
 
 ---
 

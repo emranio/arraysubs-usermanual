@@ -1,7 +1,6 @@
 # Info
 - Module: Manual Writing Standard
-- Availability: Internal reference
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Writing Format for a Single User Manual Page
 
@@ -16,6 +15,8 @@
 > Reusable structure for a WordPress + WooCommerce subscription plugin manual page. Use this format for settings, features, setup flows, and admin help pages.
 
 ## What a Good Manual Page Should Answer
+
+Do not add edition badges, Pro/Free/Core tags, availability metadata or edition columns. Put any required plugin, license or enabled module in the relevant prerequisites or troubleshooting instructions.
 
 Every page should make these answers easy to find:
 
@@ -51,7 +52,6 @@ Use this order for most documentation pages:
 
 > One clear sentence explaining what this feature does and why a store owner would use it.
 
-**Availability:** Free / Pro
 
 ## Overview
 

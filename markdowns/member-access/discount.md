@@ -1,13 +1,11 @@
 # Info
 - Module: Discount
-- Availability: Free (Feature Value conditions require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Discount
 
 > Offer member-only pricing and free shipping based on subscription conditions.
 
-**Availability:** Free. The shared **Feature Value** condition checks features defined with Feature Manager, which requires ArraySubs Pro.
 
 ## Page Navigation
 

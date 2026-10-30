@@ -1,7 +1,6 @@
 # Info
 - Module: Subscription Products
-- Availability: Shared
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Manage Subscription Products
 
@@ -20,13 +19,13 @@ For a **Simple product**, check **Subscription [AS]** and click **Configure subs
 - [Create Products with the Quick Creation Wizard](quick-product-creation.md) — Start from **ArraySubs → Home → + Subscription Product**; follow the modal for simple products, boxes, bundles, and store credit, or open the variable-product setup guide. Includes screenshots of each screen.
 
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up simple and variable subscription products with billing periods, trials, signup fees, and different renewal pricing (Pro with an active license).
-- [Flexible Subscription Duration](flexible-subscription-duration.md) — Let customers choose the subscription length, and optionally the billing period, within merchant-set limits *(Pro)*.
+- [Flexible Subscription Duration](flexible-subscription-duration.md) — Let customers choose the subscription length, and optionally the billing period, within merchant-set limits.
 - [Subscription Boxes](subscription-box.md) — Create a build-your-own box product where customers assemble a box from steps you define, with product and category pickers, tiered discounts, freebies, and its own renewal-sync plan.
 - [Subscription Box Customer Experience](subscription-box-customer-experience.md) — How shoppers build a box on the storefront, how it appears in the cart and at checkout, and how the box and its included subscriptions behave through renewals.
-- [Subscription Bundles](subscription-bundle.md) — Create a merchant-curated bundle product with fixed contents, a bundle-wide fixed or percentage discount, and its own renewal-sync plan, bought in a single click *(Pro)*.
-- [Subscription Bundle Customer Experience](subscription-bundle-customer-experience.md) — What shoppers see on a bundle product page, how it appears in the cart and at checkout, and how the bundle and its included subscriptions behave through renewals *(Pro)*.
-- [Plan Switching and Product Relationships](plan-switching-and-relationships.md) — Configure upgrade, downgrade, and crossgrade paths, auto-downgrade fallback plans, and fixed-period memberships *(Pro)*.
-- [Product Experience and Display](product-experience.md) — How subscription pricing appears on the product page, cart, checkout, and order screens. Includes Redirect Product Page *(Pro)*, Feature Manager *(Pro)*, and Subscription Shipping *(Pro)*.
+- [Subscription Bundles](subscription-bundle.md) — Create a merchant-curated bundle product with fixed contents, a bundle-wide fixed or percentage discount, and its own renewal-sync plan, bought in a single click.
+- [Subscription Bundle Customer Experience](subscription-bundle-customer-experience.md) — What shoppers see on a bundle product page, how it appears in the cart and at checkout, and how the bundle and its included subscriptions behave through renewals.
+- [Plan Switching and Product Relationships](plan-switching-and-relationships.md) — Configure upgrade, downgrade, and crossgrade paths, auto-downgrade fallback plans, and fixed-period memberships.
+- [Product Experience and Display](product-experience.md) — How subscription pricing appears on the product page, cart, checkout, and order screens. Includes Redirect Product Page, Feature Manager, and Subscription Shipping.
 - [Coupon Integration](../coupons/README.md) — Apply WooCommerce coupons to subscriptions with recurring discounts, cycle limits, and initial-checkout counting.
 - [Product Lifecycle and Test Links](product-lifecycle.md) — What happens when a product is deleted, how cached product data works, and how to use test links for quick checkout testing.
 
@@ -56,10 +55,10 @@ For a **Simple product**, check **Subscription [AS]** and click **Configure subs
 | Box renewal sync segment plan | Product editor → General tab → Edit Box Configuration → Flexible Renewal Sync |
 | Upgrade / downgrade / crossgrade paths | Product editor → Linked Products tab |
 | Auto-downgrade target | Product editor → Linked Products tab |
-| Fixed period end date *(Pro)* | Product editor → Subscription Billings [AS] tab → Fixed Period Membership |
-| Product page redirect *(Pro)* | Product editor → Product Redirect [AS] tab |
-| Feature entitlements *(Pro)* | Product editor → Feature Manager [AS] tab |
-| Subscription shipping *(Pro)* | Product editor → Subscription Billings [AS] tab → Subscription Shipping |
+| Fixed period end date | Product editor → Subscription Billings [AS] tab → Fixed Period Membership |
+| Product page redirect | Product editor → Product Redirect [AS] tab |
+| Feature entitlements | Product editor → Feature Manager [AS] tab |
+| Subscription shipping | Product editor → Subscription Billings [AS] tab → Subscription Shipping |
 | Coupon settings | WooCommerce → Coupons → coupon edit → ArraySubs Subscription Settings |
 | Test links | Product editor → General tab → Helper Links |
 

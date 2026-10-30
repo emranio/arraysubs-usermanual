@@ -1,13 +1,11 @@
 # Info
 - Module: Admin Dashboard Access
-- Availability: Free
-- Last updated: 2026-06-07
+- Last updated: 2026-10-30
 
 # Admin Dashboard Access
 
 > Restrict direct WordPress dashboard access for customers while preserving backend access for administrators and selected staff roles.
 
-**Availability:** Free
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Profile Form
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Profile Form
 
 > Define custom profile fields and avatar upload settings so you can collect extra customer data from the My Account page and the WordPress admin user profile.
 
-**Availability:** Pro
 
 ## Page Navigation
 
@@ -312,7 +310,7 @@ A food subscription box needs dietary information. Add a select field with optio
 ## FAQ
 
 ### Do custom profile fields work with WooCommerce checkout?
-No. Profile fields are designed for the **My Account → Account Details** page and the admin user profile. They do not appear at checkout. For checkout field customization, see [Checkout Builder](../checkout-and-payments/checkout-builder/README.md) *(Pro)*.
+No. Profile fields are designed for the **My Account → Account Details** page and the admin user profile. They do not appear at checkout. For checkout field customization, see [Checkout Builder](../checkout-and-payments/checkout-builder/README.md).
 
 ### Can I make the avatar field required?
 No. Avatar upload is optional by design. You can encourage customers to upload a photo, but the system does not block account saves when no avatar is set.

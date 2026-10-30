@@ -1,18 +1,17 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-30
+- Last updated: 2026-10-31
 
 # Developers
 
 > Connect your own plugin or theme to ArraySubs through the supported PHP API in the `ArraySubs\Developer` namespace and the actions and filters ArraySubs fires.
 
-**Availability:** Core (Free) for subscriptions, lifecycle operations, families and orders, customers, products, feature reads and usage, content access, downloads, discounts and member styling. ArraySubs Pro with an active license is needed for profile fields, Feature Manager configuration updates and REST routes, login-limit policy data, Store Credit, Subscription Bundle families, and outgoing webhooks (the **Webhooks** module). Each guide says what the core API returns without Pro.
 
 ## Page Navigation
 
 - **Current guide:** Developers
-- **Where to open it:** Your custom plugin or theme code (PHP)
+- **Where to open it:** **ArraySubs -> Shortcodes -> For Developers** for the in-plugin overview; your custom plugin or theme code (PHP) for implementation
+- **Admin overview route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/shortcodes/php`
 - **Next guide:** [Connect Your Custom Plugin](./getting-started.md)
 - **Troubleshooting:** [Verify Your Integration](./errors-and-testing.md)
 
@@ -46,26 +45,26 @@ If you are setting up products, payments or access rules, start with the merchan
 
 1. **Connect your plugin:** [Connect Your Custom Plugin](./getting-started.md) shows when ArraySubs is loaded, how to check what this site can use, and the conventions every class shares.
 2. **Find the guide for your task:** use [Pick a Guide by Task](#pick-a-guide-by-task).
-3. **React to changes:** [React to Supported Events](./actions-and-filters.md) lists the actions and filters you can rely on. To receive changes outside WordPress, use [Receive Subscription Events with Webhooks](./webhooks.md) *(Pro)*.
+3. **React to changes:** [React to Supported Events](./actions-and-filters.md) lists the actions and filters you can rely on. To receive changes outside WordPress, use [Receive Subscription Events with Webhooks](./webhooks.md).
 4. **Test before launch:** [Verify Your Integration](./errors-and-testing.md) lists the errors you can get and how to test on staging.
 
 ## Classes at a Glance
 
-| Class | What it does | Edition | Guide |
-|---|---|---|---|
-| `ArraySubs\Developer\Subscriptions` | Find, read, update and delete subscriptions; lifecycle operations such as status changes, pause and resume, renewal and trial dates, grace policy and cancellation; families and orders | Core | [Find and Update Subscriptions](./subscriptions.md), [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md), [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) |
-| `ArraySubs\Developer\SubscriptionSnapshot` | Read selected data groups of one subscription | Core | [Find and Update Subscriptions](./subscriptions.md) |
-| `ArraySubs\Developer\Orders` | Find orders, see which subscriptions they cover, update addresses and the customer note, delete unused unpaid orders | Core | [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) |
-| `ArraySubs\Developer\Customer` | Load a WooCommerce customer by user ID, subscription, email, username or profile field value; read and update account, address and profile data | Core; profile fields need Pro | [Find Members and Update Profiles](./customers-and-profile-fields.md) |
-| `ArraySubs\Developer\Product` | Read a subscription product's terms, variations and plan-switch targets | Core; different renewal price and bundle data need Pro | [Read Subscription Product Terms](./subscription-products.md) |
-| `ArraySubs\Developer\Features` | Read feature rows for a product, subscription or member, and meter usage with retry-safe writes | Core; configuration updates and the `my-features` REST routes need Pro | [Read and Update Feature Data](./feature-manager.md) |
-| `ArraySubs\Developer\MemberAccess` | Check whether a member or visitor passes a conditions array or the saved Members Access rules | Core | [Check Content Access](./member-access.md) |
-| `ArraySubs\Developer\Downloads` | Read the member-rule files a member can download, with limits and expiry | Core | [Read Download Benefits](./downloads.md) |
-| `ArraySubs\Developer\Discounts` | Read member discount rules and calculate a product's member price | Core | [Read Member Discounts](./discounts.md) |
-| `ArraySubs\Developer\MemberStyling` | Read Member Styling rules and the classes and CSS that apply | Core | [Read Member Styling Rules](./member-styling.md) |
-| `ArraySubs\Developer\LoginLimits` | Read the concurrent-session policy for a member | Core class; the data needs Pro | [Read Login-Limit Policy](./login-limits.md) |
-| `ArraySubs\Developer\StoreCredit` | Read customer and subscription credit and its history; record credit adjustments | Core class; every call needs Pro | [Read and Update Store Credit](./store-credit.md) |
-| `ArraySubs\Developer\Query`, `ArraySubs\Developer\Fields` | Shared helpers for paged results and field selection | Core | [Connect Your Custom Plugin](./getting-started.md) |
+| Class | What it does | Guide |
+| --- | --- | --- |
+| `ArraySubs\Developer\Subscriptions` | Find, read, update and delete subscriptions; lifecycle operations such as status changes, pause and resume, renewal and trial dates, grace policy and cancellation; families and orders | [Find and Update Subscriptions](./subscriptions.md), [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md), [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) |
+| `ArraySubs\Developer\SubscriptionSnapshot` | Read selected data groups of one subscription | [Find and Update Subscriptions](./subscriptions.md) |
+| `ArraySubs\Developer\Orders` | Find orders, see which subscriptions they cover, update addresses and the customer note, delete unused unpaid orders | [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) |
+| `ArraySubs\Developer\Customer` | Load a WooCommerce customer by user ID, subscription, email, username or profile field value; read and update account, address and profile data | [Find Members and Update Profiles](./customers-and-profile-fields.md) |
+| `ArraySubs\Developer\Product` | Read a subscription product's terms, variations and plan-switch targets | [Read Subscription Product Terms](./subscription-products.md) |
+| `ArraySubs\Developer\Features` | Read feature rows for a product, subscription or member, and meter usage with retry-safe writes | [Read and Update Feature Data](./feature-manager.md) |
+| `ArraySubs\Developer\MemberAccess` | Check whether a member or visitor passes a conditions array or the saved Members Access rules | [Check Content Access](./member-access.md) |
+| `ArraySubs\Developer\Downloads` | Read the member-rule files a member can download, with limits and expiry | [Read Download Benefits](./downloads.md) |
+| `ArraySubs\Developer\Discounts` | Read member discount rules and calculate a product's member price | [Read Member Discounts](./discounts.md) |
+| `ArraySubs\Developer\MemberStyling` | Read Member Styling rules and the classes and CSS that apply | [Read Member Styling Rules](./member-styling.md) |
+| `ArraySubs\Developer\LoginLimits` | Read the concurrent-session policy for a member | [Read Login-Limit Policy](./login-limits.md) |
+| `ArraySubs\Developer\StoreCredit` | Read customer and subscription credit and its history; record credit adjustments | [Read and Update Store Credit](./store-credit.md) |
+| `ArraySubs\Developer\Query`, `ArraySubs\Developer\Fields` | Shared helpers for paged results and field selection | [Connect Your Custom Plugin](./getting-started.md) |
 
 ## Pick a Guide by Task
 
@@ -86,7 +85,7 @@ If you are setting up products, payments or access rules, start with the merchan
 | Show how many devices a member may sign in on | [Read Login-Limit Policy](./login-limits.md) |
 | Read or add store credit | [Read and Update Store Credit](./store-credit.md) |
 | Run code when a subscription renews, fails, changes status or is deleted | [React to Supported Events](./actions-and-filters.md) |
-| Send subscription, renewal, refund and store credit events to an external app as signed HTTP requests *(Pro)* | [Receive Subscription Events with Webhooks](./webhooks.md) |
+| Send subscription, renewal, refund and store credit events to an external app as signed HTTP requests | [Receive Subscription Events with Webhooks](./webhooks.md) |
 | Connect subscription, email, credit and feature events to FlowMattic | [FlowMattic Hooks and Actions](./flowmattic.md) |
 | Add your own module to the ArraySubs Modules screen | [Extend ArraySubs with a Module](./addon-modules.md) |
 | Hide theme output from non-members, or override ArraySubs email templates | [Gate Custom PHP Output](./php-templates.md) |

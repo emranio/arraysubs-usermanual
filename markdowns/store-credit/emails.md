@@ -1,13 +1,11 @@
 # Info
 - Module: Store Credit Emails
-- Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
 # Emails
 
 > Four automated email notifications keep customers informed about their store credit — when it is added, used, about to expire, and after it expires.
 
-**Availability:** Pro
 
 ## Page Navigation
 

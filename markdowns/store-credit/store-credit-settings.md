@@ -1,13 +1,11 @@
 # Info
 - Module: Store Credit Settings
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Store Credit Settings
 
 > Control how store credit behaves in your store — toggle the system on or off, configure automatic application rules, set expiration periods, and manage credit purchase limits.
 
-**Availability:** Pro
 
 ## Page Navigation
 

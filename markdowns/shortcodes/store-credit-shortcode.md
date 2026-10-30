@@ -1,17 +1,15 @@
 # Info
 - Module: Store Credit Shortcode
-- Availability: Pro
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
-# Store Credit Shortcode *(Pro)*
+# Store Credit Shortcode
 
 > Embed a store credit purchase form or product card anywhere on your site so customers can buy credits directly.
 
-**Availability:** Pro
 
 ## Page Navigation
 
-- **Current guide:** Store Credit Shortcode *(Pro)*
+- **Current guide:** Store Credit Shortcode
 - **Where to open it:** WordPress Admin -> ArraySubs -> Shortcodes
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [content-gating](./content-gating.md)

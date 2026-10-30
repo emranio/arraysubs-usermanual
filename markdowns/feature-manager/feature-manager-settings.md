@@ -1,13 +1,11 @@
 # Info
 - Module: Feature Manager — Settings
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Feature Manager Settings
 
 > Every setting in the Feature Manager panel — what it does, what options it accepts, and what the default is.
 
-**Availability:** Pro
 
 ## Page Navigation
 

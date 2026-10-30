@@ -1,13 +1,11 @@
 # Info
 - Module: Home
-- Availability: Shared (Free + Pro)
-- Last updated: 2026-09-14
+- Last updated: 2026-10-30
 
 # Home
 
 > Start your store setup, create subscription products, and check recurring revenue, subscriber movement, and subscriptions needing attention from the ArraySubs landing page.
 
-**Availability:** Free (Pro modules add extra widgets inline)
 
 ## Page Navigation
 
@@ -154,7 +152,7 @@ These tables appear below the first Pro insight cards and above the movement cha
 
 When there are no matching records, the card says **No renewals are scheduled yet.** or **No subscriptions yet.** With Pro, **Retention pulse** appears alongside these tables.
 
-## Pro Widgets
+## Additional Widgets
 
 ![Home Pro cards explaining unavailable forecast, revenue-at-risk, and product-ranking data](home.ASSETS/03-home-pro-insights-original.png)
 
@@ -179,7 +177,7 @@ Two details worth knowing:
 - **Revenue at risk** counts each subscription once in its headline. The categories beneath it overlap on purpose — a held subscription is usually also overdue — so they will not add up to the headline.
 - Opening Home does not generate an AI-written analysis. **Revenue forecast** reads a saved result; generate or refresh it from **AI forecast**. **Churn risk** uses the churn report's available subscription scores. Open **AI churn analysis** for the detailed report and optional AI analysis.
 
-## Without Pro
+## When Optional Modules Are Unavailable
 
 With the free plugin, Home includes the setup checklist, toolbar shortcuts, health summary, three KPI cards, movement, status mix, Action Center, renewal outlook, billing operations, and both subscription tables. An upgrade panel sits beside the subscription tables in place of Retention pulse. The Pro report cards are not included.
 

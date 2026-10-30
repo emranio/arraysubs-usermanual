@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (premium templates require Pro)
-- Last updated: 2026-10-29
+- Last updated: 2026-10-31
 
 # Customize Storefront Templates in a Child Theme
 
 > Change ArraySubs storefront markup from your child theme, keeping your custom files outside the plugins.
 
-**Availability:** ArraySubs core supports the templates in the core table below. Premium templates need ArraySubs Pro with an active license and their relevant module enabled. An override does not enable a feature or change when its view renders.
 
 ## Page Navigation
 
@@ -22,11 +20,15 @@
 
 To customize the page a customer opens after choosing **View** for a subscription, copy:
 
+**Source file:** copy this template from the plugin; make your changes in the child theme so plugin updates do not overwrite them.
+
 ```text
 wp-content/plugins/arraysubs/src/Features/CustomerPortal/views/view-subscription.php
 ```
 
 to:
+
+**Destination file:** replace `your-child-theme` with your active child theme's directory and keep the `arraysubs/customer-portal/` subdirectories.
 
 ```text
 wp-content/themes/your-child-theme/arraysubs/customer-portal/view-subscription.php

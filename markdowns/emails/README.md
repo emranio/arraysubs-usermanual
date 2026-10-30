@@ -1,13 +1,11 @@
 # Info
 - Module: Emails and Notifications
-- Availability: Free (25 core email classes); Pro adds four Store Credit emails
-- Last updated: 2026-10-24
+- Last updated: 2026-10-30
 
 # Emails and Notifications
 
 > ArraySubs sends automated emails at every key point of the subscription lifecycle — from signup to renewal, cancellation, and beyond.
 
-**Availability:** Free (25 core email classes); Pro adds four Store Credit emails.
 
 ## Page Navigation
 
@@ -28,7 +26,7 @@ The system covers three audiences:
 
 - **Customer emails** - 21 emails about subscription status, billing, trials, skip and pause changes, retention, card expiry, and renewal verification
 - **Admin emails** — 4 emails that alert the store admin about new subscriptions, payment failures, scheduled cancellations, and completed cancellations
-- **Store Credit emails** *(Pro)* — 4 emails about credit balance changes, usage, and expiration
+- **Store Credit emails** — 4 emails about credit balance changes, usage, and expiration
 
 ## How ArraySubs Emails Work
 
@@ -96,10 +94,10 @@ Emails are triggered automatically by subscription lifecycle events:
 | Retention discount accepted | Retention Discount Accepted (customer) |
 | Saved card expiring on a supported gateway | Card Expiring (customer) |
 | Stripe renewal requires 3D Secure/SCA verification | Renewal Requires Verification (customer) |
-| Store credit added *(Pro)* | Credit Added (customer) |
-| Store credit applied to order *(Pro)* | Credit Used (customer) |
-| Store credit expiring soon *(Pro)* | Credit Expiring (customer) |
-| Store credit expired *(Pro)* | Credit Expired (customer) |
+| Store credit added | Credit Added (customer) |
+| Store credit applied to order | Credit Used (customer) |
+| Store credit expiring soon | Credit Expiring (customer) |
+| Store credit expired | Credit Expired (customer) |
 
 ### Email Reminder Schedule
 
@@ -220,7 +218,7 @@ Some emails include additional placeholders beyond the base set:
 | `{old_product_name}` | Auto-Downgrade | The previous plan name |
 | `{new_product_name}` | Auto-Downgrade | The new (downgraded) plan name |
 
-#### Store Credit Placeholders *(Pro)*
+#### Store Credit Placeholders
 
 | Placeholder | Available In | Description |
 |-------------|-------------|------------|
@@ -269,11 +267,11 @@ You can customize any email template by copying it to your theme:
 
 1. **Find the template file** in the plugin directory:
    - Core emails: `wp-content/plugins/arraysubs/src/Features/Emails/templates/`
-   - Store Credit emails *(Pro)*: `wp-content/plugins/arraysubspro/src/Features/StoreCredit/templates/emails/`
+   - Store Credit emails: `wp-content/plugins/arraysubspro/src/Features/StoreCredit/templates/emails/`
 
 2. **Copy it to your theme's `woocommerce` folder, keeping the same relative path:**
    - Core emails: copy `customer-new-subscription.php` to `wp-content/themes/your-theme/woocommerce/customer-new-subscription.php`, and plain-text versions to `woocommerce/plain/`.
-   - Store Credit emails *(Pro)*: copy `emails/credit-added.php` to `wp-content/themes/your-theme/woocommerce/emails/credit-added.php`, and plain-text versions to `woocommerce/emails/plain/`.
+   - Store Credit emails: copy `emails/credit-added.php` to `wp-content/themes/your-theme/woocommerce/emails/credit-added.php`, and plain-text versions to `woocommerce/emails/plain/`.
 
 3. **Edit the copied file.** Your customized version takes priority over the plugin's original.
 
@@ -352,7 +350,7 @@ Every HTML template has a matching plain text version in a `plain/` subdirectory
 | Renewal Reminder not arriving | The scheduled Action Scheduler job has not run, or the days-before setting is too low | Check **ArraySubs → Settings → General Settings** for the Renewal Reminder days-before value. Verify the Action Scheduler is processing pending jobs. |
 | Emails look unstyled | The email type is set to Plain Text, or your email client is not rendering HTML | Check the Email Type setting in WooCommerce email settings. Switch to HTML or Multipart. |
 | Template override not working | The file was placed in the wrong directory or named incorrectly | Confirm the file is at `your-theme/woocommerce/<file>` for core emails (`woocommerce/plain/<file>` for plain text) or `your-theme/woocommerce/emails/<file>` for Store Credit emails, with the exact filename from the plugin template. WooCommerce shows the expected path on each email's settings screen. |
-| Store Credit emails not appearing *(Pro)* | The ArraySubs Pro plugin is not active | Activate ArraySubs Pro. Store Credit emails are registered by the Pro plugin. |
+| Store Credit emails not appearing | The ArraySubs Pro plugin is not active | Activate ArraySubs Pro. Store Credit emails are registered by the Pro plugin. |
 
 ---
 
@@ -360,7 +358,7 @@ Every HTML template has a matching plain text version in a `plain/` subdirectory
 
 - [Customer Emails](customer-emails.md) - Detailed reference for all 21 core customer email classes.
 - [Admin Emails](admin-emails.md) — Detailed reference for the 4 admin notification emails.
-- [Store Credit Emails](store-credit-emails.md) — Detailed reference for the 4 Store Credit emails *(Pro)*.
+- [Store Credit Emails](store-credit-emails.md) — Detailed reference for the 4 Store Credit emails.
 - [General Settings](../settings/general-settings.md) — Configure the email reminder schedule.
 - [Store Credit Settings](../store-credit/store-credit-settings.md) — Configure credit expiration (affects expiring/expired emails).
 

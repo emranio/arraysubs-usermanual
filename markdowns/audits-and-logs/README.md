@@ -1,18 +1,16 @@
 # Info
 - Module: Audits and Logs
-- Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Audits, Logs, and Troubleshooting
 
 > Track every action that happens inside your subscription store, monitor scheduled jobs, review gateway health, and resolve common issues.
 
-**Availability:** Pro (audit and log screens) / Free + Pro (troubleshooting)
 
 ## Page Navigation
 
 - **Current guide:** Audits, Logs, and Troubleshooting
-- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audit Logs
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [portal-action-failures](./portal-action-failures.md)
 - **Next guide:** [renewal-failures](./renewal-failures.md)
@@ -20,17 +18,23 @@
 
 ## Overview
 
-ArraySubs records a detailed trail of everything that happens to subscriptions, members, products, orders, coupons, emails, and settings. The **Audits** section gives you searchable, filterable views into this activity so you can answer support questions, diagnose billing problems, and verify that scheduled automation is running correctly.
+ArraySubs records a detailed trail of everything that happens to subscriptions, members, products, orders, coupons, emails, and settings. The **Audit Logs** section gives you searchable, filterable views into this activity so you can answer support questions, diagnose billing problems, and verify that scheduled automation is running correctly.
 
 Use this section as the manual's troubleshooting hub. If a merchant says "the plugin did the wrong thing," start here before changing settings. The audit pages tell you whether the action happened, which actor triggered it, which scheduled job ran, which gateway event arrived, and which customer/subscription/order IDs were involved.
 
-This topic covers three admin screens and four troubleshooting guides:
+The Audit Logs tabs use these labels, in this order. Individual tabs appear when their owning modules are available and switched on:
 
-| Screen | What It Shows | Availability |
-|--------|--------------|--------------|
-| [Activity Audits](activity-audits.md) | Every logged action across the subscription lifecycle — who did what, when, and to which entity | **Pro** |
-| [Scheduled-Job Logs](scheduled-job-logs.md) | Execution history for all Action Scheduler jobs — renewals, status changes, emails, maintenance | **Pro** |
-| [Gateway Health Dashboard](../gateway-health/README.md) | Gateway connection status, subscription counts, capabilities, and webhook event log | **Pro** |
+| Screen | What It Shows |
+| -------- | -------------- |
+| [Activities](activity-audits.md) | Logged changes across subscriptions, customers, orders and other entities |
+| [Gateway health](../gateway-health/README.md) | Gateway connection status, capabilities and incoming gateway webhook events |
+| [Renewal Errors](renewal-failures.md) | Failed renewal payments that still need attention |
+| [Portal Errors](portal-action-failures.md) | Failed customer actions such as cancellation, pause and plan switching |
+| [Access-Rule Conflicts](access-rule-conflicts.md) | Overlapping access rules and unexpected access decisions |
+| [Jobs](scheduled-job-logs.md) | Scheduled-job execution history and failures |
+| [Webhooks](../developers/webhooks.md#webhook-audit-page) | Outgoing request counts, success rates, delivery logs and attempts |
+
+The separate **ArraySubs -> Webhooks** page manages outgoing endpoints and contains the receiver setup guide. **ArraySubs -> Audit Logs -> Webhooks** is the audit view. **Audit Logs** sits directly below **Settings** and before **License** in the WordPress admin menu when Pro is active.
 
 The troubleshooting guides cover common problems independent of whether you run the free or Pro plugin:
 
@@ -77,9 +81,10 @@ Use this decision table when you know the symptom but not the root cause yet.
 | Subscription notes | Status changes, manual actions, gateway messages, admin notes | Subscription detail screen |
 | Order notes | Payment completion, failed payment messages, refund records, store-credit reversal notes | WooCommerce order screen |
 | Payment timeline | Gateway events, payment attempts, retry outcomes | Subscription detail screen |
-| Activity Audits | Cross-entity changes by admin, customer, gateway, or system | ArraySubs -> Audits [beta] |
-| Scheduled-Job Logs | Whether renewal, reminder, expiry, cancellation, or pause jobs executed | ArraySubs -> Audits [beta] |
-| Gateway Health Dashboard | Connection state, webhook URL, webhook event log, gateway capability matrix | ArraySubs -> Settings -> Gateway Health |
+| Activities | Cross-entity changes by admin, customer, gateway, or system | ArraySubs -> Audit Logs -> Activities |
+| Jobs | Whether renewal, reminder, expiry, cancellation, or pause jobs executed | ArraySubs -> Audit Logs -> Jobs |
+| Gateway health | Connection state, webhook URL, webhook event log, gateway capability matrix | ArraySubs -> Audit Logs -> Gateway health |
+| Webhooks | Outgoing request counts, response times and delivery attempts | ArraySubs -> Audit Logs -> Webhooks |
 | Customer portal state | Whether the customer saw the expected button, message, or disabled state | My Account -> Subscriptions |
 
 ![Gateway Logs and health evidence](README.ASSETS/03-gateway-logs-health-annotated.png)
@@ -109,17 +114,21 @@ Yes. For support teams, the quickest workflow is:
 
 ## Can I Troubleshoot Without Pro?
 
-Yes, but with fewer screens. The free plugin still provides subscription details, notes, order history, lifecycle status, customer portal pages, and the settings that control core behavior. Pro adds Activity Audits, Scheduled-Job Logs, Gateway Health, Store Credit, Feature Manager, Checkout Builder, advanced portal actions, and payment/shipping tools.
+Yes, but with fewer screens. The free plugin provides subscription details, notes, order history, lifecycle status, customer portal pages and core settings. Open Gateway health and Renewal Errors through **Renewal Flow** when the Audit Logs menu is unavailable. Pro adds the Activities, Jobs and Portal Errors screens, plus outgoing Webhooks and its delivery audit when their modules are on.
 
 ## Where to Find Audits in the Admin
 
 All audit and log screens are accessible from the main ArraySubs menu:
 
-**ArraySubs → Audits [beta] → Activity Audits**
-**ArraySubs → Audits [beta] → Scheduled-Job Logs**
-**ArraySubs → Audits [beta] → Gateway Logs**
+1. **ArraySubs -> Audit Logs -> Activities**
+2. **ArraySubs -> Audit Logs -> Gateway health**
+3. **ArraySubs -> Audit Logs -> Renewal Errors**
+4. **ArraySubs -> Audit Logs -> Portal Errors**
+5. **ArraySubs -> Audit Logs -> Access-Rule Conflicts**
+6. **ArraySubs -> Audit Logs -> Jobs**
+7. **ArraySubs -> Audit Logs -> Webhooks**
 
-The Audits menu appears only when the Pro plugin is active. Gateway Logs links to the Gateway Health Dashboard inside the Settings area.
+The Audit Logs module controls the Audit Logs menu. Turning it off hides that menu; the outgoing webhook audit remains reachable from **ArraySubs -> Webhooks** through **Open webhook audit** while the Webhooks module is on. Gateway health and Renewal Errors also remain available through **Renewal Flow**.
 
 ## Related Guides
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Read Download Benefits
 
 > Read which member-rule files a customer or subscription can download, with per-file limits, usage and expiry, without recording a download or starting an expiry clock.
 
-**Availability:** Core (Free). `ArraySubs\Developer\Downloads` ships with the core plugin, has no Pro adapter, and reads the rules at **ArraySubs -> Member Access -> Downloads**. Rules that use a Feature Value condition compare feature values configured with ArraySubs Pro Feature Manager.
 
 ## Page Navigation
 
@@ -75,6 +73,7 @@ Every factory is inherited from the shared member context (`ArraySubs\Developer\
 ## `files()`
 
 ```text
+// Read one page of member files, including eligibility, remaining allowance and expiry.
 $downloads->files( array $args = [] ): array|WP_Error
 ```
 
@@ -92,6 +91,7 @@ Any other argument, such as `eligible` or `rule_id`, returns `invalid_query`. Fi
 
 ```php
 <?php
+// Example files() response: use eligible and reason to decide whether to show a download link.
 $page = [
     'items'     => [
         [
@@ -107,6 +107,7 @@ $page = [
             'granted_at'  => 1792154479,
             'expires_at'  => 1794746479,
             'expiry_days' => 30,
+            // Use the signed URL returned by the API; do not build one from a file ID.
             'download_url' => 'https://example.com/?arraysubs_download=arraysubs_ea13414dec407f88343c84f33738f96e5988939dc43fd0fb32319d776b2a44af&signature=50d858e0985ecc7f60418aaf0cc5ab587f42c2570a884095a9e8ccacd0f6545c',
         ],
     ],
@@ -153,6 +154,7 @@ Reasons are checked in that order, so a file reports the first reason that appli
 ## `data()`
 
 ```text
+// Read selected availability, policy and file sections without granting or consuming a download.
 $downloads->data( array $fields = [] ): array|WP_Error
 ```
 
@@ -162,6 +164,7 @@ $downloads->data( array $fields = [] ): array|WP_Error
 
 ```php
 <?php
+// Example data() response: availability describes the module; policy explains how file limits and expiry work.
 $data = [
     'context'      => [ 'user_id' => 123, 'subscription_id' => null ],
     'availability' => [ 'available' => true, 'enabled' => true ],
@@ -188,6 +191,7 @@ $data = [
 
 ```php
 <?php
+// Return links for the signed-in member only; this example reads the first page of up to 100 files.
 add_shortcode(
     'myplugin_member_files',
     function () {
@@ -207,6 +211,7 @@ add_shortcode(
                 continue;
             }
 
+            // A null remaining count means unlimited downloads, not zero downloads.
             $left = null === $file['remaining']
                 ? __( 'Unlimited downloads', 'myplugin' )
                 /* translators: %d: downloads left. */
@@ -224,6 +229,8 @@ add_shortcode(
     }
 );
 ```
+
+After registering the shortcode above, paste this into a Shortcode block to show the signed-in member's files.
 
 ```text
 [myplugin_member_files]
@@ -291,6 +298,7 @@ An eligible file with `expires_at` at `null` but `expiry_days` above 0 has not s
 
 ```php
 <?php
+// Register a signed-in REST route, then verify subscription ownership inside its callback.
 add_action(
     'rest_api_init',
     function () {
@@ -318,6 +326,7 @@ function myplugin_rest_subscription_files( WP_REST_Request $request ) {
         return new WP_Error( 'myplugin_not_found', __( 'Subscription not found.', 'myplugin' ), [ 'status' => 404 ] );
     }
 
+    // Select the status fields needed by this endpoint instead of exposing signed download URLs.
     $page = $downloads->files( [ 'per_page' => 100, 'fields' => [ 'download_id', 'file_name', 'eligible', 'reason', 'remaining', 'expires_at', 'expiry_days' ] ] );
     if ( is_wp_error( $page ) ) {
         return new WP_Error( 'myplugin_files_failed', $page->get_error_message(), [ 'status' => 500 ] );

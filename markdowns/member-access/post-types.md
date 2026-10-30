@@ -1,13 +1,11 @@
 # Info
 - Module: Post Types
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Post Types
 
 > Gate posts, pages, and custom post types with archive behavior and per-target access control.
 
-**Availability:** Free
 
 ## Page Navigation
 

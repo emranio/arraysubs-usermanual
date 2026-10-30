@@ -1,13 +1,11 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Trial Management
 
 > How free trials start, what happens when a trial ends, and how the system converts trials to paid subscriptions or downgrades them automatically.
 
-**Availability:** Free (core trial engine, including auto-downgrade on trial expiry)
 
 ## Page Navigation
 
@@ -242,7 +240,7 @@ A membership site offers a 30-day trial of the Premium tier ($99/month) with aut
 
 | Problem | Likely cause | What to do |
 |---|---|---|
-| Trial not converting to Active | The trial-end renewal order is unpaid, or the daily conversion job has not run yet | Check the renewal order for the trial end: once it is paid, the subscription becomes Active. Unpaid trials are converted by the daily job; check **Scheduled-Job Logs** (Pro) for the trial conversion job status. |
+| Trial not converting to Active | The trial-end renewal order is unpaid, or the daily conversion job has not run yet | Check the renewal order for the trial end: once it is paid, the subscription becomes Active. Unpaid trials are converted by the daily job; check **Jobs** for the trial conversion job status. |
 | Trial converted but the customer got no Trial Converted email | The trial-end renewal was paid, so the normal renewal path converted it | Expected. The Trial Converted email is sent only by the daily conversion job. |
 | Customer received Auto Downgrade email instead of Trial Converted | Auto-Downgrade Timing is **On Trial Expiry** and the product has an Auto-downgrade to target | Check the product's linked products and the **Auto-Downgrade Timing** setting. Choose another timing if you want normal conversion. |
 | Customer was charged at checkout during free trial | Signup fee is configured on the product | Check the product's signup fee field. A signup fee is charged even during free trials. |

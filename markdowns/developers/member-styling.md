@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (Feature Value conditions require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Read Member Styling Rules
 
 > List the Member Styling rules with their evaluation for a member, and read the body classes and CSS that apply on the frontend or in wp-admin, without printing or enqueuing anything.
 
-**Availability:** Core (Free). Rules that use the **Feature Value** condition read plan features configured with ArraySubs Pro Feature Manager.
 
 ## Page Navigation
 
@@ -68,6 +66,7 @@ A logged-out visitor (`fromUserId( 0 )`) gets rules with no conditions and rules
 Lists the configured rules in saved order and evaluates each one for the reader's context.
 
 ```text
+// Read the styling rules for this member or subscription, using pagination when needed.
 $styling->rules( array $args = [] ): array|WP_Error
 ```
 
@@ -143,6 +142,7 @@ Qualifying statuses for `source_subscription_ids` and for **Has Active Subscript
 ## `data()`
 
 ```text
+// Read styling data for the chosen display context; apply only effective classes to your output.
 $styling->data( array $fields = [], string $display_context = 'frontend' ): array|WP_Error
 ```
 
@@ -195,6 +195,7 @@ For markup ArraySubs does not style, such as a block in an email or a headless t
 
 ```php
 <?php
+// Merge the current member's effective classes with your wrapper class, then remove duplicates.
 function my_member_wrapper_classes(): string {
 	$classes = array( 'my-member-area' );
 
@@ -219,6 +220,7 @@ ArraySubs styles the page for the visitor who views it, not for comment authors.
 
 ```php
 <?php
+// Use the comment author's membership classes, not the visitor's; preserve existing comment classes.
 add_filter(
 	'comment_class',
 	function ( $classes, $css_class, $comment_id, $comment ) {
@@ -229,6 +231,7 @@ add_filter(
 			return $classes; // Guest comment or ArraySubs unavailable.
 		}
 
+		// Cache each author's result for this request so multiple comments do not repeat the same API read.
 		if ( ! isset( $cache[ $user_id ] ) ) {
 			$styling = \ArraySubs\Developer\MemberStyling::fromUserId( $user_id );
 			$data    = is_wp_error( $styling ) ? $styling : $styling->data( array( 'effective' ) );
@@ -252,6 +255,7 @@ List every rule for one subscription in a staff-only screen and say why each rul
 ```php
 <?php
 function my_render_styling_debug( int $subscription_id ): void {
+	// Keep this diagnostic output behind a staff check; the reader does not authorize the viewer.
 	if ( ! current_user_can( 'manage_woocommerce' ) ) {
 		return; // Your web boundary: the reader does not check permissions.
 	}
@@ -344,7 +348,7 @@ These errors carry no error data.
 - [Member Styling](../member-styling/README.md) - Merchant setup for rules, classes, CSS and schedules.
 - [Member Access](../member-access/README.md) - The shared condition types used by styling rules.
 - [Check Content Access](./member-access.md) - The shared member contexts with access rules.
-- [Read and Update Feature Data](./feature-manager.md) - Feature values behind Feature Value conditions *(Pro)*.
+- [Read and Update Feature Data](./feature-manager.md) - Feature values behind Feature Value conditions.
 - [Find and Update Subscriptions](./subscriptions.md) - Find the subscription for `fromSubscriptionId()`.
 - [Connect Your Custom Plugin](./getting-started.md) - Loading order and guards.
 - [Verify Your Integration](./errors-and-testing.md) - Error handling and side-effect checks.

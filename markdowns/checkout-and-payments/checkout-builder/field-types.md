@@ -1,13 +1,11 @@
 # Info
 - Module: Checkout Builder — Field Types Reference
-- Availability: Pro
-- Last updated: 2026-06-21
+- Last updated: 2026-10-30
 
 # Field Types Reference
 
 > Complete reference for all 28 element types available in the Checkout Builder — properties, type-specific settings, validation rules, and storage format.
 
-**Availability:** Pro
 
 ## Page Navigation
 

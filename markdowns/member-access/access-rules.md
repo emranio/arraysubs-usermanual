@@ -1,13 +1,11 @@
 # Info
 - Module: Access Rules
-- Availability: Free
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
 # Access Rules
 
 > Automatically assign WordPress roles, protect URL patterns, and gate posts and pages — all based on subscription conditions.
 
-**Availability:** Free
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Shop Access
-- Availability: Free
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Shop Access
 
 > Restrict who can browse, view, or purchase products based on membership conditions.
 
-**Availability:** Free
 
 ## Page Navigation
 

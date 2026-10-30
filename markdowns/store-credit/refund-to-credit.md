@@ -1,13 +1,11 @@
 # Info
 - Module: Refund to Credit
-- Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
 # Refund to Credit
 
 > Process refunds as store credit instead of sending money back through the payment gateway — keep the revenue in your store while still making the customer whole.
 
-**Availability:** Pro
 
 ## Page Navigation
 

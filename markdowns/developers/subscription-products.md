@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Read Subscription Product Terms
 
 > Look up a subscription product by ID, slug or product URL and read its catalog terms, variations and plan-switch targets with `ArraySubs\Developer\Product`.
 
-**Availability:** Core (Free). Different renewal price values need ArraySubs Pro with an active license. The `bundle` module block needs ArraySubs Pro (Subscription Bundle module). Feature rows are set up with Pro Feature Manager; reading saved rows is core.
 
 ## Page Navigation
 
@@ -84,6 +82,7 @@ WP-CLI, cron and logged-out requests run without such a user, so only published 
 ## Read Product Data
 
 ```text
+// Select catalog sections to read; do not treat current catalog terms as an existing subscriber's agreement.
 $product->data( array $fields = [] )
 ```
 
@@ -100,6 +99,7 @@ A result for `data( array( 'identity', 'pricing', 'billing', 'trial' ) )` on a s
 
 ```php
 <?php
+// Example catalog terms for a plan; existing subscriptions can retain different agreed prices and schedules.
 $terms = array(
     'identity' => array(
         'id'        => 123,
@@ -236,10 +236,10 @@ One block per product module. Every block has the same three keys:
 | `enabled` | bool | Whether the module can be used right now (see the next table). |
 | `terms` | array or null | The module's saved configuration. `null` when the product is not that type, or its configuration is not usable (a box needs at least one step, a bundle at least one product). |
 
-| Block | Availability | `enabled` is true when | `terms` keys |
-| --- | --- | --- | --- |
-| `box` | Core | The **Subscription Box** module is on in **ArraySubs -> Modules** | `schedule`, `steps`, `discounts`, `renewal_sync` |
-| `bundle` *(Pro)* | ArraySubs Pro active | ArraySubs Pro has an active license and the **Subscription Bundle** module is on | `schedule`, `products`, `discount`, `renewal_sync` |
+| Block | `enabled` is true when | `terms` keys |
+| --- | --- | --- |
+| `box` | The **Subscription Box** module is on in **ArraySubs -> Modules** | `schedule`, `steps`, `discounts`, `renewal_sync` |
+| `bundle` | ArraySubs Pro has an active license and the **Subscription Bundle** module is on | `schedule`, `products`, `discount`, `renewal_sync` |
 
 Box `terms`:
 
@@ -248,7 +248,7 @@ Box `terms`:
 - `discounts`: `basis` (`total_value` or `total_count`), `max_value`, `boundaries`, and `ranges`. Each range has `freebies` (product IDs) and a `discount` with `type` (`none`, `fixed` or `percent`) and `amount`.
 - `renewal_sync`: `enabled`, `seg1_end`, `seg2_end`, `seg1_active`, `seg2_active`, `seg3_active`.
 
-Bundle `terms` *(Pro)*:
+Bundle `terms`:
 
 - `schedule`: the same keys as the box schedule.
 - `products`: rows of `id`, `product_id` and `qty`.
@@ -266,6 +266,7 @@ See [Subscription Boxes](../subscription-products/subscription-box.md) and [Subs
 `data()` builds the `modules` group through a filter, so a product module of your own can report its settings the same way:
 
 ```text
+// Extend the product module map while preserving existing entries and returning the array.
 apply_filters( 'arraysubs_developer_product_modules', array $modules, WC_Product $product )
 ```
 
@@ -278,6 +279,7 @@ The filter runs only when the `modules` group is requested. Return the array, ke
 
 ```php
 <?php
+// Add your own product module data alongside existing modules; do not replace their entries.
 add_filter( 'arraysubs_developer_product_modules', function ( array $modules, WC_Product $product ) {
     $course_id = (int) $product->get_meta( '_myplugin_course_id' );
 
@@ -294,6 +296,7 @@ add_filter( 'arraysubs_developer_product_modules', function ( array $modules, WC
 ## List Variations
 
 ```text
+// Page through a variable plan's variations instead of treating the parent as a purchasable variation.
 $product->variations( array $args = [] )
 ```
 
@@ -314,6 +317,7 @@ $product->variations( array $args = [] )
 ## List Plan Switch Targets
 
 ```text
+// Choose the switch direction and page through the eligible plan targets.
 $product->plans( string $direction = 'upgrade', array $args = [] )
 ```
 
@@ -337,6 +341,7 @@ While plan switching and the requested direction are on:
 
 ```php
 <?php
+// Example enabled switch-target page. The items format depends on the requested output option.
 $targets = array(
     'items'     => array( 456, 789 ), // IDs, WC_Product objects or data arrays, depending on output.
     'page'      => 1,
@@ -352,6 +357,7 @@ While **Enable Plan Switching**, or the matching **Allow Upgrades**, **Allow Dow
 
 ```php
 <?php
+// Example when switching is disabled: no targets are offered even though one is configured.
 $targets = array(
     'items'            => array(),
     'page'             => 1,
@@ -603,6 +609,7 @@ function myplugin_variation_terms( int $parent_id ): array {
     $rows = array();
     $page = 1;
 
+    // Read every variation page; each variation can have its own subscription price and schedule.
     do {
         $result = $parent->variations(
             array(
@@ -645,6 +652,7 @@ add_action( 'rest_api_init', function () {
         '/plans/(?P<id>\d+)',
         array(
             'methods'             => 'GET',
+            // This route is public; use a capability check instead if your endpoint exposes private data.
             'permission_callback' => '__return_true',
             'callback'            => function ( WP_REST_Request $request ) {
                 if ( ! class_exists( '\ArraySubs\Developer\Product' ) ) {
@@ -696,7 +704,7 @@ These global helpers are available alongside the class. They return `null`, `fal
 - **Feature types are never included.** `features.effective` rows have no `type`. Keep internal feature types out of customer-facing output.
 - **`plans()` is configuration.** It is filtered by product-level eligibility only, so a listed target is not a promise that a particular subscription can switch to it.
 - **Prices are stored values.** `pricing` reads the catalog prices as saved. Coupons and member discounts are not part of product terms.
-- **Store credit products** (Pro) are not subscription products and return `unsupported`.
+- **Store credit products** are not subscription products and return `unsupported`.
 
 ## Troubleshooting
 

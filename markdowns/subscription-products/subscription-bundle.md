@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Products
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Subscription Bundles
 
 > Sell a fixed set of products as one subscription: you choose the contents, the customer buys the whole thing with a single click.
 
-**Availability:** Pro
 
 ## Page Navigation
 
@@ -44,7 +42,7 @@ All bundle controls live in the product's **General** tab. There is no extra adm
 
 - WooCommerce installed and active.
 - ArraySubs core plugin installed and active.
-- ArraySubs **Pro** add-on installed and active with a valid license.
+- ArraySubs Pro add-on installed and active with a valid license.
 - At least one published **simple** product to put in the bundle.
 - Admin or Shop Manager access.
 

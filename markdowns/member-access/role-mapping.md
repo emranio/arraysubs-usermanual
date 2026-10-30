@@ -1,13 +1,11 @@
 # Info
 - Module: Role Mapping
-- Availability: Free
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Role Mapping
 
 > Automatically assign or remove WordPress user roles based on subscription status and conditions.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -87,7 +85,7 @@ A role cannot be granted "partially", so **Limited access** does not keep it. A 
 
 - [URL](url.md) — Restrict path-based frontend URLs with priority and exclusions.
 - [Post Types](post-types.md) — Gate posts, pages, and CPT content instead of only changing roles.
-- [Login Limit](login-limit.md) *(Pro)* — Uses the same condition builder for concurrent-session limits.
+- [Login Limit](login-limit.md) — Uses the same condition builder for concurrent-session limits.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How status transitions affect role changes.
 
 ## FAQ

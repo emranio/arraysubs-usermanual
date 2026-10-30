@@ -1,13 +1,11 @@
 # Info
 - Module: Getting Started
-- Availability: Free + Pro
-- Last updated: 2026-10-28
+- Last updated: 2026-10-30
 
 # Translations
 
 > Show ArraySubs in your customers' language. Built-in text ships with translations you can edit in Loco Translate, and the text you type yourself is translated in place with TranslatePress or Polylang.
 
-**Availability:** Free (text saved by Pro modules gets the same treatment when ArraySubs Pro is active)
 
 ## Page Navigation
 
@@ -124,7 +122,7 @@ Other settings on the screen still apply to every language, and the screen's own
 
 ### Set up Polylang
 
-ArraySubs supports Polylang (free) in any URL mode and with any permalink setting, including plain permalinks, with these rules:
+ArraySubs supports Polylang in any URL mode and with any permalink setting, including plain permalinks, with these rules:
 
 - Translate the WooCommerce **Cart**, **Checkout**, **My Account**, and **Terms** pages as Polylang page translations. ArraySubs uses the translated page for the visitor's language, so endpoint links, checkout updates, and account actions stay in that language.
 - Leave the **Shop** page untranslated. Without Polylang for WooCommerce the product catalogue exists only at the original shop address, so "Return to shop" links keep pointing there.
@@ -145,7 +143,7 @@ ArraySubs supports Polylang (free) in any URL mode and with any permalink settin
 - Emails are sent in the language WordPress uses at sending time, which your multilingual plugin decides. Built-in email text follows that language from the language files.
 - With both multilingual plugins active, only TranslatePress translations are used until one plugin is deactivated. Administrators see a warning about it; Polylang's **Clean strings translation database** still keeps ArraySubs translations meanwhile.
 - Exporting and importing ArraySubs settings moves the original text only. Translations travel with your multilingual plugin's data.
-- My Account menu items left at their WooCommerce label show WooCommerce's own translation in every language *(Pro)*. Only labels you change need translating.
+- My Account menu items left at their WooCommerce label show WooCommerce's own translation in every language. Only labels you change need translating.
 
 ## Troubleshooting
 
@@ -165,10 +163,10 @@ ArraySubs supports Polylang (free) in any URL mode and with any permalink settin
 - [General Settings](../settings/general-settings.md) — Button text and other store-wide customer copy.
 - [Content Gate](../member-access/content-gate.md) — Restriction messages for Elementor, Gutenberg, shortcode, and PHP gating.
 - [Subscription Box](../subscription-products/subscription-box.md) — Builder labels and step titles.
-- [Checkout Builder Overview](../checkout-and-payments/checkout-builder/README.md) *(Pro)* — Field labels, help text, and step names.
-- [Cancellation Setup](../retention-and-refunds/cancellation-setup.md) *(Pro)* — Cancellation reasons and retention-offer text.
-- [Profile Form](../profile-builder/profile-form.md) and [My Account Editor](../profile-builder/my-account-editor.md) *(Pro)* — Profile field and menu labels.
-- [Defining Product Features](../feature-manager/defining-product-features.md) *(Pro)* — Feature names and values.
+- [Checkout Builder Overview](../checkout-and-payments/checkout-builder/README.md) — Field labels, help text, and step names.
+- [Cancellation Setup](../retention-and-refunds/cancellation-setup.md) — Cancellation reasons and retention-offer text.
+- [Profile Form](../profile-builder/profile-form.md) and [My Account Editor](../profile-builder/my-account-editor.md) — Profile field and menu labels.
+- [Defining Product Features](../feature-manager/defining-product-features.md) — Feature names and values.
 - [Email Overview](../emails/README.md) — Email language and template overrides.
 
 ## FAQ

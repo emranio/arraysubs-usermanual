@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Products
-- Availability: Free
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Subscription Box Customer Experience
 
 > What shoppers see when they build a subscription box, how it appears in the cart, at checkout, and on the order — and how the box and the subscriptions inside it behave for the rest of their life.
 
-**Availability:** Free
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: AI Revenue Forecast
-- Availability: Free
-- Last updated: 2026-07-27
+- Last updated: 2026-10-30
 
 # AI Revenue Forecast
 
 > See your current MRR and ARR measured from real orders, then project it forward 6, 12, or 24 months with an AI-written conservative-to-optimistic range, assumptions, risks, and opportunities.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -42,7 +40,7 @@ Only aggregate totals are sent to the AI provider — monthly sums, subscriber c
 
 ## Prerequisites
 
-- **ArraySubs** (free) activated — this report ships in the free plugin.
+- **ArraySubs** activated — this report ships in the free plugin.
 - **WooCommerce** 8.0+ with WooCommerce Admin.
 - Some order history for the revenue chart to be meaningful. A store with only a few weeks of data will produce a low-confidence projection, and the report will say so.
 - **For the projection only:** an AI provider connector configured in WordPress. See [Setting Up the AI Provider](ai-churn-analysis.md#setting-up-the-ai-provider).
@@ -268,7 +266,7 @@ New business spikes in the collected-revenue chart, but renewals stay flat and c
 
 - [AI Churn Analysis](ai-churn-analysis.md) — The companion report scoring individual subscribers for churn risk.
 - [Retention Analytics](../retention-analytics/README.md) — Why customers cancelled and whether save offers worked.
-- [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — Period-over-period KPI comparison on the Analytics Overview page.
+- [Subscription Performance Dashboard](subscription-performance.md) — Period-over-period KPI comparison on the Analytics Overview page.
 - [Renewal Operations](../billing-and-renewals/renewal-operations.md) — How renewal orders, the source of the renewals series, are generated.
 - [Flexible Subscription Duration](../subscription-products/flexible-subscription-duration.md) — Billing cadences behind the billing mix table.
 - [Reports Hub](reports-hub.md) — Central directory of every report in the ecosystem.

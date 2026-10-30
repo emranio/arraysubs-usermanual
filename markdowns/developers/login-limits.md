@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Read Login-Limit Policy
 
 > Read the concurrent-session policy for a member: whether a limit applies, the maximum, the rules behind it and how many sessions are active, without touching any session.
 
-**Availability:** The `ArraySubs\Developer\LoginLimits` class ships with ArraySubs core, but the policy data comes from ArraySubs Pro (Multi-Login Prevention). Without Pro, `data()` returns a fixed "unavailable" result instead of an error (see [Without ArraySubs Pro](#without-arraysubs-pro)). Limits are enforced only while **Enable Multi-Login Prevention** is on in **ArraySubs -> Member Access -> Login Limit**.
 
 ## Page Navigation
 
@@ -72,6 +70,7 @@ Creating a reader reads no policy and writes nothing.
 ## `data()`
 
 ```text
+// Read session-limit state for the selected customer or subscription; check WP_Error first.
 $limits->data( array $fields = [], array $context = [] ): array|WP_Error
 ```
 
@@ -200,6 +199,8 @@ function my_device_usage_shortcode(): string {
 ```
 
 Place it on any page the member can open:
+
+Paste this into a Shortcode block after registering its callback. The callback uses the signed-in member, not a supplied customer ID.
 
 ```text
 [my_device_usage]

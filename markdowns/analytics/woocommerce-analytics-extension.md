@@ -1,17 +1,15 @@
 # Info
 - Module: WooCommerce Analytics Extension
-- Availability: Pro
-- Last updated: 2026-09-03
+- Last updated: 2026-10-30
 
-# WooCommerce Analytics Extension *(Pro)*
+# WooCommerce Analytics Extension
 
 > Filter and analyze your WooCommerce reports by subscription type, view subscription revenue breakdowns, and jump to member profiles — all inside the native WooCommerce Analytics screens.
 
-**Availability:** Pro
 
 ## Page Navigation
 
-- **Current guide:** WooCommerce Analytics Extension *(Pro)*
+- **Current guide:** WooCommerce Analytics Extension
 - **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Orders, Revenue, Products, Variations, and Customers
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [subscription-performance](./subscription-performance.md)

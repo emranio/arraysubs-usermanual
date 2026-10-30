@@ -1,7 +1,6 @@
 # Info
 - Module: Manual Planning
-- Availability: Internal reference
-- Last updated: 2026-10-24
+- Last updated: 2026-10-30
 
 # User Manual Hub Index Plan
 
@@ -63,14 +62,14 @@
   - Post Types
   - Downloads
   - Conflicts
-  - Login Limit *(Pro)*
+  - Login Limit
 
 - Coupons - done
   - Subscription-aware coupon discounts
   - Recurring coupon cycle limits
   - Initial-checkout cycle counting
 
-- Subscription Shipping *(Pro)* - done
+- Subscription Shipping - done
   - One-time versus recurring shipping charges
   - Physical subscription product shipping controls
 
@@ -84,13 +83,13 @@
   - Subscription Self-Service Actions
   - Payment and Shipping Actions
 
-- Member Insight *(Pro)* - done
+- Member Insight - done
   - Member Insight overview
   - Member Lookup and Profiles
   - Member Commerce Overview
   - Member Operations
 
-- Store Credit *(Pro)* - done
+- Store Credit - done
   - Store Credit overview
   - Store Credit Management
   - Credit History
@@ -103,14 +102,14 @@
   - Shortcodes overview
   - Account Shortcodes
   - Content Gating Shortcodes
-  - Store Credit Shortcode *(Pro)*
+  - Store Credit Shortcode
 
 - Profile Builder and My Account Customization - done
   - Profile Builder overview
   - Profile Form
   - My Account Editor
 
-- Feature Manager *(Pro)* - done
+- Feature Manager - done
   - Feature Manager overview
   - Defining Product Features
   - Customer and Storefront Display
@@ -119,15 +118,15 @@
 - Checkout and Payments - done
   - Checkout and Payments overview
   - Subscription Checkout
-  - Automatic Payments overview *(Pro)*
-  - Stripe *(Pro)*
-  - PayPal *(Pro)*
-  - Paddle *(Pro)*
-  - Payment Recovery *(Pro)*
-  - Auto-Renew and Manual Fallback *(Pro)*
-  - Checkout Builder overview *(Pro)*
-  - Field Types Reference *(Pro)*
-  - Checkout Builder Use Cases *(Pro)*
+  - Automatic Payments overview
+  - Stripe
+  - PayPal
+  - Paddle
+  - Payment Recovery
+  - Auto-Renew and Manual Fallback
+  - Checkout Builder overview
+  - Field Types Reference
+  - Checkout Builder Use Cases
 
 - Billing and Renewals - done
   - Billing and Renewals overview
@@ -143,7 +142,7 @@
   - Retention Use Cases
   - Refund Management
 
-- Advanced Analytics *(Pro)* - done
+- Advanced Analytics - done
   - Analytics overview
   - Reports Hub
   - Subscription Performance Dashboard
@@ -160,7 +159,7 @@
   - Email overview
   - Customer Emails
   - Admin Emails
-  - Store Credit Emails *(Pro)*
+  - Store Credit Emails
 
 - Integrations - done
   - Integrations overview
@@ -191,11 +190,11 @@
   - Admin-to-customer impersonation
   - Support and customer-portal verification
 
-- Redirect Product Page *(Pro)* - done
+- Redirect Product Page - done
   - Redirect direct subscription product URLs
   - Return 404 for hidden subscription product pages
 
-- Gateway Health *(Pro)* - done
+- Gateway Health - done
   - Gateway status cards
   - Subscription counts
   - Webhook URLs
@@ -204,8 +203,8 @@
 
 - Audits, Logs, and Troubleshooting - done
   - Audits and Logs overview
-  - Activity Audits *(Pro)*
-  - Scheduled Job Logs *(Pro)*
+  - Activity Audits
+  - Scheduled Job Logs
   - Renewal Failures and Billing Issues
   - Portal Action Failures
   - Access Rule Conflicts
@@ -228,7 +227,7 @@
   - Read Member Styling Rules
   - Read and Update Store Credit
   - React to Supported Events
-  - Receive Subscription Events with Webhooks *(Pro)*
+  - Receive Subscription Events with Webhooks
   - FlowMattic Hooks and Actions
   - Extend ArraySubs with a Module
   - Gate Custom PHP Output
@@ -243,6 +242,6 @@
 - Keep the hub and `index-plan.md` aligned with `markdowns/menu.json`.
 - Keep **Manage Subscription Products**, **Member Access**, **Customer Portal**, **Member Insight**, **Store Credit**, **Shortcodes**, **Profile Builder**, **Feature Manager**, **Checkout and Payments**, **Billing and Renewals**, **Retention**, **Advanced Analytics**, **Retention Analytics**, **Emails**, and the toolkit modules as menu-order top-level topics.
 - Treat **Retention Flow**, **Plan Switching**, **Skip & Pause**, **Refunds**, **Checkout Builder**, **Feature Manager**, **Store Credit**, and **Automatic Payments** as module-owned documentation areas, not shared settings chapters.
-- Use *(Pro)* badges anywhere the topic depends on `arraysubspro`.
+- Use badges anywhere the topic depends on `arraysubspro`.
 - The **Checkout Builder** section is significantly expanded because the codebase supports 27 field types, multistep navigation, a full design panel, conditional visibility rules, and per-address field customization.
 - The **Gateway** documentation should include a capability comparison matrix across Stripe, PayPal, Paddle, and Mollie.

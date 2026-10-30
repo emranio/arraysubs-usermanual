@@ -44,7 +44,6 @@ async function renderDesignPage(rootDir) {
       "Preview the documentation layout shell with representative content.",
     directoryRelativePath: previewDirectory,
     isIndexPage: true,
-    isPro: true,
     metadata: {},
     outputRelativePath: "index.html",
     title: "Documentation Layout Preview",

@@ -1,13 +1,11 @@
 # Info
 - Module: Credit History
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Credit History
 
 > A global transaction log showing every store credit event across all customers — additions, deductions, applications, expirations, and more.
 
-**Availability:** Pro
 
 ## Page Navigation
 

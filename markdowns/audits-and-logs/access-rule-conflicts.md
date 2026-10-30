@@ -1,18 +1,16 @@
 # Info
 - Module: Audits and Logs
-- Availability: Free + Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Access-Rule Conflicts
 
 > Troubleshoot overlapping membership rules, unexpected access denials, and content restriction evaluation problems.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
 - **Current guide:** Access-Rule Conflicts
-- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audit Logs -> Access-Rule Conflicts
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/access-rule-conflicts`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [woocommerce-analytics-extension](../analytics/woocommerce-analytics-extension.md)
@@ -39,7 +37,7 @@ Each access rule contains one or more conditions. The system evaluates each cond
 | `user_role` | Whether the user has one of the specified WordPress roles |
 | `lifetime_spent` | Whether the user's total spend meets a threshold |
 | `purchased_product` | Whether the user has purchased a specific product (any order) |
-| `feature_value` | Whether the user's subscription entitlement for a feature key matches a specific value (Pro) |
+| `feature_value` | Whether the user's subscription entitlement for a feature key matches a specific value |
 
 ### AND / OR Logic
 
@@ -84,7 +82,7 @@ Rules can also be nested into **groups**, where each group has its own AND/OR lo
 
 **Why it happens:** Per-post restrictions are more specific than URL pattern rules, so the per-post rule wins when both apply to the same content. The Access-Rule Conflicts audit highlights these overlaps so you can compare the broad URL rule with the higher-priority per-post restriction.
 
-**Fix:** Open **ArraySubs → Audits [beta] → Access-Rule Conflicts** and compare the URL Rule panel with the Per-post Rule panel. If the per-post restriction is intentional, leave it in place. If the URL rule should control the page instead, remove or adjust the per-post restriction, or disable the overlapping URL rule from the audit resolution action.
+**Fix:** Open **ArraySubs → Audit Logs → Access-Rule Conflicts** and compare the URL Rule panel with the Per-post Rule panel. If the per-post restriction is intentional, leave it in place. If the URL rule should control the page instead, remove or adjust the per-post restriction, or disable the overlapping URL rule from the audit resolution action.
 
 ### Scenario 4: Post-Level Override vs. Global Rule
 
@@ -94,7 +92,7 @@ Rules can also be nested into **groups**, where each group has its own AND/OR lo
 
 **Fix:** If you want the global rule to apply, remove the per-post restriction from the individual post editor.
 
-### Scenario 5: Feature Value Condition Not Matching (Pro)
+### Scenario 5: Feature Value Condition Not Matching
 
 **Problem:** A rule using `feature_value` denies access even though the feature is enabled on the subscription.
 
@@ -135,7 +133,7 @@ For the user who is experiencing the issue:
 - What is their WordPress role?
 - Do they have an active subscription? For which product?
 - What is the subscription status?
-- If using feature conditions (Pro), what are the feature values on their subscription?
+- If using feature conditions, what are the feature values on their subscription?
 
 ### Step 3: Evaluate the Conditions Manually
 

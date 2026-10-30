@@ -1,14 +1,12 @@
 # Info
 - Module: Member Access
 - Submodule: Comments
-- Availability: Free
-- Last updated: 2026-07-22
+- Last updated: 2026-10-30
 
 # Comment Restrictions
 
 > Control who can read existing comments and who can post new comments on selected content.
 
-**Availability:** Free / ArraySubs core.
 
 ## Page Navigation
 
@@ -71,7 +69,7 @@ Taxonomy and entry selectors load results on demand. Start typing to search inst
 
 ## Audience Conditions
 
-The Comments tab uses the shared Member Access condition builder. It includes lifetime spend, purchased products or variations, purchased categories/tags, active subscription, subscription variation, login status, negative subscription and negative variation checks, Feature Manager values *(Pro)*, and WordPress roles.
+The Comments tab uses the shared Member Access condition builder. It includes lifetime spend, purchased products or variations, purchased categories/tags, active subscription, subscription variation, login status, negative subscription and negative variation checks, Feature Manager values, and WordPress roles.
 
 - Conditions in one row/group can be combined with AND or OR.
 - **Add Group** creates nested logic for more precise audiences.

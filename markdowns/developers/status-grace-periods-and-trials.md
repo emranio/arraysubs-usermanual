@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free
-- Last updated: 2026-10-23
+- Last updated: 2026-10-31
 
 # Read Lifecycle State and Manage Its Dates
 
 > Read a subscription's status, trial, grace and cancellation state, and change it through the validated lifecycle operations on `ArraySubs\Developer\Subscriptions`: status changes, pause and resume, renewal and trial dates, per-subscription grace, and cancellation.
 
-**Availability:** Core (Free). Every class, method and hook on this page ships with ArraySubs core; ArraySubs Pro is not required. Children of Pro Subscription Bundles follow the same billing-owner rule as Subscription Box children.
 
 ## Page Navigation
 
@@ -205,6 +203,7 @@ All operations are instance methods. On success each returns the full `data()` a
 ### Status Changes
 
 ```text
+// Use expected values to detect concurrent edits; handle WP_Error instead of assuming a transition succeeded.
 changeStatus( string $status, array $expected = [] )
 activate( array $expected = [] )
 suspend( array $expected = [] )
@@ -229,6 +228,7 @@ expire( array $expected = [] )
 ### `pause()` and `resume()`
 
 ```text
+// Pause for a number of days, or resume a paused subscription; check each operation's result.
 pause( int $days, string $reason = '' )
 resume()
 ```
@@ -250,6 +250,7 @@ resume()
 ### `setNextPaymentDate()` and `setTrialEnd()`
 
 ```text
+// Pass UTC Unix timestamps; supplying the last-read timestamp helps detect concurrent changes.
 setNextPaymentDate( int $utc_timestamp, ?int $expected_timestamp = null )
 setTrialEnd( int $utc_timestamp, ?int $expected_timestamp = null )
 ```
@@ -266,6 +267,7 @@ setTrialEnd( int $utc_timestamp, ?int $expected_timestamp = null )
 ### `endTrial()`
 
 ```text
+// End the trial through the lifecycle API rather than editing trial metadata directly.
 endTrial()
 ```
 
@@ -278,6 +280,7 @@ endTrial()
 ### `setGracePolicy()`
 
 ```text
+// Update only the intended grace-policy fields and pass expected values when guarding an edit.
 setGracePolicy( array $changes, array $expected = [] )
 ```
 
@@ -290,6 +293,7 @@ setGracePolicy( array $changes, array $expected = [] )
 ### `cancel()` and `undoCancellation()`
 
 ```text
+// Choose immediate or scheduled cancellation; undo only while the API still allows it.
 cancel( string $timing = 'immediate', string $reason = '' )
 undoCancellation()
 ```
@@ -403,6 +407,7 @@ These actions fire synchronously in the request that makes the change; for a Dev
 ### `arraysubs_lifecycle_event`
 
 ```text
+// Listen with two accepted arguments; use the event name and normalized lifecycle payload.
 do_action( 'arraysubs_lifecycle_event', string $event, array $payload );
 ```
 
@@ -548,6 +553,7 @@ function myplugin_renewal_date_blocker( int $subscription_id ): string {
 		return __( 'This subscription is billed by its parent. Change the parent instead.', 'myplugin' );
 	}
 
+	// Inspect current state before offering the change; the update can still return a conflict.
 	$data = $subscription->data( [ 'status', 'schedule', 'cancellation', 'pending_switch', 'recovery' ] );
 	if ( is_wp_error( $data ) ) {
 		return $data->get_error_message();
@@ -680,6 +686,7 @@ function myplugin_on_lifecycle_event( string $event, array $payload ): void {
 		return;
 	}
 
+	// Re-read current state rather than assuming the event still describes the member's access.
 	$subscription = \ArraySubs\Developer\Subscriptions::fromId( (int) ( $payload['subscription_id'] ?? 0 ) );
 	if ( is_wp_error( $subscription ) ) {
 		return;

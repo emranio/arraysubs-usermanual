@@ -1,13 +1,11 @@
 # Info
 - Module: Getting Started
-- Availability: Free + Pro
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # First-Time Setup
 
 > A step-by-step checklist to go from a fresh install to a working subscription product with a test order and a verified customer portal.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -289,10 +287,10 @@ If the Pro addon is active and its license is activated, you will also see:
 
 | Menu Item | Purpose |
 |---|---|
-| **License** | Activate and manage the Pro license for this site *(Pro)* |
-| **Manage Members** | Member profiles, insights, and admin tools *(Pro)* |
-| **Store Credit** | Credit management, history, and settings *(Pro)* |
-| **Audits** | Activity audit logs and scheduled job logs *(Pro)* |
+| **License** | Activate and manage the Pro license for this site |
+| **Manage Members** | Member profiles, insights, and admin tools |
+| **Store Credit** | Credit management, history, and settings |
+| **Audit Logs** | Activity audit logs and scheduled job logs |
 
 ---
 

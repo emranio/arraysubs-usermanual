@@ -1,13 +1,11 @@
 # Info
 - Module: General Settings
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # General Settings
 
 > Configure subscription cart rules, checkout behavior, free trials, renewal sync, grace periods, email reminder timing, customer self-service actions, cancellation timing, and automatic-payment controls — all from a single page.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -487,7 +485,7 @@ A subscription box store wants to give customers plenty of time to resolve payme
 - [Customer Portal](../customer-portal/README.md) — What customers see and can do in their account area, driven by the settings on this page.
 - [Getting Started — First-Time Setup](../getting-started/first-time-setup.md) — Quick walkthrough of settings to review during initial setup.
 - [Getting Started — Before You Launch](../getting-started/before-you-launch.md) — Grace period lifecycle and subscription status reference.
-- [Advanced Analytics](../analytics/subscription-performance.md) *(Pro)* — How grace periods and renewal timing affect churn rate and revenue-at-risk metrics.
+- [Advanced Analytics](../analytics/subscription-performance.md) — How grace periods and renewal timing affect churn rate and revenue-at-risk metrics.
 
 ---
 

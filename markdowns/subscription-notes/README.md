@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Notes
-- Availability: Free
-- Last updated: 2026-06-08
+- Last updated: 2026-10-30
 
 # Subscription Notes
 
 > Keep a permanent timeline of subscription changes, renewal events, gateway activity, customer-visible notes, and private admin notes.
 
-**Availability:** Free
 
 ## Page Navigation
 

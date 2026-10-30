@@ -1,13 +1,11 @@
 # Info
 - Module: Feature Manager — Product Features
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Defining Product Features
 
 > Add named entitlements to your subscription products so customers know exactly what each plan includes.
 
-**Availability:** Pro
 
 ## Page Navigation
 

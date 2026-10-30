@@ -1,13 +1,11 @@
 # Info
 - Module: Elementor Content Restrictions
-- Availability: Free (Feature Manager conditions require Pro; needs Elementor installed)
-- Last updated: 2026-06-25
+- Last updated: 2026-10-30
 
 # Elementor Content Restrictions
 
 > Gate any Elementor **Container** (Flexbox or Grid) to members — subscription status, product ownership, roles, spending, or feature entitlements — directly from the builder, with no shortcode to type.
 
-**Availability:** Free — `feature` conditions require **Pro** with Feature Manager. Requires the Elementor page builder.
 
 ## Page Navigation
 
@@ -77,7 +75,7 @@ Each control maps directly to an `[arraysubs_restrict]` attribute. Leave a contr
 | **User Roles** | `roles` | WordPress roles. The visitor must have at least one selected role. |
 | **Minimum Lifetime Spend** | `lifetime_spent` | Minimum total spend across all completed orders. |
 | **Match Logic** | `condition` | **Match ALL of the above (AND)** or **Match ANY of the above (OR)**. |
-| **Plan Feature** *(Pro)* | `feature` + mode | See [Feature gating](#feature-gating-pro) below. |
+| **Plan Feature** | `feature` + mode | See [Feature gating](#feature-gating-pro) below. |
 | **Restricted Message** | `message` | Shown in place of the gated content to visitors who do not qualify. Leave empty to use the global default from **Member Access → Content Restriction**. |
 | **Require Login** | `login_required` | When **Yes**, logged-out visitors are blocked before conditions are checked. |
 | **Always Show To Admins** | `show_to_admins` | When **Yes**, administrators always see the content. Turn off to test the restriction as a non-member. |
@@ -88,7 +86,7 @@ The product, variation, and feature pickers are **searchable** — start typing 
 
 ---
 
-## Feature Gating *(Pro)*
+## Feature Gating
 
 The **Plan Feature** group gates content by a Feature Manager entitlement defined on your subscription products (Product → Features). It is designed around the feature *type* so you don't have to think about operators.
 

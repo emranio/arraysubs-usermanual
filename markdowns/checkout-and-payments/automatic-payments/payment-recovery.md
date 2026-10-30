@@ -1,13 +1,11 @@
 # Info
 - Module: Checkout and Payments
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Payment Recovery Tools
 
 > Automatic retries, manual retry buttons, gateway sync, and gateway-side handling of pending cancellations — the operational tools that keep automatic billing reliable when something goes wrong.
 
-**Availability:** Free (ArraySubs core)
 
 ## Page Navigation
 
@@ -246,7 +244,7 @@ If the Payment Gateway card itself is missing, the subscription is on a manual g
 | The customer's Pay page says "A payment for this renewal has already been received, but it has not been applied to this order yet" | Stripe or Mollie took the renewal's own payment, but the order could not be marked paid with it, for example because the order total or the subscription's payment method changed after the payment started. The order has a note naming the payment | Check the payment in your Stripe or Mollie dashboard. Mark the order paid if you keep the payment; with Stripe, set the order to Processing or Completed, with Stripe as its payment method and no other transaction ID, and the payment is then recorded on the order so you can refund it from there. Otherwise refund the payment in full in that dashboard: once the gateway reports the refund, the customer can pay the renewal again. With Stripe the refund is not recorded on the order (Refund via Stripe on the order is refused unless the order was marked paid with that payment), and an order on hold goes back to Pending payment. Until then, the customer cannot pay or cancel the renewal, the subscription is not put on hold or cancelled for non-payment, and the order is not marked failed when its settlement window ends |
 | Retries keep failing with the same decline code | The card itself is the problem (expired, blocked, fraud flag) | Ask customer to update payment method via the customer portal; retry will then succeed |
 | Sync from Gateway shows "no remote subscription linked" | The subscription was created without a gateway, was detached, or the gateway IDs are missing | Check `_payment_gateway` meta; if empty, sync isn't applicable |
-| Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and the gateway's capabilities on the **Gateway Logs** screen |
+| Sync from Gateway button is missing | The subscription is not in a syncable state or the attached gateway does not explicitly support sync | Confirm the gateway, subscription status, and the gateway's capabilities on the **Gateway health** screen |
 | Sync changes look wrong | Gateway's webhook had not yet landed; you synced too quickly | Wait a few minutes and re-sync, or check the gateway dashboard directly |
 | Stripe secondary webhook shows Disabled | The auto-created endpoint was deleted/disabled in Stripe, points to the wrong URL, is missing required events, or ArraySubs no longer has the signing secret | Open **WooCommerce → Settings → Payments → ArraySubs Config** and click **Refresh**. Then send or wait for a Stripe test event and confirm Gateway Health updates |
 | PayPal undo cancellation log shows "must re-authorize" but customer says they didn't cancel | Multiple admins/agents may have acted on the same subscription; check the subscription's notes for who scheduled the cancel | Confirm with the customer whether a fresh authorization is needed |

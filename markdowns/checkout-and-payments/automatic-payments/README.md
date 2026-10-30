@@ -1,18 +1,16 @@
 # Info
 - Module: Automatic Payments
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Automatic Payments
 
 > Pick a payment gateway and set it up so ArraySubs charges subscription renewals automatically.
 
-**Availability:** Free (ArraySubs core). Stripe, PayPal, Paddle, and Mollie all work without ArraySubs Pro. Stripe and Mollie also need their official WooCommerce plugins.
 
 ## Page Navigation
 
 - **Current guide:** Automatic Payments
-- **Where to open it:** WooCommerce > Settings > Payments, and ArraySubs > Audits [beta] > Gateway Logs
+- **Where to open it:** WooCommerce > Settings > Payments, and ArraySubs > Audit Logs > Gateway health
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [Subscription Checkout](../subscription-checkout.md)
 - **Next guide:** [Stripe Gateway](stripe.md)
@@ -42,7 +40,7 @@ Every gateway follows the same six steps. The gateway guides walk through each o
 3. **Connect the webhook.** Webhooks tell ArraySubs when a payment succeeds or fails. See [Webhook URLs](#webhook-urls) for what each gateway needs.
 4. **Place a test subscription order.** Open the new subscription in ArraySubs. Its **Payment Gateway** card should show **Connected** with a saved payment method.
 5. **Test a real renewal on a staging site.** A paid first order does not prove that renewals charge automatically. Follow [Test on a Staging Site Before Launch](#test-on-a-staging-site-before-launch).
-6. **Switch to live mode.** Enter your live keys, check the webhook again, and confirm the gateway shows as connected in **ArraySubs > Audits [beta] > Gateway Logs**.
+6. **Switch to live mode.** Enter your live keys, check the webhook again, and confirm the gateway shows as connected in **ArraySubs > Audit Logs > Gateway health**.
 
 Gateway guides:
 
@@ -53,7 +51,7 @@ Gateway guides:
 
 ### Check Every Gateway in One Place
 
-Go to **ArraySubs > Audits [beta] > Gateway Logs**. Each gateway has a card with its status (for example **Connected (Test Mode)** or **Disabled**), the number of subscriptions that use it, and when its last webhook arrived. Click the arrow on a card to see its webhook URL and what it supports. The **Webhook Event Log** below lists every webhook ArraySubs received. See [Gateway Health](../../gateway-health/README.md) for details.
+Go to **ArraySubs > Audit Logs > Gateway health**. Each gateway has a card with its status (for example **Connected (Test Mode)** or **Disabled**), the number of subscriptions that use it, and when its last webhook arrived. Click the arrow on a card to see its webhook URL and what it supports. The **Webhook Event Log** below lists every webhook ArraySubs received. See [Gateway Health](../../gateway-health/README.md) for details.
 
 ![Gateway Logs screen with a status card for each gateway and the webhook event log](README.ASSETS/02-gateway-logs-annotated.png)
 
@@ -66,7 +64,7 @@ Go to **ArraySubs > Audits [beta] > Gateway Logs**. Each gateway has a card with
 | Paddle | `https://yoursite.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle` | You, as a notification destination in the Paddle dashboard. See [Paddle Gateway](paddle.md) |
 | Mollie | `https://yoursite.com/wp-json/arraysubs/v1/webhooks/mollie` | Nobody. ArraySubs sends this URL with every renewal payment it creates |
 
-Replace `https://yoursite.com` with your store address. The exact URLs for your store are on each gateway card in **Gateway Logs**.
+Replace `https://yoursite.com` with your store address. The exact URLs for your store are on each gateway card in **Gateway health**.
 
 ## Who Owns the Billing Clock
 
@@ -136,7 +134,7 @@ The copy holds your live gateway keys, real customer subscriptions, and their qu
 | Problem | Fix |
 |---|---|
 | A gateway is missing at checkout | Make sure it is enabled in **WooCommerce > Settings > Payments**. If it is enabled, it was hidden because it cannot take that cart, for example PayPal with a mixed cart. |
-| The gateway card in **Gateway Logs** shows **Disabled** or **Needs Setup** | Open the gateway's settings and finish the setup in its guide. |
+| The gateway card in **Gateway health** shows **Disabled** or **Needs Setup** | Open the gateway's settings and finish the setup in its guide. |
 | A renewal became an unpaid invoice instead of a charge | Check that auto-renew is on and that the subscription's **Payment Gateway** card shows **Connected** with a saved payment method. |
 | No webhooks arrive | Check the webhook URL and secret at the provider, and make sure your site is on public HTTPS and not blocked by a firewall or password protection. |
 | Renewals run late or not at all | Scheduled jobs are not running. Set up a real cron job as described in [Cron Job Setup](../../getting-started/cron-job-setup.md). |

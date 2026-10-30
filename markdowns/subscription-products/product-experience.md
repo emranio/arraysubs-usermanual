@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Products / Product Experience
-- Availability: Shared (standard pricing display: Free; different renewal pricing, redirect/features/shipping: Pro)
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Product Experience and Display
 
 > How subscription pricing, billing details, and entitlements appear across your store — from the product page to the order confirmation.
 
-**Availability:** Free (standard pricing display), Pro (Different Renewal Price, Redirect Product Page, Feature Manager, Subscription Shipping)
 
 ## Page Navigation
 
@@ -36,7 +34,7 @@ On the single product page, subscription information appears below the product t
 |---|---|---|
 | Recurring price + billing schedule | Always | **$29.99 / month** |
 | Sale pricing | When product is on sale | **$19.99 / month** (was $29.99) |
-| Different renewal price (Pro) | When enabled with active ArraySubsPro and an active license | **$19.99 / month for the first 3 payments, then $29.99 / month** |
+| Different renewal price | When enabled with active ArraySubsPro and an active license | **$19.99 / month for the first 3 payments, then $29.99 / month** |
 | Signup fee | When fee > 0 | **+ $9.99 signup fee** |
 | Trial info | When trial length > 0 | **14-day free trial** |
 | Subscription length | When length > 0 | **5 billing cycles** |
@@ -109,15 +107,15 @@ On WooCommerce order pages (admin and customer-facing) and in order emails, the 
 
 Product-level Pro controls are documented as their own modules:
 
-| Module | Availability | Use It For |
-|---|---|---|
-| [Redirect Product Page](../redirect-product-page/README.md) | Pro | Redirect direct product URLs to sales pages or return 404 responses |
-| [Subscription Shipping](../subscription-shipping/README.md) | Pro | Charge physical-product shipping once or on every renewal |
-| [Feature Manager](../feature-manager/README.md) | Pro | Define feature entitlements and display "What's Included" content |
+| Module | Use It For |
+| --- | --- |
+| [Redirect Product Page](../redirect-product-page/README.md) | Redirect direct product URLs to sales pages or return 404 responses |
+| [Subscription Shipping](../subscription-shipping/README.md) | Charge physical-product shipping once or on every renewal |
+| [Feature Manager](../feature-manager/README.md) | Define feature entitlements and display "What's Included" content |
 
 ---
 
-## Feature Manager *(Pro)*
+## Feature Manager
 
 ```box class="info-box"
 This feature requires ArraySubs Pro.
@@ -176,7 +174,7 @@ For the complete Feature Manager guide — including step-by-step product setup,
 
 ## Real-Life Use Cases
 
-### Use Case 1: Sales Page with Product Redirect *(Pro)*
+### Use Case 1: Sales Page with Product Redirect
 
 A fitness membership is sold through a dedicated landing page at `/join-now/` with custom design, testimonials, and a prominent call-to-action button. The actual WooCommerce product page at `/product/fitness-membership/` is plain and not customer-facing.
 
@@ -186,11 +184,11 @@ A fitness membership is sold through a dedicated landing page at `/join-now/` wi
 
 Anyone who visits the product URL directly is redirected to the polished sales page.
 
-### Use Case 2: Tiered Feature Comparison *(Pro)*
+### Use Case 2: Tiered Feature Comparison
 
 A SaaS tool offers three plans with different feature limits:
 
-| Feature | Basic | Pro | Enterprise |
+| Feature | Basic | Growth | Enterprise |
 |---|---|---|---|
 | Storage | 5 GB | 50 GB | Unlimited |
 | API Calls | 1,000/month | 10,000/month | Unlimited |
@@ -199,7 +197,7 @@ A SaaS tool offers three plans with different feature limits:
 
 Define these as Feature Manager entries on each product. Customers see their entitled features in My Account → My Features, and the product page shows "What's Included" for each plan.
 
-### Use Case 3: Subscription Box with One-Time Shipping *(Pro)*
+### Use Case 3: Subscription Box with One-Time Shipping
 
 A monthly snack box charges $39.99/month with free shipping on the first box and $5.99 shipping on subsequent boxes.
 

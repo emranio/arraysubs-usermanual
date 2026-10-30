@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Products
-- Availability: Pro
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Subscription Bundle Customer Experience
 
 > What shoppers see on the storefront, how a bundle appears in the cart and at checkout, and how the bundle and its included subscriptions behave through renewals.
 
-**Availability:** Pro
 
 ## Page Navigation
 
@@ -35,7 +33,7 @@ This page covers the shopper's side. To build the bundle, see [Subscription Bund
 ## Prerequisites
 
 - A published **Subscription Bundle [ArraySubs]** product with at least one available product inside it.
-- ArraySubs **Pro** active with a valid license.
+- ArraySubs Pro active with a valid license.
 - A payment gateway enabled for testing.
 
 ## How It Works

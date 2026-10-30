@@ -1,17 +1,15 @@
 # Info
 - Module: Subscription Performance Dashboard
-- Availability: Pro
-- Last updated: 2026-07-27
+- Last updated: 2026-10-30
 
-# Subscription Performance Dashboard *(Pro)*
+# Subscription Performance Dashboard
 
 > See your subscription business health at a glance — performance cards, time-series charts, and product/customer leaderboards, all on the WooCommerce Analytics Overview page.
 
-**Availability:** Pro
 
 ## Page Navigation
 
-- **Current guide:** Subscription Performance Dashboard *(Pro)*
+- **Current guide:** Subscription Performance Dashboard
 - **Where to open it:** WordPress Admin -> WooCommerce -> Analytics -> Overview
 - **Direct route:** `/wp-admin/admin.php?page=wc-admin&path=/analytics/overview`
 - **Section overview:** [Open overview](./README.md)

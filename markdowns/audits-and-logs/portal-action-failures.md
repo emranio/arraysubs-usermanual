@@ -1,18 +1,16 @@
 # Info
 - Module: Audits and Logs
-- Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Portal Action Failures
 
 > Troubleshoot cancellation, pause, skip, reactivation, and plan switch errors in the customer portal.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
 - **Current guide:** Portal Action Failures
-- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audit Logs -> Portal Errors
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/portal-action-failures`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [payment-and-shipping-issues](./payment-and-shipping-issues.md)
@@ -179,7 +177,7 @@ When a customer reports a portal action failure:
 4. **Check ownership** — does the `_customer_id` on the subscription match the logged-in user?
 5. **Check the error message** — the REST API returns a specific error code and message that identifies the exact check that failed
 6. **Check subscription notes** — system notes may show recent status changes that explain why the action is blocked
-7. **Check the [Activity Audit](activity-audits.md)** — (Pro) look for recent activity that may have changed the subscription state
+7. **Check the [Activity Audit](activity-audits.md)** — look for recent activity that may have changed the subscription state
 
 ![Resolve Portal Failure confirmation dialog](portal-action-failures.ASSETS/03-resolve-failure-confirmation-annotated.png)
 

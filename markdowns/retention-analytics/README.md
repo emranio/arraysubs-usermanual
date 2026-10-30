@@ -1,13 +1,11 @@
 # Info
 - Module: Retention Analytics
-- Availability: Pro
-- Last updated: 2026-07-27
+- Last updated: 2026-10-30
 
 # Retention Analytics
 
 > Understand why customers cancel, how well your retention offers perform, and which products have the highest churn — all from a dedicated analytics page inside WooCommerce Analytics.
 
-**Availability:** Pro
 
 ## Page Navigation
 
@@ -292,7 +290,7 @@ Retention Analytics requires **ArraySubs Pro**. The dashboard, its REST endpoint
 If no cancellations or retention offers occurred during the selected date range, the cards show zero. Try expanding the date range or checking that the Retention Flow is configured with cancellation reasons and offers.
 
 ### Why is the churn rate different from the Performance Dashboard?
-The [Subscription Performance Dashboard](../analytics/subscription-performance.md) (Pro) calculates churn rate using `cancelled ÷ (active at period start + new in period)`. Retention Analytics uses `cancelled ÷ live subscribers at period start`. The denominators differ slightly, which can produce different percentages for the same period.
+The [Subscription Performance Dashboard](../analytics/subscription-performance.md) calculates churn rate using `cancelled ÷ (active at period start + new in period)`. Retention Analytics uses `cancelled ÷ live subscribers at period start`. The denominators differ slightly, which can produce different percentages for the same period.
 
 ### Does the product filter support variable products?
 Yes. Selecting a variable (parent) product automatically includes all its variations. You can also select individual variations for more precise filtering.

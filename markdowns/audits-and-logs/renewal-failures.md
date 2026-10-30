@@ -1,18 +1,16 @@
 # Info
 - Module: Audits and Logs
-- Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Renewal Failures and Billing Issues
 
 > Diagnose and resolve problems with subscription renewals, invoice creation, payment processing, and grace period behavior.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
 - **Current guide:** Renewal Failures and Billing Issues
-- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audit Logs -> Renewal Errors
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/renewal-failures`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
@@ -32,7 +30,7 @@ This guide walks through the most common renewal and billing failures, explains 
 Before diagnosing failures, it helps to understand the normal flow:
 
 1. **Invoice generation** — the system creates a renewal WooCommerce order a few hours before the next payment date
-2. **Payment processing** — if the subscription has an automatic gateway (Pro), payment is charged immediately; otherwise, the customer receives an invoice for manual payment
+2. **Payment processing** — if the subscription has an automatic gateway, payment is charged immediately; otherwise, the customer receives an invoice for manual payment
 3. **Success path** — the order is marked paid, the subscription stays active, and the next payment date advances
 4. **Failure path** — the order is marked failed, the subscription enters the grace period timeline
 
@@ -171,7 +169,7 @@ When investigating a renewal problem, work through this checklist:
 4. **Does the product still exist?** If the product was deleted, invoice creation fails
 5. **Is Action Scheduler running?** Check WooCommerce → Status → Scheduled Actions
 6. **What do the subscription notes say?** System notes record every status change and payment attempt
-7. **What do the Scheduled-Job Logs show?** (Pro) Check for failed Process Renewal or Check Overdue Renewals jobs
+7. **What do the Scheduled-Job Logs show?** Check for failed Process Renewal or Check Overdue Renewals jobs
 
 ![Mark Failure Resolved confirmation dialog](renewal-failures.ASSETS/03-mark-failure-resolved-confirmation-annotated.png)
 

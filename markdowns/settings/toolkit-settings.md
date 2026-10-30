@@ -1,13 +1,11 @@
 # Info
 - Module: Toolkit Settings
-- Availability: Shared
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Toolkit Settings
 
 > Admin-facing security and convenience tools for controlling the WordPress admin bar, dashboard access, login page visibility, and admin impersonation.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -33,7 +31,7 @@ For task-focused guidance, use the dedicated root-level module pages:
 - [Admin Dashboard Access](../admin-dashboard-access/README.md)
 - [WordPress Login Page](../wordpress-login-page/README.md)
 - [Login as User](../login-as-user/README.md)
-- [Member Access — Login Limit](../member-access/login-limit.md) *(Pro)*
+- [Member Access — Login Limit](../member-access/login-limit.md)
 
 ## When to Use This
 
@@ -236,9 +234,9 @@ A SaaS company receives support tickets about subscription issues. The support t
 - [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect customers away from `/wp-admin`.
 - [WordPress Login Page](../wordpress-login-page/README.md) — Route login traffic through WooCommerce My Account.
 - [Login as User](../login-as-user/README.md) — Impersonate customers for support.
-- [Member Access — Login Limit](../member-access/login-limit.md) *(Pro)* — Limit concurrent sessions per account.
+- [Member Access — Login Limit](../member-access/login-limit.md) — Limit concurrent sessions per account.
 - [Getting Started — Essential Daily Workflows](../getting-started/essential-daily-workflows.md) — Admin menu reference and settings overview.
-- [Manage Members](../member-insight/README.md) — The member insight dashboard where Login as Customer is used most often *(Pro)*.
+- [Manage Members](../member-insight/README.md) — The member insight dashboard where Login as Customer is used most often.
 
 ---
 

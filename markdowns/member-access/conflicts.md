@@ -1,13 +1,11 @@
 # Info
 - Module: Conflicts
-- Availability: Free + Pro
-- Last updated: 2026-09-01
+- Last updated: 2026-10-30
 
 # Conflicts
 
 > Review Members Access URL rules and content (CPT) rules that overlap a higher-priority per-post restriction.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (configuration updates and REST routes require Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-31
 
 # Read and Update Feature Data
 
 > Read the feature rows of a product, a subscription or a member, meter usage against plan limits with atomic, retry-safe writes, and change existing feature rows from your own PHP code.
 
-**Availability:** Core (Free) for every read and every usage write through `ArraySubs\Developer\Features`. `updateConfiguration()` and the `my-features` REST routes need ArraySubs Pro with an active license and the Feature Manager module switched on. Merchants also need Pro to create feature rows in the product editor.
 
 ## Page Navigation
 
@@ -24,13 +22,14 @@
 
 | Context | Factory | Reads | Usage writes | Configuration updates |
 | --- | --- | --- | --- | --- |
-| Product or variation | `Features::forProduct( $product_id )` | Stored rows and the rows that apply now (no usage) | None (`unsupported`) | `updateConfiguration()` *(Pro)* |
+| Product or variation | `Features::forProduct( $product_id )` | Stored rows and the rows that apply now (no usage) | None (`unsupported`) | `updateConfiguration()` |
 | One subscription | `Features::forSubscription( $subscription_id )` | Its plan's rows, effective rows with usage, usage per feature | `set()`, `increment()`, `reset()`, `consume()` | None (`unsupported`) |
 | One member | `Features::forCustomer( $customer_id, $mode )` | Effective rows and usage across the member's access-granting subscriptions, combined by mode | `consume()` only | None (`unsupported`) |
 
 Every public method, exactly as declared:
 
 ```text
+// Choose a subscription, customer or product scope before calling the feature methods below.
 public static function forSubscription(int $subscription_id)
 public static function forCustomer(int $customer_id, ?string $mode = null)
 public static function forProduct(int $product_id)
@@ -53,7 +52,7 @@ Typical uses:
 - Gate an action in your plugin on a plan feature, such as projects, seats or API access.
 - Meter usage, such as API calls or export rows, against a limit that resets on a schedule.
 - Show members how much they have left and when it resets.
-- Keep an existing plan limit in sync with another system *(Pro)*.
+- Keep an existing plan limit in sync with another system.
 
 ## Before You Start
 
@@ -271,11 +270,12 @@ Other keys are ignored. A customer context always spends in its own mode.
 - Without an ID, a retry after a timeout can count twice.
 - The replay check runs under the lock after the feature check. When the plan no longer defines the feature, a retry returns `feature_not_defined`.
 
-## Update Feature Configuration *(Pro)*
+## Update Feature Configuration
 
 ### updateConfiguration()
 
 ```text
+// Change a named product feature; context can guard the current configuration against concurrent edits.
 $features->updateConfiguration( string $name, array $changes, array $context = [] )
 ```
 
@@ -303,7 +303,7 @@ Writable keys:
 - **Returns:** the context's `configuration()` result after the save (first page, 20 rows). The rows include `type`, because the caller has `manage_woocommerce`.
 - **Side effects:** saves the whole feature list on the context's product or variation. The changed row is saved in normalized form; other rows are saved as they were. Updating a variation that inherits saves a copy of the parent's list, with your change, on the variation: from then on the variation keeps its own list and no longer follows changes to the parent's list. Usage counters are not touched. The new limit and period apply at the next read, so a lower limit can make a feature exhausted at once and a new reset period starts a fresh count. No ArraySubs action fires.
 
-### Pro adapter: ArraySubsPro\Developer\FeatureConfiguration
+### Adapter: ArraySubsPro\Developer\FeatureConfiguration
 
 Pro implements configuration updates with two static methods, registered in `arraysubspro/src/functions/developer-adapters.php`. That file loads whenever Pro passes its dependency check, licensed or not; the adapter checks the license and the module on every call. Call `Features` instead of these methods.
 
@@ -314,7 +314,7 @@ Pro implements configuration updates with two static methods, registered in `arr
 
 The class has a third method, `productModules()`, hooked to `arraysubs_developer_product_modules`. It adds the `bundle` entry to the `modules` group of product data and is unrelated to features; see [Read Subscription Product Terms](./subscription-products.md).
 
-## REST Routes *(Pro)*
+## REST Routes
 
 Pro's Feature Manager registers two read-only customer routes in the `arraysubs/v1` namespace. They return the signed-in member's own data, so your front-end JavaScript can call them directly. They exist only while Pro is licensed and the Feature Manager module is on; otherwise WordPress answers `rest_no_route` (404).
 
@@ -343,6 +343,7 @@ The same controller also registers admin routes under `/arraysubs/v1/features/` 
 ### arraysubs_feature_usage_changed
 
 ```text
+// Compare usage with previous to react to changes; context carries the operation identity.
 do_action( 'arraysubs_feature_usage_changed', $subscription, $feature_key, $usage, $previous, $operation, $context )
 ```
 
@@ -355,7 +356,7 @@ do_action( 'arraysubs_feature_usage_changed', $subscription, $feature_key, $usag
 | `$operation` | string | `set`, `increment`, `reset` or `consume`. |
 | `$context` | array | `reason` (sanitized text), `operation_id` (string, empty when none) and `actor_id` (the current user ID; 0 in WP-CLI and cron). |
 
-- Core (Free). Register it with 6 accepted arguments: `add_action( 'arraysubs_feature_usage_changed', $callback, 10, 6 )`.
+- Core. Register it with 6 accepted arguments: `add_action( 'arraysubs_feature_usage_changed', $callback, 10, 6 )`.
 - It fires after the counter is saved and every usage lock is released, once per subscription that changed. A `combine` consume that spends from two subscriptions fires twice.
 - It fires for every successful write, including one that leaves the count where it was, such as `set()` to the current value.
 - It does not fire for reads, for a period that ended without a write, for replayed operation IDs, or for failed writes.
@@ -363,6 +364,7 @@ do_action( 'arraysubs_feature_usage_changed', $subscription, $feature_key, $usag
 ### arraysubs_feature_usage_period_reset
 
 ```text
+// previous_period contains the closed period; usage describes the new period after its reset.
 do_action( 'arraysubs_feature_usage_period_reset', WP_Post $subscription, string $feature_key, array $usage, array $previous_period, array $context )
 ```
 
@@ -377,7 +379,7 @@ add_action( 'arraysubs_feature_usage_period_reset', function ( $subscription, $n
 }, 20, 5 );
 ```
 
-### Product, template and access events (Pro)
+### Product, template and access events
 
 Pro's Feature Manager emits these actions after successful changes. Register each callback with 4 accepted arguments:
 
@@ -399,6 +401,7 @@ The [FlowMattic bridge](./flowmattic.md) maps these to feature configuration, te
 ### arraysubs_developer_feature_availability
 
 ```text
+// Describe which feature operations are available; preserve the other availability entries.
 apply_filters( 'arraysubs_developer_feature_availability', array $availability )
 ```
 
@@ -407,6 +410,7 @@ The default is `array( 'configuration_updates' => false, 'stored_reads' => true,
 ### arraysubs_developer_feature_update
 
 ```text
+// Handle a configuration update and return its result; do not discard another handler's result.
 apply_filters( 'arraysubs_developer_feature_update', $result, int $product_id, string $name, array $changes, array $context )
 ```
 
@@ -503,6 +507,7 @@ Read only. The mode is passed explicitly, so a settings change cannot alter the 
 
 ```php
 <?php
+// Show the signed-in member's combined Projects allowance across access-granting plans.
 add_shortcode( 'example_project_quota', function () {
 	if ( ! is_user_logged_in() || ! class_exists( '\ArraySubs\Developer\Features' ) ) {
 		return '';
@@ -518,6 +523,7 @@ add_shortcode( 'example_project_quota', function () {
 		return ''; // No access-granting plan has an enabled numeric "Projects" row.
 	}
 
+	// Handle unlimited allowances separately; a remaining count is meaningful only for a finite limit.
 	if ( $usage['is_unlimited'] ) {
 		$text = 'Unlimited projects';
 	} else {
@@ -534,6 +540,8 @@ add_shortcode( 'example_project_quota', function () {
 	return '<p class="example-project-quota">' . esc_html( $text ) . '</p>';
 } );
 ```
+
+After registering the callback above, paste this shortcode into a page. It reads the signed-in member's allowance.
 
 ```text
 [example_project_quota]
@@ -611,7 +619,7 @@ echo '<p class="example-export-notice">' . esc_html( $message ) . '</p>';
 
 To meter one subscription instead, build the context with `Features::forSubscription( $subscription_id )` and call `consume()` or `increment()` the same way; the result is then the subscription usage block.
 
-### Example 4: Change a plan limit *(Pro)*
+### Example 4: Change a plan limit
 
 This writes configuration. The current user needs `manage_woocommerce`, and `expected` refuses to overwrite a change someone made after you read the row.
 
@@ -675,6 +683,7 @@ add_action(
 			return;
 		}
 
+		// Compare old and new usage so the warning fires when crossing 90 percent, not on every later change.
 		$before = $previous['used'] / $usage['limit'];
 		$after  = $usage['used'] / $usage['limit'];
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Commerce and Benefit Rules
-- Availability: Free (Feature Value conditions require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Commerce and Benefit Rules
 
 > Give subscribers automatic discounts, control who can browse and buy products, and provision downloadable files — all managed through Member Access rules.
 
-**Availability:** Free. The shared **Feature Value** condition checks features defined with Feature Manager, which requires ArraySubs Pro.
 
 ## Page Navigation
 

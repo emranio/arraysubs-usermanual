@@ -1,13 +1,11 @@
 # Info
 - Module: Checkout Builder
-- Availability: Pro
-- Last updated: 2026-06-21
+- Last updated: 2026-10-30
 
 # Checkout Builder
 
 > Replace the default WooCommerce classic checkout form with a fully customizable, multi-step checkout experience — drag and drop 28 element types, create section-based layouts, apply conditional visibility, and style every element to match your brand.
 
-**Availability:** Pro
 
 ## Page Navigation
 

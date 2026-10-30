@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Products
-- Availability: Free
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Subscription Boxes
 
 > Sell a build-your-own box: customers assemble it from steps you define, and pay one recurring amount for the whole box.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -512,7 +510,7 @@ All controls below live in **Products → Edit Product → General → Edit Box 
 ## FAQ
 
 ### Is the subscription box available in the free plugin?
-Yes. The **Subscription Box [ArraySubs]** product type is part of the core (free) plugin. It is controlled by the **Subscription Box** module on the ArraySubs **Modules** screen, which is on by default.
+Yes. The **Subscription Box [ArraySubs]** product type is part of the core plugin. It is controlled by the **Subscription Box** module on the ArraySubs **Modules** screen, which is on by default.
 
 ### Can I cancel or pause one subscription inside a box?
 Not on its own. The included subscriptions follow the box subscription, so pause, skip, or cancel the box instead. See [Lifecycle Management](../manage-subscriptions/lifecycle-management.md#box-and-bundle-families).

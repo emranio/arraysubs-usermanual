@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-29
+- Last updated: 2026-10-31
 
 # Connect Membership Workflows
 
 > Ten copyable recipes that combine the `ArraySubs\Developer` classes with real ArraySubs hooks: find a member's active subscriptions, react to renewals and failed payments, sync a CRM, grant and revoke an entitlement, read features and meter usage, walk families and orders, show lock badges, export in pages, find members by a profile field and add store credit exactly once.
 
-**Availability:** Core (Free) for recipes 1 to 8. Recipe 5 reads features that merchants define with the Feature Manager module of ArraySubs Pro. Recipe 9 needs ArraySubs Pro with an active license and the Profile Builder module. Recipe 10 needs ArraySubs Pro with the Store Credit module switched on.
 
 ## Page Navigation
 
@@ -24,18 +22,18 @@ Each recipe is a small, working part of a custom plugin. It states the goal, the
 
 ArraySubs gives you trusted reads, validated writes and lifecycle hooks. Your plugin keeps its own business rules: CRM field mapping, reward amounts, commission rates and any permission model outside ArraySubs.
 
-| # | Recipe | Main classes and hooks | Availability | Writes to ArraySubs |
-| --- | --- | --- | --- | --- |
-| 1 | [Find a customer's active subscriptions](#recipe-1-find-a-customers-active-subscriptions) | `Subscriptions::fromUserId()`, `Customer::fromEmail()` | Core | No |
-| 2 | [React to a paid renewal or a failed payment](#recipe-2-react-to-a-paid-renewal-or-a-failed-payment) | `arraysubs_renewal_payment_complete`, `arraysubs_renewal_payment_failed`, `Orders`, the `recovery` group | Core | No |
-| 3 | [Sync a CRM when a subscription changes](#recipe-3-sync-a-crm-when-a-subscription-changes) | `arraysubs_lifecycle_event`, `Subscriptions::fromId()` | Core | No |
-| 4 | [Grant and revoke an entitlement](#recipe-4-grant-and-revoke-an-entitlement) | `arraysubs_lifecycle_event`, `Subscriptions::fromUserId()` | Core | No |
-| 5 | [Read a customer's features and meter usage](#recipe-5-read-a-customers-features-and-meter-usage) | `Features::forCustomer()`, `Features::forSubscription()` | Core API; features are defined with Pro | Usage counters only |
-| 6 | [Walk a subscription family and its orders](#recipe-6-walk-a-subscription-family-and-its-orders) | `family()`, `children()`, `orders()`, `Orders::subscriptions()` | Core | No |
-| 7 | [Show lock badges without enforcing access](#recipe-7-show-lock-badges-without-enforcing-access) | `MemberAccess::check()` | Core | No |
-| 8 | [Export subscriptions page by page](#recipe-8-export-subscriptions-page-by-page) | `Subscriptions::query()` | Core | No |
-| 9 | [Find members by a profile field](#recipe-9-find-members-by-a-profile-field-pro) | `Customer::fromProfileField()`, `Customer::queryByProfileField()` | Pro | No |
-| 10 | [Add store credit exactly once](#recipe-10-add-store-credit-exactly-once-pro) | `StoreCredit::fromCustomerId()`, `adjust()` | Pro | One ledger entry |
+| # | Recipe | Main classes and hooks | Writes to ArraySubs |
+| --- | --- | --- | --- |
+| 1 | [Find a customer's active subscriptions](#recipe-1-find-a-customers-active-subscriptions) | `Subscriptions::fromUserId()`, `Customer::fromEmail()` | No |
+| 2 | [React to a paid renewal or a failed payment](#recipe-2-react-to-a-paid-renewal-or-a-failed-payment) | `arraysubs_renewal_payment_complete`, `arraysubs_renewal_payment_failed`, `Orders`, the `recovery` group | No |
+| 3 | [Sync a CRM when a subscription changes](#recipe-3-sync-a-crm-when-a-subscription-changes) | `arraysubs_lifecycle_event`, `Subscriptions::fromId()` | No |
+| 4 | [Grant and revoke an entitlement](#recipe-4-grant-and-revoke-an-entitlement) | `arraysubs_lifecycle_event`, `Subscriptions::fromUserId()` | No |
+| 5 | [Read a customer's features and meter usage](#recipe-5-read-a-customers-features-and-meter-usage) | `Features::forCustomer()`, `Features::forSubscription()` | Usage counters only |
+| 6 | [Walk a subscription family and its orders](#recipe-6-walk-a-subscription-family-and-its-orders) | `family()`, `children()`, `orders()`, `Orders::subscriptions()` | No |
+| 7 | [Show lock badges without enforcing access](#recipe-7-show-lock-badges-without-enforcing-access) | `MemberAccess::check()` | No |
+| 8 | [Export subscriptions page by page](#recipe-8-export-subscriptions-page-by-page) | `Subscriptions::query()` | No |
+| 9 | [Find members by a profile field](#recipe-9-find-members-by-a-profile-field) | `Customer::fromProfileField()`, `Customer::queryByProfileField()` | No |
+| 10 | [Add store credit exactly once](#recipe-10-add-store-credit-exactly-once) | `StoreCredit::fromCustomerId()`, `adjust()` | One ledger entry |
 
 All examples use synthetic IDs (customer 45, subscriptions 123 and 124, product 197, order 1001) and an `acme_` prefix for your own code.
 
@@ -59,6 +57,7 @@ To build these follow-ups in FlowMattic, use [FlowMattic Hooks and Actions](./fl
 Recipes 3 and 4 use the normalized event bus. ArraySubs listens to its own native hooks and re-emits one action with a flat, scalar-only payload:
 
 ```text
+// Register with two accepted arguments; inspect the event before using fields from its payload.
 do_action( 'arraysubs_lifecycle_event', string $event, array $payload );
 ```
 
@@ -102,7 +101,6 @@ The payload is a snapshot of the moment the event fired. For any decision that m
 
 **Goal:** List every active or trial subscription a member holds, starting from a user ID or an account email, and show it on a page for the logged-in member.
 
-**Availability:** Core (Free).
 
 **API used:** `Subscriptions::fromUserId()` and `Customer::fromEmail()`. See [Find and Update Subscriptions](./subscriptions.md) and [Find Members and Update Profiles](./customers-and-profile-fields.md).
 
@@ -171,6 +169,7 @@ Show the list to the logged-in member with a shortcode. The lookup uses the logg
 
 ```php
 <?php
+// This shortcode renders only the signed-in member's plans, using the helper from the previous example.
 add_shortcode(
 	'acme_my_plans',
 	function () {
@@ -187,6 +186,7 @@ add_shortcode(
 			return '<p>' . esc_html__( 'You have no active plans.', 'acme' ) . '</p>';
 		}
 
+		// Escape names and labels; allow only the trusted HTML returned by WooCommerce price formatting.
 		$html = '<ul class="acme-plans">';
 		foreach ( $items as $item ) {
 			$next = $item['schedule']['next_payment_at'];
@@ -220,7 +220,6 @@ Notes:
 
 **Goal:** Record each paid renewal exactly once in your own table (for commissions, analytics or partner payouts), alert your team when a renewal payment fails, and show the member a payment reminder while the renewal is overdue.
 
-**Availability:** Core (Free).
 
 **API used:** the native hooks below, `Orders::fromId()` and the subscription `recovery` data group. See [React to Supported Events](./actions-and-filters.md) and [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md).
 
@@ -382,6 +381,7 @@ function acme_review_failed_renewal( $subscription_id, $order_id ) {
 
 ```php
 <?php
+// Show recovery notices for the signed-in member's overdue renewals, using current recovery deadlines.
 add_action(
 	'woocommerce_account_dashboard',
 	function () {
@@ -411,6 +411,7 @@ add_action(
 				continue;
 			}
 
+			// Choose the payment deadline for the current phase rather than assuming every overdue renewal is on hold.
 			if ( in_array( $recovery['phase'], array( 'on_hold', 'cancellation_due' ), true ) ) {
 				$deadline = $recovery['cancel_eligible_at'];
 				/* translators: 1: plan name, 2: date. */
@@ -449,7 +450,6 @@ Notes:
 
 **Goal:** Keep one CRM record per subscription up to date whenever its status, plan, renewal or cancellation changes, without slowing checkout or payment requests and without sending stale data.
 
-**Availability:** Core (Free).
 
 **API used:** the `arraysubs_lifecycle_event` action and `Subscriptions::fromId()`. See [Lifecycle Events You Can Listen To](#lifecycle-events-you-can-listen-to) and [Find and Update Subscriptions](./subscriptions.md).
 
@@ -569,7 +569,6 @@ Notes:
 
 **Goal:** Give members a capability in your own plugin (here `acme_community_member`) while any of their subscriptions to the right product entitles them, keep it through the payment grace days, and remove it only when no subscription grants it any more.
 
-**Availability:** Core (Free).
 
 **API used:** the `arraysubs_lifecycle_event` action (`effect`, `plan_switched`, `deleted`) and `Subscriptions::fromUserId()`. See [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md).
 
@@ -693,7 +692,6 @@ Notes:
 
 **Goal:** Show a member what their plans include, and count each API call against a numeric feature so a retried request is never counted twice.
 
-**Availability:** The `Features` class is part of core (Free), and its reads and usage counters work without Pro. The features themselves are defined on products with the Feature Manager module of ArraySubs Pro; features saved earlier stay readable without it. Changing a product's feature configuration through the API needs Pro with an active license and the Feature Manager module; see [Read and Update Feature Data](./feature-manager.md).
 
 **API used:** `Features::forCustomer()`, `Features::forSubscription()`, `effective()`, `usage()` and `consume()`.
 
@@ -790,7 +788,6 @@ Notes:
 
 **Goal:** For any subscription, find the subscription that bills it, its box or bundle children, its recent orders and any unpaid renewal; and from an order, find every subscription it is linked to.
 
-**Availability:** Core (Free). Subscription Box children are core; Subscription Bundle children exist when ArraySubs Pro is active. The same calls work for both.
 
 **API used:** `Subscriptions::family()`, `children()`, `orders()`, `data()` and `Orders::subscriptions()`. See [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md).
 
@@ -895,7 +892,6 @@ Notes:
 
 **Goal:** List lessons with a lock badge and a short reason for the ones the visitor cannot open, without redirecting anyone or changing what ArraySubs enforces on the lesson pages.
 
-**Availability:** Core (Free). Uses your saved Member Access rules and per-post restrictions.
 
 **API used:** `MemberAccess::fromUserId()` and `check()`. See [Check Content Access](./member-access.md).
 
@@ -963,7 +959,6 @@ Notes:
 
 **Goal:** Export subscriptions to a warehouse or another system with only the data groups you need, without loading everything into memory.
 
-**Availability:** Core (Free).
 
 **API used:** `Subscriptions::query()`. See [Find and Update Subscriptions](./subscriptions.md).
 
@@ -1033,6 +1028,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 ```
 
 ```bash
+# Run the registered export command in the WordPress directory; each redirect writes a local CSV file.
 wp acme export-subscriptions > subscriptions.csv
 wp acme export-subscriptions --status=arraysubs-active > active-subscriptions.csv
 ```
@@ -1044,11 +1040,10 @@ Notes:
 - Subscriptions created during a long export appear on later pages. A subscription deleted during the export shifts later pages by one, so compare counts or run the export again when exactness matters.
 - Guest subscriptions export with `customer_id` 0 here, because the code casts `null` to 0.
 
-## Recipe 9: Find Members by a Profile Field *(Pro)*
+## Recipe 9: Find Members by a Profile Field
 
 **Goal:** Resolve exactly one member from a value staff type (a membership number), and send every member with a given region to your CRM, page by page.
 
-**Availability:** Pro. Needs ArraySubs Pro with an active license, the Profile Builder module switched on and custom profile fields enabled. Otherwise both calls return `unavailable`.
 
 **API used:** `Customer::fromProfileField()` and `Customer::queryByProfileField()`. See [Find Members and Update Profiles](./customers-and-profile-fields.md).
 
@@ -1142,11 +1137,10 @@ Notes:
 - `queryByProfileField()` results include `total`. Its `fields` are the `Customer::data()` groups: `identity`, `account`, `billing`, `shipping` and `profile`.
 - Lookups are trusted server code. Never expose them through a public endpoint without your own capability check, and never use a profile value as a login secret.
 
-## Recipe 10: Add Store Credit Exactly Once *(Pro)*
+## Recipe 10: Add Store Credit Exactly Once
 
 **Goal:** Award 10.00 of store credit when a member completes a course, so that a double click, a duplicate job or a retried request never pays twice; and bring a balance to an exact amount without overwriting a change made in the meantime.
 
-**Availability:** Pro. Needs ArraySubs Pro active and the Store Credit module switched on. The `StoreCredit` class itself is in core: without Pro, its factories still validate the customer, but every `data()`, `history()` and `adjust()` call returns `store_credit_unavailable`. With the module switched off, `data()` and `history()` still read (with `available` false) and `adjust()` returns `store_credit_unavailable`.
 
 **API used:** `StoreCredit::fromCustomerId()`, `data()` and `adjust()`. See [Read and Update Store Credit](./store-credit.md).
 

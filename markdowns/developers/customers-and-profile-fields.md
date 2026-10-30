@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-23
+- Last updated: 2026-10-31
 
 # Find Members and Update Profiles
 
 > Load the WooCommerce customer behind a user ID, subscription, email, username or profile field value, read their data, subscriptions and orders, and save validated account, address and profile changes.
 
-**Availability:** Core (Free) for `ArraySubs\Developer\Customer`. Profile field reads, searches and updates need **ArraySubs Pro** with an active license, the **Profile & My Account** module (`profile_builder`) switched on in **ArraySubs -> Modules**, and **Enable custom profile fields** turned on in **ArraySubs -> Profile Builder -> Profile Form**. Without all of them, those calls return `unavailable` or an empty profile group.
 
 ## Page Navigation
 
@@ -29,7 +27,7 @@
 
 A subscription without a WordPress account (a guest subscription) resolves to a small identity array instead of an object. ArraySubs adds no methods to create or delete accounts; use WordPress or WooCommerce for that.
 
-Profile fields are the custom fields you define in Profile Builder (Pro). ArraySubs Pro answers the profile parts of this class through filters. In core alone, they report that profile fields are unavailable.
+Profile fields are the custom fields you define in Profile Builder. ArraySubs Pro answers the profile parts of this class through filters. In core alone, they report that profile fields are unavailable.
 
 ## Before You Start
 
@@ -43,7 +41,7 @@ Profile fields are the custom fields you define in Profile Builder (Pro). ArrayS
 1. Each factory returns a `Customer` loaded from the WordPress user, a `WP_Error`, or, for a guest subscription only, a guest array.
 2. `data()` builds documented groups from the customer object. The `profile` group comes from ArraySubs Pro through a filter.
 3. `subscriptions()` and `orders()` run `Subscriptions::query()` and `Orders::query()` with this customer's user ID.
-4. `update()` validates the whole request first, then saves profile values (Pro) and the WooCommerce customer in one database transaction. It changes the account only, never subscriptions or orders.
+4. `update()` validates the whole request first, then saves profile values and the WooCommerce customer in one database transaction. It changes the account only, never subscriptions or orders.
 
 ### Pick the Right Lookup
 
@@ -53,10 +51,10 @@ Profile fields are the custom fields you define in Profile Builder (Pro). ArrayS
 | Subscription ID | `Customer::fromSubscriptionId()` | `Customer`, or a guest array for a guest subscription |
 | Account (login) email | `Customer::fromEmail()` | `Customer`; `ambiguous` if two accounts share it |
 | Username | `Customer::fromUsername()` | `Customer` |
-| A profile value that must identify one member *(Pro)* | `Customer::fromProfileField()` | `Customer`; `ambiguous` when several members match |
-| A profile value many members can share *(Pro)* | `Customer::queryByProfileField()` | A page of matches |
+| A profile value that must identify one member | `Customer::fromProfileField()` | `Customer`; `ambiguous` when several members match |
+| A profile value many members can share | `Customer::queryByProfileField()` | A page of matches |
 
-### Core and Pro
+### Choose the Profile API
 
 | Call | Core only (or Pro unavailable) | ArraySubs Pro with license, module and setting on |
 | --- | --- | --- |
@@ -85,8 +83,8 @@ All factories are static and read only: no writes.
 | `Customer::fromSubscriptionId( int $subscription_id )` | Subscription ID | `Customer`, guest array or `WP_Error` | Follows the customer user ID stored on the subscription. `not_found` when the subscription does not exist or its account was deleted. |
 | `Customer::fromEmail( string $email )` | Account email | `Customer` or `WP_Error` | Exact match on the WordPress account email. Matching follows your database collation (case-insensitive on a default install). `validation` for an invalid email, `ambiguous` when two accounts share it, `not_found` when none does. |
 | `Customer::fromUsername( string $username )` | `user_login` | `Customer` or `WP_Error` | `not_found` when no user has that login. |
-| `Customer::fromProfileField( string $key, $value, string $operator = '=' )` *(Pro)* | Field key, value, operator | `Customer` or `WP_Error` | See [Search by Profile Field](#search-by-profile-field-pro). |
-| `Customer::queryByProfileField( string $key, $value, array $args = [] )` *(Pro)* | Field key, value, options | Page array or `WP_Error` | See [Search by Profile Field](#search-by-profile-field-pro). |
+| `Customer::fromProfileField( string $key, $value, string $operator = '=' )` | Field key, value, operator | `Customer` or `WP_Error` | See [Search by Profile Field](#search-by-profile-field). |
+| `Customer::queryByProfileField( string $key, $value, array $args = [] )` | Field key, value, options | Page array or `WP_Error` | See [Search by Profile Field](#search-by-profile-field). |
 
 Use the factories instead of `new \ArraySubs\Developer\Customer( $id )`. WooCommerce silently turns an unknown user ID into ID `0`, and saving an ID `0` customer tries to create a new account. The factories return `not_found` instead.
 
@@ -95,6 +93,7 @@ Use the factories instead of `new \ArraySubs\Developer\Customer( $id )`. WooComm
 When a subscription has no stored customer user ID (`0`), `fromSubscriptionId()` returns this array. It is not an object and not an error, so check `is_array()` before you call `Customer` methods.
 
 ```text
+// A guest has subscription contact details but no WordPress account ID or Customer object.
 [
   'guest'           => true,
   'user_id'         => null,
@@ -113,6 +112,7 @@ Each assignment fires `arraysubs_subscription_customer_identity_changed` with `(
 ## Read Customer Data
 
 ```text
+// Select named data sections; check for WP_Error before reading the returned array.
 $customer->data( array $fields = [] ): array|WP_Error
 ```
 
@@ -134,6 +134,7 @@ The `profile` group with Pro available:
 - Disabled and deleted fields are left out completely. Their stored values stay in user meta.
 
 ```text
+// Example selected customer sections: account identity, billing details and profile-field values.
 [
   'identity' => [ 'id' => 123, 'guest' => false, 'username' => 'jane-doe', 'email' => 'member@example.com' ],
   'account'  => [ 'first_name' => 'Jane', 'last_name' => 'Doe', 'display_name' => 'Jane Doe', 'created_at' => 1772446500 ],
@@ -146,6 +147,7 @@ The `profile` group with Pro available:
 ## Read Subscriptions and Orders
 
 ```text
+// Both methods return paginated results; args select filters, output format and page size.
 $customer->subscriptions( array $args = [] ): array|WP_Error
 $customer->orders( array $args = [] ): array|WP_Error
 ```
@@ -164,14 +166,16 @@ $customer->orders( array $args = [] ): array|WP_Error
 Unknown arguments return `invalid_query`; for example, the status filter is `statuses`, not `status`. Both methods return the standard page:
 
 ```text
+// Example page containing IDs; next_page is null because there are no more results.
 [ 'items' => [ 123, 124 ], 'page' => 1, 'per_page' => 20, 'has_more' => false, 'next_page' => null ]
 ```
 
 Pass `next_page` back as `page` until it is `null`. For relationship details, see [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md).
 
-## Search by Profile Field *(Pro)*
+## Search by Profile Field
 
 ```text
+// queryByProfileField returns a page; fromProfileField resolves one unambiguous matching member.
 Customer::queryByProfileField( string $key, $value, array $args = [] ): array|WP_Error
 Customer::fromProfileField( string $key, $value, string $operator = '=' ): Customer|WP_Error
 ```
@@ -189,6 +193,7 @@ Customer::fromProfileField( string $key, $value, string $operator = '=' ): Custo
 Any other option returns `invalid_query`. Results are ordered by user ID, ascending. The page includes `total`, the number of matches across all pages:
 
 ```text
+// Example profile search page: total counts matches, while items contains only this page.
 [ 'items' => [ 45, 46 ], 'page' => 1, 'per_page' => 20, 'has_more' => false, 'next_page' => null, 'total' => 2 ]
 ```
 
@@ -212,6 +217,7 @@ Any other option returns `invalid_query`. Results are ordered by user ID, ascend
 ## Update a Customer
 
 ```text
+// Pass only the field groups you want to change; check WP_Error before using the result.
 $customer->update( array $changes, array $context = [] ): array|WP_Error
 ```
 
@@ -222,7 +228,7 @@ $customer->update( array $changes, array $context = [] ): array|WP_Error
 | `account` | `first_name`, `last_name`, `display_name`, `email` | `email` must be a valid email (`validation`) that no other account uses (`conflict`). |
 | `billing` | `first_name`, `last_name`, `company`, `address_1`, `address_2`, `city`, `postcode`, `country`, `state`, `email`, `phone` | `email` must be a valid email, so it cannot be cleared. `country` must be a WooCommerce country code or `''`. |
 | `shipping` | The billing keys without `email` | `country` as for billing. |
-| `profile` *(Pro)* | Enabled profile field keys | Checked by field type (table below). |
+| `profile` | Enabled profile field keys | Checked by field type (table below). |
 
 - Values must be scalars. Account, billing and shipping values are cleaned with `sanitize_text_field()`.
 - `country` is checked case-insensitively but saved as given, so pass uppercase codes such as `US`.
@@ -237,7 +243,7 @@ $customer->update( array $changes, array $context = [] ): array|WP_Error
 
 Other context keys are ignored.
 
-Profile values *(Pro)*:
+Profile values:
 
 | Field type | Accepted value | Saved as |
 | --- | --- | --- |
@@ -254,7 +260,7 @@ How the save runs:
 
 1. Every group and value is validated first, in the order you pass them. The first problem returns its error and nothing is saved.
 2. A per-customer lock blocks a second `update()` of the same customer while the first one runs. The second call returns `conflict`.
-3. Profile values (Pro) and the WooCommerce customer are saved in one database transaction. If a write fails, the transaction is rolled back and the call returns `persistence_failed`.
+3. Profile values and the WooCommerce customer are saved in one database transaction. If a write fails, the transaction is rolled back and the call returns `persistence_failed`.
 4. On success, your object is reloaded from the database and the method returns `$customer->data()` with every group.
 
 Side effects:
@@ -265,7 +271,7 @@ Side effects:
 
 `update()` saves from a fresh copy of the account and then reloads your object, so do not mix it with unsaved WooCommerce setter calls on the same object. Prefer it over setters plus `save()`: plain setters skip the account email check, the lock and the transaction.
 
-## Pro Profile Adapter *(Pro)*
+## Profile Adapter
 
 The core class asks four filters for profile data. ArraySubs Pro registers `ArraySubsPro\Developer\CustomerProfile` on them at priority 10 whenever Pro loads, and checks the license, module and setting on every call.
 
@@ -310,6 +316,7 @@ A minimal working example for an admin screen or a server task.
 
 ```php
 <?php
+// Resolve a subscription owner before rendering a label; guests have no Customer object.
 function myplugin_subscription_owner_label( int $subscription_id ): string {
     if ( ! class_exists( '\ArraySubs\Developer\Customer' ) ) {
         return '';
@@ -337,6 +344,7 @@ Reads selected data groups, the member's active and trial subscriptions, and the
 
 ```php
 <?php
+// Read only the account sections needed for this summary and stop if any read fails.
 function myplugin_member_summary( int $user_id ): array {
     if ( ! class_exists( '\ArraySubs\Developer\Customer' ) ) {
         return [];
@@ -347,6 +355,7 @@ function myplugin_member_summary( int $user_id ): array {
         return [];
     }
 
+    // Fetch identity, billing and profile values, plus subscription and recent-order IDs.
     $data          = $customer->data( [ 'identity', 'billing', 'profile' ] );
     $subscriptions = $customer->subscriptions( [
         'statuses' => [ 'arraysubs-active', 'arraysubs-trial' ],
@@ -370,12 +379,13 @@ function myplugin_member_summary( int $user_id ): array {
 $summary = myplugin_member_summary( 123 );
 ```
 
-### List Members by Company *(Pro)*
+### List Members by Company
 
 Pages through every member whose `company_name` profile field contains a value.
 
 ```php
 <?php
+// Search the configured company field in pages, collecting IDs until next_page is null.
 function myplugin_member_ids_by_company( string $company ): array {
     if ( ! class_exists( '\ArraySubs\Developer\Customer' ) ) {
         return [];
@@ -404,7 +414,7 @@ function myplugin_member_ids_by_company( string $company ): array {
 }
 ```
 
-### Resolve One Member by a Unique Value *(Pro)*
+### Resolve One Member by a Unique Value
 
 A failure-handling example. Profile values are typed by people, so treat a shared value as an error instead of picking a member.
 
@@ -418,6 +428,7 @@ function myplugin_member_by_code( string $code ) {
         return null;
     }
 
+    // Resolve one member; handle no match and multiple matches separately.
     $member = \ArraySubs\Developer\Customer::fromProfileField( 'member_code', sanitize_text_field( $code ) );
 
     if ( ! is_wp_error( $member ) ) {
@@ -444,6 +455,7 @@ The member edits their own name, billing phone and, with Pro, their company. The
 
 ```php
 <?php
+// Handle a form for the signed-in member only; the form must include the matching WordPress nonce.
 add_action( 'admin_post_myplugin_save_member', function () {
     if ( ! is_user_logged_in() || ! check_admin_referer( 'myplugin_save_member' ) ) {
         wp_die( esc_html__( 'You are not allowed to do this.', 'myplugin' ) );
@@ -460,6 +472,7 @@ add_action( 'admin_post_myplugin_save_member', function () {
         wp_die( esc_html( $current->get_error_message() ) );
     }
 
+    // Accept only these form fields, remove WordPress slashes, and sanitize each value.
     $changes = [];
     if ( isset( $_POST['first_name'] ) ) {
         $changes['account']['first_name'] = sanitize_text_field( wp_unslash( $_POST['first_name'] ) );
@@ -472,6 +485,7 @@ add_action( 'admin_post_myplugin_save_member', function () {
     }
 
     if ( $changes ) {
+        // Pass the email we just read so a concurrent account change is reported as a conflict.
         $result = $customer->update( $changes, [ 'expected_email' => $current['identity']['email'] ] );
 
         if ( is_wp_error( $result ) ) {
@@ -496,7 +510,7 @@ add_action( 'admin_post_myplugin_save_member', function () {
 | `invalid_field` | `data()`, `update()`, profile searches, `subscriptions()`, `orders()` | An unknown data group; empty `$changes`; an unknown group or key in `$changes`; an unknown, disabled or deleted profile field key. |
 | `invalid_query` | `queryByProfileField()`, `subscriptions()`, `orders()` | An unknown option, `page` below 1, `per_page` outside 1 to 100, or invalid statuses, output or order. |
 | `unavailable` | Profile searches, `update()` with `profile` | ArraySubs Pro, its license, the `profile_builder` module or **Enable custom profile fields** is missing or off. |
-| `forbidden` | Profile searches, `update()` with `profile` *(Pro)* | A file upload field was searched, or a field filter returned `false`. |
+| `forbidden` | Profile searches, `update()` with `profile` | A file upload field was searched, or a field filter returned `false`. |
 | `unsupported` | `update()` | The `propagate` context, or a value for a file upload field. |
 | `conflict` | `update()` | Another update of this customer is running, the account email belongs to another user, `expected_email` no longer matches, or the update lock expired before the save finished. |
 | `persistence_failed` | `update()` | The transaction or a save failed. The database transaction is rolled back. |

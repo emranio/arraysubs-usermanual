@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free
-- Last updated: 2026-10-26
+- Last updated: 2026-10-31
 
 # Read Member Discounts
 
 > Read which member discount rules apply to a customer or subscription, and calculate a product's member price for a quantity, without changing carts, coupons, prices or orders.
 
-**Availability:** Core (Free). `ArraySubs\Developer\Discounts` ships with the core plugin, has no Pro adapter, and reads the rules at **ArraySubs -> Member Access -> Discount**. Rules that use a Feature Value condition compare feature values configured with ArraySubs Pro Feature Manager.
 
 ## Page Navigation
 
@@ -88,6 +86,7 @@ Every factory is inherited from the shared member context (`ArraySubs\Developer\
 Lists every discount rule in saved order, disabled ones included, and evaluates each one for the reader's context.
 
 ```text
+// Read a page of rules for this customer or subscription; handle WP_Error before using items.
 $discounts->rules( array $args = [] ): array|WP_Error
 ```
 
@@ -105,6 +104,7 @@ Any other argument, such as `product_id`, returns `invalid_query`. To find the r
 
 ```php
 <?php
+// Example rules() response: qualifies checks conditions and timing; effective marks a rule that takes effect.
 $page = [
     'items'     => [
         [
@@ -129,6 +129,7 @@ $page = [
             'excluded_category_ids'   => [],
         ],
     ],
+    // Use next_page while has_more is true to read the remaining rules.
     'page'      => 1,
     'per_page'  => 20,
     'has_more'  => false,
@@ -163,6 +164,7 @@ $page = [
 ## `calculateProduct()`
 
 ```text
+// Estimate member pricing for a product and quantity; this does not calculate a checkout total.
 $discounts->calculateProduct( int $product_id, int $quantity = 1 ): array|WP_Error
 ```
 
@@ -177,6 +179,7 @@ A product that does not exist, or a quantity below 1, returns `invalid_target`.
 
 ```php
 <?php
+// Example product quote for two units. These are catalog-based estimates, not a checkout total.
 $quote = [
     'product_id'         => 123,
     'quantity'           => 2,
@@ -185,6 +188,7 @@ $quote = [
     'member_unit_price'  => 25.49,
     'line_price'         => 50.98,
     'discount_applies'   => true,
+    // Read these limits before using the quote: taxes, coupons and checkout totals are not calculated.
     'assumptions'        => [
         'prices'           => 'stored_catalog_prices',
         'taxes'            => 'not_recalculated',
@@ -212,6 +216,7 @@ The reader runs the same discount filters as the storefront: `arraysubs_discount
 ## `data()`
 
 ```text
+// Read selected discount sections such as rules, availability and policy without changing prices.
 $discounts->data( array $fields = [] ): array|WP_Error
 ```
 
@@ -221,6 +226,7 @@ $discounts->data( array $fields = [] ): array|WP_Error
 
 ```php
 <?php
+// Example data() response combining the customer context, availability, rule page and pricing policy.
 $data = [
     'context'      => [ 'user_id' => 123, 'subscription_id' => null ],
     'availability' => [ 'available' => true, 'enabled' => true ],
@@ -249,6 +255,7 @@ function myplugin_member_price_html( int $product_id ): string {
         return '';
     }
 
+    // Use the signed-in member, then request a quote; never accept another customer ID from the page.
     $discounts = \ArraySubs\Developer\Discounts::fromUserId( get_current_user_id() );
     $quote     = is_wp_error( $discounts ) ? $discounts : $discounts->calculateProduct( $product_id );
     if ( is_wp_error( $quote ) || ! $quote['discount_applies'] ) {
@@ -282,6 +289,7 @@ function myplugin_quote_for_subscription( int $subscription_id, int $product_id,
         return $discounts; // invalid_subscription or invalid_customer.
     }
 
+    // Quote the requested quantity and pass domain errors back to the caller for handling.
     $quote = $discounts->calculateProduct( $product_id, $quantity );
     if ( is_wp_error( $quote ) ) {
         return $quote; // invalid_target: unknown product or quantity below 1.
@@ -304,6 +312,7 @@ The saving is measured against the catalog price, which is the sale price while 
 
 ```php
 <?php
+// Render a staff-only rule report. The PHP reader itself does not enforce the viewer permission.
 function myplugin_render_discount_rules( int $user_id ): void {
     if ( ! current_user_can( 'manage_woocommerce' ) ) {
         return; // Your web boundary: the reader does not check permissions.
@@ -323,6 +332,7 @@ function myplugin_render_discount_rules( int $user_id ): void {
     $args = [ 'per_page' => 100, 'page' => 1, 'fields' => [ 'id', 'enabled', 'conditions_met', 'qualifies', 'effective', 'discount_type', 'discount_value', 'apply_to' ] ];
 
     echo '<ul>';
+    // Fetch every page so a rule beyond the first 100 is not silently omitted.
     do {
         $page = $discounts->rules( $args );
         if ( is_wp_error( $page ) ) {

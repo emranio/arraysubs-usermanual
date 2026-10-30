@@ -1,13 +1,11 @@
 # Info
 - Module: Stripe Gateway
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Stripe Gateway
 
 > Set up Stripe so ArraySubs can take subscription payments at checkout and charge every renewal automatically.
 
-**Availability:** Free (ArraySubs core). You also need a Stripe account and the free official **WooCommerce Stripe Payment Gateway** plugin, version 9.8.0 or later.
 
 ## Page Navigation
 
@@ -240,7 +238,7 @@ A successful renewal leaves the renewal order paid, the subscription **Active**,
 | Order and payment | **WooCommerce > Orders** and the Stripe test Dashboard | A new renewal order linked to the subscription, paid, with a Stripe transaction ID and a paid date. In Stripe, an off-session PaymentIntent that succeeded. |
 | Dates | Subscription detail page | **Next Payment** moved forward by exactly one billing period. It follows the schedule, not the moment the charge ran. |
 | Scheduled actions | **WooCommerce > Status > Scheduled Actions** | This cycle's `arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal` show **Complete**, and new **Pending** actions exist for the next cycle. |
-| Logs | **ArraySubs > Audits [beta] > Gateway Logs**; with Pro, also **Scheduled-Job Logs** and **Renewal Failures**; the official gateway's log in **WooCommerce > Status > Logs** when its logging is on | Stripe payment and webhook entries for the renewal, with no errors |
+| Logs | **ArraySubs > Audit Logs > Gateway health**; with Pro, also **Jobs** and **Renewal Errors**; the official gateway's log in **WooCommerce > Status > Logs** when its logging is on | Stripe payment and webhook entries for the renewal, with no errors |
 | Lifecycle events | Your integration code | The `arraysubs_renewal_invoice_created` action fired when the invoice was created, then `arraysubs_lifecycle_event` fired `renewed`. See [React to Supported Events](../../developers/actions-and-filters.md). |
 | Plan and access | Subscription detail page and the customer's My Account | Same product, variation, quantity, and recurring amount. The subscription is **Active** and the customer still sees member content. |
 | Payment method | **Payment Gateway** card | Still **Connected** with the same card on file |

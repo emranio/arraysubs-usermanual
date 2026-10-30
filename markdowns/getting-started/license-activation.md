@@ -1,13 +1,11 @@
 # Info
 - Module: Getting Started
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # License Activation
 
 > Upgrade an existing Free store to ArraySubs Pro, register your site in the ArrayHash user portal, activate the license in WordPress, set up staging and development sites, and revoke a site activation when you no longer need it.
 
-**Availability:** Pro
 
 ## Page Navigation
 

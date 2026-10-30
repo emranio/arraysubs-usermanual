@@ -1,17 +1,15 @@
 # Info
 - Module: Order List Enhancements
-- Availability: Pro
-- Last updated: 2026-08-31
+- Last updated: 2026-10-30
 
-# Order List Enhancements *(Pro)*
+# Order List Enhancements
 
 > See subscription order types and coupons at a glance on the WooCommerce Orders page, filter orders by type, coupon, or any store product, and view an embedded summary panel — plus back-classify orders that existed before activation.
 
-**Availability:** Pro
 
 ## Page Navigation
 
-- **Current guide:** Order List Enhancements *(Pro)*
+- **Current guide:** Order List Enhancements
 - **Where to open it:** WordPress Admin -> WooCommerce -> Orders
 - **Direct route:** `/wp-admin/admin.php?page=wc-orders`
 - **Section overview:** [Open overview](./README.md)

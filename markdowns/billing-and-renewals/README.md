@@ -1,13 +1,11 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free core billing engine; Pro for different renewal pricing
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Billing and Renewals
 
 > How ArraySubs creates, schedules, and collects recurring payments — from the first invoice to the final renewal.
 
-**Availability:** Free (core billing engine); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -59,7 +57,7 @@ These jobs work together to keep every subscription on schedule without manual i
 ```
 
 1. **Invoice creation** — A pending WooCommerce order is created before the due date. The subscription status stays active.
-2. **Payment** — For automatic payment subscriptions **(Pro)**, the gateway charges the saved payment method. For manual subscriptions, the customer receives an invoice email with a payment link.
+2. **Payment** — For automatic payment subscriptions, the gateway charges the saved payment method. For manual subscriptions, the customer receives an invoice email with a payment link.
 3. **Next date scheduled** — After payment succeeds, the next payment date advances by one billing cycle and a renewal reminder is scheduled.
 4. **Grace period** — If payment is not received by the due date, the subscription enters a configurable grace period before status changes occur. See [Recovery and Grace Flows](recovery-and-grace-flows.md).
 
@@ -105,4 +103,4 @@ Renewal invoices are generated automatically by the billing engine. To create an
 No. Subscription prices are locked at checkout. Product price changes only affect new subscriptions purchased after the change. Existing subscriptions continue to renew at their original stored price (or the configured different renewal price when licensed Pro is active).
 
 ### What is the difference between manual and automatic renewals?
-Manual renewals create a pending invoice and email the customer a payment link. The customer must log in and pay. Automatic renewals **(Pro)** charge the customer's saved payment method through the configured gateway (Stripe, PayPal, Paddle, or Mollie) without requiring customer action.
+Manual renewals create a pending invoice and email the customer a payment link. The customer must log in and pay. Automatic renewals charge the customer's saved payment method through the configured gateway (Stripe, PayPal, Paddle, or Mollie) without requiring customer action.

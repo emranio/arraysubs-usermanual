@@ -1,7 +1,6 @@
 # Info
 - Module: Integrations
-- Availability: Free (FlowMattic required; some events and actions need ArraySubs Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-30
 
 # FlowMattic
 

@@ -1,18 +1,18 @@
 # Info
 - Module: Developers
-- Availability: Pro
-- Last updated: 2026-10-30
+- Last updated: 2026-10-31
 
 # Receive Subscription Events with Webhooks
 
 > Get a signed JSON request at your own HTTPS URL whenever a subscription changes, a renewal is paid or fails, a payment is refunded or store credit moves, with automatic retries and a delivery log you can check.
 
-**Availability:** ArraySubs Pro with an active license, and the **Webhooks** module switched on in **ArraySubs -> Modules**. Store credit events also need the **Store Credit** module. Without Pro, listen to `arraysubs_lifecycle_event` in PHP instead; see [React to Supported Events](./actions-and-filters.md).
 
 ## Page Navigation
 
 - **Current guide:** Receive Subscription Events with Webhooks
-- **Where to open it:** **ArraySubs -> Settings -> Webhooks** for endpoints, **ArraySubs -> Audits -> Webhooks** for request counts and the delivery log, and the code of the app that receives the requests
+- **Where to open it:** **ArraySubs -> Webhooks -> Webhook endpoints** for endpoints, **ArraySubs -> Webhooks -> How-to** for the receiver guide, **ArraySubs -> Audit Logs -> Webhooks** for request counts and the delivery log, and the code of the app that receives the requests
+- **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/webhooks`
+- **How-to route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/webhooks/how-to`
 - **Section overview:** [Developers](./README.md)
 - **Previous guide:** [React to Supported Events](./actions-and-filters.md)
 - **Next guide:** [FlowMattic Hooks and Actions](./flowmattic.md)
@@ -20,9 +20,11 @@
 
 ## Overview
 
-The Webhooks module sends subscription events to apps that live outside WordPress. You add an endpoint (a URL plus the events it wants) in **ArraySubs -> Settings -> Webhooks**. When one of those events happens, ArraySubs sends an HTTP `POST` with a JSON body to that URL, signs it with the endpoint's secret, and retries for about 8.6 hours if the URL does not answer with a 2xx status.
+The Webhooks module sends subscription events to apps that live outside WordPress. You add an endpoint (a URL plus the events it wants) in **ArraySubs -> Webhooks**. When one of those events happens, ArraySubs sends an HTTP `POST` with a JSON body to that URL, signs it with the endpoint's secret, and retries for about 8.6 hours if the URL does not answer with a 2xx status.
 
-Each request carries a snapshot of the subscription, so most receivers never need to call back into WordPress. Every send is recorded in a delivery log, and you can send a test, resend one delivery, or resend everything that failed. The [Webhook Audit Page](#webhook-audit-page) in **ArraySubs -> Audits -> Webhooks** shows how many requests were sent, how many succeeded, how fast your receivers answered, and every attempt of every delivery.
+**Webhooks** has its own entry in the ArraySubs admin menu, before **Audit Logs**. **Audit Logs** is directly below **Settings** and before **License** when Pro is active. Use **ArraySubs -> Webhooks** to manage receivers; **ArraySubs -> Audit Logs -> Webhooks** shows delivery statistics and logs.
+
+Each request carries a snapshot of the subscription, so most receivers never need to call back into WordPress. Every send is recorded in a delivery log, and you can send a test, resend one delivery, or resend everything that failed. The [Webhook Audit Page](#webhook-audit-page) in **ArraySubs -> Audit Logs -> Webhooks** shows how many requests were sent, how many succeeded, how fast your receivers answered, and every attempt of every delivery.
 
 This page covers the receiver side (payload, headers, signature, retries), the merchant setup, and the PHP hooks you can use to change what is sent.
 
@@ -39,7 +41,7 @@ If the code that reacts lives in the same WordPress site, use the PHP hooks in [
 ## Before You Start
 
 - ArraySubs Pro installed, its license active for this domain, and the **Webhooks** module switched on in **ArraySubs -> Modules**. See [License Activation](../getting-started/license-activation.md).
-- A user who can manage the store (`manage_woocommerce` or `manage_options`). Only these users see **Settings -> Webhooks**.
+- A user who can manage the store (`manage_woocommerce` or `manage_options`). Only these users see **ArraySubs -> Webhooks**.
 - A receiver URL that your store's server can reach over HTTPS, with a valid certificate, that accepts `POST` and answers with a 2xx status within 10 seconds.
 - A working WP-Cron or server cron. Deliveries and retries run as Action Scheduler jobs; see [Cron Job Setup](../getting-started/cron-job-setup.md).
 - For `store_credit.*` events, the **Store Credit** module switched on.
@@ -57,7 +59,7 @@ Delivery is at least once. The same delivery can reach you again (a retry after 
 ## Set Up an Endpoint
 
 1. Go to **ArraySubs -> Modules**, switch on **Webhooks** and save.
-2. Open **ArraySubs -> Settings -> Webhooks**. It is the last tab under **Settings**.
+2. Open **ArraySubs -> Webhooks**. It has its own page before **Audit Logs** in the ArraySubs admin menu.
 3. Click **Add endpoint**.
 4. Enter a **Name** that tells your team what receives the events, for example `CRM sync`.
 5. Enter the **Delivery URL**: an HTTPS URL that accepts `POST` requests and returns a 2xx status.
@@ -65,7 +67,13 @@ Delivery is at least once. The same delivery can reach you again (a retry after 
 7. Leave **Active** on, then save the endpoint.
 8. Copy the signing secret that appears next and store it in your receiver's configuration, for example as an environment variable. You can reveal it again later from the endpoint's edit window.
 9. Click **Send test** on the endpoint. ArraySubs sends a `webhook.ping` event right away and shows the result.
-10. Click **View deliveries** on the endpoint. It opens **ArraySubs -> Audits -> Webhooks** filtered to that endpoint. Open a row in the delivery log to see each attempt, the request headers, the payload and your receiver's response.
+10. Click **View deliveries** on the endpoint. It opens **ArraySubs -> Audit Logs -> Webhooks** filtered to that endpoint. Open a row in the delivery log to see each attempt, the request headers, the payload and your receiver's response.
+
+The **Add endpoint** action is in the Endpoints section. With no endpoints, it appears in the empty-state card; after an endpoint is added, it appears beside the Endpoints heading. The form uses the same full-screen layout and centered content as Easy Setup. **Name**, **Delivery URL** and **Events** are required and marked with an asterisk. The **Subscription lifecycle** group spans the form width, with two columns of events on desktop and one on phones.
+
+### Quick technical guide on the How-to page
+
+Open **ArraySubs -> Webhooks -> How-to** for the **Delivery audit** link and **Connect a webhook receiver** guide. The receiver guide gives a three-step setup guide and a copyable PHP signature-verification helper. Click **Copy code** to copy the helper, then call it in your receiver with the raw body, `X-ArraySubs-Timestamp`, `X-ArraySubs-Signature` and the full signing secret. This helper verifies the request; your receiver still needs to store each event once, queue its work and return a response. See [Verify the Signature](#verify-the-signature) for complete receiver examples. **Read the user manual** opens this guide in a new tab.
 
 ### Endpoint Settings
 
@@ -187,6 +195,8 @@ Ignore keys you do not recognize, so your receiver keeps working when new ones a
 ### Full example: `subscription.cancelled`
 
 A customer cancelled subscription 4406 from My Account, effective right away.
+
+**Payload notes:** `id` identifies the event for deduplication, `type` selects your handler, and `data.subscription` is a snapshot taken when the event was built. `data.details` holds event-specific facts. Verify the original request bytes before decoding this JSON.
 
 ```json
 {
@@ -387,6 +397,8 @@ Event-specific keys from the [Event Reference](#event-reference) are added on to
 
 ### Store credit details
 
+**Payload notes:** `data.subscription: null` means this credit belongs to the customer rather than one subscription. Use the transaction ID for reconciliation, and read the amount and before/after balances in the stated currency.
+
 ```json
 {
   "id": "credit-transaction:5120",
@@ -436,6 +448,8 @@ Event-specific keys from the [Event Reference](#event-reference) are added on to
 Numbers are JSON numbers, so `50.0` arrives as `50`. Round them to your currency's decimals before you compare.
 
 ### Test ping
+
+**Payload notes:** `webhook.ping` tests delivery and signature verification. It is not a subscription change, so do not run renewal or cancellation work for it.
 
 ```json
 {
@@ -490,6 +504,7 @@ Each endpoint has its own signing secret: `whsec_` followed by 48 hexadecimal ch
 The signature is the lowercase hex HMAC-SHA256 of the timestamp, a dot and the raw body:
 
 ```text
+// Compute this over the original body bytes before parsing JSON; compare v1 signatures in constant time.
 signed_string = X-ArraySubs-Timestamp + "." + raw request body
 signature     = hex( HMAC-SHA256( key = signing secret, message = signed_string ) )
 header        = "v1=" + signature [ + ",v1=" + signature made with the previous secret ]
@@ -532,8 +547,13 @@ A complete receiver in plain PHP. Save it as `receiver.php` and set the `ARRAYSU
 
 /**
  * True when one v1= value in the signature header matches the raw body.
+ * $body: exact bytes from php://input, before JSON decoding.
+ * $timestamp: X-ArraySubs-Timestamp, in Unix seconds.
+ * $header: the complete X-ArraySubs-Signature header, including v1=.
+ * $secret: the full endpoint secret, including its whsec_ prefix.
  */
 function example_arraysubs_signature_is_valid( string $body, string $timestamp, string $header, string $secret, int $tolerance = 300 ): bool {
+	// Missing configuration or a nonnumeric timestamp cannot authenticate a request.
 	if ( '' === $secret || ! ctype_digit( $timestamp ) ) {
 		return false;
 	}
@@ -543,10 +563,13 @@ function example_arraysubs_signature_is_valid( string $body, string $timestamp, 
 		return false;
 	}
 
+	// Sign the original bytes as "timestamp.raw body", exactly as ArraySubs does.
 	$expected = hash_hmac( 'sha256', $timestamp . '.' . $body, $secret );
 
+	// A rotated secret adds a second v1 value; either matching signature is valid.
 	foreach ( explode( ',', $header ) as $part ) {
 		$part = trim( $part );
+		// hash_equals compares in constant time rather than stopping at the first difference.
 		if ( 0 === strpos( $part, 'v1=' ) && hash_equals( $expected, substr( $part, 3 ) ) ) {
 			return true;
 		}
@@ -555,6 +578,7 @@ function example_arraysubs_signature_is_valid( string $body, string $timestamp, 
 	return false;
 }
 
+// The receiver accepts webhook POST requests, not browser visits or other methods.
 if ( 'POST' !== ( $_SERVER['REQUEST_METHOD'] ?? '' ) ) {
 	http_response_code( 405 );
 	exit;
@@ -564,11 +588,13 @@ $body      = (string) file_get_contents( 'php://input' ); // Raw bytes, before a
 $timestamp = (string) ( $_SERVER['HTTP_X_ARRAYSUBS_TIMESTAMP'] ?? '' );
 $signature = (string) ( $_SERVER['HTTP_X_ARRAYSUBS_SIGNATURE'] ?? '' );
 
+// Read the secret from server configuration and authenticate before trusting any JSON.
 if ( ! example_arraysubs_signature_is_valid( $body, $timestamp, $signature, (string) getenv( 'ARRAYSUBS_WEBHOOK_SECRET' ) ) ) {
 	http_response_code( 401 );
 	exit;
 }
 
+// Only a verified body may be decoded and used to decide what work to perform.
 $event = json_decode( $body, true );
 if ( ! is_array( $event ) ) {
 	http_response_code( 400 );
@@ -576,6 +602,7 @@ if ( ! is_array( $event ) ) {
 }
 
 // Store the event and queue your work here, then answer quickly.
+// Deduplicate on $event['id']; choose the handler using $event['type'].
 // This line prints to the terminal that runs the receiver.
 file_put_contents( 'php://stderr', sprintf(
 	"ArraySubs %s, event %s, delivery %s, attempt %s\n",
@@ -585,6 +612,7 @@ file_put_contents( 'php://stderr', sprintf(
 	$_SERVER['HTTP_X_ARRAYSUBS_ATTEMPT'] ?? ''
 ) );
 
+// Return 2xx only after your event storage and queueing have succeeded.
 http_response_code( 200 );
 header( 'Content-Type: application/json' );
 echo '{"received":true}';
@@ -601,22 +629,27 @@ In a framework, read the raw body with its own method, for example `$request->ge
 const crypto = require('crypto');
 const express = require('express');
 
+// Keep the full endpoint secret in server configuration, never in public code.
 const SECRET = process.env.ARRAYSUBS_WEBHOOK_SECRET; // whsec_...
 const TOLERANCE_SECONDS = 300;
 
 function isValidSignature(rawBody, timestamp, header, secret) {
+  // Reject a missing secret or a timestamp that is not a decimal Unix timestamp.
   if (!secret || !/^\d+$/.test(timestamp || '')) {
     return false;
   }
+  // A five-minute clock window limits replay of old or future-dated requests.
   if (Math.abs(Math.floor(Date.now() / 1000) - Number(timestamp)) > TOLERANCE_SECONDS) {
     return false;
   }
 
+  // Hash the timestamp, a dot and the untouched request Buffer, in that order.
   const expected = Buffer.from(
     crypto.createHmac('sha256', secret).update(`${timestamp}.`).update(rawBody).digest('hex'),
     'utf8'
   );
 
+  // During rotation the header contains two v1 signatures; accept either match.
   return (header || '').split(',').some((part) => {
     const value = part.trim();
     if (!value.startsWith('v1=')) {
@@ -630,11 +663,13 @@ function isValidSignature(rawBody, timestamp, header, secret) {
 
 const app = express();
 
+// Keep this route before express.json(), which would replace the original bytes.
 app.post('/arraysubs-webhook', express.raw({ type: 'application/json' }), (req, res) => {
   if (!Buffer.isBuffer(req.body)) {
     return res.status(400).send('Expected a JSON body');
   }
 
+  // Verify the signature headers against the raw body before parsing JSON.
   const valid = isValidSignature(
     req.body,
     req.get('X-ArraySubs-Timestamp'),
@@ -645,6 +680,7 @@ app.post('/arraysubs-webhook', express.raw({ type: 'application/json' }), (req, 
     return res.status(401).send('Invalid signature');
   }
 
+  // The authenticated body supplies event.id and event.type; other ID headers are informational.
   let event;
   try {
     event = JSON.parse(req.body.toString('utf8'));
@@ -653,10 +689,12 @@ app.post('/arraysubs-webhook', express.raw({ type: 'application/json' }), (req, 
   }
 
   // Store the event and queue your work here, keyed on event.id.
+  // Use event.type to choose the handler, and return 2xx only after storage succeeds.
   console.log(`ArraySubs ${event.type} ${event.id} delivery ${req.get('X-ArraySubs-Delivery')}`);
   return res.status(200).json({ received: true });
 });
 
+// Point the endpoint at this route through your HTTPS server or reverse proxy.
 app.listen(3000);
 ```
 
@@ -677,22 +715,27 @@ import time
 from flask import Flask, request
 
 app = Flask(__name__)
+# Store the whole endpoint secret in the environment, including its whsec_ prefix.
 SECRET = os.environ.get("ARRAYSUBS_WEBHOOK_SECRET", "")  # whsec_...
 TOLERANCE_SECONDS = 300
 
 
 def signature_is_valid(raw_body: bytes, timestamp: str, header: str, secret: str) -> bool:
+    # Only configured receivers and decimal Unix timestamps can pass verification.
     if not secret or not (timestamp.isascii() and timestamp.isdigit()):
         return False
+    # Reject timestamps more than five minutes behind or ahead of this server.
     if abs(time.time() - int(timestamp)) > TOLERANCE_SECONDS:
         return False
 
+    # HMAC covers timestamp + b"." + the original body bytes, not re-encoded JSON.
     expected = hmac.new(
         secret.encode("utf-8"),
         timestamp.encode("ascii") + b"." + raw_body,
         hashlib.sha256,
     ).hexdigest().encode("ascii")
 
+    # Rotation can add two v1 values; compare_digest checks each without timing leaks.
     for part in header.split(","):
         part = part.strip()
         if part.startswith("v1=") and hmac.compare_digest(part[3:].encode("utf-8"), expected):
@@ -706,15 +749,18 @@ def arraysubs_webhook():
     timestamp = request.headers.get("X-ArraySubs-Timestamp", "")
     header = request.headers.get("X-ArraySubs-Signature", "")
 
+    # Authenticate before decoding or acting on the event.
     if not signature_is_valid(raw_body, timestamp, header, SECRET):
         return {"error": "invalid signature"}, 401
 
+    # Use the signed body's id and type, rather than the informational ID headers.
     try:
         event = json.loads(raw_body)
     except ValueError:
         return {"error": "invalid JSON"}, 400
 
     # Store the event and queue your work here, keyed on event["id"].
+    # Select the handler with event["type"]; acknowledge only after successful storage.
     app.logger.info("ArraySubs %s %s", event.get("type"), event.get("id"))
     return {"received": True}, 200
 ```
@@ -745,6 +791,7 @@ defined( 'ABSPATH' ) || exit;
 // Keep the secret out of the database, for example in wp-config.php.
 // define( 'EXAMPLE_ARRAYSUBS_WEBHOOK_SECRET', 'whsec_...' );
 
+// Register a receiver on the other WordPress site; the signature authenticates it.
 add_action( 'rest_api_init', function () {
 	register_rest_route( 'example/v1', '/arraysubs-webhook', [
 		'methods'             => 'POST',
@@ -754,6 +801,7 @@ add_action( 'rest_api_init', function () {
 } );
 
 function example_receive_arraysubs_webhook( WP_REST_Request $request ): WP_REST_Response {
+	// get_body() preserves the bytes that ArraySubs signed; do not re-encode them.
 	$body  = $request->get_body();
 	$valid = defined( 'EXAMPLE_ARRAYSUBS_WEBHOOK_SECRET' ) && example_arraysubs_signature_is_valid(
 		$body,
@@ -765,6 +813,7 @@ function example_receive_arraysubs_webhook( WP_REST_Request $request ): WP_REST_
 		return new WP_REST_Response( [ 'error' => 'invalid signature' ], 401 );
 	}
 
+	// The verified JSON must identify the event and the handler it needs.
 	$event = json_decode( $body, true );
 	if ( ! is_array( $event ) || empty( $event['id'] ) || empty( $event['type'] ) ) {
 		return new WP_REST_Response( [ 'error' => 'invalid payload' ], 400 );
@@ -772,6 +821,7 @@ function example_receive_arraysubs_webhook( WP_REST_Request $request ): WP_REST_
 
 	global $wpdb;
 	// Your own table: event_id VARCHAR(128) with a UNIQUE key, type, payload LONGTEXT, received_at DATETIME.
+	// INSERT IGNORE makes retries reuse the stored event instead of creating duplicates.
 	$table    = $wpdb->prefix . 'example_arraysubs_events';
 	$inserted = $wpdb->query(
 		$wpdb->prepare(
@@ -793,6 +843,7 @@ function example_receive_arraysubs_webhook( WP_REST_Request $request ): WP_REST_
 		as_enqueue_async_action( 'example_process_arraysubs_event', [ (string) $event['id'] ], 'example-arraysubs' );
 	}
 
+	// Acknowledge stored events, including duplicates, so ArraySubs stops retrying.
 	return new WP_REST_Response( [ 'received' => true ], 200 );
 }
 ```
@@ -827,7 +878,7 @@ When a delivery uses its last attempt without success, and no queued delivery to
 - Its status becomes **Switched off**, with the date and the last error shown in its row.
 - New events are not queued for it while it is off.
 - Deliveries already waiting for it fail with "Not sent: the endpoint was switched off after repeated failures." when their job runs.
-- The admin email **[ArraySubsPro] Webhook Endpoint Switched Off (Admin)** goes to the store admin, with the subject `[{site_title}] Webhook "{webhook_name}" was switched off`. Change its recipient or switch it off in **ArraySubs -> Settings -> Emails** or **WooCommerce -> Settings -> Emails**. The **Email settings** link on the Webhooks tab opens it.
+- The admin email **[ArraySubsPro] Webhook Endpoint Switched Off (Admin)** goes to the store admin, with the subject `[{site_title}] Webhook "{webhook_name}" was switched off`. Change its recipient or switch it off in **ArraySubs -> Settings -> Emails** or **WooCommerce -> Settings -> Emails**. The **Email settings** link on the Webhooks page opens it.
 
 An endpoint that answers some requests and fails others stays on: any successful queued delivery after the failing delivery was created keeps it active. A successful **Send test** does not.
 
@@ -842,18 +893,18 @@ Events that happened while the endpoint was off were never queued, so they canno
 
 ### Resend one delivery
 
-Open a delivery in the delivery log on **ArraySubs -> Audits -> Webhooks** and click **Resend**. This works for **Delivered** and **Failed** deliveries of an active endpoint, but not for test pings. The resend keeps the same delivery ID, payload and `id`, starts again at attempt 1 and follows the normal retry schedule.
+Open a delivery in the delivery log on **ArraySubs -> Audit Logs -> Webhooks** and click **Resend**. This works for **Delivered** and **Failed** deliveries of an active endpoint, but not for test pings. The resend keeps the same delivery ID, payload and `id`, starts again at attempt 1 and follows the normal retry schedule.
 
 ### When the module is switched off
 
-Switching off **Webhooks** in **ArraySubs -> Modules** stops all queueing, hides **Settings -> Webhooks**, **Audits -> Webhooks** and their REST routes, and stops the switch-off email. Deliveries already waiting fail with "Not sent: the Webhooks module is switched off." when their job runs. Endpoints, secrets, the delivery log and the attempt history are kept. Switch the module back on, then use **Resend failed** on each endpoint.
+Switching off **Webhooks** in **ArraySubs -> Modules** stops all queueing, hides **ArraySubs -> Webhooks**, **Audit Logs -> Webhooks** and their REST routes, and stops the switch-off email. Deliveries already waiting fail with "Not sent: the Webhooks module is switched off." when their job runs. Endpoints, secrets, the delivery log and the attempt history are kept. Switch the module back on, then use **Resend failed** on each endpoint.
 
 ## Webhook Audit Page
 
-The audit page shows whether your receivers get their events, how fast they answer and what went wrong when they did not. Open it from **ArraySubs -> Audits -> Webhooks**.
+The audit page shows whether your receivers get their events, how fast they answer and what went wrong when they did not. Open it from **ArraySubs -> Audit Logs -> Webhooks**.
 
-- **In the menu.** **Webhooks** is listed under **Audits** while both the Audits and the Webhooks modules are on.
-- **When the Audits module is off.** The whole **Audits** menu is hidden, but the page still works. Open **ArraySubs -> Settings -> Webhooks** and click **Open webhook audit** in the **Delivery audit** card, or click **View deliveries** on an endpoint.
+- **In the menu.** **Webhooks** is listed under **Audit Logs** while both the Audits and the Webhooks modules are on.
+- **When the Audit Logs module is off.** The whole **Audit Logs** menu is hidden, but the page still works. Open **ArraySubs -> Webhooks -> How-to** and click **Open webhook audit** in the **Delivery audit** card, or click **View deliveries** on an endpoint.
 - **When the Webhooks module is off.** The page shows a notice that the module is switched off instead of the numbers.
 - **Who can open it.** Users with `manage_woocommerce` or `manage_options`.
 
@@ -862,7 +913,7 @@ The audit page shows whether your receivers get their events, how fast they answ
 | Control | What it does |
 | --- | --- |
 | **Range** | **Last 7 days**, **Last 30 days** (the default) or **Last 90 days**. Days start at midnight in the site's timezone (**Settings -> General** in WordPress), and today is the last day of the range. |
-| **Endpoint** | **All endpoints**, or one endpoint. **View deliveries** on **Settings -> Webhooks** opens the page with that endpoint already selected. |
+| **Endpoint** | **All endpoints**, or one endpoint. **View deliveries** on **ArraySubs -> Webhooks** opens the page with that endpoint already selected. |
 | **Include test sends** | Off by default, so **Send test** pings do not change your numbers. Turn it on to count them too. |
 | **Refresh** | Loads the numbers again. |
 
@@ -916,7 +967,7 @@ The bottom of the page is the delivery log, described in the next section.
 
 ## Delivery Log and Data Retention
 
-The delivery log is the last section of **ArraySubs -> Audits -> Webhooks**. It lists deliveries newest first, 20 per page, for the endpoint chosen at the top of the page (or all endpoints), whatever the range. Filter it further by status or event, move between pages with **Previous** and **Next**, and click **Refresh** at the top of the page to update it. **Settings -> Webhooks** keeps each endpoint's last delivery in its row and links to the log with **Open webhook audit** and **View deliveries**.
+The delivery log is the last section of **ArraySubs -> Audit Logs -> Webhooks**. It lists deliveries newest first, 20 per page, for the endpoint chosen at the top of the page (or all endpoints), whatever the range. Filter it further by status or event, move between pages with **Previous** and **Next**, and click **Refresh** at the top of the page to update it. **ArraySubs -> Webhooks** keeps each endpoint's last delivery in its row and links to the log with **Open webhook audit** and **View deliveries**.
 
 | Status | Meaning |
 | --- | --- |
@@ -946,7 +997,7 @@ Retention and privacy:
 - **No credentials in URLs.** A URL with a user name or password is refused. Use the signature, or add an `Authorization` header with `arraysubspro_webhook_request_args` (see [Developer Hooks](#developer-hooks)).
 - **Redirects are not followed.** A redirect cannot move a request to another host.
 - **Secrets.** Every endpoint gets its own random secret. It is shown only to store managers, and the routes that reveal or rotate it send `Cache-Control: no-store`. Rotate it from the endpoint's edit window if it may have leaked; the old secret keeps working for 24 hours so you can update your receiver.
-- **Admin only.** The Webhooks tab, the webhook audit page and their REST routes need a logged-in user with `manage_woocommerce` or `manage_options`.
+- **Admin only.** The Webhooks page, the webhook audit page and their REST routes need a logged-in user with `manage_woocommerce` or `manage_options`.
 - **Verify every request.** Anyone who knows your receiver URL can send it requests. Check the signature and the timestamp before you act, as shown in [Verify the Signature](#verify-the-signature).
 
 ## Developer Hooks
@@ -962,6 +1013,7 @@ These hooks run while ArraySubs Pro is active with its license and the Webhooks 
 ### arraysubspro_webhook_events
 
 ```text
+// Add event keys to the selectable catalog; registering a name alone does not dispatch events.
 apply_filters( 'arraysubspro_webhook_events', array $events )
 ```
 
@@ -976,6 +1028,7 @@ apply_filters( 'arraysubspro_webhook_events', array $events )
 ### arraysubspro_webhook_payload
 
 ```text
+// Extend the payload before signing; preserve its identity and avoid leaking private source data.
 apply_filters( 'arraysubspro_webhook_payload', array $payload, string $event_key, array $source )
 ```
 
@@ -993,15 +1046,18 @@ apply_filters( 'arraysubspro_webhook_payload', array $payload, string $event_key
 <?php
 // Add the customer's membership level, and drop phone numbers from every webhook.
 add_filter( 'arraysubspro_webhook_payload', function ( $payload, $event_key, $source ) {
+	// Preserve unexpected values so this example does not replace another filter's result.
 	if ( ! is_array( $payload ) ) {
 		return $payload;
 	}
 
+	// Enrich the queued event once; this same body goes to every subscribed endpoint.
 	$user_id = (int) ( $payload['data']['details']['user_id'] ?? 0 );
 	if ( $user_id > 0 ) {
 		$payload['data']['details']['membership_level'] = (string) get_user_meta( $user_id, 'example_membership_level', true );
 	}
 
+	// Remove a field that receivers do not need before the payload is signed.
 	unset( $payload['data']['subscription']['billing']['phone'] );
 
 	return $payload;
@@ -1011,6 +1067,7 @@ add_filter( 'arraysubspro_webhook_payload', function ( $payload, $event_key, $so
 ### arraysubspro_webhook_should_send
 
 ```text
+// Return false to skip this endpoint's delivery; preserve earlier decisions for other endpoints.
 apply_filters( 'arraysubspro_webhook_should_send', bool $send, string $event_key, array $endpoint, array $payload )
 ```
 
@@ -1028,10 +1085,12 @@ apply_filters( 'arraysubspro_webhook_should_send', bool $send, string $event_key
 <?php
 // Send only USD subscriptions to the endpoint named "US CRM".
 add_filter( 'arraysubspro_webhook_should_send', function ( $send, $event_key, $endpoint, $payload ) {
+	// Leave other endpoints and any earlier filter decision unchanged.
 	if ( 'US CRM' !== ( $endpoint['name'] ?? '' ) ) {
 		return $send;
 	}
 
+	// Returning false prevents this endpoint's delivery from being queued.
 	return $send && 'USD' === ( $payload['data']['details']['currency'] ?? '' );
 }, 10, 4 );
 ```
@@ -1039,6 +1098,7 @@ add_filter( 'arraysubspro_webhook_should_send', function ( $send, $event_key, $e
 ### arraysubspro_webhook_request_args
 
 ```text
+// Customize the HTTP request for one receiver while keeping ArraySubs signature headers intact.
 apply_filters( 'arraysubspro_webhook_request_args', array $args, array $delivery, array $endpoint )
 ```
 
@@ -1056,7 +1116,9 @@ apply_filters( 'arraysubspro_webhook_request_args', array $args, array $delivery
 <?php
 // Add a bearer token for one receiver. Define EXAMPLE_HOOKS_TOKEN in wp-config.php.
 add_filter( 'arraysubspro_webhook_request_args', function ( $args, $delivery, $endpoint ) {
+	// Scope this extra credential to your receiver's HTTPS host and path prefix.
 	if ( defined( 'EXAMPLE_HOOKS_TOKEN' ) && 0 === strpos( (string) ( $endpoint['delivery_url'] ?? '' ), 'https://hooks.example.com/' ) ) {
+		// Keep existing headers; add Authorization alongside ArraySubs' signature headers.
 		$args['headers']                  = is_array( $args['headers'] ?? null ) ? $args['headers'] : [];
 		$args['headers']['Authorization'] = 'Bearer ' . EXAMPLE_HOOKS_TOKEN;
 	}
@@ -1068,6 +1130,7 @@ add_filter( 'arraysubspro_webhook_request_args', function ( $args, $delivery, $e
 ### arraysubspro_webhook_retry_delays
 
 ```text
+// Return delay intervals in seconds between attempts; these are not absolute timestamps.
 apply_filters( 'arraysubspro_webhook_retry_delays', int[] $delays )
 ```
 
@@ -1076,12 +1139,13 @@ apply_filters( 'arraysubspro_webhook_retry_delays', int[] $delays )
 | 1 | `$delays` | int[] | Seconds to wait before attempts 2, 3 and so on. Default `[60, 300, 1800, 7200, 21600]`. |
 
 - **Return:** 1 to 9 positive whole numbers. Anything else falls back to the default.
-- The number of attempts is the number of delays plus one, so the default gives 6 attempts. The switch-off rule, the email and the Webhooks tab follow the filtered values.
+- The number of attempts is the number of delays plus one, so the default gives 6 attempts. The switch-off rule, the email and the Webhooks page follow the filtered values.
 
 ```php
 <?php
 // Retry for about 20 hours: 5 minutes, 30 minutes, 2 hours, 6 hours, 12 hours.
 add_filter( 'arraysubspro_webhook_retry_delays', function () {
+	// Each value is a delay in seconds before the next attempt, not an absolute time.
 	return [ 300, 1800, 7200, 21600, 43200 ];
 } );
 ```
@@ -1089,6 +1153,7 @@ add_filter( 'arraysubspro_webhook_retry_delays', function () {
 ### arraysubspro_webhook_log_retention_days
 
 ```text
+// Return how many days of delivery logs to retain.
 apply_filters( 'arraysubspro_webhook_log_retention_days', int $days )
 ```
 
@@ -1102,6 +1167,7 @@ apply_filters( 'arraysubspro_webhook_log_retention_days', int $days )
 ### arraysubspro_webhooks_max_endpoints
 
 ```text
+// Return the endpoint limit for this site.
 apply_filters( 'arraysubspro_webhooks_max_endpoints', int $max )
 ```
 
@@ -1114,16 +1180,17 @@ apply_filters( 'arraysubspro_webhooks_max_endpoints', int $max )
 ### arraysubspro_webhooks_allow_insecure_urls
 
 ```text
+// Keep HTTPS as the default; any local-development exception should be narrowly scoped.
 apply_filters( 'arraysubspro_webhooks_allow_insecure_urls', bool $allow, string $url )
 ```
 
 | # | Parameter | Type | Description |
 | --- | --- | --- | --- |
 | 1 | `$allow` | bool | `true` when `wp_get_environment_type()` is `local` or `development`. |
-| 2 | `$url` | string | The delivery URL being checked or sent to, or `''` when the Settings screen asks the site-wide question. |
+| 2 | `$url` | string | The delivery URL being checked or sent to, or `''` when the Webhooks page asks the site-wide question. |
 
 - **Return:** `true` to allow plain `http` and private or loopback addresses, on any port, for this URL. It is checked when the endpoint is saved and on every send. When it stops returning `true` for a saved `http` URL, sends to that URL are refused with a not-sent error.
-- **Settings screen.** The endpoint form does not block `http` URLs itself. It sends them to the server, which runs this filter for that exact URL, so a per-URL allowance works when you save from **Settings -> Webhooks**. The form adds the note "Local or development site: http and private network URLs are allowed." only when the filter returns `true` for `''`; the endpoint list route returns the same answer as `environment.allows_insecure_urls`.
+- **Webhooks page.** The endpoint form does not block `http` URLs itself. It sends them to the server, which runs this filter for that exact URL, so a per-URL allowance works when you save from **ArraySubs -> Webhooks**. The form adds the note "Local or development site: http and private network URLs are allowed." only when the filter returns `true` for `''`; the endpoint list route returns the same answer as `environment.allows_insecure_urls`.
 - Never return `true` for every URL on a live store. Allow only the exact receiver you need, for example on a staging server.
 
 ```php
@@ -1131,6 +1198,7 @@ apply_filters( 'arraysubspro_webhooks_allow_insecure_urls', bool $allow, string 
 // Staging only: allow one internal receiver. For the site-wide question ($url is '')
 // this returns the default, so the form shows no local-site note.
 add_filter( 'arraysubspro_webhooks_allow_insecure_urls', function ( $allow, $url ) {
+	// Keep an existing allowance and add only this staging host, port and path prefix.
 	return $allow || 0 === strpos( (string) $url, 'http://receiver.staging.internal:8080/' );
 }, 10, 2 );
 ```
@@ -1138,6 +1206,7 @@ add_filter( 'arraysubspro_webhooks_allow_insecure_urls', function ( $allow, $url
 ### arraysubspro_webhook_delivered
 
 ```text
+// Listen after a successful HTTP delivery; use scalar identifiers for your own queued work.
 do_action( 'arraysubspro_webhook_delivered', array $delivery, array $endpoint, array $result )
 ```
 
@@ -1152,6 +1221,7 @@ do_action( 'arraysubspro_webhook_delivered', array $delivery, array $endpoint, a
 ### arraysubspro_webhook_delivery_failed
 
 ```text
+// Check final before escalating: false means another delivery attempt may still follow.
 do_action( 'arraysubspro_webhook_delivery_failed', array $delivery, array $endpoint, array $result, bool $final )
 ```
 
@@ -1168,10 +1238,12 @@ do_action( 'arraysubspro_webhook_delivery_failed', array $delivery, array $endpo
 <?php
 // Write final failures to the WooCommerce log, without the payload.
 add_action( 'arraysubspro_webhook_delivery_failed', function ( $delivery, $endpoint, $result, $final ) {
+	// Ignore intermediate failures that will retry, and skip logging if WooCommerce is absent.
 	if ( ! $final || ! function_exists( 'wc_get_logger' ) ) {
 		return;
 	}
 
+	// Log identifiers and the error, not the customer's payload or the signing secret.
 	wc_get_logger()->warning(
 		sprintf(
 			'Webhook %s for endpoint #%d failed after %d attempts: %s',
@@ -1188,6 +1260,7 @@ add_action( 'arraysubspro_webhook_delivery_failed', function ( $delivery, $endpo
 ### arraysubspro_webhook_endpoint_disabled
 
 ```text
+// Listen when repeated failures automatically switch an endpoint off.
 do_action( 'arraysubspro_webhook_endpoint_disabled', array $endpoint, array $delivery )
 ```
 
@@ -1201,6 +1274,7 @@ do_action( 'arraysubspro_webhook_endpoint_disabled', array $endpoint, array $del
 ### arraysubspro_send_webhook_event()
 
 ```text
+// Supply a stable event_id to identify the business event; inspect the queued count or WP_Error.
 arraysubspro_send_webhook_event( string $event, array $data = [], int $subscription_id = 0, string $event_id = '' ): int|WP_Error
 ```
 
@@ -1237,6 +1311,7 @@ Send events from your own plugin to the same endpoints, with the same signing, r
  */
 defined( 'ABSPATH' ) || exit;
 
+// Register this custom key so it can be selected in an endpoint's Events field.
 add_filter( 'arraysubspro_webhook_events', function ( $events ) {
 	$events = is_array( $events ) ? $events : [];
 
@@ -1257,6 +1332,7 @@ function example_announce_points( int $award_id, int $user_id, int $points, int 
 		return; // ArraySubs Pro is not active.
 	}
 
+	// Queue only after saving the points; pass flat event data and a stable operation ID.
 	$queued = arraysubspro_send_webhook_event(
 		'acme.points_awarded',
 		[
@@ -1282,7 +1358,7 @@ function example_announce_points( int $award_id, int $user_id, int $points, int 
 
 ## Manage Endpoints with the REST API
 
-The Webhooks tab and the webhook audit page use these routes in the `arraysubs/v1` namespace. They need a logged-in user with `manage_woocommerce` or `manage_options`, for example through an application password, or a cookie plus the `X-WP-Nonce` header. Successful responses are `{ "code", "message", "content" }`; errors are `{ "code", "message", "data": { "status" } }`.
+The Webhooks page and the webhook audit page use these routes in the `arraysubs/v1` namespace. They need a logged-in user with `manage_woocommerce` or `manage_options`, for example through an application password, or a cookie plus the `X-WP-Nonce` header. Successful responses are `{ "code", "message", "content" }`; errors are `{ "code", "message", "data": { "status" } }`.
 
 | Method and route | What it does |
 | --- | --- |
@@ -1305,6 +1381,8 @@ The Webhooks tab and the webhook audit page use these routes in the `arraysubs/v
 ### Attempt history
 
 `attempts_log` in the single delivery response lists the recorded attempts of that delivery, oldest first (at most the 200 most recent):
+
+**Response notes:** these rows are attempts for the same delivery. The first received HTTP 503; the retry received HTTP 200. They do not represent two separate business events.
 
 ```json
 {
@@ -1336,6 +1414,7 @@ The Webhooks tab and the webhook audit page use these routes in the `arraysubs/v
 ### Delivery statistics
 
 ```text
+// Authenticated admin request: choose the reporting period, endpoint filter and whether to include test pings.
 GET /wp-json/arraysubs/v1/webhook-deliveries/stats?days=30&endpoint_id=0&include_tests=0
 ```
 
@@ -1346,6 +1425,8 @@ GET /wp-json/arraysubs/v1/webhook-deliveries/stats?days=30&endpoint_id=0&include
 | `include_tests` | bool | `false` | Also count **Send test** pings. |
 
 Example `content` for the last 7 days, on a site whose timezone is UTC:
+
+**Response notes:** `requests` counts HTTP attempts, including retries. A delivery is one event sent to one endpoint, so several requests can belong to one delivery. The range and test settings determine what the totals include.
 
 ```json
 {
@@ -1444,6 +1525,7 @@ Percentages are JSON numbers, so `100.0` arrives as `100`.
 1. Mark your test site as local or development in `wp-config.php`, above the "That's all, stop editing!" line:
 
    ```php
+   // Local development only: this enables HTTP and private receiver URLs.
    define( 'WP_ENVIRONMENT_TYPE', 'local' );
    ```
 
@@ -1453,6 +1535,7 @@ Percentages are JSON numbers, so `100.0` arrives as `100`.
 3. Save the [PHP receiver](#php) as `receiver.php` and start it with PHP's built-in server, passing that secret:
 
    ```text
+   # Replace whsec_... with the full secret copied from the endpoint.
    ARRAYSUBS_WEBHOOK_SECRET='whsec_...' php -S 127.0.0.1:8899 receiver.php
    ```
 
@@ -1460,10 +1543,11 @@ Percentages are JSON numbers, so `100.0` arrives as `100`.
 5. Change a test subscription, for example pause and resume it, then run the webhook jobs at once instead of waiting for WP-Cron:
 
    ```text
+   # Process this module's queued deliveries now, instead of waiting for WP-Cron.
    wp action-scheduler run --group=arraysubs-webhooks
    ```
 
-6. Stop the receiver and change the subscription again to watch the retries in the delivery log on **ArraySubs -> Audits -> Webhooks**. Turn on **Include test sends** there to count your test pings in the numbers.
+6. Stop the receiver and change the subscription again to watch the retries in the delivery log on **ArraySubs -> Audit Logs -> Webhooks**. Turn on **Include test sends** there to count your test pings in the numbers.
 
 If WordPress runs inside Docker or a virtual machine, `127.0.0.1` points at that container, not your computer. Use an address the container can reach. On a staging server with a public URL, use HTTPS and a real receiver instead of the local allowance.
 
@@ -1530,7 +1614,7 @@ The exact wording of network errors comes from WordPress and your server's HTTP 
 
 | Problem | Likely cause | What to do |
 | --- | --- | --- |
-| **Settings -> Webhooks** is missing | The Webhooks module is off, ArraySubs Pro is not licensed, or your user cannot manage the store | Check **ArraySubs -> Modules** and the license, and use an administrator or shop manager account. |
+| **ArraySubs -> Webhooks** is missing | The Webhooks module is off, ArraySubs Pro is not licensed, or your user cannot manage the store | Check **ArraySubs -> Modules** and the license, and use an administrator or shop manager account. |
 | The URL is refused when saving | It is not HTTPS, contains a user name or password, or points to a private address or an unusual port | Use a public HTTPS URL. On a local site, set `WP_ENVIRONMENT_TYPE` to `local`. |
 | Deliveries stay **Pending** | Action Scheduler is not running | Check **WooCommerce -> Status -> Scheduled Actions** for pending `arraysubs_deliver_webhook` jobs, and set up a server cron. |
 | No delivery appears for an event | The endpoint is paused or switched off, the event is not ticked, it is a custom event that is not ticked (**Send all events** leaves custom events out), or `arraysubspro_webhook_should_send` skipped it | Edit the endpoint and check its status and events. |
@@ -1541,7 +1625,7 @@ The exact wording of network errors comes from WordPress and your server's HTTP 
 | No switch-off email arrived | The email is disabled or goes to another address | Check **[ArraySubsPro] Webhook Endpoint Switched Off (Admin)** in the email settings. |
 | Store credit events never arrive | The Store Credit module is off, or the endpoint does not include `store_credit.*` events | Switch on Store Credit and tick the events. |
 | Many **Skipped** attempts in the log | The endpoint kept failing, so ArraySubs slowed requests down | Expected while the receiver is down. Fix it and the next retries go through. |
-| **Audits -> Webhooks** is missing from the menu | The Audits module is off, which hides the whole Audits menu, or the Webhooks module is off | Open **Settings -> Webhooks** and click **Open webhook audit**. If **Settings -> Webhooks** is missing too, switch on the Webhooks module. |
+| **Audit Logs -> Webhooks** is missing from the menu | The Audit Logs module is off, which hides the whole Audit Logs menu, or the Webhooks module is off | Open **ArraySubs -> Webhooks** and click **Open webhook audit**. If **ArraySubs -> Webhooks** is missing too, switch on the Webhooks module. |
 | The success rate is low, but every event arrived | The rate counts requests, and retries before a success count as failed requests | Check **First-try success** and the **Failed** column of the **Events** table. |
 | **Last 90 days** shows the same numbers as **Last 30 days** | Attempts and deliveries are kept for 30 days by default | Raise `arraysubspro_webhook_log_retention_days`. Older data that was already deleted does not come back. |
 | The numbers do not include **Send test** pings | Test sends are left out by default | Turn on **Include test sends**. |
@@ -1584,7 +1668,7 @@ One delivery failed all six attempts over about 8.6 hours, and no other queued d
 
 ### Where can I see how many webhooks succeeded?
 
-Open **ArraySubs -> Audits -> Webhooks**. It shows requests sent, successful and failed requests, the success rate, response times, requests per day, tables per endpoint and per event, response codes, the most frequent errors and the delivery log with every attempt. See [Webhook Audit Page](#webhook-audit-page).
+Open **ArraySubs -> Audit Logs -> Webhooks**. It shows requests sent, successful and failed requests, the success rate, response times, requests per day, tables per endpoint and per event, response codes, the most frequent errors and the delivery log with every attempt. See [Webhook Audit Page](#webhook-audit-page).
 
 ### Can I change the retry schedule or the log retention?
 

@@ -1,18 +1,16 @@
 # Info
 - Module: Audits and Logs
-- Availability: Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Activity Audits
 
 > A searchable, filterable log of every action taken across your subscription store — by admins, customers, the system, or payment gateways.
 
-**Availability:** Pro
 
 ## Page Navigation
 
 - **Current guide:** Activity Audits
-- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audit Logs -> Activities
 - **Direct route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/audits/activity-audits`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [access-rule-conflicts](./access-rule-conflicts.md)
@@ -33,7 +31,7 @@ Use this screen when you need to:
 
 ## How to Access
 
-Navigate to **ArraySubs → Audits [beta] → Activity Audits**.
+Navigate to **ArraySubs → Audit Logs → Activities**.
 
 The page requires the Pro plugin to be active. Without Pro, a placeholder message appears.
 

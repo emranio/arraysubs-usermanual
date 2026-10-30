@@ -1,13 +1,11 @@
 # Info
 - Module: Customer Emails
-- Availability: Free (21 core customer email classes; triggers depend on the configured features and gateway)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-30
 
 # Customer Emails
 
 > Twenty-one core customer email classes cover signup, billing, trials, cancellations, skip and pause changes, retention discounts, saved-card expiry, and renewal verification.
 
-**Availability:** Free (21 core customer email classes). Retention Discount Accepted needs Pro's Cancellation Flow; card-expiry and Stripe verification emails do not require ArraySubs Pro.
 
 ## Page Navigation
 
@@ -776,7 +774,7 @@ A fixed-length 12-month subscription nearing expiration sends the **Subscription
 - [FlowMattic Integration](../integrations/flowmattic.md) - Build workflows from successful and failed email send results. A successful send means mail-service acceptance, not inbox delivery. Disabled emails and other paths that stop before sending emit no result.
 - [Actions and Filters](../developers/actions-and-filters.md) - Developer hooks for email send outcomes.
 - [Admin Emails](admin-emails.md) — Admin notification emails for new subscriptions, payment failures, and cancellations.
-- [Store Credit Emails](store-credit-emails.md) — Store Credit notification emails *(Pro)*.
+- [Store Credit Emails](store-credit-emails.md) — Store Credit notification emails.
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — Subscription status transitions that trigger these emails.
 - [Billing and Renewals](../settings/general-settings.md) — Renewal and grace period settings that affect billing emails.
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Member Insight
-- Availability: Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Member Commerce Overview
 
 > Review a customer's subscription history, non-subscription purchases, store credit balance, and saved addresses — all within the member profile.
 
-**Availability:** Pro
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Profile Builder and My Account Customization
-- Availability: Pro (Profile Form, My Account Editor); Shortcodes stays Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Profile Builder and My Account Customization
 
 > Collect custom profile data from customers, let them upload avatars, rearrange the My Account menu, add custom pages, and use shortcodes to display user-specific content anywhere on your site.
 
-**Availability:** Profile Form and My Account Editor require **ArraySubs Pro**. The Shortcodes catalog itself stays **Free** (one shortcode, store-credit purchase, requires Pro).
 
 ## Page Navigation
 
@@ -26,8 +24,8 @@ The Profile Builder area in ArraySubs gives you three sets of tools under one me
 
 | Tool | What It Does |
 |------|-------------|
-| **Profile Form** *(Pro)* | Create custom profile fields and avatar upload for customer accounts and admin user profiles |
-| **My Account Editor** *(Pro)* | Reorder, rename, hide, or add custom pages to the WooCommerce My Account navigation menu |
+| **Profile Form** | Create custom profile fields and avatar upload for customer accounts and admin user profiles |
+| **My Account Editor** | Reorder, rename, hide, or add custom pages to the WooCommerce My Account navigation menu |
 | **Shortcodes** | Use shortcodes to show login/logout links, user info, visibility-gated content, and subscription-restricted content on any page |
 
 ## Where to Find It
@@ -58,8 +56,8 @@ Custom code can find a customer by account email, username, user ID, subscriptio
 
 ## Guides in This Section
 
-- [Profile Form](profile-form.md) *(Pro)* — Custom fields, avatar settings, field types, and where data appears
-- [My Account Editor](my-account-editor.md) *(Pro)* — Menu customization, custom endpoint pages, and Pro feature integration
+- [Profile Form](profile-form.md) — Custom fields, avatar settings, field types, and where data appears
+- [My Account Editor](my-account-editor.md) — Menu customization, custom endpoint pages, and Pro feature integration
 - [Shortcodes](../shortcodes/README.md) — All available shortcodes with attributes, examples, and use cases
 
 ---
@@ -68,5 +66,5 @@ Custom code can find a customer by account email, username, user ID, subscriptio
 
 - [Customer Portal](../customer-portal/README.md) — How customers interact with subscriptions in My Account
 - [Settings — Toolkit](../settings/toolkit-settings.md) — Login page hiding, admin bar, and wp-admin access settings
-- [Store Credit](../store-credit/README.md) — Store Credit My Account page *(Pro)*
+- [Store Credit](../store-credit/README.md) — Store Credit My Account page
 - [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) - Developer reference for customer lookups and validated profile field updates

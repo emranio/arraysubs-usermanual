@@ -1,13 +1,11 @@
 # Info
 - Module: Customer Portal Pages
-- Availability: Shared
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Customer Portal Pages
 
 > A guide to every page your customers see in the My Account subscription area — the subscription list, the subscription detail view, the My Features page, and the Store Credit page.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -248,7 +246,7 @@ Each note shows:
 
 ---
 
-## My Features Page **Pro**
+## My Features Page
 
 With the Pro plugin's **Feature Manager** active, eligible customers see a **My Features** tab in their My Account navigation.
 
@@ -297,7 +295,7 @@ For the complete Feature Manager guide — including product setup, all settings
 
 ---
 
-## Store Credit Page **Pro**
+## Store Credit Page
 
 With the Pro plugin's **Store Credit** feature active, customers see a **Store Credit** tab in their My Account navigation.
 

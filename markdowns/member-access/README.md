@@ -1,13 +1,11 @@
 # Info
 - Module: Member Access and Restrictions
-- Availability: Shared (Login Limit requires Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Member Access and Restrictions
 
 > Control who can see, download, and purchase content on your site — using flexible rules tied to subscription status, purchase history, roles, spending thresholds, and feature entitlements.
 
-**Availability:** Free — Login Limit rules require **Pro**
 
 ## Page Navigation
 
@@ -67,7 +65,7 @@ Every rule type uses the same set of conditions. You can mix and match these acr
 | **Purchased Variation** | User has purchased a specific product variation |
 | **Purchased from Category/Tag** | User has purchased from a given product category or tag |
 | **Lifetime Purchase Amount** | User's total spend meets a threshold (`>=`, `>`, `=`, `<`, `<=`) |
-| **Feature Value** *(Pro)* | User's Feature Manager entitlement value meets a threshold (with `sum`, `max`, or `any` aggregation across subscriptions) |
+| **Feature Value** | User's Feature Manager entitlement value meets a threshold (with `sum`, `max`, or `any` aggregation across subscriptions) |
 | **User Role** | User has one of the specified WordPress roles |
 
 Conditions support **AND/OR logic** at the top level, and you can create **condition groups** with their own AND/OR logic for complex nested requirements. For example: "Has Active Subscription to Product A **AND** (Lifetime Spend >= $500 **OR** User Role is VIP)."
@@ -130,7 +128,7 @@ These pages mirror the actual tabs in the plugin UI:
 - [Comments](comments.md) — Hide comments, block posting, or separate reading from reply access.
 - [Purchase Limit](purchase-limit.md) — Cap product or order quantities for matching or non-matching audiences.
 - [Conflicts](conflicts.md) — Review Members Access rules that overlap higher-priority per-post restrictions.
-- [Login Limit](login-limit.md) *(Pro)* — Related concurrent-session controls managed by the Pro extension.
+- [Login Limit](login-limit.md) — Related concurrent-session controls managed by the Pro extension.
 
 ## Restricting a Single Post or Page
 

@@ -1,7 +1,6 @@
 # Info
 - Module: Analytics & Reports
-- Availability: Shared (Free + Pro)
-- Last updated: 2026-09-14
+- Last updated: 2026-10-30
 
 # Analytics & Reports
 
@@ -13,9 +12,9 @@ Start with [Home](home.md), the ArraySubs landing page, for setup shortcuts and 
 
 The dedicated reports add three levels of detail:
 
-1. **Reports Hub** (Free) — A central directory page inside the ArraySubs admin that links to the reports and data screens in the ecosystem, organized by category.
-2. **AI Reports** (Free) — Two reports under WooCommerce Analytics that score churn risk per subscriber and project recurring revenue forward, each with an optional AI-written analysis layer.
-3. **Advanced Analytics** (Pro) — A full subscription performance dashboard and extended WooCommerce Analytics reports with subscription-specific filters, columns, and metrics.
+1. **Reports Hub** — A central directory page inside the ArraySubs admin that links to the reports and data screens in the ecosystem, organized by category.
+2. **AI Reports** — Two reports under WooCommerce Analytics that score churn risk per subscriber and project recurring revenue forward, each with an optional AI-written analysis layer.
+3. **Advanced Analytics** — A full subscription performance dashboard and extended WooCommerce Analytics reports with subscription-specific filters, columns, and metrics.
 
 Together they answer the questions every subscription merchant asks daily:
 
@@ -30,17 +29,17 @@ Together they answer the questions every subscription merchant asks daily:
 
 The analytics ecosystem has nine major surfaces:
 
-| Surface | Where it appears | Availability | What it shows |
-|---------|-----------------|-------------|---------------|
-| [Home](home.md) | ArraySubs → Home | Free + Pro | Setup checklist and shortcuts, MRR, subscriber movement, status mix, Action Center, and renewal outlook; Pro adds report cards and guidance |
-| [Reports Hub](reports-hub.md) | ArraySubs → Reports | Free | Central directory of 40+ report links organized into 13 categories |
-| [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | Pro | 10 KPI cards, 6 time-series charts, 5 leaderboards |
-| [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Pro | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
-| [Refund Analytics](../refund-analytics/README.md) | WooCommerce → Analytics → Refunds | Pro | Refund KPIs, per-currency totals, refund trend, subscription vs one-time split, top products, reasons, customers, elapsed-time histogram |
-| [AI Churn Analysis](ai-churn-analysis.md) | WooCommerce → Analytics → Churn Analysis | Free | Per-subscriber churn risk scores and bands, revenue at risk, AI reasons and recommended actions |
-| [AI Revenue Forecast](ai-revenue-forecast.md) | WooCommerce → Analytics → Revenue Forecast | Free | MRR/ARR snapshot, 12 months of collected revenue, subscriber movement, billing mix, AI projection |
-| [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Pro | Type column, type filters, subscription revenue cards, subscription-only filters, subscription status column and filter, member links |
-| [Order List Enhancements](order-list-enhancements.md) | WooCommerce → Orders | Pro | Type and coupon columns, type/coupon filters, AJAX product search, subscription-only shortcut, embedded report panel, order type backfill |
+| Surface | Where it appears | What it shows |
+| --------- | ----------------- | --------------- |
+| [Home](home.md) | ArraySubs → Home | Setup checklist and shortcuts, MRR, subscriber movement, status mix, Action Center, and renewal outlook; Pro adds report cards and guidance |
+| [Reports Hub](reports-hub.md) | ArraySubs → Reports | Central directory of 40+ report links organized into 13 categories |
+| [Subscription Performance Dashboard](subscription-performance.md) | WooCommerce → Analytics → Overview | 10 KPI cards, 6 time-series charts, 5 leaderboards |
+| [Retention Analytics](../retention-analytics/README.md) | WooCommerce → Analytics → Retention | Churn/retention KPIs, reason charts, offer effectiveness, trend analysis |
+| [Refund Analytics](../refund-analytics/README.md) | WooCommerce → Analytics → Refunds | Refund KPIs, per-currency totals, refund trend, subscription vs one-time split, top products, reasons, customers, elapsed-time histogram |
+| [AI Churn Analysis](ai-churn-analysis.md) | WooCommerce → Analytics → Churn Analysis | Per-subscriber churn risk scores and bands, revenue at risk, AI reasons and recommended actions |
+| [AI Revenue Forecast](ai-revenue-forecast.md) | WooCommerce → Analytics → Revenue Forecast | MRR/ARR snapshot, 12 months of collected revenue, subscriber movement, billing mix, AI projection |
+| [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) | WooCommerce → Analytics → Orders / Revenue / Products / Variations / Customers | Type column, type filters, subscription revenue cards, subscription-only filters, subscription status column and filter, member links |
+| [Order List Enhancements](order-list-enhancements.md) | WooCommerce → Orders | Type and coupon columns, type/coupon filters, AJAX product search, subscription-only shortcut, embedded report panel, order type backfill |
 
 ![Reports Hub overview](README.ASSETS/01-reports-hub-overview-annotated.png)
 
@@ -98,7 +97,7 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 ## Prerequisites
 
-- **ArraySubs** (free) for the Reports Hub, AI Churn Analysis, and AI Revenue Forecast
+- **ArraySubs** for the Reports Hub, AI Churn Analysis, and AI Revenue Forecast
 - **ArraySubs Pro** for Retention Analytics, the Subscription Performance Dashboard, WooCommerce Analytics Extension, and Order List Enhancements
 - **WooCommerce** 8.0+ with WooCommerce Admin (included by default)
 - At least one subscription product and a few orders to populate metrics
@@ -108,13 +107,13 @@ The **Subs Trial** classification is permanent. Even after a trial converts to a
 
 - [Home](home.md) — The ArraySubs landing page: setup checklist, product shortcuts, recurring revenue, movement, and subscriptions needing attention.
 - [Reports Hub](reports-hub.md) — The central directory page that links to the reports in the ArraySubs ecosystem.
-- [Subscription Performance Dashboard](subscription-performance.md) *(Pro)* — The overview page with KPI cards, charts, and leaderboards.
-- [Retention Analytics](../retention-analytics/README.md) *(Pro)* — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
-- [Refund Analytics](../refund-analytics/README.md) *(Pro)* — Refunded value by currency, refund trend, subscription vs one-time split, top refunded products, reasons and customers, and a time-to-refund histogram.
+- [Subscription Performance Dashboard](subscription-performance.md) — The overview page with KPI cards, charts, and leaderboards.
+- [Retention Analytics](../retention-analytics/README.md) — Churn rate, retention effectiveness, cancellation reasons, and trend charts.
+- [Refund Analytics](../refund-analytics/README.md) — Refunded value by currency, refund trend, subscription vs one-time split, top refunded products, reasons and customers, and a time-to-refund histogram.
 - [AI Churn Analysis](ai-churn-analysis.md) — Per-subscriber churn risk scoring, revenue at risk, and AI-written reasons and next steps.
 - [AI Revenue Forecast](ai-revenue-forecast.md) — MRR and ARR measurement, revenue and subscriber history, and an AI projection with a conservative-to-optimistic range.
-- [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) *(Pro)* — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data, including the Subscription Status column and filter on Customers.
-- [Order List Enhancements](order-list-enhancements.md) *(Pro)* — Columns, type/coupon filters, searchable product filtering, the subscription-only shortcut, and the summary panel on the WooCommerce Orders page.
+- [WooCommerce Analytics Extension](woocommerce-analytics-extension.md) — How the Orders, Revenue, Products, Variations, and Customers reports gain subscription data, including the Subscription Status column and filter on Customers.
+- [Order List Enhancements](order-list-enhancements.md) — Columns, type/coupon filters, searchable product filtering, the subscription-only shortcut, and the summary panel on the WooCommerce Orders page.
 
 ---
 

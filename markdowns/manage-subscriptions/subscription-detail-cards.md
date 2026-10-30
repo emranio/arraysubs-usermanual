@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Detail
-- Availability: Shared
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Subscription Detail Cards
 
 > A deep dive into every conditional information card on the subscription detail screen.
 
-**Availability:** Free (Cancellation, Skip & Pause, Coupon, Payment Gateway); Pro (Checkout Builder Fields, Subscription Shipping)
 
 ## Page Navigation
 
@@ -33,8 +31,8 @@ The detail screen is intentionally read-heavy. Use it when support needs to unde
 | [Skip & Pause](#skip-and-pause-card) | Always shown, but displays a disabled state if skip/pause features are turned off |
 | [Coupon Discount](#coupon-discount-card) | A coupon is applied to the subscription |
 | [Payment Gateway](#payment-gateway-card) | An automatic payment gateway is attached |
-| [Checkout Builder Fields](#checkout-builder-custom-fields-card) | The subscription has custom checkout fields (**Pro**) |
-| [Subscription Shipping](#subscription-shipping-card) | The subscription product requires shipping (**Pro**) |
+| [Checkout Builder Fields](#checkout-builder-custom-fields-card) | The subscription has custom checkout fields |
+| [Subscription Shipping](#subscription-shipping-card) | The subscription product requires shipping |
 
 ---
 
@@ -256,7 +254,7 @@ Detaching a gateway is not reversible from this screen. The customer would need 
 
 ---
 
-## Checkout Builder Custom Fields Card **Pro**
+## Checkout Builder Custom Fields Card
 
 This card appears when a subscription has custom fields captured through the **Checkout Builder** module. The Checkout Builder lets merchants add custom form fields to the checkout page.
 
@@ -284,7 +282,7 @@ This card only appears if the **Show on subscription detail** setting is enabled
 
 ---
 
-## Subscription Shipping Card **Pro**
+## Subscription Shipping Card
 
 This card appears when the subscription product requires shipping. It is part of the **Subscription Shipping** Pro module.
 

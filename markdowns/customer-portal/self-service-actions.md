@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Self-Service Actions
-- Availability: Shared
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Subscription Self-Service Actions
 
 > Everything a customer can do from the subscription detail page — cancel, undo a scheduled cancellation, accept retention offers, skip renewals, pause, resume, change plan, renew early, and reactivate.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -331,7 +329,6 @@ During a pause, renewal processing is suspended. No invoices are created and no 
 
 Early Renew lets customers pay their next renewal **before** its scheduled due date, straight from the subscription detail page. It suits prepaid access, expiring budgets, account cleanup, or customers who simply want to keep a subscription current ahead of time.
 
-**Availability:** Pro
 
 ![Renew Early button in the Renewals row](self-service-actions.ASSETS/07-early-renew-action-original.png)
 

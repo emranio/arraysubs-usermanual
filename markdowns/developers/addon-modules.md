@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-31
 
 # Extend ArraySubs with a Module
 
 > Add your addon to the ArraySubs Modules screen, honor its on/off switch in your own code, boot at the right moment, and check the ArraySubs features your addon depends on.
 
-**Availability:** Core (Free). The Modules screen, its filters and actions, the switch helpers and the boot hooks ship with ArraySubs core. Only the `arraysubs_module_myaccount_endpoints` filter is read by ArraySubs Pro (its My Account Editor). ArraySubs features your addon calls, such as Store Credit, can need ArraySubs Pro with an active license.
 
 ## Page Navigation
 
@@ -29,7 +27,7 @@ ArraySubs never starts or stops addon code. Your addon reads its switch with `ar
 - You ship an addon plugin and want merchants to switch it on and off next to the built-in modules.
 - Your addon sells its own WooCommerce product type that should go off sale while the addon is off.
 - Your addon must clean up, for example stop a scheduled job, when a merchant switches it off.
-- Your addon calls an ArraySubs feature that can be missing or switched off, such as Store Credit (Pro).
+- Your addon calls an ArraySubs feature that can be missing or switched off, such as Store Credit.
 
 Do not use a module for per-member or per-plan limits. A module switch is store-wide; per-plan values are Feature Manager features (see [Read and Update Feature Data](./feature-manager.md)).
 
@@ -73,6 +71,7 @@ Do not use a module for per-member or per-plan limits. A module switch is store-
 ### `arraysubs_modules` filter
 
 ```text
+// Add your module by ID and return the complete declarations array.
 apply_filters( 'arraysubs_modules', array $modules ): array
 ```
 
@@ -105,6 +104,7 @@ Text values pass through `sanitize_text_field()` and URLs through `esc_url_raw()
 
 ```php
 <?php
+// Declare the card under your unique module ID. This registers the card, not the addon code.
 add_filter(
 	'arraysubs_modules',
 	static function ( array $modules ): array {
@@ -124,15 +124,16 @@ add_filter(
 
 Built-in module IDs are reserved. Do not reuse, change or remove them:
 
-| ID | Edition | Card |
-| --- | --- | --- |
-| `subscription_box` | Free | Switch |
-| `store_credit`, `feature_manager`, `checkout_builder`, `subscription_bundle`, `cancellation_flow`, `profile_builder`, `audits`, `webhooks` | Pro | Switch while ArraySubs Pro runs with an active license; otherwise a lock that says "Requires ArraySubs Pro.", "Activate your ArraySubs Pro license to use this module." or, when the installed Pro release lacks that module, "Update ArraySubs Pro to use this module." |
-| `subscription_products`, `automatic_payments`, `skip_pause`, `member_access`, `emails`, `analytics`, `toolkit` | Core | Always on |
+| ID | Card |
+| --- | --- |
+| `subscription_box` | Switch |
+| `store_credit`, `feature_manager`, `checkout_builder`, `subscription_bundle`, `cancellation_flow`, `profile_builder`, `audits`, `webhooks` | Switch while ArraySubs Pro runs with an active license; otherwise a lock that says "Requires ArraySubs Pro.", "Activate your ArraySubs Pro license to use this module." or, when the installed Pro release lacks that module, "Update ArraySubs Pro to use this module." |
+| `subscription_products`, `automatic_payments`, `skip_pause`, `member_access`, `emails`, `analytics`, `toolkit` | Always on |
 
 ### `arraysubs_module_badges` filter
 
 ```text
+// Add a badge by ID; module cards refer to that ID in their badge setting.
 apply_filters( 'arraysubs_module_badges', array $badges ): array
 ```
 
@@ -145,6 +146,7 @@ apply_filters( 'arraysubs_module_badges', array $badges ): array
 
 ```php
 <?php
+// Register the badge ID used by your module card; keep all existing badge definitions.
 add_filter(
 	'arraysubs_module_badges',
 	static function ( array $badges ): array {
@@ -205,6 +207,7 @@ add_action(
 ### `arraysubs_is_module_enabled` filter
 
 ```text
+// Return the effective on/off value for the requested module ID, preserving other modules.
 apply_filters( 'arraysubs_is_module_enabled', bool $enabled, string $module_id ): bool
 ```
 
@@ -232,6 +235,7 @@ add_filter(
 ### `arraysubs_modules_saved` action
 
 ```text
+// After a save, compare the new states with the previous states to detect switch changes.
 do_action( 'arraysubs_modules_saved', array $states, array $previous )
 ```
 
@@ -246,6 +250,7 @@ do_action( 'arraysubs_modules_saved', array $states, array $previous )
 
 ```php
 <?php
+// Compare the old and current switch so cleanup runs only when this module is switched off.
 add_action(
 	'arraysubs_modules_saved',
 	static function ( array $states, array $previous ): void {
@@ -264,6 +269,7 @@ add_action(
 ### `arraysubs_module_product_types` filter
 
 ```text
+// Map module IDs to WooCommerce product-type slugs; keep the product types registered.
 apply_filters( 'arraysubs_module_product_types', array $types ): array
 ```
 
@@ -306,9 +312,10 @@ add_filter(
 );
 ```
 
-### `arraysubs_module_myaccount_endpoints` filter *(Pro)*
+### `arraysubs_module_myaccount_endpoints` filter
 
 ```text
+// Map module IDs to My Account endpoint slugs; endpoint registration remains your addon's job.
 apply_filters( 'arraysubs_module_myaccount_endpoints', array $endpoints ): array
 ```
 
@@ -320,6 +327,7 @@ apply_filters( 'arraysubs_module_myaccount_endpoints', array $endpoints ): array
 
 ```php
 <?php
+// Map your module ID to its My Account endpoint slugs so switch changes refresh rewrite rules.
 add_filter(
 	'arraysubs_module_myaccount_endpoints',
 	static function ( array $endpoints ): array {
@@ -352,6 +360,7 @@ The [complete minimal addon plugin](#complete-minimal-addon-plugin) follows thes
 An alternative to a boot function: hand ArraySubs a provider class to construct during its boot. Then other code can detect your addon with `arraysubs_has_module()`. Use one approach, not both.
 
 ```text
+// The filter adds boot classes; after boot, the helper counts matching registered providers.
 apply_filters( 'arraysubs_boot_classes', array $classes ): array
 arraysubs_has_module( string $moduleClassNamePartial ): int
 ```
@@ -651,6 +660,7 @@ Use `available` when your addon's code cannot run on this site, for example beca
 
 ```php
 <?php
+// Show a locked card with an explanation when your own connector dependency is missing.
 add_filter(
 	'arraysubs_modules',
 	static function ( array $modules ): array {
@@ -708,6 +718,7 @@ add_filter(
 To see what the site has saved and what your code will read, run:
 
 ```bash
+# Read the saved switch map and the effective value without changing either one.
 wp eval 'var_export( arraysubs_get_module_states() ); echo PHP_EOL; var_export( arraysubs_is_module_enabled( "acme_loyalty" ) );'
 ```
 

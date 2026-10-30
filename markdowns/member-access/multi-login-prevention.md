@@ -1,13 +1,11 @@
 # Info
 - Module: Multi-Login Prevention
-- Availability: Pro
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Multi-Login Prevention
 
 > Limit concurrent sessions per account, set a global fallback, and create plan-specific Login Limit rules from **Member Access -> Login Limit**.
 
-**Availability:** ArraySubs Pro
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Member Styling
-- Availability: Free (Feature Value conditions require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Member Styling
 
 > Give members, guests, plans, roles, and customer segments a different presentation with conditional body classes and custom CSS.
 
-**Availability:** Free. The shared **Feature Value** condition checks features defined with Feature Manager, which requires ArraySubs Pro. Feature values already saved on products keep being evaluated if Pro or the Feature Manager module is later turned off, but they cannot be edited.
 
 ## Page Navigation
 
@@ -75,7 +73,7 @@ Member Styling uses the shared ArraySubs condition builder.
 | **User Login Status** | Either logged-in visitors or visitors who are not logged in |
 | **Has NOT Subscription** | Visitors without an active or trial subscription, optionally excluding selected products only |
 | **Has NOT Subscription Variation** | Visitors without an active or trial subscription to the selected variations |
-| **Feature Value** *(Pro)* | Customers whose Feature Manager entitlement meets the configured comparison |
+| **Feature Value** | Customers whose Feature Manager entitlement meets the configured comparison |
 | **User Role** | Logged-in users with any selected WordPress role |
 
 Conditions can be combined with top-level AND/OR logic and nested groups. For example, you could match **User Login Status = Logged in AND (User Role = customer OR Has Active Subscription = Gold Plan)**.
@@ -153,7 +151,7 @@ Use **User Role** for the relevant staff role, add an admin-safe class and CSS, 
 
 - [Member Access](../member-access/README.md) — The shared rule model and condition reference.
 - [Profile Builder](../profile-builder/README.md) — Change profile and My Account structure rather than conditional presentation.
-- [Feature Manager](../feature-manager/README.md) *(Pro)* — Define entitlements used by Feature Value conditions.
+- [Feature Manager](../feature-manager/README.md) — Define entitlements used by Feature Value conditions.
 - [Read Member Styling Rules](../developers/member-styling.md) - Read-only PHP reference for the configured rules and the classes that apply to a member. Reading never prints or enqueues CSS.
 
 ## FAQ

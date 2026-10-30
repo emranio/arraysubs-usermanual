@@ -1,13 +1,11 @@
 # Info
 - Module: My Account Editor
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # My Account Editor
 
 > Rearrange, rename, show or hide WooCommerce My Account menu items, and add custom endpoint pages linked to any WordPress page or post — all without writing code.
 
-**Availability:** Pro — requires ArraySubs Pro.
 
 ## Page Navigation
 
@@ -178,11 +176,11 @@ This is useful when you want content to be exclusively inside the My Account are
 
 ---
 
-## Pro Feature Menu Items
+## Feature Menu Items
 
 When ArraySubs Pro is active and certain features are enabled, additional menu items appear automatically:
 
-### My Features *(Pro)*
+### My Features
 
 - **Default label:** My Features
 - **Endpoint:** `as-features`
@@ -190,7 +188,7 @@ When ArraySubs Pro is active and certain features are enabled, additional menu i
 - **Shows:** A list of the customer's subscription entitlements: feature names, values, and usage (if usage display is enabled). Internal feature types are never shown to customers.
 - **Customizable:** Label can be renamed and position can be changed via the My Account Editor.
 
-### Store Credit *(Pro)*
+### Store Credit
 
 - **Default label:** Store Credit
 - **Endpoint:** `as-store-credit`
@@ -198,7 +196,7 @@ When ArraySubs Pro is active and certain features are enabled, additional menu i
 - **Shows:** The customer's current credit balance, transaction history, and any credits expiring in the next 30 days.
 - **Customizable:** Label can be renamed and position can be changed via the My Account Editor.
 
-### Subscriptions (Core)
+### Subscriptions
 
 - **Default label:** Subscriptions
 - **Endpoint:** `as-subscriptions`
@@ -262,7 +260,7 @@ A digital-only store has no physical products and no downloadable files. Hide bo
 - [Profile Form](profile-form.md) — Configure custom profile fields and avatar upload
 - [Shortcodes](../shortcodes/README.md) — Shortcodes for login links, visibility gating, and content restriction
 - [Customer Portal — Portal Pages](../customer-portal/portal-pages.md) — The Subscriptions and View Subscription pages in My Account
-- [Store Credit](../store-credit/README.md) — Store Credit customer portal page *(Pro)*
+- [Store Credit](../store-credit/README.md) — Store Credit customer portal page
 - [Settings — General Settings](../settings/general-settings.md) — Customer self-service actions, cancellation timing, and portal behavior
 - [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) - Developer reference for customer lookups and validated profile field updates
 

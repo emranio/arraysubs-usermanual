@@ -1,13 +1,11 @@
 # Info
 - Module: Member Insight
-- Availability: Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Member Operations
 
 > Jump from the member profile to related screens across ArraySubs and WooCommerce, and understand the insight metrics the dashboard calculates for each customer.
 
-**Availability:** Pro
 
 ## Page Navigation
 

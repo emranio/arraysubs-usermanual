@@ -1,7 +1,6 @@
 # Info
 - Module: Integrations
-- Availability: Free (third-party plugin required)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-30
 
 # FluentCRM
 

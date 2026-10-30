@@ -1,13 +1,11 @@
 # Info
 - Module: Getting Started
-- Availability: Free + Pro
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Essential Daily Workflows
 
 > How the subscription lifecycle works from checkout to renewal, where merchants manage everything, and what to verify before going live.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -173,7 +171,7 @@ Open the ArraySubs menu in the WordPress sidebar to start on **Home**. Here is a
 | URL Rules | **Member Access → URL Rules** | Restrict specific URLs or URL patterns |
 | Post Types | **Member Access → Post Types** | Restrict by post type, taxonomy, or specific posts |
 | Downloads | **Member Access → Downloads** | Download access control and rate limiting |
-| Login Limit | **Member Access → Login Limit** | Concurrent session limits *(Pro)* |
+| Login Limit | **Member Access → Login Limit** | Concurrent session limits |
 
 #### Profile Builder
 
@@ -184,24 +182,31 @@ Open the ArraySubs menu in the WordPress sidebar to start on **Home**. Here is a
 
 #### Settings
 
+**Audit Logs** is directly below **Settings** and before **License** in the ArraySubs admin menu when Pro is active. **Webhooks** is a dedicated page before **Audit Logs**, with endpoint management and a receiver setup guide.
+
 | Page | Path | Purpose |
 |---|---|---|
 | General | **ArraySubs → Settings → General** | Core configuration: billing, checkout, trials, grace period, emails, customer portal |
 | Toolkit | **Settings → Toolkit** | Configuration screen for [Admin Bar Visibility](../admin-bar-visibility/README.md), [Admin Dashboard Access](../admin-dashboard-access/README.md), [WordPress Login Page](../wordpress-login-page/README.md), and [Login as User](../login-as-user/README.md). |
 | Plan Switching | **Settings → Plan Switching** | Upgrade, downgrade, crossgrade rules and proration settings |
 | Refunds | **Settings → Refunds** | Refund behavior, proration, auto gateway refund |
-| Skip & Pause | **Settings → Skip & Pause** | Skip renewal and pause subscription settings *(Pro)* |
-| Feature Manager | **Settings → Feature Manager** | Product feature/entitlement configuration *(Pro)* |
+| Skip & Pause | **Settings → Skip & Pause** | Skip renewal and pause subscription settings |
+| Feature Manager | **Settings → Feature Manager** | Product feature/entitlement configuration |
 
 #### Other Pages
 
 | Page | Path | Purpose |
 |---|---|---|
 | Shortcodes | **ArraySubs → Shortcodes** | Reference page listing all available shortcodes with examples |
-| Help | **ArraySubs → Help** | Support contact information |
-| Audits → Activity Audits | **ArraySubs → Audits** | Activity audit logs *(Pro)* |
-| Audits → Scheduled Job Logs | **Audits → Scheduled Job Logs** | Scheduled job execution logs *(Pro)* |
-| Audits → Gateway Logs | **Audits → Gateway Logs** | Payment gateway health dashboard *(Pro)* |
+| Help | **ArraySubs → Help** | [Site developer notifications, resources and direct plugin support](help-and-support.md), in that order |
+| Webhooks | **ArraySubs -> Webhooks** | Outgoing endpoints, signing secrets, tests and receiver setup |
+| Audit Logs → Activities | **ArraySubs → Audit Logs → Activities** | Activity audit logs |
+| Audit Logs → Jobs | **Audit Logs → Jobs** | Scheduled job execution logs |
+| Audit Logs → Gateway health | **Audit Logs → Gateway health** | Payment gateway health dashboard; also available in Renewal Flow |
+| Audit Logs -> Renewal Errors | **Audit Logs -> Renewal Errors** | Failed renewal payments that need attention |
+| Audit Logs -> Portal Errors | **Audit Logs -> Portal Errors** | Failed customer self-service actions |
+| Audit Logs -> Access-Rule Conflicts | **Audit Logs -> Access-Rule Conflicts** | Conflicting membership access rules |
+| Audit Logs -> Webhooks | **Audit Logs -> Webhooks** | Outgoing delivery statistics and request logs |
 
 ### WooCommerce Product Editor
 
@@ -261,7 +266,7 @@ Run through this checklist before opening your store to real customers:
 ![Gateway Health dashboard](../gateway-health/README.ASSETS/01-gateway-health-dashboard-original.png)
 
 - [ ] Your payment gateway is configured and connected.
-- [ ] Gateway health shows a healthy status in **Audits → Gateway Logs**. For Stripe, confirm the official WooCommerce Stripe connection is active and the ArraySubs secondary webhook shows as auto-provisioned for the current test/live mode.
+- [ ] Gateway health shows a healthy status in **Audit Logs → Gateway health**. For Stripe, confirm the official WooCommerce Stripe connection is active and the ArraySubs secondary webhook shows as auto-provisioned for the current test/live mode.
 - [ ] A test automatic renewal processes successfully.
 
 ---
@@ -288,7 +293,7 @@ A coaching platform has three variable subscription tiers. The merchant configur
 |---|---|---|
 | Renewal invoices are not being generated | The Action Scheduler is not running (cron issue) | Check that WordPress cron is functioning. Install a cron monitoring plugin or set up a real server cron job |
 | Subscriptions stay in Pending after checkout | The order was not marked as paid | Ensure the payment gateway processes the order or manually mark it as Processing/Completed |
-| Grace period transitions are not happening | The hourly overdue check job is not executing | Verify Action Scheduler is active. Check **Audits → Scheduled Job Logs** *(Pro)* for job execution history |
+| Grace period transitions are not happening | The hourly overdue check job is not executing | Verify Action Scheduler is active. Check **Audit Logs → Jobs** for job execution history |
 | Customers cannot see the Subscriptions tab | Permalinks need to be flushed | Go to **Settings → Permalinks** and click Save Changes |
 | Emails are not sending | WordPress mail is misconfigured | Install an SMTP plugin and verify email delivery with a test message |
 

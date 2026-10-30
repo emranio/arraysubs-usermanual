@@ -1,13 +1,11 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free core renewal engine; Pro for different renewal pricing
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Renewal Operations
 
 > How ArraySubs generates renewal invoices, routes payments, and handles price changes across the subscription lifecycle.
 
-**Availability:** Free (core renewal engine); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -90,7 +88,7 @@ Each renewal order is a standard WooCommerce order with additional metadata link
 
 The order also records the **renewal cycle number** (how many renewals have occurred) and the **scheduled renewal date** (when the payment was originally due).
 
-If the subscription has an Apply at Renewal plan switch waiting, the renewal order uses the target plan and quantity. With **Pro** Subscription Shipping, renewal shipping also uses the target product's shipping rules before the subscription metadata is permanently updated.
+If the subscription has an Apply at Renewal plan switch waiting, the renewal order uses the target plan and quantity. With Subscription Shipping, renewal shipping also uses the target product's shipping rules before the subscription metadata is permanently updated.
 
 **Order note example:**
 > Renewal order for subscription #142 (Cycle #5, scheduled for 2025-04-15, billing every 1 month). Order generated on 2025-04-15.
@@ -99,20 +97,20 @@ If the subscription has an Apply at Renewal plan switch waiting, the renewal ord
 
 After the renewal invoice is created, the billing engine decides how to collect payment.
 
-**Manual payment (Free)**
+**Manual payment
 - The invoice stays in **Pending** status
 - The customer receives a **Renewal Invoice** email with a payment link
 - The customer must log in and pay through the WooCommerce checkout payment page
 - The subscription stays active during the configurable grace period while waiting for payment
 
-**Automatic payment (Pro)**
+**Automatic payment
 - The billing engine checks whether the subscription is configured for automatic payment via the gateway (Stripe, PayPal, Paddle, or Mollie)
 - If yes, the system charges the customer's saved payment method
 - On success, the order moves to **Completed** for non-shipping subscription renewals, or **Processing** when fulfillment/shipping is still required, and the subscription advances to the next cycle
 - On failure, the system fires payment failure hooks and may schedule a retry
 
 ```box class="info-box"
-The payment route is determined by the subscription's payment method. If the customer is using a Pro gateway with automatic billing enabled, payment is automatic. Otherwise, it defaults to manual. Customers can toggle auto-renew on or off from the customer portal when the **Pro** auto-renew feature is enabled.
+The payment route is determined by the subscription's payment method. If the customer is using a Pro gateway with automatic billing enabled, payment is automatic. Otherwise, it defaults to manual. Customers can toggle auto-renew on or off from the customer portal when the auto-renew feature is enabled.
 ```
 
 ![Subscription detail showing renewal operations and payment route](renewal-operations.ASSETS/05-subscription-renewal-operations-annotated.png)
@@ -237,7 +235,7 @@ When the product's **Subscription Length** is set to a value greater than 0 (e.g
 
 **Example:** A 12-month subscription (length = 12) expires after the 12th payment. No 13th renewal invoice is created.
 
-### Fixed end-date expiration (Pro)
+### Fixed end-date expiration
 
 When the **Fixed Period Membership** feature is enabled, subscriptions can have a hard end date regardless of payment count. The expiration checker runs as part of the overdue renewal job and sets the subscription to Expired when the end date passes.
 

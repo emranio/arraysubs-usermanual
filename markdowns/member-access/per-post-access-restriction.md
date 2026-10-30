@@ -1,13 +1,11 @@
 # Info
 - Module: Per-Post Access Restriction
-- Availability: Free (Plan Feature values are set up with Pro Feature Manager)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Per-Post Access Restriction
 
 > Lock a single post, page, or custom post type entry from the editor itself — no rule builder, no URL pattern, no shortcode.
 
-**Availability:** Free. **Plan Feature** conditions check features that you set up on products with **Pro** Feature Manager.
 
 ## Page Navigation
 
@@ -42,7 +40,7 @@ The rules are the same ones used by the **Restricted Content** Gutenberg block a
 - ArraySubs installed and active
 - **Member Access** enabled (it is on by default)
 - Editor access to the post type you want to protect
-- ArraySubs **Pro** with Feature Manager, only to add or edit the product features that **Plan Feature** conditions check
+- ArraySubs Pro with Feature Manager, only to add or edit the product features that **Plan Feature** conditions check
 
 ## Where the Control Appears
 
@@ -131,13 +129,13 @@ Leave a field empty to skip that rule entirely. Only the fields you fill in are 
 
 Each rule is checked across all of the visitor's subscriptions and purchases. With **Match ALL**, two rules can pass through different subscriptions: for example, **Subscription Status** Active can come from one plan and **Active Subscription To Products** from a trial of another. When one subscription must meet every rule, check it in code with the subscription context described in [Check Content Access](../developers/member-access.md).
 
-### Plan Feature *(Pro)*
+### Plan Feature
 
 ![Plan Feature section with a feature selected, a combined-amount check, and the required amount](per-post-access-restriction.ASSETS/05-modal-plan-feature-original.png)
 
 Feature gating checks entitlements defined with Feature Manager on your subscription products (**Product -> Features**). Use it when content should unlock because of what a plan *includes*, not because of which product was bought.
 
-ArraySubs core evaluates the feature values saved on each product, so the check keeps working from that saved data if Pro or the Feature Manager module is later switched off. A variation's own feature list replaces the parent product's defaults, and a variation with an empty list inherits them. Each product or variation counts once, and on/off features count as 1 (Yes) or 0 (No). See [Feature Entitlement Conditions](../shortcodes/content-gating.md#feature-entitlement-conditions-pro) for how values combine across plans.
+ArraySubs core evaluates the feature values saved on each product, so the check keeps working from that saved data if Pro or the Feature Manager module is later switched off. A variation's own feature list replaces the parent product's defaults, and a variation with an empty list inherits them. Each product or variation counts once, and on/off features count as 1 (Yes) or 0 (No). See [Feature Entitlement Conditions](../shortcodes/content-gating.md#feature-entitlement-conditions) for how values combine across plans.
 
 | How To Check It | Best for | Behavior |
 |---|---|---|

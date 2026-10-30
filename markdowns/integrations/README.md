@@ -1,7 +1,6 @@
 # Info
 - Module: Integrations
-- Availability: Free (third-party plugins required)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-31
 
 # Integrations
 
@@ -15,7 +14,7 @@
 
 ## Choose the plugin you want to connect
 
-These connections are included in ArraySubs Free. Install the other plugin and complete its own setup first. Some features need a paid version of that plugin; each guide explains the requirements.
+These connections are included in ArraySubs. Install the other plugin and complete its own setup first. Some features need a paid version of that plugin; each guide explains the requirements.
 
 - [FlowMattic](./flowmattic.md): start workflows when subscriptions, emails, store credit, or features change.
 - [LearnPress](./learnpress.md): limit course access to customers with a qualifying subscription.
@@ -31,9 +30,10 @@ These connections are included in ArraySubs Free. Install the other plugin and c
 
 1. Open **ArraySubs -> Integrations**.
 2. Find your plugin and check that ArraySubs reports it as active.
-3. Turn on its integration and click **Save Changes**.
-4. Follow its guide to finish any product, course, tag, or workflow settings.
-5. Try the connection with a test customer before using it on your live store.
+3. Click **Setup details** to review the setup notes in a dialog. Close it to return to the integration settings.
+4. Turn on its integration and click **Save Settings**.
+5. Follow its guide to finish any product, course, tag, or workflow settings.
+6. Try the connection with a test customer before using it on your live store.
 
 Every integration starts switched off. A saved switch stays inactive while the other plugin is missing. Turning it on does not replay past subscription events or rebuild old enrollments, commissions, or workflows.
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Getting Started
-- Availability: Free + Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Before You Launch
 
 > Understand what ArraySubs needs, how subscriptions work, and which features are included in Free versus Pro — all before you write a single line of configuration.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -127,7 +125,7 @@ A signup fee is a one-time charge collected at the initial checkout, separate fr
 
 ### Different Renewal Pricing
 
-With **ArraySubsPro active and an active license**, you can set a different price that takes effect after a specified number of billing cycles. This is useful for introductory pricing models. The free plugin shows the option with a red **Pro** label, but it stays disabled.
+With **ArraySubsPro active and an active license**, you can set a different price that takes effect after a specified number of billing cycles. This is useful for introductory pricing models. The option stays disabled until the license is active.
 
 **Example:** Charge $29.99/month for the first 3 months, then $49.99/month from the 4th month onward.
 
@@ -244,45 +242,33 @@ The available self-service actions are configurable in **ArraySubs → Settings 
 
 ---
 
-## Free vs Pro Feature Map
+## Feature Map
 
-ArraySubs ships as two plugins. The core plugin is free and covers all essential subscription functionality. The Pro addon adds advanced features for stores that need more control, automation, and analytics.
+Use these guides to find subscription setup, storefront controls, customer tools and reporting features.
 
-### Dedicated Manual Module Count
+### Feature Guides
 
-The manual tracks **29 dedicated product modules**. Documentation-only sections such as **Getting Started** and **Settings** are not included in this count. **19 modules** are available from the free/core side of the product, including mixed modules where Pro adds optional capabilities. **10 modules** require ArraySubs Pro.
+- [1-Minute Setup](easy-setup-wizard.md)
+- [Admin Bar Visibility](../admin-bar-visibility/README.md)
+- [Admin Dashboard Access](../admin-dashboard-access/README.md)
+- [WordPress Login Page](../wordpress-login-page/README.md)
+- [Login as User](../login-as-user/README.md)
+- [Coupons](../coupons/README.md)
+- [Subscription Products](../subscription-products/README.md)
+- [Manage Subscriptions](../manage-subscriptions/README.md)
+- [Subscription Notes](../subscription-notes/README.md)
+- [Customer Portal](../customer-portal/README.md)
+- [Analytics](../analytics/README.md)
+- [Emails](../emails/README.md)
+- [Shortcodes](../shortcodes/README.md)
+- [Member Access](../member-access/README.md)
+- [Member Styling](../member-styling/README.md)
+- [Checkout and Payments](../checkout-and-payments/README.md)
+- [Billing and Renewals](../billing-and-renewals/README.md)
+- [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md)
+- [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
-| Count | Module Group |
-|---|---|
-| 19 | Free/core-accessible modules |
-| 10 | Pro-only modules |
-| 29 | Total dedicated modules |
-
-### Free/Core-Accessible Dedicated Modules
-
-| Module | Availability Notes |
-|---|---|
-| [1-Minute Setup](easy-setup-wizard.md) | Free guided setup with Pro-only options when Pro is active |
-| [Admin Bar Visibility](../admin-bar-visibility/README.md) | Free |
-| [Admin Dashboard Access](../admin-dashboard-access/README.md) | Free |
-| [WordPress Login Page](../wordpress-login-page/README.md) | Free |
-| [Login as User](../login-as-user/README.md) | Free |
-| [Coupons](../coupons/README.md) | Free |
-| [Subscription Products](../subscription-products/README.md) | Free core with Pro product extensions |
-| [Manage Subscriptions](../manage-subscriptions/README.md) | Free core with Pro-only cards where applicable |
-| [Subscription Notes](../subscription-notes/README.md) | Free |
-| [Customer Portal](../customer-portal/README.md) | Free core with Pro payment/shipping actions |
-| [Analytics](../analytics/README.md) | Free reports hub with Pro analytics extensions |
-| [Emails](../emails/README.md) | Free core emails with Pro store-credit/gateway emails |
-| [Shortcodes](../shortcodes/README.md) | Free shortcodes with one Pro store-credit shortcode |
-| [Member Access](../member-access/README.md) | Free core with Pro login-limit extension |
-| [Member Styling](../member-styling/README.md) | Free conditional body classes and CSS; Feature Value conditions require Pro |
-| [Checkout and Payments](../checkout-and-payments/README.md) | Free checkout flow and automatic payments, with Pro checkout customization |
-| [Billing and Renewals](../billing-and-renewals/README.md) | Free renewal engine and automatic collection, with Pro renewal extensions such as different renewal pricing |
-| [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) | Free core (cancellation timing, undo, core refunds) with Pro cancellation reasons, retention offers, retention analytics, and store-credit refund extension |
-| [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md) | Free troubleshooting with Pro audit/log screens |
-
-### Pro-Only Dedicated Modules
+### More Feature Guides
 
 | Module | What It Adds |
 |---|---|
@@ -299,143 +285,121 @@ The manual tracks **29 dedicated product modules**. Documentation-only sections 
 
 ### Subscription Fundamentals
 
-| Feature | Free | Pro |
-|---|---|---|
-| Simple subscription products | ✅ | ✅ |
-| Variable subscription products | ✅ | ✅ |
-| Billing cycles (day, week, month, year, lifetime) | ✅ | ✅ |
-| Free trials | ✅ | ✅ |
-| Signup fees | ✅ | ✅ |
-| Different renewal pricing | ❌ | ✅ Active license required |
-| Subscription length limits | ✅ | ✅ |
-| Locked-in checkout pricing | ✅ | ✅ |
-| Coupon integration with cycle limits | ✅ | ✅ |
+- Simple subscription products
+- Variable subscription products
+- Billing cycles (day, week, month, year, lifetime)
+- Free trials
+- Signup fees
+- Different renewal pricing
+- Subscription length limits
+- Locked-in checkout pricing
+- Coupon integration with cycle limits
 
 ### Billing and Renewals
 
-| Feature | Free | Pro |
-|---|---|---|
-| Recurring billing engine | ✅ | ✅ |
-| Renewal invoice generation | ✅ | ✅ |
-| Grace period system (active + on-hold) | ✅ | ✅ |
-| Manual renewal payments | ✅ | ✅ |
-| Automatic gateway payments (Stripe, PayPal, Paddle, Mollie) | ✅ | ✅ |
-| Auto-renew customer toggle | ✅ | ✅ |
-| Gateway health dashboard | — | ✅ |
+- Recurring billing engine
+- Renewal invoice generation
+- Grace period system (active + on-hold)
+- Manual renewal payments
+- Automatic gateway payments (Stripe, PayPal, Paddle, Mollie)
+- Auto-renew customer toggle
+- Gateway health dashboard
 
 ### Customer Portal and Self-Service
 
-| Feature | Free | Pro |
-|---|---|---|
-| My Subscriptions list | ✅ | ✅ |
-| View subscription detail | ✅ | ✅ |
-| Cancel subscription | ✅ | ✅ |
-| Undo scheduled cancellation | ✅ | ✅ |
-| Plan switching (upgrade, downgrade, crossgrade) | ✅ | ✅ |
-| Skip next renewal | ✅ | ✅ |
-| Pause and resume subscription | ✅ | ✅ |
-| Reactivate cancelled subscription | ✅ | ✅ |
-| Update payment method | ✅ | ✅ |
-| Toggle auto-renew on/off | ✅ | ✅ |
-| Update shipping address | — | ✅ |
+- My Subscriptions list
+- View subscription detail
+- Cancel subscription
+- Undo scheduled cancellation
+- Plan switching (upgrade, downgrade, crossgrade)
+- Skip next renewal
+- Pause and resume subscription
+- Reactivate cancelled subscription
+- Update payment method
+- Toggle auto-renew on/off
+- Update shipping address
 
 ### Retention and Cancellation
 
-| Feature | Free | Pro |
-|---|---|---|
-| Cancellation reasons (require reason, predefined list) | ✅ | ✅ |
-| Retention offers (discount, pause, downgrade, contact support) | — | ✅ |
-| Retention analytics (churn rate, offer performance, trends) | — | ✅ |
-| Refund processing (immediate, end-of-period, prorated) | ✅ | ✅ |
-| Refund to store credit | — | ✅ |
+- Cancellation reasons (require reason, predefined list)
+- Retention offers (discount, pause, downgrade, contact support)
+- Retention analytics (churn rate, offer performance, trends)
+- Refund processing (immediate, end-of-period, prorated)
+- Refund to store credit
 
 ### Member Access and Restrictions
 
-| Feature | Free | Pro |
-|---|---|---|
-| Role mapping rules | ✅ | ✅ |
-| URL restriction rules | ✅ | ✅ |
-| Post type / taxonomy restriction rules | ✅ | ✅ |
-| Discount rules for members | ✅ | ✅ |
-| Member-only free shipping on paid methods | ✅ | ✅ |
-| Shop access purchase restrictions | ✅ | ✅ |
-| Download access and rate limiting | ✅ | ✅ |
-| Comment reading and posting restrictions | ✅ | ✅ |
-| Per-product and per-order purchase limits | ✅ | ✅ |
-| Login-status and negative-subscription conditions | ✅ | ✅ |
-| Scheduled / drip content access | ✅ | ✅ |
-| Content restriction shortcodes | ✅ | ✅ |
+- Role mapping rules
+- URL restriction rules
+- Post type / taxonomy restriction rules
+- Discount rules for members
+- Member-only free shipping on paid methods
+- Shop access purchase restrictions
+- Download access and rate limiting
+- Comment reading and posting restrictions
+- Per-product and per-order purchase limits
+- Login-status and negative-subscription conditions
+- Scheduled / drip content access
+- Content restriction shortcodes
 
 ### Conditional Member Styling
 
-| Feature | Free | Pro |
-|---|---|---|
-| Conditional body classes | ✅ | ✅ |
-| Matching-user custom CSS | ✅ | ✅ |
-| Optional wp-admin styling | ✅ | ✅ |
-| Multiple matching rules stack in order | ✅ | ✅ |
-| Subscription-based schedule delay | ✅ | ✅ |
-| Feature Manager value conditions | — | ✅ |
+- Conditional body classes
+- Matching-user custom CSS
+- Optional wp-admin styling
+- Multiple matching rules stack in order
+- Subscription-based schedule delay
+- Feature Manager value conditions
 
 ### Admin and Analytics
 
-| Feature | Free | Pro |
-|---|---|---|
-| All Subscriptions list with filters | ✅ | ✅ |
-| Create and edit subscriptions | ✅ | ✅ |
-| Subscription notes and timeline | ✅ | ✅ |
-| Export subscriptions (CSV, JSON) with selectable columns | ✅ | ✅ |
-| Subscription email notifications | ✅ | ✅ |
-| Overview analytics dashboard | — | ✅ |
-| WooCommerce Analytics extension (order types, subscription filters) | — | ✅ |
-| Activity audit logs | — | ✅ |
-| Scheduled job logs | — | ✅ |
-| Manage Members page (member profiles, insights) | — | ✅ |
+- All Subscriptions list with filters
+- Create and edit subscriptions
+- Subscription notes and timeline
+- Export subscriptions (CSV, JSON) with selectable columns
+- Subscription email notifications
+- Overview analytics dashboard
+- WooCommerce Analytics extension (order types, subscription filters)
+- Activity audit logs
+- Scheduled job logs
+- Manage Members page (member profiles, insights)
 
 ### Products and Checkout
 
-| Feature | Free | Pro |
-|---|---|---|
-| Subscription product editor | ✅ | ✅ |
-| Product test links (direct add-to-cart) | ✅ | ✅ |
-| Linked products (upgrade/downgrade paths) | ✅ | ✅ |
-| Auto-downgrade on expire/cancel | ✅ | ✅ |
-| Product lifecycle handling (deleted products) | ✅ | ✅ |
-| Fixed period membership (absolute end date) | — | ✅ |
-| Product feature/entitlement manager | — | ✅ |
-| Redirect product page (301 or 404) | — | ✅ |
-| Subscription shipping (one-time vs recurring) | — | ✅ |
-| Checkout builder (custom fields, multistep) | — | ✅ |
+- Subscription product editor
+- Product test links (direct add-to-cart)
+- Linked products (upgrade/downgrade paths)
+- Auto-downgrade on expire/cancel
+- Product lifecycle handling (deleted products)
+- Fixed period membership (absolute end date)
+- Product feature/entitlement manager
+- Redirect product page (301 or 404)
+- Subscription shipping (one-time vs recurring)
+- Checkout builder (custom fields, multistep)
 
 ### Profile and Account Customization
 
-| Feature | Free | Pro |
-|---|---|---|
-| Custom profile fields | ✅ | ✅ |
-| My Account menu editor | ✅ | ✅ |
-| Custom endpoint pages | ✅ | ✅ |
-| Avatar upload settings | ✅ | ✅ |
-| Shortcodes reference page | ✅ | ✅ |
+- Custom profile fields
+- My Account menu editor
+- Custom endpoint pages
+- Avatar upload settings
+- Shortcodes reference page
 
 ### Site Access Toolkit
 
-| Feature | Free | Pro |
-|---|---|---|
-| Admin Bar Visibility | ✅ | ✅ |
-| Admin Dashboard Access | ✅ | ✅ |
-| WordPress Login Page | ✅ | ✅ |
-| Login as User (admin impersonation) | ✅ | ✅ |
-| Multi-Login Prevention (session limits, plan overrides) | — | ✅ |
+- Admin Bar Visibility
+- Admin Dashboard Access
+- WordPress Login Page
+- Login as User (admin impersonation)
+- Multi-Login Prevention (session limits, plan overrides)
 
 ### Store Credit
 
-| Feature | Free | Pro |
-|---|---|---|
-| Store credit management | — | ✅ |
-| Store credit purchase product | — | ✅ |
-| Store credit expiration | — | ✅ |
-| Auto-apply credit to renewals | — | ✅ |
-| Store credit email notifications | — | ✅ |
+- Store credit management
+- Store credit purchase product
+- Store credit expiration
+- Auto-apply credit to renewals
+- Store credit email notifications
 
 ---
 

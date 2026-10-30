@@ -1,7 +1,6 @@
 # Info
 - Module: Checkout and Payments
-- Availability: Shared
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Checkout and Payments
 
@@ -35,7 +34,7 @@ Connect your store to Stripe, PayPal, Paddle, or Mollie for hands-free recurring
 
 ![Gateway Logs dashboard with Stripe status and webhook event log](README.ASSETS/03-gateway-health-dashboard-annotated.png)
 
-### Checkout Builder *(Pro)*
+### Checkout Builder
 
 Replace the default WooCommerce classic checkout form with a fully customizable, multi-step checkout experience. Drag and drop 28 element types, apply conditional visibility rules, style every element, and capture custom data that flows through to orders, subscriptions, and renewal invoices.
 
@@ -51,11 +50,11 @@ Replace the default WooCommerce classic checkout form with a fully customizable,
 
 ## Quick Reference
 
-| Topic | Availability | What It Controls |
-|---|---|---|
-| Subscription Checkout | Free | Cart rules, one-click checkout, trial validation, plan switching at checkout, subscription creation |
-| Automatic Payments | Free | Stripe, PayPal, Paddle, Mollie gateways, auto-renewal charging, webhook routing, payment method storage |
-| Checkout Builder | **Pro** | Custom classic checkout forms, multi-step navigation, 28 element types, conditional logic, design customization |
+| Topic | What It Controls |
+| --- | --- |
+| Subscription Checkout | Cart rules, one-click checkout, trial validation, plan switching at checkout, subscription creation |
+| Automatic Payments | Stripe, PayPal, Paddle, Mollie gateways, auto-renewal charging, webhook routing, payment method storage |
+| Checkout Builder | Custom classic checkout forms, multi-step navigation, 28 element types, conditional logic, design customization |
 
 ## Prerequisites
 

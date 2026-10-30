@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (custom Checkout Builder fields require Pro)
-- Last updated: 2026-10-23
+- Last updated: 2026-10-31
 
 # Activate a Paid Subscription After Verification
 
 > Keep selected paid subscriptions pending while staff verify an IMEI or provision a service, then activate them through the existing admin editor or PHP API.
 
-**Availability:** ArraySubs core with the initial-payment deferral hooks described below. These are new hooks; stock ArraySubs **2.0.9 does not include them**. Install a build that includes this feature before using the examples. This guide does not assign a release version.
 
 ## Page Navigation
 
@@ -93,12 +91,14 @@ Keep this filter focused on deciding a status. Use the deferred action for email
 For an Additional Checkout Field stored in the `other` group:
 
 ```php
+// Read the saved block-checkout field; use an empty string when the field was not supplied.
 $imei = $context['checkout_fields']['additional']['other']['tec-logic/imei'] ?? '';
 ```
 
 For an ArraySubs Pro Checkout Builder field whose actual saved key is `_arraysubs_cf_imei`:
 
 ```php
+// Read the saved ArraySubs custom checkout field using its exact meta key.
 $imei = $context['checkout_fields']['custom']['_arraysubs_cf_imei'] ?? '';
 ```
 
@@ -125,6 +125,7 @@ The status callback can then read `$context['checkout_fields']['custom']['my-che
 This example holds product or variation `123` when the order's saved payment method is `stripe`. Replace these sample values before enabling it. It intentionally holds selected purchases even when the IMEI is missing, so incomplete device information cannot accidentally activate the subscription.
 
 ```php
+// Keep paid subscriptions pending only for the selected products and gateways; preserve all other decisions.
 add_filter('arraysubs_initial_payment_subscription_status', function (string $default_status, WP_Post $subscription, WC_Order $order, array $context): string {
     $product_ids = [123]; // Replace with your product/variation IDs.
     $gateway_ids = ['stripe']; // Replace with the saved payment-method IDs you support.
@@ -139,6 +140,7 @@ add_filter('arraysubs_initial_payment_subscription_status', function (string $de
         return $default_status;
     }
 
+    // Payment is already complete. Staff will review this subscription before activating it.
     return 'arraysubs-pending';
 }, 10, 4);
 ```
@@ -148,6 +150,7 @@ Register the filter when your integration loads, for example inside `arraysubs_a
 ## Notify Staff After Deferral
 
 ```text
+// Listen after paid activation is deferred; use the subscription and order to create a staff review task.
 do_action(
     'arraysubs_subscription_activation_deferred',
     WP_Post $subscription,
@@ -163,6 +166,7 @@ Send your provisioning email here. Use your own per-subscription/order delivery 
 The email's **Review and activate** link should open the existing authenticated subscription editor:
 
 ```php
+// Build a staff-only admin link to this subscription; this URL does not grant permission to edit it.
 $editor_url = add_query_arg('page', 'arraysubs-mainadmin', admin_url('admin.php'))
     . '#/subscriptions/edit/' . (int) $subscription->ID;
 ```

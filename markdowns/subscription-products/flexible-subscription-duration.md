@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Products
-- Availability: Pro
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Flexible Subscription Duration
 
 > Let customers choose how long their subscription runs — and, optionally, which billing period it uses — right on the product page, while the store keeps full control over the allowed choices.
 
-**Availability:** Pro
 
 ## Page Navigation
 
@@ -30,7 +28,7 @@ Flexible Subscription Duration adds a **Subscription Type** selector to the **Su
 
 In the two flexible modes, the customer makes their choice on the product page before adding to the cart. The selection travels through the cart and checkout and is locked into the subscription that gets created — so renewals and automatic expiry follow exactly what the customer picked.
 
-This is a **Pro** feature. Without the Pro add-on, every subscription product behaves as if it were set to **Fixed**.
+This feature requires ArraySubs Pro. Without the Pro add-on, every subscription product behaves as if it were set to **Fixed**.
 
 ## When to Use This
 
@@ -43,7 +41,7 @@ This is a **Pro** feature. Without the Pro add-on, every subscription product be
 
 - WooCommerce installed and active.
 - ArraySubs core plugin installed and active.
-- ArraySubs **Pro** add-on installed and active with a valid license.
+- ArraySubs Pro add-on installed and active with a valid license.
 - The product is already configured as a subscription (see [Create and Configure Subscription Products](./create-and-configure.md)).
 - Admin or Shop Manager access.
 

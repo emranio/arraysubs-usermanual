@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Admin
-- Availability: Free core lifecycle; Pro for different renewal pricing
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Lifecycle Management
 
 > How subscriptions move through statuses — from creation to activation, renewal, grace periods, cancellation, and expiration.
 
-**Availability:** Free (core lifecycle); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -202,7 +200,7 @@ Payment can happen through two paths:
 
 If the paid renewal order was built on a pending plan switch, the switch is applied before these steps, so the subscription moves to the target plan with this payment. See [Current Plan and Pending Plan Switch](../subscription-products/plan-switching-and-relationships.md#current-plan-and-pending-plan-switch).
 
-**Automatic payment** - the automatic payments engine in the core (free) plugin charges the customer's saved payment method through a supported gateway such as Stripe. Pro is not required. The outcome follows the same steps as manual payment on success, or triggers the grace period flow on failure.
+**Automatic payment** - the automatic payments engine in the core plugin charges the customer's saved payment method through a supported gateway such as Stripe. Pro is not required. The outcome follows the same steps as manual payment on success, or triggers the grace period flow on failure.
 
 ### Different Renewal Price
 
@@ -345,13 +343,13 @@ If the subscription has a **subscription length** greater than zero (e.g., 12 bi
 3. All future renewals are unscheduled.
 4. A "Subscription Expired" email is sent.
 
-### Date-Based Expiration (Fixed End Date) **Pro**
+### Date-Based Expiration (Fixed End Date)
 
 If the subscription uses a **Fixed Period Membership** end date, a per-subscription scheduled action expires it at that end date. With the **Renew** period-end behavior, the subscription moves on to its next membership period instead of expiring.
 
 ### Auto-Downgrade at Expiration
 
-If an [auto-downgrade target](../subscription-products/plan-switching-and-relationships.md) is configured on the product and the auto-downgrade timing is **On expire**, ArraySubs switches the expired subscription to the fallback plan and makes it active again. Auto-downgrade is part of the core (free) plugin.
+If an [auto-downgrade target](../subscription-products/plan-switching-and-relationships.md) is configured on the product and the auto-downgrade timing is **On expire**, ArraySubs switches the expired subscription to the fallback plan and makes it active again. Auto-downgrade is part of the core plugin.
 
 ---
 
@@ -406,7 +404,7 @@ Deleting a subscription is not a lifecycle step. Deletion is permanent (subscrip
 
 ## Box and Bundle Families
 
-A subscription box (core) or subscription bundle (**Pro**) creates a zero-value subscription for each subscription product inside it. The box or bundle subscription is their **billing owner**:
+A subscription box or subscription bundle creates a zero-value subscription for each subscription product inside it. The box or bundle subscription is their **billing owner**:
 
 - Every status change on the box or bundle (pause, on hold, cancellation, expiry, reactivation) is copied to its included subscriptions.
 - Their next payment date, last payment date, and payment count are refreshed each time a box or bundle renewal is paid. Skips or pauses on the box reach them at that point.
@@ -466,7 +464,7 @@ ArraySubs uses the Action Scheduler to run lifecycle operations on a reliable sc
 | Generate Renewal Invoice | Per-subscription | Creates the exact renewal invoice before the due date based on the invoice timing setting |
 | Check Overdue Renewals | Hourly | Moves unpaid subscriptions through the grace period (Active → On Hold → Cancelled) and finishes any end-of-period cancellation whose scheduled action was missed |
 | Cancel Subscription | Per-subscription | Runs an end-of-period cancellation at its scheduled date |
-| Expire Subscription | Per-subscription | Expires a Fixed Period Membership subscription at its end date *(Pro)* |
+| Expire Subscription | Per-subscription | Expires a Fixed Period Membership subscription at its end date |
 | Process Trial Conversions | Daily (first run 2:00 AM UTC) | Converts trials still in Trial after their due date to Active (or auto-downgrades them) |
 | Send Renewal Reminder | Per-subscription | Sends a reminder email before the next renewal (configurable days) |
 | Send Expiring Soon | Per-subscription | Sends a notice when a subscription is approaching its end date |
@@ -511,7 +509,7 @@ A customer signs up for a 14-day trial. During the trial, they have full access.
 - [Settings — General Settings](../settings/general-settings.md) — grace period, email timing, and customer action configuration
 - [Subscription Products — Plan Switching](../subscription-products/plan-switching-and-relationships.md) — auto-downgrade targets
 - [Emails and Notifications](../emails/README.md) — which emails are triggered at each lifecycle stage
-- [Advanced Analytics](../analytics/README.md) *(Pro)* — subscription performance metrics, churn rate, and renewal revenue driven by lifecycle events
+- [Advanced Analytics](../analytics/README.md) — subscription performance metrics, churn rate, and renewal revenue driven by lifecycle events
 - [Retention, Cancellation, and Refunds](../retention-and-refunds/README.md) — cancellation setup, retention offers, refund policies, and retention analytics
 - [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) - developer reference for the stored status, computed phase, grace, trials, current plan, and pending plan switch
 - [Find and Update Subscriptions](../developers/subscriptions.md) - developer reference for lifecycle operations such as pause, resume, cancel, and skip

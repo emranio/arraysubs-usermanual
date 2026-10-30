@@ -1,13 +1,11 @@
 # Info
 - Module: Session and Frontend Controls
-- Availability: Shared (Login Limit requires Pro)
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Session and Frontend Controls
 
 > Limit concurrent login sessions per subscriber tier, gate inline content with shortcodes, and understand how paused subscriptions interact with access rules.
 
-**Availability:** Free — Login Limit rules require **Pro**
 
 ## Page Navigation
 
@@ -23,14 +21,14 @@
 
 Session and Frontend Controls cover the parts of Member Access that go beyond server-side page gating:
 
-- **Login Limit rules** *(Pro)* — Cap how many devices a subscriber can be logged in on at the same time, with per-tier session limits and oldest-session eviction.
+- **Login Limit rules** — Cap how many devices a subscriber can be logged in on at the same time, with per-tier session limits and oldest-session eviction.
 - **Restriction shortcode** — Gate specific portions of page content inline, without restricting the entire page.
 - **Visibility shortcode** — Show or hide content blocks based on login state.
 - **Pause-state access behavior** — How paused and on-hold subscriptions affect access across all rule types.
 
 ---
 
-## Login Limit Rules *(Pro)*
+## Login Limit Rules
 
 ![Login Limit tab — Add New Rule entry point](session-and-frontend-controls.ASSETS/01-login-limit-rules-annotated.png)
 
@@ -134,7 +132,7 @@ This paragraph is only visible to subscribers with an active subscription.
 | `variations` | Comma-separated IDs | _(none)_ | Require an active subscription to one of these variation IDs |
 | `purchased` | Comma-separated IDs | _(none)_ | Require a completed purchase (any order) of one of these product IDs |
 | `lifetime_spent` | Number | _(none)_ | Minimum total customer spend across all orders |
-| `feature` | String | _(none)_ | Feature Manager entitlement key to evaluate *(Pro)* |
+| `feature` | String | _(none)_ | Feature Manager entitlement key to evaluate |
 | `feature_min` | Number | _(none)_ | Minimum feature value required |
 | `feature_op` | Operator | `>=` | Feature comparison: `=`, `!=`, `>`, `<`, `>=`, `<=` |
 | `aggregation` | String | `sum` | How to aggregate feature values across subscriptions: `sum`, `max`, `any` |
@@ -175,7 +173,7 @@ Welcome to our VIP area! You've spent over $500 with us.
 [/arraysubs_restrict]
 ```
 
-**Gate by Feature Manager entitlement** *(Pro)*:
+**Gate by Feature Manager entitlement**:
 ```
 [arraysubs_restrict feature="seats" feature_min="5" feature_op=">="]
 Enterprise-tier documentation.

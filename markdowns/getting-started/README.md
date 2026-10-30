@@ -1,13 +1,11 @@
 # Info
 - Module: Getting Started
-- Availability: Free + Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Getting Started
 
 > Everything you need to know before launching your subscription store with ArraySubs.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -69,6 +67,9 @@ Building a custom plugin that reads or updates ArraySubs data? Start with [Devel
 
 ## In This Section
 
+### [Help & Support](help-and-support.md)
+The Help page starts with your site developer and notification preferences, followed by Features & Updates and Guides & Resources, then direct plugin developer support.
+
 ### [Home](../analytics/home.md)
 Find the setup checklist and product shortcuts, then use the subscription dashboard for your daily health check. Available with the free plugin; Pro adds report cards.
 
@@ -85,7 +86,7 @@ Open **ArraySubs → Home → + Subscription Product** for guided product creati
 A step-by-step checklist: configure your store, create your first subscription product, place a test order, and review the customer portal.
 
 ### [License Activation](license-activation.md)
-Upgrade an existing Free store to Pro, activate ArraySubs Pro with your license key, set up staging and development sites, remove a local license, and understand how Pro update downloads and lifetime licenses work *(Pro)*.
+Upgrade an existing Free store to Pro, activate ArraySubs Pro with your license key, set up staging and development sites, remove a local license, and understand how Pro update downloads and lifetime licenses work.
 
 ### [1-Minute Setup](easy-setup-wizard.md)
 A nine-step guide to billing, checkout, plan switching, cancellation, refunds, emails, and optional tools. Launch it from Home or 1-Minute Setup, review the loaded settings, and confirm your changes. Completed setups reopen on the next-step cards; **Start Over** lets you review the saved configuration again.
@@ -103,7 +104,7 @@ Route customer login and registration traffic through WooCommerce My Account.
 Impersonate non-admin customers for support and customer-portal troubleshooting.
 
 ### [Login Limit](../member-access/login-limit.md)
-Limit concurrent sessions per account to reduce credential sharing *(Pro)*.
+Limit concurrent sessions per account to reduce credential sharing.
 
 ### [Coupons](../coupons/README.md)
 Configure subscription-aware WooCommerce coupons with recurring discounts, cycle limits, and initial-checkout counting.
@@ -112,19 +113,19 @@ Configure subscription-aware WooCommerce coupons with recurring discounts, cycle
 Review the subscription timeline for system events, gateway events, admin notes, and customer-visible notes.
 
 ### [Member Insight](../member-insight/README.md)
-Search customers and open a complete subscription, commerce, profile, and support dashboard *(Pro)*.
+Search customers and open a complete subscription, commerce, profile, and support dashboard.
 
 ### [Redirect Product Page](../redirect-product-page/README.md)
-Redirect direct subscription product URLs to sales pages or return 404 responses *(Pro)*.
+Redirect direct subscription product URLs to sales pages or return 404 responses.
 
 ### [Subscription Shipping](../subscription-shipping/README.md)
-Control one-time versus recurring shipping charges on physical subscription products *(Pro)*.
+Control one-time versus recurring shipping charges on physical subscription products.
 
 ### [Retention Analytics](../retention-analytics/README.md)
-Analyze cancellation reasons, churn trends, offer acceptance, and retained revenue *(Pro)*.
+Analyze cancellation reasons, churn trends, offer acceptance, and retained revenue.
 
 ### [Gateway Health](../gateway-health/README.md)
-Monitor payment gateway connection status, webhook URLs, capabilities, and webhook events *(Pro)*.
+Monitor payment gateway connection status, webhook URLs, capabilities, and webhook events.
 
 ### [Import / Export Settings](import-export-settings.md)
 Download your full ArraySubs configuration as a JSON file or restore a previously exported configuration with granular section-level control.

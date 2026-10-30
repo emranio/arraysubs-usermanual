@@ -1,13 +1,11 @@
 # Info
 - Module: Reports Hub
-- Availability: Free
-- Last updated: 2026-07-27
+- Last updated: 2026-10-30
 
 # Reports Hub
 
 > A single admin page that indexes every report, dashboard, and analytics surface across ArraySubs — with direct links to each one and clear labels showing which are free and which require Pro.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -53,7 +51,7 @@ Below the summary bar, a **quick navigation** section provides pill-style links 
 
 ## Report Categories
 
-### Subscription Performance *(Pro)*
+### Subscription Performance
 
 KPI cards, time-series charts, and leaderboards on the WooCommerce Analytics Overview page.
 
@@ -73,7 +71,7 @@ For full documentation see [Subscription Performance Dashboard](subscription-per
 
 ---
 
-### Leaderboards *(Pro)*
+### Leaderboards
 
 Ranked tables on the WooCommerce Analytics Overview page.
 
@@ -91,7 +89,7 @@ For full documentation see [Subscription Performance Dashboard](subscription-per
 
 ---
 
-### Retention Analytics *(Pro)*
+### Retention Analytics
 
 Cancellation and retention flow analytics under WooCommerce Analytics.
 
@@ -110,7 +108,7 @@ For full documentation see [Retention Analytics](../retention-analytics/README.m
 
 ---
 
-### Refund Analytics *(Pro)*
+### Refund Analytics
 
 Refund reporting under WooCommerce Analytics, built directly from WooCommerce refund records.
 
@@ -130,7 +128,7 @@ For full documentation see [Refund Analytics](../refund-analytics/README.md).
 
 ---
 
-### AI Reports *(Free)*
+### AI Reports
 
 AI-scored churn risk and forward revenue projection under WooCommerce Analytics.
 
@@ -151,7 +149,7 @@ For full documentation see [AI Churn Analysis](ai-churn-analysis.md) and [AI Rev
 
 ---
 
-### Orders Analytics *(Pro)*
+### Orders Analytics
 
 Enhanced WooCommerce Orders report with subscription type classification and advanced filters.
 
@@ -170,7 +168,7 @@ For full documentation see [WooCommerce Analytics Extension](woocommerce-analyti
 
 ---
 
-### Revenue Analytics *(Pro)*
+### Revenue Analytics
 
 WooCommerce Revenue report extended with subscription-specific breakdowns.
 
@@ -186,7 +184,7 @@ For full documentation see [WooCommerce Analytics Extension](woocommerce-analyti
 
 ---
 
-### Products & Variations Analytics *(Pro)*
+### Products & Variations Analytics
 
 WooCommerce Products and Variations reports with subscription product filtering.
 
@@ -201,7 +199,7 @@ For full documentation see [WooCommerce Analytics Extension](woocommerce-analyti
 
 ---
 
-### Customers Analytics *(Pro)*
+### Customers Analytics
 
 WooCommerce Customers report with subscription status data and member profile quick links.
 
@@ -216,7 +214,7 @@ For full documentation see [WooCommerce Analytics Extension](woocommerce-analyti
 
 ---
 
-### Order List Enhancements *(Pro)*
+### Order List Enhancements
 
 Enhanced WooCommerce Orders admin page with type columns, coupon columns, filters, and a summary panel.
 
@@ -232,7 +230,7 @@ For full documentation see [Order List Enhancements](order-list-enhancements.md)
 
 ---
 
-### Subscriptions *(Free)*
+### Subscriptions
 
 View, search, filter, and export subscription data from the ArraySubs admin panel.
 
@@ -248,7 +246,7 @@ For full documentation see [Subscription Operations](../manage-subscriptions/sub
 
 ---
 
-### Member Insights *(Pro)*
+### Member Insights
 
 Detailed member profiles with subscription stats, order history, and lifetime value.
 
@@ -263,7 +261,7 @@ For full documentation see [Member Lookup and Profiles](../member-insight/member
 
 ---
 
-### Store Credit *(Pro)*
+### Store Credit
 
 Customer store credit balances and transaction history.
 
@@ -278,7 +276,7 @@ For full documentation see [Store Credit Management](../store-credit/store-credi
 
 ---
 
-### Audit Logs *(Pro)*
+### Audit Logs
 
 Activity audit trails, webhook delivery logs, and scheduled job execution history.
 
@@ -288,7 +286,7 @@ Activity audit trails, webhook delivery logs, and scheduled job execution histor
 | Gateway Webhook Logs | Payment gateway webhook delivery logs and gateway health status |
 | Scheduled Job Logs | Action Scheduler execution history for renewals, emails, status changes, and maintenance |
 
-Reports link to **ArraySubs → Audits** pages.
+Reports link to **ArraySubs → Audit Logs** pages.
 
 For full documentation see [Activity Audits](../audits-and-logs/activity-audits.md), [Gateway Health Dashboard](../gateway-health/README.md), and [Scheduled Job Logs](../audits-and-logs/scheduled-job-logs.md).
 

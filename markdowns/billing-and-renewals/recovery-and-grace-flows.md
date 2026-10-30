@@ -1,13 +1,11 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Recovery and Grace Flows
 
 > What happens when a renewal payment is missed — the two-phase grace period, overdue detection, skip and pause interactions, and how payment at any point restores the subscription.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -332,11 +330,11 @@ A gym membership subscriber wants to pause during summer vacation. They pause fo
 | Subscription went On-Hold with no active grace days | The first (checkout) payment failed, or the renewal order could not be created | Check the parent order status and the subscription notes. See [Two paths that skip the active grace days](#two-paths-that-skip-the-active-grace-days). |
 | Subscription moved to On-Hold later than the grace setting suggests | No unpaid invoice existed yet, the renewal charge time was spread a few hours after the due date, or a gateway payment was still settling | Wait for the next hourly check; check the renewal order for a pending gateway payment. |
 | Subscription stuck on On-Hold | Invoice is pending but the grace period has not expired | Check the subscription detail for a pending renewal order. A paused subscription is **not** On Hold — it shows Paused |
-| Subscription shows Paused and is not resuming | Auto-resume has not fired, or Allow Resume is off so the customer has no button | Verify the auto-resume date, then check **Scheduled-Job Logs** (Pro). An admin can resume from the subscription screen regardless of the customer setting |
+| Subscription shows Paused and is not resuming | Auto-resume has not fired, or Allow Resume is off so the customer has no button | Verify the auto-resume date, then check **Jobs**. An admin can resume from the subscription screen regardless of the customer setting |
 | Customer still has access after moving to On-Hold | Member access rules do not restrict On-Hold status | Review your access rules at **ArraySubs → Member Access** to ensure On-Hold subscriptions are restricted appropriately |
 | Paused customer still has access | **Content Access** on the Skip & Pause page is set to Limited or Full | Set it to **No access** if a pause should suspend benefits too |
 | Skip not available to customer | Skip is disabled, cutoff period is too restrictive, or max cycles reached | Check skip settings in **Settings -> Skip & Pause** for enabled state, Maximum Cycles to Skip, Skip Cutoff (Days), and Allow Customers to Skip. |
-| Pause not resuming automatically | Auto-resume job may not have executed yet | The auto-resume is scheduled via Action Scheduler for the exact pause end date. Check **Scheduled-Job Logs** (Pro) to verify the resume action is queued. |
+| Pause not resuming automatically | Auto-resume job may not have executed yet | The auto-resume is scheduled via Action Scheduler for the exact pause end date. Check **Jobs** to verify the resume action is queued. |
 | Payment received but subscription still shows On-Hold | Order status has not been updated to Completed or Processing | Check the renewal order status in WooCommerce. The subscription restores to Active only when the linked order reaches a paid status (Completed or Processing). |
 
 ---

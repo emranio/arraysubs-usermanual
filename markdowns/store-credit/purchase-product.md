@@ -1,13 +1,11 @@
 # Info
 - Module: Store Credit Purchase Product
-- Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
 # Purchase Product
 
 > Create a WooCommerce product that lets customers buy store credit directly — with fixed or custom amounts and optional bonus incentives.
 
-**Availability:** Pro
 
 ## Page Navigation
 

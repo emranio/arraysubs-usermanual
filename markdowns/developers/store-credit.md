@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Pro
-- Last updated: 2026-10-24
+- Last updated: 2026-10-31
 
 # Read and Update Store Credit
 
 > Read customer and subscription store credit and its ledger history, and record signed, retry-safe credit adjustments from your own plugin.
 
-**Availability:** The `ArraySubs\Developer\StoreCredit` class ships with ArraySubs core, but every call needs ArraySubs Pro: without Pro, `data()`, `history()` and `adjust()` return the `WP_Error` `store_credit_unavailable`. With Pro active, `data()` and `history()` keep working on retained data while the **Store Credit** module is off in **ArraySubs -> Modules**; `adjust()` needs the module on.
 
 ## Page Navigation
 
@@ -88,6 +86,7 @@ All three return `arraysubs_not_ready` before `wp_loaded`. Creating an instance 
 ## `data()`
 
 ```text
+// Read the balance and availability sections for the selected customer or subscription.
 $credit->data( array $fields = [] ): array|WP_Error
 ```
 
@@ -155,6 +154,7 @@ Amounts are PHP floats. Format them for display with `wc_price()` and the matchi
 ## `history()`
 
 ```text
+// Read ledger transactions in pages; a balance is current state, while history explains its changes.
 $credit->history( array $args = [] ): array|WP_Error
 ```
 
@@ -250,6 +250,7 @@ Rows include the owner's name and email. Pass `fields` to keep only what a page 
 ## `adjust()`
 
 ```text
+// Adjust credit with a signed amount and a stable operation ID in args so retries can be deduplicated.
 $credit->adjust( float $amount, array $args = [] ): array|WP_Error
 ```
 
@@ -272,6 +273,7 @@ Any other argument returns `unsupported_credit_argument`.
 
 ```php
 <?php
+// Example successful adjustment response: transaction identifies the ledger entry; state is the new balance snapshot.
 $result = [
     'transaction' => [], // The ledger row, in the history() row shape.
     'state'       => [], // The full data() result after the change.
@@ -298,6 +300,7 @@ $result = [
 Use `arraysubs_store_credit_transaction` when you need the complete identity and committed balances of a credit change:
 
 ```text
+// The subscription may be null for customer-level credit; the transaction still identifies its customer.
 do_action( 'arraysubs_store_credit_transaction', WP_Post|null $subscription, array $transaction )
 ```
 
@@ -395,6 +398,8 @@ function myplugin_credit_shortcode(): string {
 
 Place it in content:
 
+After registering its callback, paste this into a Shortcode block to show the signed-in member's credit.
+
 ```text
 [myplugin_credit]
 ```
@@ -405,6 +410,7 @@ Place it in content:
 
 ```php
 <?php
+// Read up to ten recent transactions for the signed-in member, preserving each row's currency.
 function myplugin_render_credit_history(): string {
 	if ( ! is_user_logged_in() || ! class_exists( '\ArraySubs\Developer\StoreCredit' ) ) {
 		return '';
@@ -422,6 +428,7 @@ function myplugin_render_credit_history(): string {
 		return '';
 	}
 
+	// Format ledger dates as UTC-backed dates and escape notes before building table rows.
 	$rows = '';
 	foreach ( $page['items'] as $row ) {
 		$money = array( 'currency' => $row['currency'] );

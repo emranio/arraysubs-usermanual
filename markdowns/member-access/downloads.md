@@ -1,13 +1,11 @@
 # Info
 - Module: Downloads
-- Availability: Free (Feature Value conditions require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Downloads
 
 > Provision gated downloadable files to qualifying customers through My Account.
 
-**Availability:** Free. The shared **Feature Value** condition checks features defined with Feature Manager, which requires ArraySubs Pro.
 
 ## Page Navigation
 

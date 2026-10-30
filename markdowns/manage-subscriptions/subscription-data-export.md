@@ -1,20 +1,18 @@
 # Info
 - Module: Subscription Admin
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Subscription Data Export
 
 > Download your subscriptions as a CSV — customer shipping addresses included — and pick exactly which columns come with them.
 
-**Availability:** Free
 
 ## Page Navigation
 
 - **Admin screen:** WordPress Admin → **ArraySubs → Subscriptions**
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/subscriptions`
 - **The list itself:** [Subscription Operations](subscription-operations.md)
-- **Shipping setup:** [Subscription Shipping](../subscription-shipping/README.md) *(Pro)*
+- **Shipping setup:** [Subscription Shipping](../subscription-shipping/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](../audits-and-logs/README.md)
 
 ## Overview
@@ -159,7 +157,7 @@ These are the columns to use for shipping labels and pick lists.
 | Shipping Zip Code | Postcode or ZIP |
 | Shipping Country | Two-letter country code, e.g. `US` |
 | Shipping Phone | Contact number for the delivery |
-| Shipping Method | The shipping method saved on the subscription *(Pro)* |
+| Shipping Method | The shipping method saved on the subscription |
 
 ```box class="info-box"
 State and country are exported as the codes WooCommerce stores — `MI`, `US` — because that is the format postal carriers and label software expect.
@@ -342,8 +340,8 @@ A "full" subscription record from the API holds the subscription's own data plus
 ## Related Guides
 
 - [Subscription Operations](subscription-operations.md) — the All Subscriptions list, its filters, and the search box that shape the export
-- [Admin Tools and Records](admin-tools-and-records.md) — notes, feature log *(Pro)*, and order history
-- [Subscription Shipping](../subscription-shipping/README.md) *(Pro)* — shipping methods, recurring shipping charges, and delivery address handling
+- [Admin Tools and Records](admin-tools-and-records.md) — notes, feature log, and order history
+- [Subscription Shipping](../subscription-shipping/README.md) — shipping methods, recurring shipping charges, and delivery address handling
 - [Customer Portal — Self-Service Actions](../customer-portal/self-service-actions.md) — how customers update their own delivery address
 - [Analytics — Reports Hub](../analytics/reports-hub.md) — built-in reporting when you want charts rather than a raw file
 - [Find and Update Subscriptions](../developers/subscriptions.md) - developer reference for paged, full, and selected subscription data

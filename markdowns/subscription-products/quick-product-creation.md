@@ -1,7 +1,6 @@
 # Info
 - Module: Subscription Products
-- Availability: Free + Pro
-- Last updated: 2026-09-15
+- Last updated: 2026-10-30
 
 # Create Products with the Quick Creation Wizard
 
@@ -20,7 +19,7 @@ On **ArraySubs → Home**, click **+ Subscription Product**. The dialog is title
 
 ![ArraySubs Home toolbar with the + Subscription Product button](quick-product-creation.ASSETS/01-open-wizard-original.png)
 
-The **ArraySubs → 1-Minute Setup** page has a **Subscription product** card with a **Create a product** or **Add another product** action. The Home onboarding card opens the same modal through these actions. After [1-Minute Setup](../getting-started/easy-setup-wizard.md), use **Create your first subscription product** or **Create a subscription product** on the completion screen. The product card opens this modal; other completion cards open their destination pages.
+The **ArraySubs → Easy Setup & Import Export** page has a **Subscription product** card with a **Create a product** or **Add another product** action. The Home onboarding card opens the same modal through these actions. After [1-Minute Setup](../getting-started/easy-setup-wizard.md), use **Create your first subscription product** or **Create a subscription product** on the completion screen. The product card opens this modal; other completion cards open their destination pages.
 
 ![Saved 1-Minute Setup with the Create a subscription product card](quick-product-creation.ASSETS/44-easy-setup-next-steps-original.png)
 
@@ -37,8 +36,8 @@ The progress bar shows the current step and total. Use **Next** and **Previous**
 | **Simple subscription product** | A product or membership with its own billing terms | Eight steps: type, details, billing, trial/signup, renewal sync, fixed-period membership, shipping, review |
 | **Variable Subscription Product** | A guide to setting up variations in WooCommerce | Two screens: type and setup guide; create the product in the full editor |
 | **Subscription box** | A box that customers assemble from your configured steps | Five main steps, with a three-screen box builder |
-| **Subscription bundle product** *(Pro)* | A fixed collection you choose for the customer | Five main steps, with a three-screen bundle builder |
-| **Store credit** *(Pro)* | Credit customers can purchase and spend in the store | Four steps: type, details, credit settings, review |
+| **Subscription bundle product** | A fixed collection you choose for the customer | Five main steps, with a three-screen bundle builder |
+| **Store credit** | Credit customers can purchase and spend in the store | Four steps: type, details, credit settings, review |
 
 Jump to [Simple subscriptions](#simple-subscription-products), [Variable products](#variable-subscription-products), [Boxes](#subscription-boxes), [Bundles](#subscription-bundles), or [Store credit](#store-credit-products).
 
@@ -50,7 +49,7 @@ A disabled card explains what is missing and provides a shortcut. For example, *
 
 To unlock box and bundle creation, have both a qualifying simple subscription product and a regular, non-subscription simple product in the catalog. They must be published, priced above zero, and in stock or available on backorder. The subscription must use recurring billing with the same price at each renewal; lifetime products and products with a different renewal price do not qualify. The relevant product module must also be available.
 
-For **Store credit**, enable the **Store Credit System** and **Credit Purchases** in [Store Credit Settings](../store-credit/store-credit-settings.md). Cards marked **Pro** require the premium feature. If a card says its tools are not ready, follow its reload instruction after completing setup.
+For **Store credit**, enable the **Store Credit System** and **Credit Purchases** in [Store Credit Settings](../store-credit/store-credit-settings.md). Some product types require their module and an active license. If a card says its tools are not ready, follow its reload instruction after completing setup.
 
 ## Simple Subscription Products
 
@@ -73,13 +72,13 @@ Choose **Fixed**, **Flexible Length**, or **Full Flexible** under **Subscription
 | **Billing period** | Choose Day, Week, Month, Year, or Lifetime deal |
 | **Billing interval** | Charge every this many periods; allowed range is 1–12 |
 | **Subscription length** | Number of billing cycles, from 0–365; 0 means no expiry |
-| **Use a different renewal price (Pro)** | Requires active ArraySubsPro and an active license; enables the additional price and threshold fields |
+| **Use a different renewal price | Requires active ArraySubsPro and an active license; enables the additional price and threshold fields |
 
 For example, Month with interval 1 bills monthly; Month with interval 3 bills quarterly.
 
 #### Different Renewal Price
 
-**Pro feature — requires ArraySubsPro and an active license.** The checkbox shows a red **Pro** label and stays disabled without licensed Pro.
+Different Renewal Price requires ArraySubs Pro and an active license. The checkbox stays disabled until the license is active.
 
 With licensed Pro active, enable **Use a different renewal price**, enter a positive **Renewal price**, and set **Apply renewal price after** to a whole number from 1–100,000 billing periods.
 

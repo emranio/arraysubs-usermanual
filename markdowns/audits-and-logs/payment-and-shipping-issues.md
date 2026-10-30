@@ -1,18 +1,16 @@
 # Info
 - Module: Audits and Logs
-- Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Payment Method and Shipping Update Issues
 
 > Resolve problems with auto-renew toggles, payment method updates, gateway detachment, and shipping address changes.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
 - **Current guide:** Payment Method and Shipping Update Issues
-- **Where to open it:** WordPress Admin -> ArraySubs -> Audits [beta]
+- **Where to open it:** WordPress Admin -> ArraySubs -> Audit Logs
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [Gateway Health](../gateway-health/README.md)
 - **Next guide:** [portal-action-failures](./portal-action-failures.md)
@@ -24,7 +22,7 @@ Subscribers may need to update their payment method, toggle automatic renewals, 
 
 This guide covers the most common payment method and shipping update failures and how to fix them.
 
-## Auto-Renew Toggle Issues (Pro)
+## Auto-Renew Toggle Issues
 
 The auto-renew toggle lets customers switch between automatic and manual renewal billing. It is a Pro feature that requires a compatible payment gateway.
 
@@ -68,7 +66,7 @@ When a customer's stored card has expired (past the `_payment_method_expiry_mont
 
 **Fix:** The customer should update their payment method first through the portal's payment method update flow, then toggle auto-renew on.
 
-## Payment Method Update Issues (Pro)
+## Payment Method Update Issues
 
 ![Customer portal payment and shipping actions](payment-and-shipping-issues.ASSETS/04-customer-payment-shipping-actions-annotated.png)
 
@@ -128,7 +126,7 @@ The Detach Gateway button appears **only on automatic-gateway subscriptions** (S
 
 **After detaching**, the customer needs to go through a new payment flow (e.g., pay a renewal invoice) to re-establish automatic payments with a new payment method.
 
-## Store Credit Reversal Trail (Pro)
+## Store Credit Reversal Trail
 
 When a renewal payment fails on a subscription that had store credit auto-applied, ArraySubs automatically restores the credit. The trail an auditor can follow:
 
@@ -139,7 +137,7 @@ When a renewal payment fails on a subscription that had store credit auto-applie
 
 If you see a debit followed by a matching `Reversal` credit on the same day, that is the system working correctly — no manual reconciliation needed. If credit was deducted but no reversal entry appears even though the renewal failed, check that the Pro plugin is active (the listener lives in `arraysubspro/StoreCredit/Services/Hooks.php`) and that the `arraysubs_renewal_payment_failed` action actually fired (look in the subscription notes for the failure entry).
 
-## Shipping Address Update Issues (Pro)
+## Shipping Address Update Issues
 
 ### Feature Not Available
 

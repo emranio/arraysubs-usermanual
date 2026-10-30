@@ -66,49 +66,6 @@ function extractInfoBlock(rawContent) {
   };
 }
 
-function enrichMetadataFromBody(body, metadata) {
-  const resolvedMetadata = { ...metadata };
-
-  if (resolvedMetadata.availability && resolvedMetadata.plugin) {
-    return resolvedMetadata;
-  }
-
-  const lines = String(body || "")
-    .split(/\r?\n/)
-    .slice(0, 20);
-
-  for (const line of lines) {
-    const trimmed = line.trim();
-
-    if (!trimmed) {
-      continue;
-    }
-
-    const richMatch = trimmed.match(/^\*\*(availability|plugin):\*\*\s*(.+)$/i);
-
-    if (richMatch) {
-      resolvedMetadata[richMatch[1].trim().toLowerCase()] = richMatch[2].trim();
-      continue;
-    }
-
-    const plainMatch = trimmed.match(/^(availability|plugin):\s*(.+)$/i);
-
-    if (plainMatch) {
-      resolvedMetadata[plainMatch[1].trim().toLowerCase()] =
-        plainMatch[2].trim();
-    }
-  }
-
-  return resolvedMetadata;
-}
-
-function replaceInlineProBadges(html) {
-  return String(html || "").replace(
-    /<(em|strong)>\s*\((pro)\)\s*<\/\1>/gi,
-    '<span class="docs-badge docs-badge--pro">Pro</span>',
-  );
-}
-
 function extractPrimaryHeading(markdown, fallbackTitle) {
   const lines = String(markdown || "").split(/\r?\n/);
   const headingIndex = lines.findIndex((line) => /^#\s+/.test(line));
@@ -419,36 +376,6 @@ function createMarkdownParser(toc) {
   return md;
 }
 
-function isProPage(metadata) {
-  const availability = String(metadata.availability || metadata.plugin || "")
-    .trim()
-    .toLowerCase();
-
-  if (!availability) {
-    return false;
-  }
-
-  if (availability.startsWith("shared") || availability.startsWith("free")) {
-    return false;
-  }
-
-  return (
-    availability === "pro" ||
-    availability.startsWith("pro ") ||
-    availability.startsWith("pro(") ||
-    availability.startsWith("pro-") ||
-    availability.includes("pro only") ||
-    availability.includes("pro-only") ||
-    availability.includes("arraysubs pro")
-  );
-}
-
-function stripDecorativeProMarker(value) {
-  return String(value || "")
-    .replace(/\s*(?:\*\*|\*)?\(?pro\)?(?:\*\*|\*)?\s*$/i, "")
-    .trim();
-}
-
 async function parseMarkdownFile(filePath, options) {
   const rawContent = await fs.readFile(filePath, "utf8");
   const sourceRelativePath = toPosix(
@@ -466,10 +393,7 @@ async function parseMarkdownFile(filePath, options) {
     ? titleCaseFromSlug(path.basename(directoryRelativePath))
     : "Home";
   const extractedInfo = extractInfoBlock(rawContent);
-  const metadata = enrichMetadataFromBody(
-    extractedInfo.body,
-    extractedInfo.metadata,
-  );
+  const metadata = extractedInfo.metadata;
   const { body, rawBodyWithoutInfo } = extractedInfo;
   const {
     title: extractedHeadingTitle,
@@ -479,10 +403,6 @@ async function parseMarkdownFile(filePath, options) {
     body,
     metadata.module || filenameFallback || parentDirectoryTitle,
   );
-  // Developers pages document mixed Core/Pro APIs, so they never carry the
-  // Pro badge (menu item or page title).
-  const isPro =
-    isProPage(metadata) && !sourceRelativePath.startsWith("developers/");
   const title = choosePageTitle({
     defaultIndexTitle: "Home",
     filenameFallback,
@@ -493,9 +413,7 @@ async function parseMarkdownFile(filePath, options) {
   });
   const toc = [];
   const md = createMarkdownParser(toc);
-  const html = replaceInlineProBadges(
-    md.render(preprocessImagePaths(contentMarkdown || "")),
-  );
+  const html = md.render(preprocessImagePaths(contentMarkdown || ""));
 
   const outputRelativePath = isIndexPage
     ? directoryRelativePath
@@ -514,12 +432,11 @@ async function parseMarkdownFile(filePath, options) {
     directoryRelativePath,
     filePath,
     isIndexPage,
-    isPro,
     metadata,
     outputRelativePath,
     rawBodyForLlms: rawBodyWithoutInfo,
     sourceRelativePath,
-    title: isPro ? stripDecorativeProMarker(title) : title,
+    title,
     toc,
     urlPath,
   };

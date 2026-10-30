@@ -1,9 +1,8 @@
 # Info
 - Module: Feature Manager
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
-# Feature Manager *(Pro)*
+# Feature Manager
 
 > Define named product entitlements — features, limits, and capabilities — so customers always know exactly what their subscription includes.
 
@@ -87,7 +86,7 @@ Features are only shown for subscriptions with an `active` or `trial` status. On
 
 ## Page Navigation
 
-- **Current guide:** Feature Manager *(Pro)*
+- **Current guide:** Feature Manager
 - **Where to open it:** WordPress Admin -> Products -> Edit Product and ArraySubs -> Settings -> Feature Manager
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [feature-manager-settings](./feature-manager-settings.md)

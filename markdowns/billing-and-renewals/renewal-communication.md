@@ -1,13 +1,11 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Renewal Communication
 
 > Every email the billing engine sends during the renewal cycle — reminders before payment, invoices at generation, confirmations after payment, and alerts when things go wrong.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -155,7 +153,7 @@ Sent when a renewal payment attempt fails. Both the customer and the store admin
 - Subscription and customer identification
 
 **Behavior notes:**
-- For automatic payment subscriptions **(Pro)**, payment retries may be scheduled after this initial failure. See [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) for retry logic.
+- For automatic payment subscriptions, payment retries may be scheduled after this initial failure. See [Automatic Payments](../checkout-and-payments/automatic-payments/README.md) for retry logic.
 - The subscription remains Active during the active grace period even after a payment failure. The grace timeline starts from the payment due date, not the failure notification.
 
 ---

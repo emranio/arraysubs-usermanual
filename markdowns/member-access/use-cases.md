@@ -1,13 +1,11 @@
 # Info
 - Module: Member Access Use Cases
-- Availability: Shared
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
 # Member Access — Real-World Use Cases
 
 > 17 practical examples showing how to configure Member Access rules for real subscription businesses. Each use case includes the business problem, the rule setup, and expected behavior.
 
-**Availability:** Free — cases marked *(Pro)* require ArraySubs Pro
 
 ## Page Navigation
 
@@ -34,7 +32,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ![Post Type rule builder — target, condition, and denial action](use-cases.ASSETS/01-post-type-rule-builder-annotated.png)
 
-**Industry:** Education / E-learning  
+**Industry:** Education / E-learning
 **Rule types:** Post Type Rules with schedules
 
 **The problem:** You sell a 12-week online course as a subscription product. New students should see only Week 1 content on day one. Each subsequent week's lessons should unlock on a weekly schedule.
@@ -67,7 +65,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ![Discount rule builder — target scope and discount value fields](use-cases.ASSETS/02-discount-rule-builder-annotated.png)
 
-**Industry:** Any subscription store  
+**Industry:** Any subscription store
 **Rule types:** Discount Rules
 
 **The problem:** You want to reward loyal customers who have been subscribed for at least 6 months with a 15% discount on all non-subscription products in your store.
@@ -93,7 +91,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ![Shop Access rule builder — target scope and restriction action](use-cases.ASSETS/03-ecommerce-rule-builder-annotated.png)
 
-**Industry:** B2B / Wholesale  
+**Industry:** B2B / Wholesale
 **Rule types:** Shop Access Rules
 
 **The problem:** Your entire product catalog should only be browsable and purchasable by subscribers with an active "Wholesale Membership" subscription. Non-members should see a pricing page.
@@ -118,7 +116,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ![Role mapping overview — tab bar and role mapping rule](use-cases.ASSETS/08-role-mapping-overview-annotated.png)
 
-**Industry:** Education / Membership  
+**Industry:** Education / Membership
 **Rule types:** Role Mapping Rules
 
 **The problem:** You have three subscription tiers: Starter, Professional, and Enterprise. Each tier should assign a corresponding WordPress role so your LMS plugin can check user roles for course access.
@@ -148,7 +146,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ![URL rules — pattern type, condition, and action](use-cases.ASSETS/04-url-rules-annotated.png)
 
-**Industry:** Community / Membership  
+**Industry:** Community / Membership
 **Rule types:** URL Rules
 
 **The problem:** You have a `/community/` section of your site built with a page builder. All pages under `/community/` should require an active subscription, but `/community/about/` and `/community/preview/` should be public.
@@ -174,7 +172,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ## 6. Category-Based Content Gating for a Magazine
 
-**Industry:** Publishing / Media  
+**Industry:** Publishing / Media
 **Rule types:** Post Type Rules
 
 **The problem:** You publish a magazine with two sections: "Free Articles" and "Premium Articles" categories. Premium articles should only be readable by subscribers.
@@ -201,7 +199,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ## 7. Restricting WooCommerce Product Purchases for Non-Members
 
-**Industry:** Membership commerce  
+**Industry:** Membership commerce
 **Rule types:** Shop Access Rules
 
 **The problem:** You sell physical products alongside your membership subscription. Certain premium products should only be purchasable by active subscribers with at least $200 in lifetime spend.
@@ -226,7 +224,7 @@ Use these as recipes — adapt the conditions and targets to your specific produ
 
 ![Download rule builder — Add File and access condition](use-cases.ASSETS/05-download-rule-builder-annotated.png)
 
-**Industry:** Digital products / Software  
+**Industry:** Digital products / Software
 **Rule types:** Download Rules
 
 **The problem:** You offer a software subscription with regular template/resource updates. Subscribers to the "Pro Plan" should get access to a library of downloadable templates that grows over time.
@@ -254,7 +252,7 @@ When new templates are released, simply edit this rule and add new files.
 
 ## 9. Drip-Access Downloads for a Training Program
 
-**Industry:** Education / Professional training  
+**Industry:** Education / Professional training
 **Rule types:** Download Rules with schedule
 
 **The problem:** You sell a certification training program. Workbook materials should unlock according to the training schedule: Module 1 immediately, Module 2 after 2 weeks, Module 3 after 4 weeks.
@@ -278,7 +276,7 @@ Create three Download Rules:
 
 ## 10. Per-Cart Discount for High-Value Members
 
-**Industry:** Retail / E-commerce  
+**Industry:** Retail / E-commerce
 **Rule types:** Discount Rules
 
 **The problem:** Subscribers to your "Gold" plan should get a flat $25 discount on every cart, but only on carts totaling $100 or more. You want the discount to show as a line item in checkout, not as a hidden price reduction.
@@ -305,7 +303,7 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 
 ## 11. Restricting a Forum with Regular Expression URL Patterns
 
-**Industry:** Community / SaaS  
+**Industry:** Community / SaaS
 **Rule types:** URL Rules
 
 **The problem:** Your site has a forum at `/forum/` with sub-sections. You want to restrict access to specific discussion boards (numbered `/forum/board-1/` through `/forum/board-99/`) while keeping `/forum/announcements/` and `/forum/rules/` public.
@@ -329,11 +327,11 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 
 ---
 
-## 12. Per-Session Limits for Streaming Tiers *(Pro)*
+## 12. Per-Session Limits for Streaming Tiers
 
 ![Login Limit rule builder — condition and session limit](use-cases.ASSETS/06-login-limit-rule-builder-annotated.png)
 
-**Industry:** Media streaming / SaaS  
+**Industry:** Media streaming / SaaS
 **Rule types:** Login Limit Rules
 
 **The problem:** You offer a video streaming subscription with three tiers. Basic subscribers should be limited to 1 screen (session) at a time, Standard to 3 screens, and Premium to 5 screens.
@@ -361,7 +359,7 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 
 ## 13. Supplier-Only Product Catalog
 
-**Industry:** B2B marketplace  
+**Industry:** B2B marketplace
 **Rule types:** Shop Access Rules + Role Mapping
 
 **The problem:** Your store has a "Supplier Catalog" category that should only be visible to customers who (a) have an active "Supplier Partnership" subscription and (b) have been a member for 30 days.
@@ -389,7 +387,7 @@ For a minimum cart total requirement ($100), developers can add custom validatio
 
 ## 14. Inline Content Gating on a Sales Page
 
-**Industry:** Any  
+**Industry:** Any
 **Rule types:** `[arraysubs_restrict]` shortcode
 
 **The problem:** You have a long-form sales page that contains both free and premium sections. You want non-subscribers to see the free introduction, a teaser, and a call-to-action — while subscribers see the full content.
@@ -426,7 +424,7 @@ This final section is also free for everyone.
 
 ## 15. Purchase-History Based Access (Non-Subscription)
 
-**Industry:** Digital products / E-commerce  
+**Industry:** Digital products / E-commerce
 **Rule types:** Post Type Rules
 
 **The problem:** You sell individual digital guides as regular WooCommerce products (not subscriptions). Customers who have purchased "Advanced Photography Guide" (product #456) should get access to a members-only "Photography Resources" page, regardless of whether they have a subscription.
@@ -449,7 +447,7 @@ This final section is also free for everyone.
 
 ## 16. Multi-Tier Content with Combined Conditions
 
-**Industry:** SaaS / Professional services  
+**Industry:** SaaS / Professional services
 **Rule types:** Post Type Rules with condition groups
 
 **The problem:** You publish research reports gated behind a two-tier system. "Standard Reports" require any active subscription. "Executive Reports" require an active subscription to the Enterprise plan **OR** a lifetime spend of $5,000 or more.
@@ -474,9 +472,9 @@ This final section is also free for everyone.
 
 ---
 
-## 17. Feature-Based Gating for SaaS Entitlements *(Pro)*
+## 17. Feature-Based Gating for SaaS Entitlements
 
-**Industry:** SaaS / Platform  
+**Industry:** SaaS / Platform
 **Rule types:** `[arraysubs_restrict]` shortcode with Feature Value condition
 
 **The problem:** Your SaaS subscription uses the Feature Manager to define a `team_seats` entitlement. Customers with 10 or more seats should see team management documentation. Customers with fewer seats should see a message encouraging an upgrade.
@@ -524,12 +522,12 @@ Monitor who's doing what across your organization...
 | 9 | Drip-access training materials | Downloads + Schedule | Timed download unlock |
 | 10 | Per-cart flat discount | Discount | Cart-level fee discount |
 | 11 | Regular expression forum restriction | URL | Regular expression + login redirect |
-| 12 | Streaming session limits *(Pro)* | Login Limit | Per-tier concurrent sessions |
+| 12 | Streaming session limits | Login Limit | Per-tier concurrent sessions |
 | 13 | Supplier catalog with waiting period | Shop Access + Role + Schedule | 30-day access delay |
 | 14 | Inline content gating on sales page | `[arraysubs_restrict]` | Partial page restriction |
 | 15 | Purchase-history page access | Post Type | Non-subscription purchase gating |
 | 16 | Multi-tier research reports | Post Type + Condition groups | OR conditions across tiers |
-| 17 | SaaS feature-based docs gating *(Pro)* | `[arraysubs_restrict]` + Feature Value | Entitlement-based content lock |
+| 17 | SaaS feature-based docs gating | `[arraysubs_restrict]` + Feature Value | Entitlement-based content lock |
 
 ---
 

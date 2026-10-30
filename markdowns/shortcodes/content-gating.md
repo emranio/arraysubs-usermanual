@@ -1,13 +1,11 @@
 # Info
 - Module: Content Gating Shortcodes
-- Availability: Free (feature values are set up with Pro Feature Manager)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Content Gating Shortcodes
 
 > Control which visitors see specific page content using login state, subscription status, product ownership, user roles, spending thresholds, or feature entitlements.
 
-**Availability:** Free. The `feature` condition reads feature values that you set up on products with **Pro** Feature Manager.
 
 ## Page Navigation
 
@@ -38,7 +36,7 @@ Use `[arraysubs_visibility]` when you only need to check login state. Use `[arra
 - You want to restrict content to customers who subscribe to a specific product or variation.
 - You want to gate exclusive content behind a minimum lifetime spending threshold.
 - You want to show different content based on WordPress user roles.
-- You want to use Feature Manager entitlements to control who sees what *(Pro)*.
+- You want to use Feature Manager entitlements to control who sees what.
 - You want to show teaser content publicly while hiding the full version behind a paywall.
 
 ## Prerequisites
@@ -238,7 +236,7 @@ Gate content behind a minimum lifetime spending amount. This checks the customer
 [/arraysubs_restrict]
 ```
 
-#### Feature Entitlement Conditions *(Pro)*
+#### Feature Entitlement Conditions
 
 Check the feature values defined on the products a customer holds. You add and edit those features with Pro Feature Manager (**Product -> Features**). ArraySubs core evaluates this condition from the feature data saved on each product, so the condition is never ignored: if Pro or the Feature Manager module is later switched off, the saved values stay on the products and the condition keeps using them.
 
@@ -503,7 +501,7 @@ Show a section to anyone who is either an active subscriber OR has purchased a s
 ## Related Guides
 
 - [Account Shortcodes](account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
-- [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]` *(Pro)*
+- [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]`
 - [Content Gate](../member-access/content-gate.md) — The Member Access tab that maps shortcode, Elementor, Gutenberg, and PHP gating.
 - [Post Types](../member-access/post-types.md) — Full-page restrictions for posts, pages, and custom post types
 - [URL](../member-access/url.md) — Path-based restrictions for entire protected sections

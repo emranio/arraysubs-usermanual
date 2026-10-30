@@ -1,13 +1,11 @@
 # Info
 - Module: Getting Started
-- Availability: Free + Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Cron Job Setup
 
 > Configure a reliable system cron so renewals, scheduled cancellations, expirations, and emails fire on time — not just when someone visits the site.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -99,7 +97,7 @@ Some managed hosts already run a system cron internally. Check your host's docum
 
 ### Step 3: Verify It's Working
 
-1. Install the **WP Crontrol** plugin (free).
+1. Install the **WP Crontrol** plugin.
 2. Go to **Tools → Cron Events**.
 3. Look at any event with a "Next Run" timestamp under 1 minute from now. After that minute passes, refresh — the timestamp should update.
 4. If timestamps stay frozen for more than 2 minutes, the system cron isn't reaching `wp-cron.php`. Check your cron log on the server.
@@ -154,7 +152,7 @@ A healthy response is HTTP 200 with no body. If you see a redirect or an error, 
 
 ![Renewal engine job logs](../billing-and-renewals/renewal-operations.ASSETS/03-renewal-engine-job-logs-annotated.png)
 
-Because ArraySubs (free + pro) is built on a **plugin-controlled renewal model for Stripe, Mollie, and manual gateways**, the plugin's own cron is the only thing that triggers a renewal charge. If the cron doesn't fire, **the renewal doesn't happen**. PayPal and Paddle are gateway-controlled, so they will charge on their own — but the plugin still needs the cron to flip statuses, send emails, run grace-period transitions, and process scheduled cancellations.
+Because ArraySubs is built on a **plugin-controlled renewal model for Stripe, Mollie, and manual gateways**, the plugin's own cron is the only thing that triggers a renewal charge. If the cron doesn't fire, **the renewal doesn't happen**. PayPal and Paddle are gateway-controlled, so they will charge on their own — but the plugin still needs the cron to flip statuses, send emails, run grace-period transitions, and process scheduled cancellations.
 
 Skipping the system cron is the single most common cause of "my renewals stopped working" support tickets. Setting it up correctly takes 5 minutes and prevents an entire category of problem.
 
@@ -175,7 +173,7 @@ Yes. Traffic patterns change; promotions end; you take a vacation. The system cr
 No. Other plugins that schedule WP-Cron jobs run exactly the same way; they're now triggered by your system cron instead of by visitors. The behavior is identical from their perspective, just more reliable.
 
 ### What's the simplest setup if I don't have SSH?
-Sign up for cron-job.org (free), point it at `https://your-site.com/wp-cron.php?doing_wp_cron`, set the schedule to every 1 minute, and you're done. Then add `define('DISABLE_WP_CRON', true);` to `wp-config.php`.
+Sign up for cron-job.org, point it at `https://your-site.com/wp-cron.php?doing_wp_cron`, set the schedule to every 1 minute, and you're done. Then add `define('DISABLE_WP_CRON', true);` to `wp-config.php`.
 
 ### How do I know it's actually working?
 Install WP Crontrol, look at any pending event, wait for its "Next Run" time to pass, refresh, and confirm the time updated. If it didn't, the cron isn't firing.

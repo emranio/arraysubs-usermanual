@@ -1,18 +1,16 @@
 # Info
 - Module: Getting Started
-- Availability: Free
-- Last updated: 2026-09-03
+- Last updated: 2026-10-30
 
 # Import / Export Settings
 
 > Download a portable ArraySubs configuration as JSON, or restore a current export with granular control over which settings sections are replaced.
 
-**Availability:** Free
 
 ## Page Navigation
 
 - **Current guide:** Import / Export Settings
-- **Where to open it:** WordPress Admin -> ArraySubs -> 1-Minute Setup
+- **Where to open it:** WordPress Admin -> ArraySubs -> Easy Setup & Import Export
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [first-time-setup](./first-time-setup.md)
@@ -21,13 +19,15 @@
 
 ## Overview
 
+Open **ArraySubs -> Easy Setup & Import Export** for both tools. This is also the page title and the label of the shortcut in the settings footer.
+
 ![1-Minute Setup page with the Setup Wizard, Export Settings, and Import Settings cards](easy-setup-wizard.ASSETS/01-easy-setup-page-original.png)
 
 The Import / Export tools let you back up the portable parts of your ArraySubs configuration and restore them on the same site or a different one. A current export contains a complete 13-section manifest, supported core and Pro settings, 29 ArraySubs WooCommerce email rows, profile fields, feature templates, the My Account menu layout, and more. Payment credentials and customer records are not included.
 
 Import reads that file, validates its structure and settings, and lets you choose exactly which sections to apply. Selected sections are replaced; unchecked sections remain untouched.
 
-Both tools live on the **ArraySubs → 1-Minute Setup** page alongside the Setup Wizard.
+Both tools live on the **ArraySubs → Easy Setup & Import Export** page alongside the Setup Wizard.
 
 ## When to Use This
 
@@ -76,7 +76,7 @@ A franchise operates five WooCommerce stores that all use the same subscription 
 
 ![Successful settings export with the downloaded JSON file and confirmation toast](import-export-settings.ASSETS/01-export-settings-success-original.png)
 
-1. Go to **ArraySubs → 1-Minute Setup**.
+1. Go to **ArraySubs → Easy Setup & Import Export**.
 2. Find the **Export Settings** card.
 3. Click **Export Settings**.
 4. A JSON file downloads automatically with the name `arraysubs-settings-YYYY-MM-DD.json`.
@@ -164,7 +164,7 @@ When Pro is active, `pro_version` contains its current version string; otherwise
 
 ![Import Settings entry form with file picker and JSON text area](import-export-settings.ASSETS/02-import-settings-entry-original.png)
 
-1. Go to **ArraySubs → 1-Minute Setup**.
+1. Go to **ArraySubs → Easy Setup & Import Export**.
 2. Click **Import Settings** on the Import card.
 3. Choose one of two methods:
    - Click **Choose JSON File** and select a current ArraySubs `.json` export. A valid file is read and advanced automatically.
@@ -213,7 +213,7 @@ Settings that reference site-specific products, pages, categories, content, or o
 | `members_access` | **Members & Access** | Content rules, member styling, download access, and concurrent-login controls |
 | `toolkit` | **Customer Toolkit** | Admin-bar visibility, dashboard/login restrictions, redirects, and role exceptions |
 | `integrations` | **Integrations** | Supported learning, affiliate, licensing, and related integration settings |
-| `audits` | **Audits** | Audit event toggles and scheduled-job log retention |
+| `audits` | **Audit Logs** | Audit event toggles and scheduled-job log retention |
 | `cart_info_editor` | **Cart Info Editor** | Visibility controls for subscription details shown in the cart |
 | `emails` | **Emails** | Notification preferences and WooCommerce email settings, including subject, heading, content, type, recipients, and preheader |
 | `profile_fields` | **Profile Fields** | Custom profile field definitions, validation rules, and avatar settings |
@@ -221,7 +221,7 @@ Settings that reference site-specific products, pages, categories, content, or o
 A fresh v2 export includes all 13 sections, including complete defaults and explicit empty configuration lists. The importer derives this screen from the manifest and rejects a file when the manifest does not match its option data.
 
 ```box class="warning-box"
-If ArraySubs Pro is inactive, Pro-owned sections — Store Credit, Feature Manager, My Account Builder, Checkout Builder, Audits, Cart Info Editor, and Profile Fields — are skipped with warnings. **Members & Access** can still import its core settings, but concurrent-login settings are skipped and the destination's existing Pro-owned values are preserved.
+If ArraySubs Pro is inactive, Pro-owned sections — Store Credit, Feature Manager, My Account Builder, Checkout Builder, Audit Logs, Cart Info Editor, and Profile Fields — are skipped with warnings. **Members & Access** can still import its core settings, but concurrent-login settings are skipped and the destination's existing Pro-owned values are preserved.
 ```
 
 ### Step 3 — Confirm the Import
@@ -299,7 +299,7 @@ When the source URL differs from the current site, ArraySubs adds this warning:
 | Manifest or unknown-option error | The file is incomplete, manually edited, corrupted, or contains settings this version does not recognize | Re-export from the source site. Do not repair the section list by hand |
 | The file is too large | The encoded JSON exceeds 5 MiB | Use an untouched ArraySubs settings export; confirm that unrelated data was not added to the file |
 | Sections are missing from the import list | The file is not a complete current export | Fresh v2 exports contain all 13 supported sections. Create a new export on the source site |
-| Pro sections appear under Skipped | ArraySubs Pro is not active on the target site | Activate Pro, return to 1-Minute Setup, and import those sections again |
+| Pro sections appear under Skipped | ArraySubs Pro is not active on the target site | Activate Pro, return to Easy Setup & Import Export, and import those sections again |
 | Imported settings look wrong | Site-specific IDs do not match | Check settings that reference pages, products, or categories. Re-map them to the correct IDs on this site |
 | Nothing changed after import | All sections were unchecked, or the imported values are identical to existing ones | Verify you selected the correct sections in Step 2 and that the export file contains different values |
 | Import fails while saving an option | WordPress could not persist one of the prepared changes | Previous values are restored automatically. Resolve the database or option-write problem, then retry |

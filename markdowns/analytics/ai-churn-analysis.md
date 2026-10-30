@@ -1,13 +1,11 @@
 # Info
 - Module: AI Churn Analysis
-- Availability: Free
-- Last updated: 2026-07-27
+- Last updated: 2026-10-30
 
 # AI Churn Analysis
 
 > Score every live subscription for churn risk from its own billing history, then let AI explain why each at-risk subscriber is leaving and what to do about it.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -44,7 +42,7 @@ No customer names, email addresses, or payment details are ever sent to the AI p
 
 ## Prerequisites
 
-- **ArraySubs** (free) activated — this report ships in the free plugin.
+- **ArraySubs** activated — this report ships in the free plugin.
 - **WooCommerce** 8.0+ with WooCommerce Admin.
 - At least one live subscription for the scores and tiles to have data.
 - **For the AI layer only:** an AI provider connector configured in WordPress. See [Setting Up the AI Provider](#setting-up-the-ai-provider) below.

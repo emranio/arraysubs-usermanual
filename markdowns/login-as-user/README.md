@@ -1,13 +1,11 @@
 # Info
 - Module: Login as User
-- Availability: Free
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Login as User
 
 > Let administrators open a customer's frontend session for support, verification, and troubleshooting.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -35,7 +33,7 @@ When enabled, administrators can start impersonation from:
 - Individual WordPress user profile screens.
 - WooCommerce order detail pages.
 - ArraySubs subscription detail pages.
-- Manage Members profile screens *(Pro)*.
+- Manage Members profile screens.
 
 ![WordPress Users list — Login as User column](README.ASSETS/02-users-list-login-action-annotated.png)
 
@@ -89,5 +87,5 @@ When enabled, administrators can start impersonation from:
 
 ## Related Guides
 
-- [Manage Members — Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — Member profile workflow and Login as Customer usage *(Pro)*.
+- [Manage Members — Member Lookup and Profiles](../member-insight/member-lookup-and-profiles.md) — Member profile workflow and Login as Customer usage.
 - [Customer Portal Pages](../customer-portal/portal-pages.md) — What the customer sees after impersonation.

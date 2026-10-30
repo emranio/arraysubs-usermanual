@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Work with Subscription Families and Orders
 
 > Find the subscription that bills a box or bundle, list the orders that belong to a subscription, see which subscriptions an order covers, and correct or remove orders within the limits the API enforces.
 
-**Availability:** Core (Free). `ArraySubs\Developer\Subscriptions` and `ArraySubs\Developer\Orders` ship with the core plugin. Subscription Box families are core. Subscription Bundle families are created by ArraySubs Pro with an active license; core still reads their links when Pro is off.
 
 ## Page Navigation
 
@@ -20,7 +18,7 @@
 
 ## Overview
 
-A subscription is tied to WooCommerce orders: the checkout order that created it and the renewal orders that bill it. A Subscription Box (core) or Subscription Bundle (Pro) also gets a zero-priced child subscription for each subscription product inside it. The parent is billed; each child records the customer's entitlement to one product.
+A subscription is tied to WooCommerce orders: the checkout order that created it and the renewal orders that bill it. A Subscription Box or Subscription Bundle also gets a zero-priced child subscription for each subscription product inside it. The parent is billed; each child records the customer's entitlement to one product.
 
 | Class | Methods on this page |
 | --- | --- |
@@ -39,7 +37,7 @@ Both classes are instance APIs: a static finder returns an object or a `WP_Error
 
 ## Before You Start
 
-- WooCommerce and ArraySubs (core) active. The classes are autoloaded on `plugins_loaded` only when ArraySubs passes its dependency check, so guard every call with `class_exists( '\ArraySubs\Developer\Subscriptions' )` or `class_exists( '\ArraySubs\Developer\Orders' )`, and call them from `init` or later. See [Connect Your Custom Plugin](./getting-started.md).
+- WooCommerce and ArraySubs active. The classes are autoloaded on `plugins_loaded` only when ArraySubs passes its dependency check, so guard every call with `class_exists( '\ArraySubs\Developer\Subscriptions' )` or `class_exists( '\ArraySubs\Developer\Orders' )`, and call them from `init` or later. See [Connect Your Custom Plugin](./getting-started.md).
 - Every method returns its result or a `WP_Error`. Check the result with `is_wp_error()`.
 - The methods are trusted server code. They check no capability, nonce or ownership. For admin tools, check `current_user_can( 'manage_woocommerce' )` and a nonce. For customer-facing code, compare the record's `customer_id` with `get_current_user_id()` before you show or change anything (see [Show a member's orders in My Account](#show-a-members-orders-in-my-account)).
 - Bundle families need ArraySubs Pro with an active license. Box families need only core.
@@ -49,7 +47,7 @@ Both classes are instance APIs: a static finder returns an object or a `WP_Error
 ### Parents, children and standalone subscriptions
 
 - A **standalone** subscription bills itself and has no family links.
-- A **parent** is a Subscription Box (core) or Subscription Bundle (Pro) subscription. It is the only subscription in its family that is billed.
+- A **parent** is a Subscription Box or Subscription Bundle subscription. It is the only subscription in its family that is billed.
 - A **child** is a zero-priced subscription that ArraySubs creates for each subscription product inside a box or bundle. Plain (non-subscription) products inside it get no child. The merchant guides call children "included subscriptions".
 
 ArraySubs creates the children when the checkout order is processed, and checks again for missing children when the order is paid. Each child copies the parent's customer, billing period and interval, subscription length, start date, next payment date, status and payment method, and the parent's checkout order becomes its initial order. After that:
@@ -64,6 +62,7 @@ ArraySubs creates the children when the checkout order is processed, and checks 
 A box subscription 123 with two subscription products inside, one checkout order and one paid renewal:
 
 ```mermaid
+%% The parent owns billing; included children share the family's orders without creating separate charges.
 flowchart LR
     O1001["Order 1001 - checkout order"]
     O1002["Order 1002 - renewal order, paid"]
@@ -135,6 +134,7 @@ All four are read only. `$subscription` is the object that `Subscriptions::fromI
 ### Subscriptions::fromChildId()
 
 ```text
+// Resolve the billing owner from a child ID; handle WP_Error before operating on the result.
 Subscriptions::fromChildId( int $id ): Subscriptions|WP_Error
 ```
 
@@ -145,6 +145,7 @@ Opens a subscription only when it links to a box or bundle parent. An orphaned c
 ### family()
 
 ```text
+// Read family links and billing ownership before deciding which record to change.
 $subscription->family(): array
 ```
 
@@ -159,6 +160,7 @@ $subscription->family(): array
 
 ```php
 <?php
+// Read family links to distinguish a child, a parent with children, and a standalone subscription.
 if ( class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
 	$subscription = \ArraySubs\Developer\Subscriptions::fromId( 123 );
 
@@ -178,6 +180,7 @@ if ( class_exists( '\ArraySubs\Developer\Subscriptions' ) ) {
 ### children()
 
 ```text
+// List direct child subscriptions in pages; the parent remains the billing owner.
 $subscription->children( array $args = [] ): array|WP_Error
 ```
 
@@ -196,6 +199,7 @@ Runs `Subscriptions::query()` with `parent_id` set to this subscription, and kee
 ### orders()
 
 ```text
+// Read orders linked to this subscription using the selected relation and page filters.
 $subscription->orders( array $args = [] ): array|WP_Error
 ```
 
@@ -227,7 +231,7 @@ A child shares its parent's billing, so the subscription methods refuse billing 
 | `cancel()`, `undoCancellation()` | `parent_billed_subscription` |
 | `pause()`, `resume()` | `subscription_conflict` |
 | `delete()` | Deletes this child only |
-| A customer's write request to an ArraySubs REST route (`/arraysubs/v1/...`) that names a child | 403 `arraysubs_box_child_locked`, or `arraysubs_bundle_child_locked` *(Pro)* |
+| A customer's write request to an ArraySubs REST route (`/arraysubs/v1/...`) that names a child | 403 `arraysubs_box_child_locked`, or `arraysubs_bundle_child_locked` |
 
 Input validation runs first, so an invalid value can return its own error before the family check. The error data does not name the parent: read `family()['billing_owner_id']` and repeat the call there (see [Act on the subscription that bills](#act-on-the-subscription-that-bills)). These checks look at the parent link itself, so they also apply to orphaned children.
 
@@ -236,6 +240,7 @@ Input validation runs first, so an invalid value can return its own error before
 `Subscriptions::fromId( 123 )->delete()` permanently deletes the parent and its children, and returns:
 
 ```text
+// Example parent-deletion report: children are counted separately; orders and the customer remain.
 [
   'deleted'                  => true,
   'id'                       => 123,
@@ -266,6 +271,7 @@ WooCommerce orders and the customer are never deleted. Bundle children are delet
 ### Orders::fromId() and Orders::fromOrder()
 
 ```text
+// Create an order reader from an ID or a WC_Order object; check for WP_Error.
 Orders::fromId( int $id ): Orders|WP_Error
 Orders::fromOrder( WC_Order $order ): Orders|WP_Error
 ```
@@ -277,6 +283,7 @@ Opens any WooCommerce order, whether or not a subscription is linked to it.
 ### Orders::query()
 
 ```text
+// Query orders with explicit filters and pagination; the caller must enforce permissions.
 Orders::query( array $args = [] ): array|WP_Error
 ```
 
@@ -298,6 +305,7 @@ Orders::query( array $args = [] ): array|WP_Error
 ### subscriptions()
 
 ```text
+// Read the subscriptions related to this order, including billed and included family members.
 $order->subscriptions( array $args = [] ): array|WP_Error
 ```
 
@@ -328,6 +336,7 @@ if ( class_exists( '\ArraySubs\Developer\Orders' ) ) {
 ### Order data
 
 ```text
+// Select the order sections needed by your integration and handle a failed read.
 $order->data( array $fields = [] ): array|WP_Error
 ```
 
@@ -362,6 +371,7 @@ Returns the groups you list, or all of them: `identity`, `amounts`, `billing`, `
 ### update()
 
 ```text
+// Update supported fields and pass last-read expected values to guard against concurrent edits.
 $order->update( array $changes, array $expected = [] ): array|WP_Error
 ```
 
@@ -386,6 +396,7 @@ Address values must be scalar and are cleaned with `sanitize_text_field()`; the 
 ### delete()
 
 ```text
+// Attempt the supported deletion operation and inspect WP_Error if the order cannot be removed.
 $order->delete(): array|WP_Error
 ```
 
@@ -408,7 +419,7 @@ Order status, totals, payments and refunds are not editable through `Orders`. Us
 | Hook | Type | Arguments | When |
 | --- | --- | --- | --- |
 | `arraysubs_box_child_subscriptions_created` | Action | `int $subscription_id, int[] $child_ids, int $order_id` | After ArraySubs creates missing children for a box from its checkout order. `$child_ids` lists all of that box's children. It fires only when at least one child was created. |
-| `arraysubspro_bundle_child_subscriptions_created` *(Pro)* | Action | `int $subscription_id, int[] $child_ids, int $order_id` | The same for a bundle |
+| `arraysubspro_bundle_child_subscriptions_created` | Action | `int $subscription_id, int[] $child_ids, int $order_id` | The same for a bundle |
 | `arraysubs_subscription_history_includes_order` | Filter | `bool $include, WC_Order $order, int $subscription_id` | Decides whether one of the customer's orders is in a subscription's history. `orders()` and `Orders::query()` with `subscription_id` drop orders of another customer whatever it returns. Box and bundle children use it to include their parent's orders. |
 
 ArraySubs applies `arraysubs_subscription_history_includes_order` to its own order history as well, for example in the My Account subscription view and in refund and plan-switch calculations, so a filter that hides orders changes those features too. See [React to Supported Events](./actions-and-filters.md).

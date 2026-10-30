@@ -1,13 +1,11 @@
 # Info
 - Module: Shortcodes
-- Availability: Free (one shortcode requires Pro)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Shortcodes
 
 > Use shortcodes to display login/logout links, personalized greetings, gated content, and store credit purchase forms anywhere on your WordPress site.
 
-**Availability:** Free — `[arraysubs_buy_credits]` requires **Pro**
 
 ## Page Navigation
 
@@ -31,33 +29,44 @@ Every shortcode is also documented inside your admin panel at **ArraySubs → Sh
 - You want personalized greetings like "Welcome back, Sarah!" on any page.
 - You need to show different content to logged-in vs logged-out visitors.
 - You want to lock premium content behind subscription status, product ownership, a user role, a spending threshold, or a feature entitlement.
-- You want to embed a store credit purchase form on a landing page *(Pro)*.
+- You want to embed a store credit purchase form on a landing page.
 
 ## Quick Reference
 
-| Shortcode | Category | Purpose | Availability |
-|-----------|----------|---------|--------------|
-| `[arraysubs_login]` | Account | Login link for logged-out visitors | Free |
-| `[arraysubs_logout]` | Account | Logout link for logged-in users | Free |
-| `[arraysubs_user]` | Account | Display the current user's name | Free |
-| `[arraysubs_visibility]` | Content gating | Show/hide content by login state | Free |
-| `[arraysubs_restrict]` | Content gating | Gate content by subscription, role, spending, features, and more | Free |
-| `[arraysubs_buy_credits]` | Store Credit | Purchase form for store credits | **Pro** |
+| Shortcode | Category | Purpose |
+| ----------- | ---------- | --------- |
+| `[arraysubs_login]` | Account | Login link for logged-out visitors |
+| `[arraysubs_logout]` | Account | Logout link for logged-in users |
+| `[arraysubs_user]` | Account | Display the current user's name |
+| `[arraysubs_visibility]` | Content gating | Show/hide content by login state |
+| `[arraysubs_restrict]` | Content gating | Gate content by subscription, role, spending, features, and more |
+| `[arraysubs_buy_credits]` | Store Credit | Purchase form for store credits |
 
 ## Shortcodes Catalog in Admin
+
+Open **ArraySubs → Shortcodes** and choose a page from its navigation:
+
+| Page | Admin route | What it covers |
+| ------ | ------------- | ---------------- |
+| **Shortcodes** | `#/shortcodes` | Inline content gates and the complete shortcode catalog |
+| **Full Page Access Gate** | `#/shortcodes/full-page` | Access rules for an entire post or page |
+| **Gutenberg** | `#/shortcodes/gutenberg` | Restricted content in block-editor containers |
+| **Elementor** | `#/shortcodes/elementor` | Restricted sections in Elementor |
+| **For Developers** | `#/shortcodes/php` | Lifecycle hooks, actions, filters, PHP access examples, and developer documentation |
+
+Each guide has its own page and URL. The **How-to** links in Content Gate settings open the matching page directly.
 
 ![Shortcodes catalog — summary cards and Account shortcode group](../profile-builder/shortcodes.ASSETS/01-shortcodes-catalog-cross-reference-annotated.png)
 
 ArraySubs includes a built-in shortcodes catalog at **ArraySubs → Shortcodes**. This page lists every registered shortcode grouped by category, with:
 
-- A **Free** or **Pro** badge on each card.
 - The shortcode tag ready to copy.
 - A description of what it does.
 - Quick usage examples.
 - The full list of attributes with descriptions.
 - Additional code examples for advanced patterns.
 
-Stats at the top of the page show how many shortcodes are available and how many are free vs Pro.
+Stats at the top of the catalog show how many shortcodes are available.
 
 ```box class="info-box"
 The shortcode catalog is auto-generated from the plugin's internal registry. If a Pro module registers a shortcode, it appears in the catalog automatically when the Pro plugin is active.
@@ -69,7 +78,7 @@ Each shortcode category has its own guide:
 
 - [Account Shortcodes](account-shortcodes.md) — `[arraysubs_login]`, `[arraysubs_logout]`, `[arraysubs_user]`
 - [Content Gating Shortcodes](content-gating.md) — `[arraysubs_visibility]` and `[arraysubs_restrict]`
-- [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]` *(Pro)*
+- [Store Credit Shortcode](store-credit-shortcode.md) — `[arraysubs_buy_credits]`
 
 ## General Notes
 

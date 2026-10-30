@@ -1,13 +1,11 @@
 # Info
 - Module: Auto-Renew and Manual Fallback
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Auto-Renew and Manual Fallback
 
 > How the customer-facing auto-renew toggle works, what happens when automatic billing is turned off, and how subscriptions fall back to manual invoice collection.
 
-**Availability:** Free (ArraySubs core). The customer toggle appears only when **Allow Customers to Turn Off Auto-Renew** is on.
 
 ## Page Navigation
 

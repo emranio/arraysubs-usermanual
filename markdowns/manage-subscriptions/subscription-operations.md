@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Admin
-- Availability: Shared
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Subscription Operations
 
 > Browse, create, edit, and inspect every subscription from a single set of screens.
 
-**Availability:** Free (core subscription management); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -331,12 +329,12 @@ The detail screen displays up to 17 card sections in this order:
 | 5 | [Customer Information](#customer-information-card) | Yes |
 | 6 | [Product](#product-card) | Yes |
 | 7 | [Billing Information](#billing-information-card) | Yes |
-| 8 | [Checkout Builder Fields](subscription-detail-cards.md#checkout-builder-custom-fields-card-pro) | Only if custom checkout fields exist (**Pro**) |
+| 8 | [Checkout Builder Fields](subscription-detail-cards.md#checkout-builder-custom-fields-card) | Only if custom checkout fields exist |
 | 9 | [Coupon Discount](subscription-detail-cards.md#coupon-discount-card) | Only if a coupon is applied |
-| 10 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card) | Only if an automatic payment gateway is attached (**Pro**) |
+| 10 | [Payment Gateway](subscription-detail-cards.md#payment-gateway-card) | Only if an automatic payment gateway is attached |
 | 11 | [Billing Address](#billing-address-card) | Yes |
 | 12 | [Shipping Address](#shipping-address-card) | Yes |
-| 13 | [Subscription Shipping](subscription-detail-cards.md#subscription-shipping-card-pro) | Only if the product requires shipping (**Pro**) |
+| 13 | [Subscription Shipping](subscription-detail-cards.md#subscription-shipping-card) | Only if the product requires shipping |
 | 14 | [Box or Bundle](#box-or-bundle-card) | Only for a box or bundle subscription and the subscriptions included in it |
 | 15 | [Order History](#order-history-card) | Yes |
 | 16 | [Payment Timeline](#payment-timeline) | Yes |
@@ -387,7 +385,7 @@ Each conditional card is covered in detail in the [Subscription Detail Cards](su
 | **Recurring Amount** | The amount charged each cycle. If a retention discount is active, shows the effective (discounted) amount. |
 | **Base Renewal Amount** | The original amount before retention discount (only shown when a discount is active) |
 | **Retention Discount** | Discount type (percentage or fixed), amount, and remaining renewal count (only shown when active) |
-| **Different Renewal Price (Pro)** | The price that applies after a set number of payments while licensed Pro is active (only shown when enabled) |
+| **Different Renewal Price | The price that applies after a set number of payments while licensed Pro is active (only shown when enabled) |
 | **Applies After** | Number of payments before the different renewal price takes effect |
 | **Billing Schedule** | Formatted as "Every X day(s)/week(s)/month(s)/year(s)" or "Lifetime Deal" |
 | **Signup Fee** | One-time fee charged at subscription creation (only shown if greater than zero) |
@@ -404,7 +402,7 @@ Shows the full formatted shipping address (same layout as billing, without phone
 
 ### Box or Bundle Card
 
-This card appears on subscriptions that belong to a subscription box (core) or a subscription bundle (**Pro**) family. Its title is **Box Contents** or **Bundle Contents** on the box or bundle subscription, and **Subscription Box** or **Subscription Bundle** on a subscription included in one.
+This card appears on subscriptions that belong to a subscription box or a subscription bundle family. Its title is **Box Contents** or **Bundle Contents** on the box or bundle subscription, and **Subscription Box** or **Subscription Bundle** on a subscription included in one.
 
 | Shown on | What It Shows |
 |----------|---------------|

@@ -1,13 +1,11 @@
 # Info
 - Module: Store Credit
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Store Credit
 
 > Give customers a flexible balance they can earn from refunds, downgrades, promotions, or direct purchases — and spend on renewals, new orders, or anything in your store.
 
-**Availability:** Pro
 
 ## Page Navigation
 

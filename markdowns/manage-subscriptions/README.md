@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Admin
-- Availability: Free, some cards and tools require Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Manage Subscriptions
 
 > The central hub for viewing, creating, editing, and managing every subscription in your store.
 
-**Availability:** Free (core features), some cards and tools require Pro
 
 ## Page Navigation
 
@@ -30,8 +28,8 @@ This section covers five main areas:
 |------|----------------|
 | [Subscription Operations](subscription-operations.md) | The subscriptions list, creating a subscription, editing a subscription, and the subscription detail screen |
 | [Subscription Data Export](subscription-data-export.md) | Downloading subscriptions as CSV, the column picker, and the shipping-address columns used for label printing |
-| [Admin Tools and Records](admin-tools-and-records.md) | Subscription notes, feature log (**Pro**), and related orders and refund history |
-| [Subscription Detail Cards](subscription-detail-cards.md) | Every information card on the detail screen — cancellation, skip & pause, coupon, gateway (**Pro**), checkout fields (**Pro**), and shipping (**Pro**) |
+| [Admin Tools and Records](admin-tools-and-records.md) | Subscription notes, feature log, and related orders and refund history |
+| [Subscription Detail Cards](subscription-detail-cards.md) | Every information card on the detail screen — cancellation, skip & pause, coupon, gateway, checkout fields, and shipping |
 | [Lifecycle Management](lifecycle-management.md) | How subscriptions move through statuses — activation, renewals, grace periods, cancellation, expiration, trials, and email triggers |
 
 ## When to Use This
@@ -80,7 +78,7 @@ Custom plugins read and change subscriptions through the ArraySubs developer API
 | Find the customer behind a subscription and update profile fields | [Find Members and Update Profiles](../developers/customers-and-profile-fields.md) |
 | Read the catalog terms of a subscription product | [Read Subscription Product Terms](../developers/subscription-products.md) |
 
-The [Developers](../developers/README.md) overview lists every class with its Core (Free) or Pro availability.
+The [Developers](../developers/README.md) overview lists every class with its Core or Pro availability.
 
 ---
 

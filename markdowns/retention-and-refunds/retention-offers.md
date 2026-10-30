@@ -1,13 +1,11 @@
 # Info
 - Module: Retention Offers
-- Availability: Pro
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Retention Offers
 
 > Present targeted offers to customers at the exact moment they are about to cancel — discounts, pausing, downgrading, or connecting with support — to save the subscription and retain revenue.
 
-**Availability:** Pro
 
 ## Page Navigation
 

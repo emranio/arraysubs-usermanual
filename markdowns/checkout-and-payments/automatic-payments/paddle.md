@@ -1,18 +1,16 @@
 # Info
 - Module: Paddle Gateway
-- Availability: Free
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Paddle Gateway
 
 > Set up Paddle so ArraySubs can take subscription payments, with Paddle charging every renewal automatically as Merchant of Record.
 
-**Availability:** Free (ArraySubs core). **Paddle (ArraySubs)** is built into ArraySubs, so you need no extra plugin, only a Paddle account.
 
 ## Page Navigation
 
 - **Current guide:** Paddle Gateway
-- **Where to open it:** WooCommerce > Settings > Payments > Paddle (ArraySubs), and ArraySubs > Audits [beta] > Gateway Logs
+- **Where to open it:** WooCommerce > Settings > Payments > Paddle (ArraySubs), and ArraySubs > Audit Logs > Gateway health
 - **Section overview:** [Open overview](../README.md)
 - **Previous guide:** [PayPal Gateway](./paypal.md)
 - **Next guide:** [Mollie Gateway](./mollie.md)
@@ -64,7 +62,7 @@ The bottom of the settings screen shows two URLs to add in the Paddle sandbox da
 
 Leave **Allow early renewal** unticked for now (see the [FAQ](#faq)) and click **Save changes**. Then check the connection:
 
-1. Go to **ArraySubs > Audits [beta] > Gateway Logs** and click the arrow on the **Paddle** card.
+1. Go to **ArraySubs > Audit Logs > Gateway health** and click the arrow on the **Paddle** card.
 2. **Status** should say **Connected (Test Mode)**. **Needs Setup** means the API key, client-side token, or webhook secret is missing.
 3. **Webhook secret configured** should say **Configured**.
 
@@ -94,7 +92,7 @@ Success looks like this:
 
 - The order is paid and the subscription is **Active**.
 - The subscription's **Payment Gateway** card shows **Connected**, with a **Customer ID** and **Last Transaction** from Paddle. See [Payment Gateway Card](../../manage-subscriptions/subscription-detail-cards.md#payment-gateway-card).
-- On the **Paddle** card in **Gateway Logs**, **Last Webhook** shows the time of your test.
+- On the **Paddle** card in **Gateway health**, **Last Webhook** shows the time of your test.
 
 A paid first checkout does not prove renewals. Before launch, follow [Test Automatic Renewals on Staging](#test-automatic-renewals-on-staging).
 
@@ -103,7 +101,7 @@ A paid first checkout does not prove renewals. Before launch, follow [Test Autom
 1. Cancel your sandbox test subscriptions in ArraySubs first. They belong to the sandbox account, which the live keys cannot reach.
 2. In your live Paddle account, repeat Steps 2 and 3: create a live API key and client-side token, set the default payment link, and add a notification destination with the same **Webhook URL** and events. The live destination has its own secret key. Make sure Paddle has approved your domain.
 3. On the **Paddle (ArraySubs)** screen, untick **Enable Paddle Sandbox mode**, paste the live **API Key**, **Client-Side Token**, and **Webhook Secret**, and click **Save changes**.
-4. In **Gateway Logs**, the **Paddle** card should now say **Connected**.
+4. In **Gateway health**, the **Paddle** card should now say **Connected**.
 5. Place one real low-value order to confirm everything works, then refund it and cancel the subscription.
 
 Sandbox and live have separate Paddle catalogs. ArraySubs creates the live products and prices for you when a subscription product is saved or first bought.
@@ -175,7 +173,7 @@ Optional settings in **ArraySubs > Settings > General**:
 1. In the Paddle sandbox dashboard, open Checkout > Checkout settings and set the default payment link to the staging checkout URL shown under **Default Payment Link** on the staging settings screen.
 2. Open Developer Tools > Notifications and add a notification destination with the staging **Webhook URL**, for example `https://staging.example.com/wp-json/arraysubs/v1/webhooks/arraysubs_paddle`, and the nine events from [Step 3](#step-3-connect-paddle-to-your-store) of the setup. Copy the destination's secret key.
 3. On staging, open **Paddle (ArraySubs)**. Check that **Enable Paddle Sandbox mode** is ticked and the sandbox **API Key** and **Client-Side Token** are in place, paste the secret key into **Webhook Secret**, and click **Save changes**.
-4. In **ArraySubs > Audits [beta] > Gateway Logs**, the **Paddle** card should say **Connected (Test Mode)**, and **Webhook secret configured** should say **Configured**.
+4. In **ArraySubs > Audit Logs > Gateway health**, the **Paddle** card should say **Connected (Test Mode)**, and **Webhook secret configured** should say **Configured**.
 
 What each callback does:
 
@@ -198,7 +196,7 @@ Expected result:
 - The parent order is paid: **Completed** for a subscription that needs no shipping, **Processing** when it needs shipping.
 - A new subscription is **Active** and linked to that order. Its **Next Payment** date is Paddle's next billing date, one day after checkout.
 - On the subscription detail page, the **Payment Gateway** card shows **Connected** with **Card on File** (for a card payment), **Customer ID**, and **Last Transaction**.
-- In **Gateway Logs**, the **Webhook Event Log** filtered to **Paddle** lists `transaction.completed` and `subscription.created` for the checkout.
+- In **Gateway health**, the **Webhook Event Log** filtered to **Paddle** lists `transaction.completed` and `subscription.created` for the checkout.
 
 If the order stays pending or the card does not show **Connected**, Paddle's notifications are not reaching staging. Recheck Step 3 and the [Troubleshooting](#troubleshooting) table before you continue.
 
@@ -224,7 +222,7 @@ Both renewal actions use the subscription ID as their only argument, for example
 | Order and payment | **WooCommerce > Orders**, and your Paddle sandbox account | A new renewal order linked to the subscription, paid, with a Paddle transaction ID that starts with `txn_`. In Paddle, a completed transaction for the subscription. |
 | Dates | Subscription detail page | **Next Payment** moved to Paddle's next billing date, one billing period later |
 | Scheduled actions | **WooCommerce > Status > Scheduled Actions** | This cycle's `arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal` show **Complete**, and new **Pending** ones exist for the next cycle |
-| Webhooks | **ArraySubs > Audits [beta] > Gateway Logs** | **Last Webhook** on the **Paddle** card shows the renewal time, and the **Webhook Event Log**, filtered to **Paddle**, lists `transaction.completed` |
+| Webhooks | **ArraySubs > Audit Logs > Gateway health** | **Last Webhook** on the **Paddle** card shows the renewal time, and the **Webhook Event Log**, filtered to **Paddle**, lists `transaction.completed` |
 | Subscription | Subscription detail page and the customer's My Account | **Active**, with the same product and recurring amount. The **Payment Gateway** card is still **Connected** and shows the renewal's **Last Transaction**. |
 
 If the six-hour check completed the order instead of a notification, the order notes say "Reconciled from the gateway: this renewal settled but no notification arrived." Fix the notification destination before you go live.
@@ -243,7 +241,7 @@ ArraySubs cannot make a Paddle renewal fail, and Paddle decides how its sandbox 
 
 - Keep staging and live separate: separate Paddle accounts, keys, client-side tokens, notification destinations, and secrets. Never copy the staging database or its Paddle settings over your live site.
 - Sandbox customers and subscriptions exist only in your Paddle sandbox account. They cannot be moved to live. Real customers subscribe through checkout on the live site.
-- On the live site, confirm that **Enable Paddle Sandbox mode** is off, that the live **API Key**, **Client-Side Token**, and **Webhook Secret** are in place, and that the **Paddle** card in **Gateway Logs** says **Connected**.
+- On the live site, confirm that **Enable Paddle Sandbox mode** is off, that the live **API Key**, **Client-Side Token**, and **Webhook Secret** are in place, and that the **Paddle** card in **Gateway health** says **Connected**.
 - In the live Paddle account, the notification destination points at the live **Webhook URL** with the nine events, and the default payment link is the live checkout URL on a domain Paddle has approved.
 - Remove the staging notification destination from the sandbox account when you no longer need it, and make sure no destination in the live account points at a staging URL.
 - When testing ends, delete the staging copy or keep `DISABLE_WP_CRON` set on it. If you activated ArraySubs Pro there, manage that site activation as described in [License Activation](../../getting-started/license-activation.md).
@@ -252,7 +250,7 @@ ArraySubs cannot make a Paddle renewal fail, and Paddle decides how its sandbox 
 
 | Problem | Fix |
 |---|---|
-| Paddle is missing at checkout | Check the **Paddle** card in **Gateway Logs**. **Disabled** means **Enable this payment gateway** is unticked. **Needs Setup** means **API Key**, **Client-Side Token**, or **Webhook Secret** is empty. If the status starts with **Connected**, the cart needs something Paddle cannot do (different billing cycles, a schedule the customer picks, or a member or dynamic recurring price), so ArraySubs hid Paddle for that cart. |
+| Paddle is missing at checkout | Check the **Paddle** card in **Gateway health**. **Disabled** means **Enable this payment gateway** is unticked. **Needs Setup** means **API Key**, **Client-Side Token**, or **Webhook Secret** is empty. If the status starts with **Connected**, the cart needs something Paddle cannot do (different billing cycles, a schedule the customer picks, or a member or dynamic recurring price), so ArraySubs hid Paddle for that cart. |
 | Checkout says the Paddle account "has no Default Payment Link set" | Set the default payment link in the Paddle account that matches your mode, sandbox or live. See [Step 3](#step-3-connect-paddle-to-your-store). |
 | Checkout says "Paddle rejected the Sandbox API key" (customers see "Paddle payments are currently unavailable") | The key is expired, revoked, missing permissions, or from the other environment. Create a key in the same environment as your **Enable Paddle Sandbox mode** setting and paste it again. |
 | The customer paid, but the order stays pending ("Paddle is confirming the payment") | Paddle's notifications are not getting through. Check the destination URL and events in Paddle, make sure **Webhook Secret** holds that destination's secret for the same environment, and make sure your server clock is correct: ArraySubs rejects notifications signed more than five minutes away from its own time. Errors are logged in **WooCommerce > Status > Logs** under the `arraysubs_paddle` source. |

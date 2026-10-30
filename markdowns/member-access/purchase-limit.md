@@ -1,14 +1,12 @@
 # Info
 - Module: Member Access
 - Submodule: Purchase Limit
-- Availability: Free
-- Last updated: 2026-07-22
+- Last updated: 2026-10-30
 
 # Purchase Limits
 
 > Set maximum product quantities for matching members or for everyone who does not meet a membership rule.
 
-**Availability:** Free / ArraySubs core.
 
 ## Page Navigation
 
@@ -87,7 +85,7 @@ This inversion avoids maintaining separate rules for members and non-members. Fo
 
 ## Audience Conditions
 
-Purchase Limits uses the shared Member Access builder: lifetime purchase amount, purchased product/variation, purchased category/tag, active subscription, subscription variation, login status, has-not-subscription checks, Feature Value *(Pro)*, and role.
+Purchase Limits uses the shared Member Access builder: lifetime purchase amount, purchased product/variation, purchased category/tag, active subscription, subscription variation, login status, has-not-subscription checks, Feature Value, and role.
 
 An empty IF section matches everyone. Its result still passes through the selected audience direction: **Users who meet IF** affects everyone, while **Users who do NOT meet IF** affects no one.
 

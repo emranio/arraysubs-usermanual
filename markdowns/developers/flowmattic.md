@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (Store Credit and feature configuration/access events require Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-31
 
 # FlowMattic Hooks and Actions
 
 > Start FlowMattic workflows from ArraySubs events and use validated PHP actions to read or update subscriptions.
 
-**Availability:** The bridge ships with free ArraySubs. FlowMattic must be active on the same site, and **ArraySubs -> Integrations -> FlowMattic** must be enabled. Pro supplies Store Credit, feature configuration/access events, and its own subscription workflows. Stored feature reads and usage writes work with free ArraySubs alone.
 
 ## Page Navigation
 
@@ -55,9 +53,9 @@ Choose either `arraysubs_flowmattic_event` for the complete stream or `arraysubs
 | --- | --- |
 | `subscription` | Creation, activation/deferral, status and entitlement changes, trials, renewal invoices/payments, retries, grace, cancellation, pause/resume, plan switches, skips, refunds, customer/payment changes, product changes and permanent deletion. Pro adds early renewal and retention acceptance. [All subscription event keys](./actions-and-filters.md#the-arraysubslifecycleevent-action). |
 | `email` | `email_sent`, `email_failed` for all 25 core emails and four Pro Store Credit emails. |
-| `store_credit` (Pro) | `credit_added`, `credit_deducted`, `credit_expired`, `credit_expiring_soon`, `credit_purchased`, `credit_applied`, `credit_reversed`, `credit_refunded`. |
+| `store_credit` | `credit_added`, `credit_deducted`, `credit_expired`, `credit_expiring_soon`, `credit_purchased`, `credit_applied`, `credit_reversed`, `credit_refunded`. |
 | `features` (core usage) | `feature_usage_changed`, `feature_usage_reset`, `feature_usage_period_reset`, `feature_exhausted`. |
-| `features` (Pro) | `product_features_changed`, `product_feature_added`, `product_feature_updated`, `product_feature_removed`, `feature_template_created`, `feature_template_updated`, `feature_template_deleted`, `feature_access_granted`, `feature_access_revoked`. |
+| `features` | `product_features_changed`, `product_feature_added`, `product_feature_updated`, `product_feature_removed`, `feature_template_created`, `feature_template_updated`, `feature_template_deleted`, `feature_access_granted`, `feature_access_revoked`. |
 
 The native source actions keep working independently of the FlowMattic switch. Their arguments differ from the bridge's single-array contract; see [React to Supported Events](./actions-and-filters.md).
 
@@ -112,7 +110,7 @@ In FlowMattic, choose **PHP Functions**, enter `arraysubs_flowmattic_action`, an
 
 `get_subscription` accepts only these field groups: `identity`, `status`, `plan`, `pricing`, `schedule`, `trial`, `recovery`, `cancellation`, `pending_switch`, `family`, `order_references`. Empty or omitted `fields` returns all of those groups. Other field lists return `invalid_fields`.
 
-The actions call the existing domain APIs. They do not charge gateways, replace payment methods, write arbitrary metadata/status or change mail recipients. To update feature configuration in PHP, use Pro's [Feature Manager API](./feature-manager.md#update-feature-configuration-pro).
+The actions call the existing domain APIs. They do not charge gateways, replace payment methods, write arbitrary metadata/status or change mail recipients. To update feature configuration in PHP, use Pro's [Feature Manager API](./feature-manager.md#update-feature-configuration).
 
 ### Send a registered subscription email
 
@@ -131,6 +129,7 @@ $result = arraysubs_flowmattic_action( [
 	'fields'          => [ 'identity', 'status', 'schedule' ],
 ] );
 
+// Check success before using data; route failures by their code rather than matching error text.
 if ( ! $result['success'] ) {
 	// Branch on $result['code']; $result['error'] is a readable explanation.
 	return;
@@ -141,6 +140,7 @@ $subscription_data = $result['data'];
 Every call returns one serializable envelope:
 
 ```php
+// Response shapes only: success carries data; failure carries a readable error and a stable code.
 [ 'success' => true, 'error' => null, 'code' => 'ok', 'data' => $result ];
 [ 'success' => false, 'error' => 'Readable explanation', 'code' => 'domain_error', 'data' => null ];
 ```
@@ -152,6 +152,7 @@ Every call returns one serializable envelope:
 Derive `operation_id` from a recorded upstream business event and keep it unchanged when retrying that intent:
 
 ```php
+// Use a stable ID from the recorded renewal so retrying that reward cannot credit the member twice.
 $result = arraysubs_flowmattic_action( [
 	'action'       => 'adjust_store_credit',
 	'customer_id'  => 45,

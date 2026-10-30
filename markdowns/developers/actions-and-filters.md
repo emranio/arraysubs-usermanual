@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-30
+- Last updated: 2026-10-31
 
 # React to Supported Events
 
 > Listen to ArraySubs actions and filters, including the normalized `arraysubs_lifecycle_event`, to keep your own systems in step with subscriptions and to adjust selected decisions.
 
-**Availability:** Core (Free). Every hook on this page is fired by ArraySubs core unless its row says Pro. Pro rows need ArraySubs Pro and their owning module. Feature Manager and Subscription Bundle also need an active license; Store Credit's retained ledger reads and recovery paths remain available as described below.
 
 ## Page Navigation
 
@@ -44,7 +42,7 @@ To read the current state of a subscription instead of listening for changes, us
 - ArraySubs core installed and active, with WooCommerce active.
 - A custom plugin of your own; see [Connect Your Custom Plugin](./getting-started.md). Register listeners when your plugin loads, on every request. ArraySubs builds the normalized payload only when something listens to `arraysubs_lifecycle_event`.
 - Pass the correct `$accepted_args` to `add_action()` and `add_filter()`. WordPress passes only that many arguments.
-- For Pro rows: ArraySubs Pro with an active license, and the named module switched on.
+- For module-specific hooks, activate the required plugin and license, and switch on the named module.
 - A working WP-Cron or server cron. Invoices, charges, retries, the hourly overdue check, trial conversion, scheduled cancellations and fixed-date expiry run as Action Scheduler jobs, so many hooks fire inside those jobs.
 
 ## How It Works
@@ -65,6 +63,7 @@ Native hooks pass live objects (`WP_Post`, `WC_Order`, `WC_Order_Item_Product`).
 ## The `arraysubs_lifecycle_event` Action
 
 ```text
+// Register a listener with two arguments: the event name and its normalized payload.
 do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 ```
 
@@ -73,7 +72,7 @@ do_action( 'arraysubs_lifecycle_event', string $event, array $payload )
 | 1 | `$event` | string | Event name from the tables below. |
 | 2 | `$payload` | array | Flat array of scalars and `null`, described under [Payload keys](#payload-keys). |
 
-- **Fired by:** core, always loaded, no module switch.
+- **Registration:** Always loaded, with no module switch.
 - **When:** right after the native hook named in the event tables, in the same request.
 - **Return value:** ignored (action).
 
@@ -172,9 +171,9 @@ These events also use `arraysubs_lifecycle_event`. Pro publishers run only when 
 | `payment_disputed` | `arraysubs_gateway_dispute_created` | `order_id`, `gateway`; raw provider data stays private |
 | `product_removed` | `arraysubs_product_removed` | `removed_product_id`, `product_removal_action` |
 | `product_restored` | `arraysubs_product_restored` | `restored_product_id` |
-| `early_renewal_started` (Pro) | `arraysubspro_early_renewal_started` | `order_id`, `actor_id`, `is_renewal` |
-| `early_renewal_processed` (Pro) | `arraysubspro_early_renewal_processed` | `order_id`, `is_renewal` |
-| `retention_offer_accepted` (Pro) | `arraysubs_retention_offer_accepted` | `offer_type` |
+| `early_renewal_started` | `arraysubspro_early_renewal_started` | `order_id`, `actor_id`, `is_renewal` |
+| `early_renewal_processed` | `arraysubspro_early_renewal_processed` | `order_id`, `is_renewal` |
+| `retention_offer_accepted` | `arraysubs_retention_offer_accepted` | `offer_type` |
 
 A gateway payment notification and `renewed` can refer to the same payment. Use `renewed` for one paid renewal, and a gateway event for the gateway observation. Email, credit and feature events below have their own native hooks; they are not names on `arraysubs_lifecycle_event`. [Build FlowMattic Workflows](./flowmattic.md) combines these streams into one workflow contract.
 
@@ -230,245 +229,245 @@ The `arraysubs_integration_event_context` filter can change `user_id`, the email
 
 ## Subscription Lifecycle and Status Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_data_created` | action | `int $subscription_id, WP_Post $post` | After a new subscription post and its meta are saved (`wp_after_insert_post`), on every creation path. Checkout subscriptions are usually still `arraysubs-pending` here. | Core |
-| `arraysubs_data_status_changed` | action | `int $subscription_id, string $new_status, string $old_status` | Every status change, inside the status write. Full slugs; `$old_status` can be `new` or `auto-draft` on creation. | Core |
-| `arraysubs_data_status_{$old_status}_to_{$new_status}` | action | `int $subscription_id, string $new_status, string $old_status` | Right after the generic status hook, for example `arraysubs_data_status_arraysubs-active_to_arraysubs-on-hold`. | Core |
-| `arraysubs_data_activated` | action | `int $subscription_id, int $order_id` | Initial activation is completed: status set (trial subscriptions stay in trial), payment context stored, renewal work scheduled when applicable. For a deferred initial subscription this waits until approval and uses the original paid order ID. | Core |
-| `arraysubs_initial_payment_subscription_status` | filter | `string $default_status, WP_Post $subscription, WC_Order $order, array $context` | Before the initial paid subscription is activated. Return the default, `arraysubs-pending` or `arraysubs-on-hold`. Deferral supports non-trial subscriptions whose billing clock belongs to ArraySubs; unsupported decisions retain the default. Never runs for renewal payment. New feature; not stock 2.0.9. | Core |
-| `arraysubs_initial_payment_checkout_fields` | filter | `array $fields, WP_Post $subscription, WC_Order $order` | Builds saved checkout context before the initial status decision. Add a checkout integration's saved order meta while preserving the full fields array. New feature; not stock 2.0.9. | Core; Checkout Builder field contribution requires Pro |
-| `arraysubs_subscription_activation_deferred` | action | `WP_Post $subscription, WC_Order $order, array $context` | After successful-payment bookkeeping and the deferred status are saved. Ordinary paid-order replay does not repeat it. Use for provisioning emails or queued work. New feature; not stock 2.0.9. | Core |
-| `arraysubs_data_reactivated` | action | `int $subscription_id, string $old_status` | The status changes to `arraysubs-active` from on-hold, cancelled or expired (not on the first activation), after the next payment date is recalculated and renewals rescheduled. | Core |
-| `arraysubs_data_put_on_hold` | action | `int $subscription_id` | Only when the hourly overdue check puts an unpaid subscription on hold. Other on-hold paths fire only the status hooks. | Core |
-| `arraysubs_should_expire_subscription` | filter | `bool $should_expire, int $subscription_id` | Before the scheduled expiry job expires a subscription with a fixed end date. Return `false` to keep it. Not applied to expiry by payment count. | Core |
-| `arraysubs_data_expired` | action | `int $subscription_id` | After that fixed-end-date expiry is saved and renewals are removed. Fixed end dates come from Pro Fixed Period Membership. | Core |
-| `arraysubs_subscription_paused` | action | `int $subscription_id, int $duration_days, int $user_id, string $reason` | After the status is `arraysubs-paused`, the next payment date is pushed back by the duration and renewal jobs are removed. `$user_id` is `0` for system pauses. | Core |
-| `arraysubs_subscription_resumed` | action | `int $subscription_id, int $user_id, bool $is_auto, array $context` | After a paused subscription returns to its previous status (active or trial) and its renewal is rescheduled. `$context`: `paused_days`, `paused_seconds`, `restored_to`. | Core |
-| `arraysubs_cycles_skipped` | action | `int $subscription_id, int $cycles, int $user_id, array $context` | After renewals are skipped and the next payment date moved. `$context`: `original_date`, `new_date` (UTC `Y-m-d H:i:s`), `reason`. | Core |
-| `arraysubs_skip_undone` | action | `int $subscription_id, int $user_id, array $context` | After a skip is undone. `$context`: `cycles_undone`, `restored_date`. | Core |
-| `arraysubs_skip_modified` | action | `int $subscription_id, int $old_cycles, int $new_cycles, int $user_id` | After the number of skipped cycles changes. | Core |
-| `arraysubs_cycle_skipped_processed` | action | `int $subscription_id, int $remaining, int $new_remaining` | A skipped cycle is consumed when its renewal would have been invoiced. | Core |
-| `arraysubs_skip_cycles_completed` | action | `int $subscription_id` | The last skipped cycle is consumed and the skip is cleared. | Core |
-| `arraysubs_subscription_terms_updated` | action | `WP_Post $subscription, array $previous, array $current` | After a successful update through the admin editor (`POST /wp-json/arraysubs/v1/subscriptions/{id}/update` or `/status`) or `Subscriptions::update()` and its status shortcuts. The arrays hold the editable fields plus `status`. | Core |
-| `arraysubs_data_updated_via_api` | action | `int $subscription_id, array $updates` | Right after, with the submitted changes. | Core |
-| `arraysubs_product_changed` | action | `int $subscription_id, int $old_product_id, int $new_product_id` | The editor or `Subscriptions::update()` changed the product (variation ID when set), or the admin change-product route (`POST /wp-json/arraysubs/v1/subscriptions/manual/change-product`) ran. Old before new. | Core |
-| `arraysubs_quantity_changed` | action | `int $subscription_id, int $new_quantity, int $old_quantity` | The editor or `Subscriptions::update()` changed the quantity. New before old. | Core |
-| `arraysubs_payment_method_changed` | action | `int $subscription_id, string $new_method, string $old_method` | Same paths, payment method changed. New before old. | Core |
-| `arraysubs_recurring_amount_changed` | action | `int $subscription_id, float $new_amount, float $old_amount` | Same paths, recurring amount changed. New before old. | Core |
-| `arraysubs_next_payment_date_updated` | action | `WP_Post $subscription, string $old_date, string $new_date` | `Subscriptions::setNextPaymentDate()` or `setTrialEnd()` moved the date (UTC `Y-m-d H:i:s`). | Core |
-| `arraysubs_dates_updated` | action | `int $subscription_id` | The admin update-dates route (`POST /wp-json/arraysubs/v1/subscriptions/manual/update-dates`) changed at least one date. | Core |
-| `arraysubs_data_updated` | action | `int $subscription_id, array $args` | After `arraysubs_update_subscription()` saves. ArraySubs' own screens do not call this helper. | Core |
-| `arraysubs_auto_renew_toggled`, `arraysubspro_auto_renew_toggled` | action | `int $subscription_id, bool $enabled, string $gateway_slug` | Auto-renew was turned on or off. Core fires both names. | Core |
-| `arraysubs_subscription_customer_identity_changed` | action | `WP_Post $subscription, array $previous, array $current, string $source` | A guest subscription is claimed by a new account (`customer_account_created`, `past_order_claim`) or checkout assigns it to its final customer (`checkout_customer_sync`). Arrays: `customer_id`, `customer_email`. | Core |
-| `arraysubs_product_removed` | action | `int $subscription_id, int $product_id, string $action` | A product the subscription uses is trashed or deleted (`trashed` or `deleted`). | Core |
-| `arraysubs_product_restored` | action | `int $subscription_id, int $product_id` | That product is restored from the trash. | Core |
-| `arraysubs_before_delete_subscription` | action | `int $subscription_id, bool $force_delete` | `arraysubs_delete_subscription()` or `Subscriptions::delete()` is about to delete the subscription; it can still be read. | Core |
-| `arraysubs_data_deleted` | action | `int $subscription_id, bool $force_delete` | After that helper deleted the post. | Core |
-| `arraysubs_subscription_children_deleted` | action | `int $subscription_id, int $deleted_notes` | Any permanent delete of a subscription post, after its scheduled jobs and notes are removed. "Children" means notes and jobs, not child subscriptions. | Core |
-| `arraysubs_box_child_subscriptions_created` | action | `int $subscription_id, int[] $child_ids, int $order_id` | After a box subscription's child subscriptions are created (only when new children were created). `$child_ids` is the full list. | Core (Subscription Box) |
-| `arraysubspro_bundle_child_subscriptions_created` | action | `int $subscription_id, int[] $child_ids, int $order_id` | Same, for a bundle. | Pro (Subscription Bundle) |
-| `arraysubs_subscription_externally_billed` | filter | `bool $externally_billed, int $subscription_id` | Every invoice and charge path. `true` means another subscription pays for this one, so ArraySubs never invoices or charges it. Box and bundle children answer `true`. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_data_created` | action | `int $subscription_id, WP_Post $post` | After a new subscription post and its meta are saved (`wp_after_insert_post`), on every creation path. Checkout subscriptions are usually still `arraysubs-pending` here. |
+| `arraysubs_data_status_changed` | action | `int $subscription_id, string $new_status, string $old_status` | Every status change, inside the status write. Full slugs; `$old_status` can be `new` or `auto-draft` on creation. |
+| `arraysubs_data_status_{$old_status}_to_{$new_status}` | action | `int $subscription_id, string $new_status, string $old_status` | Right after the generic status hook, for example `arraysubs_data_status_arraysubs-active_to_arraysubs-on-hold`. |
+| `arraysubs_data_activated` | action | `int $subscription_id, int $order_id` | Initial activation is completed: status set (trial subscriptions stay in trial), payment context stored, renewal work scheduled when applicable. For a deferred initial subscription this waits until approval and uses the original paid order ID. |
+| `arraysubs_initial_payment_subscription_status` | filter | `string $default_status, WP_Post $subscription, WC_Order $order, array $context` | Before the initial paid subscription is activated. Return the default, `arraysubs-pending` or `arraysubs-on-hold`. Deferral supports non-trial subscriptions whose billing clock belongs to ArraySubs; unsupported decisions retain the default. Never runs for renewal payment. New feature; not stock 2.0.9. |
+| `arraysubs_initial_payment_checkout_fields` | filter | `array $fields, WP_Post $subscription, WC_Order $order` | Builds saved checkout context before the initial status decision. Add a checkout integration's saved order meta while preserving the full fields array. New feature; not stock 2.0.9. |
+| `arraysubs_subscription_activation_deferred` | action | `WP_Post $subscription, WC_Order $order, array $context` | After successful-payment bookkeeping and the deferred status are saved. Ordinary paid-order replay does not repeat it. Use for provisioning emails or queued work. New feature; not stock 2.0.9. |
+| `arraysubs_data_reactivated` | action | `int $subscription_id, string $old_status` | The status changes to `arraysubs-active` from on-hold, cancelled or expired (not on the first activation), after the next payment date is recalculated and renewals rescheduled. |
+| `arraysubs_data_put_on_hold` | action | `int $subscription_id` | Only when the hourly overdue check puts an unpaid subscription on hold. Other on-hold paths fire only the status hooks. |
+| `arraysubs_should_expire_subscription` | filter | `bool $should_expire, int $subscription_id` | Before the scheduled expiry job expires a subscription with a fixed end date. Return `false` to keep it. Not applied to expiry by payment count. |
+| `arraysubs_data_expired` | action | `int $subscription_id` | After that fixed-end-date expiry is saved and renewals are removed. Fixed end dates come from Pro Fixed Period Membership. |
+| `arraysubs_subscription_paused` | action | `int $subscription_id, int $duration_days, int $user_id, string $reason` | After the status is `arraysubs-paused`, the next payment date is pushed back by the duration and renewal jobs are removed. `$user_id` is `0` for system pauses. |
+| `arraysubs_subscription_resumed` | action | `int $subscription_id, int $user_id, bool $is_auto, array $context` | After a paused subscription returns to its previous status (active or trial) and its renewal is rescheduled. `$context`: `paused_days`, `paused_seconds`, `restored_to`. |
+| `arraysubs_cycles_skipped` | action | `int $subscription_id, int $cycles, int $user_id, array $context` | After renewals are skipped and the next payment date moved. `$context`: `original_date`, `new_date` (UTC `Y-m-d H:i:s`), `reason`. |
+| `arraysubs_skip_undone` | action | `int $subscription_id, int $user_id, array $context` | After a skip is undone. `$context`: `cycles_undone`, `restored_date`. |
+| `arraysubs_skip_modified` | action | `int $subscription_id, int $old_cycles, int $new_cycles, int $user_id` | After the number of skipped cycles changes. |
+| `arraysubs_cycle_skipped_processed` | action | `int $subscription_id, int $remaining, int $new_remaining` | A skipped cycle is consumed when its renewal would have been invoiced. |
+| `arraysubs_skip_cycles_completed` | action | `int $subscription_id` | The last skipped cycle is consumed and the skip is cleared. |
+| `arraysubs_subscription_terms_updated` | action | `WP_Post $subscription, array $previous, array $current` | After a successful update through the admin editor (`POST /wp-json/arraysubs/v1/subscriptions/{id}/update` or `/status`) or `Subscriptions::update()` and its status shortcuts. The arrays hold the editable fields plus `status`. |
+| `arraysubs_data_updated_via_api` | action | `int $subscription_id, array $updates` | Right after, with the submitted changes. |
+| `arraysubs_product_changed` | action | `int $subscription_id, int $old_product_id, int $new_product_id` | The editor or `Subscriptions::update()` changed the product (variation ID when set), or the admin change-product route (`POST /wp-json/arraysubs/v1/subscriptions/manual/change-product`) ran. Old before new. |
+| `arraysubs_quantity_changed` | action | `int $subscription_id, int $new_quantity, int $old_quantity` | The editor or `Subscriptions::update()` changed the quantity. New before old. |
+| `arraysubs_payment_method_changed` | action | `int $subscription_id, string $new_method, string $old_method` | Same paths, payment method changed. New before old. |
+| `arraysubs_recurring_amount_changed` | action | `int $subscription_id, float $new_amount, float $old_amount` | Same paths, recurring amount changed. New before old. |
+| `arraysubs_next_payment_date_updated` | action | `WP_Post $subscription, string $old_date, string $new_date` | `Subscriptions::setNextPaymentDate()` or `setTrialEnd()` moved the date (UTC `Y-m-d H:i:s`). |
+| `arraysubs_dates_updated` | action | `int $subscription_id` | The admin update-dates route (`POST /wp-json/arraysubs/v1/subscriptions/manual/update-dates`) changed at least one date. |
+| `arraysubs_data_updated` | action | `int $subscription_id, array $args` | After `arraysubs_update_subscription()` saves. ArraySubs' own screens do not call this helper. |
+| `arraysubs_auto_renew_toggled`, `arraysubspro_auto_renew_toggled` | action | `int $subscription_id, bool $enabled, string $gateway_slug` | Auto-renew was turned on or off. Core fires both names. |
+| `arraysubs_subscription_customer_identity_changed` | action | `WP_Post $subscription, array $previous, array $current, string $source` | A guest subscription is claimed by a new account (`customer_account_created`, `past_order_claim`) or checkout assigns it to its final customer (`checkout_customer_sync`). Arrays: `customer_id`, `customer_email`. |
+| `arraysubs_product_removed` | action | `int $subscription_id, int $product_id, string $action` | A product the subscription uses is trashed or deleted (`trashed` or `deleted`). |
+| `arraysubs_product_restored` | action | `int $subscription_id, int $product_id` | That product is restored from the trash. |
+| `arraysubs_before_delete_subscription` | action | `int $subscription_id, bool $force_delete` | `arraysubs_delete_subscription()` or `Subscriptions::delete()` is about to delete the subscription; it can still be read. |
+| `arraysubs_data_deleted` | action | `int $subscription_id, bool $force_delete` | After that helper deleted the post. |
+| `arraysubs_subscription_children_deleted` | action | `int $subscription_id, int $deleted_notes` | Any permanent delete of a subscription post, after its scheduled jobs and notes are removed. "Children" means notes and jobs, not child subscriptions. |
+| `arraysubs_box_child_subscriptions_created` | action | `int $subscription_id, int[] $child_ids, int $order_id` | After a box subscription's child subscriptions are created (only when new children were created). `$child_ids` is the full list. |
+| `arraysubspro_bundle_child_subscriptions_created` | action | `int $subscription_id, int[] $child_ids, int $order_id` | Same, for a bundle. |
+| `arraysubs_subscription_externally_billed` | filter | `bool $externally_billed, int $subscription_id` | Every invoice and charge path. `true` means another subscription pays for this one, so ArraySubs never invoices or charges it. Box and bundle children answer `true`. |
 
 For initial-payment deferral, `$context['gateway']` contains `id`, `title` and `transaction_id`; `$context['checkout_fields']` contains `billing`, `shipping`, `order_notes`, `additional` and `custom`. Additional fields retain their namespaced IDs under `billing`, `shipping` or `other`; Checkout Builder custom fields retain exact `_arraysubs_cf_*` keys. Read the [complete context and examples](./deferred-subscription-activation.md#saved-checkout-and-gateway-data). Billing dates stay unchanged while approval waits; an overdue approval queues catch-up billing.
 
 ## Renewal and Payment Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_should_generate_renewal_invoice` | filter | `bool $should_generate, WP_Post $subscription` | Before the per-subscription invoice job and the hourly upcoming-renewals batch create a renewal order. `false` skips that run only: the due-time charge still creates the order if it is missing. Core uses it for scheduled cancellations, skips and box children; Pro for bundle children and fixed end dates. | Core |
-| `arraysubs_renewal_order_built` | action | `WC_Order $order, int $subscription_id` | After any renewal order is built and saved, on every path (invoice job, due-time fallback, Pro early renewal, provider-initiated orders). The order comes first. | Core |
-| `arraysubs_renewal_shipping_context` | filter | `array $context, WP_Post $subscription, ?array $pending_switch, ?WC_Product $target_product` | Before renewal shipping is added. Keys: `needs_shipping`, `shipping_type`, `renewal_shipping_total`, `shipping_method_id`, `shipping_method_title`. | Core |
-| `arraysubs_renewal_shipping_added` | action | `WC_Order $order, WP_Post $subscription, float $shipping_total` | After the recurring shipping line is added to the renewal order. | Core |
-| `arraysubs_renewal_invoice_created` | action | `int $subscription_id, int $order_id` | After a new renewal order is linked as the pending renewal, from an invoice job, the overdue check or the due-time charge. Core applies recurring coupons at priority 5 and sends the invoice email at 10. | Core |
-| `arraysubs_renewal_payment_attempt` | action | `WP_Post $subscription, WC_Order $order, int $attempt` | Before the due-time charge or a retry. `$attempt` is the number of retries already made (`0` for the first charge). | Core |
-| `arraysubs_renewal_payment_attempt_result` | action | `WP_Post $subscription, WC_Order $order, int $attempt, string $result` | After the charge call returns: `paid`, `pending`, `manual_required`, `requires_action`, `failed` or a status the gateway returned. | Core |
-| `arraysubs_renewal_payment_complete` | action | `int $subscription_id, int $order_id` | After a paid renewal is processed: any pending switch applied, payment count and retry state updated, next payment date advanced, renewals rescheduled, status set to active. Runs in the request that marked the order paid. | Core |
-| `arraysubs_renewal_payment_failed` | action | `int $subscription_id, int $order_id, string $error_message` | After a failed charge is recorded and the next retry is decided. `$order_id` is `0` when the renewal order could not be created; the subscription is then already on hold. | Core |
-| `arraysubs_order_created` | action | `int $order_id, WC_Order $order` | Every new WooCommerce order (`woocommerce_new_order`), not only subscription orders. | Core |
-| `arraysubs_order_status_changed` | action | `int $order_id, string $new_status, string $old_status, WC_Order $order` | Every WooCommerce order status change. Statuses have no `wc-` prefix. New before old. | Core |
-| `arraysubs_order_paid` | action | `int $order_id, WC_Order $order` | An order reaches processing or completed (it can fire for both), except plan-switch orders (`_arraysubs_order_type` `plan_switch` or `plan_switch_checkout`), which are finalized from WooCommerce's own paid signals (`woocommerce_payment_complete`, `woocommerce_order_status_processing`, `woocommerce_order_status_completed`). Also fired by the Paddle gateway. Core activates and renews subscriptions from it at priority 10. | Core |
-| `arraysubs_manual_payment_recorded` | action | `int $subscription_id, int $order_id, float $amount` | An admin records a manual payment (`POST /wp-json/arraysubs/v1/subscriptions/manual/payment`). | Core |
-| `arraysubs_subscription_reactivated` | action | `int $subscription_id` | That manual payment reactivated an on-hold subscription, or a customer reactivated a subscription. | Core |
-| `arraysubs_payment_skipped` | action | `int $subscription_id` | The admin skip-payment route moved the next payment date. | Core |
-| `arraysubs_subscription_order_refunded` | action | `int $subscription_id, int $order_id, int $refund_id, float $amount` | Once per refund and subscription, after a refund on a subscription order is recorded. | Core |
-| `arraysubs_subscription_fully_refunded` | action | `int $subscription_id, int $order_id` | A subscription order becomes fully refunded. Core cancels the subscription immediately from it at priority 1. Not fired for plan-switch orders (`_arraysubs_order_type` `plan_switch` or `plan_switch_checkout`). Refunds of `plan_switch_checkout` orders still fire `arraysubs_subscription_order_refunded` when the refund can be attributed to the subscription. | Core |
-| `arraysubs_subscription_fully_refunded_processed` | action | `int $subscription_id, int $order_id, string $mode` | After that refund cancelled the subscription (`$mode` is `immediate`). | Core |
-| `arraysubs_coupon_applied_to_subscription` | action | `int $subscription_id, WC_Coupon $coupon, array $details` | Checkout recorded a coupon on a new subscription. `$details`: `code`, `duration`, `cycles`, `remaining_cycles`, `discount_amount`, `discount_percent`, `wc_discount_type`, `count_initial`. | Core |
-| `arraysubs_should_apply_coupon_to_renewal` | filter | `bool $should_apply, WC_Coupon $coupon, int $subscription_id` | Before a recurring coupon is applied to a new renewal order. | Core |
-| `arraysubs_coupon_expired_on_subscription` | action | `int $subscription_id, string $coupon_code` | A recurring coupon used its last cycle. | Core |
-| `arraysubspro_early_renew_eligibility` | filter | `array $eligibility, int $subscription_id` | When early renewal eligibility is evaluated. | Pro |
-| `arraysubspro_early_renew_payment_mode` | filter | `string $mode, int $subscription_id` | `automatic` or `manual`. Return `''` to block early renewal for the subscription. | Pro |
-| `arraysubspro_early_renewal_started` | action | `int $subscription_id, int $order_id, int $user_id` | An early renewal invoice was created, before payment is attempted. | Pro |
-| `arraysubspro_early_renewal_processed` | action | `int $subscription_id, int $order_id, array $response` | After an early renewal payment attempt that did not fail. | Pro |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_should_generate_renewal_invoice` | filter | `bool $should_generate, WP_Post $subscription` | Before the per-subscription invoice job and the hourly upcoming-renewals batch create a renewal order. `false` skips that run only: the due-time charge still creates the order if it is missing. Core uses it for scheduled cancellations, skips and box children; Pro for bundle children and fixed end dates. |
+| `arraysubs_renewal_order_built` | action | `WC_Order $order, int $subscription_id` | After any renewal order is built and saved, on every path (invoice job, due-time fallback, Pro early renewal, provider-initiated orders). The order comes first. |
+| `arraysubs_renewal_shipping_context` | filter | `array $context, WP_Post $subscription, ?array $pending_switch, ?WC_Product $target_product` | Before renewal shipping is added. Keys: `needs_shipping`, `shipping_type`, `renewal_shipping_total`, `shipping_method_id`, `shipping_method_title`. |
+| `arraysubs_renewal_shipping_added` | action | `WC_Order $order, WP_Post $subscription, float $shipping_total` | After the recurring shipping line is added to the renewal order. |
+| `arraysubs_renewal_invoice_created` | action | `int $subscription_id, int $order_id` | After a new renewal order is linked as the pending renewal, from an invoice job, the overdue check or the due-time charge. Core applies recurring coupons at priority 5 and sends the invoice email at 10. |
+| `arraysubs_renewal_payment_attempt` | action | `WP_Post $subscription, WC_Order $order, int $attempt` | Before the due-time charge or a retry. `$attempt` is the number of retries already made (`0` for the first charge). |
+| `arraysubs_renewal_payment_attempt_result` | action | `WP_Post $subscription, WC_Order $order, int $attempt, string $result` | After the charge call returns: `paid`, `pending`, `manual_required`, `requires_action`, `failed` or a status the gateway returned. |
+| `arraysubs_renewal_payment_complete` | action | `int $subscription_id, int $order_id` | After a paid renewal is processed: any pending switch applied, payment count and retry state updated, next payment date advanced, renewals rescheduled, status set to active. Runs in the request that marked the order paid. |
+| `arraysubs_renewal_payment_failed` | action | `int $subscription_id, int $order_id, string $error_message` | After a failed charge is recorded and the next retry is decided. `$order_id` is `0` when the renewal order could not be created; the subscription is then already on hold. |
+| `arraysubs_order_created` | action | `int $order_id, WC_Order $order` | Every new WooCommerce order (`woocommerce_new_order`), not only subscription orders. |
+| `arraysubs_order_status_changed` | action | `int $order_id, string $new_status, string $old_status, WC_Order $order` | Every WooCommerce order status change. Statuses have no `wc-` prefix. New before old. |
+| `arraysubs_order_paid` | action | `int $order_id, WC_Order $order` | An order reaches processing or completed (it can fire for both), except plan-switch orders (`_arraysubs_order_type` `plan_switch` or `plan_switch_checkout`), which are finalized from WooCommerce's own paid signals (`woocommerce_payment_complete`, `woocommerce_order_status_processing`, `woocommerce_order_status_completed`). Also fired by the Paddle gateway. Core activates and renews subscriptions from it at priority 10. |
+| `arraysubs_manual_payment_recorded` | action | `int $subscription_id, int $order_id, float $amount` | An admin records a manual payment (`POST /wp-json/arraysubs/v1/subscriptions/manual/payment`). |
+| `arraysubs_subscription_reactivated` | action | `int $subscription_id` | That manual payment reactivated an on-hold subscription, or a customer reactivated a subscription. |
+| `arraysubs_payment_skipped` | action | `int $subscription_id` | The admin skip-payment route moved the next payment date. |
+| `arraysubs_subscription_order_refunded` | action | `int $subscription_id, int $order_id, int $refund_id, float $amount` | Once per refund and subscription, after a refund on a subscription order is recorded. |
+| `arraysubs_subscription_fully_refunded` | action | `int $subscription_id, int $order_id` | A subscription order becomes fully refunded. Core cancels the subscription immediately from it at priority 1. Not fired for plan-switch orders (`_arraysubs_order_type` `plan_switch` or `plan_switch_checkout`). Refunds of `plan_switch_checkout` orders still fire `arraysubs_subscription_order_refunded` when the refund can be attributed to the subscription. |
+| `arraysubs_subscription_fully_refunded_processed` | action | `int $subscription_id, int $order_id, string $mode` | After that refund cancelled the subscription (`$mode` is `immediate`). |
+| `arraysubs_coupon_applied_to_subscription` | action | `int $subscription_id, WC_Coupon $coupon, array $details` | Checkout recorded a coupon on a new subscription. `$details`: `code`, `duration`, `cycles`, `remaining_cycles`, `discount_amount`, `discount_percent`, `wc_discount_type`, `count_initial`. |
+| `arraysubs_should_apply_coupon_to_renewal` | filter | `bool $should_apply, WC_Coupon $coupon, int $subscription_id` | Before a recurring coupon is applied to a new renewal order. |
+| `arraysubs_coupon_expired_on_subscription` | action | `int $subscription_id, string $coupon_code` | A recurring coupon used its last cycle. |
+| `arraysubspro_early_renew_eligibility` | filter | `array $eligibility, int $subscription_id` | When early renewal eligibility is evaluated. |
+| `arraysubspro_early_renew_payment_mode` | filter | `string $mode, int $subscription_id` | `automatic` or `manual`. Return `''` to block early renewal for the subscription. |
+| `arraysubspro_early_renewal_started` | action | `int $subscription_id, int $order_id, int $user_id` | An early renewal invoice was created, before payment is attempted. |
+| `arraysubspro_early_renewal_processed` | action | `int $subscription_id, int $order_id, array $response` | After an early renewal payment attempt that did not fail. |
 
 ## Gateway and Webhook Hooks
 
 Gateway slugs in these hooks are the subscription's stored gateway: for example `stripe`, `mollie`, `arraysubs_paypal` or `arraysubs_paddle`. PayPal, Paddle, Mollie and the secondary Stripe endpoint deliver webhooks to `POST /wp-json/arraysubs/v1/webhooks/{gateway_slug}` (`arraysubs_paypal`, `arraysubs_paddle`, `mollie`, `arraysubs_stripe`). Most Stripe events arrive through the official WooCommerce Stripe Gateway, which ArraySubs listens to.
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_gateway_payment_succeeded` | action | `int $subscription_id, int $order_id, string $transaction_id, string $gateway_slug` | After an initial or renewal payment is processed, and from Stripe, PayPal, Paddle and Mollie payment webhooks. Can fire more than once for one payment: log with it, count renewals with `renewed`. | Core |
-| `arraysubs_gateway_payment_failed` | action | `int $subscription_id, int $order_id, string $error_message, string $gateway_slug, string $provider_attempt` | After a recorded renewal failure on a subscription with a stored gateway (five arguments), from Stripe (five) and Mollie (four or five) failure webhooks, from PayPal and Paddle webhooks (four), and when a payment never confirms within the settlement window (four). Give the fifth parameter a default. | Core |
-| `arraysubs_gateway_refund_created` | action | `int $subscription_id, int $order_id, float $amount, string $gateway_slug` | ArraySubs issued a prorated, full or partial refund on an order that belongs to one subscription with a stored gateway, or Stripe, PayPal, Paddle or Mollie reported a refund by webhook (Mollie passes the payment's total refunded amount). | Core |
-| `arraysubs_gateway_subscription_cancelled` | action | `int $subscription_id, string $gateway_slug` | A subscription with a stored gateway is cancelled (core fires it from `arraysubs_data_cancelled` so the gateway stops remote billing), and PayPal or Paddle report a cancellation by webhook. | Core |
-| `arraysubs_gateway_billing_suspended_externally`, `arraysubs_gateway_billing_resumed_externally` | action | `int $subscription_id, string $gateway_slug` | PayPal suspended or reactivated billing without ArraySubs asking. | Core (PayPal) |
-| `arraysubs_gateway_subscription_paused`, `arraysubs_gateway_subscription_resumed` | action | `int $subscription_id, string $gateway_slug` | A Paddle webhook synced a pause or resume. | Core (Paddle) |
-| `arraysubs_gateway_dispute_created`, `arraysubs_gateway_dispute_resolved` | action | `int $subscription_id, int $order_id, string $gateway_slug, array $payload` | Stripe, PayPal and Paddle dispute webhooks; Mollie reports new chargebacks only. Recorded as information; the status does not change. `$payload` is the provider's raw data. | Core |
-| `arraysubs_payment_method_updated` | action | `int $subscription_id, array $old, array $new` | A Stripe or Paddle webhook updated the stored payment method. | Core (Stripe, Paddle) |
-| `arraysubs_card_expiring` | action | `int $subscription_id, array $payload, string $gateway_slug` | The card-expiry sweep finds a stored card close to expiry (`source` `local_expiry_sweep`, `expiry_month`, `expiry_year`, `expires_at_gmt`, `days_remaining`, `stage_days`, `last4`, `brand`), or a Stripe card-expiring webhook arrives (raw Stripe data). Core sends the card-expiring email from it. | Core |
-| `arraysubs_renewal_requires_verification` | action | `int $subscription_id, int $order_id, string $intent_id, string $gateway_slug` | A Stripe renewal needs customer authentication. Core sends the verification email from it. | Core (Stripe) |
-| `arraysubs_gateway_payment_method_required` | action | `int $subscription_id, string $gateway_slug` | Mollie returned no reusable mandate, so renewals cannot be charged automatically. | Core (Mollie) |
-| `arraysubs_gateway_payment_credential_rebound` | action | `int $subscription_id, string $credential_id, string $gateway_slug` | A Mollie subscription was rebound to a new mandate when ArraySubs re-read the customer's mandates at Mollie (the customer's rebind request). | Core (Mollie) |
-| `arraysubs_payment_authorisation_revoked` | action | `WP_Post $subscription, string $gateway_slug` | The gateway's saved payment authorisation is revoked. Use 2 accepted arguments. | Core |
-| `arraysubs_gateway_context_captured` | action | `int $subscription_id, int $order_id, array $context` | After the initial order's payment method is stored on the subscription. `$context`: `payment_method`, `payment_method_title`, `order_id`. | Core |
-| `arraysubs_payment_method_attached` | action | `int $subscription_id, array $method` | Right after, with the same keys. | Core |
-| `arraysubs_gateway_context_persist_failed` | action | `int $subscription_id, int $order_id, WP_Error $error` | Gateway context could not be stored for a paid order. Never retry payment from it or serialize the error. | Core |
-| `arraysubs_gateway_webhook_received` | action | `string $gateway_slug, string $raw_body` | A delivery reaches the webhook endpoint, before verification. The body is unverified and can contain personal data. | Core |
-| `arraysubs_gateway_webhook_rejected` | action | `string $gateway_slug, string $reason` | Signature verification failed (`invalid_signature`). | Core |
-| `arraysubs_gateway_webhook_verified` | action | `string $gateway_slug, string $event_id, string $event_type` | Signature verified and payload parsed, before the duplicate check (so it also fires for redeliveries). | Core |
-| `arraysubs_gateway_webhook_context` | filter | `array $context, array $parsed, string $gateway_slug` | Context handed to the gateway handler: `parsed`, `payload`, `gateway_event_type`, `subscription_id`, `order_id`, `customer_id`, `order`, `subscription`, `gateway_slug`. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_gateway_payment_succeeded` | action | `int $subscription_id, int $order_id, string $transaction_id, string $gateway_slug` | After an initial or renewal payment is processed, and from Stripe, PayPal, Paddle and Mollie payment webhooks. Can fire more than once for one payment: log with it, count renewals with `renewed`. |
+| `arraysubs_gateway_payment_failed` | action | `int $subscription_id, int $order_id, string $error_message, string $gateway_slug, string $provider_attempt` | After a recorded renewal failure on a subscription with a stored gateway (five arguments), from Stripe (five) and Mollie (four or five) failure webhooks, from PayPal and Paddle webhooks (four), and when a payment never confirms within the settlement window (four). Give the fifth parameter a default. |
+| `arraysubs_gateway_refund_created` | action | `int $subscription_id, int $order_id, float $amount, string $gateway_slug` | ArraySubs issued a prorated, full or partial refund on an order that belongs to one subscription with a stored gateway, or Stripe, PayPal, Paddle or Mollie reported a refund by webhook (Mollie passes the payment's total refunded amount). |
+| `arraysubs_gateway_subscription_cancelled` | action | `int $subscription_id, string $gateway_slug` | A subscription with a stored gateway is cancelled (core fires it from `arraysubs_data_cancelled` so the gateway stops remote billing), and PayPal or Paddle report a cancellation by webhook. |
+| `arraysubs_gateway_billing_suspended_externally`, `arraysubs_gateway_billing_resumed_externally` | action | `int $subscription_id, string $gateway_slug` | PayPal suspended or reactivated billing without ArraySubs asking. |
+| `arraysubs_gateway_subscription_paused`, `arraysubs_gateway_subscription_resumed` | action | `int $subscription_id, string $gateway_slug` | A Paddle webhook synced a pause or resume. |
+| `arraysubs_gateway_dispute_created`, `arraysubs_gateway_dispute_resolved` | action | `int $subscription_id, int $order_id, string $gateway_slug, array $payload` | Stripe, PayPal and Paddle dispute webhooks; Mollie reports new chargebacks only. Recorded as information; the status does not change. `$payload` is the provider's raw data. |
+| `arraysubs_payment_method_updated` | action | `int $subscription_id, array $old, array $new` | A Stripe or Paddle webhook updated the stored payment method. |
+| `arraysubs_card_expiring` | action | `int $subscription_id, array $payload, string $gateway_slug` | The card-expiry sweep finds a stored card close to expiry (`source` `local_expiry_sweep`, `expiry_month`, `expiry_year`, `expires_at_gmt`, `days_remaining`, `stage_days`, `last4`, `brand`), or a Stripe card-expiring webhook arrives (raw Stripe data). Core sends the card-expiring email from it. |
+| `arraysubs_renewal_requires_verification` | action | `int $subscription_id, int $order_id, string $intent_id, string $gateway_slug` | A Stripe renewal needs customer authentication. Core sends the verification email from it. |
+| `arraysubs_gateway_payment_method_required` | action | `int $subscription_id, string $gateway_slug` | Mollie returned no reusable mandate, so renewals cannot be charged automatically. |
+| `arraysubs_gateway_payment_credential_rebound` | action | `int $subscription_id, string $credential_id, string $gateway_slug` | A Mollie subscription was rebound to a new mandate when ArraySubs re-read the customer's mandates at Mollie (the customer's rebind request). |
+| `arraysubs_payment_authorisation_revoked` | action | `WP_Post $subscription, string $gateway_slug` | The gateway's saved payment authorisation is revoked. Use 2 accepted arguments. |
+| `arraysubs_gateway_context_captured` | action | `int $subscription_id, int $order_id, array $context` | After the initial order's payment method is stored on the subscription. `$context`: `payment_method`, `payment_method_title`, `order_id`. |
+| `arraysubs_payment_method_attached` | action | `int $subscription_id, array $method` | Right after, with the same keys. |
+| `arraysubs_gateway_context_persist_failed` | action | `int $subscription_id, int $order_id, WP_Error $error` | Gateway context could not be stored for a paid order. Never retry payment from it or serialize the error. |
+| `arraysubs_gateway_webhook_received` | action | `string $gateway_slug, string $raw_body` | A delivery reaches the webhook endpoint, before verification. The body is unverified and can contain personal data. |
+| `arraysubs_gateway_webhook_rejected` | action | `string $gateway_slug, string $reason` | Signature verification failed (`invalid_signature`). |
+| `arraysubs_gateway_webhook_verified` | action | `string $gateway_slug, string $event_id, string $event_type` | Signature verified and payload parsed, before the duplicate check (so it also fires for redeliveries). |
+| `arraysubs_gateway_webhook_context` | filter | `array $context, array $parsed, string $gateway_slug` | Context handed to the gateway handler: `parsed`, `payload`, `gateway_event_type`, `subscription_id`, `order_id`, `customer_id`, `order`, `subscription`, `gateway_slug`. |
 
 ### Gateway adapter filters
 
 These are the seams the bundled gateways use. You need them only when you build or adjust a payment integration.
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_register_automatic_gateway` | action (by reference) | `array &$gateways` | When the gateway registry is built. Add your `AutomaticGatewayContract` delegate keyed by slug. Fired with `do_action_ref_array()`. | Core |
-| `arraysubs_is_automatic_payment` | filter | `bool $is_automatic, int $subscription_id` | For subscriptions with a stored gateway: whether renewals are charged automatically. | Core |
-| `arraysubs_should_process_automatic_payment` | filter | `bool $should_process, int $subscription_id, WC_Order $order` | Before an automatic charge. `false` turns this attempt into a manual invoice. | Core |
-| `arraysubs_process_automatic_renewal_payment` | filter | `array $result, int $subscription_id, WC_Order $order` | Charge here and return `status`, `message`, `error_code`, `transaction_id` or `requires_action`, and optionally `attempt_payment_method_id`: the payment method this attempt verified or charged, which tells core which method failed. A `paid` claim counts only if the order is actually paid. | Core |
-| `arraysubs_pre_retry_charge_verification` | filter | `array $verification, int $subscription_id, WC_Order $order` | Before a retry charge, to confirm with the provider that a missed webhook did not already collect it. Keys: `found`, `charged`, `conclusive`, `completed`, `transaction_id`, `message`, `raw`. | Core |
-| `arraysubs_is_awaiting_gateway_settlement` | filter | `bool $awaiting, int $subscription_id, ?WC_Order $order` | Before the overdue sweeps act. `true` pauses on-hold and cancellation while a payment is still settling; return `false` once the window passes. | Core |
-| `arraysubs_renewal_payment_is_settling` | filter | `bool $settling, WC_Order $order` | When a renewal order's Pay and Cancel actions are built, when the customer cancels it, and before a Pay-page payment (classic form or Store API) starts. `true` refuses a second payment for the order (Store API: HTTP 409 `arraysubs_renewal_payment_settling`, or `arraysubs_renewal_payment_received` when the gateway already took the renewal's payment), hides its Pay buttons and keeps the customer from cancelling it in My Account. Return `false` once the payment has ended. | Core |
-| `arraysubs_gateway_owns_billing_clock` | filter | `bool $owns, string $gateway_slug, int $subscription_id` | Whether the provider decides billing dates (PayPal and Paddle do). | Core |
-| `arraysubs_pause_remote_billing` | filter | `array $result, int $subscription_id, int $duration_days` | During a pause, before the local status changes. Return `['success' => true, 'handled' => true]` once the provider paused; a failure (or `handled` `false` when the provider owns the clock) rolls the pause back. | Core |
-| `arraysubs_resume_remote_billing` | filter | `array $result, int $subscription_id` | During a resume, and to compensate a failed pause. Same result contract. | Core |
-| `arraysubs_subscription_supports_retention_offers` | filter | `bool $supports, int $subscription_id, string $gateway_slug` | Asked only for subscriptions with automatic payment context; manual-renewal subscriptions always support offers. Default `false`; gateways opt in. | Core |
-| `arraysubs_gateway_resolution` | filter | `string $gateway_slug, int $subscription_id` | Whenever the subscription's gateway slug is resolved. | Core |
-| `arraysubs_has_automatic_gateways` | filter | `bool $has_gateways` | Whether any automatic gateway is available. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_register_automatic_gateway` | action (by reference) | `array &$gateways` | When the gateway registry is built. Add your `AutomaticGatewayContract` delegate keyed by slug. Fired with `do_action_ref_array()`. |
+| `arraysubs_is_automatic_payment` | filter | `bool $is_automatic, int $subscription_id` | For subscriptions with a stored gateway: whether renewals are charged automatically. |
+| `arraysubs_should_process_automatic_payment` | filter | `bool $should_process, int $subscription_id, WC_Order $order` | Before an automatic charge. `false` turns this attempt into a manual invoice. |
+| `arraysubs_process_automatic_renewal_payment` | filter | `array $result, int $subscription_id, WC_Order $order` | Charge here and return `status`, `message`, `error_code`, `transaction_id` or `requires_action`, and optionally `attempt_payment_method_id`: the payment method this attempt verified or charged, which tells core which method failed. A `paid` claim counts only if the order is actually paid. |
+| `arraysubs_pre_retry_charge_verification` | filter | `array $verification, int $subscription_id, WC_Order $order` | Before a retry charge, to confirm with the provider that a missed webhook did not already collect it. Keys: `found`, `charged`, `conclusive`, `completed`, `transaction_id`, `message`, `raw`. |
+| `arraysubs_is_awaiting_gateway_settlement` | filter | `bool $awaiting, int $subscription_id, ?WC_Order $order` | Before the overdue sweeps act. `true` pauses on-hold and cancellation while a payment is still settling; return `false` once the window passes. |
+| `arraysubs_renewal_payment_is_settling` | filter | `bool $settling, WC_Order $order` | When a renewal order's Pay and Cancel actions are built, when the customer cancels it, and before a Pay-page payment (classic form or Store API) starts. `true` refuses a second payment for the order (Store API: HTTP 409 `arraysubs_renewal_payment_settling`, or `arraysubs_renewal_payment_received` when the gateway already took the renewal's payment), hides its Pay buttons and keeps the customer from cancelling it in My Account. Return `false` once the payment has ended. |
+| `arraysubs_gateway_owns_billing_clock` | filter | `bool $owns, string $gateway_slug, int $subscription_id` | Whether the provider decides billing dates (PayPal and Paddle do). |
+| `arraysubs_pause_remote_billing` | filter | `array $result, int $subscription_id, int $duration_days` | During a pause, before the local status changes. Return `['success' => true, 'handled' => true]` once the provider paused; a failure (or `handled` `false` when the provider owns the clock) rolls the pause back. |
+| `arraysubs_resume_remote_billing` | filter | `array $result, int $subscription_id` | During a resume, and to compensate a failed pause. Same result contract. |
+| `arraysubs_subscription_supports_retention_offers` | filter | `bool $supports, int $subscription_id, string $gateway_slug` | Asked only for subscriptions with automatic payment context; manual-renewal subscriptions always support offers. Default `false`; gateways opt in. |
+| `arraysubs_gateway_resolution` | filter | `string $gateway_slug, int $subscription_id` | Whenever the subscription's gateway slug is resolved. |
+| `arraysubs_has_automatic_gateways` | filter | `bool $has_gateways` | Whether any automatic gateway is available. |
 
 ## Retry and Grace Hooks
 
 Grace runs in two stages. A subscription stays active (or trial) for the "before on-hold" days after an unpaid due date, then goes on hold; after the "before cancel" days it is cancelled for non-payment. The hourly overdue check applies both steps.
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_payment_retry_config` | filter | `array $config, int $subscription_id` | Each time a failure decides the next retry. Keys: `enabled`, `max_attempts`, `interval_seconds`, `intervals` (seconds per retry), `stop_on_hard_decline`. Defaults come from the payment retry settings; Stripe and Mollie publish them at priority 10, PayPal and Paddle switch retries off. Afterwards each interval is clamped to between 1 hour and 30 days and the list is padded or trimmed to `max_attempts`; a non-array result falls back to the defaults. | Core |
-| `arraysubs_hard_payment_decline_categories` | filter | `string[] $categories, string $category` | When a failure category is checked. Hard declines stop retries while `stop_on_hard_decline` is on. Default: `expired_card`, `invalid_card`, `incorrect_cvc`, `card_declined`, `authentication_required`, `missing_payment_method`. | Core |
-| `arraysubs_payment_retry_scheduled` | action | `WP_Post $subscription, int $attempt, int $retry_at, int $action_id` | After a retry charge is queued and the retry counter saved. `$retry_at` is a Unix timestamp; `$action_id` is the Action Scheduler action. | Core |
-| `arraysubs_payment_retry_exhausted` | action | `WP_Post $subscription, int $attempts` | A failure arrives after the allowed retries are used. The status does not change; grace continues. Not fired when retries are off or a hard decline stops them. | Core |
-| `arraysubs_grace_recovered` | action | `WP_Post $subscription, WC_Order $order` | Right after `arraysubs_renewal_payment_complete`, when the paid renewal recovered a subscription that was on hold or had a payment failure after the order was created. | Core |
-| `arraysubs_grace_terms_updated` | action | `WP_Post $subscription, array $old, array $new` | `Subscriptions::setGracePolicy()` changed this subscription's grace days. Arrays: `before_on_hold`, `before_on_hold_source`, `before_cancel`, `before_cancel_source` (`subscription` or `site`). | Core |
-| `arraysubs_data_cancelled_overdue` | action | `int $subscription_id, int $overdue_order_id` | The hourly overdue check cancelled an on-hold subscription for non-payment, after its end date and reason are saved and unpaid renewal orders are cancelled. `arraysubs_data_cancelled` does not fire on this path. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_payment_retry_config` | filter | `array $config, int $subscription_id` | Each time a failure decides the next retry. Keys: `enabled`, `max_attempts`, `interval_seconds`, `intervals` (seconds per retry), `stop_on_hard_decline`. Defaults come from the payment retry settings; Stripe and Mollie publish them at priority 10, PayPal and Paddle switch retries off. Afterwards each interval is clamped to between 1 hour and 30 days and the list is padded or trimmed to `max_attempts`; a non-array result falls back to the defaults. |
+| `arraysubs_hard_payment_decline_categories` | filter | `string[] $categories, string $category` | When a failure category is checked. Hard declines stop retries while `stop_on_hard_decline` is on. Default: `expired_card`, `invalid_card`, `incorrect_cvc`, `card_declined`, `authentication_required`, `missing_payment_method`. |
+| `arraysubs_payment_retry_scheduled` | action | `WP_Post $subscription, int $attempt, int $retry_at, int $action_id` | After a retry charge is queued and the retry counter saved. `$retry_at` is a Unix timestamp; `$action_id` is the Action Scheduler action. |
+| `arraysubs_payment_retry_exhausted` | action | `WP_Post $subscription, int $attempts` | A failure arrives after the allowed retries are used. The status does not change; grace continues. Not fired when retries are off or a hard decline stops them. |
+| `arraysubs_grace_recovered` | action | `WP_Post $subscription, WC_Order $order` | Right after `arraysubs_renewal_payment_complete`, when the paid renewal recovered a subscription that was on hold or had a payment failure after the order was created. |
+| `arraysubs_grace_terms_updated` | action | `WP_Post $subscription, array $old, array $new` | `Subscriptions::setGracePolicy()` changed this subscription's grace days. Arrays: `before_on_hold`, `before_on_hold_source`, `before_cancel`, `before_cancel_source` (`subscription` or `site`). |
+| `arraysubs_data_cancelled_overdue` | action | `int $subscription_id, int $overdue_order_id` | The hourly overdue check cancelled an on-hold subscription for non-payment, after its end date and reason are saved and unpaid renewal orders are cancelled. `arraysubs_data_cancelled` does not fire on this path. |
 
 `arraysubs_data_put_on_hold` (first stage ends) and `arraysubs_is_awaiting_gateway_settlement` (both stages wait for settling payments) are listed above.
 
 ## Trial Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_trial_started` | action | `int $subscription_id` | Once per subscription, when the initial order of a trial subscription is paid (not for plan-switch orders), before `arraysubs_data_activated`. | Core |
-| `arraysubs_trial_converted` | action | `int $subscription_id` | The daily trial conversion job (it converts subscriptions still in trial after their trial end), `Subscriptions::endTrial()`, or an admin or API status change from trial to active. A trial whose trial-end renewal is paid becomes active without this hook; use the `trial_ended` event to cover both. | Core |
-| `arraysubs_trial_terms_updated` | action | `WP_Post $subscription, array $previous, array $current` | `Subscriptions::setNextPaymentDate()` or `setTrialEnd()` moved a running trial's end (`ends_at`, Unix timestamp or `null`), or the admin editor or `Subscriptions::update()` changed the trial length or period (`length`, `period`). | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_trial_started` | action | `int $subscription_id` | Once per subscription, when the initial order of a trial subscription is paid (not for plan-switch orders), before `arraysubs_data_activated`. |
+| `arraysubs_trial_converted` | action | `int $subscription_id` | The daily trial conversion job (it converts subscriptions still in trial after their trial end), `Subscriptions::endTrial()`, or an admin or API status change from trial to active. A trial whose trial-end renewal is paid becomes active without this hook; use the `trial_ended` event to cover both. |
+| `arraysubs_trial_terms_updated` | action | `WP_Post $subscription, array $previous, array $current` | `Subscriptions::setNextPaymentDate()` or `setTrialEnd()` moved a running trial's end (`ends_at`, Unix timestamp or `null`), or the admin editor or `Subscriptions::update()` changed the trial length or period (`length`, `period`). |
 
 ## Plan Switching Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_plan_switch_completed` | action | `int $subscription_id, int $old_product_id, int $new_product_id, string $switch_type, array $context` | After the new plan is saved on the subscription. Four arguments for switches without a payment order: the switch route, a pending switch applied at renewal, an auto-downgrade (`$switch_type` `auto_downgrade`), checkout plan migration, and a switch PayPal confirmed. Five for a finalized paid plan-switch order, with `$context`: `contract_key`, `event_id`, `order_id`, `event_time`. That delivery is retryable: key your work on `contract_key`. Give `$context` a default of `[]`. | Core |
-| `arraysubs_pending_switch_set` | action | `int $subscription_id, array $payload, ?array $previous` | After a pending switch (applied when the next renewal is paid) is stored and verified. `$previous` is the replaced switch or `null`. The payload contains signed internal fields: read the public view with `Subscriptions::data(['pending_switch'])`. | Core |
-| `arraysubs_pending_switch_cleared` | action | `int $subscription_id, ?array $previous, string $reason` | After a pending switch is removed. `$reason`: `cancelled` (the switch was cancelled), `cancellation` (the subscription was cancelled) or `applied`. | Core |
-| `arraysubs_pending_switch_applied` | action | `int $subscription_id, array $payload, int $order_id` | Once per renewal order, when its paid renewal applied the pending switch, before the next payment date advances. | Core |
-| `arraysubs_auto_downgrade_completed` | action | `int $subscription_id, int $old_product_id, int $target_product_id` | After an auto-downgrade made the subscription active on the target plan and scheduled its renewal; automatic payment context is detached first. Not fired when an existing subscription on the target plan is reused instead. | Core |
-| `arraysubs_send_plan_switch_email` | action | `int $subscription_id, string $switch_type, int $old_product_id, int $new_product_id` | After a plan switch is first recorded in the switch history (not for auto-downgrades). ArraySubs ships no listener: send your own notice here. | Core |
-| `arraysubs_plan_switch_target_eligibility` | filter | `true or WP_Error $eligible, WP_Post $subscription, WC_Product $new_product, array $context` | While a requested target is validated. `$context`: `subscription_id`, `current_product_id`, `new_product_id`, `switch_type`. Return `true` or a `WP_Error`; any other value rejects with `plan_switch_provider_ineligible`. | Core |
-| `arraysubs_proration_calculation` | filter | `array $proration, int $subscription_id, int $new_product_id, int $quantity` | After the proration is calculated. Add keys or change display formatting; core restores its identity, date and money fields. | Core |
-| `arraysubs_plan_switch_pre_mutation` | filter | `bool or WP_Error $result, WP_Post $subscription, array $context` | Before a switch without a payment order is stored or applied. Default `true` unless the provider must approve. Return `true`, or a `WP_Error` to stop; other values give `plan_switch_gateway_not_ready`. | Core |
-| `arraysubs_plan_switch_requires_gateway_approval` | filter | `bool $requires_approval, int $subscription_id, string $billing_gateway` | Whether the recurring provider must approve switches (`true` when it owns the billing clock). Checkout migration also reads it: such a subscription is not replaced at checkout. | Core |
-| `arraysubs_plan_switch_order_pre_payment` | filter | `bool or WP_Error $approved, WC_Order $order, WP_Post $subscription, array $contract` | Before a plan-switch order can be paid. Non-`true` values give `plan_switch_gateway_approval_required`. | Core |
-| `arraysubs_plan_switch_order_pre_finalize` | filter | `bool or WP_Error $result, WC_Order $order, WP_Post $subscription, array $contract` | Before a paid plan-switch order changes the subscription. Non-`true` values give `plan_switch_gateway_not_ready`, and finalization is retried. | Core |
-| `arraysubs_plan_switch_order_post_finalize` | filter | `true or WP_Error $result, WC_Order $order, WP_Post $subscription, array $contract, string $manager` | After local finalization. A `WP_Error` keeps the order claimed and retries; other non-`true` values give `plan_switch_post_finalize_incomplete`. | Core |
-| `arraysubs_plan_switch_order_finalize_failed` | action | `int $order_id, WP_Error $error` | A paid plan-switch order could not be finalized yet; ArraySubs retries later. | Core |
-| `arraysubs_plan_switch_credit_supported` | filter | `bool $supported` | Strict `true` allows switches that create credit. Pro Store Credit answers `true` while the module and auto-apply to renewals are on. Without it, a "prorate immediately" switch that would create credit is applied at the next renewal instead. | Core |
-| `arraysubs_plan_switch_grant_credit` | filter | `null, true or WP_Error $result, WP_Post $subscription, int $customer_id, WC_Order $order, string $contract_key, float $amount, string $currency, int $decimals, string $settlement_mode` | When a finalized switch must record its credit. Return `true` after the credit is in your ledger, or a `WP_Error`; anything else gives `plan_switch_credit_unavailable` and finalization retries. Grant at most once per `$contract_key`. Leave it to Pro unless you replace Store Credit. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_plan_switch_completed` | action | `int $subscription_id, int $old_product_id, int $new_product_id, string $switch_type, array $context` | After the new plan is saved on the subscription. Four arguments for switches without a payment order: the switch route, a pending switch applied at renewal, an auto-downgrade (`$switch_type` `auto_downgrade`), checkout plan migration, and a switch PayPal confirmed. Five for a finalized paid plan-switch order, with `$context`: `contract_key`, `event_id`, `order_id`, `event_time`. That delivery is retryable: key your work on `contract_key`. Give `$context` a default of `[]`. |
+| `arraysubs_pending_switch_set` | action | `int $subscription_id, array $payload, ?array $previous` | After a pending switch (applied when the next renewal is paid) is stored and verified. `$previous` is the replaced switch or `null`. The payload contains signed internal fields: read the public view with `Subscriptions::data(['pending_switch'])`. |
+| `arraysubs_pending_switch_cleared` | action | `int $subscription_id, ?array $previous, string $reason` | After a pending switch is removed. `$reason`: `cancelled` (the switch was cancelled), `cancellation` (the subscription was cancelled) or `applied`. |
+| `arraysubs_pending_switch_applied` | action | `int $subscription_id, array $payload, int $order_id` | Once per renewal order, when its paid renewal applied the pending switch, before the next payment date advances. |
+| `arraysubs_auto_downgrade_completed` | action | `int $subscription_id, int $old_product_id, int $target_product_id` | After an auto-downgrade made the subscription active on the target plan and scheduled its renewal; automatic payment context is detached first. Not fired when an existing subscription on the target plan is reused instead. |
+| `arraysubs_send_plan_switch_email` | action | `int $subscription_id, string $switch_type, int $old_product_id, int $new_product_id` | After a plan switch is first recorded in the switch history (not for auto-downgrades). ArraySubs ships no listener: send your own notice here. |
+| `arraysubs_plan_switch_target_eligibility` | filter | `true or WP_Error $eligible, WP_Post $subscription, WC_Product $new_product, array $context` | While a requested target is validated. `$context`: `subscription_id`, `current_product_id`, `new_product_id`, `switch_type`. Return `true` or a `WP_Error`; any other value rejects with `plan_switch_provider_ineligible`. |
+| `arraysubs_proration_calculation` | filter | `array $proration, int $subscription_id, int $new_product_id, int $quantity` | After the proration is calculated. Add keys or change display formatting; core restores its identity, date and money fields. |
+| `arraysubs_plan_switch_pre_mutation` | filter | `bool or WP_Error $result, WP_Post $subscription, array $context` | Before a switch without a payment order is stored or applied. Default `true` unless the provider must approve. Return `true`, or a `WP_Error` to stop; other values give `plan_switch_gateway_not_ready`. |
+| `arraysubs_plan_switch_requires_gateway_approval` | filter | `bool $requires_approval, int $subscription_id, string $billing_gateway` | Whether the recurring provider must approve switches (`true` when it owns the billing clock). Checkout migration also reads it: such a subscription is not replaced at checkout. |
+| `arraysubs_plan_switch_order_pre_payment` | filter | `bool or WP_Error $approved, WC_Order $order, WP_Post $subscription, array $contract` | Before a plan-switch order can be paid. Non-`true` values give `plan_switch_gateway_approval_required`. |
+| `arraysubs_plan_switch_order_pre_finalize` | filter | `bool or WP_Error $result, WC_Order $order, WP_Post $subscription, array $contract` | Before a paid plan-switch order changes the subscription. Non-`true` values give `plan_switch_gateway_not_ready`, and finalization is retried. |
+| `arraysubs_plan_switch_order_post_finalize` | filter | `true or WP_Error $result, WC_Order $order, WP_Post $subscription, array $contract, string $manager` | After local finalization. A `WP_Error` keeps the order claimed and retries; other non-`true` values give `plan_switch_post_finalize_incomplete`. |
+| `arraysubs_plan_switch_order_finalize_failed` | action | `int $order_id, WP_Error $error` | A paid plan-switch order could not be finalized yet; ArraySubs retries later. |
+| `arraysubs_plan_switch_credit_supported` | filter | `bool $supported` | Strict `true` allows switches that create credit. Pro Store Credit answers `true` while the module and auto-apply to renewals are on. Without it, a "prorate immediately" switch that would create credit is applied at the next renewal instead. |
+| `arraysubs_plan_switch_grant_credit` | filter | `null, true or WP_Error $result, WP_Post $subscription, int $customer_id, WC_Order $order, string $contract_key, float $amount, string $currency, int $decimals, string $settlement_mode` | When a finalized switch must record its credit. Return `true` after the credit is in your ledger, or a `WP_Error`; anything else gives `plan_switch_credit_unavailable` and finalization retries. Grant at most once per `$contract_key`. Leave it to Pro unless you replace Store Credit. |
 
 ## Cancellation and Retention Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_data_waiting_cancellation` | action | `int $subscription_id, string $reason` | After an end-of-period cancellation is scheduled: the cancellation job is queued and any pending switch is cleared. Saving the same date again does not fire it; a date already past cancels immediately instead. | Core |
-| `arraysubs_data_cancellation_undone` | action | `int $subscription_id` | After a scheduled cancellation is removed. | Core |
-| `arraysubs_data_cancelled` | action | `int $subscription_id, WP_Post $subscription, string $cancel_type` | After the cancellation helpers cancel the subscription (`immediate`; the `WP_Post` was read before the status change, so its `post_status` is the old one) or a scheduled cancellation takes effect (`end_of_period`; read after the change). The helpers serve the admin, the customer portal, refunds and `Subscriptions::cancel()`. | Core |
-| `arraysubs_data_cancelled_by_customer`, `arraysubs_data_pending_cancel_by_customer` | action | `int $subscription_id, string $reason` | After the customer cancel route (`POST /wp-json/arraysubs/v1/my-subscriptions/{id}/cancel`) cancelled now, or scheduled the cancellation. | Core |
-| `arraysubs_data_cancellation_undone_by_customer` | action | `int $subscription_id` | After the customer undo route removed a scheduled cancellation. | Core |
-| `arraysubs_data_reactivated_by_customer` | action | `int $subscription_id, string $old_status` | After the customer reactivation route made a cancelled or expired subscription active, right after `arraysubs_subscription_reactivated`. | Core |
-| `arraysubs_customer_cancellable_statuses` | filter | `string[] $statuses, int $subscription_id, WP_Post $subscription` | When ArraySubs checks whether the customer may cancel, after the Allow Cancellation setting. Default: active, trial, paused and pending. | Core |
-| `arraysubs_can_customer_cancel` | filter | `bool $allowed, int $subscription_id, WP_Post $subscription` | The final customer cancel decision. Return a real bool. | Core |
-| `arraysubs_customer_reactivatable_statuses` | filter | `string[] $statuses, int $subscription_id, WP_Post $subscription` | Default empty, so customers cannot reactivate. Add `arraysubs-cancelled` or `arraysubs-expired` to allow it. | Core |
-| `arraysubs_can_customer_reactivate` | filter | `bool $allowed, int $subscription_id, WP_Post $subscription` | The final customer reactivation decision. | Core |
-| `arraysubs_can_admin_cancel` | filter | `bool $allowed, int $subscription_id, WP_Post $subscription` | Whether an admin may cancel. Not asked for cancelled or expired subscriptions. Return a real bool. | Core |
-| `arraysubs_default_cancellation_reasons` | filter | `array $reasons` | Reason key to label map, from the cancellation settings or the built-in list. | Core |
-| `arraysubs_default_retention_offers` | filter | `array $offers` | Offer definitions. Core passes an empty array; Pro Cancellation Flow supplies the configured offers. | Core |
-| `arraysubs_retention_offers_for_subscription` | filter | `array $offers, int $subscription_id, ?string $reason` | Enabled offers for a subscription and reason. | Core |
-| `arraysubs_available_retention_offers` | filter | `array $offers, int $subscription_id, ?string $reason` | Offers the Cancellation Flow shows after its own eligibility checks. | Pro (Cancellation Flow) |
-| `arraysubs_cancellation_reasons` | filter | `array $reasons` | Reasons returned by `GET /wp-json/arraysubs/v1/cancellation/reasons`: a list of `id`, `label`, `allow_custom_text`. | Pro (Cancellation Flow) |
-| `arraysubs_retention_offer_shown` | action | `int $subscription_id, array $offers` | After retention offers are returned to the customer. | Pro (Cancellation Flow) |
-| `arraysubs_retention_offer_accepted` | action | `int $subscription_id, string $offer_type, array $offer_data` | After a retention offer is applied (`$offer_type` such as `coupon`, `pause` or `downgrade`), or with `cancellation_undone` and `[]` when a customer who saw offers undoes a scheduled cancellation. Core sends the retention discount email from it. | Pro (Cancellation Flow) |
-| `arraysubs_cancellation_reason_collected` | action | `int $subscription_id, string $reason, string $cancel_type` | After `arraysubs_data_cancelled`, with the stored cancellation reason. | Pro (Cancellation Flow) |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_data_waiting_cancellation` | action | `int $subscription_id, string $reason` | After an end-of-period cancellation is scheduled: the cancellation job is queued and any pending switch is cleared. Saving the same date again does not fire it; a date already past cancels immediately instead. |
+| `arraysubs_data_cancellation_undone` | action | `int $subscription_id` | After a scheduled cancellation is removed. |
+| `arraysubs_data_cancelled` | action | `int $subscription_id, WP_Post $subscription, string $cancel_type` | After the cancellation helpers cancel the subscription (`immediate`; the `WP_Post` was read before the status change, so its `post_status` is the old one) or a scheduled cancellation takes effect (`end_of_period`; read after the change). The helpers serve the admin, the customer portal, refunds and `Subscriptions::cancel()`. |
+| `arraysubs_data_cancelled_by_customer`, `arraysubs_data_pending_cancel_by_customer` | action | `int $subscription_id, string $reason` | After the customer cancel route (`POST /wp-json/arraysubs/v1/my-subscriptions/{id}/cancel`) cancelled now, or scheduled the cancellation. |
+| `arraysubs_data_cancellation_undone_by_customer` | action | `int $subscription_id` | After the customer undo route removed a scheduled cancellation. |
+| `arraysubs_data_reactivated_by_customer` | action | `int $subscription_id, string $old_status` | After the customer reactivation route made a cancelled or expired subscription active, right after `arraysubs_subscription_reactivated`. |
+| `arraysubs_customer_cancellable_statuses` | filter | `string[] $statuses, int $subscription_id, WP_Post $subscription` | When ArraySubs checks whether the customer may cancel, after the Allow Cancellation setting. Default: active, trial, paused and pending. |
+| `arraysubs_can_customer_cancel` | filter | `bool $allowed, int $subscription_id, WP_Post $subscription` | The final customer cancel decision. Return a real bool. |
+| `arraysubs_customer_reactivatable_statuses` | filter | `string[] $statuses, int $subscription_id, WP_Post $subscription` | Default empty, so customers cannot reactivate. Add `arraysubs-cancelled` or `arraysubs-expired` to allow it. |
+| `arraysubs_can_customer_reactivate` | filter | `bool $allowed, int $subscription_id, WP_Post $subscription` | The final customer reactivation decision. |
+| `arraysubs_can_admin_cancel` | filter | `bool $allowed, int $subscription_id, WP_Post $subscription` | Whether an admin may cancel. Not asked for cancelled or expired subscriptions. Return a real bool. |
+| `arraysubs_default_cancellation_reasons` | filter | `array $reasons` | Reason key to label map, from the cancellation settings or the built-in list. |
+| `arraysubs_default_retention_offers` | filter | `array $offers` | Offer definitions. Core passes an empty array; Pro Cancellation Flow supplies the configured offers. |
+| `arraysubs_retention_offers_for_subscription` | filter | `array $offers, int $subscription_id, ?string $reason` | Enabled offers for a subscription and reason. |
+| `arraysubs_available_retention_offers` | filter | `array $offers, int $subscription_id, ?string $reason` | Offers the Cancellation Flow shows after its own eligibility checks. |
+| `arraysubs_cancellation_reasons` | filter | `array $reasons` | Reasons returned by `GET /wp-json/arraysubs/v1/cancellation/reasons`: a list of `id`, `label`, `allow_custom_text`. |
+| `arraysubs_retention_offer_shown` | action | `int $subscription_id, array $offers` | After retention offers are returned to the customer. |
+| `arraysubs_retention_offer_accepted` | action | `int $subscription_id, string $offer_type, array $offer_data` | After a retention offer is applied (`$offer_type` such as `coupon`, `pause` or `downgrade`), or with `cancellation_undone` and `[]` when a customer who saw offers undoes a scheduled cancellation. Core sends the retention discount email from it. |
+| `arraysubs_cancellation_reason_collected` | action | `int $subscription_id, string $reason, string $cancel_type` | After `arraysubs_data_cancelled`, with the stored cancellation reason. |
 
 ## Member Access Hooks
 
 The access scopes used by `arraysubs_member_access_statuses` are `view`, `interact`, `purchase`, `download`, `role`, `session` and `integration`. See [Check Content Access](./member-access.md), [Read Member Discounts](./discounts.md) and [Read Member Styling Rules](./member-styling.md) for the matching read APIs.
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_member_access_statuses` | filter | `string[] $statuses, string $scope, string $mode` | Whenever the statuses that grant a capability are resolved. Default: `arraysubs-active` and `arraysubs-trial`, plus `arraysubs-paused` when Access During Pause (`$mode`: `none`, `limited`, `full`) is `full`, or `limited` for the `view` scope. | Core |
-| `arraysubs_integration_access_statuses` | filter | `string[] $statuses` | Statuses that entitle for integrations: the lifecycle `effect`, `granted` and `revoked`, LearnPress access and the bundled integrations. Default: the `integration` scope above. | Core |
-| `arraysubs_ecommerce_user_has_access` | filter | `bool $has_access, int $product_id, array $rule, int $user_id, ?int $subscription_id` | After a purchase rule is evaluated for a product and user. Not asked for shop managers, for products without a rule, or for products with their own access setting. | Core |
-| `arraysubs_ecommerce_hidden_product_ids` | filter | `int[] $hidden_ids, int $user_id, array $rules, object $service` | Product IDs hidden from the current user. | Core |
-| `arraysubs_ecommerce_restriction_rules` | filter | `array $enabled_rules, array $all_rules, object $service` | Enabled e-commerce restriction rules. | Core |
-| `arraysubs_comment_rules` | filter | `array $rules` | Raw comment restriction rules. | Core |
-| `arraysubs_comment_restriction_rules` | filter | `array $enabled_rules, array $all_rules, object $service` | Enabled comment rules. | Core |
-| `arraysubs_comment_restriction_for_post` | filter | `?array $restriction, int $post_id, int $user_id` | The comment restriction for a post and user. Return `null` to allow commenting, or a rule array to restrict. | Core |
-| `arraysubs_post_restriction_post_types` | filter | `string[] $post_types` | Post types that show the per-post access box. | Core |
-| `arraysubs_purchase_limit_rules` | filter | `array $rules` | Raw purchase limit rules. | Core |
-| `arraysubs_purchase_limit_applicable_rules` | filter | `array $applicable, int $user_id, array $rules` | Purchase limit rules that apply to a user. | Core |
-| `arraysubs_purchase_limit_max_quantity` | filter | `int $max, WC_Product $product, array $rule, int $user_id` | The resolved maximum quantity; negative results become `0`. | Core |
-| `arraysubs_discount_rules` | filter | `array $rules` | Raw member discount rules. | Core |
-| `arraysubs_member_discount_qualifying` | filter | `array $qualifying, int $user_id, array $rules` | Discount rules a user qualifies for. | Core |
-| `arraysubs_member_discount_amount` | filter | `float $discount_value, string $discount_type, array $rule, WC_Product $product, int $user_id` | Before a product discount is applied (`percentage` or `fixed`). | Core |
-| `arraysubs_member_discount_price` | filter | `float $price, float $base_price, WC_Product $product, int $user_id` | The final discounted product price. | Core |
-| `arraysubs_member_discount_priced_from_contents` | filter | `bool $priced_from_contents, WC_Product $product` | Default `false`. Return `true` for a product whose price is built from the prices of the products inside it. Member rules are then never applied to the product as a whole, so ArraySubs gives it no member price, sale price or **Member Price** badge. It is on sale for a member whose member prices lower its price on `arraysubs_member_discount_contents_unit_price`. ArraySubs Pro returns `true` for subscription bundles. | Core |
-| `arraysubs_member_discount_contents_unit_price` | filter | `float\|null $price, WC_Product $product, callable $content_unit_price, int $user_id, int\|null $subscription_id` | Default `null`. The unit price of a product priced from its contents. The Developer API's `calculateProduct()` uses it, and so does the check that decides whether the product is on sale for a member. Return the product's price with each product inside it at `$content_unit_price( $inside_product )`: its member price for `$user_id`, or its stored price when no member discount applies. `$user_id` `0` asks for the price without member pricing. The result is cached for the request. ArraySubs Pro prices subscription bundles here. | Core |
-| `arraysubs_member_discount_stack_with_sale` | filter | `bool $stack, WC_Product $product, int $user_id` | Default `false`: member discounts do not apply on top of sale prices. | Core |
-| `arraysubs_member_discount_stack_with_coupons` | filter | `bool $allow, WC_Coupon $coupon, int $user_id` | Default `true`. Return `false` to reject coupons while a member discount applies. | Core |
-| `arraysubs_member_discount_applied` | action | `float $discounted, float $regular_price, WC_Product $product, int $user_id` | After a member price and its **Member Price** badge are displayed for a product. It does not fire for a product priced from its contents, such as an ArraySubs Pro subscription bundle, or for a product that prints its own price HTML. | Core |
-| `arraysubs_member_discount_badge_label` | filter | `string $label, WC_Product $product, float $discounted` | The "Member Price" badge text. The label is passed through `wp_kses_post()`, so only post-safe HTML is kept. | Core |
-| `arraysubs_member_cart_discount_amount` | filter | `float $discount_value, float $eligible_subtotal, array $rule, int $user_id` | A per-cart member discount amount, calculated on the eligible subtotal before coupons. The result is then reduced by per-item member savings and capped at what the matching lines still charge after coupons. | Core |
-| `arraysubs_member_cart_discount_label` | filter | `string $label, array $rule, int $user_id` | The cart fee label of that discount. | Core |
-| `arraysubs_member_free_shipping_rule` | filter | `?array $rule, int $user_id, ?array $package` | The free shipping rule for a user and package. Return `null` to withhold free shipping. | Core |
-| `arraysubs_member_free_shipping_applied` | action | `array $free_rates, array $rule, int $user_id` | After member free shipping is applied to a package. | Core |
-| `arraysubs_member_free_shipping_label` | filter | `string $label, WC_Shipping_Rate $rate, array $rule, int $user_id` | The label of a rate freed for a member. | Core |
-| `arraysubs_member_styling_rules` | filter | `array $rules` | Raw member styling rules. | Core |
-| `arraysubs_member_styling_qualifying_rules` | filter | `array $qualifying, int $user_id, array $rules` | Styling rules a user qualifies for (`0` for guests). | Core |
-| `arraysubs_member_styling_custom_css` | filter | `string $css, int $user_id, string $context` | The custom CSS output; `$context` is `frontend` or `admin`. | Core |
-| `arraysubs_visibility_shortcode_show` | filter | `bool $should_show, string $show, array $atts` | Whether `[arraysubs_visibility]` shows its content. | Core |
-| `arraysubs_login_as_user_started` | action | `int $user_id, int $admin_id` | After an admin switched into a customer account (Login as User). | Core |
-| `arraysubs_login_as_user_ended` | action | `int $user_id, int $admin_id` | After the admin switched back. | Core |
-| `arraysubs_login_as_user_redirect` | filter | `string $url, WP_User $user` | Where the admin lands after switching in. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_member_access_statuses` | filter | `string[] $statuses, string $scope, string $mode` | Whenever the statuses that grant a capability are resolved. Default: `arraysubs-active` and `arraysubs-trial`, plus `arraysubs-paused` when Access During Pause (`$mode`: `none`, `limited`, `full`) is `full`, or `limited` for the `view` scope. |
+| `arraysubs_integration_access_statuses` | filter | `string[] $statuses` | Statuses that entitle for integrations: the lifecycle `effect`, `granted` and `revoked`, LearnPress access and the bundled integrations. Default: the `integration` scope above. |
+| `arraysubs_ecommerce_user_has_access` | filter | `bool $has_access, int $product_id, array $rule, int $user_id, ?int $subscription_id` | After a purchase rule is evaluated for a product and user. Not asked for shop managers, for products without a rule, or for products with their own access setting. |
+| `arraysubs_ecommerce_hidden_product_ids` | filter | `int[] $hidden_ids, int $user_id, array $rules, object $service` | Product IDs hidden from the current user. |
+| `arraysubs_ecommerce_restriction_rules` | filter | `array $enabled_rules, array $all_rules, object $service` | Enabled e-commerce restriction rules. |
+| `arraysubs_comment_rules` | filter | `array $rules` | Raw comment restriction rules. |
+| `arraysubs_comment_restriction_rules` | filter | `array $enabled_rules, array $all_rules, object $service` | Enabled comment rules. |
+| `arraysubs_comment_restriction_for_post` | filter | `?array $restriction, int $post_id, int $user_id` | The comment restriction for a post and user. Return `null` to allow commenting, or a rule array to restrict. |
+| `arraysubs_post_restriction_post_types` | filter | `string[] $post_types` | Post types that show the per-post access box. |
+| `arraysubs_purchase_limit_rules` | filter | `array $rules` | Raw purchase limit rules. |
+| `arraysubs_purchase_limit_applicable_rules` | filter | `array $applicable, int $user_id, array $rules` | Purchase limit rules that apply to a user. |
+| `arraysubs_purchase_limit_max_quantity` | filter | `int $max, WC_Product $product, array $rule, int $user_id` | The resolved maximum quantity; negative results become `0`. |
+| `arraysubs_discount_rules` | filter | `array $rules` | Raw member discount rules. |
+| `arraysubs_member_discount_qualifying` | filter | `array $qualifying, int $user_id, array $rules` | Discount rules a user qualifies for. |
+| `arraysubs_member_discount_amount` | filter | `float $discount_value, string $discount_type, array $rule, WC_Product $product, int $user_id` | Before a product discount is applied (`percentage` or `fixed`). |
+| `arraysubs_member_discount_price` | filter | `float $price, float $base_price, WC_Product $product, int $user_id` | The final discounted product price. |
+| `arraysubs_member_discount_priced_from_contents` | filter | `bool $priced_from_contents, WC_Product $product` | Default `false`. Return `true` for a product whose price is built from the prices of the products inside it. Member rules are then never applied to the product as a whole, so ArraySubs gives it no member price, sale price or **Member Price** badge. It is on sale for a member whose member prices lower its price on `arraysubs_member_discount_contents_unit_price`. ArraySubs Pro returns `true` for subscription bundles. |
+| `arraysubs_member_discount_contents_unit_price` | filter | `float\|null $price, WC_Product $product, callable $content_unit_price, int $user_id, int\|null $subscription_id` | Default `null`. The unit price of a product priced from its contents. The Developer API's `calculateProduct()` uses it, and so does the check that decides whether the product is on sale for a member. Return the product's price with each product inside it at `$content_unit_price( $inside_product )`: its member price for `$user_id`, or its stored price when no member discount applies. `$user_id` `0` asks for the price without member pricing. The result is cached for the request. ArraySubs Pro prices subscription bundles here. |
+| `arraysubs_member_discount_stack_with_sale` | filter | `bool $stack, WC_Product $product, int $user_id` | Default `false`: member discounts do not apply on top of sale prices. |
+| `arraysubs_member_discount_stack_with_coupons` | filter | `bool $allow, WC_Coupon $coupon, int $user_id` | Default `true`. Return `false` to reject coupons while a member discount applies. |
+| `arraysubs_member_discount_applied` | action | `float $discounted, float $regular_price, WC_Product $product, int $user_id` | After a member price and its **Member Price** badge are displayed for a product. It does not fire for a product priced from its contents, such as an ArraySubs Pro subscription bundle, or for a product that prints its own price HTML. |
+| `arraysubs_member_discount_badge_label` | filter | `string $label, WC_Product $product, float $discounted` | The "Member Price" badge text. The label is passed through `wp_kses_post()`, so only post-safe HTML is kept. |
+| `arraysubs_member_cart_discount_amount` | filter | `float $discount_value, float $eligible_subtotal, array $rule, int $user_id` | A per-cart member discount amount, calculated on the eligible subtotal before coupons. The result is then reduced by per-item member savings and capped at what the matching lines still charge after coupons. |
+| `arraysubs_member_cart_discount_label` | filter | `string $label, array $rule, int $user_id` | The cart fee label of that discount. |
+| `arraysubs_member_free_shipping_rule` | filter | `?array $rule, int $user_id, ?array $package` | The free shipping rule for a user and package. Return `null` to withhold free shipping. |
+| `arraysubs_member_free_shipping_applied` | action | `array $free_rates, array $rule, int $user_id` | After member free shipping is applied to a package. |
+| `arraysubs_member_free_shipping_label` | filter | `string $label, WC_Shipping_Rate $rate, array $rule, int $user_id` | The label of a rate freed for a member. |
+| `arraysubs_member_styling_rules` | filter | `array $rules` | Raw member styling rules. |
+| `arraysubs_member_styling_qualifying_rules` | filter | `array $qualifying, int $user_id, array $rules` | Styling rules a user qualifies for (`0` for guests). |
+| `arraysubs_member_styling_custom_css` | filter | `string $css, int $user_id, string $context` | The custom CSS output; `$context` is `frontend` or `admin`. |
+| `arraysubs_visibility_shortcode_show` | filter | `bool $should_show, string $show, array $atts` | Whether `[arraysubs_visibility]` shows its content. |
+| `arraysubs_login_as_user_started` | action | `int $user_id, int $admin_id` | After an admin switched into a customer account (Login as User). |
+| `arraysubs_login_as_user_ended` | action | `int $user_id, int $admin_id` | After the admin switched back. |
+| `arraysubs_login_as_user_redirect` | filter | `string $url, WP_User $user` | Where the admin lands after switching in. |
 
 ## Feature Usage Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_feature_usage_changed` | action | `WP_Post $subscription, string $feature, array $usage, array $previous, string $operation, array $context` | After a usage counter changed (`set`, `increment`, `reset` or `consume`) and its locks are released. `$usage` and `$previous`: `defined`, `reset_period`, `used`, `limit`, `remaining`, `percentage`, `is_unlimited`, `is_exhausted`, `last_reset`, `updated_at`, `period_key`, `period_start`, `resets_at`. `$context`: `reason`, `operation_id`, `actor_id`. A repeated `operation_id` changes nothing and fires nothing; a customer-level consume fires once per changed subscription. | Core (features are configured with Pro Feature Manager) |
-| `arraysubs_feature_usage_period_reset` | action | `WP_Post $subscription, string $feature, array $usage, array $previous_period, array $context` | After a successful non-no-op mutation persists a new billing or calendar period. `$previous_period` has `period_key`, `used`, `last_reset`, `updated_at`; `$context` adds `operation`, `reset_reason` (`period_rollover`), `previous_period_key`, `current_period_key`. Use 5 accepted arguments. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_feature_usage_changed` | action | `WP_Post $subscription, string $feature, array $usage, array $previous, string $operation, array $context` | After a usage counter changed (`set`, `increment`, `reset` or `consume`) and its locks are released. `$usage` and `$previous`: `defined`, `reset_period`, `used`, `limit`, `remaining`, `percentage`, `is_unlimited`, `is_exhausted`, `last_reset`, `updated_at`, `period_key`, `period_start`, `resets_at`. `$context`: `reason`, `operation_id`, `actor_id`. A repeated `operation_id` changes nothing and fires nothing; a customer-level consume fires once per changed subscription. |
+| `arraysubs_feature_usage_period_reset` | action | `WP_Post $subscription, string $feature, array $usage, array $previous_period, array $context` | After a successful non-no-op mutation persists a new billing or calendar period. `$previous_period` has `period_key`, `used`, `last_reset`, `updated_at`; `$context` adds `operation`, `reset_reason` (`period_rollover`), `previous_period_key`, `current_period_key`. Use 5 accepted arguments. |
 
 Both usage snapshots are captured under the quota locks before listeners run. A read or elapsed time never writes usage or emits a period reset. Manual resets use `arraysubs_feature_usage_changed` with operation `reset`. See [Read and Update Feature Data](./feature-manager.md).
 
-### Feature configuration and access hooks (Pro)
+### Feature configuration and access hooks
 
 These hooks need Pro's Feature Manager. Every row takes 4 accepted arguments. Feature arrays omit internal configuration types.
 
@@ -483,22 +482,22 @@ Configuration context includes `event_id`, `event_time`, `actor_id`, `source_hoo
 
 An access event describes this subscription's contribution. Another subscription may still grant the same feature. Plan changes report the removed and added allowances. On customer reassignment, `affected_user_id` and `affected_customer_email` name the recipient of that grant or revocation; the subscription object already holds the current owner. Email-only identity changes and guests are supported. In FlowMattic, `user_id` and `customer_email` identify the affected recipient, while `subscription_customer_id` and `subscription_customer_email` retain the current owner.
 
-## Store Credit Hooks *(Pro)*
+## Store Credit Hooks
 
 These hooks need ArraySubs Pro. Most fire while the Store Credit module is on; paid credit purchases, order reversals and recovery of committed operations can still fire while new spending is off. Credit sources include `admin`, `promotional`, `purchase`, `refund`, `downgrade`, `renewal_applied`, `order_applied` and `expired`.
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_store_credit_transaction` | action | `WP_Post\|null $subscription, array $transaction` | After a verified published ledger row and balance change, after releasing the bucket lock. Customer-only credit passes `null`. Immutable before/after balances, signed amount and transaction identity; use 2 accepted arguments. | Pro (Store Credit) |
-| `arraysubs_customer_credit_added`, `arraysubs_customer_credit_deducted` | action | `int $customer_id, float $amount, float $balance_after, string $source` | Once per new customer-balance ledger entry (credit or debit). `$amount` is positive. | Pro (Store Credit) |
-| `arraysubs_subscription_credit_added`, `arraysubs_subscription_credit_deducted` | action | `int $subscription_id, float $amount, float $balance_after, string $source` | Once per new subscription-balance ledger entry. | Pro (Store Credit) |
-| `arraysubs_credits_applied_to_order` | action | `WC_Order $order, float $amount, ?int $subscription_id` | After credit is spent on a checkout or renewal order. | Pro (Store Credit) |
-| `arraysubs_credits_reversed_on_order` | action | `WC_Order $order, float $restored, ?int $subscription_id` | After spent credit is restored from an order. | Pro (Store Credit) |
-| `arraysubs_credit_purchased` | action | `int $customer_id, float $amount, int $order_id` | After a paid credit-product order adds its credit. | Pro (Store Credit) |
-| `arraysubs_refund_as_credit_processed` | action | `int $order_id, float $amount, int $customer_id` | After a refund was issued as store credit. | Pro (Store Credit) |
-| `arraysubs_credit_refund_issued` | action | `int $customer_id, float $amount, int $order_id` | Right after, for the same refund. | Pro (Store Credit) |
-| `arraysubs_credit_expiring_soon` | action | `int $customer_id, float $amount, string $expires_at, int $credit_log_id` | When an expiry notice is due for a credit grant. `$expires_at` is UTC `Y-m-d H:i:s`. | Pro (Store Credit) |
-| `arraysubs_credit_expired` | action | `int $customer_id, float $remaining, int $credit_log_id, int $subscription_id` | After an expired grant's remaining amount is debited. | Pro (Store Credit) |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_store_credit_transaction` | action | `WP_Post\|null $subscription, array $transaction` | After a verified published ledger row and balance change, after releasing the bucket lock. Customer-only credit passes `null`. Immutable before/after balances, signed amount and transaction identity; use 2 accepted arguments. |
+| `arraysubs_customer_credit_added`, `arraysubs_customer_credit_deducted` | action | `int $customer_id, float $amount, float $balance_after, string $source` | Once per new customer-balance ledger entry (credit or debit). `$amount` is positive. |
+| `arraysubs_subscription_credit_added`, `arraysubs_subscription_credit_deducted` | action | `int $subscription_id, float $amount, float $balance_after, string $source` | Once per new subscription-balance ledger entry. |
+| `arraysubs_credits_applied_to_order` | action | `WC_Order $order, float $amount, ?int $subscription_id` | After credit is spent on a checkout or renewal order. |
+| `arraysubs_credits_reversed_on_order` | action | `WC_Order $order, float $restored, ?int $subscription_id` | After spent credit is restored from an order. |
+| `arraysubs_credit_purchased` | action | `int $customer_id, float $amount, int $order_id` | After a paid credit-product order adds its credit. |
+| `arraysubs_refund_as_credit_processed` | action | `int $order_id, float $amount, int $customer_id` | After a refund was issued as store credit. |
+| `arraysubs_credit_refund_issued` | action | `int $customer_id, float $amount, int $order_id` | Right after, for the same refund. |
+| `arraysubs_credit_expiring_soon` | action | `int $customer_id, float $amount, string $expires_at, int $credit_log_id` | When an expiry notice is due for a credit grant. `$expires_at` is UTC `Y-m-d H:i:s`. |
+| `arraysubs_credit_expired` | action | `int $customer_id, float $remaining, int $credit_log_id, int $subscription_id` | After an expired grant's remaining amount is debited. |
 
 Ledger reads and adjustments from your code go through [Read and Update Store Credit](./store-credit.md). Plan-switch credit uses the two switch-credit filters above.
 
@@ -518,14 +517,14 @@ add_action( 'arraysubs_email_delivery_result', function ( $email, $sent, $contex
 
 The arguments are `WC_Email $email, bool $sent, array $context`. Context includes `email_id`, `subscription_id`, `user_id`, `order_id`, `recipient`, `is_customer_email`, `event_id` and `event_time`, plus email-specific scalar references. `sent` means transport acceptance, not inbox delivery. Disabled or suppressed emails and missing recipients produce no result because no send is attempted. A transport exception produces a failed result with `error_code` `send_exception`, then preserves the original exception. Nested sends keep their own context. Never serialize the email object, and avoid resending an email from its own outcome event.
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `woocommerce_email_enabled_{$email_id}` | filter | `bool $enabled, null $object, WC_Email $email` | Before an email is sent. | WooCommerce |
-| `woocommerce_email_recipient_{$email_id}` | filter | `string $recipient, null $object, WC_Email $email` | When the recipient list is read; invalid addresses are dropped. | WooCommerce |
-| `woocommerce_email_subject_{$email_id}`, `woocommerce_email_heading_{$email_id}` | filter | `string $value, null $object, WC_Email $email` | When the subject or heading is built. | WooCommerce |
-| `woocommerce_email_headers` | filter | `string $headers, string $email_id, null $object, WC_Email $email` | When the mail headers are built, for every WooCommerce email. | WooCommerce |
-| `woocommerce_email_header`, `woocommerce_email_footer` | action | `string $heading, WC_Email $email` / `WC_Email $email` | Called by the ArraySubs email templates, as in WooCommerce's own templates. | Core and Pro templates |
-| `arraysubs_send_plan_switch_email` | action | `int $subscription_id, string $switch_type, int $old_product_id, int $new_product_id` | See Plan Switching Hooks. No email is attached to it. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `woocommerce_email_enabled_{$email_id}` | filter | `bool $enabled, null $object, WC_Email $email` | Before an email is sent. |
+| `woocommerce_email_recipient_{$email_id}` | filter | `string $recipient, null $object, WC_Email $email` | When the recipient list is read; invalid addresses are dropped. |
+| `woocommerce_email_subject_{$email_id}`, `woocommerce_email_heading_{$email_id}` | filter | `string $value, null $object, WC_Email $email` | When the subject or heading is built. |
+| `woocommerce_email_headers` | filter | `string $headers, string $email_id, null $object, WC_Email $email` | When the mail headers are built, for every WooCommerce email. |
+| `woocommerce_email_header`, `woocommerce_email_footer` | action | `string $heading, WC_Email $email` / `WC_Email $email` | Called by the ArraySubs email templates, as in WooCommerce's own templates. |
+| `arraysubs_send_plan_switch_email` | action | `int $subscription_id, string $switch_type, int $old_product_id, int $new_product_id` | See Plan Switching Hooks. No email is attached to it. |
 
 Email IDs: customer emails `arraysubs_new_subscription`, `arraysubs_renewal_reminder`, `arraysubs_renewal_invoice`, `arraysubs_payment_successful`, `arraysubs_payment_failed`, `arraysubs_renewal_requires_verification`, `arraysubs_card_expiring`, `arraysubs_subscription_on_hold`, `arraysubs_subscription_pending_cancellation`, `arraysubs_subscription_cancelled`, `arraysubs_subscription_expired`, `arraysubs_expiring_soon`, `arraysubs_subscription_reactivated`, `arraysubs_subscription_paused`, `arraysubs_subscription_resumed`, `arraysubs_subscription_skipped`, `arraysubs_skip_undone`, `arraysubs_trial_started`, `arraysubs_trial_converted`, `arraysubs_auto_downgrade` and `arraysubs_retention_discount_accepted`; admin emails `arraysubs_admin_new_subscription`, `arraysubs_admin_payment_failed`, `arraysubs_admin_subscription_cancelled` and `arraysubs_admin_subscription_pending_cancellation`; Pro Store Credit emails `arraysubs_credit_added`, `arraysubs_credit_used`, `arraysubs_credit_expiring` and `arraysubs_credit_expired`.
 
@@ -533,69 +532,69 @@ ArraySubs sends most emails from native hooks at priority 10 (for example the in
 
 ## Checkout and Cart Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_allow_multiple_subscriptions` | filter | `bool $allowed` | When the cart is validated: may it hold more than one distinct subscription product? Default: the merchant setting. Core narrows it at priority 20 to what an enabled gateway accepts. | Core |
-| `arraysubs_allow_mixed_cart` | filter | `bool $allowed` | May subscription and regular products share the cart? Same pattern. | Core |
-| `arraysubs_allow_different_billing_cycles` | filter | `bool $allowed` | May subscriptions with different billing cycles share the cart? Same pattern. | Core |
-| `arraysubs_hide_incapable_gateways` | filter | `bool $hide` | Default `true`: checkout hides automatic gateways that cannot take the current cart. | Core |
-| `arraysubs_{$gateway_slug}_allow_{$capability}` | filter | `bool $supported` | Per-gateway capability check, for example `arraysubs_stripe_allow_quantity`. Capabilities: `mixed_cart`, `multiple_subscriptions`, `different_billing_cycles`, `customer_defined_billing_cycles`, `customer_defined_pricing`, `quantity`, `signup_fee`, `shipping`, `coupons`, `recurring_coupons`. | Core |
-| `arraysubs_product_subscription_data` | filter | `array $data, WC_Product $product` | When a product's subscription terms are resolved (`product_id`, `price`, `period`, `interval`, `length`, `trial_length`, `trial_period`, `signup_fee`, renewal price keys). | Core |
-| `arraysubs_cart_item_subscription_data` | filter | `array $data, array $cart_item` | Terms for one cart line. | Core |
-| `arraysubs_order_item_subscription_data` | filter | `array $data, WC_Order_Item_Product $item, ?WC_Order $order` | Terms for one order line; checkout creates the subscription from them. | Core |
-| `arraysubs_add_to_cart_subscription_data` | filter | `?array $data, int $product_id` | While an add-to-cart is checked against the cart's billing cycles. | Core |
-| `arraysubs_subscription_cart_item_data` | filter | `array $details, array $cart_item, array $data, int $quantity, string $context` | The subscription rows under a cart line; `$context` is `cart` or `email_snapshot`. | Core |
-| `arraysubs_order_item_name_shows_schedule` | filter | `bool $shows_schedule, WC_Order_Item_Product $item` | Before core adds the billing schedule, such as *(Every month)*, after a subscription order line's name. Return `false` where the screen already shows the schedule. Core leaves it off on its own for the order-received and My Account order screens and for purchase lines whose trial changes to another plan. Pro's Cart Info Editor returns `false` in an initial order email that shows the line's subscription rows. | Core |
-| `arraysubs_is_subscription_checkout_product` | filter | `bool $is_subscription, int $product_id` | Whether a product uses subscription checkout rules such as one-click checkout. | Core |
-| `arraysubs_skip_subscription_for_order_item` | filter | `bool $skip, WC_Order_Item $item, WC_Order $order` | Return `true` to create no subscription for an order line. | Core |
-| `arraysubs_data_created_from_order` | action | `int $subscription_id, int $order_id, WC_Order_Item_Product $item, WC_Order $order` | After checkout created a subscription for an order line and saved its schedule. Use the `$order` passed in; do not reload it. | Core |
-| `arraysubs_initial_order_charge_attribution_finalized` | action | `WC_Order $order, int[] $subscription_ids, array $charge_sources` | After the checkout order's fees and shipping are attributed to their subscriptions. `$charge_sources` lists, for each fee or shipping item finished in that run and keyed by item ID, the subscriptions whose lines shared it, including a subscription whose share came to 0, as in a free shipping package. Can run more than once per order; a later run can pass an empty `$charge_sources`. | Core |
-| `arraysubs_checkout_subscription_creation_failed` | action | `int $order_id, WP_Error $error` | Checkout could not create or link a subscription and stopped safely. Also fired when box or bundle children cannot be created. | Core, Pro (Subscription Bundle) |
-| `arraysubs_create_subscriptions_for_order` | action you fire | `WC_Order or int $order, bool $rescan_items` | Core listens and creates subscriptions for the order's subscription lines; with `true`, only for lines without one. | Core listens |
-| `arraysubs_activate_subscriptions_from_order` | action you fire | `WC_Order or int $order, int[] $subscription_ids` | Core listens and runs paid-order activation for those subscriptions of an order that is already paid. Pass both arguments. | Core listens |
-| `arraysubs_box_config` | filter | `array $config, int $product_id` | When a box product's configuration is read. | Core (Subscription Box) |
-| `arraysubspro_bundle_config` | filter | `array $config, int $product_id` | When a bundle product's configuration is read. | Pro (Subscription Bundle) |
-| `arraysubspro_bundle_pricing` | filter | `array $pricing, int $product_id` | After a bundle's pricing is computed. | Pro (Subscription Bundle) |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_allow_multiple_subscriptions` | filter | `bool $allowed` | When the cart is validated: may it hold more than one distinct subscription product? Default: the merchant setting. Core narrows it at priority 20 to what an enabled gateway accepts. |
+| `arraysubs_allow_mixed_cart` | filter | `bool $allowed` | May subscription and regular products share the cart? Same pattern. |
+| `arraysubs_allow_different_billing_cycles` | filter | `bool $allowed` | May subscriptions with different billing cycles share the cart? Same pattern. |
+| `arraysubs_hide_incapable_gateways` | filter | `bool $hide` | Default `true`: checkout hides automatic gateways that cannot take the current cart. |
+| `arraysubs_{$gateway_slug}_allow_{$capability}` | filter | `bool $supported` | Per-gateway capability check, for example `arraysubs_stripe_allow_quantity`. Capabilities: `mixed_cart`, `multiple_subscriptions`, `different_billing_cycles`, `customer_defined_billing_cycles`, `customer_defined_pricing`, `quantity`, `signup_fee`, `shipping`, `coupons`, `recurring_coupons`. |
+| `arraysubs_product_subscription_data` | filter | `array $data, WC_Product $product` | When a product's subscription terms are resolved (`product_id`, `price`, `period`, `interval`, `length`, `trial_length`, `trial_period`, `signup_fee`, renewal price keys). |
+| `arraysubs_cart_item_subscription_data` | filter | `array $data, array $cart_item` | Terms for one cart line. |
+| `arraysubs_order_item_subscription_data` | filter | `array $data, WC_Order_Item_Product $item, ?WC_Order $order` | Terms for one order line; checkout creates the subscription from them. |
+| `arraysubs_add_to_cart_subscription_data` | filter | `?array $data, int $product_id` | While an add-to-cart is checked against the cart's billing cycles. |
+| `arraysubs_subscription_cart_item_data` | filter | `array $details, array $cart_item, array $data, int $quantity, string $context` | The subscription rows under a cart line; `$context` is `cart` or `email_snapshot`. |
+| `arraysubs_order_item_name_shows_schedule` | filter | `bool $shows_schedule, WC_Order_Item_Product $item` | Before core adds the billing schedule, such as *(Every month)*, after a subscription order line's name. Return `false` where the screen already shows the schedule. Core leaves it off on its own for the order-received and My Account order screens and for purchase lines whose trial changes to another plan. Pro's Cart Info Editor returns `false` in an initial order email that shows the line's subscription rows. |
+| `arraysubs_is_subscription_checkout_product` | filter | `bool $is_subscription, int $product_id` | Whether a product uses subscription checkout rules such as one-click checkout. |
+| `arraysubs_skip_subscription_for_order_item` | filter | `bool $skip, WC_Order_Item $item, WC_Order $order` | Return `true` to create no subscription for an order line. |
+| `arraysubs_data_created_from_order` | action | `int $subscription_id, int $order_id, WC_Order_Item_Product $item, WC_Order $order` | After checkout created a subscription for an order line and saved its schedule. Use the `$order` passed in; do not reload it. |
+| `arraysubs_initial_order_charge_attribution_finalized` | action | `WC_Order $order, int[] $subscription_ids, array $charge_sources` | After the checkout order's fees and shipping are attributed to their subscriptions. `$charge_sources` lists, for each fee or shipping item finished in that run and keyed by item ID, the subscriptions whose lines shared it, including a subscription whose share came to 0, as in a free shipping package. Can run more than once per order; a later run can pass an empty `$charge_sources`. |
+| `arraysubs_checkout_subscription_creation_failed` | action | `int $order_id, WP_Error $error` | Checkout could not create or link a subscription and stopped safely. Also fired when box or bundle children cannot be created. |
+| `arraysubs_create_subscriptions_for_order` | action you fire | `WC_Order or int $order, bool $rescan_items` | Core listens and creates subscriptions for the order's subscription lines; with `true`, only for lines without one. |
+| `arraysubs_activate_subscriptions_from_order` | action you fire | `WC_Order or int $order, int[] $subscription_ids` | Core listens and runs paid-order activation for those subscriptions of an order that is already paid. Pass both arguments. |
+| `arraysubs_box_config` | filter | `array $config, int $product_id` | When a box product's configuration is read. |
+| `arraysubspro_bundle_config` | filter | `array $config, int $product_id` | When a bundle product's configuration is read. |
+| `arraysubspro_bundle_pricing` | filter | `array $pricing, int $product_id` | After a bundle's pricing is computed. |
 
 ## Admin, REST and Extension Hooks
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_before_boot` | action | none | On `plugins_loaded` (priority 10) after the dependency check passes, before ArraySubs features load. Pro boots from it. | Core |
-| `arraysubs_after_boot` | action | none | Right after ArraySubs features load. | Core |
-| `arraysubs_boot_classes` | filter | `string[] $provider_classes` | Feature provider classes to boot. See [Extend ArraySubs with a Module](./addon-modules.md). | Core |
-| `arraysubs_modules` | filter | `array $modules` | The module registry. | Core |
-| `arraysubs_module_badges` | filter | `array $badges` | Module badge definitions. | Core |
-| `arraysubs_is_module_enabled` | filter | `bool $enabled, string $module_id` | Whether a module is on (saved state, `true` when never saved). | Core |
-| `arraysubs_modules_saved` | action | `array $states, array $previous` | After module switches are saved. | Core |
-| `arraysubs_settings_updated` | action | `array $settings, array $previous, string[] $changed_keys` | After the settings option is saved with changes, including Easy Setup imports. `$changed_keys` uses dot paths such as `pause_subscription.access_during_pause`. | Core |
-| `arraysubs_sanitize_settings` | filter | `array $sanitized, array $raw_settings, object $controller` | Before the settings screen saves. Sanitize your own settings section here. | Core |
-| `arraysubs_default_settings` | filter | `array $defaults` | The default settings tree. | Core |
-| `arraysubs_before_version_update`, `arraysubspro_before_version_update` | action | `string $previous_version, string $new_version` | On `wp_loaded` (priority `PHP_INT_MAX`) when the running version differs from the stored one, before the stored version advances. Run idempotent migrations here; a thrown exception keeps the old version. | Core |
-| `arraysubs_version_update_ready`, `arraysubspro_version_update_ready` | filter | `bool $ready, string $previous_version, string $new_version` | Right after. Only boolean `true` lets the stored version advance; return `false` or a `WP_Error` while your migration is unfinished. | Core |
-| `arraysubs_daily_maintenance` | action | none | Once a day from Action Scheduler (first run 03:00 UTC). Keep listeners cheap or queue your own jobs. | Core |
-| `arraysubs_renewal_spread_offset` | filter | `int $offset, int $subscription_id, int $window` | Seconds added to a subscription's scheduled renewal jobs to spread load; negative results become `0`. | Core |
-| `arraysubs_as_time_limit`, `arraysubs_as_batch_size`, `arraysubs_as_failure_period`, `arraysubs_as_timeout_period`, `arraysubs_as_cleanup_batch_size` | filter | `int $value` | Action Scheduler tuning targets that ArraySubs applies site-wide; they can only raise Action Scheduler's own values. | Core |
-| `arraysubs_cron_health_warning_lag_seconds`, `arraysubs_cron_health_critical_lag_seconds` | filter | `int $seconds` | Cron health thresholds (defaults 1 hour and 6 hours; the warning is at least 300 seconds). | Core |
-| `arraysubs_main_admin_menu_items` | filter | `array $items` | Menu entries of the ArraySubs admin app. | Core |
-| `arraysubs_subscription_detail_data` | filter | `array $data, int $subscription_id` | Response of `GET /wp-json/arraysubs/v1/subscriptions/{id}/detail` (admin). | Core |
-| `arraysubs_overview_payload` | filter | `array $payload, string $range, bool $refresh` | The Overview dashboard payload; add widgets to `widgets`. | Core |
-| `arraysubs_subscription_admin_customer_link` | filter | `string $url, int $customer_id, int $subscription_id, WP_User $user` | The customer link in the admin subscriptions list. | Core |
-| `arraysubs_subscription_export_columns` | filter | `array $groups` | CSV export column groups: `key`, `label`, `columns` (each `key`, `label`). Pair new columns with the value filter. | Core |
-| `arraysubs_subscription_export_default_columns` | filter | `string[] $keys` | Default export columns. | Core |
-| `arraysubs_subscription_export_column_value` | filter | `string $value, string $column, int $subscription_id, array $context` | Each exported value. `$context`: `id`, `subscription`, `customer_id`, `customer` (`WP_User` or `null`), `billing`, `shipping`. | Core |
-| `arraysubs_subscription_export_shipping_address` | filter | `array $shipping, int $subscription_id, array $billing` | The shipping address of an export row. | Core |
-| `rest_arraysubs_data_query` | filter | `array $args, WP_REST_Request $request` | WordPress's REST collection query filter for subscriptions; ArraySubs also applies it to the CSV export query. | WordPress, Core |
-| `arraysubs_note_added` | action | `int $note_id, int $subscription_id, string $content, string $type, int $added_by` | After a subscription note is saved (subscription ID `0` for global notes). | Core |
-| `arraysubs_note_deleted` | action | `int $note_id, int $subscription_id` | After a note is deleted. | Core |
-| `arraysubs_customer_subscription_actions_locked` | filter | `bool $locked, int $subscription_id, array $subscription_data` | `true` makes the subscription read-only in My Account. Box and bundle children answer `true`. | Core |
-| `arraysubs_view_subscription_renewal_controls`, `arraysubs_view_subscription_after_payment_method`, `arraysubs_view_subscription_actions`, `arraysubs_view_subscription_actions_locked` | action | `int $subscription_id, array $subscription_data` | Output points on the My Account View Subscription page (the last one replaces the actions when they are locked). | Core |
-| `arraysubs_my_subscriptions_row_product_meta` | action | `int $subscription_id` | Under the product name in the My Account subscriptions list and cards. | Core |
-| `arraysubs_shipping_address_updated_by_customer` | action | `int $subscription_id, array $address` | The customer saved a shipping address through `POST /wp-json/arraysubs/v1/my-subscriptions/{id}/shipping-address`. | Core |
-| `arraysubs_shipping_address_updated` | action | `int $subscription_id, array $old_address, array $new_address, int $user_id` | A shipping address was saved: by the customer through `POST /wp-json/arraysubs/v1/my-subscriptions/{id}/shipping-address` (`$user_id` is the customer), or by staff through the Pro admin route `POST /wp-json/arraysubs/v1/subscriptions/{id}/shipping-address`. | Core, Pro (Subscription Shipping) |
-| `arraysubs_shipping_address_update_failed` | action | `int $subscription_id, string $message, int $customer_id` | The customer route refused a change (no shipping on the subscription, inside the cutoff before renewal, or an invalid or incomplete address). `$message` is the reason shown to the customer. Requests that fail the ownership check never reach this point. | Core |
-| `arraysubspro_product_redirect_should_redirect` | filter | `bool $should_redirect, int $product_id` | Before a product page redirect or 404 runs. | Pro (Redirect Product Page) |
-| `arraysubspro_product_redirect_url` | filter | `string $url, int $product_id, int $page_id` | The redirect target. | Pro (Redirect Product Page) |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_before_boot` | action | none | On `plugins_loaded` (priority 10) after the dependency check passes, before ArraySubs features load. Pro boots from it. |
+| `arraysubs_after_boot` | action | none | Right after ArraySubs features load. |
+| `arraysubs_boot_classes` | filter | `string[] $provider_classes` | Feature provider classes to boot. See [Extend ArraySubs with a Module](./addon-modules.md). |
+| `arraysubs_modules` | filter | `array $modules` | The module registry. |
+| `arraysubs_module_badges` | filter | `array $badges` | Module badge definitions. |
+| `arraysubs_is_module_enabled` | filter | `bool $enabled, string $module_id` | Whether a module is on (saved state, `true` when never saved). |
+| `arraysubs_modules_saved` | action | `array $states, array $previous` | After module switches are saved. |
+| `arraysubs_settings_updated` | action | `array $settings, array $previous, string[] $changed_keys` | After the settings option is saved with changes, including Easy Setup imports. `$changed_keys` uses dot paths such as `pause_subscription.access_during_pause`. |
+| `arraysubs_sanitize_settings` | filter | `array $sanitized, array $raw_settings, object $controller` | Before the settings screen saves. Sanitize your own settings section here. |
+| `arraysubs_default_settings` | filter | `array $defaults` | The default settings tree. |
+| `arraysubs_before_version_update`, `arraysubspro_before_version_update` | action | `string $previous_version, string $new_version` | On `wp_loaded` (priority `PHP_INT_MAX`) when the running version differs from the stored one, before the stored version advances. Run idempotent migrations here; a thrown exception keeps the old version. |
+| `arraysubs_version_update_ready`, `arraysubspro_version_update_ready` | filter | `bool $ready, string $previous_version, string $new_version` | Right after. Only boolean `true` lets the stored version advance; return `false` or a `WP_Error` while your migration is unfinished. |
+| `arraysubs_daily_maintenance` | action | none | Once a day from Action Scheduler (first run 03:00 UTC). Keep listeners cheap or queue your own jobs. |
+| `arraysubs_renewal_spread_offset` | filter | `int $offset, int $subscription_id, int $window` | Seconds added to a subscription's scheduled renewal jobs to spread load; negative results become `0`. |
+| `arraysubs_as_time_limit`, `arraysubs_as_batch_size`, `arraysubs_as_failure_period`, `arraysubs_as_timeout_period`, `arraysubs_as_cleanup_batch_size` | filter | `int $value` | Action Scheduler tuning targets that ArraySubs applies site-wide; they can only raise Action Scheduler's own values. |
+| `arraysubs_cron_health_warning_lag_seconds`, `arraysubs_cron_health_critical_lag_seconds` | filter | `int $seconds` | Cron health thresholds (defaults 1 hour and 6 hours; the warning is at least 300 seconds). |
+| `arraysubs_main_admin_menu_items` | filter | `array $items` | Menu entries of the ArraySubs admin app. |
+| `arraysubs_subscription_detail_data` | filter | `array $data, int $subscription_id` | Response of `GET /wp-json/arraysubs/v1/subscriptions/{id}/detail` (admin). |
+| `arraysubs_overview_payload` | filter | `array $payload, string $range, bool $refresh` | The Overview dashboard payload; add widgets to `widgets`. |
+| `arraysubs_subscription_admin_customer_link` | filter | `string $url, int $customer_id, int $subscription_id, WP_User $user` | The customer link in the admin subscriptions list. |
+| `arraysubs_subscription_export_columns` | filter | `array $groups` | CSV export column groups: `key`, `label`, `columns` (each `key`, `label`). Pair new columns with the value filter. |
+| `arraysubs_subscription_export_default_columns` | filter | `string[] $keys` | Default export columns. |
+| `arraysubs_subscription_export_column_value` | filter | `string $value, string $column, int $subscription_id, array $context` | Each exported value. `$context`: `id`, `subscription`, `customer_id`, `customer` (`WP_User` or `null`), `billing`, `shipping`. |
+| `arraysubs_subscription_export_shipping_address` | filter | `array $shipping, int $subscription_id, array $billing` | The shipping address of an export row. |
+| `rest_arraysubs_data_query` | filter | `array $args, WP_REST_Request $request` | WordPress's REST collection query filter for subscriptions; ArraySubs also applies it to the CSV export query. |
+| `arraysubs_note_added` | action | `int $note_id, int $subscription_id, string $content, string $type, int $added_by` | After a subscription note is saved (subscription ID `0` for global notes). |
+| `arraysubs_note_deleted` | action | `int $note_id, int $subscription_id` | After a note is deleted. |
+| `arraysubs_customer_subscription_actions_locked` | filter | `bool $locked, int $subscription_id, array $subscription_data` | `true` makes the subscription read-only in My Account. Box and bundle children answer `true`. |
+| `arraysubs_view_subscription_renewal_controls`, `arraysubs_view_subscription_after_payment_method`, `arraysubs_view_subscription_actions`, `arraysubs_view_subscription_actions_locked` | action | `int $subscription_id, array $subscription_data` | Output points on the My Account View Subscription page (the last one replaces the actions when they are locked). |
+| `arraysubs_my_subscriptions_row_product_meta` | action | `int $subscription_id` | Under the product name in the My Account subscriptions list and cards. |
+| `arraysubs_shipping_address_updated_by_customer` | action | `int $subscription_id, array $address` | The customer saved a shipping address through `POST /wp-json/arraysubs/v1/my-subscriptions/{id}/shipping-address`. |
+| `arraysubs_shipping_address_updated` | action | `int $subscription_id, array $old_address, array $new_address, int $user_id` | A shipping address was saved: by the customer through `POST /wp-json/arraysubs/v1/my-subscriptions/{id}/shipping-address` (`$user_id` is the customer), or by staff through the Pro admin route `POST /wp-json/arraysubs/v1/subscriptions/{id}/shipping-address`. |
+| `arraysubs_shipping_address_update_failed` | action | `int $subscription_id, string $message, int $customer_id` | The customer route refused a change (no shipping on the subscription, inside the cutoff before renewal, or an invalid or incomplete address). `$message` is the reason shown to the customer. Requests that fail the ownership check never reach this point. |
+| `arraysubspro_product_redirect_should_redirect` | filter | `bool $should_redirect, int $product_id` | Before a product page redirect or 404 runs. |
+| `arraysubspro_product_redirect_url` | filter | `string $url, int $product_id, int $page_id` | The redirect target. |
 
 ### Developer API extension filters
 
@@ -614,20 +613,20 @@ Core applies these filters inside the `ArraySubs\Developer` classes and Pro answ
 
 ### Bundled integration filters
 
-| Hook | Type | Arguments (in order) | When it runs | Fired by |
-| --- | --- | --- | --- | --- |
-| `arraysubs_registered_integrations` | filter | `array $integrations` | The integration declarations keyed by slug. | Core |
-| `arraysubs_learnpress_subscription_course_ids`, `arraysubs_academy_lms_subscription_course_ids` | filter | `int[] $course_ids, int $subscription_id` | Courses one subscription grants. | Core |
-| `arraysubs_learnpress_restricted_message` | filter | `string $html, array $product_ids, int $user_id` | The LearnPress course restriction message. | Core |
-| `arraysubs_wp_fusion_apply_tags`, `arraysubs_wp_fusion_remove_tags` | filter | `string[] $tags, int $subscription_id, array $payload` | Tags about to be applied or removed; `$payload` is the `arraysubs_lifecycle_event` payload. | Core |
-| `arraysubs_wp_fusion_tag_sets`, `arraysubs_wp_fusion_status_tag_sets` | filter | `array $sets` / `array $map, string $status` | Configurable tag sets, and the status to tag-set map. | Core |
-| `arraysubs_lmfwc_revoke_on_hold` | filter | `bool $revoke, int $subscription_id, array $payload` | Default `true`: on-hold expires License Manager keys. | Core |
-| `arraysubs_lmfwc_expiry_grace` | filter | `int $seconds, int $subscription_id, array $payload` | Extra seconds added to a key's expiry (default `0`). | Core |
-| `arraysubs_lmfwc_suppress_renewal_generation` | filter | `bool $suppress` | Default `true`: renewals do not mint new keys. | Core |
-| `arraysubs_lmfwc_failure` | action | `string $context, Throwable $exception, int $subscription_id` | A License Manager call failed and was swallowed. | Core |
-| `arraysubs_affiliates_manager_commission_amount` | filter | `float $amount, WC_Order $order, int $subscription_id` | The renewal commission base for Affiliates Manager. | Core |
-| `arraysubs_affiliates_manager_commission_args` | filter | `array $args, WC_Order $order, int $subscription_id` | The commission arguments sent to Affiliates Manager. | Core |
-| `arraysubs_fluentcrm_trigger_classes` | filter | `string[] $classes` | FluentCRM trigger classes ArraySubs registers. | Core |
+| Hook | Type | Arguments (in order) | When it runs |
+| --- | --- | --- | --- |
+| `arraysubs_registered_integrations` | filter | `array $integrations` | The integration declarations keyed by slug. |
+| `arraysubs_learnpress_subscription_course_ids`, `arraysubs_academy_lms_subscription_course_ids` | filter | `int[] $course_ids, int $subscription_id` | Courses one subscription grants. |
+| `arraysubs_learnpress_restricted_message` | filter | `string $html, array $product_ids, int $user_id` | The LearnPress course restriction message. |
+| `arraysubs_wp_fusion_apply_tags`, `arraysubs_wp_fusion_remove_tags` | filter | `string[] $tags, int $subscription_id, array $payload` | Tags about to be applied or removed; `$payload` is the `arraysubs_lifecycle_event` payload. |
+| `arraysubs_wp_fusion_tag_sets`, `arraysubs_wp_fusion_status_tag_sets` | filter | `array $sets` / `array $map, string $status` | Configurable tag sets, and the status to tag-set map. |
+| `arraysubs_lmfwc_revoke_on_hold` | filter | `bool $revoke, int $subscription_id, array $payload` | Default `true`: on-hold expires License Manager keys. |
+| `arraysubs_lmfwc_expiry_grace` | filter | `int $seconds, int $subscription_id, array $payload` | Extra seconds added to a key's expiry (default `0`). |
+| `arraysubs_lmfwc_suppress_renewal_generation` | filter | `bool $suppress` | Default `true`: renewals do not mint new keys. |
+| `arraysubs_lmfwc_failure` | action | `string $context, Throwable $exception, int $subscription_id` | A License Manager call failed and was swallowed. |
+| `arraysubs_affiliates_manager_commission_amount` | filter | `float $amount, WC_Order $order, int $subscription_id` | The renewal commission base for Affiliates Manager. |
+| `arraysubs_affiliates_manager_commission_args` | filter | `array $args, WC_Order $order, int $subscription_id` | The commission arguments sent to Affiliates Manager. |
+| `arraysubs_fluentcrm_trigger_classes` | filter | `string[] $classes` | FluentCRM trigger classes ArraySubs registers. |
 
 ## Examples
 
@@ -802,6 +801,7 @@ Read the result with `arraysubs_get_payment_retry_config( $subscription_id )`: f
 
 ```php
 <?php
+// Add a Bcc only to the cancellation email; preserve headers for every other email.
 add_filter( 'woocommerce_email_headers', 'example_bcc_cancellation_email', 10, 4 );
 
 function example_bcc_cancellation_email( $headers, $email_id, $object = null, $email = null ): string {
@@ -879,7 +879,7 @@ Only the customer cancellation email gains the `Bcc` header; every other email k
 ## FAQ
 
 **Does ArraySubs send webhooks to my external URL?**
-Yes, with ArraySubs Pro. Switch on the **Webhooks** module in **ArraySubs -> Modules**, then add your URL in **ArraySubs -> Settings -> Webhooks**. ArraySubs sends signed JSON for subscription lifecycle, renewal, payment, refund and store credit events, and retries failed deliveries; see [Receive Subscription Events with Webhooks](./webhooks.md). Without Pro, listen in PHP, queue the work and send your own requests, using `event_id` as the idempotency key when `identity_scope` is `operation`.
+Yes, with ArraySubs Pro. Switch on the **Webhooks** module in **ArraySubs -> Modules**, then add your URL in **ArraySubs -> Webhooks**. ArraySubs sends signed JSON for subscription lifecycle, renewal, payment, refund and store credit events, and retries failed deliveries; see [Receive Subscription Events with Webhooks](./webhooks.md). Without Pro, listen in PHP, queue the work and send your own requests, using `event_id` as the idempotency key when `identity_scope` is `operation`.
 
 **Is every event delivered exactly once?**
 No. Hooks run in process, may repeat across requests, and have no durable delivery queue. Deduplicate operation-scoped events with `event_id`, re-read current state for request-scoped ones, and reconcile important external state.

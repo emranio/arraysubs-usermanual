@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (Feature Value conditions compare values configured with Pro Feature Manager)
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Check Content Access
 
 > Ask ArraySubs from your own PHP whether a customer, one of their subscriptions or a logged-out visitor passes a conditions array or the saved Members Access rules for a post, a URL, a product or a comment thread, without redirecting, rendering or switching users.
 
-**Availability:** Core (Free). `ArraySubs\Developer\MemberAccess` ships with the core plugin and has no Pro adapter. Saved rules are enforced only while the Members Access setting (`members_access.enabled`, on by default) is on. Feature Value conditions compare feature values that are configured with ArraySubs Pro Feature Manager; values that are already saved are still compared while Pro is inactive.
 
 ## Page Navigation
 
@@ -47,6 +45,7 @@ Other member benefits have their own readers: [Read Download Benefits](./downloa
 4. Members Access status rules decide which subscription statuses count (see [Statuses That Grant Access](#statuses-that-grant-access)).
 
 ```mermaid
+%% Per-post restrictions take priority; otherwise the highest-priority matching saved rule decides.
 flowchart TD
     A[Target] --> B{Active per-post restriction?}
     B -- yes --> C[Per-post restriction decides]
@@ -86,6 +85,7 @@ Every factory is inherited from the shared member context (`ArraySubs\Developer\
 
 ```php
 <?php
+// Choose a member, one subscription, or a logged-out visitor as the scope for subsequent checks.
 if ( class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
     $member  = \ArraySubs\Developer\MemberAccess::fromUserId( 123 );         // A customer.
     $plan    = \ArraySubs\Developer\MemberAccess::fromSubscriptionId( 456 ); // One subscription.
@@ -103,12 +103,14 @@ if ( class_exists( '\ArraySubs\Developer\MemberAccess' ) ) {
 
 ```php
 <?php
+// Require active/trial status AND either plan 123 or the vip_member role.
 $conditions = [
     'logic' => 'and',
     'rules' => [
         [ 'type' => 'subscription_status', 'statuses' => [ 'active', 'trial' ] ],
         [
             'type'  => 'group',
+            // The nested group needs only one match; the outer group still requires every top-level rule.
             'logic' => 'or',
             'rules' => [
                 [ 'type' => 'has_active_subscription', 'product_ids' => [ 123 ] ],
@@ -160,6 +162,7 @@ Conditions that do not name statuses (`has_active_subscription`, the variation t
 ## `evaluateConditions()`
 
 ```text
+// Evaluate the supplied condition tree in this reader's scope; this does not render a message or redirect.
 $access->evaluateConditions( array $conditions ): bool
 ```
 
@@ -174,6 +177,7 @@ Returns `true` when the context passes the tree under the `view` scope. It loads
 ## `check()`
 
 ```text
+// Check a post or URL target and inspect the returned decision; handle invalid targets as WP_Error.
 $access->check( string $entity, mixed $target, array $fields = [] ): array|WP_Error
 ```
 
@@ -196,6 +200,7 @@ Numeric strings are not accepted as IDs; cast them with `(int)` or `absint()` fi
 
 ```php
 <?php
+// Example denied decision: the conditions match, but the rule's scheduled unlock time has not arrived.
 $result = [
     'context'      => [ 'user_id' => 123, 'subscription_id' => 456 ],
     'target'       => [ 'entity' => 'url', 'id' => null, 'url' => '/members/library/' ],
@@ -288,6 +293,7 @@ For `comments`, `allowed` is `true` only when no comment restriction applies to 
 Lists the saved rules of the Post Types, URL, Shop Access and Comment tabs, in that order and in saved order within each tab, and evaluates each one for the reader's context. Disabled rules are included.
 
 ```text
+// List matching access rules page by page, including qualification and scheduling details.
 $access->rules( array $args = [] ): array|WP_Error
 ```
 
@@ -312,6 +318,7 @@ Any other argument returns `invalid_query`.
 
 ```php
 <?php
+// Example rule page: a rule can be enabled but still fail this member's conditions.
 $page = [
     'items'     => [
         [
@@ -455,6 +462,7 @@ add_action(
             '/subscriptions/(?P<id>\d+)/can-view/(?P<post>\d+)',
             [
                 'methods'             => 'GET',
+                // Login is only the first check; verify subscription ownership before returning the decision.
                 'permission_callback' => 'is_user_logged_in',
                 'callback'            => 'myplugin_rest_can_view',
             ]

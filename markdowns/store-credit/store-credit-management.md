@@ -1,13 +1,11 @@
 # Info
 - Module: Store Credit Management
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Store Credit Management
 
 > Search for any customer, view their credit balance, adjust it manually, and review their full transaction history — all from one admin page.
 
-**Availability:** Pro
 
 ## Page Navigation
 

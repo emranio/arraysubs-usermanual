@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Products
-- Availability: Free + Pro
-- Last updated: 2026-09-15
+- Last updated: 2026-10-30
 
 # Create and Configure Subscription Products
 
 > Turn any WooCommerce product into a recurring subscription with billing schedules, free trials, signup fees, and tiered renewal pricing.
 
-**Availability:** Free (standard subscription products); Pro with an active license (Different Renewal Price)
 
 ## Page Navigation
 
@@ -22,7 +20,7 @@
 
 For guided creation from ArraySubs, use [Create Products with the Quick Creation Wizard](quick-product-creation.md). Open **ArraySubs → Home → + Subscription Product** to choose simple, variable, box, bundle, or store-credit setup. The dedicated guide covers every main step, both nested configuration builders, review, publishing, and conditional settings with cropped screenshots. This page covers the full WooCommerce editor, including per-variation billing and later product edits.
 
-ArraySubs adds a **Subscription [AS]** checkbox to the WooCommerce product editor. When enabled for a simple product, a new **Subscription Billings [AS]** tab appears with fields for billing period, billing interval, subscription length, free trials, signup fees, and **Different Renewal Price (Pro)**. Both simple products and variable products are supported — variable products allow each variation to have its own independent subscription configuration.
+ArraySubs adds a **Subscription [AS]** checkbox to the WooCommerce product editor. When enabled for a simple product, a new **Subscription Billings [AS]** tab appears with fields for billing period, billing interval, subscription length, free trials, signup fees, and **Different Renewal Price. Both simple products and variable products are supported — variable products allow each variation to have its own independent subscription configuration.
 
 ## When to Use This
 
@@ -117,7 +115,7 @@ The total number of billing cycles before the subscription ends automatically. S
 | 6 | Charges 6 times then expires |
 | 12 | Charges 12 times then expires |
 
-**Default:** 0 (never expires)  
+**Default:** 0 (never expires)
 **Range:** 0 – 365
 
 ### Free Trial
@@ -160,7 +158,7 @@ The signup fee is added to the first order as a separate WooCommerce fee line it
 
 ![Different Renewal Price enabled with Renewal Price and Apply Renewal Price After fields](create-and-configure.ASSETS/03-simple-different-renewal-price-fields-cropped.png)
 
-**Pro feature — requires ArraySubsPro and an active license.** In the free plugin, the **Different Renewal Price** checkbox has a red **Pro** label and is disabled. Activating licensed Pro makes the option available in both simple products and individual variations.
+Different Renewal Price requires ArraySubs Pro and an active license. Activating the license enables the option for simple products and individual variations.
 
 Enable it to charge a different price after a specified number of billing cycles. Useful for introductory pricing or promotional periods.
 
@@ -294,9 +292,9 @@ For simple products, the fields below appear in the **Subscription Billings [AS]
 | Trial Length | Number | 0 | Number of trial periods before billing begins (0 = no trial) |
 | Trial Period | Select | Day | Time unit for the trial length (Day, Week, Month, Year) |
 | Sign-up Fee | Currency | 0 | One-time fee on the initial order |
-| Different Renewal Price (Pro) | Checkbox | Off; disabled without licensed Pro | Enable a different renewal price after N cycles |
-| Renewal Price (Pro) | Currency | (empty) | Recurring amount after the threshold |
-| Apply Renewal Price After (Pro) | Number (≥ 1) | 1 | Number of billing periods before the renewal price takes effect |
+| Different Renewal Price | Checkbox | Off; disabled without licensed Pro | Enable a different renewal price after N cycles |
+| Renewal Price | Currency | (empty) | Recurring amount after the threshold |
+| Apply Renewal Price After | Number (≥ 1) | 1 | Number of billing periods before the renewal price takes effect |
 
 ---
 

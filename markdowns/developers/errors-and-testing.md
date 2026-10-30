@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-24
+- Last updated: 2026-10-31
 
 # Verify Your Integration
 
 > Handle every `WP_Error` code the `ArraySubs\Developer` API returns, write safely with expectations and locks, and test your integration on a staging site before it reaches a live store.
 
-**Availability:** Core (Free). Rows marked *(Pro)* come from ArraySubs Pro: Store Credit codes need Pro with the Store Credit module, and profile-field and feature-configuration codes need Pro with an active license and the named module.
 
 ## Page Navigation
 
@@ -141,12 +139,12 @@ Two behaviors to plan for: `pause()` caps `$days` at the store's maximum pause d
 | `validation` | `Customer::update()` | A group that is not an array, a value that is not text, an invalid email or country code, or a value WooCommerce rejected (`field` names it) | Show the problem to whoever entered the value. |
 | `persistence_failed` | `Customer::update()` | The save failed and the database transaction was rolled back | Re-read and retry. |
 | `unavailable` | `Customer::update()` with `profile`, `queryByProfileField()`, `fromProfileField()` | Without ArraySubs Pro, or with Pro but no active license, the Profile Builder module switched off or custom profile fields disabled. `data( array( 'profile' ) )` reports `available` false instead | Hide profile features. |
-| `invalid_query` *(Pro)* | `queryByProfileField()` | An option other than `operator`, `page`, `per_page`, `output` and `fields` | Fix the arguments. |
-| `invalid_field` *(Pro)* | Profile queries and updates | An unknown or disabled profile field | Use an enabled field key. |
-| `forbidden` *(Pro)* | Profile queries and updates | An upload field (never searchable), or a field your `arraysubs_developer_profile_field_searchable` or `arraysubs_developer_profile_field_editable` filter refuses | Choose another field. |
-| `unsupported` *(Pro)* | Profile updates | An upload field | Use the existing profile upload flow. |
-| `validation` *(Pro)* | Profile queries and updates | An operator the field type does not allow, a bad value list, an empty required field, a date not in `YYYY-MM-DD`, a select value that is not an option, a checkbox value that is not true or false, or an unknown `output` | Fix the value. |
-| `persistence_failed` *(Pro)* | Profile updates | A field could not be saved (`field` names it); the whole update is rolled back | Re-read and retry. |
+| `invalid_query` | `queryByProfileField()` | An option other than `operator`, `page`, `per_page`, `output` and `fields` | Fix the arguments. |
+| `invalid_field` | Profile queries and updates | An unknown or disabled profile field | Use an enabled field key. |
+| `forbidden` | Profile queries and updates | An upload field (never searchable), or a field your `arraysubs_developer_profile_field_searchable` or `arraysubs_developer_profile_field_editable` filter refuses | Choose another field. |
+| `unsupported` | Profile updates | An upload field | Use the existing profile upload flow. |
+| `validation` | Profile queries and updates | An operator the field type does not allow, a bad value list, an empty required field, a date not in `YYYY-MM-DD`, a select value that is not an option, a checkbox value that is not true or false, or an unknown `output` | Fix the value. |
+| `persistence_failed` | Profile updates | A field could not be saved (`field` names it); the whole update is rolled back | Re-read and retry. |
 
 ### Features and Usage
 
@@ -164,13 +162,13 @@ Two behaviors to plan for: `pause()` caps `$days` at the store's maximum pause d
 | `feature_usage_busy` | Usage writes | The per-subscription, per-feature lock was still busy after four short attempts | Retry later with the same `operation_id`. |
 | `feature_usage_save_failed` | Usage writes | The counter could not be saved | Retry with the same `operation_id`. |
 | `unavailable` | `updateConfiguration()` | Without ArraySubs Pro, or with Pro but no active license or with the Feature Manager module switched off. `data( array( 'availability' ) )` reports `configuration_updates` false | Leave configuration to the product editor. |
-| `forbidden` *(Pro)* | `updateConfiguration()` | The current user lacks `manage_woocommerce`, including cron jobs and WP-CLI runs without `--user` | Run as a shop manager. |
-| `not_found` *(Pro)* | `updateConfiguration()` | The product is gone, or neither it nor (for a variation) its parent has a feature with that name | Only existing features can change. |
-| `conflict` *(Pro)* | `updateConfiguration()` | Another request is updating the product's features, or `$context['expected']` no longer matches the stored row | Re-read `configuration()` and retry. |
-| `validation` *(Pro)* | `updateConfiguration()` | `enabled` is not boolean, `value` is not text or a number, `reset_period` is unknown or set on a feature that is not numeric, or the value breaks the feature rules | Fix the change. |
-| `persistence_failed` *(Pro)* | `updateConfiguration()` | The configuration could not be saved | Re-read and retry. |
+| `forbidden` | `updateConfiguration()` | The current user lacks `manage_woocommerce`, including cron jobs and WP-CLI runs without `--user` | Run as a shop manager. |
+| `not_found` | `updateConfiguration()` | The product is gone, or neither it nor (for a variation) its parent has a feature with that name | Only existing features can change. |
+| `conflict` | `updateConfiguration()` | Another request is updating the product's features, or `$context['expected']` no longer matches the stored row | Re-read `configuration()` and retry. |
+| `validation` | `updateConfiguration()` | `enabled` is not boolean, `value` is not text or a number, `reset_period` is unknown or set on a feature that is not numeric, or the value breaks the feature rules | Fix the change. |
+| `persistence_failed` | `updateConfiguration()` | The configuration could not be saved | Re-read and retry. |
 
-### Store Credit *(Pro)*
+### Store Credit
 
 The `StoreCredit` class is part of core, and its factories validate the customer without Pro. Its `data()`, `history()` and `adjust()` calls are answered by ArraySubs Pro.
 
@@ -229,8 +227,8 @@ Several writers can touch one subscription at the same time: an admin, the membe
 | `setGracePolicy( $changes, $expected )` | Keys of `recovery.policy`: `before_on_hold`, `before_cancel` and their `_source` values, compared strictly | `subscription_conflict` |
 | `Orders::update( $changes, $expected )` | `billing` or `shipping` (the complete arrays from `Orders::data()`) or `customer_note` (from `object()->get_customer_note()`), compared strictly | `conflict` |
 | `Customer::update( $changes, $context )` | `$context['expected_email']`, the account email you read | `conflict` |
-| `Features::updateConfiguration( $name, $changes, $context )` *(Pro)* | `$context['expected']`, a subset of the stored feature row | `conflict` |
-| `StoreCredit::adjust( $amount, $args )` *(Pro)* | `$args['expected_balance']`, the bucket balance you read | `credit_balance_changed` |
+| `Features::updateConfiguration( $name, $changes, $context )` | `$context['expected']`, a subset of the stored feature row | `conflict` |
+| `StoreCredit::adjust( $amount, $args )` | `$args['expected_balance']`, the bucket balance you read | `credit_balance_changed` |
 
 Where to read each `update()` expectation in `data()`:
 
@@ -257,8 +255,8 @@ Every write takes a lock first. When another request holds it, the write returns
 | `Orders::delete()` | The order's payment and settlement locks | `conflict` |
 | `Customer::update()` | A per-customer lock with a 30-second lease | `conflict` |
 | `Features` usage writes | One lock per subscription and feature (30-second lease), tried four times with a short pause between attempts | `feature_usage_busy` |
-| `Features::updateConfiguration()` *(Pro)* | A per-product lock with a 30-second lease | `conflict` |
-| `StoreCredit::adjust()` *(Pro)* | The customer credit lock (customer bucket) or the subscription lock (subscription bucket) | `credit_busy` |
+| `Features::updateConfiguration()` | A per-product lock with a 30-second lease | `conflict` |
+| `StoreCredit::adjust()` | The customer credit lock (customer bucket) or the subscription lock (subscription bucket) | `credit_busy` |
 
 - The subscription lock is a lease of up to 10 minutes. If a request dies while holding it, writes to that subscription keep returning busy results until the lease runs out.
 - Locks are re-entrant inside one PHP request. A write from inside an ArraySubs hook that already holds the subscription lock, such as `arraysubs_renewal_payment_complete`, proceeds instead of returning busy, but it runs in the middle of ArraySubs' own operation. Queue such work instead.
@@ -271,7 +269,7 @@ Requests time out after the server has done the work, and jobs run again after a
 | Write | Retry key | A repeat with the same key |
 | --- | --- | --- |
 | `Features` usage writes (`set()`, `increment()`, `reset()`, `consume()`) | `operation_id` in the context: any scalar up to 128 bytes. The last 100 IDs per subscription and feature are remembered | Changes nothing and returns the current usage. The result does not flag it as a repeat |
-| `StoreCredit::adjust()` *(Pro)* | `operation_id`, required, up to 200 bytes, scoped to the customer and bucket | Same parameters: returns the original transaction and writes nothing new. Different parameters: `credit_mutation_failed` |
+| `StoreCredit::adjust()` | `operation_id`, required, up to 200 bytes, scoped to the customer and bucket | Same parameters: returns the original transaction and writes nothing new. Different parameters: `credit_mutation_failed` |
 | Subscription, order and customer writes | None | Re-read before you retry. A second `pause()` returns `operation_failed` because the subscription is already paused; a repeated `setNextPaymentDate()` with the stored date only re-checks the schedule |
 
 Rules that make keys work:
@@ -312,12 +310,14 @@ The checklist below covers what your integration must prove on top of those walk
 1. **Record the environment.** Note the WordPress, WooCommerce, PHP, ArraySubs and Pro versions and the modules that are on, so you can compare later runs.
 
    ```bash
+   # List active and inactive plugin versions to record the staging environment.
    wp plugin list --fields=name,status,version
    ```
 
 2. **Run the read-only smoke test** from [Examples](#examples) with your own staging IDs. It proves that the API is loaded, that error codes come back as documented, and which Pro parts are available.
 
    ```bash
+   # Run the saved smoke-test file from this WordPress installation; it only reads data.
    wp eval-file acme-arraysubs-smoke.php
    ```
 
@@ -329,8 +329,11 @@ The checklist below covers what your integration must prove on top of those walk
 8. **Check the scheduled jobs** when something does not happen. Renewal invoices run on `arraysubs_generate_renewal_invoice` (group `arraysubs-billing`), charges and retries on `arraysubs_process_renewal` (group `arraysubs-renewals`), and the grace steps on the hourly `arraysubs_check_overdue_renewals` (group `arraysubs-billing`). Each renewal job takes the subscription ID as its only argument, for example `[123]`.
 
    ```bash
+   # Inspect pending charge/retry jobs without running or modifying them.
    wp action-scheduler action list --hook=arraysubs_process_renewal --status=pending --fields=id,hook,args,scheduled_date
+   # Inspect pending invoice-generation jobs, which are separate from payment processing.
    wp action-scheduler action list --hook=arraysubs_generate_renewal_invoice --status=pending --fields=id,hook,args,scheduled_date
+   # Inspect the scheduled grace-period check that handles overdue renewal state.
    wp action-scheduler action list --hook=arraysubs_check_overdue_renewals --status=pending --fields=id,hook,scheduled_date
    ```
 
@@ -580,7 +583,7 @@ The same shape works for dates: read `schedule.next_payment_at`, then call `setN
 
 ### Do the API classes check the current user's permissions?
 
-Mostly not. They are trusted server code and never check ownership. The exceptions are narrow: `Product::fromId()` hides unpublished products from users who cannot read them, `updateConfiguration()` *(Pro)* needs `manage_woocommerce`, `allow_overage` works only for users with `manage_woocommerce`, and `configuration()` includes feature types only for those users. Check nonces, logins and ownership in your own REST routes, AJAX actions and forms.
+Mostly not. They are trusted server code and never check ownership. The exceptions are narrow: `Product::fromId()` hides unpublished products from users who cannot read them, `updateConfiguration()` needs `manage_woocommerce`, `allow_overage` works only for users with `manage_woocommerce`, and `configuration()` includes feature types only for those users. Check nonces, logins and ownership in your own REST routes, AJAX actions and forms.
 
 ### Is an empty result an error?
 

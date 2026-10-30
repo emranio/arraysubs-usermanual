@@ -1,13 +1,11 @@
 # Info
 - Module: Feature Manager — Customer and Storefront Display
-- Availability: Pro
-- Last updated: 2026-04-04
+- Last updated: 2026-10-30
 
 # Customer and Storefront Display
 
 > How feature entitlements appear to customers on the storefront product page, in My Account, and how admins review them.
 
-**Availability:** Pro
 
 ## Page Navigation
 

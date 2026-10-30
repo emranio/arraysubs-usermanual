@@ -96,9 +96,6 @@ async function renderPageHtml(options) {
   const documentTitle = `${pageTitle} · ${options.config.siteTitle}`;
   const canonicalUrl = `${baseUrl}${page.urlPath.replace(/^\//, "")}`;
   const ogImageUrl = `${baseUrl}assets/${options.config.logoFilename}`;
-  const proBadge = page.isPro
-    ? '<span class="docs-badge docs-badge--pro">Pro</span>'
-    : "";
   const logoMarkup = hasLogo
     ? `<img src="${escapeHtml(logoHref)}" alt="" width="494" height="120" decoding="async" />`
     : `<span class="docs-header__home-fallback">${escapeHtml(options.config.siteTitle)}</span>`;
@@ -129,7 +126,7 @@ async function renderPageHtml(options) {
   return applyTemplate(options.templates.layout, {
     accessibilityWidgetConfigHref: escapeHtml(accessibilityWidgetConfigHref),
     accessibilityWidgetScriptHref: escapeHtml(accessibilityWidgetScriptHref),
-    bodyClass: page.isPro ? "docs-page docs-page--pro" : "docs-page",
+    bodyClass: "docs-page",
     canonicalUrl: escapeHtml(canonicalUrl),
     contentHtml: page.contentHtml,
     description: escapeHtml(page.description || options.config.siteTagline),
@@ -143,7 +140,6 @@ async function renderPageHtml(options) {
     mermaidHref: escapeHtml(mermaidHref),
     ogImageUrl: escapeHtml(ogImageUrl),
     ogType: page.isIndexPage ? "website" : "article",
-    pageBadge: proBadge,
     pageTitle: escapeHtml(pageTitle),
     pageUrl: escapeHtml(canonicalUrl),
     breadcrumb,

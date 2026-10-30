@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Admin
-- Availability: Free; Pro
-- Last updated: 2026-07-26
+- Last updated: 2026-10-30
 
 # Admin Tools and Records
 
 > Subscription notes, feature entitlements, related orders, and data export — the tools that keep your records complete.
 
-**Availability:** Free (Notes, Orders, Export); Pro (Feature Log)
 
 ## Page Navigation
 
@@ -23,7 +21,7 @@
 Beyond browsing and editing subscriptions, ArraySubs gives you a set of tools for record-keeping and operational insight. This guide covers:
 
 - **Subscription Notes** — an activity log of every change, plus a space for your own admin notes. See the dedicated [Subscription Notes](../subscription-notes/README.md) module guide.
-- **Feature Log** — a per-customer view of subscription entitlements and usage (**Pro**).
+- **Feature Log** — a per-customer view of subscription entitlements and usage.
 - **Related Orders and Refund History** — every order and refund linked to a subscription.
 - **Export Subscriptions** — download subscription data as CSV or JSON. Full guide: [Subscription Data Export](subscription-data-export.md).
 
@@ -37,7 +35,7 @@ Subscription Notes is now documented as its own root-level module because it is 
 
 ---
 
-## Feature Log / Entitlement Review **Pro**
+## Feature Log / Entitlement Review
 
 ![Feature Log — customer entitlement table](admin-tools-and-records.ASSETS/02-feature-log-annotated.png)
 
@@ -137,7 +135,7 @@ Exporting has its own guide: [Subscription Data Export](subscription-data-export
 
 A customer says they were charged twice. Open the subscription detail, scroll to **Order History**, and check all renewal orders and their dates. Then read the **Subscription Notes** to see system-generated events around the dates in question.
 
-### Use Case 2: Verifying Feature Entitlements (**Pro**)
+### Use Case 2: Verifying Feature Entitlements
 
 A customer claims they should have 100 downloads per month but only see 50. Open the **Feature Log** for that customer and check the entitlement value against their subscription's product configuration.
 
@@ -167,7 +165,7 @@ Before making a manual change to a subscription (like updating the invoice email
 - [Subscription Data Export](subscription-data-export.md) — CSV export, the column picker, and shipping-address columns
 - [Subscription Detail Cards](subscription-detail-cards.md) — the conditional cards for cancellation, coupon, and more
 - [Lifecycle Management](lifecycle-management.md) — understanding the events that create system notes
-- [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) *(Pro)* — order type columns, filters, and the embedded report panel on the WooCommerce Orders page
+- [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) — order type columns, filters, and the embedded report panel on the WooCommerce Orders page
 
 ---
 

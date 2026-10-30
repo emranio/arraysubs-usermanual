@@ -1,13 +1,11 @@
 # Info
 - Module: Billing and Renewals
-- Availability: Free global Renewal Sync; Pro Flexible Renewal Sync and automatic gateway extensions
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Renewal Sync
 
 > Align first renewals to predictable billing-cycle boundaries, then choose how the customer's first payment should behave.
 
-**Availability:** Free for global Renewal Sync, Pro for product-level Flexible Renewal Sync
 
 ## Page Navigation
 

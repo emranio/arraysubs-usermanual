@@ -1,13 +1,11 @@
 # Info
 - Module: Login Limit
-- Availability: Pro
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Login Limit
 
 > Limit concurrent login sessions per account, set a global fallback, and create rule-based session overrides.
 
-**Availability:** ArraySubs Pro. The **Login Limit** tab appears only while Pro is active with a valid license. Without it, saved Login Limit rules stay stored but are not enforced.
 
 ## Page Navigation
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Payment and Shipping Actions
-- Availability: Shared
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Payment and Shipping Actions
 
 > How customers manage payment methods, toggle automatic billing, and update shipping addresses from the subscription detail page.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -207,7 +205,7 @@ When the cutoff prevents updates, the **Update Shipping Address** button is hidd
 The 3-day cutoff is the default. Developers can customize this window using the `arraysubs_shipping_address_cutoff_days` filter.
 ```
 
-### Shipping and Plan Changes **Pro**
+### Shipping and Plan Changes
 
 When a customer changes plans, Pro Subscription Shipping follows the target plan's shipping rules:
 

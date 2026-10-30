@@ -1,17 +1,15 @@
 # Info
 - Module: 1-Minute Setup
-- Availability: Shared
-- Last updated: 2026-09-14
+- Last updated: 2026-10-30
 
 # 1-Minute Setup
 
 > 1-Minute Setup is the easiest way to get started with ArraySubs. Answer simple questions about your business, let the wizard configure the essentials, and follow one clear checklist to add a subscription product and connect payments. Spend less time in settings and more time getting ready for your first subscriber.
 
-**Availability:** Free (Pro options appear when ArraySubs Pro is active)
 
 ## Page Navigation
 
-- **Admin screen:** WordPress Admin → **ArraySubs → 1-Minute Setup**
+- **Admin screen:** WordPress Admin → **ArraySubs → Easy Setup & Import Export**
 - **From Home:** WordPress Admin → **ArraySubs → Home → Easy Setup Wizard**, or **Start setup / Review setup** in the setup checklist.
 - **Direct admin route:** `/wp-admin/admin.php?page=arraysubs-mainadmin#/easy-setup`
 - **Use this first:** [First-Time Setup](first-time-setup.md)
@@ -20,11 +18,13 @@
 
 ## Overview
 
+The WordPress menu and page title are **Easy Setup & Import Export**. The guided modal on that page keeps the **1-Minute Setup** title; Export Settings and Import Settings are on the page below the setup checklist.
+
 The guided wizard takes you through nine steps: Your Business, Billing & Renewal Rules, Checkout & Cart Rules, Plan Switching, Cancellation & Retention, Refunds, Emails & Notifications, Additional Features & Tools, and Review & Apply. Choose the answers that fit your store, review them, and save the matching settings together.
 
 After saving, the final step shows a congratulations message, the settings' last-saved time, and cards for the next setup tasks. When you reopen a completed wizard, these cards appear first. Choose **Start Over** to review your saved setup from Step 1. Member access and content gating are configured separately; they are not a wizard step.
 
-Open the wizard from [Home](../analytics/home.md) or from **ArraySubs → 1-Minute Setup**. The page brings your three setup essentials together: subscription settings, a subscription product, and payments. Your checklist updates automatically as you complete each task, with Export and Import tools just below.
+Open the wizard from [Home](../analytics/home.md) or from **ArraySubs → Easy Setup & Import Export**. The page brings your three setup essentials together: subscription settings, a subscription product, and payments. Your checklist updates automatically as you complete each task, with Export and Import tools just below.
 
 The same screen is also the safest place to back up or restore an ArraySubs configuration. Export before major changes, then import the JSON file on another site or after a reset.
 
@@ -77,7 +77,7 @@ A community platform picks **Membership / Community**, reviews its saved rules a
 
 ![1-Minute Setup page with the three setup checklist cards, Export Settings, and Import Settings](easy-setup-wizard.ASSETS/01-easy-setup-page-original.png)
 
-1. Go to **ArraySubs → 1-Minute Setup**.
+1. Go to **ArraySubs → Easy Setup & Import Export**.
 2. Find **Subscription settings** in the **Setup Wizard** checklist.
 3. Click **Start setup**, or **Review setup** if your settings have already been saved.
 4. The wizard opens in a modal that fills the available screen height. Scroll inside it to see longer steps; the header and bottom action bar stay in place.
@@ -173,7 +173,7 @@ Controls grace periods, invoice timing, renewal sync, and skip/pause flexibility
 | When should renewal invoices be generated? | Radio | 6 hours before due date · 1 day before · 3 days before |
 | Should new subscriptions renew on the next billing-cycle boundary? | Radio | Yes · No |
 | How should the first checkout charge work? | Radio | Prorate until the synced renewal date · Charge the full recurring amount (only shown when renewal sync is enabled) |
-| Allow Early Renew | Checkbox | Lets customers pay the next renewal early without shortening the subscription period. Supports manual payments and Stripe; excludes PayPal and Paddle (**Pro**) |
+| Allow Early Renew | Checkbox | Lets customers pay the next renewal early without shortening the subscription period. Supports manual payments and Stripe; excludes PayPal and Paddle |
 | What billing flexibility should customers have? | Checkboxes | Allow skipping the next renewal · Allow pausing the subscription |
 | Maximum consecutive skips allowed | Select | 1 · 2 · 3 · 5 (only when skip is enabled) |
 | How many days before renewal can a skip still be requested? | Select | Any time · 2 days before · 5 days before · 7 days before (only when skip is enabled) |
@@ -203,9 +203,9 @@ Shapes how subscriptions behave in the cart, at checkout, and during account cre
 | Should one-click items skip the cart page entirely? | Radio | Yes · No (only when one-click is not "Standard") |
 | Non-Subscription Purchase Button Text | Text | Appears for one-click checkout for all products; leave empty to keep WooCommerce's default text |
 | Automatically create customer accounts at checkout? | Radio | Yes · No |
-| Hide First billing cycle info | Checkbox | Hides the first billing-cycle details from customers (**Pro**) |
-| Hide shipping charge info | Checkbox | Hides the shipping-charge details from customers (**Pro**) |
-| Hide Duration info | Checkbox | Hides the subscription-duration details from customers (**Pro**) |
+| Hide First billing cycle info | Checkbox | Hides the first billing-cycle details from customers |
+| Hide shipping charge info | Checkbox | Hides the shipping-charge details from customers |
+| Hide Duration info | Checkbox | Hides the subscription-duration details from customers |
 
 One-click checkout sends the clicked item to checkout and clears existing cart contents. Review this choice before enabling it. The two text fields change purchase-button labels; they do not create products.
 
@@ -247,10 +247,10 @@ Choose whether customers can cancel, when cancellation takes effect, and which r
 | Allow customers to cancel subscriptions from My Account? | Radio | Yes · No |
 | When should a cancellation take effect? | Radio | Immediately · At the end of the billing period |
 | Should customers be required to provide a cancellation reason? | Radio | Yes · No |
-| Show retention offers during the cancellation flow? | Radio | Yes · No (**Pro**) |
-| Which retention offers should be enabled? | Checkboxes | Discount offer · Pause offer · Downgrade offer · Contact support (only when retention offers are enabled; **Pro**) |
-| Retention discount percentage | Select | 10% · 20% · 30% · 50% off (only when the discount offer is enabled; **Pro**) |
-| How many billing cycles should that discount last? | Select | 1 · 2 · 3 · 6 cycles (only when the discount offer is enabled; **Pro**) |
+| Show retention offers during the cancellation flow? | Radio | Yes · No |
+| Which retention offers should be enabled? | Checkboxes | Discount offer · Pause offer · Downgrade offer · Contact support (only when retention offers are enabled) |
+| Retention discount percentage | Select | 10% · 20% · 30% · 50% off (only when the discount offer is enabled) |
+| How many billing cycles should that discount last? | Select | 1 · 2 · 3 · 6 cycles (only when the discount offer is enabled) |
 
 ```box class="info-box"
 Cancellation access, timing, and reason requirements are available in ArraySubs core. Retention offers appear only while ArraySubs Pro is active. Refund settings have their own step immediately afterward.
@@ -334,23 +334,23 @@ Saved tool settings determine the initial selections. For unsaved settings, **En
 | Question | Type | Options |
 |---|---|---|
 | Which optional features should be enabled now? | Checkboxes | See feature list below |
-| Should store credit automatically apply to renewal payments? | Radio | Yes · No (only when Store Credit is enabled; **Pro**) |
-| When should store credits expire? | Select | Never expire · After 90 days · After 180 days · After 365 days (only when Store Credit is enabled; **Pro**) |
-| Show Feature Manager highlights on product pages? | Radio | Yes · No (only when Feature Manager is enabled; **Pro**) |
-| Maximum concurrent login sessions per customer | Select | 1 · 2 · 3 · 5 sessions (only when Multi-Login is enabled; **Pro**) |
+| Should store credit automatically apply to renewal payments? | Radio | Yes · No (only when Store Credit is enabled) |
+| When should store credits expire? | Select | Never expire · After 90 days · After 180 days · After 365 days (only when Store Credit is enabled) |
+| Show Feature Manager highlights on product pages? | Radio | Yes · No (only when Feature Manager is enabled) |
+| Maximum concurrent login sessions per customer | Select | 1 · 2 · 3 · 5 sessions (only when Multi-Login is enabled) |
 | Where should blocked dashboard users be sent? | Radio | My Account page · Show a 404 page (only when Restrict Dashboard is enabled) |
 
 #### Available Features
 
-| Feature | Availability | Description |
-|---|---|---|
-| Store Credit System | **Pro** | Refund to credit, credit balances, and credit purchases |
-| Feature Manager | **Pro** | Define plan entitlements like seats, storage, or usage caps |
-| Activity Audit Log | **Pro** | Track subscription, payment, and settings changes over time |
-| Enable User Impersonation | Free | Let administrators log in as non-admin users for support and troubleshooting |
-| Hide Admin Bar for Customers | Free | Keep the frontend cleaner for non-admin customer accounts |
-| Restrict WP Dashboard Access | Free | Block non-admin users from reaching the WordPress dashboard |
-| Multi-Login Prevention | **Pro** | Limit concurrent sessions to reduce shared-account abuse |
+| Feature | Description |
+| --- | --- |
+| Store Credit System | Refund to credit, credit balances, and credit purchases |
+| Feature Manager | Define plan entitlements like seats, storage, or usage caps |
+| Activity Audit Log | Track subscription, payment, and settings changes over time |
+| Enable User Impersonation | Let administrators log in as non-admin users for support and troubleshooting |
+| Hide Admin Bar for Customers | Keep the frontend cleaner for non-admin customer accounts |
+| Restrict WP Dashboard Access | Block non-admin users from reaching the WordPress dashboard |
+| Multi-Login Prevention | Limit concurrent sessions to reduce shared-account abuse |
 
 ![Nested feature-display, dashboard-redirect, and login-session controls](easy-setup-wizard.ASSETS/09-wizard-step-8-additional-features-tools-part-2-original.png)
 

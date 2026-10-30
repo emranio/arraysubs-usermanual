@@ -1,13 +1,11 @@
 # Info
 - Module: Plan Switching / Fixed Period Membership
-- Availability: Shared (plan switching and auto-downgrade: Free; plan-switch credit: Pro Store Credit; fixed-period membership: Pro)
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Plan Switching and Product Relationships
 
 > Configure upgrade, downgrade, and crossgrade paths between subscription products. Set automatic fallback plans and fixed membership periods.
 
-**Availability:** Free (plan switching and auto-downgrade); Pro with the Store Credit module on (plan-switch credit); Pro (fixed-period membership)
 
 ## Page Navigation
 
@@ -22,7 +20,7 @@
 
 Plan switching lets customers move between subscription plans — upgrading to a higher tier, downgrading to a lower one, or crossgrading to a similar plan. You define the available paths on each product, and ArraySubs handles proration, order creation, pending-switch tracking, and subscription updates automatically.
 
-This guide also covers **auto-downgrade** (automatic plan fallback when a subscription expires or is cancelled) and **Fixed Period Membership** *(Pro)*, which lets you set subscriptions to end on a specific calendar date instead of running indefinitely.
+This guide also covers **auto-downgrade** (automatic plan fallback when a subscription expires or is cancelled) and **Fixed Period Membership**, which lets you set subscriptions to end on a specific calendar date instead of running indefinitely.
 
 ## When to Use This
 
@@ -230,7 +228,7 @@ These settings control plan switching behavior globally. They can be found in **
 
 ---
 
-## Fixed Period Membership *(Pro)*
+## Fixed Period Membership
 
 ```box class="info-box"
 This feature requires ArraySubs Pro.
@@ -325,7 +323,7 @@ A SaaS product offers Basic ($19/month), Professional ($49/month), and Enterpris
 
 When Enterprise customers let their subscription expire, they automatically fall back to the Basic free tier.
 
-### Use Case 2: Academic Year Membership *(Pro)*
+### Use Case 2: Academic Year Membership
 
 A university library offers annual digital access from September to August.
 
@@ -359,7 +357,7 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 - **Switching away from a box or bundle.** When a subscription switches from a box or bundle product to a plan that is not a box or bundle, its included subscriptions are cancelled and unlinked.
 - **Fixed period + plan switching.** If a customer switches from a fixed-period product to a non-fixed product, the fixed-period metadata is cleared. If they switch to another fixed-period product, the end date is recalculated from the switch date.
 - **Gateway interactions.** When a plan switch occurs, automatic payment metadata stays aligned so future renewals continue through the correct gateway path. Gateway behavior depends on each gateway's capabilities.
-- **Shipping interactions (Pro).** If Subscription Shipping is active, immediate switches recalculate shipping settings from the target product. Apply at Renewal switches use the target product's shipping rules on the renewal invoice before the subscription is permanently switched.
+- **Shipping interactions.** If Subscription Shipping is active, immediate switches recalculate shipping settings from the target product. Apply at Renewal switches use the target product's shipping rules on the renewal invoice before the subscription is permanently switched.
 - **Customer-facing switch.** When "Allow customer switch" is enabled, customers see switch options on their subscription detail page in the customer portal. When disabled, only admins can initiate switches.
 
 ---
@@ -375,7 +373,7 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 | Fixed Period fields not visible | Pro plugin is not active | Install and activate ArraySubs Pro |
 | Product is unpurchasable | Enrollment window has closed or absolute end date has passed | Check the enrollment window dates and fixed end date |
 | Proration order has unexpected amount | Rounding method or switch fee is configured differently than expected | Review proration type, rounding method, and switch fees in Settings |
-| A downgrade waits for the next renewal although the proration type is Prorate immediately | The switch would leave the customer with credit, and Store Credit is not available | Expected without the Store Credit module. Turn on Store Credit (Pro) if such switches should apply right away with a credit |
+| A downgrade waits for the next renewal although the proration type is Prorate immediately | The switch would leave the customer with credit, and Store Credit is not available | Expected without the Store Credit module. Turn on Store Credit if such switches should apply right away with a credit |
 | A pending switch can no longer be cancelled or replaced | The renewal invoice for the switch date already exists, so the switch is frozen | Expected. The switch applies when that invoice is paid |
 
 ---
@@ -385,11 +383,11 @@ When the trial ends, if the customer has not upgraded or explicitly chosen to co
 - [Create and Configure Subscription Products](create-and-configure.md) — Set up the products that your switching paths will connect.
 - [Product Experience and Display](product-experience.md) — How pricing and plan details appear to customers.
 - [General Settings](../settings/general-settings.md) — Grace period and customer portal settings that affect plan switching behavior.
-- [Store Credit](../store-credit/README.md) - Balances, history, and renewal use of plan-switch credit *(Pro)*.
+- [Store Credit](../store-credit/README.md) - Balances, history, and renewal use of plan-switch credit.
 - [Subscription Detail Cards](../manage-subscriptions/subscription-detail-cards.md) - The Pending Plan Switch card in the admin.
 - [Read Lifecycle State and Manage Its Dates](../developers/status-grace-periods-and-trials.md) - Developer reference for the current plan and a pending plan switch.
 - [Read Subscription Product Terms](../developers/subscription-products.md) - Developer reference for reading plan-switch targets on a product.
-- [Read and Update Store Credit](../developers/store-credit.md) - Developer reference for the Store Credit ledger *(Pro)*.
+- [Read and Update Store Credit](../developers/store-credit.md) - Developer reference for the Store Credit ledger.
 
 ---
 

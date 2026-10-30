@@ -1,13 +1,11 @@
 # Info
 - Module: Cart Info Editor
-- Availability: Pro
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Cart Info Editor
 
 > Hide selected subscription details throughout the purchase experience without changing the prices, schedules, shipping charges, or subscription rules behind them.
 
-**Availability:** Pro
 
 ## Page Navigation
 

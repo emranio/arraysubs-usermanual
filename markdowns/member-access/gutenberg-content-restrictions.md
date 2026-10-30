@@ -1,13 +1,11 @@
 # Info
 - Module: Gutenberg Content Restrictions
-- Availability: Free (Feature Manager conditions require Pro)
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Gutenberg Content Restrictions
 
 > Gate nested WordPress blocks with the **Restricted Content** block — no shortcode required.
 
-**Availability:** Free — `feature` conditions require **Pro** with Feature Manager.
 
 ## Page Navigation
 
@@ -72,7 +70,7 @@ When you choose **Subscription / Role / Purchase (restrict)**, the sidebar can e
 | **User Roles** | The visitor has one of the selected WordPress roles. |
 | **Minimum Lifetime Spend** | The visitor's total completed order spend reaches the required amount. |
 | **Match Logic** | Require all selected rules to match, or allow any one selected rule to grant access. |
-| **Plan Feature** *(Pro)* | Check a Feature Manager entitlement owned through the visitor's subscriptions. |
+| **Plan Feature** | Check a Feature Manager entitlement owned through the visitor's subscriptions. |
 | **Restricted Message** | Message shown when the visitor does not qualify. Leave empty to use the global default. |
 | **Require Login** | Block logged-out visitors before evaluating membership conditions. |
 | **Always Show To Admins** | Let administrators see the protected content regardless of conditions. |
@@ -81,7 +79,7 @@ When you choose **Subscription / Role / Purchase (restrict)**, the sidebar can e
 The product, variation, role, and feature pickers are loaded on demand. Start typing to search instead of expecting the editor to preload every option.
 ```
 
-## Feature Gating *(Pro)*
+## Feature Gating
 
 Feature gating checks entitlements created with Feature Manager on your subscription products.
 

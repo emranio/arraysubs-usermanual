@@ -1,13 +1,11 @@
 # Info
 - Module: Admin Bar Visibility
-- Availability: Free
-- Last updated: 2026-06-07
+- Last updated: 2026-10-30
 
 # Admin Bar Visibility
 
 > Hide the WordPress frontend toolbar for customers while keeping normal admin shortcuts for administrators.
 
-**Availability:** Free
 
 ## Page Navigation
 

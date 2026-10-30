@@ -1,17 +1,15 @@
 # Info
 - Module: Store Credit Emails
-- Availability: Pro
-- Last updated: 2026-04-02
+- Last updated: 2026-10-30
 
-# Store Credit Emails *(Pro)*
+# Store Credit Emails
 
 > Four automated emails keep customers informed about their store credit balance — when credit is added, used, about to expire, and after it expires.
 
-**Availability:** Pro
 
 ## Page Navigation
 
-- **Current guide:** Store Credit Emails *(Pro)*
+- **Current guide:** Store Credit Emails
 - **Where to open it:** WordPress Admin -> WooCommerce -> Settings -> Emails
 - **Section overview:** [Open overview](./README.md)
 - **Previous guide:** [README](./README.md)
@@ -20,7 +18,7 @@
 
 ## Overview
 
-The Store Credit module *(Pro)* includes its own set of four customer-facing WooCommerce emails. These emails are registered separately from the core subscription emails but follow the same WooCommerce email framework — they appear in **WooCommerce → Settings → Emails**, support HTML and Plain Text, and can be toggled independently.
+The Store Credit module includes its own set of four customer-facing WooCommerce emails. These emails are registered separately from the core subscription emails but follow the same WooCommerce email framework — they appear in **WooCommerce → Settings → Emails**, support HTML and Plain Text, and can be toggled independently.
 
 All four emails are enabled by default when the Pro plugin is active.
 

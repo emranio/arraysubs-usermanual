@@ -1,13 +1,11 @@
 # Info
 - Module: WordPress Login Page
-- Availability: Free
-- Last updated: 2026-06-07
+- Last updated: 2026-10-30
 
 # WordPress Login Page
 
 > Route customer-facing login and registration traffic through WooCommerce My Account instead of the default WordPress login page.
 
-**Availability:** Free
 
 ## Page Navigation
 

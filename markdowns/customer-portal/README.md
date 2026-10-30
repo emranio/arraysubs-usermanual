@@ -1,13 +1,11 @@
 # Info
 - Module: Customer Portal
-- Availability: Shared
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # Customer Portal
 
 > The customer portal is your subscribers' self-service hub inside the WooCommerce My Account area. Customers can view subscriptions, manage actions like cancelling or pausing, update payment details, and track orders — all without contacting support.
 
-**Availability:** Free + Pro
 
 ## Page Navigation
 
@@ -35,13 +33,13 @@ With the Pro plugin active, additional My Account tabs and inline features becom
 ## In This Section
 
 ### [Customer Portal Pages](portal-pages.md)
-The pages customers see in their account area: the subscription list, the subscription detail page, the My Features page *(Pro)*, and the Store Credit page *(Pro)*.
+The pages customers see in their account area: the subscription list, the subscription detail page, the My Features page, and the Store Credit page.
 
 ### [Subscription Self-Service Actions](self-service-actions.md)
 Everything a customer can do from the subscription detail page: cancel, undo a scheduled cancellation, accept retention offers, skip renewals, pause, resume, change plan, and reactivate.
 
 ### [Payment and Shipping Actions](payment-and-shipping.md)
-Managing payment methods, the auto-renew toggle *(Pro)*, and updating the shipping address for future renewals *(Pro)*.
+Managing payment methods, the auto-renew toggle, and updating the shipping address for future renewals.
 
 ## How It Works
 
@@ -55,12 +53,12 @@ The portal respects your store's settings. Renewal controls such as auto-renew a
 
 ## Quick Reference
 
-| Portal Page | URL Path | Availability |
-|---|---|---|
-| My Subscriptions | `/my-account/subscriptions/` | Free |
-| View Subscription | `/my-account/view-subscription/{id}/` | Free |
-| My Features | `/my-account/features/` | Pro |
-| Store Credit | `/my-account/store-credit/` | Pro |
+| Portal Page | URL Path |
+| --- | --- |
+| My Subscriptions | `/my-account/subscriptions/` |
+| View Subscription | `/my-account/view-subscription/{id}/` |
+| My Features | `/my-account/features/` |
+| Store Credit | `/my-account/store-credit/` |
 
 | Self-Service Action | Available Statuses | Controlled By |
 |---|---|---|
@@ -73,7 +71,7 @@ The portal respects your store's settings. Renewal controls such as auto-renew a
 | Resume subscription | On-Hold (paused) | Automatic when paused |
 | Update shipping address | Active, On-Hold, Trial | Automatic for shippable subscriptions |
 | Auto-renew toggle | Active, On-Hold, Trial | **General Settings → Automatic Payments** |
-| Update payment method | Active, On-Hold, Trial | Requires automatic payment gateway *(Pro)* |
+| Update payment method | Active, On-Hold, Trial | Requires automatic payment gateway |
 
 ## Related Guides
 

@@ -1,13 +1,11 @@
 # Info
 - Module: Refund Management
-- Availability: Shared (Free core + Pro store credit)
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Refund Management
 
 > Configure refund policies for cancelled subscriptions, issue prorated and full refunds, and optionally convert refunds to store credit to keep the revenue in your store.
 
-**Availability:** Free (core refund processing), Pro (refund-to-store-credit)
 
 ## Page Navigation
 
@@ -34,7 +32,7 @@ For stores running ArraySubs Pro, refunds can also be issued as **store credit**
 - You want to offer prorated refunds for customers who cancel mid-cycle.
 - You want to configure whether refunds are automatically sent through the payment gateway.
 - You need to process a one-time refund for a specific subscription order.
-- You want to convert a refund to store credit instead of a gateway refund **(Pro)**.
+- You want to convert a refund to store credit instead of a gateway refund.
 
 ## Prerequisites
 
@@ -43,7 +41,7 @@ For stores running ArraySubs Pro, refunds can also be issued as **store credit**
 - At least one subscription with an associated paid order
 - Admin or Shop Manager access for refund processing
 - For gateway refunds: a payment gateway that supports the WooCommerce refund API
-- For store credit refunds **(Pro)**: ArraySubs Pro active, Store Credit feature enabled
+- For store credit refunds: ArraySubs Pro active, Store Credit feature enabled
 
 ---
 
@@ -132,7 +130,7 @@ If the refund fully covers a linked subscription order's remaining balance, the 
 
 The **Refund on Cancellation** setting is used for cancellation-driven refund behavior. It does not delay or suppress the immediate cancellation that follows a full WooCommerce order refund.
 
-### Step 5: Gateway Synchronization (Pro)
+### Step 5: Gateway Synchronization
 
 For subscriptions on automatic payment gateways (Stripe, PayPal, Paddle, Mollie), a **Two-Way Sync Guard** prevents infinite loops between local refunds and gateway webhooks. When you issue a refund locally, the guard marks it so that when the gateway sends back a refund webhook, the system knows to skip it (already handled). This ensures each refund is processed exactly once.
 
@@ -237,7 +235,7 @@ The customer's subscription detail page shows a **Refund History** section listi
 
 ---
 
-## Refund-to-Store-Credit Integration **(Pro)**
+## Refund-to-Store-Credit Integration
 
 ![WooCommerce refund form — Refund Method radios with Store Credit selected](refund-management.ASSETS/03-woocommerce-refund-method-store-credit-annotated.png)
 
@@ -314,11 +312,11 @@ End-of-period refund policy is separate: when a subscription is already schedule
 
 ## Related Guides
 
-- [Refund Analytics](../refund-analytics/README.md) — Report on the refunds these settings produce: totals, products, reasons, timing, and repeat refunders **(Pro)**
+- [Refund Analytics](../refund-analytics/README.md) — Report on the refunds these settings produce: totals, products, reasons, timing, and repeat refunders
 - [Cancellation Setup](cancellation-setup.md) — Configure when and how subscriptions are cancelled
 - [Retention Offers](retention-offers.md) — Reduce cancellations before they happen
-- [Refund to Credit](../store-credit/refund-to-credit.md) — Full guide to processing refunds as store credit **(Pro)**
-- [Store Credit Management](../store-credit/store-credit-management.md) — Customer credit balances and adjustments **(Pro)**
+- [Refund to Credit](../store-credit/refund-to-credit.md) — Full guide to processing refunds as store credit
+- [Store Credit Management](../store-credit/store-credit-management.md) — Customer credit balances and adjustments
 - [Recovery and Grace Flows](../billing-and-renewals/recovery-and-grace-flows.md) — How grace periods work for unpaid renewals
 - [Lifecycle Management](../manage-subscriptions/lifecycle-management.md) — How subscription statuses transition
 

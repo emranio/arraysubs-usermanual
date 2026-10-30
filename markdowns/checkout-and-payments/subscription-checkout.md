@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Checkout
-- Availability: Free
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Subscription Checkout
 
 > Controls everything that happens between "Add to Cart" and the moment a subscription is created — cart validation, checkout display, trial handling, automatic account creation, plan switching, and the final subscription record.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -282,7 +280,7 @@ Every subscription line in the cart, checkout, and mini-cart lists its terms as 
 | Checkout action | *"Replaces your current Basic subscription"* | Plan switch at checkout |
 | Credit applied | *"$4.50"* | Plan switch at checkout that credits unused time on the current plan |
 | First billing cycle | *"Starts August 1, 2026"* | Flexible Renewal Sync charges a full amount that covers the next billing cycle |
-| Shipping (Pro) | *"Every renewal"* or *"First order only"* | Physical subscription products with Subscription Shipping |
+| Shipping | *"Every renewal"* or *"First order only"* | Physical subscription products with Subscription Shipping |
 
 With different renewal pricing (Pro with an active license), the **After trial** or **Renewals** row carries both prices, for example *"$29.99 every month for the first 3 payments, then $19.99 every month"* or *"$29.99 first payment, then $19.99 every month"*. Renewal amounts follow the cart's tax display, with or without tax. Subscription box and bundle lines add their contents rows. See [Subscription Box Customer Experience](../subscription-products/subscription-box-customer-experience.md) and [Subscription Bundle Customer Experience](../subscription-products/subscription-bundle-customer-experience.md).
 
@@ -335,7 +333,7 @@ Every subscription captures a snapshot of the checkout state:
 | Recurring amount | Full product recurring price at checkout | `$29.99` |
 | Signup fee | Product configuration | `$10.00` |
 | Trial length and period | Product configuration | `14`, `day` |
-| Different renewal price (Pro) | Product configuration; active Pro license required | `$19.99` after 3 payments |
+| Different renewal price | Product configuration; active Pro license required | `$19.99` after 3 payments |
 | Payment method | Checkout selection | `stripe`, `paypal` |
 | Currency | Store currency | `USD` |
 | Start date | Order completion time | `2026-04-02 14:30:00` |

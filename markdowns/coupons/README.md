@@ -1,13 +1,11 @@
 # Info
 - Module: Coupons
-- Availability: Free
-- Last updated: 2026-06-21
+- Last updated: 2026-10-30
 
 # Coupons
 
 > Apply WooCommerce coupons to subscription products with support for one-time and recurring discounts, cycle limits, and initial-checkout counting.
 
-**Availability:** Free
 
 ## Page Navigation
 
@@ -274,7 +272,7 @@ These fields appear on the WooCommerce coupon edit page under the **ArraySubs Su
 - [Create and Configure Subscription Products](../subscription-products/create-and-configure.md) — Set up the products that coupons will apply to.
 - [Product Experience and Display](../subscription-products/product-experience.md) — How coupon discounts appear in the subscription detail.
 - [General Settings](../settings/general-settings.md) — Store-wide subscription settings.
-- [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) *(Pro)* — Filter orders by coupon code and view coupon usage alongside order types.
+- [Advanced Analytics — Order List Enhancements](../analytics/order-list-enhancements.md) — Filter orders by coupon code and view coupon usage alongside order types.
 
 ---
 

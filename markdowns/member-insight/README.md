@@ -1,13 +1,11 @@
 # Info
 - Module: Member Insight
-- Availability: Pro
-- Last updated: 2026-06-04
+- Last updated: 2026-10-30
 
 # Member Insight
 
 > Look up any customer, view their complete subscription and commerce profile, and jump to related screens — all from one unified dashboard.
 
-**Availability:** Pro
 
 ## Page Navigation
 

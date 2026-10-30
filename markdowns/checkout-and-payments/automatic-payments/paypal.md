@@ -1,13 +1,11 @@
 # Info
 - Module: PayPal Gateway
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # PayPal Gateway
 
 > Set up PayPal (ArraySubs) so customers can subscribe with PayPal and every renewal is collected automatically.
 
-**Availability:** Free (ArraySubs core). No extra WordPress plugin is needed - just a PayPal account that can create REST API apps in the PayPal Developer Dashboard.
 
 ## Page Navigation
 
@@ -100,7 +98,7 @@ While sandbox mode is on, anyone who picks PayPal at checkout is sent to PayPal'
 
 ### Step 5: Check the Connection
 
-Go to **ArraySubs > Audits [beta]**, open the **Gateway Logs** tab, and click the arrow on the **PayPal** card (the card uses your checkout **Title**). Then check:
+Go to **ArraySubs > Audit Logs**, open the **Gateway health** tab, and click the arrow on the **PayPal** card (the card uses your checkout **Title**). Then check:
 
 1. **Status** reads **Connected (Test Mode)**. After your first test order, **Last Webhook** shows a recent time.
 2. **Webhook ID configured** reads **Configured**, and the red **Needs attention before this gateway can take payments** box is gone.
@@ -120,7 +118,7 @@ The test worked when:
 
 - The order is paid (**Processing** or **Completed**). If it still shows **Pending payment**, give PayPal a minute to send its payment notification, then reload the order.
 - Under **ArraySubs > Subscriptions**, the new subscription is **Active**, and its **Payment Gateway** card shows **Connected** with **Card on File** (PayPal, or a card brand and its last four digits), **Customer ID**, and **Last Transaction** filled in.
-- On **Gateway Logs**, the PayPal card's **Last Webhook** shows the time of your test.
+- On **Gateway health**, the PayPal card's **Last Webhook** shows the time of your test.
 
 ### Step 7: Go Live
 
@@ -128,7 +126,7 @@ The test worked when:
 2. In the PayPal Developer Dashboard, switch to live mode and open (or create) a live REST API app. Copy its client ID and secret.
 3. Add the same webhook to the live app: the same **Webhook URL** and all 12 events. Copy the live webhook ID.
 4. In **PayPal (ArraySubs)**, untick **Enable PayPal Sandbox mode**, replace the **Client ID**, **Client Secret**, and **Webhook ID** with the live values, and click **Save changes**.
-5. On **Gateway Logs**, confirm that **Status** reads **Connected**, without "(Test Mode)".
+5. On **Gateway health**, confirm that **Status** reads **Connected**, without "(Test Mode)".
 6. Place a small real subscription order with your own PayPal account. Once it is paid, refund the order and cancel the subscription.
 
 ## How Renewals Work
@@ -196,7 +194,7 @@ Optional settings in **ArraySubs > Settings > General**:
 3. In the PayPal Developer Dashboard, switch to sandbox and open (or create) a sandbox REST API app for staging. Copy its client ID and secret.
 4. In that same sandbox app, add a webhook for the staging site's **Webhook URL**, for example `https://staging.example.com/wp-json/arraysubs/v1/webhooks/arraysubs_paypal`, and select all 12 events listed under **Required webhook events**. Copy that webhook's ID.
 5. Paste the sandbox **Client ID**, **Client Secret**, and **Webhook ID**, tick **Enable this payment gateway**, and click **Save changes**.
-6. Go to **ArraySubs > Audits [beta]**, open the **Gateway Logs** tab, and expand the **PayPal** card. **Status** reads **Connected (Test Mode)**, and **Webhook ID configured** reads **Configured**.
+6. Go to **ArraySubs > Audit Logs**, open the **Gateway health** tab, and expand the **PayPal** card. **Status** reads **Connected (Test Mode)**, and **Webhook ID configured** reads **Configured**.
 
 Which callback goes where:
 
@@ -221,7 +219,7 @@ Expected result:
 - The parent order is paid (**Processing** or **Completed**).
 - The new subscription is **Active** and linked to that order. Its **Next Payment** date is PayPal's next billing date, one day after checkout.
 - On the subscription detail page, the **Payment Gateway** card shows **Connected** with **Card on File** and **Customer ID**, and the subscription notes include "PayPal subscription ... activated".
-- On **Gateway Logs**, the **Webhook Event Log** lists `BILLING.SUBSCRIPTION.ACTIVATED` and `PAYMENT.SALE.COMPLETED` for PayPal.
+- On **Gateway health**, the **Webhook Event Log** lists `BILLING.SUBSCRIPTION.ACTIVATED` and `PAYMENT.SALE.COMPLETED` for PayPal.
 
 If the order stays **Pending payment** and **Last Webhook** reads **Never**, PayPal's notifications are not reaching staging. Recheck the webhook URL, its events, and the **Webhook ID** before you continue.
 
@@ -240,7 +238,7 @@ Around the due date, ArraySubs runs its usual renewal steps but never charges Pa
 | After the 5-day window | The same six-hourly check | Marks a renewal that PayPal never confirmed as **Failed**, and the grace flow takes over |
 
 1. Wait for the **Next Payment** date. With the daily plan from Step 4, that is about one day after checkout. PayPal decides exactly when to bill; if no payment arrives after the date, check PayPal's sandbox documentation.
-2. Watch the **Webhook Event Log** on **Gateway Logs** for `PAYMENT.SALE.COMPLETED`, then refresh the subscription.
+2. Watch the **Webhook Event Log** on **Gateway health** for `PAYMENT.SALE.COMPLETED`, then refresh the subscription.
 
 Running these actions early from **WooCommerce > Status > Scheduled Actions** does not make PayPal charge: PayPal bills only on its own schedule.
 
@@ -252,7 +250,7 @@ A successful renewal leaves the renewal order paid, the subscription **Active**,
 |---|---|---|
 | Order and payment | **WooCommerce > Orders** and the subscription's notes | A new renewal order linked to the subscription, paid, with PayPal's sale ID as the transaction ID. A note reads "PayPal renewal payment received". |
 | Dates | Subscription detail page | **Next Payment** moved to PayPal's next billing date, one billing period later |
-| Webhook entries | **Webhook Event Log** on **Gateway Logs**, filtered to **PayPal** | A `PAYMENT.SALE.COMPLETED` entry with a **Processed At** time for this renewal, and no errors for `arraysubs_paypal` in **WooCommerce > Status > Logs**. With ArraySubs Pro, the **Scheduled-Job Logs** and **Renewal Failures** tabs add more detail. |
+| Webhook entries | **Webhook Event Log** on **Gateway health**, filtered to **PayPal** | A `PAYMENT.SALE.COMPLETED` entry with a **Processed At** time for this renewal, and no errors for `arraysubs_paypal` in **WooCommerce > Status > Logs**. With ArraySubs Pro, the **Jobs** and **Renewal Errors** tabs add more detail. |
 | Scheduled actions | **WooCommerce > Status > Scheduled Actions** | This cycle's `arraysubs_generate_renewal_invoice` and `arraysubs_process_renewal` show **Complete**, and new **Pending** actions exist for the next cycle |
 | Subscription state | Subscription detail page and the customer's My Account | **Active** on the same product and amount, the **Payment Gateway** card still **Connected**, and member content still visible to the customer |
 | Lifecycle events | Your integration code | `arraysubs_lifecycle_event` fired `renewed`. See [React to Supported Events](../../developers/actions-and-filters.md). |
@@ -281,7 +279,7 @@ For integration checks such as error handling, retries, and permissions, see [Ve
 
 | Problem | Fix |
 |---|---|
-| **PayPal (ArraySubs)** shows **Action needed**, or **Gateway Logs** shows **Needs Setup** | **Client ID**, **Client Secret**, or **Webhook ID** is empty. Fill in all three and click **Save changes**. |
+| **PayPal (ArraySubs)** shows **Action needed**, or **Gateway health** shows **Needs Setup** | **Client ID**, **Client Secret**, or **Webhook ID** is empty. Fill in all three and click **Save changes**. |
 | PayPal is missing at checkout | Check that **Enable this payment gateway** is ticked and all three values are saved. PayPal is also hidden for carts it cannot take: regular products next to a subscription, more than one subscription, or a coupon that keeps discounting renewals. |
 | Checkout shows **Payment setup failed. Please try again.** | PayPal refused the request. Usually the details do not match the mode (sandbox details with sandbox mode off, or live details with it on), or PayPal does not support the store currency. Check **WooCommerce > Status > Logs** for `arraysubs_paypal` entries. |
 | Customers paid at PayPal, but orders stay **Pending payment** and **Last Webhook** reads **Never** | PayPal's notifications are not getting through. Check that the webhook uses the exact **Webhook URL**, has all 12 events, and belongs to the same app and mode as your **Client ID**, and that no firewall or security plugin blocks `/wp-json/`. Look for "Webhook signature verification failed" in the `arraysubs-gateway` log. |

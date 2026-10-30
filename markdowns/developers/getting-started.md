@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free (some sections require Pro)
-- Last updated: 2026-10-29
+- Last updated: 2026-10-31
 
 # Connect Your Custom Plugin
 
 > Load your integration after ArraySubs boots, check which parts of the developer API this site can use, and follow the conventions every `ArraySubs\Developer` class shares: factories, field groups, bounded pages, `$expected` checks and `WP_Error` codes.
 
-**Availability:** Core (Free). Customer profile fields, Feature Manager configuration updates, login limits and Store Credit need ArraySubs Pro with an active license. Each section below says what the core API returns without it.
 
 ## Page Navigation
 
@@ -24,6 +22,7 @@ The developer API is a set of PHP classes in the `ArraySubs\Developer` namespace
 
 ```php
 <?php
+// Create a reader for subscription 123; handle WP_Error before reading its data.
 $subscription = \ArraySubs\Developer\Subscriptions::fromId( 123 ); // Subscriptions object or WP_Error.
 
 if ( ! is_wp_error( $subscription ) ) {
@@ -50,7 +49,7 @@ The API is trusted server-side PHP. It does not check nonces, logins or ownershi
 | PHP | 8.1 | ArraySubs core and Pro check it at runtime. |
 | WordPress | 6.0 | Checked at runtime. |
 | WooCommerce | 9.0 | ArraySubs core does not boot without it. |
-| ArraySubs (core) | Active and booted | Provides every `ArraySubs\Developer` class and the `arraysubs_*` helper functions. |
+| ArraySubs | Active and booted | Provides every `ArraySubs\Developer` class and the `arraysubs_*` helper functions. |
 | ArraySubs Pro | Only for Pro-backed calls | Pro checks for ArraySubs core 2.0.0 or newer. Its features run only while its license is active for the site's domain. |
 | Module switches | On, where a call depends on a module | Merchants switch modules on and off in **ArraySubs -> Modules**. |
 
@@ -93,7 +92,7 @@ Code that is included after `plugins_loaded` (a theme's `functions.php`, or your
 | Is a module switched on? | `arraysubs_is_module_enabled( 'store_credit' )` | The saved switch only, `true` when never saved. It does not check Pro or the license. Built-in IDs include `store_credit`, `feature_manager`, `profile_builder`, `subscription_box` and `subscription_bundle`. |
 | Which versions are installed? | `ARRAYSUBS_VERSION`, `ARRAYSUBSPRO_VERSION` | Defined even when the plugin cannot boot. Use them for diagnostics only. |
 
-### Pro-backed calls and their core fallbacks *(Pro)*
+### Adapter-Backed Calls and Their Fallbacks
 
 | Call | Works when | Without it |
 | --- | --- | --- |
@@ -106,7 +105,7 @@ Code that is included after `plugins_loaded` (a theme's `functions.php`, or your
 
 The Pro adapters behind these calls:
 
-| Core filter | Pro adapter | Registered |
+| Extension filter | Adapter | Registered |
 | --- | --- | --- |
 | `arraysubs_developer_customer_profile`, `arraysubs_developer_customer_profile_query`, `arraysubs_developer_customer_profile_validate`, `arraysubs_developer_customer_profile_save` | `ArraySubsPro\Developer\CustomerProfile` | Whenever Pro boots; the adapter checks the license, module and setting itself. |
 | `arraysubs_developer_feature_availability`, `arraysubs_developer_feature_update`, `arraysubs_developer_product_modules` | `ArraySubsPro\Developer\FeatureConfiguration` | Whenever Pro boots; checks the license and module itself. |
@@ -129,11 +128,11 @@ Call the core classes, not the adapters. The `modules` group of `Subscriptions->
 | `Orders` | `fromId( int $id )`, `fromOrder( WC_Order $order )` | `Orders`, or `WP_Error` `not_found` (refunds are not accepted). `query()` returns a page. |
 | `Customer` | `fromUserId( int $user_id )`, `fromEmail( string $email )`, `fromUsername( string $username )` | `Customer`, or `WP_Error` `not_found`, `validation` (invalid email) or `ambiguous` (several accounts share the email). |
 | `Customer` | `fromSubscriptionId( int $subscription_id )` | `Customer`; for a guest subscription, an identity array `[ 'guest' => true, 'user_id' => null, 'subscription_id' => ..., 'email' => ... ]`; or `WP_Error` `not_found`. |
-| `Customer` *(Pro)* | `fromProfileField( string $key, $value, string $operator = '=' )` | `Customer`, or `WP_Error` such as `ambiguous`, `not_found` or `unavailable`. `queryByProfileField()` returns a page. |
+| `Customer` | `fromProfileField( string $key, $value, string $operator = '=' )` | `Customer`, or `WP_Error` such as `ambiguous`, `not_found` or `unavailable`. `queryByProfileField()` returns a page. |
 | `Product` | `fromId( int $product_id )`, `fromSlug( string $slug )`, `fromUrl( string $url )` | `Product`, or `WP_Error` such as `not_found`, `unsupported` (not a subscription product), `forbidden`, `validation` or `ambiguous`. |
 | `Features` | `forSubscription( int $subscription_id )`, `forCustomer( int $customer_id, ?string $mode = null )`, `forProduct( int $product_id )` | `Features`, or `WP_Error` `not_found`. |
 | `MemberAccess`, `Downloads`, `Discounts`, `LoginLimits`, `MemberStyling` | `fromUserId( int $user_id )`, `fromUser( WP_User $user )`, `fromCustomer( WC_Customer $customer )`, `fromSubscriptionId( int $subscription_id )`, `fromSubscription( WP_Post $subscription )` | The reader, or `WP_Error` `invalid_customer` or `invalid_subscription`. User ID `0` is a valid guest context. `context()` returns `[ 'user_id' => ..., 'subscription_id' => ... ]`. |
-| `StoreCredit` *(Pro)* | `fromCustomerId( int $customer_id )`, `fromSubscriptionId( int $subscription_id )`, `fromSubscription( WP_Post $subscription )` | `StoreCredit`, or `WP_Error` `arraysubs_not_ready`, `invalid_credit_customer` or `invalid_subscription`. The factories are core; the methods need Pro. |
+| `StoreCredit` | `fromCustomerId( int $customer_id )`, `fromSubscriptionId( int $subscription_id )`, `fromSubscription( WP_Post $subscription )` | `StoreCredit`, or `WP_Error` `arraysubs_not_ready`, `invalid_credit_customer` or `invalid_subscription`. The factories are core; the methods need Pro. |
 
 ## Shared Conventions
 
@@ -157,7 +156,7 @@ Every `data()` method takes a list of group names, checked by `Fields::select()`
 | `Discounts->data()` | `context`, `availability`, `rules`, `policy` |
 | `LoginLimits->data( $fields, $context )` | `context`, `availability`, `policy`, `sessions` |
 | `MemberStyling->data( $fields, $display_context )` | `context`, `availability`, `rules`, `effective` |
-| `StoreCredit->data()` *(Pro)* | Top-level keys such as `available`, `currency`, `customer_balance`, `subscription_balance` and `total_balance` |
+| `StoreCredit->data()` | Top-level keys such as `available`, `currency`, `customer_balance`, `subscription_balance` and `total_balance` |
 
 Collections of rules and files also accept a `fields` list in their arguments, which selects keys inside each item.
 
@@ -193,8 +192,8 @@ An invalid `page` or `per_page`, or an option the collection does not know, retu
 | `Product->plans()` | `ids`, `object`, `data` | Adds `enabled` (and `configured_count` while plan switching is off). |
 | `MemberAccess->rules()`, `Downloads->files()`, `Discounts->rules()`, `MemberStyling->rules()` | `data`, `ids` | Also accept `include` (up to 100 IDs) and `fields`. |
 | `Features->configuration()`, `Features->effective()` | none | Accept only `page` and `per_page`. |
-| `Customer::queryByProfileField()` *(Pro)* | `data`, `ids`, `object` | Also accepts `operator` and `fields`. |
-| `StoreCredit->history()` *(Pro)* | none | Also accepts `fields` and `bucket`. |
+| `Customer::queryByProfileField()` | `data`, `ids`, `object` | Also accepts `operator` and `fields`. |
+| `StoreCredit->history()` | none | Also accepts `fields` and `bucket`. |
 
 An empty result is a normal page whose `items` is an empty array, not an error.
 
@@ -209,8 +208,8 @@ Update methods take the values you last read and refuse to write when the stored
 | `Subscriptions->setGracePolicy( $changes, $expected )` | Values from `recovery.policy`: `before_on_hold`, `before_cancel` and their `_source` keys. Compared strictly. | `subscription_conflict` |
 | `Orders->update( $changes, $expected )` | `billing`, `shipping` (whole address arrays) or `customer_note`, as you read them. Compared strictly. | `conflict` |
 | `Customer->update( $changes, $context )` | `$context['expected_email']`: the account email you read. | `conflict` |
-| `Features->updateConfiguration( $name, $changes, $context )` *(Pro)* | `$context['expected']`: keys and values of the feature row you read. Compared strictly. | `conflict` |
-| `StoreCredit->adjust( $amount, $args )` *(Pro)* | `$args['expected_balance']`: the bucket balance you read. | `credit_balance_changed` |
+| `Features->updateConfiguration( $name, $changes, $context )` | `$context['expected']`: keys and values of the feature row you read. Compared strictly. | `conflict` |
+| `StoreCredit->adjust( $amount, $args )` | `$args['expected_balance']`: the bucket balance you read. | `credit_balance_changed` |
 
 The same methods also refuse to run while another request is updating the record: `Subscriptions` returns `subscription_conflict`, `Orders`, `Customer` and Pro feature configuration return `conflict`, and Store Credit returns `credit_busy`.
 
@@ -267,7 +266,7 @@ The API trusts its caller and never decides which member a request is for. To se
 
 - `Product::fromId()`, `fromSlug()` and `fromUrl()` return `forbidden` for an unpublished product, or a variation of one, unless the current user can `read_post` it.
 - `Features->configuration()` includes each feature's internal `type` only for users who can `manage_woocommerce`; `configuration_types_included` tells you which you got.
-- `Features->updateConfiguration()` *(Pro)* returns `forbidden` unless the current user can `manage_woocommerce`, so it fails in WP-CLI and cron unless you run it as such a user (for example `wp --user=<admin>`).
+- `Features->updateConfiguration()` returns `forbidden` unless the current user can `manage_woocommerce`, so it fails in WP-CLI and cron unless you run it as such a user (for example `wp --user=<admin>`).
 - Feature usage changes honor `allow_overage` only for users who can `manage_woocommerce`.
 
 At your own web boundary:
@@ -284,26 +283,26 @@ Renewals, retries and scheduled cancellations run from the scheduler, where nobo
 
 ## Classes and Guides
 
-| Guide | Classes and main methods | Edition |
-| --- | --- | --- |
-| [Find and Update Subscriptions](./subscriptions.md) | `Subscriptions`: `fromId()`, `query()`, `fromUserId()`, `data()`, `update()`, `changeStatus()`, `activate()`, `suspend()`, `expire()`, `delete()` | Core |
-| [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) | `Subscriptions`: `fromChildId()`, `fromOrderId()`, `family()`, `children()`, `orders()`. `Orders`: `fromId()`, `query()`, `data()`, `subscriptions()`, `update()`, `delete()` | Core |
-| [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) | `Subscriptions`: the `status`, `trial`, `recovery`, `cancellation` and `pending_switch` groups; `pause()`, `resume()`, `cancel()`, `undoCancellation()`, `setNextPaymentDate()`, `setTrialEnd()`, `endTrial()`, `setGracePolicy()` | Core |
-| [Find Members and Update Profiles](./customers-and-profile-fields.md) | `Customer`: factories, `data()`, `subscriptions()`, `orders()`, `update()`, `queryByProfileField()` | Core; profile fields need Pro |
-| [Read Subscription Product Terms](./subscription-products.md) | `Product`: `fromId()`, `fromSlug()`, `fromUrl()`, `data()`, `variations()`, `plans()` | Core |
-| [Read and Update Feature Data](./feature-manager.md) | `Features`: `data()`, `configuration()`, `effective()`, `usage()`, `set()`, `increment()`, `reset()`, `consume()`, `updateConfiguration()` | Core; `updateConfiguration()` needs Pro |
-| [Check Content Access](./member-access.md) | `MemberAccess`: `check()`, `rules()`, `evaluateConditions()`, `supportedEntities()` | Core |
-| [Read Download Benefits](./downloads.md) | `Downloads`: `files()`, `data()` | Core |
-| [Read Member Discounts](./discounts.md) | `Discounts`: `rules()`, `calculateProduct()`, `data()` | Core |
-| [Read Login-Limit Policy](./login-limits.md) | `LoginLimits`: `data()` | Pro; core returns an unavailable result |
-| [Read Member Styling Rules](./member-styling.md) | `MemberStyling`: `rules()`, `data()` | Core |
-| [Read and Update Store Credit](./store-credit.md) | `StoreCredit`: `data()`, `history()`, `adjust()` | Pro |
-| [React to Supported Events](./actions-and-filters.md) | ArraySubs actions and filters, including `arraysubs_lifecycle_event` | Core and Pro |
-| [Extend ArraySubs with a Module](./addon-modules.md) | The `arraysubs_modules` filter and `arraysubs_is_module_enabled()` | Core |
-| [Gate Custom PHP Output](./php-templates.md) | Server-side checks before member-only theme or plugin output renders | Core |
-| [Customize Storefront Templates in a Child Theme](./template-overrides.md) | Source-to-theme paths for storefront PHP views, partials, and fallback rules | Core and Pro |
-| [Connect Membership Workflows](./integration-recipes.md) | End-to-end recipes that combine these classes | Core and Pro |
-| [Verify Your Integration](./errors-and-testing.md) | Error codes and staging tests | Core and Pro |
+| Guide | Classes and main methods |
+| --- | --- |
+| [Find and Update Subscriptions](./subscriptions.md) | `Subscriptions`: `fromId()`, `query()`, `fromUserId()`, `data()`, `update()`, `changeStatus()`, `activate()`, `suspend()`, `expire()`, `delete()` |
+| [Work with Subscription Families and Orders](./subscription-relationships-and-orders.md) | `Subscriptions`: `fromChildId()`, `fromOrderId()`, `family()`, `children()`, `orders()`. `Orders`: `fromId()`, `query()`, `data()`, `subscriptions()`, `update()`, `delete()` |
+| [Read Lifecycle State and Manage Its Dates](./status-grace-periods-and-trials.md) | `Subscriptions`: the `status`, `trial`, `recovery`, `cancellation` and `pending_switch` groups; `pause()`, `resume()`, `cancel()`, `undoCancellation()`, `setNextPaymentDate()`, `setTrialEnd()`, `endTrial()`, `setGracePolicy()` |
+| [Find Members and Update Profiles](./customers-and-profile-fields.md) | `Customer`: factories, `data()`, `subscriptions()`, `orders()`, `update()`, `queryByProfileField()` |
+| [Read Subscription Product Terms](./subscription-products.md) | `Product`: `fromId()`, `fromSlug()`, `fromUrl()`, `data()`, `variations()`, `plans()` |
+| [Read and Update Feature Data](./feature-manager.md) | `Features`: `data()`, `configuration()`, `effective()`, `usage()`, `set()`, `increment()`, `reset()`, `consume()`, `updateConfiguration()` |
+| [Check Content Access](./member-access.md) | `MemberAccess`: `check()`, `rules()`, `evaluateConditions()`, `supportedEntities()` |
+| [Read Download Benefits](./downloads.md) | `Downloads`: `files()`, `data()` |
+| [Read Member Discounts](./discounts.md) | `Discounts`: `rules()`, `calculateProduct()`, `data()` |
+| [Read Login-Limit Policy](./login-limits.md) | `LoginLimits`: `data()` |
+| [Read Member Styling Rules](./member-styling.md) | `MemberStyling`: `rules()`, `data()` |
+| [Read and Update Store Credit](./store-credit.md) | `StoreCredit`: `data()`, `history()`, `adjust()` |
+| [React to Supported Events](./actions-and-filters.md) | ArraySubs actions and filters, including `arraysubs_lifecycle_event` |
+| [Extend ArraySubs with a Module](./addon-modules.md) | The `arraysubs_modules` filter and `arraysubs_is_module_enabled()` |
+| [Gate Custom PHP Output](./php-templates.md) | Server-side checks before member-only theme or plugin output renders |
+| [Customize Storefront Templates in a Child Theme](./template-overrides.md) | Source-to-theme paths for storefront PHP views, partials, and fallback rules |
+| [Connect Membership Workflows](./integration-recipes.md) | End-to-end recipes that combine these classes |
+| [Verify Your Integration](./errors-and-testing.md) | Error codes and staging tests |
 
 This page covers the shared helpers: `Query` (paging), `Fields` (field selection), `SubscriptionSnapshot` (builds `Subscriptions->data()`) and `MemberContext` (the factories shared by the member readers).
 
@@ -444,6 +443,7 @@ function acme_members_active_subscription_ids( int $customer_id ): array|WP_Erro
     $ids  = [];
     $page = 1;
 
+    // Keep following the returned page pointer until has_more is false; do not assume a single page.
     do {
         $result = \ArraySubs\Developer\Subscriptions::fromUserId(
             $customer_id,
@@ -478,6 +478,7 @@ Each Pro-backed domain reports its own availability, so test the value that belo
  * Reports which Pro-backed parts of the API work on this site right now.
  */
 function acme_members_pro_report( int $customer_id, int $product_id ): array {
+    // Start with unavailable defaults and replace each one only after that API read succeeds.
     $report = [
         'profile_fields'        => false,
         'feature_config_update' => false,
@@ -529,6 +530,7 @@ function acme_members_register_routes(): void {
         '/my-subscriptions/(?P<id>\d+)',
         [
             'methods'             => WP_REST_Server::READABLE,
+            // This checks login only; the callback below must also check who owns the subscription.
             'permission_callback' => 'is_user_logged_in',
             'args'                => [
                 'id' => [

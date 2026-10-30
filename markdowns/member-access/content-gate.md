@@ -1,13 +1,11 @@
 # Info
 - Module: Content Gate
-- Availability: Shared
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Content Gate
 
 > Choose the right content-gating surface for Elementor, Gutenberg, shortcodes, and PHP templates.
 
-**Availability:** Free + Pro feature conditions
 
 ## Page Navigation
 

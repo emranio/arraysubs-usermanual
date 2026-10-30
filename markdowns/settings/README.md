@@ -1,7 +1,6 @@
 # Info
 - Module: Settings
-- Availability: Shared
-- Last updated: 2026-06-27
+- Last updated: 2026-10-30
 
 # Settings
 
@@ -14,6 +13,8 @@
 ![Settings — Toolkit tab active with Admin Bar and Admin Dashboard Access cards](README.ASSETS/02-settings-toolkit-tabs-overview-annotated.png)
 
 The **Settings** area in ArraySubs is organized into the main General and Toolkit pages plus module-specific settings tabs. Use General for shared subscription behavior, Toolkit for admin/security utilities, and the module tabs when a feature has its own dedicated settings screen.
+
+In the WordPress admin menu, **Audit Logs** is directly below **Settings** and before **License** when Pro is active. Outgoing webhooks have a dedicated **ArraySubs -> Webhooks** page before **Audit Logs**; see [Receive Subscription Events with Webhooks](../developers/webhooks.md). Delivery logs and statistics are under **ArraySubs -> Audit Logs -> Webhooks**.
 
 | Page | What it covers | Navigation path |
 |------|----------------|-----------------|
@@ -34,7 +35,7 @@ The module-specific settings pages are documented in their owning feature topics
 - [Admin Dashboard Access](../admin-dashboard-access/README.md) — Redirect unauthorized users away from `/wp-admin`.
 - [WordPress Login Page](../wordpress-login-page/README.md) — Route customer login traffic through WooCommerce My Account.
 - [Login as User](../login-as-user/README.md) — Impersonate customers for support and verification.
-- [Member Access — Login Limit](../member-access/login-limit.md) *(Pro)* — Limit concurrent sessions per account from Member Access -> Login Limit.
+- [Member Access — Login Limit](../member-access/login-limit.md) — Limit concurrent sessions per account from Member Access -> Login Limit.
 
 ## Page Navigation
 

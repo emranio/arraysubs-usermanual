@@ -1,13 +1,11 @@
 # Info
 - Module: Subscription Shipping
-- Availability: Pro
-- Last updated: 2026-10-26
+- Last updated: 2026-10-30
 
 # Subscription Shipping
 
 > Decide whether physical subscription products charge shipping once at checkout or again on each renewal.
 
-**Availability:** Pro
 
 ## Page Navigation
 

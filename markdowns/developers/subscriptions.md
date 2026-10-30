@@ -1,13 +1,11 @@
 # Info
 - Module: Developers
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-31
 
 # Find and Update Subscriptions
 
 > Find subscriptions by ID, customer, order or parent, read them as `WP_Post` objects or selected data groups, and change or delete them through the validated methods of `ArraySubs\Developer\Subscriptions`.
 
-**Availability:** Core (Free). `ArraySubs\Developer\Subscriptions` and `ArraySubs\Developer\SubscriptionSnapshot` ship with ArraySubs core and need no module switch. ArraySubs Pro adds bundle families (the Subscription Bundle product type) and retention-discount pricing, which show up in the same methods.
 
 ## Page Navigation
 
@@ -103,6 +101,7 @@ Every collection method returns this array, built by `ArraySubs\Developer\Query:
 
 ```php
 <?php
+// Example query page: keep reading next_page while has_more is true.
 $page = [
 	'items'     => [ 123, 456 ], // WP_Post objects, IDs or data arrays, per 'output'.
 	'page'      => 1,
@@ -147,6 +146,7 @@ $page = [
 ## Update a Subscription
 
 ```text
+// Change supported fields; expected contains last-read values used to detect conflicting edits.
 $subscription->update( array $changes, array $expected = [] ): array|WP_Error
 ```
 
@@ -239,6 +239,7 @@ Pass the values you read as `$expected` to make the update conditional. `update(
 ## Delete a Subscription
 
 ```text
+// Inspect the deletion report or WP_Error; associated orders and the customer account are not deleted.
 $subscription->delete(): array|WP_Error
 ```
 
@@ -246,6 +247,7 @@ $subscription->delete(): array|WP_Error
 
 ```php
 <?php
+// Example deletion report: subscription children may be removed, but orders and the customer account remain.
 $report = [
 	'deleted'                  => true,
 	'id'                       => 123,
@@ -283,6 +285,7 @@ function myplugin_subscription_summary( int $subscription_id ) {
 		return new WP_Error( 'myplugin_arraysubs_missing', 'ArraySubs is not active.' );
 	}
 
+	// Resolve the subscription and return WP_Error before attempting to read its fields.
 	$subscription = \ArraySubs\Developer\Subscriptions::fromId( $subscription_id );
 	if ( is_wp_error( $subscription ) ) {
 		return $subscription; // not_found
@@ -322,6 +325,7 @@ function myplugin_member_subscriptions_html( int $user_id ): string {
 	$rows = [];
 	$page = 1;
 
+	// Follow next_page until it is null so the member's list includes every matching subscription.
 	do {
 		$result = \ArraySubs\Developer\Subscriptions::fromUserId(
 			$user_id,
@@ -391,6 +395,7 @@ add_action(
 				return;
 			}
 
+			// An order can link to several subscriptions; process each returned ID and follow every page.
 			foreach ( $result['items'] as $subscription_id ) {
 				// Sync $subscription_id with your system here.
 			}

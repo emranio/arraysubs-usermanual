@@ -1,13 +1,11 @@
 # Info
 - Module: URL
-- Availability: Free
-- Last updated: 2026-10-18
+- Last updated: 2026-10-30
 
 # URL
 
 > Protect frontend page paths and URL patterns with priority-based access rules.
 
-**Availability:** Free
 
 ## Page Navigation
 
