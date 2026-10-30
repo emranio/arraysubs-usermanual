@@ -509,14 +509,14 @@ After you rotate the secret, ArraySubs signs with both the new and the previous 
 
 ### Test vector
 
-Check your code with these values before you go live:
+Check your code with these values before you go live. The test key is deliberately not in the `whsec_` format, so secret scanners do not mistake it for a real key; the signing works the same way:
 
 | Input | Value |
 | --- | --- |
-| Secret | `whsec_0123456789abcdef0123456789abcdef0123456789abcdef` |
+| Secret | `arraysubs-test-vector-key` |
 | `X-ArraySubs-Timestamp` | `1793370000` |
 | Raw body | `{"id":"9b2f0c1e-4d7a-4f3b-8e61-2a5c9d0b7e34","type":"webhook.ping"}` |
-| Expected signature | `7df58e6de1eefc79bba34a6354c9cfb85f04900589794731adf94b948583a993` |
+| Expected signature | `4f4784e19dfec6630036af218cabcd9dbfad86232a77b921f2b8ccb5d9c94ce0` |
 
 Skip the timestamp check while you test with this vector, because the timestamp is in the past.
 
