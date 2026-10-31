@@ -45,7 +45,7 @@ You need a multilingual plugin for saved text and for switching the language you
 
 Built-in plugin text is translatable through standard WordPress language files, including the text used by the admin and storefront scripts. When WordPress switches language, whether through the site language setting, a visitor's TranslatePress or Polylang language, or the language an email is sent in, ArraySubs loads the matching files on its own. Nothing needs to be switched on.
 
-Download and install the optional pack for 30 non-English locales from [Multilingual](../multilingual/README.md). PO, MO, and compiled PHP translations are distributed in the optional ZIP. The POT templates and JSON script catalogs remain in each plugin's languages folder. The always-on Multilingual card, its language list, and its action links intentionally stay in English.
+Download and install the optional pack for 30 non-English locales from [Multilingual](../multilingual/README.md). PO, MO, locale-specific JSON, and compiled PHP translations are distributed in the optional ZIP. Untranslated POT templates and source/build JSON stay in the plugins. The always-on Multilingual card, its language list, and its action links intentionally stay in English.
 
 ### Saved text
 
@@ -115,7 +115,7 @@ Other settings on the screen still apply to every language, and the screen's own
 
 ### Edit or add built-in text with Loco Translate
 
-1. Install the PHP language pack as explained in [Multilingual](../multilingual/README.md). The plugin already includes its `.pot` template and JSON catalogs; leave those in place. Install **Loco Translate** and open **Loco Translate -> Plugins -> ArraySubs** (repeat for **ArraySubs Pro**).
+1. Install the language pack as explained in [Multilingual](../multilingual/README.md). The plugin retains its untranslated `.pot` template and source/build JSON; install the locale-specific JSON from the pack with the PHP catalogs. Install **Loco Translate** and open **Loco Translate -> Plugins -> ArraySubs** (repeat for **ArraySubs Pro**).
 2. To add a language, click **New language**, pick the language, and choose the **Custom** location so plugin updates do not overwrite your file. To change the downloaded Spanish wording, open **Spanish** and use **Copy** to save a custom copy first.
 3. Translate the strings and click **Save**. Loco writes the files WordPress needs for both PHP and script text.
 4. Leave the template alone. Do not use **Create template** or **Edit template -> Sync** on ArraySubs: the plugin template already lists the translatable text, including the script references that let the admin and storefront JavaScript load your translations, and a template re-scanned from source loses them. After a plugin update, download the current translation pack and open your language to click **Sync** against the plugin's current POT template.
@@ -191,7 +191,7 @@ The translation stays attached to the old text. Open the dialog again and transl
 
 ### Which languages are available?
 
-The optional translation pack contains PHP translations for 30 non-English locales for both plugins. The matching JSON script catalogs and POT templates remain in the plugins. See the complete list and public download in [Multilingual](../multilingual/README.md). English is the source language, so English variants need no separate catalog.
+The optional translation pack contains PHP and JavaScript translations for 30 non-English locales for both plugins. The untranslated POT templates and source/build JSON remain in the plugins. See the complete list and public download in [Multilingual](../multilingual/README.md). English is the source language, so English variants need no separate catalog.
 
 ### Can translators work without administrator access?
 
