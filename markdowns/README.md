@@ -1,6 +1,6 @@
 # Info
 - Module: User Manual Hub
-- Last updated: 2026-10-30
+- Last updated: 2026-11-01
 
 # ArraySubs User Manual
 
@@ -26,6 +26,7 @@ Welcome to the ArraySubs user manual — the complete guide to running a subscri
 - **Customer and account experience:** [Customer Portal](customer-portal/README.md) → [Member Insight](member-insight/README.md) → [Store Credit](store-credit/README.md) → [Shortcodes](shortcodes/README.md) → [Profile Builder](profile-builder/README.md) → [Feature Manager](feature-manager/README.md)
 - **Checkout and lifecycle:** [Checkout and Payments](checkout-and-payments/README.md) → [Cart Info Editor](cart-info-editor/README.md) → [Billing and Renewals](billing-and-renewals/README.md) → [Retention, Cancellation, and Refunds](retention-and-refunds/README.md)
 - **Reporting and communication:** [Analytics](analytics/README.md) → [Retention Analytics](retention-analytics/README.md) → [Refund Analytics](refund-analytics/README.md) → [Emails and Notifications](emails/README.md)
+- **Use another language:** [Multilingual](multilingual/README.md) - download the 30-language pack, install catalogs, and choose the right translation tool.
 - **Connect your other plugins:** [Integrations](integrations/README.md) - courses, CRM tags, affiliate renewals, sales funnels, license keys, and FlowMattic workflows.
 - **Toolkit and gateway modules:** [Admin Bar Visibility](admin-bar-visibility/README.md) → [Admin Dashboard Access](admin-dashboard-access/README.md) → [WordPress Login Page](wordpress-login-page/README.md) → [Login as User](login-as-user/README.md) → [Redirect Product Page](redirect-product-page/README.md) → [Gateway Health](gateway-health/README.md)
 - **Troubleshooting:** [Audits, Logs, and Troubleshooting](audits-and-logs/README.md)

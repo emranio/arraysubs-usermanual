@@ -1,10 +1,10 @@
 # Info
 - Module: Getting Started
-- Last updated: 2026-10-30
+- Last updated: 2026-11-01
 
 # Translations
 
-> Show ArraySubs in your customers' language. Built-in text ships with translations you can edit in Loco Translate, and the text you type yourself is translated in place with TranslatePress or Polylang.
+> Show ArraySubs in your customers' language. Built-in text uses the optional translation pack you can edit in Loco Translate, and the text you type yourself is translated in place with TranslatePress or Polylang.
 
 
 ## Page Navigation
@@ -22,7 +22,7 @@ ArraySubs shows customers two kinds of text, and each is translated differently.
 
 | Text | Examples | Translated by |
 |---|---|---|
-| **Built-in text** that ships with the plugins | The default "Subscribe Now" button, labels in My Account, email headings, portal buttons, error messages | Language files inside ArraySubs and ArraySubs Pro. Spanish is included. Edit or add languages with Loco Translate. |
+| **Built-in text** that ships with the plugins | The default "Subscribe Now" button, labels in My Account, email headings, portal buttons, error messages | Install the optional 30-language pack from the [Multilingual guide](../multilingual/README.md). Edit or add languages with Loco Translate. |
 | **Saved text** you type into ArraySubs | A custom button label, a restriction message, Subscription Box step titles, Checkout Builder field labels, cancellation reasons, feature names | The translate icon beside the field. It stores the translation in your multilingual plugin, TranslatePress or Polylang. |
 
 You need a multilingual plugin for saved text and for switching the language your visitors see. Built-in text follows whatever language WordPress is showing, so it works with either plugin without extra setup.
@@ -31,21 +31,21 @@ You need a multilingual plugin for saved text and for switching the language you
 
 - Your store sells in more than one language and customers see ArraySubs text on product pages, in the cart, at checkout, in My Account, or in restriction messages.
 - You changed default texts such as the subscribe button or a restriction message and need those custom words in every language.
-- You want to adjust the shipped Spanish wording, or add a language ArraySubs does not ship.
+- You want to adjust a downloaded translation or add another language with Loco Translate.
 
 ## Prerequisites
 
 - For saved text: **TranslatePress** or **Polylang** installed and active with at least one language besides your default. Use one of them, not both.
 - An account that may translate in that plugin. TranslatePress uses its translating capability (administrators by default); Polylang lets administrators translate strings.
-- For built-in text in a new language, or to edit the shipped wording: **Loco Translate**.
+- For built-in text: install the optional language pack. Use **Loco Translate** when you want to edit a catalog or add another language.
 
 ## How It Works
 
 ### Built-in text
 
-Every string in the plugin code is translatable through standard WordPress language files, including the text used by the admin and storefront scripts. When WordPress switches language, whether through the site language setting, a visitor's TranslatePress or Polylang language, or the language an email is sent in, ArraySubs loads the matching files on its own. Nothing needs to be switched on.
+Built-in plugin text is translatable through standard WordPress language files, including the text used by the admin and storefront scripts. When WordPress switches language, whether through the site language setting, a visitor's TranslatePress or Polylang language, or the language an email is sent in, ArraySubs loads the matching files on its own. Nothing needs to be switched on.
 
-ArraySubs and ArraySubs Pro ship complete Spanish translations. Other languages start untranslated until you add them in Loco Translate.
+Download and install the optional pack for 30 non-English locales from [Multilingual](../multilingual/README.md). Catalogs are distributed separately from the plugin folders. The always-on Multilingual card, its language list, and its action links intentionally stay in English.
 
 ### Saved text
 
@@ -69,15 +69,15 @@ ArraySubs uses one plugin at a time. If both TranslatePress and Polylang are act
 
 ### Use Case 1: English and Spanish membership site with TranslatePress
 
-A coaching site sells memberships in English and Spanish. The owner renamed the subscribe button to "Join the club" and wrote a custom message for locked lessons. Both fields show the icon; two minutes in the dialog and Spanish visitors read "Unete al club" and the Spanish lesson message, while the rest of ArraySubs already speaks Spanish from the shipped language files.
+A coaching site sells memberships in English and Spanish. The owner renamed the subscribe button to "Join the club" and wrote a custom message for locked lessons. Both fields show the icon; two minutes in the dialog and Spanish visitors read "Unete al club" and the Spanish lesson message, while the rest of ArraySubs already speaks Spanish from the installed language files.
 
 ### Use Case 2: Polylang store with translated WooCommerce pages
 
 A subscription box merchant runs Polylang with German as a second language and German copies of the Cart, Checkout, and My Account pages. Box step titles, option labels, and the box button are translated through the icon. When a German customer edits the box at checkout, the totals update and the labels stay in German, and the account page lists the box in German.
 
-### Use Case 3: Adjusting the shipped Spanish wording
+### Use Case 3: Adjusting downloaded Spanish wording
 
-A Mexican store prefers a shorter subscribe label than the shipped Spanish one. The owner opens the Spanish file in Loco Translate, copies it to the custom location so plugin updates leave it alone, and changes the string. No multilingual plugin is involved.
+A Mexican store prefers a shorter subscribe label than the downloaded Spanish one. The owner opens the Spanish file in Loco Translate, copies it to the custom location so plugin updates leave it alone, and changes the string. No multilingual plugin is involved.
 
 ## Steps / Configuration
 
@@ -115,10 +115,10 @@ Other settings on the screen still apply to every language, and the screen's own
 
 ### Edit or add built-in text with Loco Translate
 
-1. Install **Loco Translate** and open **Loco Translate → Plugins → ArraySubs** (repeat for **ArraySubs Pro**).
-2. To add a language, click **New language**, pick the language, and choose the **Custom** location so plugin updates do not overwrite your file. To change the shipped Spanish wording, open **Spanish** and use **Copy** to save a custom copy first.
+1. Install the language pack and copy its matching `.pot` template into the plugin's `languages/` folder as explained in [Multilingual](../multilingual/README.md). Install **Loco Translate** and open **Loco Translate -> Plugins -> ArraySubs** (repeat for **ArraySubs Pro**).
+2. To add a language, click **New language**, pick the language, and choose the **Custom** location so plugin updates do not overwrite your file. To change the downloaded Spanish wording, open **Spanish** and use **Copy** to save a custom copy first.
 3. Translate the strings and click **Save**. Loco writes the files WordPress needs for both PHP and script text.
-4. Leave the template alone. Do not use **Create template** or **Edit template -> Sync** on ArraySubs: the shipped template already lists everything, including the script references that let the admin and storefront JavaScript load your translations, and a template re-scanned from source loses them. After a plugin update, open your language and click **Sync** so it picks up new strings from the shipped template.
+4. Leave the template alone. Do not use **Create template** or **Edit template -> Sync** on ArraySubs: the downloaded template already lists the translatable text, including the script references that let the admin and storefront JavaScript load your translations, and a template re-scanned from source loses them. After a plugin update, download the current translation pack, refresh the matching POT template, and open your language to click **Sync**.
 
 ### Set up Polylang
 
@@ -153,12 +153,14 @@ ArraySubs supports Polylang in any URL mode and with any permalink setting, incl
 | The icon is grey and does nothing | The field is empty, so the default copy applies | Type your own text. Default copy is already translated in the language files |
 | The storefront still shows the original | Page cache, the original text was changed after translating, or the visitor is viewing the default language | Clear caches, reopen the dialog, and translate the current text |
 | Checkout updates or account actions fall back to the default language (Polylang) | The WooCommerce pages are not translated in Polylang, or the visitor's URL carries no language | Create Polylang translations of Cart, Checkout, and My Account and link them as translations of the originals |
-| Translations vanished after a plugin update (Loco Translate) | The file was saved in the plugin's own folder (Author location) | Save languages in Loco's Custom location, and copy the shipped Spanish before editing it |
-| Script text (admin screens, box builder, checkout) stays untranslated after editing in Loco Translate | The template was recreated in Loco and lost its script references | Reinstall the plugin update to restore the shipped template, then Sync your language file |
+| Translations vanished after a plugin update (Loco Translate) | The file was saved in the plugin's own folder (Author location) | Save languages in Loco's Custom location, and copy the downloaded catalog before editing it |
+| Script text (admin screens, box builder, checkout) stays untranslated after editing in Loco Translate | The template was recreated in Loco and lost its script references | Download the current pack, restore its matching POT template in the plugin languages folder, then Sync your language file |
 | Fields turned grey and read-only, or show other text, after picking a language in the admin bar (Polylang) | The screen is in admin language editing: fields show that language's translations | Translate there and click **Save translations**, or pick the default language to edit the original text |
 | A warning says TranslatePress and Polylang are both active | Both plugins are active | Deactivate the one you do not use. ArraySubs uses TranslatePress until then |
 
 ## Related Guides
+
+- [Multilingual](../multilingual/README.md) - Download and install the optional language pack.
 
 - [General Settings](../settings/general-settings.md) — Button text and other store-wide customer copy.
 - [Content Gate](../member-access/content-gate.md) — Restriction messages for Elementor, Gutenberg, shortcode, and PHP gating.
@@ -173,7 +175,7 @@ ArraySubs supports Polylang in any URL mode and with any permalink setting, incl
 
 ### Do I need ArraySubs Pro?
 
-No. The icon and the language files are part of the free plugin. When Pro is active, its own fields (Checkout Builder, cancellation flow, profile fields, My Account, Feature Manager, bundles) get the same icon.
+No. The languages icon and Multilingual card are available in the free plugin, and the public pack includes files for both plugins. When Pro is active, its own fields (Checkout Builder, cancellation flow, profile fields, My Account, Feature Manager, bundles) get the same icon.
 
 ### Can I use WPML or another multilingual plugin?
 
@@ -181,15 +183,15 @@ Saved text is translated with TranslatePress or Polylang only. Built-in text use
 
 ### Where are my translations stored?
 
-In your multilingual plugin, not in ArraySubs settings. Back them up together with that plugin's data.
+Saved-text translations live in your multilingual plugin rather than ArraySubs settings. Back them up with that plugin's data. Built-in text uses the catalog files you installed; see [Multilingual](../multilingual/README.md) for their locations.
 
 ### What happens when I change the original text?
 
 The translation stays attached to the old text. Open the dialog again and translate the new wording.
 
-### Which languages ship with ArraySubs?
+### Which languages are available?
 
-Spanish, for both ArraySubs and ArraySubs Pro, covering PHP and script text. Add other languages in Loco Translate.
+The optional translation pack contains 30 non-English locales for both plugins, covering PHP and script text. See the complete list and public download in [Multilingual](../multilingual/README.md). English is the source language, so English variants need no separate catalog.
 
 ### Can translators work without administrator access?
 
