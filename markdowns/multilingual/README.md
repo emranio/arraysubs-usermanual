@@ -21,7 +21,7 @@ The card stays in English in every language and has no settings switch. It provi
 
 1. Download and extract the ZIP on your computer. This is a translation pack, so use a file manager or SFTP rather than **Plugins -> Add New**.
 2. Pick your locale, such as `es_ES` for Spanish (Spain).
-3. From the `arraysubs` folder, copy the matching `.po`, `.mo`, `.json`, and `.l10n.php` files into `wp-content/languages/plugins/`. Create that folder if it does not exist.
+3. From the `arraysubs` folder, copy the matching `.po`, `.mo`, and `.l10n.php` files into `wp-content/languages/plugins/`. Create that folder if it does not exist.
 4. If you use ArraySubs Pro, copy the matching files from `arraysubspro` into the same folder.
 5. Keep the file names unchanged. Clear your page cache and reload the translated pages.
 
@@ -31,13 +31,13 @@ For Spanish, the shared folder would contain:
 wp-content/languages/plugins/
   arraysubs-es_ES.po
   arraysubs-es_ES.mo
-  arraysubs-es_ES.json
   arraysubs-es_ES.l10n.php
   arraysubspro-es_ES.po
   arraysubspro-es_ES.mo
-  arraysubspro-es_ES.json
   arraysubspro-es_ES.l10n.php
 ```
+
+The POT templates and JSON script catalogs remain intact in each plugin's `languages/` folder. The ZIP contains only the PO, MO, and compiled PHP translations; leave the plugin POT and JSON files in place.
 
 The Pro files are needed only when you use ArraySubs Pro. English is the source language, so the pack does not include English variants.
 
@@ -57,15 +57,15 @@ Product names and descriptions are WooCommerce content and need their own transl
 
 Use one saved-text provider at a time. If TranslatePress and Polylang are both active, ArraySubs uses TranslatePress and shows an admin notice. Follow the [Translations guide](../getting-started/translations.md) for the field-by-field workflow and Polylang page setup.
 
-The ZIP contains an `arraysubs.pot` and `arraysubspro.pot` template. For Loco setup, copy each template into the matching plugin's `languages/` folder, creating it if needed. Use that supplied template when you sync a language. Do not recreate the template from source in Loco: the supplied version preserves the script references needed by JavaScript translations.
+Both plugins keep their own POT template in `languages/`: `arraysubs.pot` and `arraysubspro.pot`. Use the existing plugin template when you sync a language in Loco Translate. Do not recreate the template from source in Loco: the supplied version preserves the script references needed by JavaScript translations.
 
 ## Keep PHP and JavaScript translations together
 
-- `.po` is the editable translation source; `.pot` is the source template.
+- The ZIP supplies `.po` as the editable translation source. The `.pot` source template stays in each plugin.
 - `.mo` and `.l10n.php` provide PHP translations. WordPress can prefer the PHP catalog when it is present.
-- `.json` provides the plugin's JavaScript translations. Keep the single file for each plugin and locale with its original name.
+- `.json` files already in each plugin provide JavaScript translations. Keep them intact. If you customize translations with Loco Translate, keep its JSON compilation enabled so its custom catalogs stay aligned.
 
-Download a fresh pack when new plugin text is added. Replace the matching `.mo`, `.json`, and `.l10n.php` files together. If your translation editor does not rebuild `.l10n.php`, remove the older PHP catalog from that location so WordPress can load the updated `.mo` instead.
+Download a fresh pack when new plugin text is added. Replace the matching `.mo` and `.l10n.php` files together. The plugin JSON files remain in place; Loco Translate can generate custom JSON overrides when you edit a translation. If your translation editor does not rebuild `.l10n.php`, remove the older PHP catalog from that location so WordPress can load the updated `.mo` instead.
 
 Keep placeholders such as `%s`, `%d`, and `{site_name}`, as well as HTML tags, intact when editing. If text stays in English, check the locale code, file location, and cache. New or missing strings fall back to the source text.
 
